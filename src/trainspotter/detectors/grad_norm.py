@@ -28,6 +28,8 @@ rather than occasional correction.
 
 from __future__ import annotations
 
+import math
+
 import numpy as np
 
 from trainspotter.model import Run
@@ -72,6 +74,12 @@ class GradNormDetector(Detector):
         findings = []
         for group in group_consecutive(flagged, gap=2):
             peak_i = max(group, key=lambda i: z[i])
+            peak_z = z[peak_i]
+            scale_note = (
+                "far beyond (non-finite) the local MAD scale above its rolling median"
+                if not math.isfinite(peak_z)
+                else f"{peak_z:.1f}x the local MAD scale above its rolling median"
+            )
             findings.append(
                 Finding(
                     detector=self.name,
@@ -81,10 +89,9 @@ class GradNormDetector(Detector):
                     step_start=int(steps[group[0]]),
                     step_end=int(steps[group[-1]]),
                     message=(
-                        f"grad_norm hit {values[peak_i]:.4g} at step {int(steps[peak_i])}, "
-                        f"{z[peak_i]:.1f}x the local MAD scale above its rolling median."
+                        f"grad_norm hit {values[peak_i]:.4g} at step {int(steps[peak_i])}, {scale_note}."
                     ),
-                    evidence={"peak_step": int(steps[peak_i]), "peak_value": float(values[peak_i]), "robust_z": float(z[peak_i])},
+                    evidence={"peak_step": int(steps[peak_i]), "peak_value": float(values[peak_i]), "robust_z": float(peak_z)},
                     fixes=[
                         "Enable or lower gradient clipping (e.g. max-norm 1.0).",
                         "Lower the learning rate.",

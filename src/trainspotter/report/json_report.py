@@ -5,12 +5,25 @@ produces, so the two never disagree)."""
 from __future__ import annotations
 
 import json
+import math
 from typing import Any
 
 from trainspotter.detectors import Finding
 from trainspotter.model import Run
 
 SCHEMA_VERSION = 1
+
+
+def _json_safe(value: float | int | str) -> float | int | str:
+    """A diverged run legitimately produces NaN/Inf evidence values (e.g. a
+    spike's z-score against an infinite metric reading). Python's `json`
+    module emits those as bare `Infinity`/`NaN` tokens, which is valid for
+    `json.loads` but not standard JSON (RFC 8259) -- most other parsers,
+    including JavaScript's `JSON.parse`, reject it. Stringify them instead
+    so the output is portable."""
+    if isinstance(value, float) and not math.isfinite(value):
+        return str(value)
+    return value
 
 
 def to_json_dict(run: Run, findings: list[Finding]) -> dict[str, Any]:
@@ -44,7 +57,7 @@ def to_json_dict(run: Run, findings: list[Finding]) -> dict[str, Any]:
                 "step_start": f.step_start,
                 "step_end": f.step_end,
                 "message": f.message,
-                "evidence": f.evidence,
+                "evidence": {k: _json_safe(v) for k, v in f.evidence.items()},
                 "fixes": f.fixes,
             }
             for f in findings
@@ -53,4 +66,6 @@ def to_json_dict(run: Run, findings: list[Finding]) -> dict[str, Any]:
 
 
 def to_json_str(run: Run, findings: list[Finding], indent: int = 2) -> str:
-    return json.dumps(to_json_dict(run, findings), indent=indent, sort_keys=False)
+    # allow_nan=False: fail loudly if a non-finite value ever reaches here
+    # unstringified, rather than silently emit non-standard JSON.
+    return json.dumps(to_json_dict(run, findings), indent=indent, sort_keys=False, allow_nan=False)

@@ -21,6 +21,8 @@ step range, reported against the metric's peak value in that range.
 
 from __future__ import annotations
 
+import math
+
 from trainspotter.model import Run
 
 from .base import Detector, Finding, group_consecutive, robust_zscore, series_arrays
@@ -53,18 +55,23 @@ class SpikeDetector(Detector):
             flagged = [i for i in range(len(values)) if abs(z[i]) > self.threshold]
             for group in group_consecutive(flagged, gap=2):
                 peak_i = max(group, key=lambda i: abs(z[i]))
+                peak_z = abs(z[peak_i])
+                scale_note = (
+                    "far beyond the local median-absolute-deviation scale (it's non-finite)"
+                    if not math.isfinite(peak_z)
+                    else f"{peak_z:.1f}x the local median-absolute-deviation scale"
+                )
                 findings.append(
                     Finding(
                         detector=self.name,
                         title="Loss spike",
-                        severity="warning" if abs(z[peak_i]) < self.threshold * 1.8 else "error",
+                        severity="warning" if peak_z < self.threshold * 1.8 else "error",
                         metric=metric_name,
                         step_start=int(steps[group[0]]),
                         step_end=int(steps[group[-1]]),
                         message=(
                             f"{metric_name} jumped to {values[peak_i]:.4g} at step "
-                            f"{int(steps[peak_i])}, {abs(z[peak_i]):.1f}x the local "
-                            "median-absolute-deviation scale."
+                            f"{int(steps[peak_i])}, {scale_note}."
                         ),
                         evidence={
                             "peak_step": int(steps[peak_i]),

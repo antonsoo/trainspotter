@@ -45,6 +45,15 @@ def _esc(s: str) -> str:
     )
 
 
+def _esc_path(s: str) -> str:
+    """Escape, then mark each path separator as a wrap point. A long
+    source path has to wrap somewhere in a narrow readout column; plain
+    `overflow-wrap: anywhere` will happily split *inside* a file extension
+    (".jso" / "n"), which is what it did before this existed. `<wbr>` gives
+    the browser a preferred break point at each "/" instead."""
+    return _esc(s).replace("/", "/<wbr>")
+
+
 def _fmt_num(v: float) -> str:
     if v == 0:
         return "0"
@@ -151,13 +160,16 @@ def _render_health_strip(run: Run, findings: list[Finding]) -> str:
     parts = [f'<svg class="strip" viewBox="0 0 {_W} {h}" role="img" aria-label="Finding timeline for the whole run">']
     parts.append(f'<rect x="0" y="0" width="{_W}" height="{h}" class="strip-bg"/>')
     parts.append(f'<line x1="0" y1="{h - 1}" x2="{_W}" y2="{h - 1}" class="strip-base"/>')
-    # error and warning first (drawn under), info on top, so nothing severe gets hidden
+    # info and warning drawn first (underneath), error drawn last (on top),
+    # so a severe finding is never hidden behind a milder overlapping one.
     for sev in ("info", "warning", "error"):
         for f in findings:
             if f.severity != sev:
                 continue
             x0 = _plot_x(f.step_start, step_min, step_max)
-            x1 = max(_plot_x(f.step_end, step_min, step_max), x0 + 2)
+            # A single-step finding needs a floor wider than 1-2px or it
+            # vanishes into anti-aliasing; 4px keeps it visible at a glance.
+            x1 = max(_plot_x(f.step_end, step_min, step_max), x0 + 4)
             color = _SEVERITY_COLOR[sev]
             parts.append(f'<rect x="{x0:.1f}" y="2" width="{x1 - x0:.1f}" height="{h - 6}" fill="{color}" fill-opacity="0.85"/>')
     parts.append("</svg>")
@@ -228,7 +240,7 @@ def render_html(run: Run, findings: list[Finding], title: str = "trainspotter re
       <span class="brand-sub">run diagnostic</span>
     </div>
     <dl class="readouts">
-      <div><dt>source</dt><dd>{_esc(run.source_path or "(stdin)")}</dd></div>
+      <div><dt>source</dt><dd>{_esc_path(run.source_path) if run.source_path else "(stdin)"}</dd></div>
       <div><dt>format</dt><dd>{_esc(run.source_format)}</dd></div>
       <div><dt>steps</dt><dd>0&ndash;{total_steps}</dd></div>
       <div><dt>generated</dt><dd>{generated}</dd></div>
