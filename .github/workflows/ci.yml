@@ -1,0 +1,37 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python-version: ["3.10", "3.12"]
+    steps:
+      - uses: actions/checkout@v7
+
+      - uses: astral-sh/setup-uv@v10
+        with:
+          python-version: ${{ matrix.python-version }}
+          enable-cache: true
+          cache-dependency-glob: "uv.lock"
+
+      - name: Install
+        run: uv sync --all-extras --dev
+
+      - name: Lint (ruff)
+        run: uv run ruff check src tests examples
+
+      - name: Type check (mypy)
+        run: uv run mypy src
+
+      - name: Test
+        run: uv run pytest --cov=trainspotter --cov-report=term-missing
+
+      - name: Build
+        run: uv build
