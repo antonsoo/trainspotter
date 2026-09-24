@@ -9,6 +9,12 @@ can trace a shaded band on the strip straight down to the curve that
 caused it. No JavaScript, no external requests, no charting library --
 everything is hand-built SVG so the file works by itself, forever, opened
 from disk with no network.
+
+Chart ordering follows what you'd actually look at first: the loss chart
+(train and eval overlaid on the same axes, since their divergence *is* the
+overfitting signal) leads, then LR, then grad_norm, then any other eval
+metric, then step_time last. `epoch` is skipped -- it's a linear
+reparameterization of step, never diagnostic on its own.
 """
 
 from __future__ import annotations
@@ -28,12 +34,20 @@ _CHART_COLORS = {
     "lr": "#b39dff",
     "grad_norm": "#7be08a",
 }
-_DEFAULT_CHART_ORDER = ["train/loss", "eval/loss", "lr", "grad_norm"]
+_FALLBACK_COLORS = ["#9aa7b0", "#6fd6c4", "#e08fd6"]
+
+# Charts skipped entirely (not diagnostic on their own) and metrics forced
+# to the end of the chart list (useful, but secondary to loss/lr/grad_norm).
+_SKIP_METRICS = {"epoch"}
+_TRAILING_METRICS = ["step_time", "throughput"]
+_LOSS_METRICS = ["train/loss", "eval/loss"]
+_LEAD_METRICS = ["lr", "grad_norm"]
 
 _W = 920
 _PAD_L, _PAD_R, _PAD_T, _PAD_B = 54, 18, 14, 26
-_PLOT_H = 148
+_PLOT_H = 140
 _CHART_H = _PLOT_H + _PAD_T + _PAD_B
+_LEGEND_H = 18  # extra header row reserved when a chart overlays >1 series
 
 
 def _esc(s: str) -> str:
@@ -63,11 +77,84 @@ def _fmt_num(v: float) -> str:
     return f"{v:.4g}"
 
 
+def _nice_num(x: float, round_to_nice: bool) -> float:
+    """Paul Heckbert's "nice numbers" step: the classic axis-tick algorithm
+    (see `Graphics Gems`, 1990) that picks 1/2/5x10^n rather than whatever
+    an even division of the range happens to produce -- the difference
+    between a "0.02, 0.04, 0.06" axis and a "0.0213, 0.0426..." one."""
+    if x <= 0:
+        return 1.0
+    exp = math.floor(math.log10(x))
+    frac = x / 10**exp
+    if round_to_nice:
+        nice_frac = 1.0 if frac < 1.5 else 2.0 if frac < 3.0 else 5.0 if frac < 7.0 else 10.0
+    else:
+        nice_frac = 1.0 if frac <= 1.0 else 2.0 if frac <= 2.0 else 5.0 if frac <= 5.0 else 10.0
+    return float(nice_frac * 10**exp)
+
+
 def _nice_ticks(lo: float, hi: float, n: int = 4) -> list[float]:
+    """Tick positions covering [lo, hi] at a Heckbert "nice" step, snapped
+    to multiples of that step -- so 0 is exactly a tick whenever lo <= 0
+    <= hi, instead of landing at an arbitrary fraction like -8.953."""
     if hi <= lo:
         return [lo]
-    step = (hi - lo) / n
-    return [lo + i * step for i in range(n + 1)]
+    raw_step = _nice_num((hi - lo) / max(n, 1), round_to_nice=True)
+    nice_lo = math.floor(lo / raw_step) * raw_step
+    nice_hi = math.ceil(hi / raw_step) * raw_step
+    ticks = []
+    v = nice_lo
+    # cap iterations defensively -- a pathological step can't spin forever
+    for _ in range(n + 4):
+        if v > nice_hi + raw_step * 0.5:
+            break
+        ticks.append(round(v, 12))
+        v += raw_step
+    return ticks or [lo, hi]
+
+
+def _percentile(sorted_values: list[float], pct: float) -> float:
+    if not sorted_values:
+        return 0.0
+    idx = (len(sorted_values) - 1) * pct
+    lo_i, hi_i = math.floor(idx), math.ceil(idx)
+    if lo_i == hi_i:
+        return sorted_values[lo_i]
+    frac = idx - lo_i
+    return sorted_values[lo_i] * (1 - frac) + sorted_values[hi_i] * frac
+
+
+def _y_domain(finite_values: list[float]) -> tuple[float, float, float | None]:
+    """The chart's y-axis bounds, and an optional cap.
+
+    Two decisions that keep a report readable instead of misleading:
+    - **Non-negative floor.** If every finite value is >= 0 (true of every
+      metric trainspotter charts -- loss, lr, grad_norm, accuracy,
+      step_time), the axis starts at exactly 0 rather than at
+      `min - padding`, which used to produce a nonsensical negative tick
+      like "-8.953" on a loss chart.
+    - **Robust cap.** If the maximum is more than 1.5x the 99th
+      percentile, one spike is stretching the whole axis and flattening
+      everything else into a nearly-flat line at the bottom. The domain is
+      capped at `p99 * 1.5`; points above the cap are still drawn (clamped
+      to the top edge, with an explicit off-scale marker showing the real
+      value -- see `_render_chart`) instead of silently hidden.
+    """
+    if not finite_values:
+        return 0.0, 1.0, None
+    values = sorted(finite_values)
+    lo, hi = values[0], values[-1]
+    non_negative = lo >= -1e-9
+    p99 = _percentile(values, 0.99)
+    cap: float | None = None
+    display_hi = hi
+    if p99 > 0 and hi > p99 * 1.5:
+        cap = p99 * 1.5
+        display_hi = cap
+    display_lo = 0.0 if non_negative else lo
+    span = display_hi - display_lo
+    pad = span * 0.08 or abs(display_hi) * 0.08 or 1.0
+    return display_lo, display_hi + pad, cap
 
 
 def _plot_x(step: float, step_min: float, step_max: float) -> float:
@@ -75,78 +162,143 @@ def _plot_x(step: float, step_min: float, step_max: float) -> float:
     return _PAD_L + (step - step_min) / span * (_W - _PAD_L - _PAD_R)
 
 
-def _plot_y(value: float, v_min: float, v_max: float) -> float:
+def _plot_y(value: float, v_min: float, v_max: float, plot_top: float) -> float:
     span = max(v_max - v_min, 1e-9)
-    return _PAD_T + (1.0 - (value - v_min) / span) * _PLOT_H
+    return plot_top + (1.0 - (value - v_min) / span) * _PLOT_H
 
 
-def _render_chart(name: str, series: MetricSeries, findings: list[Finding], color: str) -> str:
-    steps = series.steps()
-    values = series.values()
-    step_min, step_max = min(steps), max(steps)
-    finite = [(s, v) for s, v in zip(steps, values, strict=True) if math.isfinite(v)]
-    non_finite = [(s, v) for s, v in zip(steps, values, strict=True) if not math.isfinite(v)]
+def _render_off_scale_labels(
+    candidates: list[tuple[float, str, str]], plot_top: float
+) -> str:
+    """Place off-scale value labels left to right, stacking a label onto a
+    lower row whenever it would land within `min_gap` px of one already
+    placed in the same row -- so two real, nearby spikes both stay
+    readable instead of overlapping into a garbled string of digits."""
+    min_gap = 30.0
+    row_height = 11.0
+    rows: list[list[float]] = []
+    parts: list[str] = []
+    for x, text, color in sorted(candidates, key=lambda c: c[0]):
+        row_i = 0
+        while row_i < len(rows) and any(abs(x - px) < min_gap for px in rows[row_i]):
+            row_i += 1
+        if row_i == len(rows):
+            rows.append([])
+        rows[row_i].append(x)
+        y = plot_top + 20 + row_i * row_height
+        parts.append(f'<text class="off-scale-label" x="{x:.1f}" y="{y:.1f}" text-anchor="middle" fill="{color}">{_esc(text)}</text>')
+    return "".join(parts)
+
+
+def _render_chart(
+    entries: list[tuple[str, MetricSeries, str]], findings: list[Finding]
+) -> str:
+    """Render one chart overlaying 1+ metric series (`entries`) that share
+    an x (step) and y (value) axis. A 2nd+ series is what makes the
+    combined train/eval loss chart possible: same function, just called
+    with two entries instead of one."""
+    metric_names = [name for name, _series, _color in entries]
+    all_steps = [s for _n, series, _c in entries for s in series.steps()]
+    if not all_steps:
+        return ""
+    step_min, step_max = min(all_steps), max(all_steps)
+
+    finite_values = [
+        v for _n, series, _c in entries for v in series.values() if math.isfinite(v)
+    ]
+    v_min, v_max, cap = _y_domain(finite_values)
+
+    has_legend = len(entries) > 1
+    plot_top = _PAD_T + (_LEGEND_H if has_legend else 0)
+    chart_h = _CHART_H + (_LEGEND_H if has_legend else 0)
 
     parts: list[str] = []
+    label = " vs ".join(metric_names)
     parts.append(
-        f'<svg class="chart" viewBox="0 0 {_W} {_CHART_H}" role="img" '
-        f'aria-label="{_esc(name)} over steps {int(step_min)} to {int(step_max)}">'
+        f'<svg class="chart" viewBox="0 0 {_W} {chart_h}" role="img" '
+        f'aria-label="{_esc(label)} over steps {int(step_min)} to {int(step_max)}">'
     )
 
-    if finite:
-        v_vals = [v for _, v in finite]
-        v_lo, v_hi = min(v_vals), max(v_vals)
-        pad = (v_hi - v_lo) * 0.08 or (abs(v_hi) * 0.08 or 1.0)
-        v_min, v_max = v_lo - pad, v_hi + pad
-    else:
-        v_min, v_max = 0.0, 1.0
+    if has_legend:
+        lx = float(_PAD_L)
+        for name, _series, color in entries:
+            parts.append(f'<rect x="{lx:.1f}" y="0" width="10" height="10" fill="{color}"/>')
+            parts.append(f'<text class="legend" x="{lx + 14:.1f}" y="9" text-anchor="start">{_esc(name)}</text>')
+            lx += 16 + 7.2 * len(name) + 18
 
     # gridlines + axis labels
     for gy in _nice_ticks(v_min, v_max, 3):
-        y = _plot_y(gy, v_min, v_max)
+        y = _plot_y(gy, v_min, v_max, plot_top)
         parts.append(f'<line class="grid" x1="{_PAD_L}" y1="{y:.1f}" x2="{_W - _PAD_R}" y2="{y:.1f}"/>')
         parts.append(f'<text class="axis-y" x="{_PAD_L - 8}" y="{y + 3:.1f}" text-anchor="end">{_esc(_fmt_num(gy))}</text>')
     for gx in _nice_ticks(step_min, step_max, 4):
         x = _plot_x(gx, step_min, step_max)
-        parts.append(f'<line class="grid" x1="{x:.1f}" y1="{_PAD_T}" x2="{x:.1f}" y2="{_PAD_T + _PLOT_H}"/>')
-        parts.append(f'<text class="axis-x" x="{x:.1f}" y="{_PAD_T + _PLOT_H + 16}" text-anchor="middle">{int(gx)}</text>')
+        parts.append(f'<line class="grid" x1="{x:.1f}" y1="{plot_top}" x2="{x:.1f}" y2="{plot_top + _PLOT_H}"/>')
+        parts.append(f'<text class="axis-x" x="{x:.1f}" y="{plot_top + _PLOT_H + 16}" text-anchor="middle">{int(gx)}</text>')
 
-    # finding shading, drawn under the line
+    # finding shading, drawn under the lines
     for f in findings:
-        if f.metric != name:
+        if f.metric not in metric_names:
             continue
         x0 = _plot_x(f.step_start, step_min, step_max)
         x1 = max(_plot_x(f.step_end, step_min, step_max), x0 + 3)
         color_f = _SEVERITY_COLOR[f.severity]
         parts.append(
-            f'<rect class="finding-band" x="{x0:.1f}" y="{_PAD_T}" width="{x1 - x0:.1f}" '
+            f'<rect class="finding-band" x="{x0:.1f}" y="{plot_top}" width="{x1 - x0:.1f}" '
             f'height="{_PLOT_H}" fill="{color_f}" fill-opacity="0.16"/>'
         )
-        parts.append(f'<line x1="{x0:.1f}" y1="{_PAD_T}" x2="{x0:.1f}" y2="{_PAD_T + _PLOT_H}" stroke="{color_f}" stroke-opacity="0.55" stroke-width="1"/>')
+        parts.append(f'<line x1="{x0:.1f}" y1="{plot_top}" x2="{x0:.1f}" y2="{plot_top + _PLOT_H}" stroke="{color_f}" stroke-opacity="0.55" stroke-width="1"/>')
 
-    # the line itself, as a sequence of moveto/lineto segments broken at non-finite points
-    segment: list[str] = []
-    path_cmds: list[str] = []
-    for s, v in zip(steps, values, strict=True):
-        if not math.isfinite(v):
-            if segment:
-                path_cmds.append("M" + " L".join(segment))
-                segment = []
-            continue
-        x, y = _plot_x(s, step_min, step_max), _plot_y(v, v_min, v_max)
-        segment.append(f"{x:.1f} {y:.1f}")
-    if segment:
-        path_cmds.append("M" + " L".join(segment))
-    for cmd in path_cmds:
-        parts.append(f'<path d="{cmd}" fill="none" stroke="{color}" stroke-width="1.75"/>')
+    # Off-scale labels are collected across *all* series and placed together
+    # at the end: two series can each have a capped point a step or two
+    # apart (a real case on the divergence example -- eval/loss and
+    # train/loss both blow up within one step of each other), which is
+    # close enough in pixels that drawing each label independently produced
+    # two strings of digits mashed on top of each other.
+    label_candidates: list[tuple[float, str, str]] = []  # (x, text, color)
 
-    # non-finite markers
-    for s, _v in non_finite:
-        x = _plot_x(s, step_min, step_max)
-        y = _PAD_T + 10
-        parts.append(f'<text class="marker-bad" x="{x:.1f}" y="{y:.1f}" text-anchor="middle">&#10005;</text>')
+    for _name, series, color in entries:
+        steps, values = series.steps(), series.values()
+        # the line, as moveto/lineto segments broken at non-finite points;
+        # a value above `cap` is clamped to the top edge, not hidden.
+        segment: list[str] = []
+        path_cmds: list[str] = []
+        off_scale: list[tuple[int, float]] = []
+        for s, v in zip(steps, values, strict=True):
+            if not math.isfinite(v):
+                if segment:
+                    path_cmds.append("M" + " L".join(segment))
+                    segment = []
+                continue
+            plotted = min(v, cap) if cap is not None else v
+            if cap is not None and v > cap:
+                off_scale.append((s, v))
+            x, y = _plot_x(s, step_min, step_max), _plot_y(plotted, v_min, v_max, plot_top)
+            segment.append(f"{x:.1f} {y:.1f}")
+        if segment:
+            path_cmds.append("M" + " L".join(segment))
+        for cmd in path_cmds:
+            parts.append(f'<path d="{cmd}" fill="none" stroke="{color}" stroke-width="1.75"/>')
 
-    parts.append(f'<rect class="frame" x="{_PAD_L}" y="{_PAD_T}" width="{_W - _PAD_L - _PAD_R}" height="{_PLOT_H}" fill="none"/>')
+        # off-scale markers: a small triangle at the clamped top, labeled
+        # with the real value, so a capped axis never hides the number.
+        for s, v in off_scale:
+            x = _plot_x(s, step_min, step_max)
+            y = plot_top + 3
+            parts.append(f'<path class="marker-offscale" d="M{x - 4:.1f} {y + 7:.1f} L{x:.1f} {y:.1f} L{x + 4:.1f} {y + 7:.1f} Z" fill="{color}"/>')
+            label_candidates.append((x, _fmt_num(v), color))
+
+        # non-finite (NaN/Inf) markers
+        for s, v in zip(steps, values, strict=True):
+            if math.isfinite(v):
+                continue
+            x = _plot_x(s, step_min, step_max)
+            y = plot_top + 10
+            parts.append(f'<text class="marker-bad" x="{x:.1f}" y="{y:.1f}" text-anchor="middle">&#10005;</text>')
+
+    parts.append(_render_off_scale_labels(label_candidates, plot_top))
+
+    parts.append(f'<rect class="frame" x="{_PAD_L}" y="{plot_top}" width="{_W - _PAD_L - _PAD_R}" height="{_PLOT_H}" fill="none"/>')
     parts.append("</svg>")
     return "".join(parts)
 
@@ -200,23 +352,56 @@ def _findings_rows(findings: list[Finding]) -> str:
     return "\n".join(rows)
 
 
+def _chart_plan(run: Run) -> list[list[str]]:
+    """Which metrics to chart, grouped (a group of 2 = one overlaid chart),
+    and in what order: loss (combined) -> lr -> grad_norm -> other eval
+    metrics -> step_time/throughput last. See the module docstring."""
+    available = set(run.metric_names()) - _SKIP_METRICS
+    plan: list[list[str]] = []
+
+    loss_group = [m for m in _LOSS_METRICS if m in available]
+    if loss_group:
+        plan.append(loss_group)
+        available -= set(loss_group)
+
+    for m in _LEAD_METRICS:
+        if m in available:
+            plan.append([m])
+            available.discard(m)
+
+    trailing = [m for m in _TRAILING_METRICS if m in available]
+    available -= set(trailing)
+
+    plan.extend([m] for m in sorted(available))
+    plan.extend([m] for m in trailing)
+    return plan
+
+
 def render_html(run: Run, findings: list[Finding], title: str = "trainspotter report") -> str:
     counts = {"error": 0, "warning": 0, "info": 0}
     for f in findings:
         counts[f.severity] += 1
     generated = datetime.now(UTC).strftime("%Y-%m-%d %H:%M UTC")
 
-    chart_names = [n for n in _DEFAULT_CHART_ORDER if n in run.metrics]
-    chart_names += [n for n in run.metric_names() if n not in chart_names]
     charts_html = []
-    for name in chart_names:
-        series = run.metrics[name]
-        if series.is_empty():
+    fallback_i = 0
+    for group in _chart_plan(run):
+        entries: list[tuple[str, MetricSeries, str]] = []
+        for name in group:
+            series = run.metrics.get(name)
+            if series is None or series.is_empty():
+                continue
+            color = _CHART_COLORS.get(name)
+            if color is None:
+                color = _FALLBACK_COLORS[fallback_i % len(_FALLBACK_COLORS)]
+                fallback_i += 1
+            entries.append((name, series, color))
+        if not entries:
             continue
-        color = _CHART_COLORS.get(name, "#9aa7b0")
+        heading = " / ".join(name for name, _s, _c in entries)
         charts_html.append(
-            f'<section class="chart-block"><h2>{_esc(name)}</h2>'
-            f'{_render_chart(name, series, findings, color)}</section>'
+            f'<section class="chart-block"><h2>{_esc(heading)}</h2>'
+            f"{_render_chart(entries, findings)}</section>"
         )
 
     total_steps = max((s for series in run.metrics.values() for s in series.steps()), default=0)
@@ -334,7 +519,9 @@ body {
 .grid { stroke: var(--line); stroke-width: 1; }
 .frame { stroke: var(--line-strong); stroke-width: 1; }
 .axis-y, .axis-x { font-family: var(--mono); font-size: 9px; fill: var(--text-dim); }
+.legend { font-family: var(--mono); font-size: 10px; fill: var(--text-muted); }
 .marker-bad { font-family: var(--mono); font-size: 13px; fill: var(--err); font-weight: 700; }
+.off-scale-label { font-family: var(--mono); font-size: 9px; font-weight: 600; }
 
 .findings-log { margin-top: 28px; }
 .log-title {
