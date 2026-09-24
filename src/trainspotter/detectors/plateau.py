@@ -9,8 +9,14 @@ line and test H0: slope == 0 via the normal-approximation t-test in
 significance test's usual use) AND the window's total relative change
 `|last - first| / (|first| + eps)` is below `rel_change` (default 2%), so
 a slope that's statistically insignificant only because the window is
-short doesn't get flagged as a plateau. Consecutive flat windows are
-merged into one finding.
+short doesn't get flagged as a plateau. Flagged windows within one
+`window`-length of each other are merged into a single finding (not just
+strictly-consecutive ones): a near-zero metric can have enough relative
+jitter that isolated windows in the middle of an obviously flat stretch
+fail the `rel_change` guard by chance, which without this would fragment
+one flat region into a dozen near-duplicate findings -- caught by running
+this on the overfitting example, where train/loss flattens near zero for
+hundreds of steps.
 
 **False-positive modes.**
 - A metric that's already near its achievable floor (e.g. eval loss close
@@ -72,7 +78,7 @@ class PlateauDetector(Detector):
                 rel = abs(last - first) / (abs(first) + 1e-12)
                 if p_value >= self.alpha and rel < self.rel_change:
                     flat_windows.append(start)
-            for group in group_consecutive(flat_windows, gap=1):
+            for group in group_consecutive(flat_windows, gap=window):
                 lo, hi = group[0], group[-1] + window - 1
                 seg = values[lo : hi + 1]
                 findings.append(
