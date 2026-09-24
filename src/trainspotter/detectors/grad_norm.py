@@ -6,7 +6,12 @@ which convention was used and says so in the finding).
 
 **Explosion algorithm.** Same robust z-score as the spike detector (see
 `spikes.py`), applied to `grad_norm` with `window` (default 21) and
-`threshold` (default 6.0).
+`threshold` (default 10.0 -- higher than the spike detector's 6.0: a
+single-step z of 6-8 in `grad_norm` during ordinary early training is
+common noise, not an incident. Raised from 6.0 after it fired on
+`examples/baseline`, an unremarkable healthy run, at z=6.5; a real
+divergence event clears z=100+ by comparison, so this costs essentially
+no sensitivity against the incidents this detector exists to catch).
 
 **Clipping-saturation algorithm.** Over a trailing window of `sat_window`
 (default 50) points, compute how many are within `sat_tol` (default 0.5%)
@@ -24,6 +29,11 @@ rather than occasional correction.
 - A model/task with a genuinely constant gradient scale (rare, but
   possible near convergence) can trip saturation without any clipping
   involved.
+- Even at threshold 10, a single very noisy batch (a genuinely
+  hard/outlier example, not a bug) can still clear the bar once in a
+  while on longer runs -- one isolated explosion finding with no
+  corresponding loss spike is weaker evidence than one that coincides
+  with a `spikes` finding at the same step.
 """
 
 from __future__ import annotations
@@ -37,7 +47,7 @@ from trainspotter.model import Run
 from .base import Detector, Finding, group_consecutive, robust_zscore, series_arrays
 
 DEFAULT_WINDOW = 21
-DEFAULT_THRESHOLD = 6.0
+DEFAULT_THRESHOLD = 10.0
 
 
 class GradNormDetector(Detector):

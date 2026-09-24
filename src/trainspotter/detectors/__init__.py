@@ -45,12 +45,15 @@ def default_detectors() -> list[Detector]:
 
 def run_all(run: Run, detectors: list[Detector] | None = None) -> list[Finding]:
     """Run every detector against `run` and return findings sorted by
-    (step_start, severity desc) -- earliest problems first, worst first
-    within a step."""
+    (severity, step_start) -- errors first, then warnings, then info, so
+    the most important thing a run did wrong is always what a reader sees
+    first; earliest-first within a severity level. (The HTML report's
+    health strip stays chronological regardless -- it's a timeline, not a
+    priority list.)"""
     detectors = detectors if detectors is not None else default_detectors()
     findings: list[Finding] = []
     for detector in detectors:
         findings.extend(detector.run(run))
     rank = {"error": 0, "warning": 1, "info": 2}
-    findings.sort(key=lambda f: (f.step_start, rank[f.severity]))
+    findings.sort(key=lambda f: (rank[f.severity], f.step_start))
     return findings
