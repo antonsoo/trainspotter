@@ -10,6 +10,17 @@ There is no reliable per-step wall-clock timestamp in this format (only
 aggregate `train_runtime`/`train_samples_per_second` at the very end), so
 `step_time`/`throughput` are usually absent for HF logs -- the throughput
 detector degrades gracefully when they are.
+
+`Trainer.train()` appends exactly one more entry after the last real log:
+a run-level summary with keys like `train_runtime` and `train_loss` (the
+*average* loss over the whole run, not a per-step reading), reusing the
+final `step` number. Verified against a real `transformers.Trainer` run
+(see `examples/generate_transformers_example.py`): the first version of
+this reader merged that average straight into the `train/loss` series --
+since `train_loss` is also `loss`'s alias -- which showed up as a fake
+last-step "spike" back down or up to the run average. `train_runtime`
+only ever appears on that one summary entry, so it's used as the marker
+to route the whole entry to run metadata instead.
 """
 
 from __future__ import annotations
@@ -22,6 +33,7 @@ from trainspotter.model import Run
 from .common import normalize_key, try_float
 
 _NON_METRIC_KEYS = {"step", "total_flos"}
+_SUMMARY_MARKER_KEY = "train_runtime"
 
 
 def read_hf_trainer_state(path: str | Path) -> Run:
@@ -48,6 +60,10 @@ def read_hf_trainer_state(path: str | Path) -> Run:
     for entry in log_history:
         if not isinstance(entry, dict) or "step" not in entry:
             skipped += 1
+            continue
+        if _SUMMARY_MARKER_KEY in entry:
+            # The run-level training summary, not a per-step log point.
+            run.meta["train_summary"] = {k: v for k, v in entry.items() if k != "step"}
             continue
         step_val = try_float(entry.get("step"))
         if step_val is None:

@@ -51,6 +51,34 @@ def test_hf_trainer_state_skips_malformed_entries(tmp_path: Path) -> None:
     assert run.get("train/loss").steps() == [1]  # type: ignore[union-attr]
 
 
+def test_hf_trainer_state_excludes_the_final_run_summary_entry(tmp_path: Path) -> None:
+    # Trainer.train() appends one more entry after the real per-step logs:
+    # a run-level summary reusing the final step number, with an *average*
+    # train_loss -- not a per-step reading. It must not land in train/loss.
+    log_history = [
+        {"loss": 2.0, "learning_rate": 1e-4, "step": 10},
+        {"loss": 1.5, "learning_rate": 1e-4, "step": 20},
+        {
+            "step": 20,
+            "train_runtime": 12.3,
+            "train_samples_per_second": 40.0,
+            "train_steps_per_second": 5.0,
+            "train_loss": 1.75,
+            "total_flos": 123.0,
+        },
+    ]
+    path = tmp_path / "trainer_state.json"
+    path.write_text(json.dumps({"log_history": log_history}))
+
+    run = read_hf_trainer_state(path)
+    run.finalize()
+
+    series = run.get("train/loss")
+    assert series is not None
+    assert series.values() == [2.0, 1.5]  # the 1.75 average must not appear here
+    assert run.meta["train_summary"]["train_runtime"] == 12.3
+
+
 def test_generic_csv(tmp_path: Path) -> None:
     path = tmp_path / "log.csv"
     with path.open("w", newline="") as fh:
@@ -127,3 +155,20 @@ def test_load_run_auto_detects_format(tmp_path: Path) -> None:
     path.write_text(json.dumps({"step": 0, "loss": 1.0}) + "\n")
     run = load_run(path)
     assert run.source_format == "jsonl"
+
+
+def test_reads_the_committed_real_transformers_trainer_state() -> None:
+    # examples/transformers_tinygpt2.trainer_state.json came from a real
+    # transformers.Trainer run (see generate_transformers_example.py), not
+    # a hand-written fixture. This pins that it keeps parsing cleanly, and
+    # specifically that the run's average-loss summary entry (see hf.py's
+    # docstring) never leaks into the per-step train/loss series.
+    path = Path(__file__).parent.parent / "examples" / "transformers_tinygpt2.trainer_state.json"
+    run = read_hf_trainer_state(path)
+    run.finalize()
+
+    series = run.get("train/loss")
+    assert series is not None
+    assert len(series) > 100
+    summary_avg = run.meta["train_summary"]["train_loss"]
+    assert summary_avg not in series.values()[-3:]  # the average, not a per-step tail value

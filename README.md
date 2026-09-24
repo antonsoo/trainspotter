@@ -171,17 +171,40 @@ Each file is committed in both HF `trainer_state.json` format
 (`<name>.trainer_state.json`) and generic CSV (`<name>.csv`), written from
 the same in-memory log so the two are guaranteed consistent.
 
-**The `transformers` example was skipped.** The brief called for one real
-run through `transformers.Trainer` on a tiny model. `transformers` and a
-CPU build of `torch` aren't installed on this machine by default, and
-installing + training + verifying them within this session's time budget
-wasn't worth the risk of leaving something else unfinished. Everything
-`trainspotter analyze` does with a real `trainer_state.json` is already
-exercised by `tests/test_readers.py::test_hf_trainer_state` (against a
-hand-written fixture matching the documented schema) and by the five files
-above (also genuine `trainer_state.json`-shaped files, just not written by
-`transformers.Trainer` itself) -- the reader code path is the same either
-way, since it only depends on the file's shape, not what produced it.
+### A real `transformers.Trainer` run
+
+`examples/transformers_tinygpt2.trainer_state.json` is a genuine
+`trainer_state.json` written by `transformers.Trainer` itself (not the
+numpy MLP above): a real 2-layer, 64-dim GPT-2 (`GPT2LMHeadModel` from a
+from-scratch `GPT2Config`, ~330K parameters), trained for 6 epochs / 726
+steps on CPU on a small hand-written toy corpus (short sentences about
+training, tokenized with the real `gpt2` tokenizer), in about 90 seconds
+on this machine. Regenerate it with
+`examples/generate_transformers_example.py` (needs `torch` + `transformers`
+in a separate environment -- see the script's docstring for the exact
+install commands; they are *not* project dependencies).
+
+Running trainspotter against it caught a real bug in the HF reader during
+development: `Trainer.train()` appends one extra `log_history` entry after
+training ends -- a run summary with `train_runtime`, `train_samples_per_second`,
+and a `train_loss` key that is the *average* loss over the whole run, not a
+per-step reading. The reader's first version merged that average straight
+into the `train/loss` series (since `train_loss` is one of the recognized
+spellings of `loss`), which showed up as a fake spike on the run's last
+step. The fix -- detect that entry by its unique `train_runtime` key and
+route it to run metadata instead of a metric point -- is
+`src/trainspotter/readers/hf.py`'s `_SUMMARY_MARKER_KEY`, and
+`tests/test_readers.py::test_hf_trainer_state_excludes_the_final_run_summary_entry`
+pins it. This is exactly the kind of gap a hand-written fixture can miss
+and a real framework's output finds immediately -- the reason this example
+was worth the extra `torch` install.
+
+Analyzing it for real also landed on a genuine instance of a documented
+false-positive: an `lr_schedule` "LR discontinuity" finding at steps 5-10,
+because `logging_steps=5` logs the warmup ramp so coarsely that one
+logged interval really does cover 25% of the run's LR range -- exactly the
+"few logged points" false-positive mode in `lr_schedule.py`'s docstring,
+not a bug.
 
 ## Accuracy and limitations
 
