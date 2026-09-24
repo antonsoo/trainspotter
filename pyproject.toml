@@ -1,0 +1,87 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "trainspotter"
+version = "0.1.0"
+description = "Automatic diagnosis of loss curves and training logs: spot divergence, spikes, overfitting, LR and throughput problems before you burn another GPU-day."
+readme = "README.md"
+requires-python = ">=3.10"
+license = { text = "MIT" }
+authors = [{ name = "Anton Soloviev", email = "anton@praviel.com" }]
+keywords = [
+  "machine-learning",
+  "training",
+  "mlops",
+  "loss-curve",
+  "diagnostics",
+  "pytorch",
+  "huggingface",
+  "cli",
+]
+classifiers = [
+  "Development Status :: 4 - Beta",
+  "Intended Audience :: Science/Research",
+  "License :: OSI Approved :: MIT License",
+  "Programming Language :: Python :: 3",
+  "Programming Language :: Python :: 3.10",
+  "Programming Language :: Python :: 3.11",
+  "Programming Language :: Python :: 3.12",
+  "Topic :: Scientific/Engineering :: Artificial Intelligence",
+  "Typing :: Typed",
+]
+dependencies = [
+  "numpy>=1.24",
+]
+
+[project.optional-dependencies]
+tensorboard = ["tbparse>=0.0.8"]
+dev = [
+  "pytest>=8.0",
+  "pytest-cov>=5.0",
+  "ruff>=0.6",
+  "mypy>=1.10",
+  "tbparse>=0.0.8",
+]
+
+[project.urls]
+Homepage = "https://github.com/antonsoo/trainspotter"
+Repository = "https://github.com/antonsoo/trainspotter"
+Issues = "https://github.com/antonsoo/trainspotter/issues"
+Changelog = "https://github.com/antonsoo/trainspotter/blob/main/CHANGELOG.md"
+
+[project.scripts]
+trainspotter = "trainspotter.cli:main"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/trainspotter"]
+
+[tool.ruff]
+line-length = 100
+target-version = "py310"
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "UP", "B", "SIM", "N"]
+
+[tool.ruff.lint.per-file-ignores]
+# CSS/ANSI templates, and long plain-English fix suggestions, read better
+# unwrapped than hard line-broken.
+"src/trainspotter/report/html_report.py" = ["E501"]
+"src/trainspotter/report/terminal.py" = ["E501"]
+"src/trainspotter/detectors/*.py" = ["E501"]
+"src/trainspotter/cli.py" = ["E501"]
+
+[tool.mypy]
+# Checked against 3.12 (numpy's own stubs need 3.12+ syntax to parse); the
+# package itself targets 3.10+ and uses no 3.11/3.12-only syntax.
+python_version = "3.12"
+strict = true
+files = ["src"]
+
+[[tool.mypy.overrides]]
+module = "tbparse.*"
+ignore_missing_imports = true
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
