@@ -31,8 +31,12 @@ uv pip install scikit-learn  # or: uv sync --extra examples
 uv run python examples/generate_examples.py
 ```
 
-This overwrites the committed files in `examples/`; it's deterministic
-(seeded), so a clean run should reproduce byte-identical output.
+This overwrites the committed files in `examples/`. Every seeded quantity
+(loss, LR, grad_norm, which steps get evaluated) reproduces bit-for-bit;
+`step_time` is genuinely measured wall-clock time, so it -- and only it --
+will differ from the committed files on every regeneration, including the
+throughput-regression run's slowdown ratio (it'll still be a real
+regression, just not exactly 1.90x).
 
 ## Reporting a false positive or false negative
 
