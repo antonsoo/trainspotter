@@ -170,23 +170,55 @@ def _plot_y(value: float, v_min: float, v_max: float, plot_top: float) -> float:
 def _render_off_scale_labels(
     candidates: list[tuple[float, str, str]], plot_top: float
 ) -> str:
-    """Place off-scale value labels left to right, stacking a label onto a
-    lower row whenever it would land within `min_gap` px of one already
-    placed in the same row -- so two real, nearby spikes both stay
-    readable instead of overlapping into a garbled string of digits."""
-    min_gap = 30.0
-    row_height = 11.0
-    rows: list[list[float]] = []
+    """Off-scale value labels, one line of text per x-cluster.
+
+    Two series can each have a capped point a step or two apart -- a real
+    case on the divergence example, where eval/loss and train/loss both
+    blow up within one step of each other. That's only a couple of pixels
+    apart, so even stacking each label on its own row (an earlier version
+    of this function) still read as visual noise crammed into one corner.
+    Values within `min_gap` px of each other are merged into a single
+    "54.88 / 55.49"-style label instead, each value kept in its own
+    series' color via a `<tspan>`, so there's exactly one thing to read at
+    each cluster, not a pile of near-overlapping ones."""
+    min_gap = 26.0
+    clusters: list[list[tuple[float, str, str]]] = []
+    for cand in sorted(candidates, key=lambda c: c[0]):
+        if clusters and cand[0] - clusters[-1][-1][0] < min_gap:
+            clusters[-1].append(cand)
+        else:
+            clusters.append([cand])
+
+    char_w = 5.5  # rough advance width of the 9px mono label font
     parts: list[str] = []
-    for x, text, color in sorted(candidates, key=lambda c: c[0]):
-        row_i = 0
-        while row_i < len(rows) and any(abs(x - px) < min_gap for px in rows[row_i]):
-            row_i += 1
-        if row_i == len(rows):
-            rows.append([])
-        rows[row_i].append(x)
-        y = plot_top + 20 + row_i * row_height
-        parts.append(f'<text class="off-scale-label" x="{x:.1f}" y="{y:.1f}" text-anchor="middle" fill="{color}">{_esc(text)}</text>')
+    for raw_cluster in clusters:
+        # A metric pinned at one value for several consecutive off-scale
+        # points (e.g. lr held at a constant post-incident value) doesn't
+        # need that value repeated once per point.
+        cluster = [
+            c
+            for i, c in enumerate(raw_cluster)
+            if i == 0 or (c[1], c[2]) != (raw_cluster[i - 1][1], raw_cluster[i - 1][2])
+        ]
+        cx = sum(x for x, _t, _c in raw_cluster) / len(raw_cluster)
+        y = plot_top + 20
+        label_len = sum(len(t) for _x, t, _c in cluster) + 3 * (len(cluster) - 1)
+        half_w = label_len * char_w / 2
+        # Keep the label inside the plot area instead of letting a
+        # centered label clip past the right edge for a cluster near the
+        # end of the run -- exactly where off-scale points tend to land.
+        if cx + half_w > _W - _PAD_R:
+            anchor, tx = "end", float(_W - _PAD_R)
+        elif cx - half_w < _PAD_L:
+            anchor, tx = "start", float(_PAD_L)
+        else:
+            anchor, tx = "middle", cx
+        tspans = []
+        for i, (_x, text, color) in enumerate(cluster):
+            if i > 0:
+                tspans.append('<tspan fill="var(--text-dim)"> / </tspan>')
+            tspans.append(f'<tspan fill="{color}">{_esc(text)}</tspan>')
+        parts.append(f'<text class="off-scale-label" x="{tx:.1f}" y="{y:.1f}" text-anchor="{anchor}">{"".join(tspans)}</text>')
     return "".join(parts)
 
 
