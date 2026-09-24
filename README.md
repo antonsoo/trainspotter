@@ -18,11 +18,11 @@ one, or as a CI gate that fails the build.
 
 ## Report
 
-![Top of the trainspotter HTML report on the divergence example: a header with the run's source and step range, an error/warning/info summary with a health-strip timeline, and the combined train/loss + eval/loss chart -- 320 steps of ordinary cosine-schedule training, shaded regions marking detected findings, then a labeled spike as the run breaks -- followed by the first entries of the findings log.](docs/assets/html-report-divergence.png)
+![Top of the trainspotter HTML report on the divergence example: a header with the run's source and step range, an error/warning/info summary with a health-strip timeline, and the combined train/loss + eval/loss chart -- 320 steps of ordinary cosine-schedule training, shaded regions marking detected findings, then a labeled spike as the run breaks -- followed by the findings log, error findings first: two loss spikes and the divergence itself.](docs/assets/html-report-divergence.png)
 
-*(top of the report -- [full report, all 5 charts + all 11 findings](docs/assets/html-report-divergence-full.png))*
+*(top of the report -- [full report, all 5 charts + all 6 findings](docs/assets/html-report-divergence-full.png))*
 
-![Terminal output of `trainspotter analyze divergence.trainer_state.json --fail-on error`, showing all 11 findings with color-coded ERROR/WARN/INFO severities, step ranges, detector names, messages, and one-line fix suggestions, from early minor gradient blips through the LR discontinuity, loss spikes, and final divergence.](docs/assets/terminal-divergence.png)
+![Terminal output of `trainspotter analyze divergence.trainer_state.json --fail-on error`, showing all 6 findings ordered by severity -- three ERROR findings (two loss spikes, the divergence) first, then two WARNING findings, then one INFO -- each with step range, detector name, message, and a one-line fix suggestion.](docs/assets/terminal-divergence.png)
 
 Both are real output from `examples/divergence.trainer_state.json` (see
 [Real demo data](#real-demo-data) for exactly how that log was produced).
@@ -109,13 +109,25 @@ summary.
 |---|---|---|---|
 | `spikes` | A sudden jump in a loss metric | Modified z-score (`0.6745·(x−median)/MAD`) against a trailing rolling median/MAD; flags \|z\| > 6 | Deliberate LR restarts/curriculum jumps; bumpy metrics with a too-small window |
 | `divergence` | NaN/Inf, or sustained upward drift | Any non-finite value; or an OLS slope > 0 with p < 0.05 over the tail window, and the last value ≥ 1.5× the running minimum | Metrics meant to increase (only checks loss-type metrics by default); a temporary cyclic-schedule upswing |
-| `plateau` | A metric that's stopped moving | Sliding-window OLS slope test (p ≥ 0.2 = not significant) plus a < 2% relative-change guard | A metric already near its achievable floor looks identical to a stall |
+| `plateau` | A metric that's stalled, not just converged | Sliding-window OLS slope test (p ≥ 0.2 = not significant) plus a < 2% relative-change guard; suppressed if the window has already recovered ≥ 80% of the metric's total drop, or `lr` has decayed to ≤ 30% of its peak | A real stall near a coincidentally low value, or right as an unrelated LR decay finishes, can be wrongly suppressed by the convergence check |
 | `overfitting` | Train still improving while eval worsens | Finds eval's running-minimum step; tests whether the slope after it is significantly positive (p < 0.1) and ≥ 1% above the minimum | A noisy eval set can show a false uptick; a mid-run change in eval data |
 | `lr_schedule` | Missing warmup, LR rising after its peak, single-step discontinuities | Ramp check on the first value vs. peak; running-max monotonicity after the peak; jump size vs. 20% of the LR's total range | Cyclic/warm-restart schedules trip the last two by design |
-| `grad_norm` | Gradient-norm explosions and clipping saturation | Same z-score as `spikes` (one-sided) for explosions; fraction of a trailing window within 0.5% of its own max, for saturation | Norms logged post-clip are saturated by construction; a genuinely stable task can look saturated |
+| `grad_norm` | Gradient-norm explosions and clipping saturation | Same z-score as `spikes` (one-sided) for explosions, threshold 10 (higher than `spikes`' 6 -- a single z of 6-8 is common early-training noise); fraction of a trailing window within 0.5% of its own max, for saturation | Norms logged post-clip are saturated by construction; an isolated explosion with no coinciding loss spike is weaker evidence than one that lines up with a `spikes` finding |
 | `throughput` | Step-time / throughput regressions | Median step time, early-run baseline window vs. recent window, flags ≥ 1.4× | Checkpoint/eval steps inflate single points; early-run kernel/dataloader warmup can pollute the baseline |
 | `eval_noise` | An eval metric too noisy to rank checkpoints by | Median absolute step-to-step jitter as a fraction of the run's total improvement; flags ≥ 15% | An already-converged run has small total improvement by construction |
 | `loss_floor` | Implausibly low train loss very early (heuristic) | Loss < 0.05 absolute **and** < 5% of its starting value within the first 10% of steps | Explicitly a heuristic: an easy task, a small-scale loss, or a resumed checkpoint all look identical to this |
+
+### Trust the healthy case
+
+A tool that flags an unremarkable run gets ignored, and recall on real
+incidents matters less than that first impression -- so trainspotter is
+tested for silence, not just for alarms. **On the healthy baseline run,
+trainspotter reports no warnings**, and `tests/test_examples_regression.py`
+asserts this on every commit, alongside asserting that the other four
+examples still flag the pathology they were built to demonstrate. Findings
+are also ordered errors-first, then warnings, then info (chronological
+within a level) -- so on a run that *did* break, the thing that broke
+leads the report instead of sitting below routine early-training noise.
 
 ## How it works
 
@@ -174,7 +186,7 @@ uv run python examples/generate_examples.py
 
 | File | What it is | How the pathology was actually induced |
 |---|---|---|
-| `baseline` | A normal, unremarkable run | Full dataset, weight decay, cosine LR with warmup. trainspotter still flags several **plateau** findings late in the run and one one-off gradient spike -- read as convergence, not a bug; see [Limitations](#accuracy-and-limitations) |
+| `baseline` | A normal, unremarkable run | Full dataset, weight decay, cosine LR with warmup. **On this run, trainspotter reports no warnings** -- see [Trust the healthy case](#trust-the-healthy-case) for why that's asserted by a test, not just eyeballed |
 | `divergence` | A genuine crash after real training | 320 steps (80% of the run) of ordinary warmup + cosine-decay training -- loss ~2.8 -> ~0.15, eval accuracy up to ~96% -- then a simulated incident at step 320: the LR schedule jumps to 30 **and** the loss function switches to a version with the classic missing-max-subtraction softmax bug. Plain high LR alone was tried first and *didn't* produce real divergence -- see the note in `divergence_run()`'s docstring for why (softmax cross-entropy's gradient is bounded by construction) |
 | `overfitting` | Genuine overfitting | Only 4 training examples per class (40 total), no regularization, 800 steps -- the model memorizes the training set while held-out eval loss turns upward after step 125 |
 | `missing_warmup` | No LR ramp-up | LR set to a constant 0.5 from step 0, no warmup phase at all |
@@ -233,7 +245,11 @@ not a bug.
   `EventFileWriter`.
 - **Detectors are tested against synthetic signals with known ground
   truth**: a spike planted at step *k* must be found at step *k*; a clean
-  curve must produce zero findings. See `tests/test_detector_*.py`.
+  curve must produce zero findings. See `tests/test_detector_*.py`. A
+  separate regression test (`tests/test_examples_regression.py`) runs the
+  whole detector set against all five real example logs and asserts the
+  healthy baseline stays quiet while the other four still flag what
+  they're supposed to.
 - No detector here is a substitute for understanding your training run.
   They're heuristics built to reduce how often you have to stare at a
   chart by eye, not a certified diagnosis -- read the false-positive modes
@@ -252,7 +268,7 @@ not a bug.
 
 ```bash
 uv sync --all-extras --dev
-uv run pytest                        # 44 tests
+uv run pytest                        # 56 tests
 uv run ruff check src tests examples
 uv run mypy src
 ```
