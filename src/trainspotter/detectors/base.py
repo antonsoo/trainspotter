@@ -102,9 +102,15 @@ def ols_slope(x: np.ndarray, y: np.ndarray) -> tuple[float, float, float]:
     two-sided p-value against H0: slope == 0, via a normal approximation to
     the t-distribution (accurate for n >= ~30; for smaller n this is
     slightly anti-conservative, which detectors account for by also
-    requiring a minimum window size before trusting the test)."""
+    requiring a minimum window size before trusting the test).
+
+    A window that contains a NaN/Inf reading (a diverged run legitimately
+    produces these) can't support a slope estimate; rather than let numpy
+    warn its way through arithmetic on non-finite values and return NaN
+    results a caller has to know to distrust, that case is treated the
+    same as "not enough data": no significant slope, p=1."""
     n = len(x)
-    if n < 3:
+    if n < 3 or not (np.all(np.isfinite(x)) and np.all(np.isfinite(y))):
         return 0.0, float("inf"), 1.0
     x_mean, y_mean = x.mean(), y.mean()
     sxx = float(np.sum((x - x_mean) ** 2))
