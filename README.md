@@ -18,9 +18,11 @@ one, or as a CI gate that fails the build.
 
 ## Report
 
-![trainspotter HTML report on the divergence example: five stacked charts (train/loss, eval/loss, lr, grad_norm, and two secondary metrics) with red-shaded regions over the step range where training diverged, and a findings log below listing each detected pathology with its evidence and suggested fixes.](docs/assets/html-report-divergence.png)
+![Top of the trainspotter HTML report on the divergence example: a header with the run's source and step range, an error/warning/info summary with a health-strip timeline, and the combined train/loss + eval/loss chart -- 320 steps of ordinary cosine-schedule training, shaded regions marking detected findings, then a labeled spike as the run breaks -- followed by the first entries of the findings log.](docs/assets/html-report-divergence.png)
 
-![Terminal output of `trainspotter analyze divergence.trainer_state.json --fail-on error`, showing a findings log with color-coded ERROR/WARN/INFO severities, step ranges, detector names, messages, and one-line fix suggestions for an LR discontinuity, two loss spikes, a gradient-norm explosion, and a divergence finding.](docs/assets/terminal-divergence.png)
+*(top of the report -- [full report, all 5 charts + all 11 findings](docs/assets/html-report-divergence-full.png))*
+
+![Terminal output of `trainspotter analyze divergence.trainer_state.json --fail-on error`, showing all 11 findings with color-coded ERROR/WARN/INFO severities, step ranges, detector names, messages, and one-line fix suggestions, from early minor gradient blips through the LR discontinuity, loss spikes, and final divergence.](docs/assets/terminal-divergence.png)
 
 Both are real output from `examples/divergence.trainer_state.json` (see
 [Real demo data](#real-demo-data) for exactly how that log was produced).
@@ -137,6 +139,17 @@ use an ordinary-least-squares slope with a normal-approximation t-test
 (`math.erf`-based, no `scipy` dependency) rather than eyeballing "did it go
 up or down."
 
+**Charts don't let one spike flatten the rest of the curve.** The HTML
+report's axis logic (`report/html_report.py`) picks tick spacing with
+Heckbert's "nice numbers" algorithm (`Graphics Gems`, 1990 -- 1/2/5x10^n
+steps, not whatever an even split of the range happens to produce) and
+floors the axis at 0 for the non-negative metrics trainspotter charts
+(loss, LR, grad_norm, accuracy, step time), instead of padding below zero.
+If the max is more than 1.5x the 99th percentile, the axis caps at that
+instead of stretching to fit one outlier -- the point is still drawn,
+clamped to the top edge with a small triangle and its real value labeled
+next to it, not hidden.
+
 **Every finding is honest about its own limits.** Each detector's
 docstring states its false-positive modes in plain language (see the table
 above, or the source for the full version) -- this isn't boilerplate, it's
@@ -162,7 +175,7 @@ uv run python examples/generate_examples.py
 | File | What it is | How the pathology was actually induced |
 |---|---|---|
 | `baseline` | A normal, unremarkable run | Full dataset, weight decay, cosine LR with warmup. trainspotter still flags several **plateau** findings late in the run and one one-off gradient spike -- read as convergence, not a bug; see [Limitations](#accuracy-and-limitations) |
-| `divergence` | A genuine crash | 25 clean steps, then a simulated incident: the LR schedule jumps to 30 **and** the loss function switches to a version with the classic missing-max-subtraction softmax bug, at the same step. Plain high LR alone was tried first and *didn't* produce real divergence -- see the note in `divergence_run()`'s docstring for why (softmax cross-entropy's gradient is bounded by construction) |
+| `divergence` | A genuine crash after real training | 320 steps (80% of the run) of ordinary warmup + cosine-decay training -- loss ~2.8 -> ~0.15, eval accuracy up to ~96% -- then a simulated incident at step 320: the LR schedule jumps to 30 **and** the loss function switches to a version with the classic missing-max-subtraction softmax bug. Plain high LR alone was tried first and *didn't* produce real divergence -- see the note in `divergence_run()`'s docstring for why (softmax cross-entropy's gradient is bounded by construction) |
 | `overfitting` | Genuine overfitting | Only 4 training examples per class (40 total), no regularization, 800 steps -- the model memorizes the training set while held-out eval loss turns upward after step 125 |
 | `missing_warmup` | No LR ramp-up | LR set to a constant 0.5 from step 0, no warmup phase at all |
 | `throughput_drop` | A real, measured slowdown | Steps 150-259 insert an actual `time.sleep(0.02)` per step (simulating e.g. I/O contention) -- `step_time` in the log is genuinely measured wall-clock time, not a fabricated number |
@@ -239,7 +252,7 @@ not a bug.
 
 ```bash
 uv sync --all-extras --dev
-uv run pytest                        # 41 tests
+uv run pytest                        # 44 tests
 uv run ruff check src tests examples
 uv run mypy src
 ```

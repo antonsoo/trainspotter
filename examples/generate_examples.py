@@ -217,27 +217,37 @@ def baseline_run(x_train, y_train, x_val, y_val) -> list[dict[str, float]]:  # t
 
 
 def divergence_run(x_train, y_train, x_val, y_val) -> list[dict[str, float]]:  # type: ignore[no-untyped-def]
-    # Trains normally for 25 steps, then simulates a real incident: an LR
-    # schedule bug (a bad resume, or a misconfigured scheduler) drives the
-    # LR to 30 and, at the same time, the loss switches to a version with
-    # the classic missing-max-subtraction softmax bug. Softmax
-    # cross-entropy's gradient is bounded by construction, so plain high LR
-    # alone just made this small MLP oscillate near chance level rather
-    # than actually diverge (see the README's honesty note) -- this
-    # combination is what reliably reproduces a real NaN.
-    warmup_phase = 25
+    # Trains normally -- real warmup, real cosine decay, same recipe as
+    # baseline_run -- for 320 steps (80% of the run), so the curve looks
+    # like an actual healthy training job (loss ~2.8 -> ~0.15, eval
+    # accuracy up to ~96%) before anything goes wrong. Then simulates a
+    # real incident at step 320: an LR schedule bug (a bad resume, or a
+    # misconfigured scheduler) drives the LR to 30 and, at the same time,
+    # the loss switches to a version with the classic
+    # missing-max-subtraction softmax bug. Softmax cross-entropy's
+    # gradient is bounded by construction, so plain high LR alone just
+    # made this small MLP oscillate near chance level rather than actually
+    # diverge (see the README's honesty note) -- this combination is what
+    # reliably reproduces a real NaN, here within 2 steps of the incident.
+    healthy_phase = 320
+    peak_lr = 0.4
+    incident_lr = 30.0
     return _train_loop(
         seed=1,
         x_train=x_train,
         y_train=y_train,
         x_val=x_val,
         y_val=y_val,
-        total_steps=60,
+        total_steps=400,
         batch_size=32,
-        weight_decay=0.0,
-        lr_fn=lambda s: 0.15 if s < warmup_phase else 30.0,
-        eval_every=5,
-        unstable_from_step=warmup_phase,
+        weight_decay=1e-3,
+        lr_fn=lambda s: (
+            cosine_with_warmup(s, healthy_phase, warmup_steps=20, peak_lr=peak_lr)
+            if s < healthy_phase
+            else incident_lr
+        ),
+        eval_every=10,
+        unstable_from_step=healthy_phase,
     )
 
 
