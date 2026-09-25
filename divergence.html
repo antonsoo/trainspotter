@@ -1,0 +1,213 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>trainspotter - Divergence</title>
+<style>
+
+:root {
+  --bg: #0a0d10;
+  --panel: #10151a;
+  --panel-2: #0d1216;
+  --line: #1f2830;
+  --line-strong: #2c3944;
+  --text: #d9e2e8;
+  --text-muted: #8b97a1;
+  --text-dim: #57626b;
+  --err: #ff5d5d;
+  --warn: #f2b84b;
+  --info: #5fb3ff;
+  --mono: ui-monospace, "SFMono-Regular", "Cascadia Mono", Consolas, "Liberation Mono", monospace;
+  --sans: -apple-system, "Segoe UI", "Helvetica Neue", Arial, sans-serif;
+}
+* { box-sizing: border-box; }
+html, body { margin: 0; padding: 0; background: var(--bg); color: var(--text); }
+body {
+  font-family: var(--sans);
+  font-size: 14px;
+  line-height: 1.5;
+  padding: 0 0 48px;
+}
+.bezel { max-width: 980px; margin: 0 auto; padding: 28px 20px 0; }
+
+.masthead {
+  display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between;
+  gap: 12px 24px; padding-bottom: 16px; border-bottom: 1px solid var(--line-strong);
+}
+.brand { display: flex; align-items: baseline; gap: 10px; }
+.brand-mark { color: var(--info); font-size: 11px; }
+.brand-name { font-family: var(--mono); font-weight: 700; font-size: 17px; letter-spacing: 0.12em; }
+.brand-sub { font-family: var(--mono); color: var(--text-dim); font-size: 12px; letter-spacing: 0.06em; text-transform: uppercase; }
+.readouts { display: flex; flex-wrap: wrap; gap: 18px 28px; margin: 0; font-family: var(--mono); font-size: 12px; }
+.readouts > div { display: flex; flex-direction: column; gap: 2px; max-width: 260px; }
+.readouts dt { color: var(--text-dim); text-transform: uppercase; letter-spacing: 0.08em; font-size: 10px; }
+.readouts dd { margin: 0; color: var(--text-muted); overflow-wrap: anywhere; }
+
+.summary { padding: 18px 0 8px; }
+.summary { display: grid; grid-template-columns: repeat(3, auto) 1fr; align-items: center; gap: 20px; }
+.count { display: flex; align-items: baseline; gap: 8px; font-family: var(--mono); }
+.count .n { font-size: 22px; font-weight: 700; }
+.count .l { font-size: 11px; text-transform: uppercase; letter-spacing: 0.08em; color: var(--text-dim); }
+.count.sev-error .n { color: var(--err); }
+.count.sev-warning .n { color: var(--warn); }
+.count.sev-info .n { color: var(--info); }
+.strip-wrap { min-width: 220px; }
+.strip { width: 100%; height: 34px; display: block; }
+.strip-bg { fill: var(--panel-2); }
+.strip-base { stroke: var(--line-strong); stroke-width: 1; }
+
+.charts { display: flex; flex-direction: column; gap: 6px; margin-top: 10px; }
+.chart-block { background: var(--panel); border: 1px solid var(--line); border-radius: 2px; padding: 10px 14px 4px; }
+.chart-block h2 {
+  font-family: var(--mono); font-size: 12px; font-weight: 600; letter-spacing: 0.08em;
+  text-transform: uppercase; color: var(--text-muted); margin: 0 0 4px;
+}
+.chart { width: 100%; height: auto; display: block; }
+.grid { stroke: var(--line); stroke-width: 1; }
+.frame { stroke: var(--line-strong); stroke-width: 1; }
+.axis-y, .axis-x { font-family: var(--mono); font-size: 9px; fill: var(--text-dim); }
+.legend { font-family: var(--mono); font-size: 10px; fill: var(--text-muted); }
+.marker-bad { font-family: var(--mono); font-size: 13px; fill: var(--err); font-weight: 700; }
+.off-scale-label { font-family: var(--mono); font-size: 9px; font-weight: 600; }
+
+.findings-log { margin-top: 28px; }
+.log-title {
+  font-family: var(--mono); font-size: 12px; letter-spacing: 0.1em; text-transform: uppercase;
+  color: var(--text-muted); border-bottom: 1px solid var(--line-strong); padding-bottom: 8px;
+}
+.clean { color: var(--text-muted); font-family: var(--mono); font-size: 13px; }
+.finding { border-bottom: 1px solid var(--line); padding: 14px 0; }
+.finding:last-child { border-bottom: none; }
+.finding-head { display: flex; flex-wrap: wrap; align-items: baseline; gap: 10px; }
+.finding-head h3 { font-size: 14.5px; margin: 0; color: var(--text); font-weight: 600; }
+.chip {
+  font-family: var(--mono); font-size: 10px; font-weight: 700; letter-spacing: 0.06em;
+  padding: 2px 6px; border-radius: 2px; border: 1px solid currentColor;
+}
+.chip.sev-error { color: var(--err); }
+.chip.sev-warning { color: var(--warn); }
+.chip.sev-info { color: var(--info); }
+.steps, .detector { font-family: var(--mono); font-size: 11px; color: var(--text-dim); }
+.detector::before { content: "\00b7 "; }
+.message { margin: 6px 0 4px; color: var(--text); }
+.evidence { font-family: var(--mono); font-size: 11.5px; color: var(--text-muted); margin: 0 0 6px; }
+.evidence .k { color: var(--text-dim); }
+.fixes { margin: 0; padding-left: 18px; color: var(--text-muted); font-size: 13px; }
+.fixes li { margin: 2px 0; }
+
+.masthead-foot {
+  margin-top: 32px; padding-top: 14px; border-top: 1px solid var(--line);
+  color: var(--text-dim); font-family: var(--mono); font-size: 11px;
+}
+
+@media (max-width: 600px) {
+  .summary { grid-template-columns: repeat(3, auto); }
+  .strip-wrap { grid-column: 1 / -1; order: 10; }
+}
+
+</style>
+</head>
+<body>
+<div class="bezel">
+  <header class="masthead">
+    <div class="brand">
+      <span class="brand-mark" aria-hidden="true">&#9679;</span>
+      <span class="brand-name">TRAINSPOTTER</span>
+      <span class="brand-sub">run diagnostic</span>
+    </div>
+    <dl class="readouts">
+      <div><dt>source</dt><dd>examples/<wbr>divergence.trainer_state.json</dd></div>
+      <div><dt>format</dt><dd>hf</dd></div>
+      <div><dt>steps</dt><dd>0&ndash;322</dd></div>
+      <div><dt>generated</dt><dd>2026-09-25 09:13 UTC</dd></div>
+    </dl>
+  </header>
+
+  <section class="summary">
+    <div class="count sev-error"><span class="n">3</span><span class="l">error</span></div>
+    <div class="count sev-warning"><span class="n">1</span><span class="l">warning</span></div>
+    <div class="count sev-info"><span class="n">2</span><span class="l">info</span></div>
+    <div class="strip-wrap"><svg class="strip" viewBox="0 0 920 34" role="img" aria-label="Finding timeline for the whole run"><rect x="0" y="0" width="920" height="34" class="strip-bg"/><line x1="0" y1="33" x2="920" y2="33" class="strip-base"/><rect x="817.7" y="2" width="79.0" height="28" fill="#5fb3ff" fill-opacity="0.85"/><rect x="894.1" y="2" width="4.0" height="28" fill="#5fb3ff" fill-opacity="0.85"/><rect x="899.4" y="2" width="4.0" height="28" fill="#f2b84b" fill-opacity="0.85"/><rect x="896.7" y="2" width="4.0" height="28" fill="#ff5d5d" fill-opacity="0.85"/><rect x="899.4" y="2" width="4.0" height="28" fill="#ff5d5d" fill-opacity="0.85"/><rect x="902.0" y="2" width="4.0" height="28" fill="#ff5d5d" fill-opacity="0.85"/></svg></div>
+  </section>
+
+  <main class="charts">
+    <section class="chart-block"><h2>train/loss / eval/loss</h2><svg class="chart" viewBox="0 0 920 198" role="img" aria-label="train/loss vs eval/loss over steps 0 to 322"><rect x="54.0" y="0" width="10" height="10" fill="#4fd1e8"/><text class="legend" x="68.0" y="9" text-anchor="start">train/loss</text><rect x="160.0" y="0" width="10" height="10" fill="#ffb454"/><text class="legend" x="174.0" y="9" text-anchor="start">eval/loss</text><line class="grid" x1="54" y1="172.0" x2="902" y2="172.0"/><text class="axis-y" x="46" y="175.0" text-anchor="end">0</text><line class="grid" x1="54" y1="140.0" x2="902" y2="140.0"/><text class="axis-y" x="46" y="143.0" text-anchor="end">1</text><line class="grid" x1="54" y1="108.0" x2="902" y2="108.0"/><text class="axis-y" x="46" y="111.0" text-anchor="end">2</text><line class="grid" x1="54" y1="76.1" x2="902" y2="76.1"/><text class="axis-y" x="46" y="79.1" text-anchor="end">3</text><line class="grid" x1="54" y1="44.1" x2="902" y2="44.1"/><text class="axis-y" x="46" y="47.1" text-anchor="end">4</text><line class="grid" x1="54" y1="12.1" x2="902" y2="12.1"/><text class="axis-y" x="46" y="15.1" text-anchor="end">5</text><line class="grid" x1="54.0" y1="32" x2="54.0" y2="172"/><text class="axis-x" x="54.0" y="188" text-anchor="middle">0</text><line class="grid" x1="317.4" y1="32" x2="317.4" y2="172"/><text class="axis-x" x="317.4" y="188" text-anchor="middle">100</text><line class="grid" x1="580.7" y1="32" x2="580.7" y2="172"/><text class="axis-x" x="580.7" y="188" text-anchor="middle">200</text><line class="grid" x1="844.1" y1="32" x2="844.1" y2="172"/><text class="axis-x" x="844.1" y="188" text-anchor="middle">300</text><line class="grid" x1="1107.4" y1="32" x2="1107.4" y2="172"/><text class="axis-x" x="1107.4" y="188" text-anchor="middle">400</text><rect class="finding-band" x="896.7" y="32" width="3.0" height="140" fill="#ff5d5d" fill-opacity="0.16"/><line x1="896.7" y1="32" x2="896.7" y2="172" stroke="#ff5d5d" stroke-opacity="0.55" stroke-width="1"/><rect class="finding-band" x="899.4" y="32" width="3.0" height="140" fill="#ff5d5d" fill-opacity="0.16"/><line x1="899.4" y1="32" x2="899.4" y2="172" stroke="#ff5d5d" stroke-opacity="0.55" stroke-width="1"/><rect class="finding-band" x="902.0" y="32" width="3.0" height="140" fill="#ff5d5d" fill-opacity="0.16"/><line x1="902.0" y1="32" x2="902.0" y2="172" stroke="#ff5d5d" stroke-opacity="0.55" stroke-width="1"/><rect class="finding-band" x="817.7" y="32" width="79.0" height="140" fill="#5fb3ff" fill-opacity="0.16"/><line x1="817.7" y1="32" x2="817.7" y2="172" stroke="#5fb3ff" stroke-opacity="0.55" stroke-width="1"/><path d="M54.0 81.2 L56.6 91.4 L59.3 85.7 L61.9 92.5 L64.5 85.4 L67.2 101.0 L69.8 100.6 L72.4 100.2 L75.1 100.6 L77.7 102.2 L80.3 102.3 L83.0 105.4 L85.6 105.0 L88.2 110.9 L90.9 103.6 L93.5 110.2 L96.1 111.3 L98.8 112.1 L101.4 117.0 L104.0 119.9 L106.7 111.0 L109.3 118.7 L111.9 121.7 L114.6 121.3 L117.2 126.9 L119.8 124.7 L122.5 133.1 L125.1 131.5 L127.7 134.0 L130.4 130.1 L133.0 133.1 L135.6 134.5 L138.3 133.2 L140.9 135.8 L143.5 141.4 L146.2 142.0 L148.8 138.2 L151.4 143.4 L154.1 143.5 L156.7 147.2 L159.3 146.9 L162.0 142.3 L164.6 132.8 L167.2 136.7 L169.9 137.9 L172.5 148.4 L175.1 153.3 L177.8 159.6 L180.4 156.7 L183.0 152.5 L185.7 149.1 L188.3 151.5 L190.9 148.7 L193.6 139.8 L196.2 142.9 L198.8 155.7 L201.5 155.1 L204.1 154.0 L206.7 155.3 L209.4 153.1 L212.0 150.9 L214.6 158.1 L217.3 160.3 L219.9 156.3 L222.5 156.2 L225.2 158.8 L227.8 154.1 L230.4 155.9 L233.1 161.6 L235.7 155.5 L238.3 159.7 L241.0 156.9 L243.6 157.3 L246.2 161.2 L248.9 156.3 L251.5 161.3 L254.1 157.7 L256.8 154.7 L259.4 152.5 L262.0 152.9 L264.7 154.6 L267.3 162.1 L270.0 161.2 L272.6 158.4 L275.2 160.4 L277.9 161.1 L280.5 163.2 L283.1 162.8 L285.8 161.1 L288.4 157.0 L291.0 164.6 L293.7 160.8 L296.3 163.1 L298.9 163.0 L301.6 166.0 L304.2 161.4 L306.8 161.0 L309.5 162.3 L312.1 162.1 L314.7 159.9 L317.4 162.0 L320.0 165.6 L322.6 164.1 L325.3 161.4 L327.9 162.1 L330.5 165.4 L333.2 160.6 L335.8 161.0 L338.4 164.2 L341.1 161.6 L343.7 152.2 L346.3 156.6 L349.0 165.1 L351.6 163.9 L354.2 159.2 L356.9 163.5 L359.5 163.0 L362.1 158.7 L364.8 157.3 L367.4 162.6 L370.0 161.8 L372.7 156.6 L375.3 164.6 L377.9 162.6 L380.6 163.3 L383.2 161.0 L385.8 165.7 L388.5 162.7 L391.1 160.6 L393.7 162.3 L396.4 164.8 L399.0 163.6 L401.6 162.4 L404.3 164.9 L406.9 164.8 L409.5 156.7 L412.2 162.3 L414.8 164.7 L417.4 163.1 L420.1 164.7 L422.7 163.6 L425.3 164.7 L428.0 164.8 L430.6 162.8 L433.2 162.0 L435.9 166.6 L438.5 161.0 L441.1 163.5 L443.8 163.2 L446.4 167.7 L449.0 159.5 L451.7 162.5 L454.3 164.9 L456.9 165.9 L459.6 163.5 L462.2 164.4 L464.8 165.0 L467.5 167.2 L470.1 166.8 L472.7 162.2 L475.4 164.6 L478.0 166.9 L480.6 165.7 L483.3 166.4 L485.9 159.0 L488.5 164.7 L491.2 165.1 L493.8 161.3 L496.4 165.6 L499.1 165.5 L501.7 163.7 L504.3 161.9 L507.0 165.2 L509.6 164.2 L512.2 164.1 L514.9 158.0 L517.5 164.2 L520.1 162.0 L522.8 164.4 L525.4 162.0 L528.0 166.2 L530.7 164.5 L533.3 166.2 L535.9 164.5 L538.6 166.8 L541.2 165.4 L543.8 161.9 L546.5 163.2 L549.1 163.3 L551.7 165.4 L554.4 161.7 L557.0 165.3 L559.6 165.6 L562.3 162.8 L564.9 164.5 L567.5 166.2 L570.2 164.6 L572.8 165.8 L575.4 164.5 L578.1 164.1 L580.7 167.8 L583.3 163.5 L586.0 166.4 L588.6 163.8 L591.2 166.0 L593.9 166.4 L596.5 163.8 L599.1 164.2 L601.8 165.6 L604.4 165.6 L607.0 164.8 L609.7 164.9 L612.3 167.4 L614.9 164.1 L617.6 165.2 L620.2 165.9 L622.8 161.9 L625.5 165.9 L628.1 164.7 L630.7 158.5 L633.4 165.7 L636.0 162.9 L638.6 163.4 L641.3 166.8 L643.9 163.1 L646.5 166.3 L649.2 162.2 L651.8 163.6 L654.4 165.3 L657.1 165.1 L659.7 162.0 L662.3 164.9 L665.0 166.4 L667.6 166.4 L670.2 167.0 L672.9 165.8 L675.5 165.3 L678.1 168.0 L680.8 166.8 L683.4 165.6 L686.0 165.0 L688.7 165.7 L691.3 166.8 L694.0 165.6 L696.6 163.1 L699.2 163.2 L701.9 166.7 L704.5 167.9 L707.1 166.8 L709.8 166.5 L712.4 162.9 L715.0 164.2 L717.7 167.7 L720.3 161.6 L722.9 166.3 L725.6 166.1 L728.2 165.3 L730.8 163.2 L733.5 163.3 L736.1 165.6 L738.7 165.0 L741.4 161.5 L744.0 165.5 L746.6 166.2 L749.3 165.3 L751.9 167.0 L754.5 164.4 L757.2 162.7 L759.8 163.5 L762.4 164.9 L765.1 163.3 L767.7 166.0 L770.3 165.4 L773.0 165.5 L775.6 164.8 L778.2 165.9 L780.9 167.6 L783.5 163.1 L786.1 162.5 L788.8 166.5 L791.4 166.1 L794.0 167.1 L796.7 166.1 L799.3 164.8 L801.9 162.3 L804.6 164.1 L807.2 166.0 L809.8 167.0 L812.5 164.9 L815.1 166.3 L817.7 162.8 L820.4 167.1 L823.0 166.4 L825.6 166.2 L828.3 164.7 L830.9 166.7 L833.5 165.6 L836.2 165.5 L838.8 163.8 L841.4 166.4 L844.1 164.7 L846.7 162.5 L849.3 164.6 L852.0 166.9 L854.6 167.2 L857.2 164.2 L859.9 164.5 L862.5 166.5 L865.1 163.7 L867.8 164.5 L870.4 167.0 L873.0 164.9 L875.7 166.9 L878.3 166.2 L880.9 166.8 L883.6 167.6 L886.2 165.8 L888.8 165.0 L891.5 166.3 L894.1 163.3 L896.7 167.0 L899.4 42.4" fill="none" stroke="#4fd1e8" stroke-width="1.75"/><path class="marker-offscale" d="M895.4 42.0 L899.4 35.0 L903.4 42.0 Z" fill="#4fd1e8"/><text class="marker-bad" x="902.0" y="42.0" text-anchor="middle">&#10005;</text><path d="M54.0 88.6 L80.3 106.2 L106.7 120.2 L133.0 135.0 L159.3 148.6 L185.7 147.5 L212.0 155.3 L238.3 158.9 L264.7 160.5 L291.0 162.1 L317.4 162.3 L343.7 158.8 L370.0 164.4 L396.4 164.5 L422.7 164.9 L449.0 165.1 L475.4 165.4 L501.7 165.3 L528.0 165.4 L554.4 165.6 L580.7 165.8 L607.0 166.1 L633.4 165.9 L659.7 166.1 L686.0 165.8 L712.4 166.0 L738.7 166.1 L765.1 166.1 L791.4 166.1 L817.7 166.1 L844.1 166.1 L870.4 166.1 L896.7 42.4" fill="none" stroke="#ffb454" stroke-width="1.75"/><path class="marker-offscale" d="M892.7 42.0 L896.7 35.0 L900.7 42.0 Z" fill="#ffb454"/><text class="off-scale-label" x="902.0" y="52.0" text-anchor="end"><tspan fill="#ffb454">54.88</tspan><tspan fill="var(--text-dim)"> / </tspan><tspan fill="#4fd1e8">55.49</tspan></text><rect class="frame" x="54" y="32" width="848" height="140" fill="none"/></svg></section><section class="chart-block"><h2>lr</h2><svg class="chart" viewBox="0 0 920 180" role="img" aria-label="lr over steps 0 to 322"><line class="grid" x1="54" y1="154.0" x2="902" y2="154.0"/><text class="axis-y" x="46" y="157.0" text-anchor="end">0</text><line class="grid" x1="54" y1="110.8" x2="902" y2="110.8"/><text class="axis-y" x="46" y="113.8" text-anchor="end">0.2</text><line class="grid" x1="54" y1="67.6" x2="902" y2="67.6"/><text class="axis-y" x="46" y="70.6" text-anchor="end">0.4</text><line class="grid" x1="54" y1="24.4" x2="902" y2="24.4"/><text class="axis-y" x="46" y="27.4" text-anchor="end">0.6</text><line class="grid" x1="54" y1="-18.8" x2="902" y2="-18.8"/><text class="axis-y" x="46" y="-15.8" text-anchor="end">0.8</text><line class="grid" x1="54.0" y1="14" x2="54.0" y2="154"/><text class="axis-x" x="54.0" y="170" text-anchor="middle">0</text><line class="grid" x1="317.4" y1="14" x2="317.4" y2="154"/><text class="axis-x" x="317.4" y="170" text-anchor="middle">100</text><line class="grid" x1="580.7" y1="14" x2="580.7" y2="154"/><text class="axis-x" x="580.7" y="170" text-anchor="middle">200</text><line class="grid" x1="844.1" y1="14" x2="844.1" y2="154"/><text class="axis-x" x="844.1" y="170" text-anchor="middle">300</text><line class="grid" x1="1107.4" y1="14" x2="1107.4" y2="154"/><text class="axis-x" x="1107.4" y="170" text-anchor="middle">400</text><rect class="finding-band" x="894.1" y="14" width="3.0" height="140" fill="#5fb3ff" fill-opacity="0.16"/><line x1="894.1" y1="14" x2="894.1" y2="154" stroke="#5fb3ff" stroke-opacity="0.55" stroke-width="1"/><path d="M54.0 149.7 L56.6 145.4 L59.3 141.0 L61.9 136.7 L64.5 132.4 L67.2 128.1 L69.8 123.8 L72.4 119.4 L75.1 115.1 L77.7 110.8 L80.3 106.5 L83.0 102.1 L85.6 97.8 L88.2 93.5 L90.9 89.2 L93.5 84.9 L96.1 80.5 L98.8 76.2 L101.4 71.9 L104.0 67.6 L106.7 67.6 L109.3 67.6 L111.9 67.6 L114.6 67.6 L117.2 67.6 L119.8 67.6 L122.5 67.7 L125.1 67.7 L127.7 67.7 L130.4 67.8 L133.0 67.8 L135.6 67.9 L138.3 67.9 L140.9 68.0 L143.5 68.0 L146.2 68.1 L148.8 68.2 L151.4 68.3 L154.1 68.3 L156.7 68.4 L159.3 68.5 L162.0 68.6 L164.6 68.7 L167.2 68.8 L169.9 68.9 L172.5 69.1 L175.1 69.2 L177.8 69.3 L180.4 69.4 L183.0 69.6 L185.7 69.7 L188.3 69.8 L190.9 70.0 L193.6 70.1 L196.2 70.3 L198.8 70.5 L201.5 70.6 L204.1 70.8 L206.7 71.0 L209.4 71.1 L212.0 71.3 L214.6 71.5 L217.3 71.7 L219.9 71.9 L222.5 72.1 L225.2 72.3 L227.8 72.5 L230.4 72.7 L233.1 72.9 L235.7 73.1 L238.3 73.4 L241.0 73.6 L243.6 73.8 L246.2 74.1 L248.9 74.3 L251.5 74.6 L254.1 74.8 L256.8 75.1 L259.4 75.3 L262.0 75.6 L264.7 75.8 L267.3 76.1 L270.0 76.4 L272.6 76.6 L275.2 76.9 L277.9 77.2 L280.5 77.5 L283.1 77.8 L285.8 78.1 L288.4 78.4 L291.0 78.7 L293.7 79.0 L296.3 79.3 L298.9 79.6 L301.6 79.9 L304.2 80.2 L306.8 80.6 L309.5 80.9 L312.1 81.2 L314.7 81.5 L317.4 81.9 L320.0 82.2 L322.6 82.6 L325.3 82.9 L327.9 83.2 L330.5 83.6 L333.2 84.0 L335.8 84.3 L338.4 84.7 L341.1 85.0 L343.7 85.4 L346.3 85.8 L349.0 86.1 L351.6 86.5 L354.2 86.9 L356.9 87.3 L359.5 87.6 L362.1 88.0 L364.8 88.4 L367.4 88.8 L370.0 89.2 L372.7 89.6 L375.3 90.0 L377.9 90.4 L380.6 90.8 L383.2 91.2 L385.8 91.6 L388.5 92.0 L391.1 92.4 L393.7 92.8 L396.4 93.2 L399.0 93.6 L401.6 94.0 L404.3 94.5 L406.9 94.9 L409.5 95.3 L412.2 95.7 L414.8 96.2 L417.4 96.6 L420.1 97.0 L422.7 97.4 L425.3 97.9 L428.0 98.3 L430.6 98.7 L433.2 99.2 L435.9 99.6 L438.5 100.0 L441.1 100.5 L443.8 100.9 L446.4 101.4 L449.0 101.8 L451.7 102.2 L454.3 102.7 L456.9 103.1 L459.6 103.6 L462.2 104.0 L464.8 104.5 L467.5 104.9 L470.1 105.4 L472.7 105.8 L475.4 106.3 L478.0 106.7 L480.6 107.2 L483.3 107.6 L485.9 108.1 L488.5 108.5 L491.2 109.0 L493.8 109.4 L496.4 109.9 L499.1 110.3 L501.7 110.8 L504.3 111.2 L507.0 111.7 L509.6 112.1 L512.2 112.6 L514.9 113.1 L517.5 113.5 L520.1 114.0 L522.8 114.4 L525.4 114.9 L528.0 115.3 L530.7 115.8 L533.3 116.2 L535.9 116.7 L538.6 117.1 L541.2 117.5 L543.8 118.0 L546.5 118.4 L549.1 118.9 L551.7 119.3 L554.4 119.8 L557.0 120.2 L559.6 120.7 L562.3 121.1 L564.9 121.5 L567.5 122.0 L570.2 122.4 L572.8 122.8 L575.4 123.3 L578.1 123.7 L580.7 124.1 L583.3 124.6 L586.0 125.0 L588.6 125.4 L591.2 125.9 L593.9 126.3 L596.5 126.7 L599.1 127.1 L601.8 127.5 L604.4 128.0 L607.0 128.4 L609.7 128.8 L612.3 129.2 L614.9 129.6 L617.6 130.0 L620.2 130.4 L622.8 130.8 L625.5 131.2 L628.1 131.6 L630.7 132.0 L633.4 132.4 L636.0 132.8 L638.6 133.2 L641.3 133.6 L643.9 133.9 L646.5 134.3 L649.2 134.7 L651.8 135.1 L654.4 135.5 L657.1 135.8 L659.7 136.2 L662.3 136.6 L665.0 136.9 L667.6 137.3 L670.2 137.6 L672.9 138.0 L675.5 138.3 L678.1 138.7 L680.8 139.0 L683.4 139.4 L686.0 139.7 L688.7 140.0 L691.3 140.4 L694.0 140.7 L696.6 141.0 L699.2 141.3 L701.9 141.7 L704.5 142.0 L707.1 142.3 L709.8 142.6 L712.4 142.9 L715.0 143.2 L717.7 143.5 L720.3 143.8 L722.9 144.1 L725.6 144.4 L728.2 144.7 L730.8 144.9 L733.5 145.2 L736.1 145.5 L738.7 145.7 L741.4 146.0 L744.0 146.3 L746.6 146.5 L749.3 146.8 L751.9 147.0 L754.5 147.3 L757.2 147.5 L759.8 147.8 L762.4 148.0 L765.1 148.2 L767.7 148.4 L770.3 148.7 L773.0 148.9 L775.6 149.1 L778.2 149.3 L780.9 149.5 L783.5 149.7 L786.1 149.9 L788.8 150.1 L791.4 150.3 L794.0 150.4 L796.7 150.6 L799.3 150.8 L801.9 151.0 L804.6 151.1 L807.2 151.3 L809.8 151.4 L812.5 151.6 L815.1 151.7 L817.7 151.9 L820.4 152.0 L823.0 152.2 L825.6 152.3 L828.3 152.4 L830.9 152.5 L833.5 152.6 L836.2 152.8 L838.8 152.9 L841.4 153.0 L844.1 153.1 L846.7 153.1 L849.3 153.2 L852.0 153.3 L854.6 153.4 L857.2 153.5 L859.9 153.5 L862.5 153.6 L865.1 153.7 L867.8 153.7 L870.4 153.8 L873.0 153.8 L875.7 153.8 L878.3 153.9 L880.9 153.9 L883.6 153.9 L886.2 154.0 L888.8 154.0 L891.5 154.0 L894.1 154.0 L896.7 24.4 L899.4 24.4 L902.0 24.4" fill="none" stroke="#b39dff" stroke-width="1.75"/><path class="marker-offscale" d="M892.7 24.0 L896.7 17.0 L900.7 24.0 Z" fill="#b39dff"/><path class="marker-offscale" d="M895.4 24.0 L899.4 17.0 L903.4 24.0 Z" fill="#b39dff"/><path class="marker-offscale" d="M898.0 24.0 L902.0 17.0 L906.0 24.0 Z" fill="#b39dff"/><text class="off-scale-label" x="902.0" y="34.0" text-anchor="end"><tspan fill="#b39dff">30</tspan></text><rect class="frame" x="54" y="14" width="848" height="140" fill="none"/></svg></section><section class="chart-block"><h2>grad_norm</h2><svg class="chart" viewBox="0 0 920 180" role="img" aria-label="grad_norm over steps 0 to 322"><line class="grid" x1="54" y1="154.0" x2="902" y2="154.0"/><text class="axis-y" x="46" y="157.0" text-anchor="end">0</text><line class="grid" x1="54" y1="110.1" x2="902" y2="110.1"/><text class="axis-y" x="46" y="113.1" text-anchor="end">1</text><line class="grid" x1="54" y1="66.1" x2="902" y2="66.1"/><text class="axis-y" x="46" y="69.1" text-anchor="end">2</text><line class="grid" x1="54" y1="22.2" x2="902" y2="22.2"/><text class="axis-y" x="46" y="25.2" text-anchor="end">3</text><line class="grid" x1="54" y1="-21.7" x2="902" y2="-21.7"/><text class="axis-y" x="46" y="-18.7" text-anchor="end">4</text><line class="grid" x1="54.0" y1="14" x2="54.0" y2="154"/><text class="axis-x" x="54.0" y="170" text-anchor="middle">0</text><line class="grid" x1="317.4" y1="14" x2="317.4" y2="154"/><text class="axis-x" x="317.4" y="170" text-anchor="middle">100</text><line class="grid" x1="580.7" y1="14" x2="580.7" y2="154"/><text class="axis-x" x="580.7" y="170" text-anchor="middle">200</text><line class="grid" x1="844.1" y1="14" x2="844.1" y2="154"/><text class="axis-x" x="844.1" y="170" text-anchor="middle">300</text><line class="grid" x1="1107.4" y1="14" x2="1107.4" y2="154"/><text class="axis-x" x="1107.4" y="170" text-anchor="middle">400</text><rect class="finding-band" x="899.4" y="14" width="3.0" height="140" fill="#f2b84b" fill-opacity="0.16"/><line x1="899.4" y1="14" x2="899.4" y2="154" stroke="#f2b84b" stroke-opacity="0.55" stroke-width="1"/><path d="M54.0 72.3 L56.6 93.0 L59.3 84.7 L61.9 87.2 L64.5 83.1 L67.2 112.5 L69.8 116.1 L72.4 120.7 L75.1 123.2 L77.7 119.9 L80.3 120.1 L83.0 127.2 L85.6 118.8 L88.2 126.0 L90.9 113.0 L93.5 127.0 L96.1 125.3 L98.8 124.1 L101.4 117.5 L104.0 114.3 L106.7 111.9 L109.3 117.7 L111.9 118.1 L114.6 107.5 L117.2 107.8 L119.8 109.3 L122.5 116.8 L125.1 113.9 L127.7 110.1 L130.4 113.9 L133.0 109.9 L135.6 102.1 L138.3 103.0 L140.9 111.3 L143.5 108.8 L146.2 103.8 L148.8 112.2 L151.4 124.9 L154.1 118.1 L156.7 106.4 L159.3 107.8 L162.0 95.0 L164.6 63.1 L167.2 66.5 L169.9 82.9 L172.5 112.6 L175.1 121.8 L177.8 135.9 L180.4 123.2 L183.0 108.1 L185.7 100.4 L188.3 107.5 L190.9 89.6 L193.6 53.8 L196.2 85.6 L198.8 130.9 L201.5 121.6 L204.1 119.5 L206.7 124.6 L209.4 104.1 L212.0 90.6 L214.6 115.6 L217.3 128.7 L219.9 114.7 L222.5 118.1 L225.2 125.8 L227.8 104.4 L230.4 104.5 L233.1 127.4 L235.7 107.0 L238.3 130.0 L241.0 113.7 L243.6 111.5 L246.2 125.1 L248.9 110.7 L251.5 120.9 L254.1 119.2 L256.8 99.1 L259.4 71.9 L262.0 84.3 L264.7 99.1 L267.3 128.8 L270.0 124.4 L272.6 126.0 L275.2 124.0 L277.9 132.2 L280.5 132.4 L283.1 133.7 L285.8 123.2 L288.4 107.8 L291.0 137.5 L293.7 117.1 L296.3 124.9 L298.9 127.8 L301.6 143.8 L304.2 123.3 L306.8 122.0 L309.5 129.3 L312.1 131.4 L314.7 124.8 L317.4 125.2 L320.0 138.6 L322.6 136.7 L325.3 123.9 L327.9 123.9 L330.5 133.9 L333.2 125.0 L335.8 128.1 L338.4 116.0 L341.1 116.9 L343.7 71.6 L346.3 89.0 L349.0 138.7 L351.6 134.5 L354.2 115.5 L356.9 124.2 L359.5 126.6 L362.1 120.8 L364.8 104.6 L367.4 122.7 L370.0 133.1 L372.7 120.4 L375.3 135.0 L377.9 121.3 L380.6 122.3 L383.2 132.4 L385.8 139.8 L388.5 119.3 L391.1 112.6 L393.7 132.1 L396.4 132.8 L399.0 115.8 L401.6 116.9 L404.3 126.2 L406.9 138.5 L409.5 104.7 L412.2 129.8 L414.8 129.1 L417.4 133.4 L420.1 126.5 L422.7 130.6 L425.3 129.2 L428.0 133.2 L430.6 125.6 L433.2 118.2 L435.9 135.8 L438.5 114.0 L441.1 130.6 L443.8 127.8 L446.4 146.2 L449.0 118.9 L451.7 134.3 L454.3 131.7 L456.9 133.7 L459.6 121.5 L462.2 132.3 L464.8 130.0 L467.5 142.5 L470.1 142.8 L472.7 131.9 L475.4 133.0 L478.0 138.0 L480.6 140.9 L483.3 134.6 L485.9 121.7 L488.5 132.0 L491.2 138.1 L493.8 128.7 L496.4 132.4 L499.1 134.3 L501.7 127.3 L504.3 124.6 L507.0 127.9 L509.6 130.6 L512.2 123.7 L514.9 119.8 L517.5 131.4 L520.1 129.5 L522.8 137.4 L525.4 128.5 L528.0 133.3 L530.7 133.5 L533.3 142.5 L535.9 128.4 L538.6 144.3 L541.2 121.0 L543.8 127.1 L546.5 126.3 L549.1 122.4 L551.7 133.5 L554.4 124.0 L557.0 132.0 L559.6 135.7 L562.3 125.2 L564.9 125.1 L567.5 142.4 L570.2 132.5 L572.8 136.5 L575.4 136.0 L578.1 136.9 L580.7 144.8 L583.3 131.7 L586.0 138.9 L588.6 126.1 L591.2 136.0 L593.9 139.9 L596.5 131.4 L599.1 126.7 L601.8 132.4 L604.4 135.8 L607.0 120.5 L609.7 136.9 L612.3 138.7 L614.9 132.0 L617.6 135.9 L620.2 129.8 L622.8 122.7 L625.5 131.4 L628.1 136.5 L630.7 124.7 L633.4 141.9 L636.0 124.4 L638.6 132.6 L641.3 140.1 L643.9 129.8 L646.5 140.1 L649.2 122.6 L651.8 133.1 L654.4 136.0 L657.1 136.7 L659.7 129.9 L662.3 132.3 L665.0 140.0 L667.6 143.9 L670.2 144.0 L672.9 126.2 L675.5 131.7 L678.1 147.7 L680.8 141.7 L683.4 131.0 L686.0 130.5 L688.7 138.8 L691.3 142.0 L694.0 137.2 L696.6 125.2 L699.2 124.0 L701.9 135.1 L704.5 146.7 L707.1 140.9 L709.8 142.0 L712.4 132.6 L715.0 134.0 L717.7 145.6 L720.3 121.8 L722.9 135.7 L725.6 130.1 L728.2 136.5 L730.8 130.0 L733.5 129.2 L736.1 128.6 L738.7 130.8 L741.4 126.2 L744.0 140.6 L746.6 135.7 L749.3 141.3 L751.9 145.4 L754.5 137.8 L757.2 130.2 L759.8 129.5 L762.4 136.7 L765.1 125.9 L767.7 135.3 L770.3 135.1 L773.0 132.5 L775.6 132.4 L778.2 137.7 L780.9 146.3 L783.5 126.6 L786.1 118.1 L788.8 136.1 L791.4 137.4 L794.0 143.2 L796.7 140.4 L799.3 132.7 L801.9 127.3 L804.6 131.5 L807.2 140.3 L809.8 136.2 L812.5 132.2 L815.1 137.5 L817.7 119.5 L820.4 139.4 L823.0 142.7 L825.6 136.5 L828.3 130.3 L830.9 141.2 L833.5 140.0 L836.2 133.9 L838.8 125.8 L841.4 135.7 L844.1 132.0 L846.7 136.3 L849.3 139.3 L852.0 138.8 L854.6 143.5 L857.2 130.1 L859.9 136.1 L862.5 134.5 L865.1 132.6 L867.8 132.4 L870.4 139.1 L873.0 137.8 L875.7 145.3 L878.3 134.7 L880.9 140.6 L883.6 139.9 L886.2 131.8 L888.8 130.3 L891.5 139.1 L894.1 121.6 L896.7 141.7 L899.4 24.4" fill="none" stroke="#7be08a" stroke-width="1.75"/><path class="marker-offscale" d="M895.4 24.0 L899.4 17.0 L903.4 24.0 Z" fill="#7be08a"/><text class="marker-bad" x="902.0" y="24.0" text-anchor="middle">&#10005;</text><text class="off-scale-label" x="902.0" y="34.0" text-anchor="end"><tspan fill="#7be08a">23.02</tspan></text><rect class="frame" x="54" y="14" width="848" height="140" fill="none"/></svg></section><section class="chart-block"><h2>eval/accuracy</h2><svg class="chart" viewBox="0 0 920 180" role="img" aria-label="eval/accuracy over steps 0 to 320"><line class="grid" x1="54" y1="154.0" x2="902" y2="154.0"/><text class="axis-y" x="46" y="157.0" text-anchor="end">0</text><line class="grid" x1="54" y1="86.4" x2="902" y2="86.4"/><text class="axis-y" x="46" y="89.4" text-anchor="end">0.5</text><line class="grid" x1="54" y1="18.7" x2="902" y2="18.7"/><text class="axis-y" x="46" y="21.7" text-anchor="end">1</text><line class="grid" x1="54" y1="-48.9" x2="902" y2="-48.9"/><text class="axis-y" x="46" y="-45.9" text-anchor="end">1.5</text><line class="grid" x1="54.0" y1="14" x2="54.0" y2="154"/><text class="axis-x" x="54.0" y="170" text-anchor="middle">0</text><line class="grid" x1="319.0" y1="14" x2="319.0" y2="154"/><text class="axis-x" x="319.0" y="170" text-anchor="middle">100</text><line class="grid" x1="584.0" y1="14" x2="584.0" y2="154"/><text class="axis-x" x="584.0" y="170" text-anchor="middle">200</text><line class="grid" x1="849.0" y1="14" x2="849.0" y2="154"/><text class="axis-x" x="849.0" y="170" text-anchor="middle">300</text><line class="grid" x1="1114.0" y1="14" x2="1114.0" y2="154"/><text class="axis-x" x="1114.0" y="170" text-anchor="middle">400</text><path d="M54.0 134.8 L80.5 117.6 L107.0 73.6 L133.5 58.9 L160.0 38.3 L186.5 51.8 L213.0 38.6 L239.5 33.4 L266.0 30.8 L292.5 28.5 L319.0 29.3 L345.5 40.2 L372.0 25.5 L398.5 24.7 L425.0 25.9 L451.5 25.5 L478.0 25.5 L504.5 25.5 L531.0 26.2 L557.5 25.5 L584.0 24.7 L610.5 25.1 L637.0 24.4 L663.5 24.7 L690.0 25.5 L716.5 24.4 L743.0 24.7 L769.5 24.7 L796.0 24.7 L822.5 24.7 L849.0 24.7 L875.5 24.7 L902.0 140.8" fill="none" stroke="#9aa7b0" stroke-width="1.75"/><rect class="frame" x="54" y="14" width="848" height="140" fill="none"/></svg></section><section class="chart-block"><h2>step_time</h2><svg class="chart" viewBox="0 0 920 180" role="img" aria-label="step_time over steps 0 to 322"><line class="grid" x1="54" y1="154.0" x2="902" y2="154.0"/><text class="axis-y" x="46" y="157.0" text-anchor="end">0</text><line class="grid" x1="54" y1="113.8" x2="902" y2="113.8"/><text class="axis-y" x="46" y="116.8" text-anchor="end">5e-05</text><line class="grid" x1="54" y1="73.6" x2="902" y2="73.6"/><text class="axis-y" x="46" y="76.6" text-anchor="end">0.0001</text><line class="grid" x1="54" y1="33.4" x2="902" y2="33.4"/><text class="axis-y" x="46" y="36.4" text-anchor="end">0.00015</text><line class="grid" x1="54" y1="-6.8" x2="902" y2="-6.8"/><text class="axis-y" x="46" y="-3.8" text-anchor="end">0.0002</text><line class="grid" x1="54.0" y1="14" x2="54.0" y2="154"/><text class="axis-x" x="54.0" y="170" text-anchor="middle">0</text><line class="grid" x1="317.4" y1="14" x2="317.4" y2="154"/><text class="axis-x" x="317.4" y="170" text-anchor="middle">100</text><line class="grid" x1="580.7" y1="14" x2="580.7" y2="154"/><text class="axis-x" x="580.7" y="170" text-anchor="middle">200</text><line class="grid" x1="844.1" y1="14" x2="844.1" y2="154"/><text class="axis-x" x="844.1" y="170" text-anchor="middle">300</text><line class="grid" x1="1107.4" y1="14" x2="1107.4" y2="154"/><text class="axis-x" x="1107.4" y="170" text-anchor="middle">400</text><path d="M54.0 95.5 L56.6 104.9 L59.3 108.3 L61.9 110.3 L64.5 110.3 L67.2 110.9 L69.8 110.4 L72.4 110.7 L75.1 110.7 L77.7 110.8 L80.3 111.6 L83.0 109.5 L85.6 110.2 L88.2 56.7 L90.9 81.1 L93.5 87.1 L96.1 103.4 L98.8 107.3 L101.4 109.5 L104.0 109.2 L106.7 107.6 L109.3 106.5 L111.9 108.7 L114.6 110.0 L117.2 109.2 L119.8 103.3 L122.5 98.1 L125.1 106.1 L127.7 109.3 L130.4 110.3 L133.0 110.4 L135.6 108.0 L138.3 109.6 L140.9 110.4 L143.5 110.9 L146.2 110.3 L148.8 110.6 L151.4 110.8 L154.1 110.8 L156.7 111.1 L159.3 74.1 L162.0 100.0 L164.6 106.2 L167.2 106.3 L169.9 94.1 L172.5 109.0 L175.1 109.7 L177.8 110.0 L180.4 90.2 L183.0 54.3 L185.7 46.4 L188.3 92.7 L190.9 100.7 L193.6 107.0 L196.2 108.6 L198.8 109.2 L201.5 102.3 L204.1 108.6 L206.7 108.7 L209.4 108.6 L212.0 109.5 L214.6 91.0 L217.3 103.3 L219.9 101.7 L222.5 108.4 L225.2 110.0 L227.8 109.9 L230.4 110.0 L233.1 110.8 L235.7 102.4 L238.3 108.8 L241.0 106.8 L243.6 109.0 L246.2 108.6 L248.9 105.4 L251.5 103.5 L254.1 109.5 L256.8 109.7 L259.4 110.0 L262.0 110.9 L264.7 110.2 L267.3 99.3 L270.0 108.6 L272.6 110.3 L275.2 71.4 L277.9 98.3 L280.5 105.3 L283.1 107.4 L285.8 92.2 L288.4 68.4 L291.0 101.2 L293.7 103.5 L296.3 107.6 L298.9 109.5 L301.6 110.3 L304.2 110.8 L306.8 110.4 L309.5 109.8 L312.1 105.3 L314.7 100.0 L317.4 108.6 L320.0 88.6 L322.6 102.6 L325.3 104.5 L327.9 109.8 L330.5 110.4 L333.2 88.0 L335.8 87.9 L338.4 104.8 L341.1 104.3 L343.7 109.6 L346.3 106.2 L349.0 109.3 L351.6 109.7 L354.2 110.3 L356.9 110.4 L359.5 111.1 L362.1 111.0 L364.8 111.0 L367.4 103.0 L370.0 109.5 L372.7 107.9 L375.3 109.3 L377.9 105.7 L380.6 100.2 L383.2 98.7 L385.8 60.3 L388.5 62.8 L391.1 64.1 L393.7 46.3 L396.4 68.5 L399.0 99.5 L401.6 92.3 L404.3 107.5 L406.9 109.2 L409.5 110.1 L412.2 110.6 L414.8 110.1 L417.4 110.7 L420.1 103.6 L422.7 110.5 L425.3 103.3 L428.0 108.9 L430.6 109.2 L433.2 109.9 L435.9 77.7 L438.5 101.1 L441.1 90.6 L443.8 90.5 L446.4 84.8 L449.0 82.8 L451.7 101.6 L454.3 106.8 L456.9 109.0 L459.6 106.7 L462.2 110.3 L464.8 110.7 L467.5 110.2 L470.1 110.2 L472.7 110.2 L475.4 108.4 L478.0 107.5 L480.6 109.5 L483.3 110.4 L485.9 104.9 L488.5 96.9 L491.2 109.5 L493.8 104.7 L496.4 108.9 L499.1 110.2 L501.7 110.6 L504.3 108.9 L507.0 106.8 L509.6 73.9 L512.2 96.4 L514.9 104.9 L517.5 93.0 L520.1 107.4 L522.8 108.1 L525.4 109.3 L528.0 108.4 L530.7 106.8 L533.3 109.8 L535.9 109.9 L538.6 110.1 L541.2 100.4 L543.8 108.1 L546.5 83.3 L549.1 83.1 L551.7 103.7 L554.4 108.0 L557.0 105.2 L559.6 108.4 L562.3 109.9 L564.9 110.6 L567.5 110.8 L570.2 91.1 L572.8 79.4 L575.4 103.1 L578.1 106.6 L580.7 109.1 L583.3 97.8 L586.0 107.1 L588.6 109.9 L591.2 110.4 L593.9 41.5 L596.5 93.9 L599.1 101.8 L601.8 108.0 L604.4 109.2 L607.0 109.5 L609.7 105.9 L612.3 100.2 L614.9 105.7 L617.6 108.7 L620.2 108.9 L622.8 109.3 L625.5 110.3 L628.1 110.5 L630.7 95.2 L633.4 67.9 L636.0 97.3 L638.6 106.0 L641.3 109.0 L643.9 96.1 L646.5 101.5 L649.2 108.6 L651.8 109.4 L654.4 109.1 L657.1 109.7 L659.7 109.0 L662.3 105.0 L665.0 108.9 L667.6 110.1 L670.2 109.9 L672.9 109.8 L675.5 110.5 L678.1 110.4 L680.8 109.4 L683.4 110.2 L686.0 110.7 L688.7 109.1 L691.3 110.7 L694.0 71.5 L696.6 98.6 L699.2 93.9 L701.9 24.4 L704.5 89.7 L707.1 103.5 L709.8 106.3 L712.4 107.9 L715.0 104.9 L717.7 95.2 L720.3 104.9 L722.9 109.5 L725.6 109.8 L728.2 111.2 L730.8 110.2 L733.5 109.7 L736.1 110.4 L738.7 110.2 L741.4 108.1 L744.0 109.3 L746.6 101.5 L749.3 88.8 L751.9 108.7 L754.5 110.2 L757.2 71.9 L759.8 93.9 L762.4 104.6 L765.1 108.1 L767.7 92.3 L770.3 102.9 L773.0 105.9 L775.6 107.5 L778.2 108.6 L780.9 109.4 L783.5 108.6 L786.1 109.9 L788.8 109.8 L791.4 108.9 L794.0 106.8 L796.7 106.2 L799.3 86.4 L801.9 94.2 L804.6 104.8 L807.2 108.1 L809.8 109.1 L812.5 103.9 L815.1 108.6 L817.7 77.1 L820.4 100.3 L823.0 106.0 L825.6 107.5 L828.3 109.1 L830.9 109.6 L833.5 109.8 L836.2 107.5 L838.8 110.4 L841.4 110.4 L844.1 110.3 L846.7 108.5 L849.3 110.0 L852.0 109.7 L854.6 94.6 L857.2 67.4 L859.9 45.4 L862.5 61.3 L865.1 48.4 L867.8 68.6 L870.4 40.7 L873.0 76.1 L875.7 82.0 L878.3 86.3 L880.9 87.5 L883.6 86.4 L886.2 78.1 L888.8 62.3 L891.5 82.6 L894.1 89.2 L896.7 91.1 L899.4 89.8 L902.0 95.7" fill="none" stroke="#6fd6c4" stroke-width="1.75"/><rect class="frame" x="54" y="14" width="848" height="140" fill="none"/></svg></section>
+  </main>
+
+  <section class="findings-log">
+    <h2 class="log-title">Findings log</h2>
+    <article class="finding sev-error">
+  <div class="finding-head">
+    <span class="chip sev-error">ERR</span>
+    <span class="steps">steps 320</span>
+    <span class="detector">spikes</span>
+    <h3>Loss spike</h3>
+  </div>
+  <p class="message">eval/loss jumped to 54.88 at step 320, 4273.9x the local median-absolute-deviation scale.</p>
+  <p class="evidence"><span class='k'>peak_step</span>=320 &nbsp; <span class='k'>peak_value</span>=54.88 &nbsp; <span class='k'>robust_z</span>=4.27e+03 &nbsp; <span class='k'>window</span>=21 &nbsp; <span class='k'>threshold</span>=6</p>
+  <ul class="fixes"><li>Lower the learning rate or add/extend LR warmup.</li><li>Clip gradients (or lower the existing max-norm).</li><li>Check the batch at this step for a data or tokenization bug (e.g. an unmasked pad token, a corrupted shard).</li><li>If it self-recovers within a few steps and doesn't recur, it may be benign -- confirm against the divergence detector's verdict.</li></ul>
+</article>
+<article class="finding sev-error">
+  <div class="finding-head">
+    <span class="chip sev-error">ERR</span>
+    <span class="steps">steps 321&ndash;322</span>
+    <span class="detector">spikes</span>
+    <h3>Loss spike</h3>
+  </div>
+  <p class="message">train/loss jumped to inf at step 322, far beyond the local median-absolute-deviation scale (it's non-finite).</p>
+  <p class="evidence"><span class='k'>peak_step</span>=322 &nbsp; <span class='k'>peak_value</span>=inf &nbsp; <span class='k'>robust_z</span>=inf &nbsp; <span class='k'>window</span>=21 &nbsp; <span class='k'>threshold</span>=6</p>
+  <ul class="fixes"><li>Lower the learning rate or add/extend LR warmup.</li><li>Clip gradients (or lower the existing max-norm).</li><li>Check the batch at this step for a data or tokenization bug (e.g. an unmasked pad token, a corrupted shard).</li><li>If it self-recovers within a few steps and doesn't recur, it may be benign -- confirm against the divergence detector's verdict.</li></ul>
+</article>
+<article class="finding sev-error">
+  <div class="finding-head">
+    <span class="chip sev-error">ERR</span>
+    <span class="steps">steps 322</span>
+    <span class="detector">divergence</span>
+    <h3>Diverged (non-finite values)</h3>
+  </div>
+  <p class="message">train/loss became Inf at step 322 (1 non-finite point(s) in this run).</p>
+  <p class="evidence"><span class='k'>first_bad_step</span>=322 &nbsp; <span class='k'>count</span>=1</p>
+  <ul class="fixes"><li>Lower the learning rate; this is the single most common cause.</li><li>Enable gradient clipping if it isn't already on.</li><li>Check for a divide-by-zero or log(0) in the loss (e.g. an unstable custom loss term, an empty batch after filtering).</li><li>If using mixed precision, check the loss-scaler didn't overflow, or try bf16 instead of fp16.</li></ul>
+</article>
+<article class="finding sev-warning">
+  <div class="finding-head">
+    <span class="chip sev-warning">WARN</span>
+    <span class="steps">steps 321</span>
+    <span class="detector">grad_norm</span>
+    <h3>Gradient-norm explosion</h3>
+  </div>
+  <p class="message">grad_norm hit 23.02 at step 321, 183.4x the local MAD scale above its rolling median.</p>
+  <p class="evidence"><span class='k'>peak_step</span>=321 &nbsp; <span class='k'>peak_value</span>=23.02 &nbsp; <span class='k'>robust_z</span>=183.4</p>
+  <ul class="fixes"><li>Enable or lower gradient clipping (e.g. max-norm 1.0).</li><li>Lower the learning rate.</li><li>Check the batch at this step for an outlier example (e.g. a corrupted/extreme-length sample).</li></ul>
+</article>
+<article class="finding sev-info">
+  <div class="finding-head">
+    <span class="chip sev-info">INFO</span>
+    <span class="steps">steps 290&ndash;320</span>
+    <span class="detector">overfitting</span>
+    <h3>Overfitting onset</h3>
+  </div>
+  <p class="message">Best eval/loss was 0.183 at step 290; it's since risen to 54.88 (29891.0%, slope p=0.0833). (Downgraded: overlaps a spikes finding at steps 320-320 -- this eval rise looks explained by that divergence, not by ordinary overfitting.)</p>
+  <p class="evidence"><span class='k'>best_step</span>=290 &nbsp; <span class='k'>best_value</span>=0.183 &nbsp; <span class='k'>current_value</span>=54.88 &nbsp; <span class='k'>relative_rise</span>=298.9 &nbsp; <span class='k'>slope_p_value</span>=0.08326</p>
+  <ul class="fixes"><li>Use the checkpoint at step 290 (best eval/loss), not the last one.</li><li>Add or increase regularization: weight decay, dropout, data augmentation.</li><li>Reduce model capacity or train for fewer steps / add early stopping.</li><li>Get more training data, or de-duplicate against the eval set if overlap is possible.</li></ul>
+</article>
+<article class="finding sev-info">
+  <div class="finding-head">
+    <span class="chip sev-info">INFO</span>
+    <span class="steps">steps 319&ndash;320</span>
+    <span class="detector">lr_schedule</span>
+    <h3>LR discontinuity</h3>
+  </div>
+  <p class="message">lr jumped from 1.097e-05 to 30 between step 319 and 320 -- 100% of the run's whole LR range (30) in a single step.</p>
+  <p class="evidence"><span class='k'>before</span>=1.1e-05 &nbsp; <span class='k'>after</span>=30 &nbsp; <span class='k'>jump_fraction_of_range</span>=1</p>
+  <ul class="fixes"><li>Check for a checkpoint resume where the scheduler's step counter didn't match the optimizer's.</li><li>Check for a manual LR override mid-run.</li></ul>
+</article>
+  </section>
+
+  <footer class="masthead-foot">
+    <span>trainspotter &mdash; heuristic diagnostics, not ground truth. Read each finding's false-positive modes before acting on it.</span>
+  </footer>
+</div>
+</body>
+</html>

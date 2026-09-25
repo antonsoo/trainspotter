@@ -1,0 +1,158 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>trainspotter - Real transformers.Trainer run</title>
+<style>
+
+:root {
+  --bg: #0a0d10;
+  --panel: #10151a;
+  --panel-2: #0d1216;
+  --line: #1f2830;
+  --line-strong: #2c3944;
+  --text: #d9e2e8;
+  --text-muted: #8b97a1;
+  --text-dim: #57626b;
+  --err: #ff5d5d;
+  --warn: #f2b84b;
+  --info: #5fb3ff;
+  --mono: ui-monospace, "SFMono-Regular", "Cascadia Mono", Consolas, "Liberation Mono", monospace;
+  --sans: -apple-system, "Segoe UI", "Helvetica Neue", Arial, sans-serif;
+}
+* { box-sizing: border-box; }
+html, body { margin: 0; padding: 0; background: var(--bg); color: var(--text); }
+body {
+  font-family: var(--sans);
+  font-size: 14px;
+  line-height: 1.5;
+  padding: 0 0 48px;
+}
+.bezel { max-width: 980px; margin: 0 auto; padding: 28px 20px 0; }
+
+.masthead {
+  display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between;
+  gap: 12px 24px; padding-bottom: 16px; border-bottom: 1px solid var(--line-strong);
+}
+.brand { display: flex; align-items: baseline; gap: 10px; }
+.brand-mark { color: var(--info); font-size: 11px; }
+.brand-name { font-family: var(--mono); font-weight: 700; font-size: 17px; letter-spacing: 0.12em; }
+.brand-sub { font-family: var(--mono); color: var(--text-dim); font-size: 12px; letter-spacing: 0.06em; text-transform: uppercase; }
+.readouts { display: flex; flex-wrap: wrap; gap: 18px 28px; margin: 0; font-family: var(--mono); font-size: 12px; }
+.readouts > div { display: flex; flex-direction: column; gap: 2px; max-width: 260px; }
+.readouts dt { color: var(--text-dim); text-transform: uppercase; letter-spacing: 0.08em; font-size: 10px; }
+.readouts dd { margin: 0; color: var(--text-muted); overflow-wrap: anywhere; }
+
+.summary { padding: 18px 0 8px; }
+.summary { display: grid; grid-template-columns: repeat(3, auto) 1fr; align-items: center; gap: 20px; }
+.count { display: flex; align-items: baseline; gap: 8px; font-family: var(--mono); }
+.count .n { font-size: 22px; font-weight: 700; }
+.count .l { font-size: 11px; text-transform: uppercase; letter-spacing: 0.08em; color: var(--text-dim); }
+.count.sev-error .n { color: var(--err); }
+.count.sev-warning .n { color: var(--warn); }
+.count.sev-info .n { color: var(--info); }
+.strip-wrap { min-width: 220px; }
+.strip { width: 100%; height: 34px; display: block; }
+.strip-bg { fill: var(--panel-2); }
+.strip-base { stroke: var(--line-strong); stroke-width: 1; }
+
+.charts { display: flex; flex-direction: column; gap: 6px; margin-top: 10px; }
+.chart-block { background: var(--panel); border: 1px solid var(--line); border-radius: 2px; padding: 10px 14px 4px; }
+.chart-block h2 {
+  font-family: var(--mono); font-size: 12px; font-weight: 600; letter-spacing: 0.08em;
+  text-transform: uppercase; color: var(--text-muted); margin: 0 0 4px;
+}
+.chart { width: 100%; height: auto; display: block; }
+.grid { stroke: var(--line); stroke-width: 1; }
+.frame { stroke: var(--line-strong); stroke-width: 1; }
+.axis-y, .axis-x { font-family: var(--mono); font-size: 9px; fill: var(--text-dim); }
+.legend { font-family: var(--mono); font-size: 10px; fill: var(--text-muted); }
+.marker-bad { font-family: var(--mono); font-size: 13px; fill: var(--err); font-weight: 700; }
+.off-scale-label { font-family: var(--mono); font-size: 9px; font-weight: 600; }
+
+.findings-log { margin-top: 28px; }
+.log-title {
+  font-family: var(--mono); font-size: 12px; letter-spacing: 0.1em; text-transform: uppercase;
+  color: var(--text-muted); border-bottom: 1px solid var(--line-strong); padding-bottom: 8px;
+}
+.clean { color: var(--text-muted); font-family: var(--mono); font-size: 13px; }
+.finding { border-bottom: 1px solid var(--line); padding: 14px 0; }
+.finding:last-child { border-bottom: none; }
+.finding-head { display: flex; flex-wrap: wrap; align-items: baseline; gap: 10px; }
+.finding-head h3 { font-size: 14.5px; margin: 0; color: var(--text); font-weight: 600; }
+.chip {
+  font-family: var(--mono); font-size: 10px; font-weight: 700; letter-spacing: 0.06em;
+  padding: 2px 6px; border-radius: 2px; border: 1px solid currentColor;
+}
+.chip.sev-error { color: var(--err); }
+.chip.sev-warning { color: var(--warn); }
+.chip.sev-info { color: var(--info); }
+.steps, .detector { font-family: var(--mono); font-size: 11px; color: var(--text-dim); }
+.detector::before { content: "\00b7 "; }
+.message { margin: 6px 0 4px; color: var(--text); }
+.evidence { font-family: var(--mono); font-size: 11.5px; color: var(--text-muted); margin: 0 0 6px; }
+.evidence .k { color: var(--text-dim); }
+.fixes { margin: 0; padding-left: 18px; color: var(--text-muted); font-size: 13px; }
+.fixes li { margin: 2px 0; }
+
+.masthead-foot {
+  margin-top: 32px; padding-top: 14px; border-top: 1px solid var(--line);
+  color: var(--text-dim); font-family: var(--mono); font-size: 11px;
+}
+
+@media (max-width: 600px) {
+  .summary { grid-template-columns: repeat(3, auto); }
+  .strip-wrap { grid-column: 1 / -1; order: 10; }
+}
+
+</style>
+</head>
+<body>
+<div class="bezel">
+  <header class="masthead">
+    <div class="brand">
+      <span class="brand-mark" aria-hidden="true">&#9679;</span>
+      <span class="brand-name">TRAINSPOTTER</span>
+      <span class="brand-sub">run diagnostic</span>
+    </div>
+    <dl class="readouts">
+      <div><dt>source</dt><dd>examples/<wbr>transformers_tinygpt2.trainer_state.json</dd></div>
+      <div><dt>format</dt><dd>hf</dd></div>
+      <div><dt>steps</dt><dd>0&ndash;726</dd></div>
+      <div><dt>generated</dt><dd>2026-09-25 09:13 UTC</dd></div>
+    </dl>
+  </header>
+
+  <section class="summary">
+    <div class="count sev-error"><span class="n">0</span><span class="l">error</span></div>
+    <div class="count sev-warning"><span class="n">0</span><span class="l">warning</span></div>
+    <div class="count sev-info"><span class="n">1</span><span class="l">info</span></div>
+    <div class="strip-wrap"><svg class="strip" viewBox="0 0 920 34" role="img" aria-label="Finding timeline for the whole run"><rect x="0" y="0" width="920" height="34" class="strip-bg"/><line x1="0" y1="33" x2="920" y2="33" class="strip-base"/><rect x="54.0" y="2" width="5.9" height="28" fill="#5fb3ff" fill-opacity="0.85"/></svg></div>
+  </section>
+
+  <main class="charts">
+    <section class="chart-block"><h2>train/loss / eval/loss</h2><svg class="chart" viewBox="0 0 920 198" role="img" aria-label="train/loss vs eval/loss over steps 5 to 726"><rect x="54.0" y="0" width="10" height="10" fill="#4fd1e8"/><text class="legend" x="68.0" y="9" text-anchor="start">train/loss</text><rect x="160.0" y="0" width="10" height="10" fill="#ffb454"/><text class="legend" x="174.0" y="9" text-anchor="start">eval/loss</text><line class="grid" x1="54" y1="172.0" x2="902" y2="172.0"/><text class="axis-y" x="46" y="175.0" text-anchor="end">0</text><line class="grid" x1="54" y1="110.4" x2="902" y2="110.4"/><text class="axis-y" x="46" y="113.4" text-anchor="end">5</text><line class="grid" x1="54" y1="48.7" x2="902" y2="48.7"/><text class="axis-y" x="46" y="51.7" text-anchor="end">10</text><line class="grid" x1="54" y1="-12.9" x2="902" y2="-12.9"/><text class="axis-y" x="46" y="-9.9" text-anchor="end">15</text><line class="grid" x1="48.1" y1="32" x2="48.1" y2="172"/><text class="axis-x" x="48.1" y="188" text-anchor="middle">0</text><line class="grid" x1="283.3" y1="32" x2="283.3" y2="172"/><text class="axis-x" x="283.3" y="188" text-anchor="middle">200</text><line class="grid" x1="518.6" y1="32" x2="518.6" y2="172"/><text class="axis-x" x="518.6" y="188" text-anchor="middle">400</text><line class="grid" x1="753.8" y1="32" x2="753.8" y2="172"/><text class="axis-x" x="753.8" y="188" text-anchor="middle">600</text><line class="grid" x1="989.0" y1="32" x2="989.0" y2="172"/><text class="axis-x" x="989.0" y="188" text-anchor="middle">800</text><path d="M54.0 42.4 L59.9 43.6 L65.8 45.7 L71.6 48.2 L77.5 51.5 L83.4 55.4 L89.3 59.4 L95.2 63.4 L101.0 67.4 L106.9 71.3 L112.8 75.3 L118.7 79.2 L124.6 83.2 L130.4 87.2 L136.3 91.3 L142.2 94.7 L148.1 98.3 L154.0 101.6 L159.9 104.6 L165.7 107.4 L171.6 109.7 L177.5 112.1 L183.4 113.9 L189.3 115.8 L195.1 116.9 L201.0 118.3 L206.9 119.4 L212.8 120.7 L218.7 121.2 L224.5 121.7 L230.4 123.2 L236.3 123.5 L242.2 124.2 L248.1 124.9 L253.9 125.5 L259.8 125.7 L265.7 126.6 L271.6 127.7 L277.5 128.4 L283.3 129.2 L289.2 129.5 L295.1 130.5 L301.0 131.3 L306.9 131.7 L312.8 132.7 L318.6 133.3 L324.5 133.7 L330.4 134.3 L336.3 135.4 L342.2 135.4 L348.0 136.4 L353.9 136.8 L359.8 138.0 L365.7 138.4 L371.6 139.2 L377.4 140.0 L383.3 140.9 L389.2 141.5 L395.1 141.8 L401.0 142.5 L406.8 142.9 L412.7 143.8 L418.6 144.2 L424.5 144.9 L430.4 145.6 L436.2 145.8 L442.1 146.4 L448.0 147.1 L453.9 147.4 L459.8 148.0 L465.7 148.8 L471.5 148.9 L477.4 149.5 L483.3 150.2 L489.2 150.3 L495.1 150.9 L500.9 151.1 L506.8 151.8 L512.7 152.1 L518.6 152.5 L524.5 153.0 L530.3 153.2 L536.2 154.0 L542.1 154.1 L548.0 154.2 L553.9 154.8 L559.7 155.1 L565.6 155.5 L571.5 155.8 L577.4 155.8 L583.3 156.1 L589.1 156.0 L595.0 156.7 L600.9 156.9 L606.8 157.1 L612.7 157.7 L618.5 157.7 L624.4 157.6 L630.3 158.2 L636.2 158.0 L642.1 158.2 L648.0 158.4 L653.8 158.5 L659.7 158.7 L665.6 158.8 L671.5 159.2 L677.4 159.0 L683.2 159.2 L689.1 159.7 L695.0 159.6 L700.9 159.7 L706.8 159.5 L712.6 160.0 L718.5 160.1 L724.4 160.2 L730.3 160.3 L736.2 160.1 L742.0 160.2 L747.9 160.6 L753.8 160.6 L759.7 160.9 L765.6 160.5 L771.4 160.5 L777.3 161.1 L783.2 160.7 L789.1 160.9 L795.0 160.7 L800.9 161.1 L806.7 161.3 L812.6 161.2 L818.5 161.3 L824.4 161.1 L830.3 161.3 L836.1 161.3 L842.0 161.4 L847.9 161.5 L853.8 161.2 L859.7 161.5 L865.5 161.5 L871.4 161.4 L877.3 161.5 L883.2 161.6 L889.1 161.5 L894.9 161.4 L900.8 161.4" fill="none" stroke="#4fd1e8" stroke-width="1.75"/><path d="M71.6 50.2 L95.2 66.2 L118.7 82.4 L142.2 97.6 L165.7 109.5 L189.3 117.0 L212.8 121.6 L236.3 124.8 L259.8 127.8 L283.3 130.9 L306.9 133.7 L330.4 136.6 L353.9 139.4 L377.4 142.1 L401.0 144.7 L424.5 147.2 L448.0 149.5 L471.5 151.4 L495.1 153.2 L518.6 154.8 L542.1 156.2 L565.6 157.3 L589.1 158.3 L612.7 159.2 L636.2 159.9 L659.7 160.5 L683.2 161.0 L706.8 161.4 L730.3 161.8 L753.8 162.1 L777.3 162.4 L800.9 162.6 L824.4 162.7 L847.9 162.8 L871.4 162.9 L894.9 162.9 L902.0 162.9" fill="none" stroke="#ffb454" stroke-width="1.75"/><rect class="frame" x="54" y="32" width="848" height="140" fill="none"/></svg></section><section class="chart-block"><h2>lr</h2><svg class="chart" viewBox="0 0 920 180" role="img" aria-label="lr over steps 5 to 725"><line class="grid" x1="54" y1="154.0" x2="902" y2="154.0"/><text class="axis-y" x="46" y="157.0" text-anchor="end">0</text><line class="grid" x1="54" y1="101.9" x2="902" y2="101.9"/><text class="axis-y" x="46" y="104.9" text-anchor="end">0.0002</text><line class="grid" x1="54" y1="49.7" x2="902" y2="49.7"/><text class="axis-y" x="46" y="52.7" text-anchor="end">0.0004</text><line class="grid" x1="54" y1="-2.4" x2="902" y2="-2.4"/><text class="axis-y" x="46" y="0.6" text-anchor="end">0.0006</text><line class="grid" x1="48.1" y1="14" x2="48.1" y2="154"/><text class="axis-x" x="48.1" y="170" text-anchor="middle">0</text><line class="grid" x1="283.7" y1="14" x2="283.7" y2="154"/><text class="axis-x" x="283.7" y="170" text-anchor="middle">200</text><line class="grid" x1="519.2" y1="14" x2="519.2" y2="154"/><text class="axis-x" x="519.2" y="170" text-anchor="middle">400</text><line class="grid" x1="754.8" y1="14" x2="754.8" y2="154"/><text class="axis-x" x="754.8" y="170" text-anchor="middle">600</text><line class="grid" x1="990.3" y1="14" x2="990.3" y2="154"/><text class="axis-x" x="990.3" y="170" text-anchor="middle">800</text><rect class="finding-band" x="54.0" y="14" width="5.9" height="140" fill="#5fb3ff" fill-opacity="0.16"/><line x1="54.0" y1="14" x2="54.0" y2="154" stroke="#5fb3ff" stroke-opacity="0.55" stroke-width="1"/><path d="M54.0 127.9 L59.9 95.3 L65.8 62.7 L71.7 30.2 L77.6 24.4 L83.4 25.3 L89.3 26.2 L95.2 27.1 L101.1 28.1 L107.0 29.0 L112.9 29.9 L118.8 30.8 L124.7 31.8 L130.6 32.7 L136.4 33.6 L142.3 34.5 L148.2 35.4 L154.1 36.4 L160.0 37.3 L165.9 38.2 L171.8 39.1 L177.7 40.1 L183.6 41.0 L189.4 41.9 L195.3 42.8 L201.2 43.8 L207.1 44.7 L213.0 45.6 L218.9 46.5 L224.8 47.5 L230.7 48.4 L236.6 49.3 L242.4 50.2 L248.3 51.1 L254.2 52.1 L260.1 53.0 L266.0 53.9 L271.9 54.8 L277.8 55.8 L283.7 56.7 L289.6 57.6 L295.4 58.5 L301.3 59.5 L307.2 60.4 L313.1 61.3 L319.0 62.2 L324.9 63.1 L330.8 64.1 L336.7 65.0 L342.6 65.9 L348.4 66.8 L354.3 67.8 L360.2 68.7 L366.1 69.6 L372.0 70.5 L377.9 71.5 L383.8 72.4 L389.7 73.3 L395.6 74.2 L401.4 75.2 L407.3 76.1 L413.2 77.0 L419.1 77.9 L425.0 78.8 L430.9 79.8 L436.8 80.7 L442.7 81.6 L448.6 82.5 L454.4 83.5 L460.3 84.4 L466.2 85.3 L472.1 86.2 L478.0 87.2 L483.9 88.1 L489.8 89.0 L495.7 89.9 L501.6 90.8 L507.4 91.8 L513.3 92.7 L519.2 93.6 L525.1 94.5 L531.0 95.5 L536.9 96.4 L542.8 97.3 L548.7 98.2 L554.6 99.2 L560.4 100.1 L566.3 101.0 L572.2 101.9 L578.1 102.8 L584.0 103.8 L589.9 104.7 L595.8 105.6 L601.7 106.5 L607.6 107.5 L613.4 108.4 L619.3 109.3 L625.2 110.2 L631.1 111.2 L637.0 112.1 L642.9 113.0 L648.8 113.9 L654.7 114.9 L660.6 115.8 L666.4 116.7 L672.3 117.6 L678.2 118.5 L684.1 119.5 L690.0 120.4 L695.9 121.3 L701.8 122.2 L707.7 123.2 L713.6 124.1 L719.4 125.0 L725.3 125.9 L731.2 126.9 L737.1 127.8 L743.0 128.7 L748.9 129.6 L754.8 130.5 L760.7 131.5 L766.6 132.4 L772.4 133.3 L778.3 134.2 L784.2 135.2 L790.1 136.1 L796.0 137.0 L801.9 137.9 L807.8 138.9 L813.7 139.8 L819.6 140.7 L825.4 141.6 L831.3 142.6 L837.2 143.5 L843.1 144.4 L849.0 145.3 L854.9 146.2 L860.8 147.2 L866.7 148.1 L872.6 149.0 L878.4 149.9 L884.3 150.9 L890.2 151.8 L896.1 152.7 L902.0 153.6" fill="none" stroke="#b39dff" stroke-width="1.75"/><rect class="frame" x="54" y="14" width="848" height="140" fill="none"/></svg></section><section class="chart-block"><h2>grad_norm</h2><svg class="chart" viewBox="0 0 920 180" role="img" aria-label="grad_norm over steps 5 to 725"><line class="grid" x1="54" y1="154.0" x2="902" y2="154.0"/><text class="axis-y" x="46" y="157.0" text-anchor="end">0</text><line class="grid" x1="54" y1="102.9" x2="902" y2="102.9"/><text class="axis-y" x="46" y="105.9" text-anchor="end">1</text><line class="grid" x1="54" y1="51.7" x2="902" y2="51.7"/><text class="axis-y" x="46" y="54.7" text-anchor="end">2</text><line class="grid" x1="54" y1="0.6" x2="902" y2="0.6"/><text class="axis-y" x="46" y="3.6" text-anchor="end">3</text><line class="grid" x1="48.1" y1="14" x2="48.1" y2="154"/><text class="axis-x" x="48.1" y="170" text-anchor="middle">0</text><line class="grid" x1="283.7" y1="14" x2="283.7" y2="154"/><text class="axis-x" x="283.7" y="170" text-anchor="middle">200</text><line class="grid" x1="519.2" y1="14" x2="519.2" y2="154"/><text class="axis-x" x="519.2" y="170" text-anchor="middle">400</text><line class="grid" x1="754.8" y1="14" x2="754.8" y2="154"/><text class="axis-x" x="754.8" y="170" text-anchor="middle">600</text><line class="grid" x1="990.3" y1="14" x2="990.3" y2="154"/><text class="axis-x" x="990.3" y="170" text-anchor="middle">800</text><path d="M54.0 24.4 L59.9 50.5 L65.8 76.8 L71.7 81.7 L77.6 78.0 L83.4 76.7 L89.3 72.8 L95.2 73.0 L101.1 75.4 L107.0 71.7 L112.9 75.5 L118.8 67.7 L124.7 76.0 L130.6 71.2 L136.4 63.8 L142.3 70.2 L148.2 71.4 L154.1 71.3 L160.0 73.4 L165.9 72.9 L171.8 73.1 L177.7 81.5 L183.6 79.4 L189.4 78.6 L195.3 80.6 L201.2 83.3 L207.1 90.0 L213.0 88.0 L218.9 88.4 L224.8 91.6 L230.7 92.7 L236.6 84.9 L242.4 87.9 L248.3 94.5 L254.2 89.7 L260.1 97.3 L266.0 96.7 L271.9 92.6 L277.8 97.9 L283.7 86.2 L289.6 76.4 L295.4 92.9 L301.3 86.5 L307.2 81.3 L313.1 92.9 L319.0 88.1 L324.9 77.9 L330.8 87.5 L336.7 93.2 L342.6 89.4 L348.4 83.5 L354.3 89.1 L360.2 94.0 L366.1 88.0 L372.0 85.0 L377.9 82.3 L383.8 87.8 L389.7 91.1 L395.6 95.0 L401.4 92.6 L407.3 100.6 L413.2 97.5 L419.1 93.0 L425.0 84.2 L430.9 95.6 L436.8 97.7 L442.7 93.8 L448.6 96.3 L454.4 98.0 L460.3 100.0 L466.2 99.9 L472.1 100.3 L478.0 91.2 L483.9 100.3 L489.8 87.7 L495.7 101.5 L501.6 101.9 L507.4 101.4 L513.3 102.3 L519.2 97.7 L525.1 100.1 L531.0 97.8 L536.9 98.0 L542.8 93.6 L548.7 104.4 L554.6 96.7 L560.4 100.9 L566.3 95.5 L572.2 105.3 L578.1 103.4 L584.0 101.4 L589.9 102.9 L595.8 109.2 L601.7 104.0 L607.6 99.2 L613.4 109.9 L619.3 107.8 L625.2 103.6 L631.1 106.6 L637.0 101.8 L642.9 107.1 L648.8 90.6 L654.7 109.3 L660.6 110.4 L666.4 108.0 L672.3 109.8 L678.2 103.8 L684.1 111.5 L690.0 107.0 L695.9 108.1 L701.8 106.6 L707.7 105.8 L713.6 106.6 L719.4 108.8 L725.3 100.3 L731.2 112.7 L737.1 108.4 L743.0 101.3 L748.9 108.6 L754.8 109.5 L760.7 94.5 L766.6 112.8 L772.4 104.6 L778.3 101.2 L784.2 111.6 L790.1 115.7 L796.0 111.9 L801.9 110.8 L807.8 113.6 L813.7 114.6 L819.6 109.5 L825.4 105.8 L831.3 114.2 L837.2 109.3 L843.1 111.7 L849.0 109.2 L854.9 105.3 L860.8 109.6 L866.7 106.3 L872.6 102.5 L878.4 112.7 L884.3 106.4 L890.2 106.7 L896.1 107.9 L902.0 109.9" fill="none" stroke="#7be08a" stroke-width="1.75"/><rect class="frame" x="54" y="14" width="848" height="140" fill="none"/></svg></section><section class="chart-block"><h2>eval/runtime</h2><svg class="chart" viewBox="0 0 920 180" role="img" aria-label="eval/runtime over steps 20 to 726"><line class="grid" x1="54" y1="154.0" x2="902" y2="154.0"/><text class="axis-y" x="46" y="157.0" text-anchor="end">0</text><line class="grid" x1="54" y1="119.7" x2="902" y2="119.7"/><text class="axis-y" x="46" y="122.7" text-anchor="end">0.2</text><line class="grid" x1="54" y1="85.3" x2="902" y2="85.3"/><text class="axis-y" x="46" y="88.3" text-anchor="end">0.4</text><line class="grid" x1="54" y1="51.0" x2="902" y2="51.0"/><text class="axis-y" x="46" y="54.0" text-anchor="end">0.6</text><line class="grid" x1="54" y1="16.7" x2="902" y2="16.7"/><text class="axis-y" x="46" y="19.7" text-anchor="end">0.8</text><line class="grid" x1="54" y1="-17.6" x2="902" y2="-17.6"/><text class="axis-y" x="46" y="-14.6" text-anchor="end">1</text><line class="grid" x1="30.0" y1="14" x2="30.0" y2="154"/><text class="axis-x" x="30.0" y="170" text-anchor="middle">0</text><line class="grid" x1="270.2" y1="14" x2="270.2" y2="154"/><text class="axis-x" x="270.2" y="170" text-anchor="middle">200</text><line class="grid" x1="510.4" y1="14" x2="510.4" y2="154"/><text class="axis-x" x="510.4" y="170" text-anchor="middle">400</text><line class="grid" x1="750.7" y1="14" x2="750.7" y2="154"/><text class="axis-x" x="750.7" y="170" text-anchor="middle">600</text><line class="grid" x1="990.9" y1="14" x2="990.9" y2="154"/><text class="axis-x" x="990.9" y="170" text-anchor="middle">800</text><path d="M54.0 45.3 L78.0 45.1 L102.0 48.3 L126.1 48.9 L150.1 47.0 L174.1 42.8 L198.1 52.9 L222.2 56.6 L246.2 34.6 L270.2 53.3 L294.2 43.4 L318.2 54.2 L342.3 58.3 L366.3 53.1 L390.3 54.4 L414.3 53.7 L438.4 40.1 L462.4 24.4 L486.4 46.4 L510.4 28.0 L534.5 40.9 L558.5 44.9 L582.5 53.2 L606.5 42.2 L630.5 51.0 L654.6 51.4 L678.6 48.8 L702.6 53.9 L726.6 47.0 L750.7 49.4 L774.7 34.6 L798.7 50.5 L822.7 49.2 L846.7 39.5 L870.8 42.3 L894.8 52.8 L902.0 55.7" fill="none" stroke="#9aa7b0" stroke-width="1.75"/><rect class="frame" x="54" y="14" width="848" height="140" fill="none"/></svg></section><section class="chart-block"><h2>eval/samples_per_second</h2><svg class="chart" viewBox="0 0 920 180" role="img" aria-label="eval/samples_per_second over steps 20 to 726"><line class="grid" x1="54" y1="154.0" x2="902" y2="154.0"/><text class="axis-y" x="46" y="157.0" text-anchor="end">0</text><line class="grid" x1="54" y1="103.8" x2="902" y2="103.8"/><text class="axis-y" x="46" y="106.8" text-anchor="end">100</text><line class="grid" x1="54" y1="53.6" x2="902" y2="53.6"/><text class="axis-y" x="46" y="56.6" text-anchor="end">200</text><line class="grid" x1="54" y1="3.4" x2="902" y2="3.4"/><text class="axis-y" x="46" y="6.4" text-anchor="end">300</text><line class="grid" x1="30.0" y1="14" x2="30.0" y2="154"/><text class="axis-x" x="30.0" y="170" text-anchor="middle">0</text><line class="grid" x1="270.2" y1="14" x2="270.2" y2="154"/><text class="axis-x" x="270.2" y="170" text-anchor="middle">200</text><line class="grid" x1="510.4" y1="14" x2="510.4" y2="154"/><text class="axis-x" x="510.4" y="170" text-anchor="middle">400</text><line class="grid" x1="750.7" y1="14" x2="750.7" y2="154"/><text class="axis-x" x="750.7" y="170" text-anchor="middle">600</text><line class="grid" x1="990.9" y1="14" x2="990.9" y2="154"/><text class="axis-x" x="990.9" y="170" text-anchor="middle">800</text><path d="M54.0 39.9 L78.0 40.1 L102.0 36.6 L126.1 36.0 L150.1 38.0 L174.1 42.4 L198.1 31.3 L222.2 26.7 L246.2 50.1 L270.2 30.9 L294.2 41.8 L318.2 29.8 L342.3 24.4 L366.3 31.1 L390.3 29.5 L414.3 30.3 L438.4 45.1 L462.4 58.3 L486.4 38.7 L510.4 55.5 L534.5 44.3 L558.5 40.3 L582.5 30.9 L606.5 43.1 L630.5 33.6 L654.6 33.1 L678.6 36.1 L702.6 30.1 L726.6 38.1 L750.7 35.5 L774.7 50.1 L798.7 34.2 L822.7 35.6 L846.7 45.7 L870.8 43.0 L894.8 31.4 L902.0 27.9" fill="none" stroke="#6fd6c4" stroke-width="1.75"/><rect class="frame" x="54" y="14" width="848" height="140" fill="none"/></svg></section><section class="chart-block"><h2>eval/steps_per_second</h2><svg class="chart" viewBox="0 0 920 180" role="img" aria-label="eval/steps_per_second over steps 20 to 726"><line class="grid" x1="54" y1="154.0" x2="902" y2="154.0"/><text class="axis-y" x="46" y="157.0" text-anchor="end">0</text><line class="grid" x1="54" y1="113.9" x2="902" y2="113.9"/><text class="axis-y" x="46" y="116.9" text-anchor="end">10</text><line class="grid" x1="54" y1="73.7" x2="902" y2="73.7"/><text class="axis-y" x="46" y="76.7" text-anchor="end">20</text><line class="grid" x1="54" y1="33.6" x2="902" y2="33.6"/><text class="axis-y" x="46" y="36.6" text-anchor="end">30</text><line class="grid" x1="54" y1="-6.6" x2="902" y2="-6.6"/><text class="axis-y" x="46" y="-3.6" text-anchor="end">40</text><line class="grid" x1="30.0" y1="14" x2="30.0" y2="154"/><text class="axis-x" x="30.0" y="170" text-anchor="middle">0</text><line class="grid" x1="270.2" y1="14" x2="270.2" y2="154"/><text class="axis-x" x="270.2" y="170" text-anchor="middle">200</text><line class="grid" x1="510.4" y1="14" x2="510.4" y2="154"/><text class="axis-x" x="510.4" y="170" text-anchor="middle">400</text><line class="grid" x1="750.7" y1="14" x2="750.7" y2="154"/><text class="axis-x" x="750.7" y="170" text-anchor="middle">600</text><line class="grid" x1="990.9" y1="14" x2="990.9" y2="154"/><text class="axis-x" x="990.9" y="170" text-anchor="middle">800</text><path d="M54.0 40.0 L78.0 40.1 L102.0 36.6 L126.1 36.0 L150.1 38.0 L174.1 42.4 L198.1 31.3 L222.2 26.7 L246.2 50.1 L270.2 30.9 L294.2 41.8 L318.2 29.8 L342.3 24.4 L366.3 31.1 L390.3 29.5 L414.3 30.3 L438.4 45.1 L462.4 58.3 L486.4 38.7 L510.4 55.5 L534.5 44.3 L558.5 40.3 L582.5 31.0 L606.5 43.1 L630.5 33.6 L654.6 33.1 L678.6 36.1 L702.6 30.1 L726.6 38.1 L750.7 35.5 L774.7 50.1 L798.7 34.2 L822.7 35.6 L846.7 45.7 L870.8 43.0 L894.8 31.4 L902.0 27.9" fill="none" stroke="#e08fd6" stroke-width="1.75"/><rect class="frame" x="54" y="14" width="848" height="140" fill="none"/></svg></section>
+  </main>
+
+  <section class="findings-log">
+    <h2 class="log-title">Findings log</h2>
+    <article class="finding sev-info">
+  <div class="finding-head">
+    <span class="chip sev-info">INFO</span>
+    <span class="steps">steps 5&ndash;10</span>
+    <span class="detector">lr_schedule</span>
+    <h3>LR discontinuity</h3>
+  </div>
+  <p class="message">lr jumped from 0.0001 to 0.000225 between step 5 and 10 -- 25% of the run's whole LR range (0.0004958) in a single step.</p>
+  <p class="evidence"><span class='k'>before</span>=0.0001 &nbsp; <span class='k'>after</span>=0.000225 &nbsp; <span class='k'>jump_fraction_of_range</span>=0.2521</p>
+  <ul class="fixes"><li>Check for a checkpoint resume where the scheduler's step counter didn't match the optimizer's.</li><li>Check for a manual LR override mid-run.</li></ul>
+</article>
+  </section>
+
+  <footer class="masthead-foot">
+    <span>trainspotter &mdash; heuristic diagnostics, not ground truth. Read each finding's false-positive modes before acting on it.</span>
+  </footer>
+</div>
+</body>
+</html>
