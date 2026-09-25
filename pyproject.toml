@@ -48,7 +48,7 @@ dev = [
 ]
 
 [project.urls]
-Homepage = "https://github.com/antonsoo/trainspotter"
+Homepage = "https://antonsoo.github.io/trainspotter/"
 Repository = "https://github.com/antonsoo/trainspotter"
 Issues = "https://github.com/antonsoo/trainspotter/issues"
 Changelog = "https://github.com/antonsoo/trainspotter/blob/main/CHANGELOG.md"
