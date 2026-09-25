@@ -73,6 +73,7 @@ select = ["E", "F", "I", "UP", "B", "SIM", "N"]
 "src/trainspotter/report/terminal.py" = ["E501"]
 "src/trainspotter/detectors/*.py" = ["E501"]
 "src/trainspotter/cli.py" = ["E501"]
+"scripts/build_site.py" = ["E501"]
 
 [tool.mypy]
 # Checked against 3.12 (numpy's own stubs need 3.12+ syntax to parse); the

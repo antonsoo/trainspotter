@@ -5,6 +5,7 @@ Automatic diagnosis of loss curves and training logs.
 
 [![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
 ![Python 3.10+](https://img.shields.io/badge/python-3.10%2B-blue.svg)
+[![Live demo](https://img.shields.io/badge/live%20demo-sample%20reports-4fc3f7)](https://antonsoo.github.io/trainspotter/)
 
 Every ML engineer has stared at a TensorBoard or W&B chart trying to answer
 "is this run okay?" -- and caught the answer late: a spike that should have
@@ -22,9 +23,11 @@ one, or as a CI gate that fails the build.
 
 *(top of the report -- [full report, all 5 charts + all 6 findings](docs/assets/html-report-divergence-full.png))*
 
-![Terminal output of `trainspotter analyze divergence.trainer_state.json --fail-on error`, showing all 6 findings ordered by severity -- three ERROR findings (two loss spikes, the divergence) first, then two WARNING findings, then one INFO -- each with step range, detector name, message, and a one-line fix suggestion.](docs/assets/terminal-divergence.png)
+![Terminal output of `trainspotter analyze divergence.trainer_state.json --fail-on error`, showing all 6 findings ordered by severity -- three ERROR findings (two loss spikes, the divergence) first, then one WARNING (the gradient-norm explosion), then two INFO (the downgraded overfitting onset and the LR discontinuity) -- each with step range, detector name, message, and a one-line fix suggestion.](docs/assets/terminal-divergence.png)
 
-Both are real output from `examples/divergence.trainer_state.json` (see
+Browse every example's full HTML report at
+**[antonsoo.github.io/trainspotter](https://antonsoo.github.io/trainspotter/)**
+(built by `scripts/build_site.py`). Both images above are real output from `examples/divergence.trainer_state.json` (see
 [Real demo data](#real-demo-data) for exactly how that log was produced).
 
 ## Quickstart

@@ -47,7 +47,10 @@ def _emit(run: Run, findings: list[Finding], args: argparse.Namespace) -> None:
         else:
             sys.stdout.write(text + "\n")
     elif args.output == "html":
-        title = args.title or f"trainspotter &middot; {Path(run.source_path).name or 'report'}"
+        # A literal middot, not the &middot; entity: render_html HTML-escapes
+        # this title for the <title> tag, which would turn an entity
+        # reference into visible text ("&amp;middot;") instead of "·".
+        title = args.title or f"trainspotter · {Path(run.source_path).name or 'report'}"
         text = render_html(run, findings, title=title)
         out_path = Path(args.out) if args.out else Path(run.source_path).with_suffix(".trainspotter.html")
         out_path.write_text(text, encoding="utf-8")

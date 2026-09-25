@@ -37,15 +37,32 @@ def test_baseline_is_essentially_clean() -> None:
     assert len(infos) <= 1
 
 
-def test_overfitting_example_flags_overfitting() -> None:
+def test_overfitting_example_flags_overfitting_as_a_warning() -> None:
+    # No divergence/error-spike finding on this run to attribute it to, so
+    # it must stay at its ordinary severity, not get swept up by the
+    # divergence-attribution downgrade.
     findings = _findings_for("overfitting")
-    assert any(f.detector == "overfitting" for f in findings)
+    matches = [f for f in findings if f.detector == "overfitting"]
+    assert matches
+    assert matches[0].severity == "warning"
 
 
 def test_divergence_example_flags_divergence_and_a_spike() -> None:
     findings = _findings_for("divergence")
     assert any(f.detector == "divergence" and f.severity == "error" for f in findings)
     assert any(f.detector == "spikes" for f in findings)
+
+
+def test_divergence_example_downgrades_overfitting_to_the_real_cause() -> None:
+    # eval/loss exploding at the same step as the divergence trivially
+    # also looks like "overfitting" to that detector in isolation; run_all
+    # should attribute it to the divergence instead of double-counting it
+    # as an equally-weighted second problem.
+    findings = _findings_for("divergence")
+    matches = [f for f in findings if f.detector == "overfitting"]
+    assert matches
+    assert matches[0].severity == "info"
+    assert "explained by that divergence" in matches[0].message
 
 
 def test_missing_warmup_example_flags_missing_warmup() -> None:

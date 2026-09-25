@@ -23,6 +23,12 @@ point (which would indicate divergence, not overfitting: see the
   later) looks identical to genuine overfitting.
 - LR schedule changes near `k*` (e.g. decay finishing) can cause both
   metrics to move in ways that coincidentally resemble this pattern.
+- Divergence trivially satisfies this test too: an exploding eval loss is
+  technically "getting worse after the best point." `detectors.run_all`
+  downgrades a finding here to `info` when its step range overlaps a
+  `divergence` finding, or an error-severity `spikes` finding, rather than
+  reporting the same explosion twice under two different names -- calling
+  this detector directly (not through `run_all`) skips that attribution.
 """
 
 from __future__ import annotations
