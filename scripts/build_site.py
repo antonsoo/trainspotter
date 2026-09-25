@@ -20,6 +20,7 @@ from __future__ import annotations
 
 import argparse
 import html
+import os
 from dataclasses import dataclass
 from datetime import UTC, datetime
 from pathlib import Path
@@ -169,12 +170,15 @@ def main() -> None:
     parser.add_argument("--out-dir", default="site", help="Output directory (default: site)")
     args = parser.parse_args()
 
+    os.chdir(REPO_ROOT)
     out_dir = REPO_ROOT / args.out_dir
     out_dir.mkdir(parents=True, exist_ok=True)
 
     rows: list[tuple[ExampleMeta, dict[str, int]]] = []
     for meta in EXAMPLES:
-        src = EXAMPLES_DIR / f"{meta.slug}.trainer_state.json"
+        # Load by repo-relative path: the report prints its source path, and a
+        # published page must not carry the build machine's absolute paths.
+        src = (EXAMPLES_DIR / f"{meta.slug}.trainer_state.json").relative_to(REPO_ROOT)
         run = load_run(src)
         findings = run_all(run)
         page = render_html(run, findings, title=f"trainspotter - {meta.title}")
