@@ -271,7 +271,7 @@ not a bug.
 
 ```bash
 uv sync --all-extras --dev
-uv run pytest                        # 56 tests
+uv run pytest                        # 57 tests
 uv run ruff check src tests examples
 uv run mypy src
 ```

@@ -30,6 +30,12 @@ from trainspotter.readers import load_run
 from trainspotter.report import render_html
 
 REPO_ROOT = Path(__file__).resolve().parent.parent
+
+_DESCRIPTION = (
+    "Automatic diagnosis of training runs from their logs: divergence, loss spikes, "
+    "overfitting, LR and throughput problems. Real HTML reports on real example runs."
+)
+_OG_IMAGE = "https://raw.githubusercontent.com/antonsoo/trainspotter/main/docs/assets/og.png"
 EXAMPLES_DIR = REPO_ROOT / "examples"
 
 
@@ -102,7 +108,18 @@ def build_index(rows: list[tuple[ExampleMeta, dict[str, int]]], generated: str) 
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>trainspotter -- sample reports</title>
+<title>trainspotter · sample reports on real training runs</title>
+<meta name="description" content="{_DESCRIPTION}">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 32 32%22><rect width=%2232%22 height=%2232%22 rx=%226%22 fill=%22%230b0e11%22/><path d=%22M4 22 L12 20 L18 21 L22 8 L28 6%22 stroke=%22%234fc3f7%22 stroke-width=%222.4%22 fill=%22none%22 stroke-linecap=%22round%22/></svg>">
+<meta property="og:type" content="website">
+<meta property="og:title" content="trainspotter · sample reports on real training runs">
+<meta property="og:description" content="{_DESCRIPTION}">
+<meta property="og:url" content="https://antonsoo.github.io/trainspotter/">
+<meta property="og:image" content="{_OG_IMAGE}">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="{_OG_IMAGE}">
 <style>{_CSS}</style>
 </head>
 <body>
