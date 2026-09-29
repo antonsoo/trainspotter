@@ -6,6 +6,7 @@ Automatic diagnosis of loss curves and training logs.
 [![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
 ![Python 3.10+](https://img.shields.io/badge/python-3.10%2B-blue.svg)
 [![Live demo](https://img.shields.io/badge/live%20demo-sample%20reports-4fc3f7)](https://antonsoo.github.io/trainspotter/)
+[![Hugging Face](https://img.shields.io/badge/Hugging%20Face-workbench-ffd21e)](https://huggingface.co/spaces/antonsoloviev/trainspotter)
 
 Every ML engineer has stared at a TensorBoard or W&B chart trying to answer
 "is this run okay?" -- and caught the answer late: a spike that should have
