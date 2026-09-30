@@ -88,7 +88,7 @@ finding shown):
 
 ```
 [WARN ] steps 125-799      overfitting Overfitting onset
-  Best eval/loss was 0.526 at step 125; it's since risen to 0.5554 (5.6%, slope p=0).
+  Best eval/loss was 0.526 at step 125; it's since risen to 0.5554 (5.6%, slope p<0.0001).
   Meanwhile train/loss kept falling over the same range (slope < 0) -- the classic
   overfitting signature.
   metric: eval/loss
@@ -115,7 +115,7 @@ summary.
 | `divergence` | NaN/Inf, or sustained upward drift | Any non-finite value; or an OLS slope > 0 with p < 0.05 over the tail window, and the last value ≥ 1.5× the running minimum | Metrics meant to increase (only checks loss-type metrics by default); a temporary cyclic-schedule upswing |
 | `plateau` | A metric that's stalled, not just converged | Sliding-window OLS slope test (p ≥ 0.2 = not significant) plus a < 2% relative-change guard; suppressed if the window has already recovered ≥ 80% of the metric's total drop, or `lr` has decayed to ≤ 30% of its peak | A real stall near a coincidentally low value, or right as an unrelated LR decay finishes, can be wrongly suppressed by the convergence check |
 | `overfitting` | Train still improving while eval worsens | Finds eval's running-minimum step; tests whether the slope after it is significantly positive (p < 0.1) and ≥ 1% above the minimum | A noisy eval set can show a false uptick; a mid-run change in eval data |
-| `lr_schedule` | Missing warmup, LR rising after its peak, single-step discontinuities | Ramp check on the first value vs. peak; running-max monotonicity after the peak; jump size vs. 20% of the LR's total range | Cyclic/warm-restart schedules trip the last two by design |
+| `lr_schedule` | Missing warmup, LR rising after its peak, discontinuities | Ramp check on the first value vs. peak; running-max monotonicity after the peak; a jump of ≥ 20% of the LR's total range that isn't one leg of a steady ramp | Cyclic/warm-restart schedules trip the last two by design; step-decay drops are reported as `info` |
 | `grad_norm` | Gradient-norm explosions and clipping saturation | Same z-score as `spikes` (one-sided) for explosions, threshold 10 (higher than `spikes`' 6 -- a single z of 6-8 is common early-training noise); fraction of a trailing window within 0.5% of its own max, for saturation | Norms logged post-clip are saturated by construction; an isolated explosion with no coinciding loss spike is weaker evidence than one that lines up with a `spikes` finding |
 | `throughput` | Step-time / throughput regressions | Median step time, early-run baseline window vs. recent window, flags ≥ 1.4× | Checkpoint/eval steps inflate single points; early-run kernel/dataloader warmup can pollute the baseline |
 | `eval_noise` | An eval metric too noisy to rank checkpoints by | Median absolute step-to-step jitter as a fraction of the run's total improvement; flags ≥ 15% | An already-converged run has small total improvement by construction |
@@ -228,12 +228,16 @@ pins it. This is exactly the kind of gap a hand-written fixture can miss
 and a real framework's output finds immediately -- the reason this example
 was worth the extra `torch` install.
 
-Analyzing it for real also landed on a genuine instance of a documented
-false-positive: an `lr_schedule` "LR discontinuity" finding at steps 5-10,
-because `logging_steps=5` logs the warmup ramp so coarsely that one
-logged interval really does cover 25% of the run's LR range -- exactly the
-"few logged points" false-positive mode in `lr_schedule.py`'s docstring,
-not a bug.
+It also exposed a false positive, now fixed: the first version reported an
+`lr_schedule` "LR discontinuity" at steps 5-10, because `logging_steps=5`
+logs the 20-step warmup so coarsely that each logged interval covers 25% of
+the run's LR range. The discontinuity check now reports a jump only when it
+stands out from the logged intervals around it (a neighbor moving the same
+way at no less than half the per-step rate makes it one leg of a steady
+ramp), and says how many steps the interval spans. On this run trainspotter
+reports nothing, which
+`tests/test_detector_lr_schedule.py::test_the_real_transformers_run_has_no_lr_finding`
+pins.
 
 ## Accuracy and limitations
 

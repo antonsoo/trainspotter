@@ -4,7 +4,7 @@ build-backend = "hatchling.build"
 
 [project]
 name = "trainspotter"
-version = "0.1.0"
+version = "0.1.1"
 description = "Automatic diagnosis of loss curves and training logs: spot divergence, spikes, overfitting, LR and throughput problems before you burn another GPU-day."
 readme = "README.md"
 requires-python = ">=3.10"

@@ -4,6 +4,25 @@ All notable changes to this project are documented in this file.
 The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project uses [Semantic Versioning](https://semver.org/).
 
+## [0.1.1] - 2026-09-30
+
+### Fixed
+
+- `lr_schedule` reported a short warmup as an "LR discontinuity" when the log
+  was coarse (the real `transformers.Trainer` example: a 20-step warmup
+  logged every 5 steps, so each logged interval covers 25% of the LR range).
+  A jump is now reported only if it stands out from the logged intervals
+  around it, and the message gives the step gap instead of always saying
+  "in a single step".
+- Slope p-values print as `p<0.0001` instead of `p=0` when the normal
+  approximation underflows.
+- An enormous rise reads as "300x its minimum" instead of "29891.0%", and a
+  one-step span reads "step 320" instead of "steps 320-320".
+- HTML report: rounding the axis ends outward drew a gridline and tick label
+  above the chart frame (the divergence example's loss chart showed a "5"
+  over its legend); ticks now stay inside the plotted range. Off-scale value
+  labels at the right edge sit beside their markers instead of on the frame.
+
 ## [0.1.0] - 2026-09-24
 
 ### Added
