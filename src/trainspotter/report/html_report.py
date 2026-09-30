@@ -94,21 +94,25 @@ def _nice_num(x: float, round_to_nice: bool) -> float:
 
 
 def _nice_ticks(lo: float, hi: float, n: int = 4) -> list[float]:
-    """Tick positions covering [lo, hi] at a Heckbert "nice" step, snapped
+    """Tick positions inside [lo, hi] at a Heckbert "nice" step, snapped
     to multiples of that step -- so 0 is exactly a tick whenever lo <= 0
-    <= hi, instead of landing at an arbitrary fraction like -8.953."""
+    <= hi, instead of landing at an arbitrary fraction like -8.953. Ticks
+    outside the range are dropped: rounding the ends outward to the step
+    would otherwise draw a gridline and label above the plot frame."""
     if hi <= lo:
         return [lo]
     raw_step = _nice_num((hi - lo) / max(n, 1), round_to_nice=True)
     nice_lo = math.floor(lo / raw_step) * raw_step
     nice_hi = math.ceil(hi / raw_step) * raw_step
+    eps = raw_step * 1e-9
     ticks = []
     v = nice_lo
     # cap iterations defensively -- a pathological step can't spin forever
     for _ in range(n + 4):
         if v > nice_hi + raw_step * 0.5:
             break
-        ticks.append(round(v, 12))
+        if lo - eps <= v <= hi + eps:
+            ticks.append(round(v, 12))
         v += raw_step
     return ticks or [lo, hi]
 
@@ -207,10 +211,13 @@ def _render_off_scale_labels(
         # Keep the label inside the plot area instead of letting a
         # centered label clip past the right edge for a cluster near the
         # end of the run -- exactly where off-scale points tend to land.
+        # Beside the markers rather than flush with the frame, so the text
+        # clears both the triangles and the frame line.
+        xs = [x for x, _t, _c in raw_cluster]
         if cx + half_w > _W - _PAD_R:
-            anchor, tx = "end", float(_W - _PAD_R)
+            anchor, tx = "end", min(xs) - 8.0
         elif cx - half_w < _PAD_L:
-            anchor, tx = "start", float(_PAD_L)
+            anchor, tx = "start", max(xs) + 8.0
         else:
             anchor, tx = "middle", cx
         tspans = []
