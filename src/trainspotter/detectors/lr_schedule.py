@@ -32,7 +32,13 @@ and runs three independent checks:
   repeatedly and should be ignored for those schedules.
 - A schedule with genuinely few logged points (coarse logging interval)
   can have single steps that cover a large fraction of the LR range by
-  construction, not because anything broke.
+  construction, not because anything broke. Check 3 only reports a jump
+  that stands out from its neighbors: if an adjacent logged interval moves
+  the same way at no less than half the per-step rate, the jump is one leg
+  of a steady ramp (a short warmup logged every few steps covers the whole
+  range in a handful of intervals) and isn't reported.
+- Step-decay schedules (``MultiStepLR``-style drops) change the LR in
+  deliberate single jumps; check 3 reports each drop, as ``info``.
 """
 
 from __future__ import annotations
@@ -42,6 +48,10 @@ import numpy as np
 from trainspotter.model import Run
 
 from .base import Detector, Finding, group_consecutive, series_arrays
+
+
+def _between(step_gap: int) -> str:
+    return "in a single step" if step_gap <= 1 else f"across one logged interval ({step_gap} steps)"
 
 
 class LRScheduleDetector(Detector):
@@ -148,8 +158,18 @@ class LRScheduleDetector(Detector):
         if lr_range <= 0:
             return []
         deltas = np.diff(values)
+        # Per-step rate, so a neighbor logged over a different interval compares fairly.
+        rates = deltas / np.maximum(np.diff(steps), 1)
         threshold = self.jump_frac * lr_range
-        flagged = [i for i in range(len(deltas)) if abs(deltas[i]) > threshold]
+
+        def part_of_ramp(i: int) -> bool:
+            for j in (i - 1, i + 1):
+                same_way = 0 <= j < len(rates) and np.sign(rates[j]) == np.sign(rates[i])
+                if same_way and abs(rates[j]) >= 0.5 * abs(rates[i]):
+                    return True
+            return False
+
+        flagged = [i for i in range(len(deltas)) if abs(deltas[i]) > threshold and not part_of_ramp(i)]
         findings = []
         for group in group_consecutive(flagged, gap=1):
             i = max(group, key=lambda i: abs(deltas[i]))
@@ -165,7 +185,8 @@ class LRScheduleDetector(Detector):
                         f"lr jumped from {values[i]:.4g} to {values[i + 1]:.4g} between "
                         f"step {int(steps[i])} and {int(steps[i + 1])} -- "
                         f"{abs(deltas[i]) / lr_range * 100:.0f}% of the run's whole LR range "
-                        f"({lr_range:.4g}) in a single step."
+                        f"({lr_range:.4g}) {_between(int(steps[i + 1] - steps[i]))}, out of line "
+                        "with the logged intervals around it."
                     ),
                     evidence={
                         "before": float(values[i]),

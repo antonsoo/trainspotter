@@ -32,3 +32,12 @@ def test_ols_slope_with_non_finite_values_does_not_warn_or_crash() -> None:
     assert slope == 0.0
     assert se == float("inf")
     assert p_value == 1.0
+
+
+def test_format_p_never_prints_zero() -> None:
+    from trainspotter.detectors.base import format_p
+
+    assert format_p(0.0) == "p<0.0001"
+    assert format_p(3e-7) == "p<0.0001"
+    assert format_p(0.0245) == "p=0.0245"
+    assert format_p(0.08333) == "p=0.0833"

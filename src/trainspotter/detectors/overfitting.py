@@ -37,7 +37,12 @@ import numpy as np
 
 from trainspotter.model import Run
 
-from .base import Detector, Finding, ols_slope, series_arrays
+from .base import Detector, Finding, format_p, ols_slope, series_arrays
+
+
+def _rise(fraction: float) -> str:
+    """5.6% for an ordinary rise; a multiple once the percentage stops being readable."""
+    return f"{fraction * 100:.1f}%" if fraction < 10 else f"{fraction + 1:.0f}x its minimum"
 
 
 class OverfittingDetector(Detector):
@@ -100,7 +105,7 @@ class OverfittingDetector(Detector):
                 message=(
                     f"Best {self.eval_metric} was {best_value:.4g} at step "
                     f"{int(eval_steps[best_i])}; it's since risen to {current_value:.4g} "
-                    f"({rise * 100:.1f}%, slope p={p_value:.3g})."
+                    f"({_rise(rise)}, slope {format_p(p_value)})."
                 )
                 + train_note,
                 evidence={

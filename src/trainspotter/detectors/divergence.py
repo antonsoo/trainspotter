@@ -32,7 +32,7 @@ import numpy as np
 
 from trainspotter.model import Run
 
-from .base import Detector, Finding, ols_slope, series_arrays
+from .base import Detector, Finding, format_p, ols_slope, series_arrays
 
 DEFAULT_METRICS = ("train/loss", "eval/loss")
 
@@ -123,7 +123,7 @@ class DivergenceDetector(Detector):
                     step_end=int(tail_steps[-1]),
                     message=(
                         f"{metric_name} has been climbing for the last {window} logged points "
-                        f"(slope p={p_value:.3g}) and is now {ratio:.2f}x its running minimum "
+                        f"(slope {format_p(p_value)}) and is now {ratio:.2f}x its running minimum "
                         f"({running_min:.4g})."
                     ),
                     evidence={

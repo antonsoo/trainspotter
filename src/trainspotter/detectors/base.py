@@ -131,6 +131,12 @@ def ols_slope(x: np.ndarray, y: np.ndarray) -> tuple[float, float, float]:
     return slope, se, p_value
 
 
+def format_p(p_value: float) -> str:
+    """``p=0.0245``, or ``p<0.0001`` rather than a literal ``p=0``: the normal approximation
+    underflows to exactly 0 for a strong slope, and no finite sample supports p = 0."""
+    return "p<0.0001" if p_value < 1e-4 else f"p={p_value:.3g}"
+
+
 def _normal_cdf(z: float) -> float:
     return 0.5 * (1.0 + math.erf(z / math.sqrt(2.0)))
 

@@ -25,6 +25,12 @@ __all__ = [
 ]
 
 
+def _step_span(finding: Finding) -> str:
+    if finding.step_start == finding.step_end:
+        return f"step {finding.step_start}"
+    return f"steps {finding.step_start}-{finding.step_end}"
+
+
 def default_detectors() -> list[Detector]:
     """The standard detector set, run against trainspotter's canonical
     metric names. A detector that finds none of its required metrics in
@@ -95,7 +101,6 @@ def _attribute_overfitting_to_divergence(findings: list[Finding]) -> None:
             continue
         f.severity = "info"
         f.message += (
-            f" (Downgraded: overlaps a {overlap.detector} finding at steps "
-            f"{overlap.step_start}-{overlap.step_end} -- this eval rise looks explained by "
-            "that divergence, not by ordinary overfitting.)"
+            f" (Downgraded: overlaps a {overlap.detector} finding at {_step_span(overlap)} -- "
+            "this eval rise looks explained by that divergence, not by ordinary overfitting.)"
         )

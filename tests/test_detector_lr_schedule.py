@@ -46,3 +46,36 @@ def test_discontinuity_flagged_on_large_relative_jump() -> None:
     findings = LRScheduleDetector().run(run)
 
     assert any(f.title == "LR discontinuity" for f in findings)
+
+
+def test_short_warmup_logged_every_few_steps_is_not_a_discontinuity() -> None:
+    # The real Hugging Face run in examples/: 20 warmup steps logged every 5 steps, so each logged
+    # interval covers a quarter of the LR range - a steady ramp, not a jump.
+    from conftest import make_run_steps
+
+    steps = list(range(5, 730, 5))
+    peak = 5e-4
+    values = [min(peak, peak * s / 20) if s <= 20 else peak * (1 - (s - 20) / 710) for s in steps]
+    findings = LRScheduleDetector().run(make_run_steps("lr", steps, values))
+    assert [f.title for f in findings] == []
+
+
+def test_the_real_transformers_run_has_no_lr_finding() -> None:
+    from pathlib import Path
+
+    from trainspotter.readers import load_run
+
+    run = load_run(
+        Path(__file__).parent.parent / "examples" / "transformers_tinygpt2.trainer_state.json"
+    )
+    assert LRScheduleDetector().run(run) == []
+
+
+def test_a_jump_over_a_logging_interval_says_so() -> None:
+    from conftest import make_run_steps
+
+    steps = list(range(0, 200, 10))
+    values = [1e-4] * 10 + [1e-6] * 10  # one step-decay drop between logged points 10 steps apart
+    findings = LRScheduleDetector().run(make_run_steps("lr", steps, values))
+    jump = next(f for f in findings if f.title == "LR discontinuity")
+    assert "across one logged interval (10 steps)" in jump.message
