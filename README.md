@@ -3,6 +3,7 @@
 **Spot what went wrong in a training run before you burn another GPU-day.**
 Automatic diagnosis of loss curves and training logs.
 
+[![PyPI](https://img.shields.io/pypi/v/trainspotter)](https://pypi.org/project/trainspotter/)
 [![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
 ![Python 3.10+](https://img.shields.io/badge/python-3.10%2B-blue.svg)
 [![Live demo](https://img.shields.io/badge/live%20demo-sample%20reports-4fc3f7)](https://antonsoo.github.io/trainspotter/)
