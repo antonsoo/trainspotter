@@ -4,6 +4,15 @@ All notable changes to this project are documented in this file.
 The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project uses [Semantic Versioning](https://semver.org/).
 
+## [0.1.2] - 2026-10-01
+
+### Added
+
+- Published to PyPI: `pip install trainspotter`. The README's images and links
+  are rewritten to absolute URLs at build time so they work on the project
+  page.
+- `trainspotter --version`.
+
 ## [0.1.1] - 2026-09-30
 
 ### Fixed

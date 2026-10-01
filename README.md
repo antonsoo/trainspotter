@@ -34,7 +34,7 @@ Browse every example's full HTML report at
 ## Quickstart
 
 ```bash
-pip install git+https://github.com/antonsoo/trainspotter
+pip install trainspotter
 git clone --depth 1 https://github.com/antonsoo/trainspotter && cd trainspotter
 trainspotter analyze examples/divergence.trainer_state.json
 ```
@@ -276,7 +276,7 @@ pins.
 
 ```bash
 uv sync --all-extras --dev
-uv run pytest                        # 63 tests
+uv run pytest                        # 64 tests
 uv run ruff check src tests examples
 uv run mypy src
 ```

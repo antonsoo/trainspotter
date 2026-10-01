@@ -1,12 +1,40 @@
 [build-system]
-requires = ["hatchling"]
+requires = ["hatchling", "hatch-fancy-pypi-readme"]
 build-backend = "hatchling.build"
+
+# PyPI doesn't resolve relative links, so the README's images and links are
+# rewritten to absolute GitHub URLs when the package is built: images first,
+# then every link that is still relative.
+[tool.hatch.metadata.hooks.fancy-pypi-readme]
+content-type = "text/markdown"
+
+[[tool.hatch.metadata.hooks.fancy-pypi-readme.fragments]]
+path = "README.md"
+
+[[tool.hatch.metadata.hooks.fancy-pypi-readme.substitutions]]
+pattern = '!\[([^\]]*)\]\((?!https?://)([^)\s]+)\)'
+replacement = '![\1](https://raw.githubusercontent.com/antonsoo/trainspotter/main/\2)'
+
+[[tool.hatch.metadata.hooks.fancy-pypi-readme.substitutions]]
+pattern = 'src="(?!https?://)([^"]+)"'
+replacement = 'src="https://raw.githubusercontent.com/antonsoo/trainspotter/main/\1"'
+
+[[tool.hatch.metadata.hooks.fancy-pypi-readme.substitutions]]
+pattern = '\]\((?!https?://|#|mailto:)([^)\s]+)\)'
+replacement = '](https://github.com/antonsoo/trainspotter/blob/main/\1)'
+
+[[tool.hatch.metadata.hooks.fancy-pypi-readme.substitutions]]
+pattern = 'href="(?!https?://|#|mailto:)([^"]+)"'
+replacement = 'href="https://github.com/antonsoo/trainspotter/blob/main/\1"'
+
+[tool.hatch.build.targets.sdist]
+include = ["/src", "/docs/*.md", "/README.md", "/CHANGELOG.md", "/LICENSE*", "/pyproject.toml"]
 
 [project]
 name = "trainspotter"
-version = "0.1.1"
+version = "0.1.2"
 description = "Automatic diagnosis of loss curves and training logs: spot divergence, spikes, overfitting, LR and throughput problems before you burn another GPU-day."
-readme = "README.md"
+dynamic = ["readme"]
 requires-python = ">=3.10"
 license = { text = "MIT" }
 authors = [{ name = "Anton Soloviev", email = "anton@praviel.com" }]

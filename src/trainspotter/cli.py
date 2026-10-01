@@ -7,6 +7,7 @@ import sys
 import time
 from pathlib import Path
 
+from trainspotter import __version__
 from trainspotter.detectors import Finding, Severity, run_all, severity_at_least
 from trainspotter.model import Run
 from trainspotter.readers import load_run
@@ -17,6 +18,7 @@ _FORMAT_CHOICES = ("hf", "csv", "jsonl", "wandb", "lightning", "tensorboard")
 
 def _build_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(prog="trainspotter", description="Diagnose loss curves and training logs.")
+    parser.add_argument("--version", action="version", version=f"trainspotter {__version__}")
     sub = parser.add_subparsers(dest="command", required=True)
 
     analyze = sub.add_parser("analyze", help="Analyze a training log and report findings.")

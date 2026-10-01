@@ -6,6 +6,8 @@ from __future__ import annotations
 import json
 from pathlib import Path
 
+import pytest
+
 from trainspotter.cli import main
 
 
@@ -103,3 +105,12 @@ def test_analyze_missing_file_reports_a_clean_error(tmp_path: Path, capsys) -> N
 
     assert code == 2
     assert "nope.json" in capsys.readouterr().err
+
+
+def test_version_flag(capsys: pytest.CaptureFixture[str]) -> None:
+    import trainspotter
+
+    with pytest.raises(SystemExit) as exit_info:
+        main(["--version"])
+    assert exit_info.value.code == 0
+    assert capsys.readouterr().out.strip() == f"trainspotter {trainspotter.__version__}"
