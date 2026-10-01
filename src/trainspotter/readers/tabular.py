@@ -16,7 +16,7 @@ from pathlib import Path
 
 from trainspotter.model import Run
 
-from .common import normalize_key, try_float
+from .common import normalize_key, try_float, try_step
 
 _STEP_KEYS = ("step", "global_step", "iteration", "iter")
 
@@ -29,18 +29,22 @@ def _find_step_key(keys: Sequence[str]) -> str | None:
     return None
 
 
-def _ingest_row(run: Run, row: dict[str, object], step_key: str | None, index: int) -> None:
-    if step_key is not None:
-        step_val = try_float(row.get(step_key))
-        step = int(step_val) if step_val is not None else index
-    else:
-        step = index
+def _ingest_row(run: Run, row: dict[str, object], step_key: str | None, index: int) -> bool:
+    """Add one row's metrics to the run. False if the row was skipped: its step cell
+    holds something that can't be a step (NaN, an infinity)."""
+    step = index
+    if step_key is not None and try_float(row.get(step_key)) is not None:
+        parsed = try_step(row.get(step_key))
+        if parsed is None:
+            return False
+        step = parsed
     wall_time = None
     wt_raw = row.get("wall_time") if "wall_time" in row else row.get("timestamp")
     if wt_raw is not None:
         wall_time = try_float(wt_raw)
     for key, raw_value in row.items():
-        if step_key is not None and key == step_key:
+        # csv.DictReader files the cells beyond the header under the key None.
+        if key is None or (step_key is not None and key == step_key):
             continue
         if key in ("wall_time", "timestamp"):
             continue
@@ -48,6 +52,7 @@ def _ingest_row(run: Run, row: dict[str, object], step_key: str | None, index: i
         if value is None:
             continue
         run.add_point(normalize_key(key), step, value, wall_time=wall_time)
+    return True
 
 
 def read_csv(path: str | Path) -> Run:
@@ -58,8 +63,8 @@ def read_csv(path: str | Path) -> Run:
         fieldnames = reader.fieldnames or []
         step_key = _find_step_key(fieldnames)
         run.meta["step_column"] = step_key or "(row index)"
-        for i, row in enumerate(reader):
-            _ingest_row(run, dict(row), step_key, i)
+        skipped = sum(not _ingest_row(run, dict(row), step_key, i) for i, row in enumerate(reader))
+    run.meta["skipped_rows"] = skipped
     return run
 
 
@@ -85,7 +90,6 @@ def read_jsonl(path: str | Path) -> Run:
     all_keys = {k for row in rows for k in row}
     step_key = _find_step_key(sorted(all_keys))
     run.meta["step_column"] = step_key or "(row index)"
+    skipped += sum(not _ingest_row(run, row, step_key, i) for i, row in enumerate(rows))
     run.meta["skipped_lines"] = skipped
-    for i, row in enumerate(rows):
-        _ingest_row(run, row, step_key, i)
     return run

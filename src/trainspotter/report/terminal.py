@@ -53,6 +53,10 @@ def render_terminal(run: Run, findings: list[Finding], stream: TextIO | None = N
     lines.append(style("-" * 60, _DIM))
     lines.append(f"source   {run.source_path or '(stdin)'}  " + style(f"[{run.source_format}]", _DIM))
     lines.append("metrics  " + (", ".join(run.metric_names()) or "(none found)"))
+    skipped = run.skipped_rows()
+    if skipped:
+        rows = "row" if skipped == 1 else "rows"
+        lines.append("skipped  " + style(f"{skipped} {rows} could not be read and are not in this report", "yellow"))
 
     counts = {"error": 0, "warning": 0, "info": 0}
     for f in findings:

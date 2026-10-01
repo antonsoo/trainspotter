@@ -172,3 +172,59 @@ def test_reads_the_committed_real_transformers_trainer_state() -> None:
     assert len(series) > 100
     summary_avg = run.meta["train_summary"]["train_loss"]
     assert summary_avg not in series.values()[-3:]  # the average, not a per-step tail value
+
+
+@pytest.mark.parametrize("bad_step", ["nan", "inf", "-inf", "1e400", "1e30"])
+def test_row_whose_step_cannot_be_a_step_is_skipped(tmp_path: Path, bad_step: str) -> None:
+    # int(float("inf")) used to raise OverflowError out of every reader.
+    path = tmp_path / "log.csv"
+    path.write_text(f"step,loss\n0,2.0\n{bad_step},1.5\n20,1.0\n")
+    run = load_run(path)
+    assert run.get("train/loss").steps() == [0, 20]  # type: ignore[union-attr]
+    assert run.skipped_rows() == 1
+
+    wandb = tmp_path / "wandb.csv"
+    wandb.write_text(f"_step,_runtime,train/loss\n0,1,2.0\n{bad_step},2,1.5\n20,3,1.0\n")
+    run = load_run(wandb)
+    assert run.get("train/loss").steps() == [0, 20]  # type: ignore[union-attr]
+    assert run.skipped_rows() == 1
+
+
+def test_json_step_beyond_any_count_is_skipped(tmp_path: Path) -> None:
+    lines = ['{"step": 0, "loss": 2.0}', '{"step": 1e400, "loss": 1.5}', '{"step": 2, "loss": 1.0}']
+    jsonl = tmp_path / "log.jsonl"
+    jsonl.write_text("\n".join(lines))
+    run = load_run(jsonl)
+    assert run.get("train/loss").steps() == [0, 2]  # type: ignore[union-attr]
+    assert run.skipped_rows() == 1
+
+    state = tmp_path / "trainer_state.json"
+    state.write_text('{"log_history": [' + ", ".join(lines) + "]}")
+    run = load_run(state)
+    assert run.get("train/loss").steps() == [0, 2]  # type: ignore[union-attr]
+    assert run.skipped_rows() == 1
+
+
+def test_blank_step_cell_still_falls_back_to_the_row_index(tmp_path: Path) -> None:
+    path = tmp_path / "log.csv"
+    path.write_text("step,loss\n0,2.0\n,1.5\n20,1.0\n")
+    run = load_run(path)
+    assert run.get("train/loss").steps() == [0, 1, 20]  # type: ignore[union-attr]
+    assert run.skipped_rows() == 0
+
+
+def test_wandb_row_with_more_cells_than_the_header_does_not_crash(tmp_path: Path) -> None:
+    # csv.DictReader files the extra cells under the key None; the reader called .startswith on it.
+    path = tmp_path / "wandb.csv"
+    path.write_text("_step,_runtime,train/loss\n0,1,2.0\n1,2,1.5,stray,cells\n2,3,1.0\n")
+    run = load_run(path)
+    assert run.get("train/loss").values() == [2.0, 1.5, 1.0]  # type: ignore[union-attr]
+
+
+@pytest.mark.parametrize("log_history", ["null", "5", '"x"', '{"a": 1}'])
+def test_log_history_that_is_not_a_list_is_rejected(tmp_path: Path, log_history: str) -> None:
+    path = tmp_path / "trainer_state.json"
+    path.write_text(f'{{"log_history": {log_history}}}')
+    with pytest.raises(ValueError, match="'log_history' is .*, not a list of log entries"):
+        load_run(path)
+

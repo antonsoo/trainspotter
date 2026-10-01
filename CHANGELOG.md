@@ -4,6 +4,46 @@ All notable changes to this project are documented in this file.
 The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project uses [Semantic Versioning](https://semver.org/).
 
+## [0.1.3] - 2026-10-01
+
+### Fixed
+
+- A step that isn't a number a step can be (`nan`, `inf`, `1e400`) crashed
+  every reader with `OverflowError`, or stopped the run with "cannot convert
+  float NaN to integer". Such a row is skipped and counted.
+- Reports never said how many rows were skipped, although the readers counted
+  them. The terminal and HTML reports now show the count when it isn't zero
+  and the JSON report always carries `run.skipped_rows`, so "no pathologies
+  detected" can't quietly rest on half a log.
+- On a diverged run, numpy's `RuntimeWarning: invalid value encountered in
+  subtract` (and others) was printed above the report that already said the
+  run diverged. The detectors are built to take Inf and NaN; the warnings are
+  gone.
+- A W&B history CSV with a row longer than its header crashed the reader
+  (`'NoneType' object has no attribute 'startswith'`).
+- A `trainer_state.json` whose `log_history` isn't a list raised `TypeError`;
+  it is a one-line error.
+- The HTML report failed with `OverflowError` when a metric held values so far
+  apart that their difference overflows (`1e308` and `-1e308`). Values beyond
+  1e150 are marked like NaN and Inf instead of plotted.
+- The HTML report's step range always started at 0, whatever the first logged
+  step was.
+
+### Changed
+
+- The HTML report draws at most four points per half-pixel column of a chart
+  (the first, lowest, highest and last), which is everything that column can
+  show. A metric logged at each of 200,000 steps took 2.6 MB of SVG and now
+  takes 93 KB, with a one-step spike still drawn where it happened. Reports
+  for shorter logs are unchanged.
+
+### Added
+
+- A seeded fuzz test: 600 generated logs in every supported text format, with
+  empty files, repeated and unordered steps, NaN and infinite values and rows
+  of the wrong shape, each of which must end in a report or a one-line error,
+  with no warning printed.
+
 ## [0.1.2] - 2026-10-01
 
 ### Added

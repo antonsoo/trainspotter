@@ -17,7 +17,7 @@ from pathlib import Path
 
 from trainspotter.model import Run
 
-from .common import normalize_key, try_float
+from .common import normalize_key, try_float, try_step
 
 _STEP_COL = "_step"
 _RUNTIME_COL = "_runtime"
@@ -36,15 +36,23 @@ def read_wandb_csv(path: str | Path) -> Run:
                 "(Run page -> ... menu -> Download history CSV)"
             )
         run.meta["step_column"] = _STEP_COL
+        skipped = 0
         for i, row in enumerate(reader):
-            step_val = try_float(row.get(_STEP_COL))
-            step = int(step_val) if step_val is not None else i
+            step = i
+            if try_float(row.get(_STEP_COL)) is not None:
+                parsed = try_step(row.get(_STEP_COL))
+                if parsed is None:  # NaN or an infinity: not a step
+                    skipped += 1
+                    continue
+                step = parsed
             wall_time = try_float(row.get(_RUNTIME_COL))
             for key, raw_value in row.items():
-                if key.startswith(_SKIP_PREFIXES):
+                # csv.DictReader files the cells beyond the header under the key None.
+                if key is None or key.startswith(_SKIP_PREFIXES):
                     continue
                 value = try_float(raw_value)
                 if value is None:
                     continue
                 run.add_point(normalize_key(key), step, value, wall_time=wall_time)
+    run.meta["skipped_rows"] = skipped
     return run

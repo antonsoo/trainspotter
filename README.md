@@ -277,7 +277,7 @@ pins.
 
 ```bash
 uv sync --all-extras --dev
-uv run pytest                        # 64 tests
+uv run pytest                        # 88 tests
 uv run ruff check src tests examples
 uv run mypy src
 ```

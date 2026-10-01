@@ -2,6 +2,8 @@
 
 from __future__ import annotations
 
+import numpy as np
+
 from trainspotter.model import Run
 
 from .base import Detector, Finding, Severity, severity_at_least
@@ -62,8 +64,12 @@ def run_all(run: Run, detectors: list[Detector] | None = None) -> list[Finding]:
     `_attribute_overfitting_to_divergence`."""
     detectors = detectors if detectors is not None else default_detectors()
     findings: list[Finding] = []
-    for detector in detectors:
-        findings.extend(detector.run(run))
+    # A diverged run logs Inf and NaN, and the detectors are written to take them. numpy
+    # would report each operation that touches one ("invalid value encountered in
+    # subtract") on stderr, above the report that already says the run diverged.
+    with np.errstate(all="ignore"):
+        for detector in detectors:
+            findings.extend(detector.run(run))
     _attribute_overfitting_to_divergence(findings)
     rank = {"error": 0, "warning": 1, "info": 2}
     findings.sort(key=lambda f: (rank[f.severity], f.step_start))

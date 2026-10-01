@@ -161,6 +161,15 @@ def _y_domain(finite_values: list[float]) -> tuple[float, float, float | None]:
     return display_lo, display_hi + pad, cap
 
 
+# A value this large can't share an axis with anything: the span between two of
+# them overflows a float. It is marked the way a NaN or an infinity is.
+_MAX_PLOTTABLE = 1e150
+
+
+def _plottable(value: float) -> bool:
+    return abs(value) < _MAX_PLOTTABLE  # False for NaN and both infinities too
+
+
 def _plot_x(step: float, step_min: float, step_max: float) -> float:
     span = max(step_max - step_min, 1e-9)
     return _PAD_L + (step - step_min) / span * (_W - _PAD_L - _PAD_R)
@@ -169,6 +178,48 @@ def _plot_x(step: float, step_min: float, step_max: float) -> float:
 def _plot_y(value: float, v_min: float, v_max: float, plot_top: float) -> float:
     span = max(v_max - v_min, 1e-9)
     return plot_top + (1.0 - (value - v_min) / span) * _PLOT_H
+
+
+def _thin_line(points: list[tuple[float, float]]) -> list[tuple[float, float]]:
+    """At most four points per half-pixel column: the first, the lowest, the
+    highest and the last, in their original order.
+
+    A run logged every step for a few hundred thousand steps would otherwise
+    put every point in the path: tens of megabytes of SVG that draws the same
+    pixels. These four are the ones that decide what a column looks like, so
+    the line keeps its shape, spikes included. A log with fewer points than
+    that per column is returned as it came."""
+    kept: list[tuple[float, float]] = []
+    start, n = 0, len(points)
+    while start < n:
+        column = int(points[start][0] * 2)
+        end = start + 1
+        while end < n and int(points[end][0] * 2) == column:
+            end += 1
+        if end - start <= 4:
+            kept.extend(points[start:end])
+        else:
+            ys = [y for _x, y in points[start:end]]
+            picks = {0, ys.index(min(ys)), ys.index(max(ys)), end - start - 1}
+            kept.extend(points[start + i] for i in sorted(picks))
+        start = end
+    return kept
+
+
+# Markers are thinned only past this many; below it every point keeps its own.
+_MANY_MARKERS = 200
+
+
+def _thin_markers(marks: list[tuple[float, float]], width: float) -> list[tuple[float, float]]:
+    """(x, value) markers, at most one per `width` pixels: the largest value in each."""
+    if len(marks) <= _MANY_MARKERS:
+        return marks
+    best: dict[int, tuple[float, float]] = {}
+    for x, value in marks:
+        column = int(x / width)
+        if column not in best or value > best[column][1]:
+            best[column] = (x, value)
+    return [best[column] for column in sorted(best)]
 
 
 def _render_off_scale_labels(
@@ -243,7 +294,7 @@ def _render_chart(
     step_min, step_max = min(all_steps), max(all_steps)
 
     finite_values = [
-        v for _n, series, _c in entries for v in series.values() if math.isfinite(v)
+        v for _n, series, _c in entries for v in series.values() if _plottable(v)
     ]
     v_min, v_max, cap = _y_domain(finite_values)
 
@@ -300,38 +351,37 @@ def _render_chart(
         steps, values = series.steps(), series.values()
         # the line, as moveto/lineto segments broken at non-finite points;
         # a value above `cap` is clamped to the top edge, not hidden.
-        segment: list[str] = []
-        path_cmds: list[str] = []
-        off_scale: list[tuple[int, float]] = []
+        segment: list[tuple[float, float]] = []
+        segments: list[list[tuple[float, float]]] = []
+        off_scale: list[tuple[float, float]] = []  # (x, real value)
+        unplottable: list[tuple[float, float]] = []
         for s, v in zip(steps, values, strict=True):
-            if not math.isfinite(v):
+            x = _plot_x(s, step_min, step_max)
+            if not _plottable(v):
+                unplottable.append((x, 0.0))
                 if segment:
-                    path_cmds.append("M" + " L".join(segment))
+                    segments.append(segment)
                     segment = []
                 continue
             plotted = min(v, cap) if cap is not None else v
             if cap is not None and v > cap:
-                off_scale.append((s, v))
-            x, y = _plot_x(s, step_min, step_max), _plot_y(plotted, v_min, v_max, plot_top)
-            segment.append(f"{x:.1f} {y:.1f}")
+                off_scale.append((x, v))
+            segment.append((x, _plot_y(plotted, v_min, v_max, plot_top)))
         if segment:
-            path_cmds.append("M" + " L".join(segment))
-        for cmd in path_cmds:
+            segments.append(segment)
+        for drawn in segments:
+            cmd = "M" + " L".join(f"{x:.1f} {y:.1f}" for x, y in _thin_line(drawn))
             parts.append(f'<path d="{cmd}" fill="none" stroke="{color}" stroke-width="1.75"/>')
 
         # off-scale markers: a small triangle at the clamped top, labeled
         # with the real value, so a capped axis never hides the number.
-        for s, v in off_scale:
-            x = _plot_x(s, step_min, step_max)
+        for x, v in _thin_markers(off_scale, 4.0):
             y = plot_top + 3
             parts.append(f'<path class="marker-offscale" d="M{x - 4:.1f} {y + 7:.1f} L{x:.1f} {y:.1f} L{x + 4:.1f} {y + 7:.1f} Z" fill="{color}"/>')
             label_candidates.append((x, _fmt_num(v), color))
 
-        # non-finite (NaN/Inf) markers
-        for s, v in zip(steps, values, strict=True):
-            if math.isfinite(v):
-                continue
-            x = _plot_x(s, step_min, step_max)
+        # markers for what can't be drawn: NaN, an infinity, a value too large for the axis
+        for x, _ in _thin_markers(unplottable, 6.0):
             y = plot_top + 10
             parts.append(f'<text class="marker-bad" x="{x:.1f}" y="{y:.1f}" text-anchor="middle">&#10005;</text>')
 
@@ -443,7 +493,15 @@ def render_html(run: Run, findings: list[Finding], title: str = "trainspotter re
             f"{_render_chart(entries, findings)}</section>"
         )
 
-    total_steps = max((s for series in run.metrics.values() for s in series.steps()), default=0)
+    all_steps = [s for series in run.metrics.values() for s in series.steps()]
+    step_range = f"{min(all_steps)}&ndash;{max(all_steps)}" if all_steps else "none"
+    skipped = run.skipped_rows()
+    skipped_readout = (
+        f'<div><dt>skipped</dt><dd class="warn">{skipped} {"row" if skipped == 1 else "rows"} '
+        "could not be read</dd></div>"
+        if skipped
+        else ""
+    )
 
     return f"""<!doctype html>
 <html lang="en">
@@ -466,7 +524,8 @@ def render_html(run: Run, findings: list[Finding], title: str = "trainspotter re
     <dl class="readouts">
       <div><dt>source</dt><dd>{_esc_path(run.source_path) if run.source_path else "(stdin)"}</dd></div>
       <div><dt>format</dt><dd>{_esc(run.source_format)}</dd></div>
-      <div><dt>steps</dt><dd>0&ndash;{total_steps}</dd></div>
+      <div><dt>steps</dt><dd>{step_range}</dd></div>
+      {skipped_readout}
       <div><dt>generated</dt><dd>{generated}</dd></div>
     </dl>
   </header>
@@ -534,6 +593,7 @@ body {
 .readouts > div { display: flex; flex-direction: column; gap: 2px; max-width: 260px; }
 .readouts dt { color: var(--text-dim); text-transform: uppercase; letter-spacing: 0.08em; font-size: 10px; }
 .readouts dd { margin: 0; color: var(--text-muted); overflow-wrap: anywhere; }
+.readouts dd.warn { color: var(--warn); }
 
 .summary { padding: 18px 0 8px; }
 .summary { display: grid; grid-template-columns: repeat(3, auto) 1fr; align-items: center; gap: 20px; }

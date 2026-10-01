@@ -64,3 +64,18 @@ def try_float(value: object) -> float | None:
         except ValueError:
             return None
     return None
+
+
+# Beyond 2**53 a float no longer holds every integer, so a larger "step" is not a step count.
+_MAX_STEP = 2**53
+
+
+def try_step(value: object) -> int | None:
+    """A step number, or None when the value is missing or can't be one (NaN, an
+    infinity, a number too large to be a count). Unlike a metric, a step that is
+    not a finite number places nothing on the x-axis."""
+    number = try_float(value)
+    if number is None or not -_MAX_STEP <= number <= _MAX_STEP:  # NaN fails both comparisons
+        return None
+    return int(number)
+

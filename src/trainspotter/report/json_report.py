@@ -35,6 +35,7 @@ def to_json_dict(run: Run, findings: list[Finding]) -> dict[str, Any]:
         "run": {
             "source_format": run.source_format,
             "source_path": run.source_path,
+            "skipped_rows": run.skipped_rows(),
             "metrics": {
                 name: {
                     "count": len(series),

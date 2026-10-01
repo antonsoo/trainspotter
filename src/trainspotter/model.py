@@ -61,6 +61,12 @@ class Run:
     def metric_names(self) -> list[str]:
         return sorted(self.metrics)
 
+    def skipped_rows(self) -> int:
+        """How many rows, lines or entries the reader could not use (unparsable JSON,
+        no step, a step that isn't a number). A report built on part of a log says so."""
+        keys = ("skipped_rows", "skipped_lines", "skipped_entries")
+        return sum(n for n in (self.meta.get(key) for key in keys) if isinstance(n, int))
+
     def finalize(self) -> None:
         """Sort every series by step. Readers append in encounter order;
         call this once after loading before anything reads the series."""
