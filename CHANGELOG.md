@@ -4,6 +4,17 @@ All notable changes to this project are documented in this file.
 The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project uses [Semantic Versioning](https://semver.org/).
 
+## [0.2.3] - 2026-10-02
+
+### Security
+
+- The HTML report carries a Content-Security-Policy. It is one file with no
+  script in it, and the policy has the browser hold it to that: nothing in it
+  may run or be fetched, whatever a metric or a run is named. Names are
+  escaped; the policy is for the day one is not. Opened from disk in Chromium
+  and Firefox: no violations, and nothing but the timestamp differs from the
+  report as it was.
+
 ## [0.2.2] - 2026-10-02
 
 Logs as spreadsheets and Windows tools save them. Each of these was checked by

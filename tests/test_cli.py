@@ -87,6 +87,12 @@ def test_analyze_html_output_is_self_contained(tmp_path: Path) -> None:
     assert "<svg" in html
     assert "http://" not in html and "https://" not in html  # no CDN/external requests
     assert "<script" not in html  # no JS needed
+    # ... and the report's own policy has the browser refuse any that got in, and any fetch.
+    assert (
+        "<meta http-equiv=\"Content-Security-Policy\" content=\"default-src 'none'; "
+        "style-src 'unsafe-inline'; img-src data:; base-uri 'none'; form-action 'none'\">"
+    ) in html
+    assert html.index("Content-Security-Policy") < html.index("<style")
 
 
 def test_watch_once_reports_findings(tmp_path: Path, capsys) -> None:  # type: ignore[no-untyped-def]

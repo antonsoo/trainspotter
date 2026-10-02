@@ -466,6 +466,12 @@ def _chart_plan(run: Run) -> list[list[str]]:
     return plan
 
 
+# The report is one file with no script in it, and this has the browser hold it to that:
+# nothing in it may run or be fetched, whatever a metric or a run is named. Names are
+# escaped; the policy is for the day one is not.
+_CSP = "default-src 'none'; style-src 'unsafe-inline'; img-src data:; base-uri 'none'; form-action 'none'"
+
+
 def render_html(run: Run, findings: list[Finding], title: str = "trainspotter report") -> str:
     counts = {"error": 0, "warning": 0, "info": 0}
     for f in findings:
@@ -523,6 +529,7 @@ def render_html(run: Run, findings: list[Finding], title: str = "trainspotter re
 <html lang="en">
 <head>
 <meta charset="utf-8">
+<meta http-equiv="Content-Security-Policy" content="{_CSP}">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>{_esc(title)}</title>
 <style>

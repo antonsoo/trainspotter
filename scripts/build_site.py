@@ -107,6 +107,7 @@ def build_index(rows: list[tuple[ExampleMeta, dict[str, int]]], generated: str) 
 <html lang="en">
 <head>
 <meta charset="utf-8">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; style-src 'unsafe-inline'; img-src data:; base-uri 'none'; form-action 'none'">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>trainspotter · sample reports on real training runs</title>
 <meta name="description" content="{_DESCRIPTION}">
