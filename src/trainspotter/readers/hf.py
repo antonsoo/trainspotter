@@ -38,7 +38,7 @@ _SUMMARY_MARKER_KEY = "train_runtime"
 
 def read_hf_trainer_state(path: str | Path) -> Run:
     p = Path(path)
-    with p.open(encoding="utf-8") as fh:
+    with p.open(encoding="utf-8-sig") as fh:
         data = json.load(fh)
 
     if isinstance(data, dict) and "log_history" in data:

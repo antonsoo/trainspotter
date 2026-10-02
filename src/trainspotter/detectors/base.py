@@ -43,7 +43,7 @@ class Finding:
 class Detector:
     """Base class for a detector. Subclasses implement `run`; the docstring
     of each subclass IS its documented algorithm -- surfaced verbatim by
-    `trainspotter explain` and the README detector table."""
+    the README detector table."""
 
     name: str = "base"
 

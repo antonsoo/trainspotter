@@ -4,6 +4,34 @@ All notable changes to this project are documented in this file.
 The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project uses [Semantic Versioning](https://semver.org/).
 
+## [0.2.2] - 2026-10-02
+
+Logs as spreadsheets and Windows tools save them. Each of these was checked by
+saving `examples/divergence.csv` that way: all now give the report the
+original gives.
+
+### Fixed
+
+- A CSV with a byte-order mark (Excel's "CSV UTF-8"). The mark became part of
+  the first column's name, so `step` was no longer the step column: it was
+  listed as a metric and every finding was reported at its row number (the
+  loss spike at step 320 appeared at 353).
+- A CSV with semicolons and decimal commas, which is what a spreadsheet saves
+  wherever the decimal mark is a comma. No metric was found, and the report
+  said "No pathologies detected. Clean run" with exit code 0, for a run that
+  diverged. The delimiter (comma, semicolon or tab) is taken from the header,
+  and decimal commas are read when the delimiter is not the comma.
+- A log in which no numeric metric is found is an error (exit 2) that names
+  the columns, not a clean report. With `--fail-on` in CI, a file that could
+  not be read used to pass.
+- A `trainer_state.json` or JSONL log with a byte-order mark stopped with
+  "Unexpected UTF-8 BOM".
+- Output written to a pipe or a file is UTF-8. Before 3.15, Python on Windows
+  gives a redirected stdout the system's code page, and a metric or run name
+  outside it stopped the report with "'charmap' codec can't encode
+  characters". (Reproduced on Linux by giving the pipe cp1252 with
+  `PYTHONIOENCODING`.)
+
 ## [0.2.1] - 2026-10-02
 
 ### Fixed

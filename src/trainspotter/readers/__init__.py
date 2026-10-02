@@ -39,7 +39,7 @@ def detect_format(path: str | Path) -> str:
         return "jsonl"
     if suffix == ".json":
         try:
-            with p.open(encoding="utf-8") as fh:
+            with p.open(encoding="utf-8-sig") as fh:
                 head = fh.read(4096)
             obj_start = head.lstrip()[:1]
             if obj_start == "{" and '"log_history"' in head:

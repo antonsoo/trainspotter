@@ -75,6 +75,19 @@ def _fail_code(findings: list[Finding], fail_on: Severity | None) -> int:
 
 def cmd_analyze(args: argparse.Namespace) -> int:
     run = load_run(args.path, fmt=args.format, run_name=args.run)
+    if not run.metric_names():
+        # Not "no pathologies detected": nothing was looked at. With --fail-on in CI, a log
+        # that could not be read would otherwise pass.
+        columns = run.meta.get("columns")
+        seen = (
+            f" Its columns: {', '.join(map(str, columns[:12]))}."
+            if isinstance(columns, list) and columns
+            else ""
+        )
+        raise ValueError(
+            f"no numeric metrics found in {args.path} (read as {run.source_format}).{seen} "
+            "If that is the wrong format, name it with --format."
+        )
     findings = run_all(run)
     _emit(run, findings, args)
     return _fail_code(findings, args.fail_on)
@@ -116,9 +129,27 @@ def cmd_watch(args: argparse.Namespace) -> int:
     return exit_code
 
 
+def _text_streams() -> None:
+    """Make stdout and stderr able to carry any text.
+
+    A pipe or a file gets UTF-8: before 3.15, Python on Windows gives it the system's code
+    page, where a metric or run name outside it raised ``UnicodeEncodeError``. A terminal keeps its own encoding
+    and shows a character it cannot encode as an escape.
+    """
+    for stream in (sys.stdout, sys.stderr):
+        reconfigure = getattr(stream, "reconfigure", None)
+        if reconfigure is None:  # replaced by something that isn't a text file
+            continue
+        if stream.isatty():
+            reconfigure(errors="backslashreplace")
+        else:
+            reconfigure(encoding="utf-8")
+
+
 def main(argv: list[str] | None = None) -> int:
     parser = _build_parser()
     args = parser.parse_args(argv)
+    _text_streams()
     try:
         if args.command == "analyze":
             return cmd_analyze(args)

@@ -11,6 +11,7 @@ from __future__ import annotations
 
 import csv
 import json
+import re
 from collections.abc import Sequence
 from pathlib import Path
 
@@ -64,17 +65,50 @@ def _metric_names(keys: Sequence[str], step_key: str | None) -> dict[str, str]:
     return build_key_map(k for k in keys if k not in not_metrics)
 
 
+def _delimiter(header: str) -> str:
+    """The delimiter a CSV's header was written with: the comma, unless a semicolon or a tab
+    splits the header into more fields. A spreadsheet saves "CSV" with its locale's list
+    separator, which is a semicolon wherever the decimal mark is a comma."""
+    best, most = ",", len(next(csv.reader([header]), []))
+    for candidate in (";", "\t"):
+        fields = len(next(csv.reader([header], delimiter=candidate), []))
+        if fields > most:
+            best, most = candidate, fields
+    return best
+
+
+_DECIMAL_COMMA = re.compile(r"[+-]?\d+,\d+(?:[eE][+-]?\d+)?")
+
+
+def _decimal_points(row: dict[str, object]) -> dict[str, object]:
+    """`0,75` as `0.75`, for a file whose delimiter is not the comma."""
+    return {
+        key: value.strip().replace(",", ".")
+        if isinstance(value, str) and _DECIMAL_COMMA.fullmatch(value.strip())
+        else value
+        for key, value in row.items()
+    }
+
+
 def read_csv(path: str | Path) -> Run:
     p = Path(path)
     run = Run(source_format="csv", source_path=str(p))
-    with p.open(encoding="utf-8", newline="") as fh:
-        reader = csv.DictReader(fh)
-        fieldnames = reader.fieldnames or []
+    # utf-8-sig: Excel's "CSV UTF-8" starts with a byte-order mark, which would otherwise be
+    # part of the first column's name (so "step" was no longer the step column).
+    with p.open(encoding="utf-8-sig", newline="") as fh:
+        header = fh.readline()
+        fh.seek(0)
+        delimiter = _delimiter(header)
+        reader = csv.DictReader(fh, delimiter=delimiter)
+        fieldnames = [name.strip() for name in reader.fieldnames or []]
+        reader.fieldnames = fieldnames
         step_key = _find_step_key(fieldnames)
         run.meta["step_column"] = step_key or "(row index)"
+        run.meta["columns"] = fieldnames
         names = _metric_names(fieldnames, step_key)
+        rows = (dict(row) if delimiter == "," else _decimal_points(dict(row)) for row in reader)
         skipped = sum(
-            not _ingest_row(run, dict(row), step_key, i, names) for i, row in enumerate(reader)
+            not _ingest_row(run, row, step_key, i, names) for i, row in enumerate(rows)
         )
     run.meta["skipped_rows"] = skipped
     return run
@@ -85,7 +119,7 @@ def read_jsonl(path: str | Path) -> Run:
     run = Run(source_format="jsonl", source_path=str(p))
     skipped = 0
     rows: list[dict[str, object]] = []
-    with p.open(encoding="utf-8") as fh:
+    with p.open(encoding="utf-8-sig") as fh:
         for line in fh:
             line = line.strip()
             if not line:
