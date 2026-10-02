@@ -20,7 +20,7 @@ reparameterization of step, never diagnostic on its own.
 from __future__ import annotations
 
 import math
-from datetime import UTC, datetime
+from datetime import datetime, timezone
 
 from trainspotter.detectors import Finding
 from trainspotter.model import MetricSeries, Run
@@ -470,7 +470,7 @@ def render_html(run: Run, findings: list[Finding], title: str = "trainspotter re
     counts = {"error": 0, "warning": 0, "info": 0}
     for f in findings:
         counts[f.severity] += 1
-    generated = datetime.now(UTC).strftime("%Y-%m-%d %H:%M UTC")
+    generated = datetime.now(timezone.utc).strftime("%Y-%m-%d %H:%M UTC")
 
     charts_html = []
     fallback_i = 0

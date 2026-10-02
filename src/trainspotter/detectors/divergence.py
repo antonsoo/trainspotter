@@ -32,7 +32,7 @@ import numpy as np
 
 from trainspotter.model import Run
 
-from .base import Detector, Finding, format_p, ols_slope, series_arrays
+from .base import Detector, Finding, FloatArray, format_p, ols_slope, series_arrays
 
 DEFAULT_METRICS = ("train/loss", "eval/loss")
 
@@ -65,7 +65,7 @@ class DivergenceDetector(Detector):
             findings.extend(self._sustained_growth(metric_name, steps, values))
         return findings
 
-    def _non_finite(self, metric_name: str, steps: np.ndarray, values: np.ndarray) -> list[Finding]:
+    def _non_finite(self, metric_name: str, steps: FloatArray, values: FloatArray) -> list[Finding]:
         bad = [i for i in range(len(values)) if not math.isfinite(values[i])]
         if not bad:
             return []
@@ -94,7 +94,7 @@ class DivergenceDetector(Detector):
         ]
 
     def _sustained_growth(
-        self, metric_name: str, steps: np.ndarray, values: np.ndarray
+        self, metric_name: str, steps: FloatArray, values: FloatArray
     ) -> list[Finding]:
         finite = np.isfinite(values)
         if finite.sum() < self.min_window:

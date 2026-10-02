@@ -32,7 +32,7 @@ include = ["/src", "/docs/*.md", "/README.md", "/CHANGELOG.md", "/LICENSE*", "/p
 
 [project]
 name = "trainspotter"
-version = "0.2.0"
+version = "0.2.1"
 description = "Automatic diagnosis of loss curves and training logs: spot divergence, spikes, overfitting, LR and throughput problems before you burn another GPU-day."
 dynamic = ["readme"]
 requires-python = ">=3.10"
@@ -104,8 +104,8 @@ select = ["E", "F", "I", "UP", "B", "SIM", "N"]
 "scripts/build_site.py" = ["E501"]
 
 [tool.mypy]
-# Checked against 3.12 (numpy's own stubs need 3.12+ syntax to parse); the
-# package itself targets 3.10+ and uses no 3.11/3.12-only syntax.
+# Checked against 3.12 (numpy's own stubs need 3.12+ syntax to parse). The
+# package itself targets 3.10+: CI runs the type check and the tests on 3.10 too.
 python_version = "3.12"
 strict = true
 files = ["src"]

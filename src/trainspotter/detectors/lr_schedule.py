@@ -47,7 +47,7 @@ import numpy as np
 
 from trainspotter.model import Run
 
-from .base import Detector, Finding, group_consecutive, series_arrays
+from .base import Detector, Finding, FloatArray, group_consecutive, series_arrays
 
 
 def _between(step_gap: int) -> str:
@@ -84,7 +84,7 @@ class LRScheduleDetector(Detector):
         findings.extend(self._discontinuity(steps, values))
         return findings
 
-    def _missing_warmup(self, steps: np.ndarray, values: np.ndarray) -> list[Finding]:
+    def _missing_warmup(self, steps: FloatArray, values: FloatArray) -> list[Finding]:
         if len(values) < self.min_steps_for_warmup_check:
             return []
         peak = float(np.max(values))
@@ -113,7 +113,7 @@ class LRScheduleDetector(Detector):
             ]
         return []
 
-    def _non_monotonic_after_peak(self, steps: np.ndarray, values: np.ndarray) -> list[Finding]:
+    def _non_monotonic_after_peak(self, steps: FloatArray, values: FloatArray) -> list[Finding]:
         n = len(values)
         peak_i = int(np.argmax(values))
         grace = int(n * self.peak_grace_frac)
@@ -151,7 +151,7 @@ class LRScheduleDetector(Detector):
             )
         ]
 
-    def _discontinuity(self, steps: np.ndarray, values: np.ndarray) -> list[Finding]:
+    def _discontinuity(self, steps: FloatArray, values: FloatArray) -> list[Finding]:
         if len(values) < 6:
             return []
         lr_range = float(np.max(values) - np.min(values))

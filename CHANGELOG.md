@@ -4,6 +4,20 @@ All notable changes to this project are documented in this file.
 The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project uses [Semantic Versioning](https://semver.org/).
 
+## [0.2.1] - 2026-10-02
+
+### Fixed
+
+- Python 3.10. `trainspotter` could not be imported there: the HTML report
+  used `datetime.UTC`, which Python gained in 3.11, so every command stopped
+  at `ImportError: cannot import name 'UTC' from 'datetime'`. This was true
+  of every release so far, although each declared `requires-python >= 3.10`.
+  The test suite now runs on 3.10 before a release, on its own and with the
+  oldest numpy the package allows (1.24.0).
+- Array annotations are spelled `NDArray[np.float64]`. A bare `np.ndarray`
+  is a complete type only on the numpy releases that need Python 3.11, so
+  the strict type check failed on 3.10.
+
 ## [0.2.0] - 2026-10-01
 
 ### Added

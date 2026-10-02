@@ -44,7 +44,7 @@ import numpy as np
 
 from trainspotter.model import Run
 
-from .base import Detector, Finding, group_consecutive, robust_zscore, series_arrays
+from .base import Detector, Finding, FloatArray, group_consecutive, robust_zscore, series_arrays
 
 DEFAULT_WINDOW = 21
 DEFAULT_THRESHOLD = 10.0
@@ -78,7 +78,7 @@ class GradNormDetector(Detector):
         findings.extend(self._saturation(steps, values))
         return findings
 
-    def _explosions(self, steps: np.ndarray, values: np.ndarray) -> list[Finding]:
+    def _explosions(self, steps: FloatArray, values: FloatArray) -> list[Finding]:
         z = robust_zscore(values, self.window)
         flagged = [i for i in range(len(values)) if z[i] > self.threshold]  # one-sided: only spikes up
         findings = []
@@ -111,7 +111,7 @@ class GradNormDetector(Detector):
             )
         return findings
 
-    def _saturation(self, steps: np.ndarray, values: np.ndarray) -> list[Finding]:
+    def _saturation(self, steps: FloatArray, values: FloatArray) -> list[Finding]:
         n = len(values)
         if n < self.sat_window:
             return []

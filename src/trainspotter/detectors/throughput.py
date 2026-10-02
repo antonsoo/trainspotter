@@ -34,7 +34,7 @@ import numpy as np
 
 from trainspotter.model import Run
 
-from .base import Detector, Finding
+from .base import Detector, Finding, FloatArray
 
 DEFAULT_RATIO = 1.4
 DEFAULT_MIN_WINDOW = 5
@@ -102,7 +102,7 @@ class ThroughputDetector(Detector):
 
     def _derive_step_times(
         self, run: Run
-    ) -> tuple[np.ndarray | None, np.ndarray | None, str]:
+    ) -> tuple[FloatArray | None, FloatArray | None, str]:
         step_time = run.get("step_time")
         if step_time is not None and len(step_time) >= self.min_window * 2:
             steps = np.array(step_time.steps(), dtype=float)

@@ -7,10 +7,16 @@ from dataclasses import dataclass, field
 from typing import Literal
 
 import numpy as np
+import numpy.typing as npt
 
 from trainspotter.model import MetricSeries, Run
 
 Severity = Literal["info", "warning", "error"]
+
+#: Steps and values as the detectors hold them. Spelled out because a bare `np.ndarray` is
+#: only a complete type on the numpy releases that give its parameters defaults, and those
+#: releases don't install on Python 3.10.
+FloatArray = npt.NDArray[np.float64]
 
 _SEVERITY_RANK: dict[Severity, int] = {"info": 0, "warning": 1, "error": 2}
 
@@ -50,7 +56,7 @@ class Detector:
 # ---------------------------------------------------------------------------
 
 
-def rolling_median_mad(values: np.ndarray, window: int) -> tuple[np.ndarray, np.ndarray]:
+def rolling_median_mad(values: FloatArray, window: int) -> tuple[FloatArray, FloatArray]:
     """Trailing rolling median and MAD (median absolute deviation) at each
     index, using only values up to and including that index (so it works
     identically in a post-hoc pass and in `watch` streaming mode). The first
@@ -68,7 +74,7 @@ def rolling_median_mad(values: np.ndarray, window: int) -> tuple[np.ndarray, np.
     return med, mad
 
 
-def robust_zscore(values: np.ndarray, window: int) -> np.ndarray:
+def robust_zscore(values: FloatArray, window: int) -> FloatArray:
     """Iglewicz & Hoaglin's modified z-score: 0.6745 * (x - median) / MAD,
     using a trailing rolling median/MAD (see `rolling_median_mad`). The
     0.6745 constant makes MAD a consistent estimator of the standard
@@ -78,7 +84,7 @@ def robust_zscore(values: np.ndarray, window: int) -> np.ndarray:
     otherwise manufacture infinite z-scores from noiseless data."""
     med, mad = rolling_median_mad(values, window)
     mad_floor = np.maximum(mad, 1e-12)
-    result: np.ndarray = 0.6745 * (values - med) / mad_floor
+    result: FloatArray = 0.6745 * (values - med) / mad_floor
     return result
 
 
@@ -97,7 +103,7 @@ def group_consecutive(indices: list[int], gap: int = 1) -> list[list[int]]:
     return groups
 
 
-def ols_slope(x: np.ndarray, y: np.ndarray) -> tuple[float, float, float]:
+def ols_slope(x: FloatArray, y: FloatArray) -> tuple[float, float, float]:
     """Ordinary least squares slope of y on x, its standard error, and the
     two-sided p-value against H0: slope == 0, via a normal approximation to
     the t-distribution (accurate for n >= ~30; for smaller n this is
@@ -141,7 +147,7 @@ def _normal_cdf(z: float) -> float:
     return 0.5 * (1.0 + math.erf(z / math.sqrt(2.0)))
 
 
-def series_arrays(series: MetricSeries) -> tuple[np.ndarray, np.ndarray]:
+def series_arrays(series: MetricSeries) -> tuple[FloatArray, FloatArray]:
     steps = np.array(series.steps(), dtype=float)
     values = np.array(series.values(), dtype=float)
     return steps, values

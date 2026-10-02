@@ -54,7 +54,7 @@ import numpy as np
 
 from trainspotter.model import Run
 
-from .base import Detector, Finding, group_consecutive, ols_slope, series_arrays
+from .base import Detector, Finding, FloatArray, group_consecutive, ols_slope, series_arrays
 
 DEFAULT_METRICS = ("train/loss",)
 
@@ -147,7 +147,7 @@ class PlateauDetector(Detector):
         return findings
 
     @staticmethod
-    def _lr_context(run: Run) -> tuple[np.ndarray | None, np.ndarray | None, float]:
+    def _lr_context(run: Run) -> tuple[FloatArray | None, FloatArray | None, float]:
         lr_series = run.get("lr")
         if lr_series is None or len(lr_series) < 2:
             return None, None, 0.0
@@ -161,8 +161,8 @@ class PlateauDetector(Detector):
         start_value: float,
         total_drop: float,
         window_start_step: float,
-        lr_steps: np.ndarray | None,
-        lr_values: np.ndarray | None,
+        lr_steps: FloatArray | None,
+        lr_values: FloatArray | None,
         peak_lr: float,
     ) -> bool:
         if total_drop > 0:
