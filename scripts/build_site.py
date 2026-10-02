@@ -90,6 +90,11 @@ def _counts(findings: list[Finding]) -> dict[str, int]:
     return counts
 
 
+# The site's icon. The report pages get it too: without one a browser asks the server for
+# /favicon.ico, which the reports' Content-Security-Policy (rightly) refuses.
+_ICON = "data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 32 32%22><rect width=%2232%22 height=%2232%22 rx=%226%22 fill=%22%230b0e11%22/><path d=%22M4 22 L12 20 L18 21 L22 8 L28 6%22 stroke=%22%234fc3f7%22 stroke-width=%222.4%22 fill=%22none%22 stroke-linecap=%22round%22/></svg>"
+
+
 def build_index(rows: list[tuple[ExampleMeta, dict[str, int]]], generated: str) -> str:
     cards = []
     for meta, counts in rows:
@@ -111,7 +116,7 @@ def build_index(rows: list[tuple[ExampleMeta, dict[str, int]]], generated: str) 
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>trainspotter · sample reports on real training runs</title>
 <meta name="description" content="{_DESCRIPTION}">
-<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 32 32%22><rect width=%2232%22 height=%2232%22 rx=%226%22 fill=%22%230b0e11%22/><path d=%22M4 22 L12 20 L18 21 L22 8 L28 6%22 stroke=%22%234fc3f7%22 stroke-width=%222.4%22 fill=%22none%22 stroke-linecap=%22round%22/></svg>">
+<link rel="icon" href="{_ICON}">
 <meta property="og:type" content="website">
 <meta property="og:title" content="trainspotter · sample reports on real training runs">
 <meta property="og:description" content="{_DESCRIPTION}">
@@ -200,6 +205,7 @@ def main() -> None:
         run = load_run(src)
         findings = run_all(run)
         page = render_html(run, findings, title=f"trainspotter - {meta.title}")
+        page = page.replace("<title>", f'<link rel="icon" href="{_ICON}">\n<title>', 1)
         (out_dir / f"{meta.slug}.html").write_text(page, encoding="utf-8")
         rows.append((meta, _counts(findings)))
         print(f"  {meta.slug}: {_counts(findings)}")
