@@ -4,6 +4,15 @@ All notable changes to this project are documented in this file.
 The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project uses [Semantic Versioning](https://semver.org/).
 
+## [0.2.4] - 2026-10-02
+
+### Accessibility
+
+- The HTML report, checked with axe-core (WCAG 2.1 A and AA, and its best-practice rules) in light and dark,
+  at desktop and phone widths: no findings now.
+  The dim text was 3.1:1; the report has an `h1` and one `main` landmark that
+  holds the summary, the charts and the findings.
+
 ## [0.2.3] - 2026-10-02
 
 ### Security

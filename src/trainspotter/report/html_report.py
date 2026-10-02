@@ -541,7 +541,7 @@ def render_html(run: Run, findings: list[Finding], title: str = "trainspotter re
   <header class="masthead">
     <div class="brand">
       <span class="brand-mark" aria-hidden="true">&#9679;</span>
-      <span class="brand-name">TRAINSPOTTER</span>
+      <h1 class="brand-name">TRAINSPOTTER</h1>
       <span class="brand-sub">run diagnostic</span>
     </div>
     <dl class="readouts">
@@ -555,6 +555,7 @@ def render_html(run: Run, findings: list[Finding], title: str = "trainspotter re
     </dl>
   </header>
 
+  <main>
   <section class="summary">
     <div class="count sev-error"><span class="n">{counts['error']}</span><span class="l">error</span></div>
     <div class="count sev-warning"><span class="n">{counts['warning']}</span><span class="l">warning</span></div>
@@ -562,14 +563,15 @@ def render_html(run: Run, findings: list[Finding], title: str = "trainspotter re
     <div class="strip-wrap">{_render_health_strip(run, findings)}</div>
   </section>
 
-  <main class="charts">
+  <div class="charts">
     {"".join(charts_html)}
-  </main>
+  </div>
 
   <section class="findings-log">
     <h2 class="log-title">Findings log</h2>
     {_findings_rows(findings)}
   </section>
+  </main>
 
   <footer class="masthead-foot">
     <span>trainspotter &mdash; heuristic diagnostics, not ground truth. Read each finding's false-positive modes before acting on it.</span>
@@ -589,7 +591,7 @@ _CSS = """
   --line-strong: #2c3944;
   --text: #d9e2e8;
   --text-muted: #8b97a1;
-  --text-dim: #57626b;
+  --text-dim: #6e7c87;
   --err: #ff5d5d;
   --warn: #f2b84b;
   --info: #5fb3ff;
@@ -612,7 +614,7 @@ body {
 }
 .brand { display: flex; align-items: baseline; gap: 10px; }
 .brand-mark { color: var(--info); font-size: 11px; }
-.brand-name { font-family: var(--mono); font-weight: 700; font-size: 17px; letter-spacing: 0.12em; }
+.brand-name { margin: 0; line-height: inherit; font-family: var(--mono); font-weight: 700; font-size: 17px; letter-spacing: 0.12em; }
 .brand-sub { font-family: var(--mono); color: var(--text-dim); font-size: 12px; letter-spacing: 0.06em; text-transform: uppercase; }
 .readouts { display: flex; flex-wrap: wrap; gap: 18px 28px; margin: 0; font-family: var(--mono); font-size: 12px; }
 .readouts > div { display: flex; flex-direction: column; gap: 2px; max-width: 260px; }

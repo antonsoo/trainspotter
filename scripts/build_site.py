@@ -153,7 +153,7 @@ def build_index(rows: list[tuple[ExampleMeta, dict[str, int]]], generated: str) 
 _CSS = """
 :root {
   --bg: #0a0d10; --panel: #10151a; --line: #1f2830; --line-strong: #2c3944;
-  --text: #d9e2e8; --text-muted: #8b97a1; --text-dim: #57626b;
+  --text: #d9e2e8; --text-muted: #8b97a1; --text-dim: #6e7c87;
   --err: #ff5d5d; --warn: #f2b84b; --info: #5fb3ff;
   --mono: ui-monospace, "SFMono-Regular", "Cascadia Mono", Consolas, monospace;
   --sans: -apple-system, "Segoe UI", "Helvetica Neue", Arial, sans-serif;
