@@ -4,6 +4,51 @@ All notable changes to this project are documented in this file.
 The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project uses [Semantic Versioning](https://semver.org/).
 
+## [0.2.0] - 2026-10-01
+
+### Added
+
+- W&B chart exports (`wandb_export_*.csv`): `Step`, then `<run> - <metric>`
+  with `__MIN` and `__MAX` companions for every run drawn in the chart. They
+  were read as a generic CSV, so a two-run export of one metric was six
+  unrelated metrics of one run. One run is read and the band columns are
+  left out.
+- `--run NAME` for a source that holds several runs (a W&B chart export, a
+  TensorBoard logdir): the run's name, or the start of it. Without it the
+  run with the most points is analysed, and every report says which run it
+  is about and that there are others (`run.selected_run` and `run.runs` in
+  the JSON).
+- TensorBoard logdirs as trees. Keras writes `train/` and `validation/`
+  directories with the same tags, and `SummaryWriter.add_scalars` a
+  directory per curve; both are one run. Other subdirectories are runs.
+  Everything under a logdir used to be merged by tag, so Keras's two
+  `epoch_loss` curves, or two runs' losses, were one series with two values
+  at each step.
+
+### Fixed
+
+- Metric names as tools write them. `transformers.Trainer` reports
+  `train/learning_rate` and `train/grad_norm` to W&B and TensorBoard, so the
+  LR-schedule and gradient-norm detectors never ran on those logs. Also
+  recognized now: `val/loss`, `valid_loss`, `validation/loss`, `Loss/train`
+  and `Loss/val`, Lightning's `train_loss_step` and `lr-AdamW`, Keras's
+  `epoch_loss` and `epoch_learning_rate`, `lr/pg0`. A canonical name goes
+  to one logged metric: `train_samples_per_second` and `samples_per_second`
+  in one log were both stored as `throughput`, one series with two values
+  at a step.
+- A run resumed from a checkpoint leaves a second event file that starts
+  below where the first ended. Both were kept, two values per overlapping
+  step. The earlier session's points from the restart step on are dropped,
+  as TensorBoard does, and the report counts them.
+- A W&B runs table (one row per run) was read as a training log: its rows
+  became steps, and two runs' learning rates an "LR discontinuity". It is
+  refused with the reason; `--format csv` still reads it as it is.
+- The throughput detector's wall-clock fallback measured seconds per logged
+  point and called it step time, so a log that went from every 10 steps to
+  every 50 looked five times slower. It measures seconds per step.
+- TensorBoard wall times were never read (the column was not requested), so
+  that fallback never ran on TensorBoard logs.
+
 ## [0.1.3] - 2026-10-01
 
 ### Fixed

@@ -6,6 +6,7 @@ dropped or fatally raised.
 
 from __future__ import annotations
 
+import csv
 from pathlib import Path
 
 from trainspotter.model import Run
@@ -13,7 +14,7 @@ from trainspotter.model import Run
 from .hf import read_hf_trainer_state
 from .lightning import read_lightning_csv
 from .tabular import read_csv, read_jsonl
-from .wandb import read_wandb_csv
+from .wandb import is_chart_export, looks_like_runs_table, read_wandb_csv
 
 __all__ = [
     "load_run",
@@ -47,10 +48,20 @@ def detect_format(path: str | Path) -> str:
             pass
         return "hf"
     if suffix == ".csv":
-        with p.open(encoding="utf-8", newline="") as fh:
+        with p.open(encoding="utf-8-sig", newline="") as fh:
             header = fh.readline()
+            fh.seek(0)
+            fieldnames = next(csv.reader(fh), [])
         if header.startswith("_step") or ",_step" in header or "_runtime" in header:
             return "wandb"
+        if "_step" in fieldnames or is_chart_export(fieldnames):
+            return "wandb"
+        if looks_like_runs_table(fieldnames):
+            raise ValueError(
+                f"{p}: this looks like a W&B runs table (one row per run: Name, State, Runtime, "
+                "...), not the log of a run. Export a run's history, or a chart's CSV, instead; "
+                "--format csv reads it as it is."
+            )
         return "csv"
     raise ValueError(
         f"cannot guess format for {p!s}; pass --format explicitly "
@@ -58,10 +69,19 @@ def detect_format(path: str | Path) -> str:
     )
 
 
-def load_run(path: str | Path, fmt: str | None = None) -> Run:
-    """Load a Run from `path`, auto-detecting the format unless `fmt` is given."""
+def load_run(path: str | Path, fmt: str | None = None, run_name: str | None = None) -> Run:
+    """Load a Run from `path`, auto-detecting the format unless `fmt` is given.
+
+    `run_name` picks one run out of a source that holds several (a W&B chart export, a
+    TensorBoard logdir); see `readers.common.select_run`.
+    """
     p = Path(path)
     fmt = fmt or detect_format(p)
+    if run_name is not None and fmt not in ("wandb", "tensorboard"):
+        raise ValueError(
+            f"--run picks one run out of a W&B chart export or a TensorBoard logdir; "
+            f"{p} is read as {fmt}, which holds one run"
+        )
     if fmt == "hf":
         run = read_hf_trainer_state(p)
     elif fmt == "csv":
@@ -69,13 +89,13 @@ def load_run(path: str | Path, fmt: str | None = None) -> Run:
     elif fmt == "jsonl":
         run = read_jsonl(p)
     elif fmt == "wandb":
-        run = read_wandb_csv(p)
+        run = read_wandb_csv(p, run_name)
     elif fmt == "lightning":
         run = read_lightning_csv(p)
     elif fmt == "tensorboard":
         from .tensorboard import read_tensorboard  # optional dependency
 
-        run = read_tensorboard(p)
+        run = read_tensorboard(p, run_name)
     else:
         raise ValueError(f"unknown format {fmt!r}; choose from {', '.join(_FORMATS)}")
     run.finalize()

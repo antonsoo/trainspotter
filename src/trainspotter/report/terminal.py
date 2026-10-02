@@ -52,7 +52,22 @@ def render_terminal(run: Run, findings: list[Finding], stream: TextIO | None = N
     lines.append(style("trainspotter", _BOLD) + style("  run diagnostic", _DIM))
     lines.append(style("-" * 60, _DIM))
     lines.append(f"source   {run.source_path or '(stdin)'}  " + style(f"[{run.source_format}]", _DIM))
+    several = run.other_runs()
+    if several:
+        selected, others = several
+        shown = ", ".join(others[:5]) + (f" and {len(others) - 5} more" if len(others) > 5 else "")
+        lines.append(
+            f"run      {selected or '(top level)'}  "
+            + style(f"1 of {len(others) + 1} in this source; --run picks another: {shown}", "yellow")
+        )
     lines.append("metrics  " + (", ".join(run.metric_names()) or "(none found)"))
+    overwritten = run.overwritten_points()
+    if overwritten:
+        points = "point" if overwritten == 1 else "points"
+        lines.append(
+            "resumed  "
+            + style(f"{overwritten} {points} from before a restart were written again and are left out", _DIM)
+        )
     skipped = run.skipped_rows()
     if skipped:
         rows = "row" if skipped == 1 else "rows"

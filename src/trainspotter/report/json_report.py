@@ -26,6 +26,13 @@ def _json_safe(value: float | int | str) -> float | int | str:
     return value
 
 
+def _several_runs(run: Run) -> dict[str, Any]:
+    """`selected_run` and `runs`, present only when the source held more than one run."""
+    if run.other_runs() is None:
+        return {}
+    return {"selected_run": run.meta["selected_run"], "runs": run.meta["runs"]}
+
+
 def to_json_dict(run: Run, findings: list[Finding]) -> dict[str, Any]:
     by_severity = {"error": 0, "warning": 0, "info": 0}
     for f in findings:
@@ -36,6 +43,7 @@ def to_json_dict(run: Run, findings: list[Finding]) -> dict[str, Any]:
             "source_format": run.source_format,
             "source_path": run.source_path,
             "skipped_rows": run.skipped_rows(),
+            **_several_runs(run),
             "metrics": {
                 name: {
                     "count": len(series),

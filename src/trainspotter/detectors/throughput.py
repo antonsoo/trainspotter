@@ -128,9 +128,12 @@ class ThroughputDetector(Detector):
             wt = np.array(wall_times, dtype=float)
             st = np.array(series.steps(), dtype=float)
             dt = np.diff(wt)
-            positive = dt > 0
-            if positive.sum() < self.min_window * 2:
+            ds = np.diff(st)
+            # Seconds per step, not per logged point: a log that goes from every 10 steps to
+            # every 50 has not become five times slower.
+            usable = (dt > 0) & (ds > 0)
+            if usable.sum() < self.min_window * 2:
                 continue
-            return st[1:][positive], dt[positive], f"wall_time({name})"
+            return st[1:][usable], dt[usable] / ds[usable], f"wall_time({name})"
 
         return None, None, ""

@@ -24,6 +24,7 @@ def _build_parser() -> argparse.ArgumentParser:
     analyze = sub.add_parser("analyze", help="Analyze a training log and report findings.")
     analyze.add_argument("path", help="Path to a log file (or a TensorBoard logdir).")
     analyze.add_argument("--format", choices=_FORMAT_CHOICES, default=None, help="Force a reader instead of auto-detecting from the path.")
+    analyze.add_argument("--run", default=None, metavar="NAME", help="Which run to analyse when the source holds several (a W&B chart export, a TensorBoard logdir): its name, or the start of it. Default: the run with the most points.")
     analyze.add_argument("--output", choices=("terminal", "json", "html"), default="terminal")
     analyze.add_argument("--out", default=None, help="Write the report to this file instead of stdout (required for html unless --output is terminal).")
     analyze.add_argument("--fail-on", choices=("warning", "error"), default=None, help="Exit 1 if any finding at or above this severity was found -- for CI gating.")
@@ -33,6 +34,7 @@ def _build_parser() -> argparse.ArgumentParser:
     watch = sub.add_parser("watch", help="Tail a growing log file and print findings as they first appear.")
     watch.add_argument("path", help="Path to a log file being actively written.")
     watch.add_argument("--format", choices=_FORMAT_CHOICES, default=None)
+    watch.add_argument("--run", default=None, metavar="NAME", help="Which run to watch when the source holds several.")
     watch.add_argument("--interval", type=float, default=2.0, help="Seconds between re-reads (default: 2.0).")
     watch.add_argument("--fail-on", choices=("warning", "error"), default=None, help="Stop and exit 1 as soon as a finding at or above this severity appears.")
     watch.add_argument("--once", action="store_true", help="Read and report once instead of looping (used by tests / one-shot checks).")
@@ -72,7 +74,7 @@ def _fail_code(findings: list[Finding], fail_on: Severity | None) -> int:
 
 
 def cmd_analyze(args: argparse.Namespace) -> int:
-    run = load_run(args.path, fmt=args.format)
+    run = load_run(args.path, fmt=args.format, run_name=args.run)
     findings = run_all(run)
     _emit(run, findings, args)
     return _fail_code(findings, args.fail_on)
@@ -89,7 +91,7 @@ def cmd_watch(args: argparse.Namespace) -> int:
                 time.sleep(args.interval)
                 continue
             try:
-                run = load_run(path, fmt=args.format)
+                run = load_run(path, fmt=args.format, run_name=args.run)
             except (ValueError, OSError) as exc:
                 # A file being written mid-flush can be transiently unparsable;
                 # skip this poll instead of crashing the watcher.

@@ -16,7 +16,7 @@ from pathlib import Path
 
 from trainspotter.model import Run
 
-from .common import normalize_key, try_float, try_step
+from .common import build_key_map, try_float, try_step
 
 _STEP_KEYS = ("step", "global_step", "iteration", "iter")
 
@@ -29,9 +29,11 @@ def _find_step_key(keys: Sequence[str]) -> str | None:
     return None
 
 
-def _ingest_row(run: Run, row: dict[str, object], step_key: str | None, index: int) -> bool:
-    """Add one row's metrics to the run. False if the row was skipped: its step cell
-    holds something that can't be a step (NaN, an infinity)."""
+def _ingest_row(
+    run: Run, row: dict[str, object], step_key: str | None, index: int, names: dict[str, str]
+) -> bool:
+    """Add one row's metrics to the run, each under its name in `names`. False if the row
+    was skipped: its step cell holds something that can't be a step (NaN, an infinity)."""
     step = index
     if step_key is not None and try_float(row.get(step_key)) is not None:
         parsed = try_step(row.get(step_key))
@@ -51,8 +53,15 @@ def _ingest_row(run: Run, row: dict[str, object], step_key: str | None, index: i
         value = try_float(raw_value)
         if value is None:
             continue
-        run.add_point(normalize_key(key), step, value, wall_time=wall_time)
+        run.add_point(names[key], step, value, wall_time=wall_time)
     return True
+
+
+def _metric_names(keys: Sequence[str], step_key: str | None) -> dict[str, str]:
+    """The name each column is stored under (see `build_key_map`), leaving out the columns
+    that are not metrics."""
+    not_metrics = {step_key, "wall_time", "timestamp", None}
+    return build_key_map(k for k in keys if k not in not_metrics)
 
 
 def read_csv(path: str | Path) -> Run:
@@ -63,7 +72,10 @@ def read_csv(path: str | Path) -> Run:
         fieldnames = reader.fieldnames or []
         step_key = _find_step_key(fieldnames)
         run.meta["step_column"] = step_key or "(row index)"
-        skipped = sum(not _ingest_row(run, dict(row), step_key, i) for i, row in enumerate(reader))
+        names = _metric_names(fieldnames, step_key)
+        skipped = sum(
+            not _ingest_row(run, dict(row), step_key, i, names) for i, row in enumerate(reader)
+        )
     run.meta["skipped_rows"] = skipped
     return run
 
@@ -87,9 +99,12 @@ def read_jsonl(path: str | Path) -> Run:
                 skipped += 1
                 continue
             rows.append(obj)
-    all_keys = {k for row in rows for k in row}
+    # In order of first appearance, so that which of two rival names wins does not depend on
+    # how they sort.
+    all_keys = list(dict.fromkeys(k for row in rows for k in row))
     step_key = _find_step_key(sorted(all_keys))
     run.meta["step_column"] = step_key or "(row index)"
-    skipped += sum(not _ingest_row(run, row, step_key, i) for i, row in enumerate(rows))
+    names = _metric_names(all_keys, step_key)
+    skipped += sum(not _ingest_row(run, row, step_key, i, names) for i, row in enumerate(rows))
     run.meta["skipped_lines"] = skipped
     return run

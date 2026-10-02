@@ -49,9 +49,17 @@ trainspotter analyze path/to/trainer_state.json --output html --out report.html
 ## Features
 
 - **Five readers**, auto-detected from the file: Hugging Face
-  `trainer_state.json`, generic CSV/JSONL, Weights & Biases history CSV
-  exports, PyTorch Lightning `CSVLogger` `metrics.csv`, and TensorBoard
-  event files (`pip install trainspotter[tensorboard]`).
+  `trainer_state.json`, generic CSV/JSONL, Weights & Biases CSVs (a run's
+  history, or a chart's export), PyTorch Lightning `CSVLogger`
+  `metrics.csv`, and TensorBoard logdirs (`pip install
+  trainspotter[tensorboard]`).
+- **Reads logs the way tools really write them.** The names
+  `transformers.Trainer` sends to W&B and TensorBoard (`train/learning_rate`,
+  `train/grad_norm`), Lightning's `train_loss_step` and `lr-AdamW`, Keras's
+  `train/` and `validation/` directories, `add_scalars`' directory per
+  curve, a run resumed from a checkpoint, and a W&B chart export or a
+  logdir that holds several runs (one is analysed, the others are listed;
+  `--run` picks). See [What it reads](#what-it-reads).
 - **Nine detectors** -- see the [table below](#detectors) -- each with a
   documented algorithm, tunable thresholds, and stated false-positive modes.
 - **Three report formats**: a color-coded terminal report, JSON (stable
@@ -80,6 +88,9 @@ trainspotter analyze run/trainer_state.json --output html --out report.html
 # Force a reader instead of auto-detecting from the extension
 trainspotter analyze run/metrics.csv --format lightning
 
+# A TensorBoard logdir, or a W&B chart export, with several runs in it
+trainspotter analyze runs/ --run lr-1e-3
+
 # Tail a log that's still being written
 trainspotter watch run/trainer_state.json --interval 5 --fail-on error
 ```
@@ -94,6 +105,46 @@ finding shown):
   overfitting signature.
   metric: eval/loss
   fix: Use the checkpoint at step 125 (best eval/loss), not the last one.
+```
+
+### What it reads
+
+| Source | What is in it | How it is read |
+|---|---|---|
+| `trainer_state.json` | `log_history` of one `transformers.Trainer` run | Every entry with a `step`; the closing summary entry (`train_runtime`, the run's average `train_loss`) is metadata, not a point |
+| W&B run history CSV | `_step`, `_runtime`, one column per logged key | As logged; `_`-prefixed bookkeeping columns are skipped |
+| W&B chart export (`wandb_export_*.csv`) | `Step`, then `<run> - <metric>`, `...__MIN`, `...__MAX` for every run drawn | One run; the MIN/MAX band columns are not metrics |
+| W&B runs table | One row per run (`Name`, `State`, `Runtime`, config...) | Refused: its rows are different runs, not steps |
+| Lightning `metrics.csv` | `step`, `epoch`, sparse metric columns | Blank cells skipped; `train_loss_step` is the loss curve, `train_loss_epoch` keeps its name |
+| TensorBoard logdir | Event files, in one directory or a tree | Split directories (`train/`, `validation/`) and `add_scalars` directories (`Loss_train/`) are parts of one run; other subdirectories are runs. A restart that rewinds the step counter replaces what the earlier session wrote from that step on, as TensorBoard itself shows it |
+| Any CSV / JSONL | A `step` column and numeric columns | As is |
+
+Names are mapped onto the vocabulary the detectors look for (`train/loss`,
+`eval/loss`, `lr`, `grad_norm`, `step_time`, `throughput`, `epoch`), one
+logged metric per name: of `lr-AdamW/pg1` and `lr-AdamW/pg2`, the first is
+`lr` and the second keeps its own name. A name that only looks alike
+(`val/box_loss`, `test/loss`) is left alone.
+
+A source with several runs is analysed one run at a time: the run with the
+most points, unless `--run` names another (its name, or the start of it).
+Real output, for two of the bundled example runs written as one TensorBoard
+logdir:
+
+```
+$ trainspotter analyze runs
+source   runs  [tensorboard]
+run      lr-3e-4  1 of 2 in this source; --run picks another: lr-1e-3
+metrics  eval/loss, grad_norm, lr, train/loss
+findings 0 error  0 warning  0 info
+
+No pathologies detected. Clean run, or nothing this detector set covers.
+
+$ trainspotter analyze runs --run lr-1e-3
+source   runs  [tensorboard]
+run      lr-1e-3  1 of 2 in this source; --run picks another: lr-3e-4
+metrics  eval/loss, grad_norm, lr, train/loss
+findings 3 error  1 warning  2 info
+...
 ```
 
 ### CI usage
@@ -141,10 +192,11 @@ leads the report instead of sitting below routine early-training noise.
 `(step, value, wall_time)` points. Detectors and reports only ever see
 this shape -- they have no idea whether the log came from `transformers`,
 a CSV, or TensorBoard. Readers normalize common spellings (`loss` /
-`train_loss` / `training_loss` all become `train/loss`; `learning_rate` /
-`lr` become `lr`) but pass anything unrecognized straight through, so a
-custom metric like `eval/bleu` still reaches the detectors under its own
-name.
+`train_loss` / `Loss/train` / `train_loss_step` become `train/loss`;
+`learning_rate` / `train/learning_rate` / `lr-AdamW` become `lr`; see
+[What it reads](#what-it-reads)) but pass anything unrecognized straight
+through, so a custom metric like `eval/bleu` still reaches the detectors
+under its own name.
 
 **Robust statistics, not raw thresholds.** Spikes and gradient-norm
 explosions are judged by a *modified z-score* against a trailing rolling
@@ -250,8 +302,17 @@ pins.
 - **Readers are tested against real files**, not remembered schemas: every
   reader in `tests/test_readers.py` is exercised against a file this repo's
   test suite writes to disk in the documented format. The TensorBoard
-  reader is tested against a real event file written by TensorBoard's own
-  `EventFileWriter`.
+  reader is tested against real event files written by TensorBoard's own
+  `EventFileWriter`. `tests/test_real_layouts.py` writes the bundled example
+  runs the way other tools would have logged them (a W&B history and chart
+  export of a `transformers` run, four TensorBoard layouts, a Lightning
+  `metrics.csv`) and requires the findings the original gives. The W&B
+  chart export's column layout was checked against exports committed to
+  public repositories; it is not written by W&B in these tests.
+- **One run at a time.** From a source with several runs, one is analysed
+  and `--fail-on` gates that run only. A run is told from a split of a run
+  by its directory name (`train`, `validation`, `val`, `eval`, `test`), so
+  a run literally named `train` next to other runs is read as a split.
 - **Detectors are tested against synthetic signals with known ground
   truth**: a spike planted at step *k* must be found at step *k*; a clean
   curve must produce zero findings. See `tests/test_detector_*.py`. A
@@ -277,7 +338,7 @@ pins.
 
 ```bash
 uv sync --all-extras --dev
-uv run pytest                        # 88 tests
+uv run pytest                        # 141 tests
 uv run ruff check src tests examples
 uv run mypy src
 ```

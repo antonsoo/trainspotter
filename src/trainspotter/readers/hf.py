@@ -30,7 +30,7 @@ from pathlib import Path
 
 from trainspotter.model import Run
 
-from .common import normalize_key, try_float, try_step
+from .common import build_key_map, try_float, try_step
 
 _NON_METRIC_KEYS = {"step", "total_flos"}
 _SUMMARY_MARKER_KEY = "train_runtime"
@@ -61,6 +61,13 @@ def read_hf_trainer_state(path: str | Path) -> Run:
         )
 
     run = Run(source_format="hf", source_path=str(p), meta=meta)
+    names = build_key_map(
+        key
+        for entry in log_history
+        if isinstance(entry, dict) and _SUMMARY_MARKER_KEY not in entry
+        for key in entry
+        if key not in _NON_METRIC_KEYS
+    )
     skipped = 0
     for entry in log_history:
         if not isinstance(entry, dict) or "step" not in entry:
@@ -80,7 +87,6 @@ def read_hf_trainer_state(path: str | Path) -> Run:
             value = try_float(raw_value)
             if value is None:
                 continue
-            canon = normalize_key(key)
-            run.add_point(canon, step, value)
+            run.add_point(names[key], step, value)
     run.meta["skipped_entries"] = skipped
     return run

@@ -503,6 +503,22 @@ def render_html(run: Run, findings: list[Finding], title: str = "trainspotter re
         else ""
     )
 
+    several = run.other_runs()
+    run_readout = ""
+    if several:
+        selected, others = several
+        run_readout = (
+            f'<div><dt>run</dt><dd class="warn">{_esc(selected or "(top level)")} '
+            f"(1 of {len(others) + 1} in this source)</dd></div>"
+        )
+    overwritten = run.overwritten_points()
+    resumed_readout = (
+        f"<div><dt>resumed</dt><dd>{overwritten} {'point' if overwritten == 1 else 'points'} "
+        "from before a restart left out</dd></div>"
+        if overwritten
+        else ""
+    )
+
     return f"""<!doctype html>
 <html lang="en">
 <head>
@@ -524,8 +540,10 @@ def render_html(run: Run, findings: list[Finding], title: str = "trainspotter re
     <dl class="readouts">
       <div><dt>source</dt><dd>{_esc_path(run.source_path) if run.source_path else "(stdin)"}</dd></div>
       <div><dt>format</dt><dd>{_esc(run.source_format)}</dd></div>
+      {run_readout}
       <div><dt>steps</dt><dd>{step_range}</dd></div>
       {skipped_readout}
+      {resumed_readout}
       <div><dt>generated</dt><dd>{generated}</dd></div>
     </dl>
   </header>

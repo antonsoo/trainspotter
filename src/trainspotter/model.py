@@ -67,6 +67,22 @@ class Run:
         keys = ("skipped_rows", "skipped_lines", "skipped_entries")
         return sum(n for n in (self.meta.get(key) for key in keys) if isinstance(n, int))
 
+    def other_runs(self) -> tuple[str, list[str]] | None:
+        """For a source that held several runs (a W&B chart export, a TensorBoard logdir):
+        the name of the run that was read, and the names of the others. None for a source
+        of one run. A report on one run out of several says which, and that there are more."""
+        selected = self.meta.get("selected_run")
+        runs = self.meta.get("runs")
+        if not isinstance(selected, str) or not isinstance(runs, list):
+            return None
+        names = [r["name"] for r in runs if isinstance(r, dict) and isinstance(r.get("name"), str)]
+        return selected, [name for name in names if name != selected]
+
+    def overwritten_points(self) -> int:
+        """Points a reader dropped because a later restart of the run wrote the same steps again."""
+        n = self.meta.get("overwritten_points")
+        return n if isinstance(n, int) else 0
+
     def finalize(self) -> None:
         """Sort every series by step. Readers append in encounter order;
         call this once after loading before anything reads the series."""
