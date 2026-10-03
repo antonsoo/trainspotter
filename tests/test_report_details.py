@@ -96,3 +96,19 @@ def test_a_long_run_gives_a_report_a_browser_can_open() -> None:
     # The spike is the highest point of the run, so it is the smallest y in the path.
     x_of_top = float(drawn[0][1:].split(" L")[ys.index(min(ys))].split()[0])
     assert x_of_top == pytest.approx(54 + 123_456 / (n - 1) * (920 - 54 - 18), abs=0.11)
+
+
+def test_an_escape_sequence_in_a_metric_name_is_shown_not_run(
+    tmp_path: Path, capsys: pytest.CaptureFixture[str]
+) -> None:
+    # Metric names come from the log. One holding a terminal escape sequence (this one retitles
+    # the window) went to the terminal as it was, in the report and in the finding lines.
+    path = tmp_path / "metrics.csv"
+    rows = ["step,loss\x1b]0;pwned\x07"] + [f"{i},{5.0 + i * 0.5}" for i in range(80)]
+    path.write_text("\n".join(rows) + "\n", encoding="utf-8")
+    assert main(["analyze", str(path), "--no-color"]) in (0, 1)
+    out = capsys.readouterr().out
+    assert "\x1b" not in out and "\x07" not in out
+    assert "loss\\x1b]0;pwned\\x07" in out
+    main(["watch", str(path), "--once"])
+    assert "\x1b" not in capsys.readouterr().out

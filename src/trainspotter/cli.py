@@ -12,6 +12,7 @@ from trainspotter.detectors import Finding, Severity, run_all, severity_at_least
 from trainspotter.model import Run
 from trainspotter.readers import load_run
 from trainspotter.report import render_html, render_terminal, to_json_str
+from trainspotter.report.terminal import visible
 
 _FORMAT_CHOICES = ("hf", "csv", "jsonl", "wandb", "lightning", "tensorboard")
 
@@ -108,7 +109,7 @@ def cmd_watch(args: argparse.Namespace) -> int:
             except (ValueError, OSError) as exc:
                 # A file being written mid-flush can be transiently unparsable;
                 # skip this poll instead of crashing the watcher.
-                print(f"  (skipped this read: {exc})")
+                print(f"  (skipped this read: {visible(str(exc))})")
                 if args.once:
                     break
                 time.sleep(args.interval)
@@ -118,7 +119,7 @@ def cmd_watch(args: argparse.Namespace) -> int:
             for f in new:
                 seen.add((f.detector, f.metric, f.step_start, f.step_end))
                 step_range = str(f.step_start) if f.step_start == f.step_end else f"{f.step_start}-{f.step_end}"
-                print(f"[{f.severity.upper():7}] steps {step_range:<13} {f.detector:<12} {f.title}: {f.message}")
+                print(f"[{f.severity.upper():7}] steps {step_range:<13} {f.detector:<12} {visible(f.title)}: {visible(f.message)}")
                 if args.fail_on and severity_at_least(f.severity, args.fail_on):
                     exit_code = 1
             if args.once or exit_code:
@@ -156,7 +157,7 @@ def main(argv: list[str] | None = None) -> int:
         if args.command == "watch":
             return cmd_watch(args)
     except (OSError, ValueError) as exc:
-        print(f"trainspotter: {exc}", file=sys.stderr)
+        print(f"trainspotter: {visible(str(exc))}", file=sys.stderr)
         return 2
     parser.print_help()
     return 1

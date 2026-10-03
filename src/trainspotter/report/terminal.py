@@ -9,6 +9,7 @@ set.
 from __future__ import annotations
 
 import os
+import re
 import sys
 import textwrap
 from typing import TextIO
@@ -23,6 +24,17 @@ _ITALIC = "\x1b[3m"
 _COLORS = {"red": "\x1b[31m", "yellow": "\x1b[33m", "cyan": "\x1b[36m", "green": "\x1b[32m"}
 _SEVERITY_COLOR = {"error": "red", "warning": "yellow", "info": "cyan"}
 _SEVERITY_LABEL = {"error": "ERROR", "warning": "WARN ", "info": "INFO "}
+_CONTROL = re.compile(r"[\x00-\x08\x0b\x0c\x0e-\x1f\x7f-\x9f]")
+
+
+def visible(text: str) -> str:
+    """``text`` with each control character (bar tab and line breaks) written as ``\\xNN``.
+
+    Metric and run names come from the log. A terminal obeys an escape sequence in what it is
+    given (clears the screen, retitles the window, hides the rest of the line), so text from
+    the log is shown, not sent.
+    """
+    return _CONTROL.sub(lambda m: f"\\x{ord(m.group()):02x}", text)
 
 
 def _use_color(stream: TextIO) -> bool:
@@ -51,16 +63,16 @@ def render_terminal(run: Run, findings: list[Finding], stream: TextIO | None = N
 
     lines.append(style("trainspotter", _BOLD) + style("  run diagnostic", _DIM))
     lines.append(style("-" * 60, _DIM))
-    lines.append(f"source   {run.source_path or '(stdin)'}  " + style(f"[{run.source_format}]", _DIM))
+    lines.append(f"source   {visible(run.source_path) or '(stdin)'}  " + style(f"[{run.source_format}]", _DIM))
     several = run.other_runs()
     if several:
         selected, others = several
-        shown = ", ".join(others[:5]) + (f" and {len(others) - 5} more" if len(others) > 5 else "")
+        shown = ", ".join(visible(o) for o in others[:5]) + (f" and {len(others) - 5} more" if len(others) > 5 else "")
         lines.append(
-            f"run      {selected or '(top level)'}  "
+            f"run      {visible(selected) or '(top level)'}  "
             + style(f"1 of {len(others) + 1} in this source; --run picks another: {shown}", "yellow")
         )
-    lines.append("metrics  " + (", ".join(run.metric_names()) or "(none found)"))
+    lines.append("metrics  " + (", ".join(visible(m) for m in run.metric_names()) or "(none found)"))
     overwritten = run.overwritten_points()
     if overwritten:
         points = "point" if overwritten == 1 else "points"
@@ -91,13 +103,13 @@ def render_terminal(run: Run, findings: list[Finding], stream: TextIO | None = N
             step_range = str(f.step_start) if f.step_start == f.step_end else f"{f.step_start}-{f.step_end}"
             sev_color = _SEVERITY_COLOR[f.severity]
             label = style(f"[{_SEVERITY_LABEL[f.severity]}]", sev_color, _BOLD)
-            header = f"{label} " + style(f"steps {step_range:<13}", _DIM) + style(f"{f.detector:<12}", _DIM) + style(f.title, _BOLD)
+            header = f"{label} " + style(f"steps {step_range:<13}", _DIM) + style(f"{f.detector:<12}", _DIM) + style(visible(f.title), _BOLD)
             lines.append(header)
-            for wrapped in textwrap.wrap(f.message, width=96, initial_indent="  ", subsequent_indent="  "):
+            for wrapped in textwrap.wrap(visible(f.message), width=96, initial_indent="  ", subsequent_indent="  "):
                 lines.append(wrapped)
-            lines.append(style(f"  metric: {f.metric}", _DIM))
+            lines.append(style(f"  metric: {visible(f.metric)}", _DIM))
             if f.fixes:
-                lines.append(style(f"  fix: {f.fixes[0]}", _DIM, _ITALIC))
+                lines.append(style(f"  fix: {visible(f.fixes[0])}", _DIM, _ITALIC))
             lines.append("")
 
     stream.write("\n".join(lines).rstrip() + "\n")

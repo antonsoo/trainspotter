@@ -4,6 +4,16 @@ All notable changes to this project are documented in this file.
 The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project uses [Semantic Versioning](https://semver.org/).
 
+## [0.2.6] - 2026-10-03
+
+### Security
+
+- A metric or run name holding a terminal escape sequence was printed as it came: the terminal
+  report, `watch` and the error messages sent it to the terminal, which obeys it (clears the
+  screen, retitles the window, hides the rest of the line). Each control character in text
+  from the log is now written as a visible escape: `loss\x1b]0;title\x07`. The JSON and HTML
+  reports already escaped them.
+
 ## [0.2.5] - 2026-10-03
 
 ### Compatibility
