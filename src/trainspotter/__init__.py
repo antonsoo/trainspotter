@@ -6,7 +6,7 @@ from trainspotter.detectors import Finding, default_detectors, run_all
 from trainspotter.model import MetricSeries, Point, Run
 from trainspotter.readers import load_run
 
-__version__ = "0.2.4"
+__version__ = "0.2.5"
 
 __all__ = [
     "__version__",
