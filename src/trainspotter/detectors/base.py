@@ -41,13 +41,17 @@ class Finding:
 
 
 class Detector:
-    """Base class for a detector. Subclasses implement `run`; the docstring
+    """Base class for a detector. Subclasses implement `_run`; the docstring
     of each subclass IS its documented algorithm -- surfaced verbatim by
     the README detector table."""
 
     name: str = "base"
 
-    def run(self, run: Run) -> list[Finding]:  # pragma: no cover - abstract
+    def run(self, run: Run) -> list[Finding]:
+        """Evaluate unique step observations, preserving ambiguous input in reports."""
+        return self._run(run.analysis_view())
+
+    def _run(self, run: Run) -> list[Finding]:  # pragma: no cover - abstract
         raise NotImplementedError
 
 

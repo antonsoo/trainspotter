@@ -24,6 +24,10 @@ All checks must pass. If you add a detector, follow the existing pattern:
 a class-level docstring documenting the algorithm and its false-positive
 modes, plus tests with a planted-signal positive and a clean-curve
 negative (see `tests/test_detector_*.py`).
+Implement `_run(self, run)` on the detector. The public `Detector.run()` prepares
+one unambiguous observation per step first; reports use the original run and
+retain repeated/conflicting readings. Do not choose a last value or average
+conflicting observations inside a detector.
 
 For report changes, also run `npm ci && npm run test:browser`. These development-only
 dependencies check real generated reports in Chromium and Firefox; install the browsers

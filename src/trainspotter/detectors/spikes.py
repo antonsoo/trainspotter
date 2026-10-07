@@ -44,7 +44,7 @@ class SpikeDetector(Detector):
         self.window = window
         self.threshold = threshold
 
-    def run(self, run: Run) -> list[Finding]:
+    def _run(self, run: Run) -> list[Finding]:
         findings: list[Finding] = []
         for metric_name in self.metrics:
             series = run.get(metric_name)

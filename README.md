@@ -137,6 +137,14 @@ nonnumeric cells in recognized or otherwise numeric metric columns are reported.
 Sparse blanks and nulls remain ordinary missing observations. NaN/Inf metric
 values are retained as diagnostic evidence.
 
+**Repeated steps are evidence, not extra training progress.** The source checkout
+counts equal readings of the same metric/step once for analysis. Conflicting
+values exclude that metric from trajectory checks; other metrics remain usable.
+Different wall times at the same step stay unknown. Reports retain the original
+readings, show analysis counts, and make unresolved conflicts fail a configured
+CI gate with exit 2. [Inspect the repeated-step examples](docs/repeated-steps.md).
+This behavior is unreleased and is not in the published 0.2.6 package.
+
 A source with several runs is analysed one run at a time: the run with the
 most points, unless `--run` names another (its name, or the start of it).
 Real output, for two of the bundled example runs written as one TensorBoard
@@ -355,6 +363,8 @@ pins.
   unversioned/v1 streams use the legacy per-tag rewind heuristic. Event files
   are read in filename order, not wall-clock order; do not rename them to
   imply a different order. See the contract for oracle details.
+  Retention does not make conflicting values a usable trajectory: repeated-step
+  analysis and evidence are described in [the integrity contract](docs/input-integrity.md).
 - **Detectors are tested against synthetic signals with known ground
   truth**: a spike planted at step *k* must be found at step *k*; a clean
   curve must produce zero findings. See `tests/test_detector_*.py`. A

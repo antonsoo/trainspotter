@@ -18,16 +18,38 @@ partial = destination / "synthetic-partial.jsonl"
 partial.write_text('{"step":100,"loss":2}\n{broken\n{"step":200,"loss":1}\n')
 sources.append(partial)
 hostile = destination / "synthetic-names.jsonl"
-hostile.write_text("\n".join(json.dumps({
-    "step": i, "loss": 2.0 - i * 0.01,
-    '<img src="https://example.invalid/leak" onerror="window.injected=1">': i,
-    "eval_accuracy": 0.5, "eval/accuracy": 0.9,
-    "long-metric-" + "x" * 200: 1,
-}) for i in range(50)))
+hostile.write_text(
+    "\n".join(
+        json.dumps(
+            {
+                "step": i,
+                "loss": 2.0 - i * 0.01,
+                '<img src="https://example.invalid/leak" onerror="window.injected=1">': i,
+                "eval_accuracy": 0.5,
+                "eval/accuracy": 0.9,
+                "long-metric-" + "x" * 200: 1,
+            }
+        )
+        for i in range(50)
+    )
+)
 sources.append(hostile)
 ordinal = destination / "synthetic-ordinal.csv"
 ordinal.write_text("loss\n2\n1\n")
 sources.append(ordinal)
+sources.extend((root / "examples/repeated_steps").iterdir())
+repeated_large = destination / "synthetic-repeated-large.jsonl"
+repeated_large.write_text(
+    "\n".join(
+        json.dumps(row)
+        for step in range(150)
+        for row in [
+            {"step": step, "loss": 1.0, "grad_norm": 1.0},
+            {"step": step, "loss": 2.0},
+        ]
+    )
+)
+sources.append(repeated_large)
 manifest = []
 for source in sources:
     run = load_run(source)
@@ -36,6 +58,13 @@ for source in sources:
     path = destination / (source.stem + ".html")
     path.write_text(render_html(run, findings), encoding="utf-8")
     path.with_suffix(".json").write_text(to_json_str(run, findings), encoding="utf-8")
-    manifest.append({"file": path.name, "complete": run.input_complete(),
-                     "metrics": len(run.metrics), "findings": len(findings)})
+    manifest.append(
+        {
+            "file": path.name,
+            "complete": run.input_complete(),
+            "metrics": len(run.metrics),
+            "findings": len(findings),
+            "repeatedGroups": sum(len(groups) for groups in run.repeated_steps().values()),
+        }
+    )
 print(json.dumps(manifest))

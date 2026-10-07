@@ -59,7 +59,7 @@ class LossFloorDetector(Detector):
         self.rel_floor = rel_floor
         self.min_points = min_points
 
-    def run(self, run: Run) -> list[Finding]:
+    def _run(self, run: Run) -> list[Finding]:
         series = run.get(self.metric)
         if series is None or len(series) < self.min_points:
             return []

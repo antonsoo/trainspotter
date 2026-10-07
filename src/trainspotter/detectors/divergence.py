@@ -54,11 +54,41 @@ class DivergenceDetector(Detector):
         self.alpha = alpha
         self.growth_ratio = growth_ratio
 
-    def run(self, run: Run) -> list[Finding]:
+    def _run(self, run: Run) -> list[Finding]:
         findings: list[Finding] = []
         for metric_name in self.metrics:
             series = run.get(metric_name)
             if series is None or series.is_empty():
+                # A conflict prevents a trajectory, not an observation that NaN/Inf
+                # was recorded. Keep this pointwise fact without guessing a curve.
+                excluded = run._excluded_metrics.get(metric_name)
+                if excluded is not None:
+                    bad = [point for point in excluded.points if not math.isfinite(point.value)]
+                    if bad:
+                        bad_steps = {point.step for point in bad}
+                        findings.append(
+                            Finding(
+                                detector=self.name,
+                                title="Non-finite readings in ambiguous input",
+                                severity="error",
+                                metric=metric_name,
+                                step_start=min(bad_steps),
+                                step_end=max(bad_steps),
+                                message=(
+                                    f"{metric_name} contains {len(bad)} non-finite readings at "
+                                    f"{len(bad_steps)} distinct steps. Conflicting values elsewhere or at "
+                                    "these steps prevent trajectory analysis; no reading was chosen as the winner."
+                                ),
+                                evidence={
+                                    "first_bad_step": min(bad_steps),
+                                    "reading_count": len(bad),
+                                    "distinct_bad_steps": len(bad_steps),
+                                },
+                                fixes=[
+                                    "Inspect repeated-step evidence and export one run/writer before interpreting the trajectory."
+                                ],
+                            )
+                        )
                 continue
             steps, values = series_arrays(series)
             findings.extend(self._non_finite(metric_name, steps, values))

@@ -19,11 +19,14 @@ reparameterization of step, never diagnostic on its own.
 
 from __future__ import annotations
 
+import base64
+import json
 import math
 from datetime import datetime, timezone
 
 from trainspotter.detectors import Finding
 from trainspotter.model import MetricSeries, Run
+from trainspotter.report.json_report import repeated_step_evidence
 
 _SEVERITY_COLOR = {"error": "#ff5d5d", "warning": "#f2b84b", "info": "#5fb3ff"}
 _SEVERITY_LABEL = {"error": "ERR", "warning": "WARN", "info": "INFO"}
@@ -370,8 +373,12 @@ def _render_chart(
         if segment:
             segments.append(segment)
         for drawn in segments:
-            cmd = "M" + " L".join(f"{x:.1f} {y:.1f}" for x, y in _thin_line(drawn))
-            parts.append(f'<path d="{cmd}" fill="none" stroke="{color}" stroke-width="1.75"/>')
+            if len(drawn) == 1:
+                x, y = drawn[0]
+                parts.append(f'<circle class="marker-single" cx="{x:.1f}" cy="{y:.1f}" r="3" fill="{color}"/>')
+            else:
+                cmd = "M" + " L".join(f"{x:.1f} {y:.1f}" for x, y in _thin_line(drawn))
+                parts.append(f'<path d="{cmd}" fill="none" stroke="{color}" stroke-width="1.75"/>')
 
         # off-scale markers: a small triangle at the clamped top, labeled
         # with the real value, so a capped axis never hides the number.
@@ -472,7 +479,47 @@ def _chart_plan(run: Run) -> list[list[str]]:
 _CSP = "default-src 'none'; style-src 'unsafe-inline'; img-src data:; base-uri 'none'; form-action 'none'"
 
 
+def _repeated_evidence(run: Run) -> str:
+    records = repeated_step_evidence(run)
+    if not records:
+        return ""
+    encoded = base64.b64encode(json.dumps({
+        "schema_version": 1, "source_path": run.source_path, "repeated_steps": records,
+    }, allow_nan=False).encode()).decode("ascii")
+    rows = []
+    for record in records[:100]:
+        status = "Conflicting values: trajectory excluded" if record["conflicting_values"] else (
+            "Equal value: wall time unknown" if record["conflicting_times"] else "Equal readings: counted once"
+        )
+        values = "; ".join(
+            f'{reading["value"]} at wall time {reading["wall_time"] if reading["wall_time"] is not None else "unknown"} ({reading["count"]} {"reading" if reading["count"] == 1 else "readings"})'
+            for reading in record["readings"][:20]
+        )
+        if len(record["readings"]) > 20:
+            values += f'; {len(record["readings"]) - 20} more distinct readings in the JSON download'
+        rows.append(f'<tr><th scope="row">{_esc(record["metric"])}</th>'
+                    f'<td>{record["step"]}</td><td>{_esc(status)}</td><td>{_esc(values)}</td></tr>')
+    return (
+        '<details class="repeated-evidence input-notes">'
+        f'<summary>Repeated-step evidence ({len(records)} {"group" if len(records) == 1 else "groups"})</summary>'
+        '<h2>Repeated metric steps</h2>'
+        '<p>One metric and step can contribute at most one analysis point. Conflicting values '
+        'are not averaged or resolved by file order. Separate the runs or writers to analyze them.</p>'
+        f'<p>Showing {min(len(records), 100)} of {len(records)} repeated metric-step groups. '
+        'At most 20 distinct readings per group are shown below.</p>'
+        f'<a download="trainspotter-repeated-steps.json" href="data:application/json;base64,{encoded}">'
+        'Download all repeated-step evidence</a>'
+        '<p class="table-hint">Scroll the table horizontally to inspect every column.</p>'
+        '<div class="table-scroll" tabindex="0" role="region" aria-label="Repeated-step readings">'
+        '<table><caption>Decoded readings retained from the input</caption>'
+        '<thead><tr><th scope="col">Metric</th><th scope="col">Step</th>'
+        '<th scope="col">Analysis</th><th scope="col">Value, wall time and count</th></tr></thead>'
+        '<tbody>' + ''.join(rows) + '</tbody></table></div></details>'
+    )
+
+
 def render_html(run: Run, findings: list[Finding], title: str = "trainspotter report") -> str:
+    analysis = run.analysis_view()
     counts = {"error": 0, "warning": 0, "info": 0}
     for f in findings:
         counts[f.severity] += 1
@@ -483,7 +530,7 @@ def render_html(run: Run, findings: list[Finding], title: str = "trainspotter re
     for group in _chart_plan(run):
         entries: list[tuple[str, MetricSeries, str]] = []
         for name in group:
-            series = run.metrics.get(name)
+            series = analysis.metrics.get(name)
             if series is None or series.is_empty():
                 continue
             color = _CHART_COLORS.get(name)
@@ -491,13 +538,17 @@ def render_html(run: Run, findings: list[Finding], title: str = "trainspotter re
                 color = _FALLBACK_COLORS[fallback_i % len(_FALLBACK_COLORS)]
                 fallback_i += 1
             entries.append((name, series, color))
-        if not entries:
-            continue
-        heading = " / ".join(name for name, _s, _c in entries)
+        heading = " / ".join(group)
+        excluded = [name for name in group if name not in analysis.metrics]
+        note = (
+            '<p class="warn">Trajectory not plotted for ' + _esc(', '.join(excluded))
+            + ': conflicting values at the same step. See repeated-step evidence.</p>' if excluded else ''
+        )
         charts_html.append(
             f'<section class="chart-block"><h2>{_esc(heading)}</h2>'
-            f'<div class="chart-scroll" tabindex="0" role="region" aria-label="{_esc(heading)} chart">'
-            f"{_render_chart(entries, findings)}</div></section>"
+            + note
+            + (f'<div class="chart-scroll" tabindex="0" role="region" aria-label="{_esc(heading)} chart">'
+               f"{_render_chart(entries, findings)}</div>" if entries else '') + '</section>'
         )
 
     all_steps = [s for series in run.metrics.values() for s in series.steps()]
@@ -537,14 +588,16 @@ def render_html(run: Run, findings: list[Finding], title: str = "trainspotter re
     sources = run.meta.get("metric_sources", {})
     source_rows = "".join(
         f'<tr><th scope="row">{_esc(name)}</th><td>{_esc(str(sources.get(name, name)))}</td>'
-        f'<td>{len(series)}</td></tr>'
+        f'<td>{len(series)}</td><td>{len(analysis.metrics[name]) if name in analysis.metrics else "Excluded"}</td></tr>'
         for name, series in sorted(run.metrics.items())
     ) if isinstance(sources, dict) else ""
     evidence_html = (
         '<details class="input-evidence"><summary>Metric sources and point counts</summary>'
-        '<div class="table-scroll"><table><caption>Names used by the report and their original source</caption>'
+        '<p class="table-hint">Scroll the table horizontally to inspect every column.</p>'
+        '<div class="table-scroll" tabindex="0" role="region" aria-label="Metric sources and point counts">'
+        '<table><caption>Names used by the report and their original source</caption>'
         '<thead><tr><th scope="col">Report metric</th><th scope="col">Source metric</th>'
-        '<th scope="col">Points</th></tr></thead><tbody>' + source_rows
+        '<th scope="col">Readings</th><th scope="col">Analysis points</th></tr></thead><tbody>' + source_rows
         + '</tbody></table></div></details>'
     )
     finding_rows = _findings_rows(findings) if findings or run.input_complete() else (
@@ -591,6 +644,7 @@ def render_html(run: Run, findings: list[Finding], title: str = "trainspotter re
   </section>
 
   {evidence_html}
+  {_repeated_evidence(run)}
 
   <div class="charts">
     <p class="chart-hint">Scroll charts horizontally to inspect their full step range.</p>
@@ -629,6 +683,10 @@ _CSS = """
   --sans: -apple-system, "Segoe UI", "Helvetica Neue", Arial, sans-serif;
 }
 * { box-sizing: border-box; }
+a { color: var(--info); }
+a:focus-visible, .repeated-evidence summary:focus-visible, .table-scroll:focus-visible {
+  outline: 2px solid var(--info); outline-offset: 3px;
+}
 html, body { margin: 0; padding: 0; background: var(--bg); color: var(--text); }
 body {
   font-family: var(--sans);
@@ -658,11 +716,21 @@ body {
 .input-evidence summary { cursor: pointer; padding: 6px 0; }
 .input-evidence summary:focus-visible { outline: 2px solid var(--info); outline-offset: 4px; }
 .table-scroll { overflow-x: auto; }
-.input-evidence table { width: 100%; border-collapse: collapse; table-layout: fixed; }
+.input-evidence table { width: 100%; min-width: 560px; border-collapse: collapse; table-layout: fixed; }
 .input-evidence caption { text-align: left; padding: 8px 0; }
 .input-evidence th, .input-evidence td { text-align: left; padding: 7px 8px; border-bottom: 1px solid var(--line); overflow-wrap: anywhere; }
-.input-evidence th:last-child, .input-evidence td:last-child { width: 70px; text-align: right; }
+.input-evidence th:nth-child(n+3), .input-evidence td:nth-child(n+3) { width: 110px; text-align: right; }
 .input-evidence tbody th { font-weight: normal; }
+.repeated-evidence summary { cursor: pointer; padding: 5px 0; }
+.repeated-evidence h2 { margin-top: 10px; }
+.repeated-evidence table { width: 100%; min-width: 800px; table-layout: fixed; border-collapse: collapse; font-family: var(--mono); font-size: 12px; }
+.repeated-evidence th, .repeated-evidence td { text-align: left; padding: 8px; border-bottom: 1px solid var(--line); overflow-wrap: anywhere; }
+.repeated-evidence th:nth-child(1) { width: 140px; }
+.repeated-evidence th:nth-child(2) { width: 70px; }
+.repeated-evidence th:nth-child(3) { width: 210px; }
+.repeated-evidence caption { text-align: left; padding: 10px 0; }
+.table-hint { color: var(--text-muted); font-size: 12px; margin: 8px 0; }
+@media (min-width: 900px) { .table-hint { display: none; } }
 
 .summary { padding: 18px 0 8px; }
 .summary { display: grid; grid-template-columns: repeat(3, auto) 1fr; align-items: center; gap: 20px; }

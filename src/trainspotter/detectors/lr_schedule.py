@@ -73,7 +73,7 @@ class LRScheduleDetector(Detector):
         self.peak_grace_frac = peak_grace_frac
         self.jump_frac = jump_frac
 
-    def run(self, run: Run) -> list[Finding]:
+    def _run(self, run: Run) -> list[Finding]:
         series = run.get(self.metric)
         if series is None or len(series) < 5:
             return []

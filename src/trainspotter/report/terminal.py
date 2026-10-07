@@ -16,6 +16,7 @@ from typing import TextIO
 
 from trainspotter.detectors import Finding
 from trainspotter.model import Run
+from trainspotter.report.json_report import repeated_step_evidence
 
 _RESET = "\x1b[0m"
 _BOLD = "\x1b[1m"
@@ -91,6 +92,15 @@ def render_terminal(
         lines.append("skipped  " + style(f"{skipped} {rows} could not be read and are not in this report", "yellow"))
     for note in run.input_notes():
         lines.append("input    " + style(visible(note), "yellow"))
+    repeated = repeated_step_evidence(run)
+    for record in repeated[:8]:
+        values = ", ".join(str(reading["value"]) for reading in record["readings"][:4])
+        if len(record["readings"]) > 4:
+            values += ", ..."
+        description = f"repeat   {record['metric']} step {record['step']}: {record['count']} readings ({values})"
+        lines.extend(textwrap.wrap(visible(description), width=96, subsequent_indent="         "))
+    if repeated:
+        lines.append(style(f"evidence {len(repeated)} repeated metric-step groups; --output json retains every reading/count", _DIM))
 
     counts = {"error": 0, "warning": 0, "info": 0}
     for f in findings:

@@ -65,7 +65,7 @@ class ThroughputDetector(Detector):
         self.min_window = min_window
         self.baseline_frac = baseline_frac
 
-    def run(self, run: Run) -> list[Finding]:
+    def _run(self, run: Run) -> list[Finding]:
         steps, times, source = self._derive_step_times(run)
         if steps is None or times is None or len(steps) < self.min_window * 2:
             return []

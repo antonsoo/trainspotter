@@ -11,6 +11,23 @@ const root = resolve(dirname(fileURLToPath(import.meta.url)), '..');
 const scratch = await mkdtemp(join(tmpdir(), 'trainspotter-reports-'));
 const screenshotDir = process.env.TRAINSPOTTER_SCREENSHOTS;
 const evidence = [];
+async function checkKeyboardScroll(page, region) {
+  await region.focus();
+  await page.keyboard.press('ArrowRight');
+  await page.waitForFunction(node => node.scrollLeft > 0, await region.elementHandle());
+  await region.evaluate(node => new Promise(resolve => {
+    let previous = -1;
+    let stable = 0;
+    const frame = () => {
+      stable = node.scrollLeft === previous ? stable + 1 : 0;
+      previous = node.scrollLeft;
+      if (stable >= 3) resolve();
+      else requestAnimationFrame(frame);
+    };
+    requestAnimationFrame(frame);
+  }));
+  await region.evaluate(node => { node.scrollTo({ left: 0, behavior: 'instant' }); });
+}
 try {
   const build = spawnSync('uv', ['run', '--locked', 'python', 'scripts/browser_fixtures.py', scratch], {
     cwd: root, encoding: 'utf8', timeout: 60_000,
@@ -48,10 +65,10 @@ try {
               assert.equal(await page.locator('main').count(), 1);
               assert.equal(await page.evaluate(() => Boolean(window.injected)), false);
               if (!report.complete) {
-                assert.match(await page.locator('.input-notes').innerText(), /Input incomplete/);
+                assert.match(await page.locator('.input-notes[aria-labelledby="input-heading"]').innerText(), /Input incomplete/);
                 assert.doesNotMatch(await page.locator('.findings-log').innerText(), /Clean run/);
               }
-              const summary = page.locator('details summary');
+              const summary = page.locator('.input-evidence summary');
               await summary.focus();
               const focus = await summary.evaluate(node => ({
                 focused: document.activeElement === node,
@@ -60,25 +77,27 @@ try {
               assert.equal(focus.focused, true);
               assert.notEqual(focus.outline, 'none');
               await page.keyboard.press('Enter');
-              assert.equal(await page.locator('details').getAttribute('open'), '');
-              assert.equal(await page.locator('tbody tr').count(), report.metrics);
+              assert.equal(await page.locator('.input-evidence').getAttribute('open'), '');
+              assert.equal(await page.locator('.input-evidence tbody tr').count(), report.metrics);
+              if (report.repeatedGroups) {
+                const repeat = page.locator('.repeated-evidence');
+                await repeat.locator('summary').focus();
+                await page.keyboard.press('Enter');
+                assert.equal(await repeat.getAttribute('open'), '');
+                assert.equal(await repeat.locator('tbody tr').count(), Math.min(report.repeatedGroups, 100));
+                const pending = page.waitForEvent('download');
+                await repeat.getByRole('link', { name: 'Download all repeated-step evidence' }).click();
+                const downloaded = JSON.parse(await readFile(await (await pending).path(), 'utf8'));
+                const original = JSON.parse(await readFile(join(scratch, report.file.replace(/\.html$/, '.json')), 'utf8'));
+                assert.deepEqual(downloaded.repeated_steps, original.run.repeated_steps);
+                assert.equal(downloaded.repeated_steps.length, report.repeatedGroups);
+              }
               if (layout === 'mobile') {
+                for (const table of await page.locator('.table-scroll').all()) {
+                  await checkKeyboardScroll(page, table);
+                }
                 const chart = page.locator('.chart-scroll').first();
-                await chart.focus();
-                await page.keyboard.press('ArrowRight');
-                await page.waitForFunction(() => document.querySelector('.chart-scroll').scrollLeft > 0);
-                await chart.evaluate(node => new Promise(resolve => {
-                  let previous = -1;
-                  let stable = 0;
-                  const frame = () => {
-                    stable = node.scrollLeft === previous ? stable + 1 : 0;
-                    previous = node.scrollLeft;
-                    if (stable >= 3) resolve();
-                    else requestAnimationFrame(frame);
-                  };
-                  requestAnimationFrame(frame);
-                }));
-                await chart.evaluate(node => { node.scrollTo({ left: 0, behavior: 'instant' }); });
+                await checkKeyboardScroll(page, chart);
                 await summary.focus();
               }
               assert.equal(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth), true);
@@ -92,7 +111,8 @@ try {
               assert.equal(json.summary.input_complete, report.complete);
               if (screenshotDir && engine === 'chromium' && (
                 (layout === 'desktop' && report.file.startsWith('divergence')) ||
-                (layout === 'mobile' && report.file.startsWith('synthetic-partial'))
+                (layout === 'mobile' && report.file.startsWith('synthetic-partial')) ||
+                report.file === 'conflicting.html' || report.file === 'single-step.html'
               )) {
                 await page.screenshot({ path: join(screenshotDir, `${layout}-${report.file}.png`), fullPage: true });
               }

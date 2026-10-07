@@ -8,6 +8,12 @@ and this project uses [Semantic Versioning](https://semver.org/).
 
 ### Fixed
 
+- Repeated copies of one step no longer masquerade as a long trajectory (for
+  example, a plateau at a single step). Equal values count once in detector
+  inputs. A metric with conflicting values at one step is excluded from
+  trajectory checks; conflicting timestamps remain unknown. Original readings
+  stay available, and unresolved conflicts make configured CI gates exit 2.
+- Single-point chart segments now have visible markers.
 - Read TensorFlow 2 / Keras tensor-valued scalars as well as legacy TensorBoard
   scalars. Replay restart markers across files and tags in event order; a
   backward clock or out-of-order modern reading no longer erases valid history.
@@ -31,6 +37,10 @@ and this project uses [Semantic Versioning](https://semver.org/).
 
 ### Added
 
+- Repeated-step evidence in JSON, terminal and offline HTML reports, original
+  versus analysis point counts, bounded HTML tables and a complete evidence
+  download. Controlled captures from TensorBoard's actual event writer document
+  replayed records and conflicting readings without a restart marker.
 - Input-completeness fields, original metric names, skipped-value counts and
   restart provenance in JSON reports. Incomplete input returns exit `2` when
   `--fail-on` is configured, after writing the available report.

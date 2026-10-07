@@ -76,6 +76,35 @@ Sources: [scalar accumulator](https://github.com/tensorflow/tensorboard/blob/mas
 The tests use TensorBoard's real event writer, not a running TensorFlow or PyTorch trainer.
 The real committed Transformers log and the generated MLP runs remain regression inputs.
 
+## Repeated metric steps
+
+Readers retain every accepted reading. Detector input is a separate projection:
+each metric and step contributes at most one observation. Equal values count once,
+including equal observed NaN/Inf values; a nonfinite reading remains diagnostic
+evidence. Sparse train/eval rows at the same step belong to different metrics and
+do not conflict. Repeated `epoch` bookkeeping values are likewise counted once.
+
+If a metric has unequal values at any step, that entire metric is excluded from
+trajectory checks and its connected curve is withheld. The tool does not pick
+the last value, average writers or splice the unique portions of different runs.
+Other unambiguous metrics remain usable. A repeated equal value with different
+or missing wall times has unknown timing; value-only checks can still run.
+Value or timestamp conflicts make input incomplete for CI. Equal repeats alone
+do not. Modern TensorBoard restart handling happens before this projection.
+An excluded loss metric can still contain observed NaN/Inf readings. Those are
+reported as **Non-finite readings in ambiguous input**, with distinct-step and
+reading counts; the tool does not infer a trajectory from them. CI still returns
+2 for incomplete input before applying finding severity.
+
+The original `Run.metrics` and `Run.get()` still return retained readings. Built-in
+detectors use `Run.analysis_view()`, including direct `Detector.run()` calls.
+JSON adds `run.repeated_steps`, with metric, step, original count, conflict flags
+and all decoded value/wall-time/epoch variants and their counts. Metric summaries
+retain `count` and add `distinct_steps`, `analysis_count` and `analysis_excluded`.
+HTML shows at most 100 groups and 20 variants per group; its standalone download
+contains them all. This evidence identifies metric/step readings, not byte offsets
+or physical source-line numbers. [Examples and workflow](repeated-steps.md).
+
 ## Partial input and CI
 
 TensorBoard's decoder tolerates a truncated trailing record while a writer is active.
@@ -88,7 +117,7 @@ The existing JSON schema version 1 has additive fields:
 
 | Field | Meaning |
 |---|---|
-| `run.input_complete`, `summary.input_complete` | Numeric metrics exist, no rejected supported rows/values, no unread event bytes or unresolved source-name collisions |
+| `run.input_complete`, `summary.input_complete` | Numeric metrics exist, no rejected supported rows/values, unread event bytes, unresolved source-name collisions or repeated-step value/time conflicts |
 | `run.skipped_rows` | Rejected rows, JSONL records, HF entries, or TensorBoard events/scalar values |
 | `run.skipped_values` | Invalid nonblank metric cells |
 | `run.unread_event_bytes` | Bytes remaining after decoding event records |

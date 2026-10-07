@@ -69,7 +69,7 @@ class GradNormDetector(Detector):
         self.sat_tol = sat_tol
         self.sat_fraction = sat_fraction
 
-    def run(self, run: Run) -> list[Finding]:
+    def _run(self, run: Run) -> list[Finding]:
         series = run.get(self.metric)
         if series is None or len(series) < 5:
             return []

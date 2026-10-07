@@ -62,7 +62,7 @@ class OverfittingDetector(Detector):
         self.min_points_after = min_points_after
         self.min_rise = min_rise
 
-    def run(self, run: Run) -> list[Finding]:
+    def _run(self, run: Run) -> list[Finding]:
         eval_series = run.get(self.eval_metric)
         if eval_series is None or len(eval_series) < self.min_points_after + 1:
             return []

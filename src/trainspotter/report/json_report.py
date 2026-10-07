@@ -33,7 +33,39 @@ def _several_runs(run: Run) -> dict[str, Any]:
     return {"selected_run": run.meta["selected_run"], "runs": run.meta["runs"]}
 
 
+def repeated_step_evidence(run: Run) -> list[dict[str, Any]]:
+    """Complete decoded evidence, grouping identical readings with explicit counts."""
+    result: list[dict[str, Any]] = []
+    for name, groups in sorted(run.repeated_steps().items()):
+        for group in groups:
+            readings: dict[tuple[str, str, str], dict[str, Any]] = {}
+            for point in group.readings:
+                key = (float(point.value).hex(), str(point.wall_time), str(point.epoch))
+                if key not in readings:
+                    readings[key] = {
+                        "value": _json_safe(point.value),
+                        "wall_time": _json_safe(point.wall_time)
+                        if point.wall_time is not None
+                        else None,
+                        "epoch": _json_safe(point.epoch) if point.epoch is not None else None,
+                        "count": 0,
+                    }
+                readings[key]["count"] += 1
+            result.append(
+                {
+                    "metric": name,
+                    "step": group.step,
+                    "count": len(group.readings),
+                    "conflicting_values": group.conflicting_values,
+                    "conflicting_times": group.conflicting_times,
+                    "readings": list(readings.values()),
+                }
+            )
+    return result
+
+
 def to_json_dict(run: Run, findings: list[Finding]) -> dict[str, Any]:
+    analysis = run.analysis_view()
     by_severity = {"error": 0, "warning": 0, "info": 0}
     for f in findings:
         by_severity[f.severity] += 1
@@ -52,10 +84,16 @@ def to_json_dict(run: Run, findings: list[Finding]) -> dict[str, Any]:
             "step_column": run.meta.get("step_column", "step"),
             "metric_sources": run.meta.get("metric_sources", {}),
             "ambiguous_metric_sources": run.meta.get("ambiguous_metric_sources", []),
+            "repeated_steps": repeated_step_evidence(run),
             **_several_runs(run),
             "metrics": {
                 name: {
                     "count": len(series),
+                    "analysis_count": len(analysis.metrics[name])
+                    if name in analysis.metrics
+                    else 0,
+                    "distinct_steps": len({point.step for point in series.points}),
+                    "analysis_excluded": bool(series.points) and name not in analysis.metrics,
                     "first_step": series.steps()[0] if not series.is_empty() else None,
                     "last_step": series.steps()[-1] if not series.is_empty() else None,
                 }

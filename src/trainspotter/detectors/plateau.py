@@ -80,7 +80,7 @@ class PlateauDetector(Detector):
         self.convergence_frac = convergence_frac
         self.lr_decay_frac = lr_decay_frac
 
-    def run(self, run: Run) -> list[Finding]:
+    def _run(self, run: Run) -> list[Finding]:
         findings: list[Finding] = []
         for metric_name in self.metrics:
             series = run.get(metric_name)
