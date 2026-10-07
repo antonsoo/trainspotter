@@ -64,8 +64,8 @@ class Run:
     def skipped_rows(self) -> int:
         """How many rows, lines or entries the reader could not use (unparsable JSON,
         no step, a step that isn't a number). A report built on part of a log says so."""
-        keys = ("skipped_rows", "skipped_lines", "skipped_entries")
-        return sum(n for n in (self.meta.get(key) for key in keys) if isinstance(n, int))
+        keys = ("skipped_rows", "skipped_lines", "skipped_entries", "skipped_events")
+        return sum(max(0, n) for n in (self.meta.get(key) for key in keys) if type(n) is int)
 
     def other_runs(self) -> tuple[str, list[str]] | None:
         """For a source that held several runs (a W&B chart export, a TensorBoard logdir):
@@ -81,7 +81,51 @@ class Run:
     def overwritten_points(self) -> int:
         """Points a reader dropped because a later restart of the run wrote the same steps again."""
         n = self.meta.get("overwritten_points")
-        return n if isinstance(n, int) else 0
+        return max(0, n) if type(n) is int else 0
+
+    def unread_event_bytes(self) -> int:
+        """Bytes TensorBoard could not decode, including a partially written last record."""
+        n = self.meta.get("unread_event_bytes", 0)
+        return max(0, n) if type(n) is int else 0
+
+    def skipped_values(self) -> int:
+        """Invalid nonblank cells in a recognized metric or a column with numeric readings."""
+        invalid = self.meta.get("invalid_metric_values", {})
+        known = self.meta.get("invalid_known_metrics", [])
+        if not isinstance(invalid, dict) or not isinstance(known, list):
+            return 0
+        return sum(count for name, count in invalid.items()
+                   if isinstance(count, int) and (name in self.metrics or name in known))
+
+    def input_complete(self) -> bool:
+        """Supported input was read with unambiguous sources; not a health/coverage claim."""
+        return (bool(self.metrics) and self.skipped_rows() == 0
+                and self.skipped_values() == 0 and self.unread_event_bytes() == 0
+                and not self.meta.get("ambiguous_metric_sources"))
+
+    def input_notes(self) -> list[str]:
+        notes = []
+        if self.skipped_rows():
+            notes.append(f"{self.skipped_rows()} rows or events could not be read.")
+        if self.skipped_values():
+            notes.append(f"{self.skipped_values()} nonblank metric values were not numeric.")
+        if self.unread_event_bytes():
+            notes.append(
+                f"{self.unread_event_bytes()} event-file bytes could not be decoded "
+                "(a partial write or corrupt record)."
+            )
+        ambiguous = self.meta.get("ambiguous_metric_sources")
+        if isinstance(ambiguous, list) and ambiguous:
+            notes.append(
+                f"{len(ambiguous)} metric names are claimed by multiple writer directories; "
+                "their curves are kept separate. Select a single writer directory to diagnose them."
+            )
+        axis = self.meta.get("step_column")
+        if isinstance(axis, str) and axis.startswith("(row index"):
+            notes.append(f"The horizontal axis uses {axis}; these are not training-step counts.")
+        if not self.input_complete():
+            notes.append("Input is incomplete; findings describe only the readable data.")
+        return notes
 
     def finalize(self) -> None:
         """Sort every series by step. Readers append in encounter order;

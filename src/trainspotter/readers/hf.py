@@ -26,25 +26,37 @@ to route the whole entry to run metadata instead.
 from __future__ import annotations
 
 import json
+from decimal import Decimal
 from pathlib import Path
 
 from trainspotter.model import Run
 
-from .common import build_key_map, try_float, try_step
+from .common import metric_names, metric_value, try_step, unique_object
 
 _NON_METRIC_KEYS = {"step", "total_flos"}
 _SUMMARY_MARKER_KEY = "train_runtime"
+_READER_META = {
+    "skipped_rows", "skipped_lines", "skipped_entries", "skipped_events", "unread_event_bytes",
+    "metric_sources", "invalid_metric_values", "invalid_known_metrics", "selected_run", "runs",
+    "overwritten_points", "restart_markers", "step_column", "columns", "train_summary",
+    "ambiguous_metric_sources",
+}
 
 
 def read_hf_trainer_state(path: str | Path) -> Run:
     p = Path(path)
     with p.open(encoding="utf-8-sig") as fh:
-        data = json.load(fh)
+        try:
+            data = json.load(fh, object_pairs_hook=unique_object, parse_float=Decimal)
+        except RecursionError as exc:
+            raise ValueError(f"{p}: JSON nesting is too deep") from exc
 
     if isinstance(data, dict) and "log_history" in data:
         log_history = data["log_history"]
         meta: dict[str, object] = {
-            k: v for k, v in data.items() if k != "log_history" and not isinstance(v, dict | list)
+            k: float(v) if isinstance(v, Decimal) else v
+            for k, v in data.items()
+            if k != "log_history" and k not in _READER_META and not isinstance(v, dict | list)
         }
     elif isinstance(data, list):
         log_history = data
@@ -61,13 +73,13 @@ def read_hf_trainer_state(path: str | Path) -> Run:
         )
 
     run = Run(source_format="hf", source_path=str(p), meta=meta)
-    names = build_key_map(
+    names = metric_names(run, (
         key
         for entry in log_history
         if isinstance(entry, dict) and _SUMMARY_MARKER_KEY not in entry
         for key in entry
         if key not in _NON_METRIC_KEYS
-    )
+    ))
     skipped = 0
     for entry in log_history:
         if not isinstance(entry, dict) or "step" not in entry:
@@ -75,7 +87,10 @@ def read_hf_trainer_state(path: str | Path) -> Run:
             continue
         if _SUMMARY_MARKER_KEY in entry:
             # The run-level training summary, not a per-step log point.
-            run.meta["train_summary"] = {k: v for k, v in entry.items() if k != "step"}
+            run.meta["train_summary"] = {
+                k: float(v) if isinstance(v, Decimal) else v
+                for k, v in entry.items() if k != "step"
+            }
             continue
         step = try_step(entry.get("step"))
         if step is None:
@@ -84,7 +99,7 @@ def read_hf_trainer_state(path: str | Path) -> Run:
         for key, raw_value in entry.items():
             if key in _NON_METRIC_KEYS:
                 continue
-            value = try_float(raw_value)
+            value = metric_value(run, names[key], raw_value)
             if value is None:
                 continue
             run.add_point(names[key], step, value)

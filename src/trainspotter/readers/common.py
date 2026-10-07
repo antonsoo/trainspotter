@@ -17,7 +17,8 @@ their own: merged, they would be one series with two values at a step.
 from __future__ import annotations
 
 import re
-from collections.abc import Iterable
+from collections.abc import Iterable, Sequence
+from decimal import Decimal, InvalidOperation
 from typing import TYPE_CHECKING
 
 if TYPE_CHECKING:
@@ -110,7 +111,7 @@ def _claim(raw: str) -> tuple[str, int] | None:
     """The canonical name `raw` would take, and how good a claim it has (lower is better)."""
     key = raw.strip()
     if key in _CANONICAL:
-        return key, -1
+        return key, -2 if raw == key else -1
     found = _BY_TOKENS.get(_tokens(key))
     if found is not None:
         return found
@@ -148,15 +149,50 @@ def build_key_map(raw_keys: Iterable[str]) -> dict[str, str]:
         if canon not in winners or (rank, order) < winners[canon][:2]:
             winners[canon] = (rank, order, raw)
     taken = {raw: canon for canon, (_, _, raw) in winners.items()}
-    out: dict[str, str] = {}
-    for raw in keys:
-        if raw in taken:
-            out[raw] = taken[raw]
-            continue
-        name = _passthrough(raw)
-        # A name that lost its claim must not land on the canonical name by the back door.
-        out[raw] = raw.strip() if name in winners else name
-    return out
+    out = dict(taken)
+    proposed = {
+        raw: raw.strip() if _passthrough(raw) in winners else _passthrough(raw)
+        for raw in keys if raw not in taken
+    }
+    used = set(out.values())
+    reserved = set(keys) | set(proposed.values()) | used
+    # Literal names own their spelling before aliases do (eval/accuracy vs eval_accuracy).
+    for raw in sorted(proposed, key=lambda raw: raw != proposed[raw]):
+        name = proposed[raw]
+        if name in used:
+            name = raw
+        if name in used:
+            suffix = 2
+            name = f"{raw} [{suffix}]"
+            while name in reserved or name in used:
+                suffix += 1
+                name = f"{raw} [{suffix}]"
+        out[raw] = name
+        used.add(name)
+    return {raw: out[raw] for raw in keys}
+
+
+def metric_names(run: Run, raw_keys: Iterable[str]) -> dict[str, str]:
+    """Keep the original name behind every reported metric inspectable."""
+    names = build_key_map(raw_keys)
+    run.meta["metric_sources"] = {name: raw for raw, name in names.items()}
+    return names
+
+
+def unique_object(pairs: list[tuple[str, object]]) -> dict[str, object]:
+    """Reject duplicate JSON keys rather than silently replacing an observation."""
+    result: dict[str, object] = {}
+    for key, value in pairs:
+        if key in result:
+            raise ValueError(f"duplicate JSON key {key!r}")
+        result[key] = value
+    return result
+
+
+def validate_columns(columns: Sequence[str]) -> None:
+    """A duplicate header loses data before the reader ever sees a row."""
+    if len(columns) != len(set(columns)):
+        raise ValueError("duplicate CSV column names; give each metric a distinct header")
 
 
 def normalize_key(raw: str) -> str:
@@ -174,8 +210,11 @@ def try_float(value: object) -> float | None:
         return None
     if isinstance(value, bool):
         return None
-    if isinstance(value, int | float):
-        return float(value)
+    if isinstance(value, int | float | Decimal):
+        try:
+            return float(value)
+        except OverflowError:
+            return -float("inf") if value < 0 else float("inf")
     if isinstance(value, str):
         s = value.strip()
         if s == "" or s.lower() in {"none", "null"}:
@@ -187,18 +226,47 @@ def try_float(value: object) -> float | None:
     return None
 
 
+def metric_value(run: Run, name: str, raw: object) -> float | None:
+    """Record invalid cells in known/numeric metrics; sparse cells remain ordinary gaps."""
+    value = try_float(raw)
+    missing = raw is None or (isinstance(raw, str) and raw.strip().lower() in {"", "null", "none"})
+    if value is None and not missing:
+        invalid = run.meta.setdefault("invalid_metric_values", {})
+        if isinstance(invalid, dict):
+            invalid[name] = invalid.get(name, 0) + 1
+        if _claim(name) is not None:
+            known = run.meta.setdefault("invalid_known_metrics", [])
+            if isinstance(known, list) and name not in known:
+                known.append(name)
+    return value
+
+
 # Beyond 2**53 a float no longer holds every integer, so a larger "step" is not a step count.
-_MAX_STEP = 2**53
+_MAX_STEP = 2**53 - 1
+_NUMBER = re.compile(r"[+-]?(?:[0-9]+(?:\.[0-9]*)?|\.[0-9]+)(?:[eE][+-]?[0-9]+)?")
 
 
 def try_step(value: object) -> int | None:
     """A step number, or None when the value is missing or can't be one (NaN, an
     infinity, a number too large to be a count). Unlike a metric, a step that is
     not a finite number places nothing on the x-axis."""
-    number = try_float(value)
-    if number is None or not -_MAX_STEP <= number <= _MAX_STEP:  # NaN fails both comparisons
+    if isinstance(value, bool):
         return None
-    return int(number)
+    if isinstance(value, str):
+        if not _NUMBER.fullmatch(value.strip()):
+            return None
+        try:
+            value = Decimal(value.strip())
+        except InvalidOperation:
+            return None
+    if not isinstance(value, int | float | Decimal):
+        return None
+    if isinstance(value, Decimal) and not value.is_finite():
+        return None
+    if not -_MAX_STEP <= value <= _MAX_STEP:
+        return None
+    integer = int(value)
+    return integer if value == integer else None
 
 
 
@@ -226,5 +294,5 @@ def select_run(run: Run, counts: dict[str, int], wanted: str | None, what: str) 
         chosen = matches[0]
     if len(counts) > 1:
         run.meta["runs"] = [{"name": name, "points": n} for name, n in counts.items()]
-        run.meta["selected_run"] = chosen
+    run.meta["selected_run"] = chosen
     return chosen

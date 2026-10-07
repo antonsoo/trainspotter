@@ -205,12 +205,12 @@ def test_json_step_beyond_any_count_is_skipped(tmp_path: Path) -> None:
     assert run.skipped_rows() == 1
 
 
-def test_blank_step_cell_still_falls_back_to_the_row_index(tmp_path: Path) -> None:
+def test_blank_explicit_step_cell_is_skipped_without_inventing_a_coordinate(tmp_path: Path) -> None:
     path = tmp_path / "log.csv"
     path.write_text("step,loss\n0,2.0\n,1.5\n20,1.0\n")
     run = load_run(path)
-    assert run.get("train/loss").steps() == [0, 1, 20]  # type: ignore[union-attr]
-    assert run.skipped_rows() == 0
+    assert run.get("train/loss").steps() == [0, 20]  # type: ignore[union-attr]
+    assert run.skipped_rows() == 1
 
 
 def test_wandb_row_with_more_cells_than_the_header_does_not_crash(tmp_path: Path) -> None:
@@ -218,7 +218,8 @@ def test_wandb_row_with_more_cells_than_the_header_does_not_crash(tmp_path: Path
     path = tmp_path / "wandb.csv"
     path.write_text("_step,_runtime,train/loss\n0,1,2.0\n1,2,1.5,stray,cells\n2,3,1.0\n")
     run = load_run(path)
-    assert run.get("train/loss").values() == [2.0, 1.5, 1.0]  # type: ignore[union-attr]
+    assert run.get("train/loss").values() == [2.0, 1.0]  # type: ignore[union-attr]
+    assert run.skipped_rows() == 1
 
 
 @pytest.mark.parametrize("log_history", ["null", "5", '"x"', '{"a": 1}'])
@@ -227,4 +228,3 @@ def test_log_history_that_is_not_a_list_is_rejected(tmp_path: Path, log_history:
     path.write_text(f'{{"log_history": {log_history}}}')
     with pytest.raises(ValueError, match="'log_history' is .*, not a list of log entries"):
         load_run(path)
-

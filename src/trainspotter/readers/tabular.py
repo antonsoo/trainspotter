@@ -13,17 +13,21 @@ import csv
 import json
 import re
 from collections.abc import Sequence
+from decimal import Decimal
 from pathlib import Path
 
 from trainspotter.model import Run
 
-from .common import build_key_map, try_float, try_step
+from .common import metric_names, metric_value, try_float, try_step, unique_object, validate_columns
 
 _STEP_KEYS = ("step", "global_step", "iteration", "iter")
 
 
 def _find_step_key(keys: Sequence[str]) -> str | None:
-    lower = {k.lower(): k for k in keys}
+    lower = {k.strip().lower(): k for k in keys}
+    candidates = [k for k in keys if k.strip().lower() in _STEP_KEYS]
+    if len(candidates) > 1:
+        raise ValueError(f"multiple step columns: {', '.join(candidates)}; keep one step axis")
     for candidate in _STEP_KEYS:
         if candidate in lower:
             return lower[candidate]
@@ -36,7 +40,7 @@ def _ingest_row(
     """Add one row's metrics to the run, each under its name in `names`. False if the row
     was skipped: its step cell holds something that can't be a step (NaN, an infinity)."""
     step = index
-    if step_key is not None and try_float(row.get(step_key)) is not None:
+    if step_key is not None:
         parsed = try_step(row.get(step_key))
         if parsed is None:
             return False
@@ -51,18 +55,18 @@ def _ingest_row(
             continue
         if key in ("wall_time", "timestamp"):
             continue
-        value = try_float(raw_value)
+        value = metric_value(run, names[key], raw_value)
         if value is None:
             continue
         run.add_point(names[key], step, value, wall_time=wall_time)
     return True
 
 
-def _metric_names(keys: Sequence[str], step_key: str | None) -> dict[str, str]:
+def _metric_names(run: Run, keys: Sequence[str], step_key: str | None) -> dict[str, str]:
     """The name each column is stored under (see `build_key_map`), leaving out the columns
     that are not metrics."""
     not_metrics = {step_key, "wall_time", "timestamp", None}
-    return build_key_map(k for k in keys if k not in not_metrics)
+    return metric_names(run, (k for k in keys if k not in not_metrics))
 
 
 def _delimiter(header: str) -> str:
@@ -80,12 +84,14 @@ def _delimiter(header: str) -> str:
 _DECIMAL_COMMA = re.compile(r"[+-]?\d+,\d+(?:[eE][+-]?\d+)?")
 
 
+def _decimal_point(value: str) -> str:
+    return value.strip().replace(",", ".") if _DECIMAL_COMMA.fullmatch(value.strip()) else value
+
+
 def _decimal_points(row: dict[str, object]) -> dict[str, object]:
     """`0,75` as `0.75`, for a file whose delimiter is not the comma."""
     return {
-        key: value.strip().replace(",", ".")
-        if isinstance(value, str) and _DECIMAL_COMMA.fullmatch(value.strip())
-        else value
+        key: _decimal_point(value) if isinstance(value, str) else value
         for key, value in row.items()
     }
 
@@ -99,16 +105,17 @@ def read_csv(path: str | Path) -> Run:
         header = fh.readline()
         fh.seek(0)
         delimiter = _delimiter(header)
-        reader = csv.DictReader(fh, delimiter=delimiter)
-        fieldnames = [name.strip() for name in reader.fieldnames or []]
-        reader.fieldnames = fieldnames
+        reader = csv.DictReader(fh, delimiter=delimiter, strict=True)
+        fieldnames = reader.fieldnames or []
+        validate_columns(fieldnames)
         step_key = _find_step_key(fieldnames)
         run.meta["step_column"] = step_key or "(row index)"
         run.meta["columns"] = fieldnames
-        names = _metric_names(fieldnames, step_key)
+        names = _metric_names(run, fieldnames, step_key)
         rows = (dict(row) if delimiter == "," else _decimal_points(dict(row)) for row in reader)
         skipped = sum(
-            not _ingest_row(run, row, step_key, i, names) for i, row in enumerate(rows)
+            None in row or None in row.values() or not _ingest_row(run, row, step_key, i, names)
+            for i, row in enumerate(rows)
         )
     run.meta["skipped_rows"] = skipped
     return run
@@ -125,8 +132,8 @@ def read_jsonl(path: str | Path) -> Run:
             if not line:
                 continue
             try:
-                obj = json.loads(line)
-            except json.JSONDecodeError:
+                obj = json.loads(line, object_pairs_hook=unique_object, parse_float=Decimal)
+            except (ValueError, RecursionError):
                 skipped += 1
                 continue
             if not isinstance(obj, dict):
@@ -136,9 +143,9 @@ def read_jsonl(path: str | Path) -> Run:
     # In order of first appearance, so that which of two rival names wins does not depend on
     # how they sort.
     all_keys = list(dict.fromkeys(k for row in rows for k in row))
-    step_key = _find_step_key(sorted(all_keys))
+    step_key = _find_step_key(all_keys)
     run.meta["step_column"] = step_key or "(row index)"
-    names = _metric_names(all_keys, step_key)
+    names = _metric_names(run, all_keys, step_key)
     skipped += sum(not _ingest_row(run, row, step_key, i, names) for i, row in enumerate(rows))
     run.meta["skipped_lines"] = skipped
     return run

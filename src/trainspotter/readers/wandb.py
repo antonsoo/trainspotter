@@ -30,7 +30,8 @@ from pathlib import Path
 
 from trainspotter.model import Run
 
-from .common import build_key_map, select_run, try_float, try_step
+from .common import metric_names, metric_value, select_run, try_float, try_step, validate_columns
+from .tabular import _decimal_point, _decimal_points, _delimiter
 
 _STEP_COL = "_step"
 _RUNTIME_COL = "_runtime"
@@ -77,11 +78,16 @@ def read_wandb_chart_csv(path: str | Path, run_name: str | None = None) -> Run:
     p = Path(path)
     run = Run(source_format="wandb", source_path=str(p))
     with p.open(encoding="utf-8-sig", newline="") as fh:
-        reader = csv.reader(fh)
+        delimiter = _delimiter(fh.readline())
+        fh.seek(0)
+        reader = csv.reader(fh, delimiter=delimiter, strict=True)
         header = next(reader, [])
         rows = list(reader)
     if not header:
         raise ValueError(f"{p}: empty file")
+    validate_columns(header)
+    if delimiter != ",":
+        rows = [[_decimal_point(cell) for cell in row] for row in rows]
 
     axis = header[0]
     by_run: dict[str, dict[str, int]] = {}
@@ -92,22 +98,29 @@ def read_wandb_chart_csv(path: str | Path, run_name: str | None = None) -> Run:
         by_run.setdefault(name, {})[metric] = index
 
     def points(columns: dict[str, int]) -> int:
-        cells = (row[i] for row in rows for i in columns.values() if i < len(row))
+        cells = (
+            row[i] for row in rows if len(row) == len(header)
+            and (axis.strip().lower() not in _STEP_AXES or try_step(row[0]) is not None)
+            for i in columns.values()
+        )
         return sum(1 for cell in cells if try_float(cell) is not None)
 
     counts = {name: points(columns) for name, columns in by_run.items()}
     chosen = select_run(run, counts, run_name, what=f"{p}: W&B chart export")
     columns = by_run[chosen]
-    names = build_key_map(columns)
+    names = metric_names(run, columns)
 
     steps_are_steps = axis.strip().lower() in _STEP_AXES
     run.meta["step_column"] = axis if steps_are_steps else f"(row index; the x-axis is {axis!r})"
     skipped = 0
     for index, row in enumerate(rows):
+        if len(row) != len(header):
+            skipped += 1
+            continue
         step = index
         wall_time = None
         x = try_float(row[0]) if row else None
-        if steps_are_steps and x is not None:
+        if steps_are_steps:
             parsed = try_step(row[0])
             if parsed is None:  # NaN or an infinity: not a step
                 skipped += 1
@@ -116,7 +129,7 @@ def read_wandb_chart_csv(path: str | Path, run_name: str | None = None) -> Run:
         elif "time" in axis.lower():
             wall_time = x
         for metric, i in columns.items():
-            value = try_float(row[i]) if i < len(row) else None
+            value = metric_value(run, names[metric], row[i])
             if value is not None:
                 run.add_point(names[metric], step, value, wall_time=wall_time)
     run.meta["skipped_rows"] = skipped
@@ -126,38 +139,46 @@ def read_wandb_chart_csv(path: str | Path, run_name: str | None = None) -> Run:
 def read_wandb_csv(path: str | Path, run_name: str | None = None) -> Run:
     p = Path(path)
     with p.open(encoding="utf-8-sig", newline="") as fh:
-        header = next(csv.reader(fh), [])
+        delimiter = _delimiter(fh.readline())
+        fh.seek(0)
+        header = next(csv.reader(fh, delimiter=delimiter), [])
+    validate_columns(header)
     if is_chart_export(header):
         return read_wandb_chart_csv(p, run_name)
 
     run = Run(source_format="wandb", source_path=str(p))
     with p.open(encoding="utf-8-sig", newline="") as fh:
-        reader = csv.DictReader(fh)
+        reader = csv.DictReader(fh, delimiter=delimiter, strict=True)
         fieldnames = reader.fieldnames or []
-        if _STEP_COL not in fieldnames:
+        step_keys = [key for key in fieldnames if key.strip().lower() == _STEP_COL]
+        if len(step_keys) > 1:
+            raise ValueError("multiple W&B step columns; keep one _step axis")
+        if not step_keys:
             raise ValueError(
                 f"{p}: no '_step' column -- is this a W&B history CSV? Expected a run's history "
                 "(wandb.Api().run(path).history() written to CSV) or a chart's CSV export."
             )
-        run.meta["step_column"] = _STEP_COL
-        names = build_key_map(
-            k for k in fieldnames if k is not None and not k.startswith(_SKIP_PREFIXES)
-        )
+        step_key = step_keys[0]
+        runtime_key = next((key for key in fieldnames if key.strip() == _RUNTIME_COL), _RUNTIME_COL)
+        run.meta["step_column"] = step_key
+        if run_name is not None:
+            raise ValueError("--run selects a W&B chart export, not a single-run history CSV")
+        names = metric_names(run, (
+            k for k in fieldnames if k is not None and not k.strip().startswith(_SKIP_PREFIXES)
+        ))
         skipped = 0
-        for i, row in enumerate(reader):
-            step = i
-            if try_float(row.get(_STEP_COL)) is not None:
-                parsed = try_step(row.get(_STEP_COL))
-                if parsed is None:  # NaN or an infinity: not a step
-                    skipped += 1
-                    continue
-                step = parsed
-            wall_time = try_float(row.get(_RUNTIME_COL))
+        for raw_row in reader:
+            row = dict(raw_row) if delimiter == "," else _decimal_points(dict(raw_row))
+            step = try_step(row.get(step_key))
+            if step is None or None in row or None in row.values():
+                skipped += 1
+                continue
+            wall_time = try_float(row.get(runtime_key))
             for key, raw_value in row.items():
                 # csv.DictReader files the cells beyond the header under the key None.
-                if key is None or key.startswith(_SKIP_PREFIXES):
+                if key is None or key.strip().startswith(_SKIP_PREFIXES):
                     continue
-                value = try_float(raw_value)
+                value = metric_value(run, names[key], raw_value)
                 if value is None:
                     continue
                 run.add_point(names[key], step, value, wall_time=wall_time)

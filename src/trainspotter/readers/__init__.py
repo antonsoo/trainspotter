@@ -13,7 +13,7 @@ from trainspotter.model import Run
 
 from .hf import read_hf_trainer_state
 from .lightning import read_lightning_csv
-from .tabular import read_csv, read_jsonl
+from .tabular import _delimiter, read_csv, read_jsonl
 from .wandb import is_chart_export, looks_like_runs_table, read_wandb_csv
 
 __all__ = [
@@ -51,10 +51,9 @@ def detect_format(path: str | Path) -> str:
         with p.open(encoding="utf-8-sig", newline="") as fh:
             header = fh.readline()
             fh.seek(0)
-            fieldnames = next(csv.reader(fh), [])
-        if header.startswith("_step") or ",_step" in header or "_runtime" in header:
-            return "wandb"
-        if "_step" in fieldnames or is_chart_export(fieldnames):
+            fieldnames = next(csv.reader(fh, delimiter=_delimiter(header)), [])
+        bookkeeping = {"_step", "_runtime", "_timestamp"} & {k.strip().lower() for k in fieldnames}
+        if bookkeeping or is_chart_export(fieldnames):
             return "wandb"
         if looks_like_runs_table(fieldnames):
             raise ValueError(
