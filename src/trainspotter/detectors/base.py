@@ -131,7 +131,7 @@ def ols_slope(x: FloatArray, y: FloatArray) -> tuple[float, float, float]:
     resid_var = float(np.sum(residuals**2) / dof)
     se = math.sqrt(resid_var / sxx) if sxx > 0 else float("inf")
     if se == 0.0:
-        return slope, 0.0, 0.0
+        return slope, 0.0, 1.0 if slope == 0.0 else 0.0
     t_stat = slope / se
     p_value = 2.0 * (1.0 - _normal_cdf(abs(t_stat)))
     return slope, se, p_value

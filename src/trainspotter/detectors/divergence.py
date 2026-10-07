@@ -58,7 +58,7 @@ class DivergenceDetector(Detector):
         findings: list[Finding] = []
         for metric_name in self.metrics:
             series = run.get(metric_name)
-            if series is None or len(series) < 3:
+            if series is None or series.is_empty():
                 continue
             steps, values = series_arrays(series)
             findings.extend(self._non_finite(metric_name, steps, values))

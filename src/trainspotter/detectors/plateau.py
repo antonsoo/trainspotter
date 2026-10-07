@@ -100,6 +100,8 @@ class PlateauDetector(Detector):
             for start in range(0, n - window + 1):
                 w_steps = steps[start : start + window]
                 w_values = values[start : start + window]
+                if not np.all(np.isfinite(w_values)):
+                    continue
                 _slope, _se, p_value = ols_slope(w_steps, w_values)
                 first, last = w_values[0], w_values[-1]
                 rel = abs(last - first) / (abs(first) + 1e-12)
