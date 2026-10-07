@@ -1,0 +1,180 @@
+{
+  "commit": "44b3f1b",
+  "python": "3.12.12",
+  "numpy": "2.5.3",
+  "tensorboard": "2.21.0",
+  "tests": 325,
+  "hashes": {
+    "dist/trainspotter-0.2.6-py3-none-any.whl": "166a63f1dee30c934e6d3f5cd0498f7d57007bb6bb14a3f1c0a3b9faf23b967f",
+    "dist/trainspotter-0.2.6.tar.gz": "24cd4aac6b60739b0243c6d56446773434ed271dfd602d0f27702bde5f732300",
+    "examples/repeated_steps/single-step.csv": "4f81964faa7916ae6916711d2744ce4a618b63d4996897510f13118348a406fa",
+    "examples/repeated_steps/conflicting/events.out.tfevents.0000000000.capture": "25c113a6eba35773a18364b4d5e438dc5e8ab9530f734ac1203bd021e71d64b7",
+    "examples/repeated_steps/replayed/events.out.tfevents.0000000000.capture": "6ed29d94b90b20b5f50dea8fb3680e407b4d7662334649a490633e3b36d88c59"
+  },
+  "local_only": true,
+  "source_commit": "44b3f1b38377b8266bf6028c3f98603f3b5a5493",
+  "minimums": {
+    "python": "3.10.21",
+    "numpy": "1.24.0",
+    "tensorboard": "2.12.0",
+    "tests": 325
+  },
+  "wheel_environment": {
+    "python": "3.10.21",
+    "numpy": "2.2.6",
+    "tensorboard": null
+  },
+  "cli_capture_cases": [
+    {
+      "case": "single-step.csv",
+      "action": "analyze",
+      "exit_code": 0,
+      "input_complete": true,
+      "metrics": {
+        "train/loss": {
+          "count": 100,
+          "analysis_count": 1,
+          "distinct_steps": 1,
+          "analysis_excluded": false,
+          "first_step": 10,
+          "last_step": 10
+        }
+      },
+      "findings": []
+    },
+    {
+      "case": "single-step.csv",
+      "action": "watch",
+      "exit_code": 0
+    },
+    {
+      "case": "replayed",
+      "action": "analyze",
+      "exit_code": 1,
+      "input_complete": true,
+      "metrics": {
+        "grad_norm": {
+          "count": 120,
+          "analysis_count": 40,
+          "distinct_steps": 40,
+          "analysis_excluded": false,
+          "first_step": 0,
+          "last_step": 39
+        },
+        "train/loss": {
+          "count": 120,
+          "analysis_count": 40,
+          "distinct_steps": 40,
+          "analysis_excluded": false,
+          "first_step": 0,
+          "last_step": 39
+        }
+      },
+      "findings": [
+        "throughput"
+      ]
+    },
+    {
+      "case": "replayed",
+      "action": "watch",
+      "exit_code": 1
+    },
+    {
+      "case": "conflicting",
+      "action": "analyze",
+      "exit_code": 2,
+      "input_complete": false,
+      "metrics": {
+        "grad_norm": {
+          "count": 40,
+          "analysis_count": 40,
+          "distinct_steps": 40,
+          "analysis_excluded": false,
+          "first_step": 0,
+          "last_step": 39
+        },
+        "train/loss": {
+          "count": 41,
+          "analysis_count": 0,
+          "distinct_steps": 40,
+          "analysis_excluded": true,
+          "first_step": 0,
+          "last_step": 39
+        }
+      },
+      "findings": []
+    },
+    {
+      "case": "conflicting",
+      "action": "watch",
+      "exit_code": 2
+    }
+  ],
+  "installed_wheel_cases": [
+    {
+      "format": "csv",
+      "action": "analyze",
+      "exit_code": 2,
+      "nonfinite_readings": 10,
+      "retained_readings": 51,
+      "analysis_points": 0
+    },
+    {
+      "format": "csv",
+      "action": "watch",
+      "exit_code": 2
+    },
+    {
+      "format": "jsonl",
+      "action": "analyze",
+      "exit_code": 2,
+      "nonfinite_readings": 10,
+      "retained_readings": 51,
+      "analysis_points": 0
+    },
+    {
+      "format": "jsonl",
+      "action": "watch",
+      "exit_code": 2
+    },
+    {
+      "format": "hf",
+      "action": "analyze",
+      "exit_code": 2,
+      "nonfinite_readings": 10,
+      "retained_readings": 51,
+      "analysis_points": 0
+    },
+    {
+      "format": "hf",
+      "action": "watch",
+      "exit_code": 2
+    },
+    {
+      "case": "100 identical CSV readings",
+      "exit_code": 0,
+      "retained_readings": 100,
+      "analysis_points": 1
+    },
+    {
+      "case": "standalone HTML from installed wheel",
+      "exit_code": 0
+    },
+    {
+      "case": "missing optional TensorBoard dependency",
+      "exit_code": 2
+    }
+  ],
+  "browser": {
+    "node": "24.21.0",
+    "cases": 52,
+    "engines": [
+      "chromium",
+      "firefox"
+    ],
+    "axe_violations": 0,
+    "external_requests": 0,
+    "policy_violations": 0,
+    "report": "verification-repeated-browser-2026-10-07.json"
+  }
+}
