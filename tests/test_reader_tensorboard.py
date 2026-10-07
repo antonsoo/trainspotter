@@ -1,7 +1,8 @@
-"""TensorBoard reader test, against a real event file written with
-TensorBoard's own writer (not a hand-rolled protobuf, and not tbparse
-itself, so this is an independent round trip: TensorBoard writes, trainspotter
-reads via tbparse). Skipped if the `tensorboard` extra isn't installed."""
+"""TensorBoard reader round trip against its real event-file writer.
+
+Restart-policy oracle comparisons live in test_tensorboard_evidence.py.
+Skipped if the optional `tensorboard` extra isn't installed.
+"""
 
 from __future__ import annotations
 
@@ -27,7 +28,6 @@ def _write_scalar_events(logdir: Path, tag: str, values: list[float]) -> None:
 
 
 def test_reads_real_tensorboard_event_file(tmp_path: Path) -> None:
-    pytest.importorskip("tbparse")
     from trainspotter.readers.tensorboard import read_tensorboard
 
     logdir = tmp_path / "tb_logs"

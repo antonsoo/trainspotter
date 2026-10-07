@@ -66,14 +66,14 @@ dependencies = [
 ]
 
 [project.optional-dependencies]
-tensorboard = ["tbparse>=0.0.8"]
+tensorboard = ["tensorboard>=2.12"]
 examples = ["scikit-learn>=1.5"]
 dev = [
   "pytest>=9.0.3",
   "pytest-cov>=5.0",
   "ruff>=0.6",
   "mypy>=1.10",
-  "tbparse>=0.0.8",
+  "tensorboard>=2.12",
   "scikit-learn>=1.5",
 ]
 
@@ -113,7 +113,7 @@ strict = true
 files = ["src"]
 
 [[tool.mypy.overrides]]
-module = "tbparse.*"
+module = ["tensorboard.*", "google.protobuf.*"]
 ignore_missing_imports = true
 
 [tool.pytest.ini_options]

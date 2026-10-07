@@ -397,7 +397,6 @@ def test_run_selection_is_refused_where_there_is_one_run(
 tb_writer = pytest.importorskip("tensorboard.summary.writer.event_file_writer")
 tb_proto = pytest.importorskip("tensorboard.compat.proto.event_pb2")
 tb_summary = pytest.importorskip("tensorboard.compat.proto.summary_pb2")
-pytest.importorskip("tbparse")
 
 
 def _events(
@@ -405,9 +404,15 @@ def _events(
     series: dict[str, list[tuple[int, float]]],
     wall0: float = 1_790_000_000.0,
     suffix: str = "",
+    restart: int | None = None,
 ) -> None:
     logdir.mkdir(parents=True, exist_ok=True)
     writer = tb_writer.EventFileWriter(str(logdir), filename_suffix=suffix)
+    if restart is not None:
+        writer.add_event(tb_proto.Event(
+            step=restart, wall_time=wall0,
+            session_log=tb_proto.SessionLog(status=tb_proto.SessionLog.START),
+        ))
     for tag, points in series.items():
         for step, value in points:
             value_proto = tb_summary.Summary.Value(tag=tag, simple_value=value)
@@ -516,6 +521,7 @@ def test_tensorboard_resumed_run_keeps_what_the_restart_wrote(
         {"train/loss": [(s, v) for s, v in loss if s >= back]},
         wall0=1_790_500_000.0,
         suffix=".resumed",
+        restart=back,
     )
     run = load_run(tmp_path / "run")
     series = run.get("train/loss")
@@ -527,7 +533,7 @@ def test_tensorboard_resumed_run_keeps_what_the_restart_wrote(
     assert run.overwritten_points() == dropped
     assert main(["analyze", str(tmp_path / "run"), "--no-color"]) == 0
     assert (
-        f"resumed  {dropped} points from before a restart were written again and are left out"
+        f"resumed  {dropped} points invalidated by restart events are left out"
         in capsys.readouterr().out
     )
 
