@@ -43,6 +43,15 @@ def to_json_dict(run: Run, findings: list[Finding]) -> dict[str, Any]:
             "source_format": run.source_format,
             "source_path": run.source_path,
             "skipped_rows": run.skipped_rows(),
+            "skipped_values": run.skipped_values(),
+            "input_complete": run.input_complete(),
+            "input_notes": run.input_notes(),
+            "unread_event_bytes": run.unread_event_bytes(),
+            "overwritten_points": run.overwritten_points(),
+            "restart_markers": run.meta.get("restart_markers", 0),
+            "step_column": run.meta.get("step_column", "step"),
+            "metric_sources": run.meta.get("metric_sources", {}),
+            "ambiguous_metric_sources": run.meta.get("ambiguous_metric_sources", []),
             **_several_runs(run),
             "metrics": {
                 name: {
@@ -54,6 +63,7 @@ def to_json_dict(run: Run, findings: list[Finding]) -> dict[str, Any]:
             },
         },
         "summary": {
+            "input_complete": run.input_complete(),
             "total_findings": len(findings),
             "by_severity": by_severity,
         },

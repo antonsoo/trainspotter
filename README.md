@@ -66,12 +66,12 @@ trainspotter analyze path/to/trainer_state.json --output html --out report.html
   schema, for tooling), and a self-contained HTML report (inline SVG
   charts, no CDN, no JavaScript -- opens from disk, works offline forever).
 - **CI gating**: `--fail-on warning|error` exits non-zero if any finding at
-  or above that severity was found.
+  or above that severity was found, or the input could only be partially read.
 - **Live tailing**: `trainspotter watch <file>` re-reads a growing log on
   an interval and prints only newly-appeared findings.
 - **numpy is the only required dependency.** No pandas, no plotting
   library, no web framework. (`tensorboard` support is an optional extra
-  since parsing the event-file format properly needs `tbparse`.)
+  for TensorBoard's event-file decoder; it does not require pandas or TensorFlow.)
 
 ## Usage
 
@@ -116,14 +116,26 @@ finding shown):
 | W&B chart export (`wandb_export_*.csv`) | `Step`, then `<run> - <metric>`, `...__MIN`, `...__MAX` for every run drawn | One run; the MIN/MAX band columns are not metrics |
 | W&B runs table | One row per run (`Name`, `State`, `Runtime`, config...) | Refused: its rows are different runs, not steps |
 | Lightning `metrics.csv` | `step`, `epoch`, sparse metric columns | Blank cells skipped; `train_loss_step` is the loss curve, `train_loss_epoch` keeps its name |
-| TensorBoard logdir | Event files, in one directory or a tree | Split directories (`train/`, `validation/`) and `add_scalars` directories (`Loss_train/`) are parts of one run; other subdirectories are runs. A restart that rewinds the step counter replaces what the earlier session wrote from that step on, as TensorBoard itself shows it |
-| Any CSV / JSONL | A `step` column and numeric columns | As is |
+| TensorBoard logdir | Legacy scalar summaries and tensor-valued scalars, in one directory or a tree | Split directories (`train/`, `validation/`) and `add_scalars` directories (`Loss_train/`) are parts of one run; other subdirectories are runs. Modern event streams use explicit restart markers, never wall-clock sorting or an inferred restart from an out-of-order reading |
+| Any CSV / JSONL | A `step` column and numeric columns | An explicit step must be an exact integer. With no step column anywhere in the source, row indices are used and identified in the report |
 
 Names are mapped onto the vocabulary the detectors look for (`train/loss`,
 `eval/loss`, `lr`, `grad_norm`, `step_time`, `throughput`, `epoch`), one
 logged metric per name: of `lr-AdamW/pg1` and `lr-AdamW/pg2`, the first is
 `lr` and the second keeps its own name. A name that only looks alike
 (`val/box_loss`, `test/loss`) is left alone.
+
+Reports expose the original name behind every metric. Names such as
+`eval_accuracy` and `eval/accuracy` remain separate curves even though they
+would normally normalize to the same spelling. TensorBoard writer directories
+that claim the same metric also remain separate.
+
+An invalid, missing, fractional, or out-of-range value in an **explicit step
+column** is skipped and counted; it never turns into a row number. A duplicate
+CSV header is rejected; a JSONL object with duplicate keys is skipped. Nonblank,
+nonnumeric cells in recognized or otherwise numeric metric columns are reported.
+Sparse blanks and nulls remain ordinary missing observations. NaN/Inf metric
+values are retained as diagnostic evidence.
 
 A source with several runs is analysed one run at a time: the run with the
 most points, unless `--run` names another (its name, or the start of it).
@@ -137,7 +149,7 @@ run      lr-3e-4  1 of 2 in this source; --run picks another: lr-1e-3
 metrics  eval/loss, grad_norm, lr, train/loss
 findings 0 error  0 warning  0 info
 
-No pathologies detected. Clean run, or nothing this detector set covers.
+No pathologies detected. Only the available metrics and detector checks were evaluated.
 
 $ trainspotter analyze runs --run lr-1e-3
 source   runs  [tensorboard]
@@ -154,6 +166,27 @@ findings 3 error  1 warning  2 info
   run: trainspotter analyze runs/latest/trainer_state.json --fail-on error
   # exits 1 if any error-severity pathology was detected
 ```
+
+| Exit | Meaning |
+|---|---|
+| `0` | Report produced. With `--fail-on`, input was fully read and no finding met the configured severity |
+| `1` | A finding met the configured severity |
+| `2` | Input/output error, no numeric metrics, missing optional dependency, or incomplete input with `--fail-on` |
+
+A partial report is still written before a configured gate returns `2`. Its JSON
+contains `run.input_complete: false` and `summary.input_complete: false`, plus
+skipped row/value counts and unread event-file bytes. Without a gate, partial
+reports return `0` and show the limitation. `input_complete` concerns reading the
+supported data; it does **not** mean training finished or every pathology was checked.
+
+`watch --once` performs one read, including when the file is missing or malformed,
+and returns `2` if it cannot read a run. Continuous watching retries transient read
+errors, holds its initial run selection, and re-evaluates findings when prior data
+changes. An extending finding is printed once; a severity change is printed again.
+Report files are replaced atomically, and `--out` cannot overwrite the source log.
+
+The [input integrity contract](docs/input-integrity.md) documents restart semantics,
+the supported step range, provenance fields, and the verification limits.
 
 ## Detectors
 
@@ -313,6 +346,15 @@ pins.
   and `--fail-on` gates that run only. A run is told from a split of a run
   by its directory name (`train`, `validation`, `val`, `eval`, `test`), so
   a run literally named `train` next to other runs is read as a split.
+- **Restart evidence is explicit in modern TensorBoard streams.** Every
+  `SessionLog.START`, including the first observed marker, invalidates prior
+  points at or beyond that step in the same writer directory. This follows
+  TensorBoard's legacy scalar accumulator's convention, applied equally to
+  scalar and tensor storage; other TensorBoard loaders can differ. Without a
+  marker, out-of-order and duplicate-step readings are retained. Older,
+  unversioned/v1 streams use the legacy per-tag rewind heuristic. Event files
+  are read in filename order, not wall-clock order; do not rename them to
+  imply a different order. See the contract for oracle details.
 - **Detectors are tested against synthetic signals with known ground
   truth**: a spike planted at step *k* must be found at step *k*; a clean
   curve must produce zero findings. See `tests/test_detector_*.py`. A
@@ -328,6 +370,10 @@ pins.
   every 2s) rather than tailing new bytes; fine for the log sizes this
   tool targets (thousands to tens of thousands of steps), not designed for
   gigabyte-scale logs.
+- Timing comparisons require finite positive readings in both comparison
+  windows. Missing or invalid readings do not become a zero or move the window
+  into earlier data. Inverted throughput is seconds per reported unit (sample
+  or token), not seconds per training step.
 - The OLS significance tests (`plateau`, `overfitting`, `divergence`'s
   sustained-growth check) use a normal approximation to the t-distribution,
   accurate for windows of about 30+ points; on shorter windows they're
@@ -341,7 +387,16 @@ uv sync --all-extras --dev
 uv run pytest
 uv run ruff check src tests examples
 uv run mypy src
+uv build
+# Optional browser checks for the generated, self-contained reports:
+npm ci
+npm run test:browser
 ```
+
+The browser checks require installed Playwright Chromium and Firefox browsers
+(`npx playwright install chromium firefox` on a new machine). They exercise the
+actual generated reports, including keyboard access to metric provenance and
+scrollable charts at 320px, axe accessibility, CSP, and absence of network requests.
 
 See [CONTRIBUTING.md](CONTRIBUTING.md) for the detector-contribution
 pattern.

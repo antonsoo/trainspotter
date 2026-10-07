@@ -6,6 +6,39 @@ and this project uses [Semantic Versioning](https://semver.org/).
 
 ## Unreleased
 
+### Fixed
+
+- Read TensorFlow 2 / Keras tensor-valued scalars as well as legacy TensorBoard
+  scalars. Replay restart markers across files and tags in event order; a
+  backward clock or out-of-order modern reading no longer erases valid history.
+  TensorBoard imports expose unread trailing bytes and count points invalidated
+  by restart events. The optional extra uses TensorBoard directly, removing the
+  tbparse/pandas dependency chain.
+- Validate step coordinates without float rounding or truncation. Invalid
+  explicit steps are counted instead of being replaced with row indices.
+  Reject duplicate CSV headers and ambiguous step columns; detect duplicate JSON
+  keys, incomplete CSV rows, and invalid metric cells. Keep colliding normalized
+  metric names separate and prevent input metadata from forging reader counts.
+- Detect even a single NaN/Inf loss reading, recognize exactly constant loss as
+  a plateau, and avoid fabricated throughput findings from invalid timing windows.
+  Throughput reports state their actual time unit; large finite medians do not overflow.
+- `watch --once` terminates on missing, empty, or malformed input. Continuous
+  watches hold their initial run selection, recover read errors, and reconsider
+  rewritten history without repeatedly printing an extending finding. Invalid
+  intervals are rejected. Terminal names escape line breaks and bidi overrides.
+- `--out` works for terminal reports, refuses the input file (including aliases),
+  and preserves an existing report if writing its replacement fails.
+
+### Added
+
+- Input-completeness fields, original metric names, skipped-value counts and
+  restart provenance in JSON reports. Incomplete input returns exit `2` when
+  `--fail-on` is configured, after writing the available report.
+- Visible incomplete-input notices, an expandable metric-source table, and
+  keyboard-scrollable phone charts in self-contained HTML reports.
+- Regression tests using real event files and an independent TensorBoard scalar
+  accumulator, plus repeatable Chromium/Firefox report and accessibility checks.
+
 ### Maintenance
 
 - The uv configuration and lock now explicitly prefer stable dependency releases,

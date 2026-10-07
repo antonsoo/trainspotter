@@ -17,12 +17,19 @@ uv sync --all-extras --dev
 uv run ruff check src tests examples
 uv run mypy src
 uv run pytest
+uv build
 ```
 
-All three must pass. If you add a detector, follow the existing pattern:
+All checks must pass. If you add a detector, follow the existing pattern:
 a class-level docstring documenting the algorithm and its false-positive
 modes, plus tests with a planted-signal positive and a clean-curve
 negative (see `tests/test_detector_*.py`).
+
+For report changes, also run `npm ci && npm run test:browser`. These development-only
+dependencies check real generated reports in Chromium and Firefox; install the browsers
+once with `npx playwright install chromium firefox`. Python remains the only runtime
+needed to generate reports. `TRAINSPOTTER_SCREENSHOTS` selects a directory for visual
+review; `TRAINSPOTTER_BROWSER_EVIDENCE` selects a JSON file for the browser results.
 
 ## Regenerating the example logs
 

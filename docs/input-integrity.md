@@ -1,0 +1,127 @@
+# Input integrity and report interpretation
+
+Trainspotter's findings concern the observations it could read, under a heuristic
+detector set. A report with no findings is not proof that training is healthy.
+
+## Coordinates and names
+
+| Input | Result |
+|---|---|
+| Exact integer step, including `100.0` or `1e2` | Step 100 |
+| Fractional, missing, nonnumeric, boolean, or nonfinite explicit step | Skip and count the row |
+| Integer outside `[-9007199254740991, 9007199254740991]` | Skip and count; detectors use double precision |
+| No step column anywhere in a CSV/JSONL source | Use row indices and disclose the axis in every report |
+| Non-step W&B chart axis | Use disclosed row indices; preserve a time axis as wall time |
+| Sparse blank/null metric cell | No observation at that step |
+| NaN/Inf metric reading | Retain for diagnostics, including a run with just one loss reading |
+| Nonnumeric nonblank cell in a recognized or otherwise numeric metric | Count as an invalid metric value |
+| Text-only metadata column | Ignore as a metric |
+| Two names normalize to the same spelling | Keep distinct series; literal names have priority |
+| Duplicate CSV header or competing step columns | Reject the source |
+| Duplicate JSON keys | Reject the JSON document, or skip that JSONL record |
+
+JSON step numbers are read through decimal parsing before validation so a decimal
+close to the representable integer boundary cannot first round into a valid step.
+Metric values then convert to floats. An integer metric too large for a float
+becomes nonfinite evidence, consistent with an overflowing scientific-notation value.
+
+CSV rows with extra or missing fields are skipped; explicit empty cells are allowed.
+An unterminated quoted field is an input error. Comma, semicolon, and tab delimiters,
+UTF-8 BOMs, and decimal commas with non-comma delimiters are supported. All names in
+terminal diagnostics are shown with control characters escaped; HTML names are escaped.
+
+## TensorBoard event order
+
+The optional reader uses TensorBoard's TFRecord decoder and protobuf definitions,
+without a DataFrame or reservoir sampling. It accepts legacy `simple_value` and
+rank-zero numeric tensors with scalar or absent plugin metadata. Text, images,
+histograms and non-scalar tensors are outside this reader's scope. A malformed value
+explicitly marked as a scalar is counted as skipped; tensor shapes are checked before
+decoding to avoid allocating a non-scalar shape.
+
+Files within a writer directory are read in lexicographic filename order and records
+in file order. Wall time is preserved as timing evidence, never used to reorder events.
+For version-2 event streams, every `SessionLog.START` at step T invalidates earlier
+observations with step >= T in that same writer directory, including tags which are
+never logged again after the restart. For example:
+
+```text
+file 1: loss(0)=3 -> loss(10)=99 -> eval_loss(10)=88
+file 2: START(5)  -> loss(5)=2
+
+retained: loss(0)=3 -> loss(5)=2
+removed:  loss(10), eval_loss(10)
+```
+
+A modern step rewind without a START marker retains the observations; no restart is
+invented. Duplicate-step readings also remain in the series. Unversioned/version-1
+streams follow the older scalar accumulator's per-tag rewind heuristic. Restart scope
+does not cross writer directories: a `train/` marker does not purge a `validation/`
+file. Two directories claiming the same logical metric get source-qualified names
+instead of being concatenated into one curve. That ambiguity makes input incomplete
+for a configured gate; selecting one writer directory resolves it.
+
+This contract follows TensorBoard's **legacy scalar EventAccumulator** restart
+convention and applies it uniformly to scalar and tensor storage. TensorBoard's
+plugin accumulator uses a different convention (its first START is treated as an
+initial session), and the legacy accumulator does not purge its tensor reservoir.
+Trainspotter does not claim identical output to every TensorBoard dashboard or loader.
+Restart tests compare with the unmodified scalar accumulator. For tensor fixtures,
+the oracle receives the same event sequence encoded as float32 scalars with exactly
+representable values; dedicated tests check tensor decoding and nonfinite readings.
+
+Sources: [scalar accumulator](https://github.com/tensorflow/tensorboard/blob/master/tensorboard/backend/event_processing/event_accumulator.py),
+[plugin accumulator](https://github.com/tensorflow/tensorboard/blob/master/tensorboard/backend/event_processing/plugin_event_accumulator.py),
+[tbparse's scalar/tensor distinction](https://tbparse.readthedocs.io/en/latest/pages/parsing-scalars.html).
+The tests use TensorBoard's real event writer, not a running TensorFlow or PyTorch trainer.
+The real committed Transformers log and the generated MLP runs remain regression inputs.
+
+## Partial input and CI
+
+TensorBoard's decoder tolerates a truncated trailing record while a writer is active.
+Trainspotter accounts for decoded record bytes and framing; remaining bytes are shown
+as unread rather than silently treating the report as complete. Corrupt records can
+also cause unread bytes. These counts concern the whole requested event source,
+including other runs in that source. Re-reading after the writer completes can recover.
+
+The existing JSON schema version 1 has additive fields:
+
+| Field | Meaning |
+|---|---|
+| `run.input_complete`, `summary.input_complete` | Numeric metrics exist, no rejected supported rows/values, no unread event bytes or unresolved source-name collisions |
+| `run.skipped_rows` | Rejected rows, JSONL records, HF entries, or TensorBoard events/scalar values |
+| `run.skipped_values` | Invalid nonblank metric cells |
+| `run.unread_event_bytes` | Bytes remaining after decoding event records |
+| `run.overwritten_points` | Scalar observations invalidated by restart semantics |
+| `run.restart_markers` | START markers in the selected run's writer directories |
+| `run.metric_sources` | Report metric to original name, or writer directory and tag |
+| `run.ambiguous_metric_sources` | Logical metric names claimed by multiple writer directories |
+| `run.step_column` | Original coordinate column, or a disclosed ordinal axis |
+| `run.input_notes` | Human-readable limits on the imported observations |
+
+`input_complete` does not describe training completion, logging coverage, or statistical
+power. Deliberately unsupported summaries and sparse metric cells do not make it false.
+An explicit restart is a valid input operation, not an incomplete read.
+
+With `--fail-on`, incomplete input returns 2 even if the readable portion contains a
+finding which would otherwise return 1. The report is written first. Without a gate,
+a readable partial report returns 0. A source with no numeric metrics always returns 2.
+Invalid input cannot overwrite an earlier report; report replacement is atomic.
+
+## Watch and timing limits
+
+Continuous watch re-reads the source, holds its first selected run by exact name, and
+retries missing/malformed reads. If earlier observations change, finding suppression
+resets. Growing ranges are not printed on every poll; new findings, reappearances, and
+severity changes are. `--once` never waits for a missing file. Poll intervals must be
+finite, positive, and at most one day.
+
+Timing comparisons use the original early and recent windows, requiring finite,
+positive readings in both. They never discard bad endpoints to move a window into
+convenient older data. `1/throughput` is seconds per reported unit; batch-size changes
+can change that metric without changing seconds per training step.
+
+The reader retains the selected scalar series in memory and watch reloads the source
+each poll; this is designed for thousands to tens of thousands of points, not arbitrary
+gigabyte logs. Concurrent writers, renamed event files, absent restart markers and
+duplicate steps can leave ambiguous histories. No cross-directory restart is inferred.

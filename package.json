@@ -1,0 +1,12 @@
+{
+  "name": "trainspotter-report-checks",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "test:browser": "node tests/browser.mjs"
+  },
+  "devDependencies": {
+    "@axe-core/playwright": "^4.13.0",
+    "playwright": "^1.63.0"
+  }
+}

@@ -24,17 +24,20 @@ _ITALIC = "\x1b[3m"
 _COLORS = {"red": "\x1b[31m", "yellow": "\x1b[33m", "cyan": "\x1b[36m", "green": "\x1b[32m"}
 _SEVERITY_COLOR = {"error": "red", "warning": "yellow", "info": "cyan"}
 _SEVERITY_LABEL = {"error": "ERROR", "warning": "WARN ", "info": "INFO "}
-_CONTROL = re.compile(r"[\x00-\x08\x0b\x0c\x0e-\x1f\x7f-\x9f]")
+_CONTROL = re.compile(r"[\x00-\x1f\x7f-\x9f\u202a-\u202e\u2066-\u2069]")
 
 
 def visible(text: str) -> str:
-    """``text`` with each control character (bar tab and line breaks) written as ``\\xNN``.
+    """``text`` with terminal controls and bidi overrides written as visible escapes.
 
     Metric and run names come from the log. A terminal obeys an escape sequence in what it is
     given (clears the screen, retitles the window, hides the rest of the line), so text from
     the log is shown, not sent.
     """
-    return _CONTROL.sub(lambda m: f"\\x{ord(m.group()):02x}", text)
+    return _CONTROL.sub(
+        lambda m: f"\\x{ord(m.group()):02x}" if ord(m.group()) <= 255
+        else f"\\u{ord(m.group()):04x}", text,
+    )
 
 
 def _use_color(stream: TextIO) -> bool:
@@ -56,9 +59,11 @@ class _Style:
         return f"{prefix}{text}{_RESET}"
 
 
-def render_terminal(run: Run, findings: list[Finding], stream: TextIO | None = None) -> None:
+def render_terminal(
+    run: Run, findings: list[Finding], stream: TextIO | None = None, *, color: bool | None = None,
+) -> None:
     stream = stream or sys.stdout
-    style = _Style(_use_color(stream))
+    style = _Style(_use_color(stream) if color is None else color)
     lines: list[str] = []
 
     lines.append(style("trainspotter", _BOLD) + style("  run diagnostic", _DIM))
@@ -78,12 +83,14 @@ def render_terminal(run: Run, findings: list[Finding], stream: TextIO | None = N
         points = "point" if overwritten == 1 else "points"
         lines.append(
             "resumed  "
-            + style(f"{overwritten} {points} from before a restart were written again and are left out", _DIM)
+            + style(f"{overwritten} {points} invalidated by restart events are left out", _DIM)
         )
     skipped = run.skipped_rows()
     if skipped:
         rows = "row" if skipped == 1 else "rows"
         lines.append("skipped  " + style(f"{skipped} {rows} could not be read and are not in this report", "yellow"))
+    for note in run.input_notes():
+        lines.append("input    " + style(visible(note), "yellow"))
 
     counts = {"error": 0, "warning": 0, "info": 0}
     for f in findings:
@@ -97,7 +104,10 @@ def render_terminal(run: Run, findings: list[Finding], stream: TextIO | None = N
     lines.append("")
 
     if not findings:
-        lines.append(style("No pathologies detected.", "green", _BOLD) + " Clean run, or nothing this detector set covers.")
+        if run.input_complete():
+            lines.append(style("No pathologies detected.", "green", _BOLD) + " Only the available metrics and detector checks were evaluated.")
+        else:
+            lines.append(style("No findings in the readable data. Input is incomplete.", "yellow", _BOLD))
     else:
         for f in findings:
             step_range = str(f.step_start) if f.step_start == f.step_end else f"{f.step_start}-{f.step_end}"

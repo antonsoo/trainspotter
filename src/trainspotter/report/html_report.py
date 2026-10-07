@@ -496,7 +496,8 @@ def render_html(run: Run, findings: list[Finding], title: str = "trainspotter re
         heading = " / ".join(name for name, _s, _c in entries)
         charts_html.append(
             f'<section class="chart-block"><h2>{_esc(heading)}</h2>'
-            f"{_render_chart(entries, findings)}</section>"
+            f'<div class="chart-scroll" tabindex="0" role="region" aria-label="{_esc(heading)} chart">'
+            f"{_render_chart(entries, findings)}</div></section>"
         )
 
     all_steps = [s for series in run.metrics.values() for s in series.steps()]
@@ -523,6 +524,31 @@ def render_html(run: Run, findings: list[Finding], title: str = "trainspotter re
         "from before a restart left out</dd></div>"
         if overwritten
         else ""
+    )
+
+    notes = run.input_notes()
+    input_status = "Input incomplete" if not run.input_complete() else "Input notes"
+    input_html = (
+        '<section class="input-notes" aria-labelledby="input-heading">'
+        f'<h2 id="input-heading">{input_status}</h2><ul>'
+        + "".join(f"<li>{_esc(note)}</li>" for note in notes)
+        + "</ul></section>" if notes else ""
+    )
+    sources = run.meta.get("metric_sources", {})
+    source_rows = "".join(
+        f'<tr><th scope="row">{_esc(name)}</th><td>{_esc(str(sources.get(name, name)))}</td>'
+        f'<td>{len(series)}</td></tr>'
+        for name, series in sorted(run.metrics.items())
+    ) if isinstance(sources, dict) else ""
+    evidence_html = (
+        '<details class="input-evidence"><summary>Metric sources and point counts</summary>'
+        '<div class="table-scroll"><table><caption>Names used by the report and their original source</caption>'
+        '<thead><tr><th scope="col">Report metric</th><th scope="col">Source metric</th>'
+        '<th scope="col">Points</th></tr></thead><tbody>' + source_rows
+        + '</tbody></table></div></details>'
+    )
+    finding_rows = _findings_rows(findings) if findings or run.input_complete() else (
+        '<p class="clean">No findings in the readable data. Input is incomplete.</p>'
     )
 
     return f"""<!doctype html>
@@ -556,6 +582,7 @@ def render_html(run: Run, findings: list[Finding], title: str = "trainspotter re
   </header>
 
   <main>
+  {input_html}
   <section class="summary">
     <div class="count sev-error"><span class="n">{counts['error']}</span><span class="l">error</span></div>
     <div class="count sev-warning"><span class="n">{counts['warning']}</span><span class="l">warning</span></div>
@@ -563,13 +590,16 @@ def render_html(run: Run, findings: list[Finding], title: str = "trainspotter re
     <div class="strip-wrap">{_render_health_strip(run, findings)}</div>
   </section>
 
+  {evidence_html}
+
   <div class="charts">
+    <p class="chart-hint">Scroll charts horizontally to inspect their full step range.</p>
     {"".join(charts_html)}
   </div>
 
   <section class="findings-log">
     <h2 class="log-title">Findings log</h2>
-    {_findings_rows(findings)}
+    {finding_rows}
   </section>
   </main>
 
@@ -621,6 +651,18 @@ body {
 .readouts dt { color: var(--text-dim); text-transform: uppercase; letter-spacing: 0.08em; font-size: 10px; }
 .readouts dd { margin: 0; color: var(--text-muted); overflow-wrap: anywhere; }
 .readouts dd.warn { color: var(--warn); }
+.input-notes { border-left: 3px solid var(--warn); padding: 10px 14px; margin: 18px 0 4px; background: var(--panel); }
+.input-notes h2 { margin: 0 0 4px; color: var(--warn); font-size: 14px; }
+.input-notes ul { margin: 0; padding-left: 18px; overflow-wrap: anywhere; }
+.input-evidence { margin: 12px 0; font-family: var(--mono); color: var(--text-muted); font-size: 12px; }
+.input-evidence summary { cursor: pointer; padding: 6px 0; }
+.input-evidence summary:focus-visible { outline: 2px solid var(--info); outline-offset: 4px; }
+.table-scroll { overflow-x: auto; }
+.input-evidence table { width: 100%; border-collapse: collapse; table-layout: fixed; }
+.input-evidence caption { text-align: left; padding: 8px 0; }
+.input-evidence th, .input-evidence td { text-align: left; padding: 7px 8px; border-bottom: 1px solid var(--line); overflow-wrap: anywhere; }
+.input-evidence th:last-child, .input-evidence td:last-child { width: 70px; text-align: right; }
+.input-evidence tbody th { font-weight: normal; }
 
 .summary { padding: 18px 0 8px; }
 .summary { display: grid; grid-template-columns: repeat(3, auto) 1fr; align-items: center; gap: 20px; }
@@ -639,9 +681,12 @@ body {
 .chart-block { background: var(--panel); border: 1px solid var(--line); border-radius: 2px; padding: 10px 14px 4px; }
 .chart-block h2 {
   font-family: var(--mono); font-size: 12px; font-weight: 600; letter-spacing: 0.08em;
-  text-transform: uppercase; color: var(--text-muted); margin: 0 0 4px;
+  text-transform: uppercase; color: var(--text-muted); margin: 0 0 4px; overflow-wrap: anywhere;
 }
 .chart { width: 100%; height: auto; display: block; }
+.chart-scroll { overflow-x: auto; }
+.chart-scroll:focus-visible { outline: 2px solid var(--info); outline-offset: 2px; }
+.chart-hint { display: none; }
 .grid { stroke: var(--line); stroke-width: 1; }
 .frame { stroke: var(--line-strong); stroke-width: 1; }
 .axis-y, .axis-x { font-family: var(--mono); font-size: 9px; fill: var(--text-dim); }
@@ -669,6 +714,7 @@ body {
 .steps, .detector { font-family: var(--mono); font-size: 11px; color: var(--text-dim); }
 .detector::before { content: "\\00b7 "; }
 .message { margin: 6px 0 4px; color: var(--text); }
+.finding, .brand { overflow-wrap: anywhere; min-width: 0; }
 .evidence { font-family: var(--mono); font-size: 11.5px; color: var(--text-muted); margin: 0 0 6px; }
 .evidence .k { color: var(--text-dim); }
 .fixes { margin: 0; padding-left: 18px; color: var(--text-muted); font-size: 13px; }
@@ -680,6 +726,10 @@ body {
 }
 
 @media (max-width: 600px) {
+  .chart { width: 760px; max-width: none; }
+  .axis-y, .axis-x, .legend, .off-scale-label { font-size: 12px; }
+  .chart-hint { display: block; margin: 2px 0 8px; color: var(--text-muted); font-size: 12px; }
+  .brand { flex-wrap: wrap; }
   .summary { grid-template-columns: repeat(3, auto); }
   .strip-wrap { grid-column: 1 / -1; order: 10; }
 }
