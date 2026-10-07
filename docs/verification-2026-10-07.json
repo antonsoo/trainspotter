@@ -1,0 +1,61 @@
+{
+  "verified_source_commit": "038c62b",
+  "publication": "local_only",
+  "python_test_matrix": [
+    {
+      "python": "3.10.21",
+      "dependencies": "lowest direct (NumPy 1.24.0, TensorBoard 2.12.0)",
+      "tests_passed": 315
+    },
+    {
+      "python": "3.12.12",
+      "dependencies": "fresh locked checkout (NumPy 2.5.3, TensorBoard 2.21.0)",
+      "tests_passed": 315
+    },
+    {
+      "python": "3.14.7",
+      "dependencies": "fresh current dependencies (NumPy 2.5.3, TensorBoard 2.21.0)",
+      "tests_passed": 315
+    }
+  ],
+  "browser": {
+    "node": "24.21.0",
+    "workflows": 36,
+    "engines": [
+      "chromium",
+      "firefox"
+    ],
+    "viewports": [
+      [
+        1440,
+        1000
+      ],
+      [
+        320,
+        780
+      ]
+    ],
+    "axe_violations": 0,
+    "external_requests": 0,
+    "csp_violations": 0
+  },
+  "wheel": {
+    "python": "3.10.21",
+    "numpy": "2.2.6",
+    "report_gate_checks": 9,
+    "missing_file_once_exit": 2,
+    "missing_optional_extra_exit": 2
+  },
+  "checks": [
+    "ruff (src, tests, examples, scripts)",
+    "mypy (25 source files)",
+    "uv build (wheel from sdist)",
+    "six example reports and static index",
+    "clean checkout stayed clean"
+  ],
+  "artifacts": {
+    "docs/assets/input-integrity-mobile-2026-10-07.png": "351f84fa6b27c2799227c2c4f59edc59c32a60905617ef0d1e0007ba22f76d93",
+    "docs/assets/input-integrity-desktop-2026-10-07.png": "1c0227dc7f2425e8f3fd65ba7fbf6953c3878978e920d1e9010cf57719281f4b",
+    "docs/verification-browser-2026-10-07.json": "ca5f6c95c9f23329ba69bd95ea5b3a997dd024e6b3bfab0ce4879bb8b88c0484"
+  }
+}
