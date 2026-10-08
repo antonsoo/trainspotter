@@ -117,10 +117,14 @@ def main() -> None:
         action="store_true",
         help="write cache/endings.jsonl (how each run ended) without running any detector",
     )
+    parser.add_argument(
+        "--prefix", default="", help="prepended to the output file names (the held-out slice)"
+    )
     args = parser.parse_args()
 
     logs = json.loads(args.manifest.read_text())["logs"]
-    target = args.cache / ("endings.jsonl" if args.endings_only else f"census-{args.label}.jsonl")
+    name = "endings.jsonl" if args.endings_only else f"census-{args.label}.jsonl"
+    target = args.cache / (args.prefix + name)
     started = time.time()
     with target.open("w") as handle:
         for row in logs:

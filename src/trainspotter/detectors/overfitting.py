@@ -20,10 +20,10 @@ slope p < 0.001), so a slow, steady onset is still caught early.
 A run with only a handful of evaluations cannot pass a slope test. It is
 still reported when its last evaluation is at least `error_rise` above the
 best, or `far_rise` (default 25%) above with the evaluation before it also
-at least `warn_rise` above: 21 public runs ended a quarter above their best
-evaluation loss with too few evaluations for the trend test to say so. On public `Trainer` logs with an evaluation loss
-(`studies/hub-census/`), about one run in five ends 5% or more above its
-best and one in twenty ends 50% above; a 1% rise, the earlier bar for a
+at least `warn_rise` above: 26 public runs with three or four evaluations ended a
+quarter or more above their best evaluation loss, too few for the trend test to say
+so. Of the public `Trainer` logs with at least three evaluations (`studies/hub-census/`),
+about one run in five ends 5% or more above its best and one in twenty ends 50% above; a 1% rise, the earlier bar for a
 warning, is within what a small evaluation set does by chance.
 
 When the training loss kept falling over the same range the finding is

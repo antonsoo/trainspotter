@@ -61,42 +61,102 @@
    "all": {
     "runs": 3145,
     "error": 19.6,
+    "error_runs": 615,
+    "error_ci95": [
+     18.2,
+     21.0
+    ],
     "warning_or_error": 63.5,
+    "warning_or_error_runs": 1997,
+    "warning_or_error_ci95": [
+     61.8,
+     65.2
+    ],
     "any_finding": 72.2,
     "findings_per_run": 16.74
    },
    "good": {
     "runs": 1639,
     "error": 20.6,
+    "error_runs": 337,
+    "error_ci95": [
+     18.7,
+     22.6
+    ],
     "warning_or_error": 74.6,
+    "warning_or_error_runs": 1223,
+    "warning_or_error_ci95": [
+     72.5,
+     76.7
+    ],
     "any_finding": 82.1,
     "findings_per_run": 14.16
    },
    "middling": {
     "runs": 220,
     "error": 15.9,
+    "error_runs": 35,
+    "error_ci95": [
+     11.7,
+     21.3
+    ],
     "warning_or_error": 75.0,
+    "warning_or_error_runs": 165,
+    "warning_or_error_ci95": [
+     68.9,
+     80.3
+    ],
     "any_finding": 87.3,
     "findings_per_run": 8.29
    },
    "bad": {
     "runs": 129,
     "error": 58.1,
+    "error_runs": 75,
+    "error_ci95": [
+     49.5,
+     66.3
+    ],
     "warning_or_error": 96.1,
+    "warning_or_error_runs": 124,
+    "warning_or_error_ci95": [
+     91.2,
+     98.3
+    ],
     "any_finding": 97.7,
     "findings_per_run": 25.28
    },
    "no progress": {
     "runs": 332,
     "error": 38.9,
+    "error_runs": 129,
+    "error_ci95": [
+     33.8,
+     44.2
+    ],
     "warning_or_error": 82.5,
+    "warning_or_error_runs": 274,
+    "warning_or_error_ci95": [
+     78.1,
+     86.2
+    ],
     "any_finding": 95.2,
     "findings_per_run": 72.1
    },
    "short": {
     "runs": 825,
     "error": 4.7,
+    "error_runs": 39,
+    "error_ci95": [
+     3.5,
+     6.4
+    ],
     "warning_or_error": 25.6,
+    "warning_or_error_runs": 211,
+    "warning_or_error_ci95": [
+     22.7,
+     28.7
+    ],
     "any_finding": 35.4,
     "findings_per_run": 0.5
    }
@@ -175,42 +235,102 @@
    "all": {
     "runs": 3145,
     "error": 3.8,
+    "error_runs": 119,
+    "error_ci95": [
+     3.2,
+     4.5
+    ],
     "warning_or_error": 11.4,
+    "warning_or_error_runs": 360,
+    "warning_or_error_ci95": [
+     10.4,
+     12.6
+    ],
     "any_finding": 50.0,
     "findings_per_run": 0.9
    },
    "good": {
     "runs": 1639,
     "error": 0.0,
+    "error_runs": 0,
+    "error_ci95": [
+     0.0,
+     0.2
+    ],
     "warning_or_error": 5.7,
+    "warning_or_error_runs": 93,
+    "warning_or_error_ci95": [
+     4.7,
+     6.9
+    ],
     "any_finding": 51.3,
     "findings_per_run": 0.84
    },
    "middling": {
     "runs": 220,
     "error": 0.0,
+    "error_runs": 0,
+    "error_ci95": [
+     0.0,
+     1.7
+    ],
     "warning_or_error": 25.0,
+    "warning_or_error_runs": 55,
+    "warning_or_error_ci95": [
+     19.7,
+     31.1
+    ],
     "any_finding": 74.1,
     "findings_per_run": 1.41
    },
    "bad": {
     "runs": 129,
     "error": 66.7,
+    "error_runs": 86,
+    "error_ci95": [
+     58.2,
+     74.2
+    ],
     "warning_or_error": 89.9,
+    "warning_or_error_runs": 116,
+    "warning_or_error_ci95": [
+     83.5,
+     94.0
+    ],
     "any_finding": 99.2,
     "findings_per_run": 2.87
    },
    "no progress": {
     "runs": 332,
     "error": 3.9,
+    "error_runs": 13,
+    "error_ci95": [
+     2.3,
+     6.6
+    ],
     "warning_or_error": 10.8,
+    "warning_or_error_runs": 36,
+    "warning_or_error_ci95": [
+     7.9,
+     14.6
+    ],
     "any_finding": 81.3,
     "findings_per_run": 1.77
    },
    "short": {
     "runs": 825,
     "error": 2.4,
+    "error_runs": 20,
+    "error_ci95": [
+     1.6,
+     3.7
+    ],
     "warning_or_error": 7.3,
+    "warning_or_error_runs": 60,
+    "warning_or_error_ci95": [
+     5.7,
+     9.2
+    ],
     "any_finding": 20.7,
     "findings_per_run": 0.25
    }
@@ -285,6 +405,984 @@
     "share": 0.1,
     "runs_warning_or_error": 2,
     "findings": 2
+   }
+  }
+ },
+ "heldout": {
+  "corpus": {
+   "models_scanned": 293000,
+   "newest": "2026-07-29T08:31:26.000Z",
+   "oldest": "2026-07-04T06:53:07.000Z",
+   "per_author_cap": 3,
+   "logs": 1051,
+   "not_trainer_logs": 19,
+   "readable": 1032,
+   "adapters": 29.7,
+   "tasks": {
+    "not stated": 546,
+    "text-generation": 325,
+    "text-classification": 41,
+    "image-text-to-text": 31,
+    "automatic-speech-recognition": 30,
+    "robotics": 10
+   },
+   "with_train_loss": 1013,
+   "with_eval_loss": 513,
+   "with_grad_norm": 977,
+   "train_points": {
+    "p05": 5.7,
+    "p25": 27.5,
+    "median": 96.0,
+    "p75": 565.5,
+    "p95": 5000.0,
+    "max": 63852
+   },
+   "endings": {
+    "no progress": 91,
+    "short": 281,
+    "good": 537,
+    "bad": 41,
+    "middling": 82
+   },
+   "bad_because": {
+    "gave back half its progress": 8,
+    "evaluation loss 25% above its best": 27,
+    "ended half again above where it started": 6
+   },
+   "eval": {
+    "runs_with_three_evaluations": 408,
+    "ended_5pct_above_best": 24.8,
+    "ended_10pct_above_best": 19.1,
+    "ended_25pct_above_best": 10.0,
+    "ended_50pct_above_best": 6.9
+   },
+   "train": {
+    "runs_with_clear_progress": 654,
+    "gave_back_10pct": 7.6,
+    "gave_back_25pct": 3.2,
+    "gave_back_50pct": 1.2
+   }
+  },
+  "before": {
+   "label": "0.2.6",
+   "runs": 1032,
+   "by_ending": {
+    "all": {
+     "runs": 1032,
+     "error": 19.0,
+     "error_runs": 196,
+     "error_ci95": [
+      16.7,
+      21.5
+     ],
+     "warning_or_error": 63.0,
+     "warning_or_error_runs": 650,
+     "warning_or_error_ci95": [
+      60.0,
+      65.9
+     ],
+     "any_finding": 71.3,
+     "findings_per_run": 13.41
+    },
+    "good": {
+     "runs": 537,
+     "error": 18.4,
+     "error_runs": 99,
+     "error_ci95": [
+      15.4,
+      21.9
+     ],
+     "warning_or_error": 73.0,
+     "warning_or_error_runs": 392,
+     "warning_or_error_ci95": [
+      69.1,
+      76.6
+     ],
+     "any_finding": 81.2,
+     "findings_per_run": 12.79
+    },
+    "middling": {
+     "runs": 82,
+     "error": 19.5,
+     "error_runs": 16,
+     "error_ci95": [
+      12.4,
+      29.4
+     ],
+     "warning_or_error": 76.8,
+     "warning_or_error_runs": 63,
+     "warning_or_error_ci95": [
+      66.6,
+      84.6
+     ],
+     "any_finding": 85.4,
+     "findings_per_run": 3.46
+    },
+    "bad": {
+     "runs": 41,
+     "error": 58.5,
+     "error_runs": 24,
+     "error_ci95": [
+      43.4,
+      72.2
+     ],
+     "warning_or_error": 97.6,
+     "warning_or_error_runs": 40,
+     "warning_or_error_ci95": [
+      87.4,
+      99.6
+     ],
+     "any_finding": 100.0,
+     "findings_per_run": 21.39
+    },
+    "no progress": {
+     "runs": 91,
+     "error": 38.5,
+     "error_runs": 35,
+     "error_ci95": [
+      29.1,
+      48.7
+     ],
+     "warning_or_error": 86.8,
+     "warning_or_error_runs": 79,
+     "warning_or_error_ci95": [
+      78.4,
+      92.3
+     ],
+     "any_finding": 89.0,
+     "findings_per_run": 62.1
+    },
+    "short": {
+     "runs": 281,
+     "error": 7.8,
+     "error_runs": 22,
+     "error_ci95": [
+      5.2,
+      11.6
+     ],
+     "warning_or_error": 27.0,
+     "warning_or_error_runs": 76,
+     "warning_or_error_ci95": [
+      22.2,
+      32.5
+     ],
+     "any_finding": 38.4,
+     "findings_per_run": 0.57
+    }
+   },
+   "errors": {
+    "runs": 196,
+    "on_bad_endings": 12.2,
+    "on_good_endings": 50.5
+   },
+   "alarms": {
+    "runs": 650,
+    "on_bad_endings": 6.2,
+    "on_good_endings": 60.3
+   },
+   "detectors": {
+    "divergence": {
+     "runs": 21,
+     "share": 2.0,
+     "runs_warning_or_error": 21,
+     "findings": 21
+    },
+    "eval_noise": {
+     "runs": 36,
+     "share": 3.5,
+     "runs_warning_or_error": 36,
+     "findings": 36
+    },
+    "grad_norm": {
+     "runs": 385,
+     "share": 37.3,
+     "runs_warning_or_error": 385,
+     "findings": 7430
+    },
+    "loss_floor": {
+     "runs": 52,
+     "share": 5.0,
+     "runs_warning_or_error": 0,
+     "findings": 52
+    },
+    "lr_schedule": {
+     "runs": 276,
+     "share": 26.7,
+     "runs_warning_or_error": 158,
+     "findings": 297
+    },
+    "overfitting": {
+     "runs": 77,
+     "share": 7.5,
+     "runs_warning_or_error": 54,
+     "findings": 77
+    },
+    "plateau": {
+     "runs": 164,
+     "share": 15.9,
+     "runs_warning_or_error": 0,
+     "findings": 241
+    },
+    "spikes": {
+     "runs": 371,
+     "share": 35.9,
+     "runs_warning_or_error": 371,
+     "findings": 5687
+    },
+    "throughput": {
+     "runs": 1,
+     "share": 0.1,
+     "runs_warning_or_error": 1,
+     "findings": 1
+    }
+   },
+   "injected": {
+    "runs": 300,
+    "unmodified_warning_or_error": 71.3,
+    "unmodified_error": 15.0,
+    "faults": {
+     "nan_mid": {
+      "warning_or_error": 100.0,
+      "warning_or_error_of": 86,
+      "error": 100.0,
+      "error_of": 255,
+      "warning_or_error_any": 100.0,
+      "error_any": 100.0,
+      "of": 300
+     },
+     "nan_last": {
+      "warning_or_error": 100.0,
+      "warning_or_error_of": 86,
+      "error": 100.0,
+      "error_of": 255,
+      "warning_or_error_any": 100.0,
+      "error_any": 100.0,
+      "of": 300
+     },
+     "late_0.25": {
+      "warning_or_error": 68.6,
+      "warning_or_error_of": 86,
+      "error": 58.4,
+      "error_of": 255,
+      "warning_or_error_any": 91.0,
+      "error_any": 64.3,
+      "of": 300
+     },
+     "late_0.5": {
+      "warning_or_error": 86.0,
+      "warning_or_error_of": 86,
+      "error": 75.7,
+      "error_of": 255,
+      "warning_or_error_any": 96.0,
+      "error_any": 79.0,
+      "of": 300
+     },
+     "late_1.0": {
+      "warning_or_error": 96.5,
+      "warning_or_error_of": 86,
+      "error": 91.4,
+      "error_of": 255,
+      "warning_or_error_any": 99.0,
+      "error_any": 92.7,
+      "of": 300
+     },
+     "bump_0.25": {
+      "warning_or_error": 38.4,
+      "warning_or_error_of": 86,
+      "error": 11.8,
+      "error_of": 255,
+      "warning_or_error_any": 81.3,
+      "error_any": 24.3,
+      "of": 300
+     },
+     "bump_0.5": {
+      "warning_or_error": 54.7,
+      "warning_or_error_of": 86,
+      "error": 28.2,
+      "error_of": 255,
+      "warning_or_error_any": 86.3,
+      "error_any": 38.3,
+      "of": 300
+     },
+     "bump_1.0": {
+      "warning_or_error": 68.6,
+      "warning_or_error_of": 86,
+      "error": 51.8,
+      "error_of": 255,
+      "warning_or_error_any": 90.7,
+      "error_any": 58.7,
+      "of": 300
+     },
+     "bump_2.0": {
+      "warning_or_error": 95.3,
+      "warning_or_error_of": 86,
+      "error": 67.8,
+      "error_of": 255,
+      "warning_or_error_any": 98.7,
+      "error_any": 72.7,
+      "of": 300
+     },
+     "bump_4.0": {
+      "warning_or_error": 98.8,
+      "warning_or_error_of": 86,
+      "error": 89.4,
+      "error_of": 255,
+      "warning_or_error_any": 99.7,
+      "error_any": 91.0,
+      "of": 300
+     },
+     "burst_0.5": {
+      "warning_or_error": 68.6,
+      "warning_or_error_of": 86,
+      "error": 51.4,
+      "error_of": 255,
+      "warning_or_error_any": 90.7,
+      "error_any": 58.3,
+      "of": 300
+     },
+     "burst_1.0": {
+      "warning_or_error": 80.2,
+      "warning_or_error_of": 86,
+      "error": 72.9,
+      "error_of": 255,
+      "warning_or_error_any": 94.0,
+      "error_any": 77.0,
+      "of": 300
+     },
+     "burst_2.0": {
+      "warning_or_error": 96.5,
+      "warning_or_error_of": 86,
+      "error": 88.2,
+      "error_of": 255,
+      "warning_or_error_any": 99.0,
+      "error_any": 90.0,
+      "of": 300
+     },
+     "burst_4.0": {
+      "warning_or_error": 100.0,
+      "warning_or_error_of": 86,
+      "error": 99.2,
+      "error_of": 255,
+      "warning_or_error_any": 100.0,
+      "error_any": 99.3,
+      "of": 300
+     },
+     "spike_0.5": {
+      "warning_or_error": 65.1,
+      "warning_or_error_of": 86,
+      "error": 48.2,
+      "error_of": 255,
+      "warning_or_error_any": 89.7,
+      "error_any": 56.0,
+      "of": 300
+     },
+     "spike_1.0": {
+      "warning_or_error": 80.2,
+      "warning_or_error_of": 86,
+      "error": 69.8,
+      "error_of": 255,
+      "warning_or_error_any": 94.0,
+      "error_any": 74.3,
+      "of": 300
+     },
+     "spike_2.0": {
+      "warning_or_error": 94.2,
+      "warning_or_error_of": 86,
+      "error": 88.2,
+      "error_of": 255,
+      "warning_or_error_any": 98.3,
+      "error_any": 90.0,
+      "of": 300
+     },
+     "spike_4.0": {
+      "warning_or_error": 100.0,
+      "warning_or_error_of": 86,
+      "error": 99.6,
+      "error_of": 255,
+      "warning_or_error_any": 100.0,
+      "error_any": 99.7,
+      "of": 300
+     },
+     "eval_last_0.05": {
+      "warning_or_error": 20.5,
+      "warning_or_error_of": 39,
+      "error": 3.8,
+      "error_of": 105,
+      "warning_or_error_any": 73.7,
+      "error_any": 14.4,
+      "of": 118
+     },
+     "eval_ramp_0.05": {
+      "warning_or_error": 43.6,
+      "warning_or_error_of": 39,
+      "error": 1.9,
+      "error_of": 105,
+      "warning_or_error_any": 81.4,
+      "error_any": 12.7,
+      "of": 118
+     },
+     "eval_last_0.1": {
+      "warning_or_error": 23.1,
+      "warning_or_error_of": 39,
+      "error": 8.6,
+      "error_of": 105,
+      "warning_or_error_any": 74.6,
+      "error_any": 18.6,
+      "of": 118
+     },
+     "eval_ramp_0.1": {
+      "warning_or_error": 46.2,
+      "warning_or_error_of": 39,
+      "error": 2.9,
+      "error_of": 105,
+      "warning_or_error_any": 82.2,
+      "error_any": 13.6,
+      "of": 118
+     },
+     "eval_last_0.25": {
+      "warning_or_error": 41.0,
+      "warning_or_error_of": 39,
+      "error": 27.6,
+      "error_of": 105,
+      "warning_or_error_any": 80.5,
+      "error_any": 35.6,
+      "of": 118
+     },
+     "eval_ramp_0.25": {
+      "warning_or_error": 56.4,
+      "warning_or_error_of": 39,
+      "error": 8.6,
+      "error_of": 105,
+      "warning_or_error_any": 85.6,
+      "error_any": 18.6,
+      "of": 118
+     },
+     "eval_last_0.5": {
+      "warning_or_error": 61.5,
+      "warning_or_error_of": 39,
+      "error": 41.9,
+      "error_of": 105,
+      "warning_or_error_any": 86.4,
+      "error_any": 48.3,
+      "of": 118
+     },
+     "eval_ramp_0.5": {
+      "warning_or_error": 66.7,
+      "warning_or_error_of": 39,
+      "error": 37.1,
+      "error_of": 105,
+      "warning_or_error_any": 88.1,
+      "error_any": 44.1,
+      "of": 118
+     },
+     "eval_last_1.0": {
+      "warning_or_error": 69.2,
+      "warning_or_error_of": 39,
+      "error": 59.0,
+      "error_of": 105,
+      "warning_or_error_any": 89.0,
+      "error_any": 63.6,
+      "of": 118
+     },
+     "eval_ramp_1.0": {
+      "warning_or_error": 69.2,
+      "warning_or_error_of": 39,
+      "error": 50.5,
+      "error_of": 105,
+      "warning_or_error_any": 89.0,
+      "error_any": 55.9,
+      "of": 118
+     }
+    }
+   }
+  },
+  "after": {
+   "label": "current",
+   "runs": 1032,
+   "by_ending": {
+    "all": {
+     "runs": 1032,
+     "error": 4.0,
+     "error_runs": 41,
+     "error_ci95": [
+      2.9,
+      5.3
+     ],
+     "warning_or_error": 12.4,
+     "warning_or_error_runs": 128,
+     "warning_or_error_ci95": [
+      10.5,
+      14.6
+     ],
+     "any_finding": 47.2,
+     "findings_per_run": 0.89
+    },
+    "good": {
+     "runs": 537,
+     "error": 0.0,
+     "error_runs": 0,
+     "error_ci95": [
+      0.0,
+      0.7
+     ],
+     "warning_or_error": 6.9,
+     "warning_or_error_runs": 37,
+     "warning_or_error_ci95": [
+      5.0,
+      9.4
+     ],
+     "any_finding": 49.2,
+     "findings_per_run": 0.85
+    },
+    "middling": {
+     "runs": 82,
+     "error": 0.0,
+     "error_runs": 0,
+     "error_ci95": [
+      0.0,
+      4.5
+     ],
+     "warning_or_error": 31.7,
+     "warning_or_error_runs": 26,
+     "warning_or_error_ci95": [
+      22.6,
+      42.4
+     ],
+     "any_finding": 69.5,
+     "findings_per_run": 1.44
+    },
+    "bad": {
+     "runs": 41,
+     "error": 70.7,
+     "error_runs": 29,
+     "error_ci95": [
+      55.5,
+      82.4
+     ],
+     "warning_or_error": 95.1,
+     "warning_or_error_runs": 39,
+     "warning_or_error_ci95": [
+      83.9,
+      98.7
+     ],
+     "any_finding": 97.6,
+     "findings_per_run": 2.9
+    },
+    "no progress": {
+     "runs": 91,
+     "error": 4.4,
+     "error_runs": 4,
+     "error_ci95": [
+      1.7,
+      10.8
+     ],
+     "warning_or_error": 6.6,
+     "warning_or_error_runs": 6,
+     "warning_or_error_ci95": [
+      3.1,
+      13.6
+     ],
+     "any_finding": 81.3,
+     "findings_per_run": 1.73
+    },
+    "short": {
+     "runs": 281,
+     "error": 2.8,
+     "error_runs": 8,
+     "error_ci95": [
+      1.4,
+      5.5
+     ],
+     "warning_or_error": 7.1,
+     "warning_or_error_runs": 20,
+     "warning_or_error_ci95": [
+      4.7,
+      10.7
+     ],
+     "any_finding": 18.5,
+     "findings_per_run": 0.23
+    }
+   },
+   "errors": {
+    "runs": 41,
+    "on_bad_endings": 70.7,
+    "on_good_endings": 0.0
+   },
+   "alarms": {
+    "runs": 128,
+    "on_bad_endings": 30.5,
+    "on_good_endings": 28.9
+   },
+   "detectors": {
+    "divergence": {
+     "runs": 26,
+     "share": 2.5,
+     "runs_warning_or_error": 26,
+     "findings": 26
+    },
+    "eval_noise": {
+     "runs": 33,
+     "share": 3.2,
+     "runs_warning_or_error": 0,
+     "findings": 33
+    },
+    "grad_norm": {
+     "runs": 188,
+     "share": 18.2,
+     "runs_warning_or_error": 0,
+     "findings": 193
+    },
+    "loss_floor": {
+     "runs": 35,
+     "share": 3.4,
+     "runs_warning_or_error": 0,
+     "findings": 35
+    },
+    "lr_schedule": {
+     "runs": 174,
+     "share": 16.9,
+     "runs_warning_or_error": 0,
+     "findings": 188
+    },
+    "overfitting": {
+     "runs": 79,
+     "share": 7.7,
+     "runs_warning_or_error": 56,
+     "findings": 79
+    },
+    "plateau": {
+     "runs": 166,
+     "share": 16.1,
+     "runs_warning_or_error": 0,
+     "findings": 243
+    },
+    "setbacks": {
+     "runs": 29,
+     "share": 2.8,
+     "runs_warning_or_error": 27,
+     "findings": 33
+    },
+    "spikes": {
+     "runs": 46,
+     "share": 4.5,
+     "runs_warning_or_error": 29,
+     "findings": 88
+    },
+    "throughput": {
+     "runs": 1,
+     "share": 0.1,
+     "runs_warning_or_error": 1,
+     "findings": 1
+    }
+   },
+   "injected": {
+    "runs": 300,
+    "unmodified_warning_or_error": 7.0,
+    "unmodified_error": 0.0,
+    "faults": {
+     "nan_mid": {
+      "warning_or_error": 100.0,
+      "warning_or_error_of": 279,
+      "error": 100.0,
+      "error_of": 300,
+      "warning_or_error_any": 100.0,
+      "error_any": 100.0,
+      "of": 300
+     },
+     "nan_last": {
+      "warning_or_error": 100.0,
+      "warning_or_error_of": 279,
+      "error": 100.0,
+      "error_of": 300,
+      "warning_or_error_any": 100.0,
+      "error_any": 100.0,
+      "of": 300
+     },
+     "late_0.25": {
+      "warning_or_error": 60.2,
+      "warning_or_error_of": 279,
+      "error": 0.0,
+      "error_of": 300,
+      "warning_or_error_any": 63.0,
+      "error_any": 0.0,
+      "of": 300
+     },
+     "late_0.5": {
+      "warning_or_error": 99.3,
+      "warning_or_error_of": 279,
+      "error": 64.7,
+      "error_of": 300,
+      "warning_or_error_any": 99.3,
+      "error_any": 64.7,
+      "of": 300
+     },
+     "late_1.0": {
+      "warning_or_error": 99.6,
+      "warning_or_error_of": 279,
+      "error": 99.7,
+      "error_of": 300,
+      "warning_or_error_any": 99.7,
+      "error_any": 99.7,
+      "of": 300
+     },
+     "bump_0.25": {
+      "warning_or_error": 39.8,
+      "warning_or_error_of": 279,
+      "error": 0.0,
+      "error_of": 300,
+      "warning_or_error_any": 44.0,
+      "error_any": 0.0,
+      "of": 300
+     },
+     "bump_0.5": {
+      "warning_or_error": 98.9,
+      "warning_or_error_of": 279,
+      "error": 0.0,
+      "error_of": 300,
+      "warning_or_error_any": 99.0,
+      "error_any": 0.0,
+      "of": 300
+     },
+     "bump_1.0": {
+      "warning_or_error": 99.6,
+      "warning_or_error_of": 279,
+      "error": 0.0,
+      "error_of": 300,
+      "warning_or_error_any": 99.7,
+      "error_any": 0.0,
+      "of": 300
+     },
+     "bump_2.0": {
+      "warning_or_error": 99.6,
+      "warning_or_error_of": 279,
+      "error": 0.0,
+      "error_of": 300,
+      "warning_or_error_any": 99.7,
+      "error_any": 0.0,
+      "of": 300
+     },
+     "bump_4.0": {
+      "warning_or_error": 99.6,
+      "warning_or_error_of": 279,
+      "error": 0.0,
+      "error_of": 300,
+      "warning_or_error_any": 99.7,
+      "error_any": 0.0,
+      "of": 300
+     },
+     "burst_0.5": {
+      "warning_or_error": 9.0,
+      "warning_or_error_of": 279,
+      "error": 0.0,
+      "error_of": 300,
+      "warning_or_error_any": 15.3,
+      "error_any": 0.0,
+      "of": 300
+     },
+     "burst_1.0": {
+      "warning_or_error": 37.3,
+      "warning_or_error_of": 279,
+      "error": 0.0,
+      "error_of": 300,
+      "warning_or_error_any": 41.7,
+      "error_any": 0.0,
+      "of": 300
+     },
+     "burst_2.0": {
+      "warning_or_error": 40.9,
+      "warning_or_error_of": 279,
+      "error": 0.0,
+      "error_of": 300,
+      "warning_or_error_any": 45.0,
+      "error_any": 0.0,
+      "of": 300
+     },
+     "burst_4.0": {
+      "warning_or_error": 41.2,
+      "warning_or_error_of": 279,
+      "error": 0.0,
+      "error_of": 300,
+      "warning_or_error_any": 45.3,
+      "error_any": 0.0,
+      "of": 300
+     },
+     "spike_0.5": {
+      "warning_or_error": 20.4,
+      "warning_or_error_of": 279,
+      "error": 0.0,
+      "error_of": 300,
+      "warning_or_error_any": 25.7,
+      "error_any": 0.0,
+      "of": 300
+     },
+     "spike_1.0": {
+      "warning_or_error": 78.9,
+      "warning_or_error_of": 279,
+      "error": 0.0,
+      "error_of": 300,
+      "warning_or_error_any": 80.0,
+      "error_any": 0.0,
+      "of": 300
+     },
+     "spike_2.0": {
+      "warning_or_error": 89.6,
+      "warning_or_error_of": 279,
+      "error": 0.0,
+      "error_of": 300,
+      "warning_or_error_any": 90.0,
+      "error_any": 0.0,
+      "of": 300
+     },
+     "spike_4.0": {
+      "warning_or_error": 94.3,
+      "warning_or_error_of": 279,
+      "error": 0.0,
+      "error_of": 300,
+      "warning_or_error_any": 94.7,
+      "error_any": 0.0,
+      "of": 300
+     },
+     "eval_last_0.05": {
+      "warning_or_error": 3.6,
+      "warning_or_error_of": 110,
+      "error": 0.0,
+      "error_of": 118,
+      "warning_or_error_any": 10.2,
+      "error_any": 0.0,
+      "of": 118
+     },
+     "eval_ramp_0.05": {
+      "warning_or_error": 6.4,
+      "warning_or_error_of": 110,
+      "error": 0.0,
+      "error_of": 118,
+      "warning_or_error_any": 12.7,
+      "error_any": 0.0,
+      "of": 118
+     },
+     "eval_last_0.1": {
+      "warning_or_error": 10.9,
+      "warning_or_error_of": 110,
+      "error": 0.0,
+      "error_of": 118,
+      "warning_or_error_any": 16.9,
+      "error_any": 0.0,
+      "of": 118
+     },
+     "eval_ramp_0.1": {
+      "warning_or_error": 33.6,
+      "warning_or_error_of": 110,
+      "error": 0.0,
+      "error_of": 118,
+      "warning_or_error_any": 38.1,
+      "error_any": 0.0,
+      "of": 118
+     },
+     "eval_last_0.25": {
+      "warning_or_error": 20.0,
+      "warning_or_error_of": 110,
+      "error": 0.0,
+      "error_of": 118,
+      "warning_or_error_any": 25.4,
+      "error_any": 0.0,
+      "of": 118
+     },
+     "eval_ramp_0.25": {
+      "warning_or_error": 92.7,
+      "warning_or_error_of": 110,
+      "error": 0.0,
+      "error_of": 118,
+      "warning_or_error_any": 93.2,
+      "error_any": 0.0,
+      "of": 118
+     },
+     "eval_last_0.5": {
+      "warning_or_error": 92.7,
+      "warning_or_error_of": 110,
+      "error": 91.5,
+      "error_of": 118,
+      "warning_or_error_any": 93.2,
+      "error_any": 91.5,
+      "of": 118
+     },
+     "eval_ramp_0.5": {
+      "warning_or_error": 94.5,
+      "warning_or_error_of": 110,
+      "error": 91.5,
+      "error_of": 118,
+      "warning_or_error_any": 94.9,
+      "error_any": 91.5,
+      "of": 118
+     },
+     "eval_last_1.0": {
+      "warning_or_error": 94.5,
+      "warning_or_error_of": 110,
+      "error": 93.2,
+      "error_of": 118,
+      "warning_or_error_any": 94.9,
+      "error_any": 93.2,
+      "of": 118
+     },
+     "eval_ramp_1.0": {
+      "warning_or_error": 94.5,
+      "warning_or_error_of": 110,
+      "error": 93.2,
+      "error_of": 118,
+      "warning_or_error_any": 94.9,
+      "error_any": 93.2,
+      "of": 118
+     }
+    }
+   }
+  }
+ },
+ "excursion_probe": {
+  "in_sample": {
+   "good_runs": 1639,
+   "height_0.5": {
+    "runs": 29,
+    "flagged_0.2.6": 24,
+    "flagged_current": 28,
+    "silent_in_current": [
+     "SynthCode-Project/Gemma12b-all-milestones"
+    ]
+   },
+   "height_1.0": {
+    "runs": 13,
+    "flagged_0.2.6": 13,
+    "flagged_current": 12,
+    "silent_in_current": [
+     "SynthCode-Project/Gemma12b-all-milestones"
+    ]
+   },
+   "height_2.0": {
+    "runs": 10,
+    "flagged_0.2.6": 10,
+    "flagged_current": 9,
+    "silent_in_current": [
+     "SynthCode-Project/Gemma12b-all-milestones"
+    ]
+   }
+  },
+  "heldout": {
+   "good_runs": 537,
+   "height_0.5": {
+    "runs": 7,
+    "flagged_0.2.6": 6,
+    "flagged_current": 7,
+    "silent_in_current": []
+   },
+   "height_1.0": {
+    "runs": 2,
+    "flagged_0.2.6": 2,
+    "flagged_current": 2,
+    "silent_in_current": []
+   },
+   "height_2.0": {
+    "runs": 2,
+    "flagged_0.2.6": 2,
+    "flagged_current": 2,
+    "silent_in_current": []
    }
   }
  }

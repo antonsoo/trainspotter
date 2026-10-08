@@ -30,15 +30,23 @@ The released detectors (0.2.6) did badly at this: they raised a warning or an
 error on 75% of the runs that ended at their best loss, and 12% of their errors
 were on runs that ended badly. They had been tuned on smooth generated curves,
 and a real per-step loss is not smooth. The detectors in this checkout
-(**unreleased**) were reworked against the corpus:
+(**unreleased**) were reworked against the corpus, and then scored once on
+1,032 further logs from accounts the corpus does not contain:
 
-| On 3,145 public runs | 0.2.6 | this checkout |
-|---|---:|---:|
-| Runs that ended at their best loss and were given a warning or an error | 74.6% | 5.7% |
-| ... and were given an error | 20.6% | 0.0% |
-| Runs that ended badly and were given a warning or an error | 96.1% | 89.9% |
-| Errors that are on a run that ended badly | 12.2% | 72.3% |
-| Findings per run | 16.7 | 0.9 |
+| | 0.2.6 | this checkout | Held out: 0.2.6 | this checkout |
+|---|---:|---:|---:|---:|
+| Runs that ended at their best loss and were given a warning or an error | 74.6% | 5.7% | 73.0% | 6.9% |
+| ... and were given an error | 20.6% | 0.0% | 18.4% | 0.0% |
+| Runs that ended badly and were given a warning or an error | 96.1% | 89.9% | 98% | 95% |
+| Findings per run | 16.7 | 0.9 | 13.4 | 0.9 |
+
+The first two columns are the 3,145 runs the detectors were tuned on. The zero
+is mostly by construction: an error can now come only from the end-of-run
+quantities that define a bad ending. What the quieter detectors miss was
+measured by damaging 300 held-out runs by known amounts: sustained rises, late
+divergence and NaNs are caught 99% of the time or more, and a short burst is
+missed three times in five. [The study](studies/hub-census/README.md#what-it-no-longer-catches)
+has the table.
 
 ![The trainspotter report for a public fine-tuning run from the Hub. The training loss falls from 2.7 to about 0.5, spikes to 1.9 at step 3,150, then rises to about 1.4 between steps 14,100 and 27,050 before returning; that stretch is shaded. Two warnings are listed: the spike, at 82% of the run's progress, and the setback, 12,950 steps or 33% of the run.](docs/assets/report-public-run.png)
 
@@ -256,11 +264,12 @@ from 2.00 to 2.05.
 ### Trust the healthy case
 
 A tool that flags an unremarkable run gets ignored, so being quiet on healthy
-runs matters more than recall. That is measured, not asserted: of the 1,639
-public runs in the [census](studies/hub-census/README.md) that ended at their
-best loss, this checkout gives none an error and 5.7% a warning (the released
-0.2.6 gave 20.6% an error and 74.6% a warning or an error). The warnings that
-remain are setbacks and spikes the run recovered from.
+runs comes first. Both sides are measured: of 537 held-out public runs in the
+[census](studies/hub-census/README.md) that ended at their best loss, this
+checkout gives none an error and 6.9% a warning (the released 0.2.6 gave 18.4%
+an error and 73.0% a warning or an error), and of the same kind of run with a
+fault of known size put into it, it reports the sustained ones and misses most
+short bursts.
 `tests/test_field_calibration.py` rebuilds the shapes those logs take (the
 heavy-tailed scatter of a per-step loss, a warmup logged every few steps, a
 level that climbs for a tenth of the run and returns) and pins what each

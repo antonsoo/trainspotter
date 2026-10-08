@@ -12,7 +12,14 @@ and this project uses [Semantic Versioning](https://semver.org/).
   (`studies/hub-census/`). 0.2.6 raised a warning or an error on 74.6% of the
   runs that ended at their best loss and an error on 20.6%; this version does so
   on 5.7% and 0.0%, and still flags 89.9% of the runs that ended badly. Findings
-  per run fall from 16.7 to 0.9. Expect far fewer findings, and different ones:
+  per run fall from 16.7 to 0.9. Those are the runs the thresholds were set on,
+  and no error on a run that ended well follows from how errors are now defined.
+  On 1,032 logs collected afterwards from other accounts: 6.9% and 0.0% (0.2.6:
+  73.0% and 18.4%), and 95% of the runs that ended badly. With faults of known
+  size injected into 300 held-out runs that ended well, sustained rises, late
+  divergence and NaNs are reported 99% of the time or more; a burst lasting 2%
+  of the run is missed three times in five. Expect far fewer findings, and
+  different ones:
   - `spikes`: a point must be large next to the run's progress as well as
     statistically unusual. Scored on the log of the loss against the run-wide
     scatter. A warning from half the run's progress, one note below that. Never

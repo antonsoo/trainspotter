@@ -10,6 +10,7 @@ from __future__ import annotations
 
 import argparse
 import json
+import math
 import statistics
 from collections import Counter
 from html import escape
@@ -26,6 +27,16 @@ def _rows(path: Path) -> dict[str, dict[str, Any]]:
 
 def _pct(part: int, whole: int) -> float:
     return round(100.0 * part / whole, 1) if whole else 0.0
+
+
+def _wilson(part: int, whole: int) -> list[float]:
+    """The 95% Wilson score interval for a share, in percent."""
+    if not whole:
+        return [0.0, 0.0]
+    z, p = 1.96, part / whole
+    centre = (p + z * z / (2 * whole)) / (1 + z * z / whole)
+    half = z * math.sqrt(p * (1 - p) / whole + z * z / (4 * whole * whole)) / (1 + z * z / whole)
+    return [round(100 * max(0.0, centre - half), 1), round(100 * min(1.0, centre + half), 1)]
 
 
 def _has(row: dict[str, Any], *severities: str) -> bool:
@@ -99,7 +110,13 @@ def verdicts(
         by_ending[name] = {
             "runs": len(group),
             "error": _pct(sum(_has(row, "error") for row in group), len(group)),
+            "error_runs": sum(_has(row, "error") for row in group),
+            "error_ci95": _wilson(sum(_has(row, "error") for row in group), len(group)),
             "warning_or_error": _pct(
+                sum(_has(row, "error", "warning") for row in group), len(group)
+            ),
+            "warning_or_error_runs": sum(_has(row, "error", "warning") for row in group),
+            "warning_or_error_ci95": _wilson(
                 sum(_has(row, "error", "warning") for row in group), len(group)
             ),
             "any_finding": _pct(sum(bool(row["findings"]) for row in group), len(group)),
@@ -169,7 +186,11 @@ BAR = 22  # bar width in pixels
 
 
 def alarm_figure(
-    before: dict[str, Any], after: dict[str, Any], labels: tuple[str, str], theme: str
+    before: dict[str, Any],
+    after: dict[str, Any],
+    labels: tuple[str, str],
+    theme: str,
+    slice_name: str = "",
 ) -> str:
     c = THEMES[theme]
     width, height = 880, 372
@@ -219,7 +240,7 @@ def alarm_figure(
         24,
         50,
         f"Share of runs with at least one finding of that severity, among {judged:,} public "
-        "Trainer runs whose ending could be judged.",
+        f"Trainer runs whose ending could be judged{slice_name}.",
         12.5,
     )
     x = 24.0
@@ -256,6 +277,81 @@ def alarm_figure(
     return "\n".join([*parts, "</svg>"]) + "\n"
 
 
+def injected(cache: Path, prefix: str, label: str, labels: tuple[str, ...]) -> dict[str, Any]:
+    """For each fault, how often a version raised an alarm on runs it was quiet on before.
+
+    A warning-or-error rate is taken over the runs the version gave no warning and no error
+    unmodified; an error rate over the runs it gave no error unmodified.
+    """
+
+    def read(name: str) -> dict[str, dict[str, Any]]:
+        # A second process may have worked from the other end of the list (inject.py --reverse).
+        found: dict[str, dict[str, Any]] = {}
+        for path in sorted(cache.glob(f"{prefix}inject-{name}*.jsonl")):
+            for row in map(json.loads, path.read_text().splitlines()):
+                found[row["repo"]] = row
+        return found
+
+    # Both versions are scored on the runs both have finished.
+    shared = set.intersection(*(set(read(name)) for name in labels))
+    rows = [row for repo, row in sorted(read(label).items()) if repo in shared]
+    faults = [name for name in rows[0]["runs"] if name != "baseline"]
+    # eval_* faults exist only for runs with three evaluations.
+    table: dict[str, Any] = {}
+    for fault in faults:
+        alarm = error = alarm_n = error_n = any_alarm = any_error = total = 0
+        for row in rows:
+            base, hit = row["runs"]["baseline"], row["runs"].get(fault)
+            if hit is None or "unreadable" in hit or "unreadable" in base:
+                continue
+            total += 1
+            any_alarm += bool(hit["warning"] or hit["error"])
+            any_error += bool(hit["error"])
+            if not base["warning"] and not base["error"]:
+                alarm_n += 1
+                alarm += bool(hit["warning"] or hit["error"])
+            if not base["error"]:
+                error_n += 1
+                error += bool(hit["error"])
+        table[fault] = {
+            "warning_or_error": _pct(alarm, alarm_n),
+            "warning_or_error_of": alarm_n,
+            "error": _pct(error, error_n),
+            "error_of": error_n,
+            # Over every damaged run, including those the version already alarmed on unmodified.
+            "warning_or_error_any": _pct(any_alarm, total),
+            "error_any": _pct(any_error, total),
+            "of": total,
+        }
+    base = [row["runs"]["baseline"] for row in rows if "unreadable" not in row["runs"]["baseline"]]
+    return {
+        "runs": len(rows),
+        "unmodified_warning_or_error": _pct(
+            sum(bool(b["warning"] or b["error"]) for b in base), len(base)
+        ),
+        "unmodified_error": _pct(sum(bool(b["error"]) for b in base), len(base)),
+        "faults": table,
+    }
+
+
+def summarise(
+    cache: Path, prefix: str, manifest_path: Path, before: str, after: str
+) -> dict[str, Any]:
+    endings = _rows(cache / f"{prefix}endings.jsonl")
+    manifest = json.loads(manifest_path.read_text())
+    return {
+        "corpus": corpus(endings, manifest),
+        "before": {
+            "label": before,
+            **verdicts(endings, _rows(cache / f"{prefix}census-{before}.jsonl")),
+        },
+        "after": {
+            "label": after,
+            **verdicts(endings, _rows(cache / f"{prefix}census-{after}.jsonl")),
+        },
+    }
+
+
 def main() -> None:
     parser = argparse.ArgumentParser(description=(__doc__ or "").splitlines()[0])
     parser.add_argument("--before", default="0.2.6", help="label of the earlier version's census")
@@ -263,19 +359,22 @@ def main() -> None:
     parser.add_argument("--cache", type=Path, default=HERE / "cache")
     args = parser.parse_args()
 
-    endings = _rows(args.cache / "endings.jsonl")
-    manifest = json.loads((HERE / "manifest.json").read_text())
-    results = {
-        "corpus": corpus(endings, manifest),
-        "before": {
-            "label": args.before,
-            **verdicts(endings, _rows(args.cache / f"census-{args.before}.jsonl")),
-        },
-        "after": {
-            "label": args.after,
-            **verdicts(endings, _rows(args.cache / f"census-{args.after}.jsonl")),
-        },
-    }
+    results = summarise(args.cache, "", HERE / "manifest.json", args.before, args.after)
+    held_path = HERE / "manifest-heldout.json"
+    if held_path.exists() and (args.cache / "heldout-endings.jsonl").exists():
+        held = summarise(args.cache, "heldout-", held_path, args.before, args.after)
+        for label, key in ((args.before, "before"), (args.after, "after")):
+            if all(
+                (args.cache / f"heldout-inject-{name}.jsonl").exists()
+                for name in (args.before, args.after)
+            ):
+                held[key]["injected"] = injected(
+                    args.cache, "heldout-", label, (args.before, args.after)
+                )
+        results["heldout"] = held
+    probe = args.cache / "probe.json"
+    if probe.exists():
+        results["excursion_probe"] = json.loads(probe.read_text())
     (HERE / "results.json").write_text(json.dumps(results, indent=1) + "\n")
     (HERE / "figures").mkdir(exist_ok=True)
     labels = (f"trainspotter {args.before}", "this checkout")
@@ -283,21 +382,33 @@ def main() -> None:
         (HERE / "figures" / f"alarms-{theme}.svg").write_text(
             alarm_figure(results["before"], results["after"], labels, theme)
         )
-
-    print(f"{results['corpus']['readable']} Trainer logs; endings {results['corpus']['endings']}")
-    for key in ("before", "after"):
-        r = results[key]
-        print(f"-- {r['label']}")
-        for name, row in r["by_ending"].items():
-            print(
-                f"   {name:12s} {row['runs']:5d} runs  error {row['error']:5.1f}%  "
-                f"warning+ {row['warning_or_error']:5.1f}%  any {row['any_finding']:5.1f}%  "
-                f"findings/run {row['findings_per_run']:6.2f}"
+        if "heldout" in results:
+            (HERE / "figures" / f"alarms-heldout-{theme}.svg").write_text(
+                alarm_figure(
+                    results["heldout"]["before"],
+                    results["heldout"]["after"],
+                    labels,
+                    theme,
+                    " (the held-out slice)",
+                )
             )
-        print(f"   errors: {r['errors']}")
-        print(
-            f"   detectors: { {k: (v['runs'], v['findings']) for k, v in r['detectors'].items()} }"
-        )
+
+    for name in ("", "heldout"):
+        part = results if not name else results.get("heldout")
+        if part is None:
+            continue
+        print(f"== {name or 'in-sample'}")
+        print(f"{part['corpus']['readable']} Trainer logs; endings {part['corpus']['endings']}")
+        for key in ("before", "after"):
+            r = part[key]
+            print(f"-- {r['label']}")
+            for ending, row in r["by_ending"].items():
+                print(
+                    f"   {ending:12s} {row['runs']:5d} runs  error {row['error']:5.1f}%  "
+                    f"warning+ {row['warning_or_error']:5.1f}%  any {row['any_finding']:5.1f}%  "
+                    f"findings/run {row['findings_per_run']:6.2f}"
+                )
+            print(f"   errors: {r['errors']}")
 
 
 if __name__ == "__main__":

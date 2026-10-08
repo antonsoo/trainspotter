@@ -97,8 +97,8 @@ class LRScheduleDetector(Detector):
                 Finding(
                     detector=self.name,
                     title="No LR warmup detected",
-                    # A configuration choice, and `transformers.Trainer`'s default: a fifth of
-                    # public runs log no warmup (studies/hub-census).
+                    # A configuration choice, and `transformers.Trainer`'s default: one in six
+                    # public runs that log a learning rate show no warmup (studies/hub-census).
                     severity="info",
                     metric=self.metric,
                     step_start=int(steps[0]),

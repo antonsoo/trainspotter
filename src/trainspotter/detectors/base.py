@@ -164,9 +164,9 @@ MIN_LEVEL_POINTS = 10
 #: The smoothing window never exceeds this many points, so a setback that lasts a
 #: few hundred logged points in a very long run is still seen.
 MAX_LEVEL_WINDOW = 201
-#: A level this share of the run's progress above its earlier best is an excursion. At a
-#: tenth, a third of the "setbacks" found in public runs that ended at their best loss were
-#: slow wiggles of a flat curve; at a quarter, what is left are real rises.
+#: A level this share of the run's progress above its earlier best is an excursion. A
+#: smaller share would count the slow wiggles of a flat curve; at a quarter, what is left are
+#: rises.
 EXCURSION_SHARE = 0.25
 
 

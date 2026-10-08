@@ -4,9 +4,9 @@
 
 1. *Non-finite*: any logged value is NaN or +/-Inf. In the training loss
    that is an `error` -- there is no ambiguity, training has broken. In an
-   evaluation metric it is a `warning`: 7 of the 1,654 public runs that
-   ended at their best training loss (`studies/hub-census/`) logged a NaN
-   evaluation loss along the way.
+   evaluation metric it is a `warning`: 6 of the 1,639 public runs that
+   ended at their best loss (`studies/hub-census/`) logged a NaN evaluation
+   loss along the way.
 2. *Did not recover* (`train/loss` only): reduce the series to its levels
    (`detectors.base.levels`: where it started, the best smoothed level it
    reached, the level of its last 5% of points). If the log ends inside an
@@ -24,7 +24,7 @@ point is an outlier well below the level, so "1.5x the minimum" was easy to
 reach in a healthy run. It also ran on `eval/loss`, where a rise beside a
 training loss still at its best is overfitting and has a different remedy:
 of the 57 public runs it called diverged for a rising tail
-(`studies/hub-census/`), 27 were that. A rising `eval/loss` is now left to
+(`studies/hub-census/`), 26 were on `eval/loss`. A rising `eval/loss` is now left to
 the `overfitting` detector.
 
 **False-positive modes.**

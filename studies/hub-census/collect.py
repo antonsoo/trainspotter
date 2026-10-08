@@ -68,7 +68,13 @@ def last_checkpoint(files: list[str]) -> str | None:
     return max(numbered)[1] if numbered else sorted(shallow)[0]
 
 
-def scan(models: int, per_author: int, state: Path) -> list[dict[str, Any]]:
+def scan(
+    models: int,
+    per_author: int,
+    state: Path,
+    skip_authors: frozenset[str] = frozenset(),
+    stop_logs: int | None = None,
+) -> list[dict[str, Any]]:
     """Walk the listing, newest first, and return one manifest row per kept repository."""
     progress = (
         json.loads(state.read_text()) if state.exists() else {"scanned": 0, "url": API, "rows": []}
@@ -77,6 +83,8 @@ def scan(models: int, per_author: int, state: Path) -> list[dict[str, Any]]:
     for row in progress["rows"]:
         counts[row["author"]] = counts.get(row["author"], 0) + 1
     while progress["scanned"] < models and progress["url"]:
+        if stop_logs is not None and len(progress["rows"]) >= stop_logs:
+            break
         with _open(progress["url"]) as response:
             page = json.load(response)
             link = response.headers.get("Link") or ""
@@ -84,6 +92,8 @@ def scan(models: int, per_author: int, state: Path) -> list[dict[str, Any]]:
             path = last_checkpoint([s["rfilename"] for s in model.get("siblings") or []])
             author = model["id"].split("/")[0]
             if path is None or model.get("private") or model.get("gated"):
+                continue
+            if author in skip_authors:
                 continue
             # One prolific account must not become the census.
             if counts.get(author, 0) >= per_author:
@@ -152,6 +162,16 @@ def main() -> None:
         action="store_true",
         help="walk the Hub listing again and write a new manifest (default: fetch its files)",
     )
+    parser.add_argument(
+        "--continue-after",
+        type=Path,
+        metavar="MANIFEST",
+        help="held-out slice: resume the Hub listing where the scan behind this manifest "
+        "stopped (cache/scan-state.json) and skip every account it contains",
+    )
+    parser.add_argument(
+        "--logs", type=int, help="with --continue-after: stop after this many repositories"
+    )
     args = parser.parse_args()
     args.cache.mkdir(parents=True, exist_ok=True)
 
@@ -164,7 +184,21 @@ def main() -> None:
         print(f"{len(rows)} files in the manifest: {tally}")
         return
 
-    rows = scan(args.models, args.per_author, args.cache / "scan-state.json")
+    skip: frozenset[str] = frozenset()
+    state = args.cache / "scan-state.json"
+    if args.continue_after:
+        # Fixed before looking at any held-out log: the listing continues from the cursor the
+        # first census ended on, and accounts already in that census are not used again.
+        earlier = json.loads(state.read_text())
+        skip = frozenset(
+            r["repo"].split("/")[0] for r in json.loads(args.continue_after.read_text())["logs"]
+        )
+        state = args.cache / "scan-state-heldout.json"
+        if not state.exists():
+            state.write_text(
+                json.dumps({"scanned": earlier["scanned"], "url": earlier["url"], "rows": []})
+            )
+    rows = scan(args.models, args.per_author, state, skip, args.logs)
     rows = [row for row in rows if row["path"].rsplit("/", 1)[-1] == "trainer_state.json"]
     with concurrent.futures.ThreadPoolExecutor(8) as pool:
         outcomes = list(pool.map(lambda row: fetch(row, args.cache), rows))
@@ -172,10 +206,11 @@ def main() -> None:
     tally: dict[str, int] = {}
     for outcome in outcomes:
         tally[outcome] = tally.get(outcome, 0) + 1
-    scanned = json.loads((args.cache / "scan-state.json").read_text())["scanned"]
+    scanned = json.loads(state.read_text())["scanned"]
     header = {
         "listing": API,
         "models_scanned": scanned,
+        "continued_after": str(args.continue_after.name) if args.continue_after else None,
         "newest": max((r["created"] for r in rows), default=None),
         "oldest": min((r["created"] for r in rows), default=None),
         "per_author_cap": args.per_author,
