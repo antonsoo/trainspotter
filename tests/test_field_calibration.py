@@ -150,6 +150,62 @@ def test_a_short_setback_is_info_and_a_blip_is_nothing() -> None:
     assert blip == []
 
 
+def test_three_high_points_in_a_short_log_are_a_burst() -> None:
+    # A log of 100 points is smoothed over five. Three high points in a row are most of
+    # that window: the median rises with them, so no point stands out from it, and the
+    # stretch is shorter than the window, so it was not a setback either. On the public
+    # logs of `studies/hub-census/` such a burst went unreported at any height.
+    base = noisy_decay(100, seed=11, sigma=0.05)
+    burst = base.copy()
+    burst[50:53] += 2.0 - 0.2  # the run's whole progress
+    run = make_run(**{"train/loss": burst.tolist()})
+    assert SpikeDetector().run(run) == []
+    findings = SetbackDetector().run(run)
+    assert [(f.title, f.severity) for f in findings] == [("Loss burst", "warning")]
+    assert findings[0].step_start == 50 and findings[0].step_end == 53
+    assert findings[0].evidence["points"] == 3
+    assert 0.8 <= findings[0].evidence["share_of_progress"] <= 1.2
+    assert "3 logged points" in findings[0].message
+    assert SetbackDetector().run(make_run(**{"train/loss": base.tolist()})) == []
+
+
+def test_a_burst_must_be_tall_and_stand_out_from_the_scatter() -> None:
+    quiet = noisy_decay(100, seed=11, sigma=0.05)
+    low = quiet.copy()
+    low[50:53] += 0.25 * (2.0 - 0.2)  # a quarter of the progress: under the half it takes
+    assert SetbackDetector().run(make_run(**{"train/loss": low.tolist()})) == []
+    # The same height in a run whose points scatter by half their level is not unusual.
+    noisy = noisy_decay(100, seed=11, sigma=0.5)
+    lifted = noisy.copy()
+    lifted[50:53] += 0.6 * (2.0 - 0.2)
+    assert SetbackDetector().run(make_run(**{"train/loss": lifted.tolist()})) == []
+
+
+def test_a_burst_of_three_percent_of_a_long_run_is_reported_once() -> None:
+    # 1,000 points are smoothed over 41. Thirty high points lift the median and are fewer
+    # than the window.
+    values = with_bump(noisy_decay(1000, seed=12, sigma=0.1), start=600, length=30, factor=6.0)
+    run = make_run(**{"train/loss": values.tolist()})
+    findings = SetbackDetector().run(run)
+    assert [f.title for f in findings] == ["Loss burst"]
+    assert 590 <= findings[0].step_start <= 610 and 620 <= findings[0].step_end <= 640
+    assert SpikeDetector().run(run) == []
+
+
+def test_many_bursts_are_one_finding_that_counts_them() -> None:
+    # A public run of 20,000 points blew up and came back 47 times. Forty-seven findings
+    # would bury everything else in the report.
+    # 400 points are smoothed over 17, so twelve high points in a row lift the level.
+    values = noisy_decay(400, seed=13, sigma=0.05)
+    for start in range(120, 400, 40):
+        values[start : start + 12] += 2.0 - 0.2
+    findings = SetbackDetector().run(make_run(**{"train/loss": values.tolist()}))
+    assert [(f.title, f.severity) for f in findings] == [("Repeated loss bursts", "warning")]
+    assert findings[0].evidence["count"] == 7
+    assert findings[0].step_start <= 121 and findings[0].step_end >= 360
+    assert "7 times" in findings[0].message
+
+
 def test_a_run_that_ends_inside_a_rise_is_judged_by_what_it_gave_back() -> None:
     base = noisy_decay(2000, seed=9, sigma=0.05)
     progress = 2.0 - base[-200:].mean()

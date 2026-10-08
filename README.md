@@ -44,8 +44,11 @@ The first two columns are the 3,145 runs the detectors were tuned on. The zero
 is mostly by construction: an error can now come only from the end-of-run
 quantities that define a bad ending. What the quieter detectors miss was
 measured by damaging 300 held-out runs by known amounts: sustained rises, late
-divergence and NaNs are caught 99% of the time or more, and a short burst is
-missed three times in five. [The study](studies/hub-census/README.md#what-it-no-longer-catches)
+divergence and NaNs are caught 99% of the time or more. A short burst was
+missed three times in five at any height, which turned out to be a gap between
+two detectors; with it closed, a burst as high as the run's progress or higher
+is caught 92% to 98% of the time, and the runs that ended well get the same
+warnings as before. [The study](studies/hub-census/README.md#what-it-no-longer-catches)
 has the table.
 
 ![The trainspotter report for a public fine-tuning run from the Hub. The training loss falls from 2.7 to about 0.5, spikes to 1.9 at step 3,150, then rises to about 1.4 between steps 14,100 and 27,050 before returning; that stretch is shaded. Two warnings are listed: the spike, at 82% of the run's progress, and the setback, 12,950 steps or 33% of the run.](docs/assets/report-public-run.png)
@@ -245,7 +248,7 @@ summary.
 | Detector | Detects | How | Stated false-positive modes |
 |---|---|---|---|
 | `spikes` | A point far above the loss level around it | More than 6 robust standard deviations out (scored on the log of the loss, against the larger of the run-wide and trailing-window scatter) **and** at least half the run's progress above the level (a warning), or a tenth (one note counting them) | Deliberate LR restarts/curriculum jumps; too few points for a stable scale |
-| `setbacks` | The loss level rose, stayed up, and came back | The smoothed level sits a quarter of the run's progress above a level it had already reached; reported with the steps spent there, a warning from 5% of the run. One that starts in the first tenth of the run is an "early rise" | An epoch boundary or a planned restart; anything shorter than the smoothing window (4% of the run) |
+| `setbacks` | The loss level rose, stayed up, and came back | The smoothed level sits a quarter of the run's progress above a level it had already reached; reported with the steps spent there, a warning from 5% of the run. One that starts in the first tenth of the run is an "early rise". A rise shorter than the smoothing window is a "loss burst" (a warning) when the level stood half the run's progress above its earlier best and more than 6 times the scatter of single points | An epoch boundary or a planned restart; a rise shorter than half the smoothing window (4% of the run, at least five points) does not move the level and is left to `spikes` |
 | `divergence` | A non-finite loss, or a rise the run never recovered from | Any NaN/Inf (an error in the training loss, a warning in an evaluation metric); or the log ends inside a rise with a quarter (warning) or half (error) of the run's progress given back; or the loss only ever rose | A run stopped during a temporary rise; a metric meant to increase |
 | `plateau` | A metric that's stalled, not just converged | Sliding-window OLS slope test (p ≥ 0.2 = not significant) plus a < 2% relative-change guard; suppressed if the window has already recovered ≥ 80% of the metric's total drop, or `lr` has decayed to ≤ 30% of its peak | A real stall near a coincidentally low value, or a metric that legitimately converged early |
 | `overfitting` | Evaluation loss rising after its best | Slope after the running minimum significantly positive (p < 0.1) and ≥ 3% above it; a note below 10%, a warning from 10% (or from 5% with an unmistakable trend), an error from 50%. Runs with too few evaluations for a slope test are reported when the last one is far above the best | A noisy eval set; a mid-run change in eval data |
@@ -268,8 +271,8 @@ runs comes first. Both sides are measured: of 537 held-out public runs in the
 [census](studies/hub-census/README.md) that ended at their best loss, this
 checkout gives none an error and 6.9% a warning (the released 0.2.6 gave 18.4%
 an error and 73.0% a warning or an error), and of the same kind of run with a
-fault of known size put into it, it reports the sustained ones and misses most
-short bursts.
+fault of known size put into it, it reports the sustained ones and, once they
+are as high as the run's progress, 92% or more of the short bursts.
 `tests/test_field_calibration.py` rebuilds the shapes those logs take (the
 heavy-tailed scatter of a per-step loss, a warmup logged every few steps, a
 level that climbs for a tenth of the run and returns) and pins what each

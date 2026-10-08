@@ -29,13 +29,16 @@ what the quieter detectors no longer say.
   73.0%; 95% of the 41 that ended badly got a warning or an error. The zero is
   largely by design: only `divergence` and `overfitting` can raise an error now,
   and each tests the end-of-run quantity the label is made of.
-- **What the quieter detectors no longer say.** 300 held-out runs that ended
-  well were damaged by known amounts. A NaN, a late rise that gives back half
-  the run's progress, and a mid-run rise of half the progress that lasts are
-  each flagged in 99% of cases or more. A short burst is not: one lasting 2% of
-  the run goes unreported 59% of the time even at four times the run's
-  progress. 0.2.6 flagged every such burst, and 71% of the same runs with
-  nothing done to them.
+- **What the quieter detectors no longer said, and one thing put back.** 300
+  held-out runs that ended well were damaged by known amounts. A NaN, a late
+  rise that gives back half the run's progress, and a mid-run rise of half the
+  progress that lasts are each flagged in 99% of cases or more. A short burst
+  was not: one lasting 2% of the run went unreported 59% of the time even at
+  four times the run's progress, because it was too wide for one detector and
+  too short for the other. `setbacks` now reports such a burst. The same damage
+  is flagged 98% of the time, and the 537 held-out runs that ended well get
+  the same 37 warnings as before. 0.2.6 flagged every such burst, and 71% of
+  the same runs with nothing done to them.
 - **About public fine-tuning itself:** of the runs with at least three
   evaluations, one in five ended at least 5% above its best evaluation loss, and
   one in twenty at least 50% above. One in six of the runs that log a learning
@@ -191,10 +194,10 @@ got neither before the damage (279 of 300 for this checkout, 86 of 300 for
 | A rise of 0.25 P from 40% to 55% of the run, then back | 38% | 40% |
 | of 0.5 P | 55% | 99% |
 | of P or more | 69% to 99% | 100% |
-| A burst over 2% of the run, 0.5 P high | 69% | 9% |
-| P high | 80% | 37% |
-| 2 P high | 97% | 41% |
-| 4 P high | 100% | 41% |
+| A burst over 2% of the run, 0.5 P high | 69% | 15% |
+| P high | 80% | 92% |
+| 2 P high | 97% | 97% |
+| 4 P high | 100% | 98% |
 | One point 0.5 P high | 65% | 20% |
 | P high | 80% | 79% |
 | 2 P high | 94% | 90% |
@@ -205,14 +208,12 @@ got neither before the damage (279 of 300 for this checkout, 86 of 300 for
 | 50% above or more | 62% to 69% | 93% to 95% |
 
 The checkout sees what lasts and what is large: sustained rises, late
-divergence, big single points, an evaluation loss that climbs. It is weaker
-than 0.2.6 in two places. A burst of a few logged values is too wide for
-`spikes`, which scores single points, and too short for `setbacks`, which wants
-a stretch; three bursts in five go unreported at any height. And a last
-evaluation a quarter above the best is reported one time in five when it
-arrives in one jump, since one point is not a trend. Small things (a rise of a
-quarter of the progress, a point half the progress high) are left alone by
-design, and the table shows that cost too.
+divergence, big single points, bursts, an evaluation loss that climbs. It is
+weaker than 0.2.6 in one place: a last evaluation a quarter above the best is
+reported one time in five when it arrives in one jump, since one point is not
+a trend. Small things (a rise of a quarter of the progress, a point or a burst
+half the progress high) are left alone by design, and the table shows that
+cost too.
 
 0.2.6's column needs reading with its other number: it warned on 71% of these
 same 300 runs before anything was done to them, against 7% for the checkout.
@@ -220,10 +221,53 @@ same 300 runs before anything was done to them, against 7% for the checkout.
 On real runs, with no damage added: among the 537 held-out runs that ended
 well, 7 have a stretch where the smoothed loss rose at least half the run's
 progress above its earlier best and recovered. The checkout flags all 7, and
-0.2.6 flagged 6. In the first collection it is 28 of 29 against 24, and the
-one the checkout is silent on is silent at every height.
+0.2.6 flagged 6. In the first collection it is 29 of 29 against 24. It was 28
+until the burst rule below: the one run missed, at every height, is the run
+described there.
 
-The detectors were not changed after these measurements.
+### The burst rows were 9%, 37%, 41% and 41%
+
+That is what this table showed when it was first made, and the rows did not
+rise with the height of the burst. A miss that does not depend on size is a
+hole, not a threshold. `spikes` scores a point against the centred median
+around it, over a window of 4% of the run and never fewer than five points. A
+burst that fills more than half that window lifts the median with it, so every
+point in it scores near zero; and `setbacks` dropped any rise shorter than the
+window. In a log of under 150 points the window is five, and three high points
+in a row were invisible at any height. 136 of these 300 runs are that short.
+
+`setbacks` now reports a rise shorter than the window as a "Loss burst" when
+the level stood at least half the run's progress above its earlier best and
+that rise is more than six times the scatter of single points: the two
+conditions `spikes` sets for one point. More than five in a run become one
+finding that counts them.
+
+How the rule was made and scored:
+
+- **On the first collection only.** Injected into 300 of its runs that ended
+  well, bursts of P, 2 P and 4 P were flagged 38%, 41% and 42% of the time
+  before the rule and 91%, 96% and 97% after (`inject.py --manifest
+  manifest.json --prefix ""`; the other 24 kinds of damage are
+  unchanged). Across its 3,145 logs, eight gain a burst finding and seven of
+  those already had a warning. Runs that ended well and are warned: 93 of
+  1,639 before, 94 after.
+- **The scatter condition was added after reading results.** With the height
+  condition alone, twelve of those logs gained a finding, and four of the
+  twelve were rises that did not stand out from the scatter of single points
+  (scores of 0.4 to 5.2 against the bar of 6). One log then got 47 findings,
+  which is why there is a cap.
+- **The eighth is what the hole cost.** A public run's loss went from 0.83 to
+  6.8 at step 520, stayed there for 37 logged points and was back by step 890.
+  It ended at its best loss, and the checkout gave it two notes (a plateau, a
+  count of large gradient norms) and no warning.
+- **Then the held-out slice was scored once more**, with the rule frozen: the
+  table above. Its census is unchanged where it counts, 37 of 537 runs that
+  ended well warned and 39 of 41 that ended badly; two logs gain a burst
+  finding and both already had a warning. The held-out slice is not untouched
+  for this rule, since its four burst rows are why the rule exists. No
+  held-out run was looked at before the rule was frozen.
+
+Nothing else in the detectors changed after these measurements.
 
 
 ## What changed in the detectors
@@ -235,7 +279,7 @@ collection.
 | Detector | 0.2.6 on this corpus | Now |
 |---|---|---|
 | `spikes` | Any point more than 6 MADs from a 21-point trailing median: 37% of runs, 20,261 findings, 575 runs given an error. Two thirds of the runs it flagged ended at their best loss. | A point must also be large next to what the run achieved: half the run's progress for a warning, a tenth for a note. Scored on the log of the loss, against the run-wide scatter. 3.8% of runs. |
-| `setbacks` | (did not exist) A public run whose level rose from 0.51 to 1.43 and stayed up for 13,000 of its 39,000 steps got four spike findings and nothing about the rise. | New. A stretch where the smoothed loss sits a quarter of the run's progress above a level it had already reached, reported with the steps it cost. 2.0% of runs. |
+| `setbacks` | (did not exist) A public run whose level rose from 0.51 to 1.43 and stayed up for 13,000 of its 39,000 steps got four spike findings and nothing about the rise. | New. A stretch where the smoothed loss sits a quarter of the run's progress above a level it had already reached, reported with the steps it cost. A rise shorter than the smoothing window is a "Loss burst" if it is tall (see above). 2.3% of runs. |
 | `divergence` | The last point at 1.5 times the lowest point, with a rising tail, on training or evaluation loss. Of the 57 runs it flagged this way, 26 were on the evaluation loss, where a rise beside a training loss near its best is overfitting. | The log ends inside a rise and a quarter (warning) or half (error) of the run's progress is gone; or the loss only ever rose. A NaN in an evaluation metric is a warning. 2.4% of runs. |
 | `overfitting` | A warning from a 1% rise. | Severity follows the size of the rise: a note below 10%, a warning from 10%, an error from 50%. Runs with three or four evaluations, which no slope test can pass, are reported when the last one is far above the best. |
 | `grad_norm` | A warning for every reading 10 MADs out: 40% of runs, 30,098 findings. Two thirds of those runs ended at their best loss. | One note per run that counts the readings at least ten times the rolling median. |
@@ -263,9 +307,9 @@ three warnings, all for single points.
 - **Out of sample is not out of population.** The held-out slice is the same
   Hub, earlier weeks, other accounts, collected the same way. It shows the
   thresholds were not memorised; it does not show how the detectors do on
-  training runs that are not public `Trainer` uploads. The detectors' docstrings
-  were edited after it was scored, to correct the counts they quote; no
-  behaviour changed.
+  training runs that are not public `Trainer` uploads. It was scored twice:
+  once with the detectors as first frozen, and once more after the burst rule,
+  which was written because of four of its own numbers.
 - **The endings are computed from the same numbers the detectors read.** For
   `divergence` and `overfitting` the label and the detector are nearly the same
   calculation, so "errors land on bad endings" is true there by construction,
@@ -313,7 +357,8 @@ uv run python studies/hub-census/report.py           # results.json and figures/
 ```
 
 Each census pass takes about a quarter of an hour on one core, `inject.py` an
-hour or more (it runs the detectors on twenty damaged copies of 300 logs), and
+hour or more (it runs the detectors on twenty damaged copies of 300 logs;
+`--workers N` on either shares the work between N processes), and
 `probe.py` about ten minutes. `collect.py` downloads the files the manifest
 lists, each at its recorded commit; repositories deleted or made private since
 are skipped and counted. `collect.py --rescan --models 220000` walks the Hub's

@@ -17,9 +17,9 @@ and this project uses [Semantic Versioning](https://semver.org/).
   On 1,032 logs collected afterwards from other accounts: 6.9% and 0.0% (0.2.6:
   73.0% and 18.4%), and 95% of the runs that ended badly. With faults of known
   size injected into 300 held-out runs that ended well, sustained rises, late
-  divergence and NaNs are reported 99% of the time or more; a burst lasting 2%
-  of the run is missed three times in five. Expect far fewer findings, and
-  different ones:
+  divergence and NaNs are reported 99% of the time or more, and a burst lasting
+  2% of the run 92% to 98% of the time once it is as high as the run's
+  progress. Expect far fewer findings, and different ones:
   - `spikes`: a point must be large next to the run's progress as well as
     statistically unusual. Scored on the log of the loss against the run-wide
     scatter. A warning from half the run's progress, one note below that. Never
@@ -50,6 +50,13 @@ and this project uses [Semantic Versioning](https://semver.org/).
 - `setbacks` detector: a stretch where the loss level sat a quarter of the run's
   progress above a level it had already reached, reported with the steps it
   cost. One that begins in the first tenth of the run is an "early rise".
+  A rise shorter than the smoothing window is a "Loss burst" warning when the
+  level stood half the run's progress above its earlier best and more than six
+  times the scatter of single points; more than five in a run are one "Repeated
+  loss bursts" finding. Without it a burst that filled more than half the
+  window was too wide for `spikes` and too short to be a setback: three
+  injected bursts in five went unreported at any height, and so did a public
+  run whose loss stood at 6.8 against a level of 0.83 for 37 logged points.
 - `studies/hub-census/`: the collection script, the manifest of the 3,208 files
   read, the census and report scripts, and the results.
 

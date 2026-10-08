@@ -27,8 +27,7 @@ Faults, all applied to the logged training loss unless noted:
 
 The runs are the first MAX_RUNS "good" runs with 30 to 3,000 logged training-loss points,
 ordered by the SHA-1 of the repository name. Output: cache/heldout-inject-<label>.jsonl.
-`--reverse` works through the same list from the other end into a second file, so two
-processes can share it; it stops where the first has already been.
+`--workers N` shares the list between N processes.
 """
 
 from __future__ import annotations
@@ -38,6 +37,7 @@ import hashlib
 import json
 import math
 import tempfile
+from multiprocessing import Pool
 from pathlib import Path
 from typing import Any
 
@@ -115,22 +115,40 @@ def variants(history: list[dict[str, Any]], progress: float) -> dict[str, list[d
     return out
 
 
-def main() -> None:
-    import trainspotter
+def judge(job: tuple[dict[str, Any], dict[str, Any], str]) -> dict[str, Any]:
+    """Damage one run every way `variants` knows and record what the detectors say of each."""
     from trainspotter.detectors import run_all
     from trainspotter.readers.hf import read_hf_trainer_state
+
+    e, row, cache = job
+    raw = json.loads(cached_path(Path(cache), row).read_text())
+    history = raw["log_history"] if isinstance(raw, dict) else raw
+    record: dict[str, Any] = {"repo": e["repo"], "progress": e["start"] - e["best"], "runs": {}}
+    with tempfile.TemporaryDirectory() as scratch:
+        for name, damaged in variants(history, e["start"] - e["best"]).items():
+            path = Path(scratch) / "trainer_state.json"
+            path.write_text(json.dumps({"log_history": damaged}))
+            try:
+                findings = run_all(read_hf_trainer_state(path))
+            except ValueError as exc:
+                record["runs"][name] = {"unreadable": str(exc)[:100]}
+                continue
+            record["runs"][name] = {
+                "warning": sorted({f.detector for f in findings if f.severity == "warning"}),
+                "error": sorted({f.detector for f in findings if f.severity == "error"}),
+            }
+    return record
+
+
+def main() -> None:
+    import trainspotter
 
     parser = argparse.ArgumentParser(description=(__doc__ or "").splitlines()[0])
     parser.add_argument("--label", default="current", help="names the output file")
     parser.add_argument("--cache", type=Path, default=HERE / "cache")
     parser.add_argument("--manifest", type=Path, default=HERE / "manifest-heldout.json")
     parser.add_argument("--prefix", default="heldout-")
-    parser.add_argument(
-        "--reverse",
-        action="store_true",
-        help="work from the end of the list, to share it with a second process; "
-        "stops at the first run the forward process has written",
-    )
+    parser.add_argument("--workers", type=int, default=1, help="processes to share the runs")
     args = parser.parse_args()
 
     logs = {row["repo"]: row for row in json.loads(args.manifest.read_text())["logs"]}
@@ -142,40 +160,15 @@ def main() -> None:
     chosen.sort(key=lambda e: hashlib.sha1(e["repo"].encode()).hexdigest())
     chosen = chosen[:MAX_RUNS]
 
-    forward = args.cache / f"{args.prefix}inject-{args.label}.jsonl"
-    target = forward.with_name(forward.stem + "-reverse.jsonl") if args.reverse else forward
-    if args.reverse:
-        chosen.reverse()
-    done = 0
-    with target.open("w") as handle, tempfile.TemporaryDirectory() as scratch:
-        for e in chosen:
-            if args.reverse and forward.exists() and e["repo"] in forward.read_text():
-                break
-            raw = json.loads(cached_path(args.cache, logs[e["repo"]]).read_text())
-            history = raw["log_history"] if isinstance(raw, dict) else raw
-            record: dict[str, Any] = {
-                "repo": e["repo"],
-                "progress": e["start"] - e["best"],
-                "runs": {},
-            }
-            for name, damaged in variants(history, e["start"] - e["best"]).items():
-                path = Path(scratch) / "trainer_state.json"
-                path.write_text(json.dumps({"log_history": damaged}))
-                try:
-                    findings = run_all(read_hf_trainer_state(path))
-                except ValueError as exc:
-                    record["runs"][name] = {"unreadable": str(exc)[:100]}
-                    continue
-                record["runs"][name] = {
-                    "warning": sorted({f.detector for f in findings if f.severity == "warning"}),
-                    "error": sorted({f.detector for f in findings if f.severity == "error"}),
-                }
+    target = args.cache / f"{args.prefix}inject-{args.label}.jsonl"
+    jobs = [(e, logs[e["repo"]], str(args.cache)) for e in chosen]
+    with target.open("w") as handle, Pool(args.workers) as pool:
+        for done, record in enumerate(pool.imap(judge, jobs), start=1):
             handle.write(json.dumps(record) + "\n")
             handle.flush()
-            done += 1
             if done % 25 == 0:
                 print(f"{done}/{len(chosen)}", flush=True)
-    print(f"trainspotter {trainspotter.__version__}: {done} runs; wrote {target}")
+    print(f"trainspotter {trainspotter.__version__}: {len(chosen)} runs; wrote {target}")
 
 
 if __name__ == "__main__":

@@ -24,6 +24,7 @@ import hashlib
 import json
 import math
 import time
+from multiprocessing import Pool
 from pathlib import Path
 from typing import Any
 
@@ -103,10 +104,34 @@ def ending(train: list[float], evaluation: list[float]) -> dict[str, Any]:
     return {**out, "ending": "middling"}
 
 
-def main() -> None:
-    import trainspotter
+def describe(job: tuple[dict[str, Any], str, bool]) -> dict[str, Any]:
+    """One log's row: how it ended, and (unless `endings_only`) what the detectors said."""
     from trainspotter.detectors import run_all
     from trainspotter.readers.hf import read_hf_trainer_state
+
+    row, cache, endings_only = job
+    record: dict[str, Any] = {
+        "repo": row["repo"],
+        "adapter": row["adapter"],
+        "task": row["task"],
+    }
+    try:
+        run = read_hf_trainer_state(cached_path(Path(cache), row))
+    except (ValueError, OSError) as exc:
+        record["unreadable"] = str(exc).split(": ", 1)[-1][:120]
+        return record
+    train, evaluation = run.get("train/loss"), run.get("eval/loss")
+    record.update(
+        ending(train.values() if train else [], evaluation.values() if evaluation else [])
+    )
+    record["metrics"] = sorted(run.metric_names())
+    if not endings_only:
+        record["findings"] = [[f.detector, f.severity, f.title] for f in run_all(run)]
+    return record
+
+
+def main() -> None:
+    import trainspotter
 
     parser = argparse.ArgumentParser(description=(__doc__ or "").splitlines()[0])
     parser.add_argument("--label", default="current", help="names the output file")
@@ -120,32 +145,17 @@ def main() -> None:
     parser.add_argument(
         "--prefix", default="", help="prepended to the output file names (the held-out slice)"
     )
+    parser.add_argument("--workers", type=int, default=1, help="processes to share the logs")
     args = parser.parse_args()
 
     logs = json.loads(args.manifest.read_text())["logs"]
     name = "endings.jsonl" if args.endings_only else f"census-{args.label}.jsonl"
     target = args.cache / (args.prefix + name)
     started = time.time()
-    with target.open("w") as handle:
-        for row in logs:
-            record: dict[str, Any] = {
-                "repo": row["repo"],
-                "adapter": row["adapter"],
-                "task": row["task"],
-            }
-            try:
-                run = read_hf_trainer_state(cached_path(args.cache, row))
-            except (ValueError, OSError) as exc:
-                record["unreadable"] = str(exc).split(": ", 1)[-1][:120]
-                handle.write(json.dumps(record) + "\n")
-                continue
-            train, evaluation = run.get("train/loss"), run.get("eval/loss")
-            record.update(
-                ending(train.values() if train else [], evaluation.values() if evaluation else [])
-            )
-            record["metrics"] = sorted(run.metric_names())
-            if not args.endings_only:
-                record["findings"] = [[f.detector, f.severity, f.title] for f in run_all(run)]
+    jobs = [(row, str(args.cache), args.endings_only) for row in logs]
+    with target.open("w") as handle, Pool(args.workers) as pool:
+        # `imap` keeps the manifest's order whatever the number of workers.
+        for record in pool.imap(describe, jobs, chunksize=8):
             handle.write(json.dumps(record) + "\n")
     elapsed = time.time() - started
     print(f"trainspotter {trainspotter.__version__}: {len(logs)} logs in {elapsed:.0f} s")

@@ -240,14 +240,14 @@
      3.2,
      4.5
     ],
-    "warning_or_error": 11.4,
-    "warning_or_error_runs": 360,
+    "warning_or_error": 11.5,
+    "warning_or_error_runs": 361,
     "warning_or_error_ci95": [
      10.4,
      12.6
     ],
     "any_finding": 50.0,
-    "findings_per_run": 0.9
+    "findings_per_run": 0.91
    },
    "good": {
     "runs": 1639,
@@ -258,10 +258,10 @@
      0.2
     ],
     "warning_or_error": 5.7,
-    "warning_or_error_runs": 93,
+    "warning_or_error_runs": 94,
     "warning_or_error_ci95": [
      4.7,
-     6.9
+     7.0
     ],
     "any_finding": 51.3,
     "findings_per_run": 0.84
@@ -341,9 +341,9 @@
    "on_good_endings": 0.0
   },
   "alarms": {
-   "runs": 360,
-   "on_bad_endings": 32.2,
-   "on_good_endings": 25.8
+   "runs": 361,
+   "on_bad_endings": 32.1,
+   "on_good_endings": 26.0
   },
   "detectors": {
    "divergence": {
@@ -389,10 +389,10 @@
     "findings": 812
    },
    "setbacks": {
-    "runs": 64,
-    "share": 2.0,
-    "runs_warning_or_error": 61,
-    "findings": 90
+    "runs": 71,
+    "share": 2.3,
+    "runs_warning_or_error": 69,
+    "findings": 98
    },
    "spikes": {
     "runs": 120,
@@ -932,7 +932,7 @@
       9.4
      ],
      "any_finding": 49.2,
-     "findings_per_run": 0.85
+     "findings_per_run": 0.86
     },
     "middling": {
      "runs": 82,
@@ -1000,7 +1000,7 @@
       10.7
      ],
      "any_finding": 18.5,
-     "findings_per_run": 0.23
+     "findings_per_run": 0.24
     }
    },
    "errors": {
@@ -1057,10 +1057,10 @@
      "findings": 243
     },
     "setbacks": {
-     "runs": 29,
-     "share": 2.8,
-     "runs_warning_or_error": 27,
-     "findings": 33
+     "runs": 31,
+     "share": 3.0,
+     "runs_warning_or_error": 29,
+     "findings": 35
     },
     "spikes": {
      "runs": 46,
@@ -1171,38 +1171,38 @@
       "of": 300
      },
      "burst_0.5": {
-      "warning_or_error": 9.0,
+      "warning_or_error": 15.1,
       "warning_or_error_of": 279,
       "error": 0.0,
       "error_of": 300,
-      "warning_or_error_any": 15.3,
+      "warning_or_error_any": 21.0,
       "error_any": 0.0,
       "of": 300
      },
      "burst_1.0": {
-      "warning_or_error": 37.3,
+      "warning_or_error": 92.1,
       "warning_or_error_of": 279,
       "error": 0.0,
       "error_of": 300,
-      "warning_or_error_any": 41.7,
+      "warning_or_error_any": 92.7,
       "error_any": 0.0,
       "of": 300
      },
      "burst_2.0": {
-      "warning_or_error": 40.9,
+      "warning_or_error": 97.5,
       "warning_or_error_of": 279,
       "error": 0.0,
       "error_of": 300,
-      "warning_or_error_any": 45.0,
+      "warning_or_error_any": 97.7,
       "error_any": 0.0,
       "of": 300
      },
      "burst_4.0": {
-      "warning_or_error": 41.2,
+      "warning_or_error": 97.8,
       "warning_or_error_of": 279,
       "error": 0.0,
       "error_of": 300,
-      "warning_or_error_any": 45.3,
+      "warning_or_error_any": 98.0,
       "error_any": 0.0,
       "of": 300
      },
@@ -1342,26 +1342,20 @@
    "height_0.5": {
     "runs": 29,
     "flagged_0.2.6": 24,
-    "flagged_current": 28,
-    "silent_in_current": [
-     "SynthCode-Project/Gemma12b-all-milestones"
-    ]
+    "flagged_current": 29,
+    "silent_in_current": []
    },
    "height_1.0": {
     "runs": 13,
     "flagged_0.2.6": 13,
-    "flagged_current": 12,
-    "silent_in_current": [
-     "SynthCode-Project/Gemma12b-all-milestones"
-    ]
+    "flagged_current": 13,
+    "silent_in_current": []
    },
    "height_2.0": {
     "runs": 10,
     "flagged_0.2.6": 10,
-    "flagged_current": 9,
-    "silent_in_current": [
-     "SynthCode-Project/Gemma12b-all-milestones"
-    ]
+    "flagged_current": 10,
+    "silent_in_current": []
    }
   },
   "heldout": {

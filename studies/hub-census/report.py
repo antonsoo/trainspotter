@@ -285,7 +285,7 @@ def injected(cache: Path, prefix: str, label: str, labels: tuple[str, ...]) -> d
     """
 
     def read(name: str) -> dict[str, dict[str, Any]]:
-        # A second process may have worked from the other end of the list (inject.py --reverse).
+        # Every file of that label, should a run have been split between processes.
         found: dict[str, dict[str, Any]] = {}
         for path in sorted(cache.glob(f"{prefix}inject-{name}*.jsonl")):
             for row in map(json.loads, path.read_text().splitlines()):
