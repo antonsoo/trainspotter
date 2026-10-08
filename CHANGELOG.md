@@ -6,6 +6,46 @@ and this project uses [Semantic Versioning](https://semver.org/).
 
 ## Unreleased
 
+### Changed
+
+- **The detectors were recalibrated on 3,145 public `Trainer` logs**
+  (`studies/hub-census/`). 0.2.6 raised a warning or an error on 74.6% of the
+  runs that ended at their best loss and an error on 20.6%; this version does so
+  on 5.7% and 0.0%, and still flags 89.9% of the runs that ended badly. Findings
+  per run fall from 16.7 to 0.9. Expect far fewer findings, and different ones:
+  - `spikes`: a point must be large next to the run's progress as well as
+    statistically unusual. Scored on the log of the loss against the run-wide
+    scatter. A warning from half the run's progress, one note below that. Never
+    an error; downward points and a run's initial descent are not spikes.
+  - `divergence`: the rising-tail test is replaced by "the log ends inside a rise
+    with a quarter (warning) or half (error) of the run's progress given back",
+    plus "the loss only ever rose". It no longer reads `eval/loss` for this: a
+    rising evaluation loss is `overfitting`'s. A non-finite evaluation metric is
+    a warning; a non-finite training loss is still an error.
+  - `overfitting`: a note below a 10% rise, a warning from 10% (5% with an
+    unmistakable trend), an error from 50%. Runs with three or four evaluations
+    are reported when the last is far above the best. Titled "Evaluation loss
+    rising" when the training loss was not falling beside it.
+  - `grad_norm`: one note per run, counting readings at least 10x the rolling
+    median, in place of a warning per reading. A non-finite norm is a note.
+  - `lr_schedule`: no warmup is a note. A rise before the learning rate has ever
+    fallen is warmup, however coarsely logged, and not a discontinuity.
+  - `eval_noise` is a note. `loss_floor` ignores a "loss" that goes negative.
+- Agreeing duplicate `epoch` readings, which `Trainer` writes at every evaluated
+  step, are no longer listed as repeated-step evidence in the terminal and HTML
+  reports. JSON keeps them.
+- The HTML report does not chart `*/runtime`, `*/samples_per_second` or
+  `*/steps_per_second`, and charts at most twelve further metrics; the rest are
+  named under the last chart.
+
+### Added
+
+- `setbacks` detector: a stretch where the loss level sat a quarter of the run's
+  progress above a level it had already reached, reported with the steps it
+  cost. One that begins in the first tenth of the run is an "early rise".
+- `studies/hub-census/`: the collection script, the manifest of the 3,208 files
+  read, the census and report scripts, and the results.
+
 ### Fixed
 
 - Repeated copies of one step no longer masquerade as a long trajectory (for

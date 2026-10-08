@@ -19,18 +19,48 @@ detected, where (step ranges), the evidence behind each, and the usual
 fixes. It runs post-hoc on a finished log, live via `watch` on a growing
 one, or as a CI gate that fails the build.
 
+## Calibrated on 3,145 real runs
+
+Many people upload `Trainer`'s checkpoint directories to the Hugging Face Hub,
+`trainer_state.json` included, so thousands of real training logs are public.
+[**The census**](studies/hub-census/README.md) collects 3,145 of them, runs
+trainspotter over each, and compares its findings with how the run ended.
+
+The released detectors (0.2.6) did badly at this: they raised a warning or an
+error on 75% of the runs that ended at their best loss, and 12% of their errors
+were on runs that ended badly. They had been tuned on smooth generated curves,
+and a real per-step loss is not smooth. The detectors in this checkout
+(**unreleased**) were reworked against the corpus:
+
+| On 3,145 public runs | 0.2.6 | this checkout |
+|---|---:|---:|
+| Runs that ended at their best loss and were given a warning or an error | 74.6% | 5.7% |
+| ... and were given an error | 20.6% | 0.0% |
+| Runs that ended badly and were given a warning or an error | 96.1% | 89.9% |
+| Errors that are on a run that ended badly | 12.2% | 72.3% |
+| Findings per run | 16.7 | 0.9 |
+
+![The trainspotter report for a public fine-tuning run from the Hub. The training loss falls from 2.7 to about 0.5, spikes to 1.9 at step 3,150, then rises to about 1.4 between steps 14,100 and 27,050 before returning; that stretch is shaded. Two warnings are listed: the spike, at 82% of the run's progress, and the setback, 12,950 steps or 33% of the run.](docs/assets/report-public-run.png)
+
+*A real run from the corpus (the log itself is not redistributed). 0.2.6 gave
+it an error and three warnings, each for a single noisy point. This checkout
+reports the one spike that undid most of the run's progress for a step, and the
+setback: a third of the run spent above a loss level it had already reached.*
+
 ## Report
 
-![Top of the trainspotter HTML report on the divergence example: a header with the run's source and step range, an error/warning/info summary with a health-strip timeline, and the combined train/loss + eval/loss chart -- 320 steps of ordinary cosine-schedule training, shaded regions marking detected findings, then a labeled spike as the run breaks -- followed by the findings log, error findings first: two loss spikes and the divergence itself.](docs/assets/html-report-divergence.png)
+![Top of the trainspotter HTML report on the bundled divergence example: a header with the run's source and step range, an error/warning/info summary with a health-strip timeline, and the combined train/loss + eval/loss chart -- 320 steps of ordinary cosine-schedule training, then a labeled spike as the run breaks -- followed by the findings log, the non-finite training loss first.](docs/assets/html-report-divergence.png)
 
-*(top of the report -- [full report, all 5 charts + all 6 findings](docs/assets/html-report-divergence-full.png))*
+*(top of the report -- [full report, all 5 charts + all 7 findings](docs/assets/html-report-divergence-full.png))*
 
-![Terminal output of `trainspotter analyze divergence.trainer_state.json --fail-on error`, showing all 6 findings ordered by severity -- three ERROR findings (two loss spikes, the divergence) first, then one WARNING (the gradient-norm explosion), then two INFO (the downgraded overfitting onset and the LR discontinuity) -- each with step range, detector name, message, and a one-line fix suggestion.](docs/assets/terminal-divergence.png)
+![Terminal output of `trainspotter analyze divergence.trainer_state.json --fail-on error`, showing all 7 findings ordered by severity -- one ERROR (the training loss became Inf), two WARNINGs (the evaluation-loss and training-loss spikes just before it), then four INFO findings (the evaluation rise attributed to the spike, the LR discontinuity that caused it, the gradient-norm explosion and the non-finite gradient norm) -- each with step range, detector name, message, and a one-line fix suggestion.](docs/assets/terminal-divergence.png)
 
-Browse every example's full HTML report at
+Browse every bundled example's full HTML report at
 **[antonsoo.github.io/trainspotter](https://antonsoo.github.io/trainspotter/)**
-(built by `scripts/build_site.py`). Both images above are real output from `examples/divergence.trainer_state.json` (see
-[Real demo data](#real-demo-data) for exactly how that log was produced).
+(built by `scripts/build_site.py`; the hosted copy is from the released
+version). The two images above are real output from
+`examples/divergence.trainer_state.json`, a run built to fail (see
+[Demo data](#real-demo-data) for how).
 
 ## Quickstart
 
@@ -60,8 +90,10 @@ trainspotter analyze path/to/trainer_state.json --output html --out report.html
   curve, a run resumed from a checkpoint, and a W&B chart export or a
   logdir that holds several runs (one is analysed, the others are listed;
   `--run` picks). See [What it reads](#what-it-reads).
-- **Nine detectors** -- see the [table below](#detectors) -- each with a
+- **Ten detectors** -- see the [table below](#detectors) -- each with a
   documented algorithm, tunable thresholds, and stated false-positive modes.
+  A finding says what the problem cost the run (a share of its progress, a
+  share of its steps), and its severity follows that cost.
 - **Three report formats**: a color-coded terminal report, JSON (stable
   schema, for tooling), and a self-contained HTML report (inline SVG
   charts, no CDN, no JavaScript -- opens from disk, works offline forever).
@@ -163,7 +195,7 @@ $ trainspotter analyze runs --run lr-1e-3
 source   runs  [tensorboard]
 run      lr-1e-3  1 of 2 in this source; --run picks another: lr-3e-4
 metrics  eval/loss, grad_norm, lr, train/loss
-findings 3 error  1 warning  2 info
+findings 1 error  2 warning  4 info
 ...
 ```
 
@@ -204,27 +236,38 @@ summary.
 
 | Detector | Detects | How | Stated false-positive modes |
 |---|---|---|---|
-| `spikes` | A sudden jump in a loss metric | Modified z-score (`0.6745·(x−median)/MAD`) against a trailing rolling median/MAD; flags \|z\| > 6 | Deliberate LR restarts/curriculum jumps; bumpy metrics with a too-small window |
-| `divergence` | NaN/Inf, or sustained upward drift | Any non-finite value; or an OLS slope > 0 with p < 0.05 over the tail window, and the last value ≥ 1.5× the running minimum | Metrics meant to increase (only checks loss-type metrics by default); a temporary cyclic-schedule upswing |
-| `plateau` | A metric that's stalled, not just converged | Sliding-window OLS slope test (p ≥ 0.2 = not significant) plus a < 2% relative-change guard; suppressed if the window has already recovered ≥ 80% of the metric's total drop, or `lr` has decayed to ≤ 30% of its peak | A real stall near a coincidentally low value, or right as an unrelated LR decay finishes, can be wrongly suppressed by the convergence check |
-| `overfitting` | Train still improving while eval worsens | Finds eval's running-minimum step; tests whether the slope after it is significantly positive (p < 0.1) and ≥ 1% above the minimum | A noisy eval set can show a false uptick; a mid-run change in eval data |
-| `lr_schedule` | Missing warmup, LR rising after its peak, discontinuities | Ramp check on the first value vs. peak; running-max monotonicity after the peak; a jump of ≥ 20% of the LR's total range that isn't one leg of a steady ramp | Cyclic/warm-restart schedules trip the last two by design; step-decay drops are reported as `info` |
-| `grad_norm` | Gradient-norm explosions and clipping saturation | Same z-score as `spikes` (one-sided) for explosions, threshold 10 (higher than `spikes`' 6 -- a single z of 6-8 is common early-training noise); fraction of a trailing window within 0.5% of its own max, for saturation | Norms logged post-clip are saturated by construction; an isolated explosion with no coinciding loss spike is weaker evidence than one that lines up with a `spikes` finding |
+| `spikes` | A point far above the loss level around it | More than 6 robust standard deviations out (scored on the log of the loss, against the larger of the run-wide and trailing-window scatter) **and** at least half the run's progress above the level (a warning), or a tenth (one note counting them) | Deliberate LR restarts/curriculum jumps; too few points for a stable scale |
+| `setbacks` | The loss level rose, stayed up, and came back | The smoothed level sits a quarter of the run's progress above a level it had already reached; reported with the steps spent there, a warning from 5% of the run. One that starts in the first tenth of the run is an "early rise" | An epoch boundary or a planned restart; anything shorter than the smoothing window (4% of the run) |
+| `divergence` | A non-finite loss, or a rise the run never recovered from | Any NaN/Inf (an error in the training loss, a warning in an evaluation metric); or the log ends inside a rise with a quarter (warning) or half (error) of the run's progress given back; or the loss only ever rose | A run stopped during a temporary rise; a metric meant to increase |
+| `plateau` | A metric that's stalled, not just converged | Sliding-window OLS slope test (p ≥ 0.2 = not significant) plus a < 2% relative-change guard; suppressed if the window has already recovered ≥ 80% of the metric's total drop, or `lr` has decayed to ≤ 30% of its peak | A real stall near a coincidentally low value, or a metric that legitimately converged early |
+| `overfitting` | Evaluation loss rising after its best | Slope after the running minimum significantly positive (p < 0.1) and ≥ 3% above it; a note below 10%, a warning from 10% (or from 5% with an unmistakable trend), an error from 50%. Runs with too few evaluations for a slope test are reported when the last one is far above the best | A noisy eval set; a mid-run change in eval data |
+| `lr_schedule` | No warmup, LR rising after its peak, discontinuities (all notes) | Ramp check on the first value vs. peak; running-max monotonicity after the peak; a jump of ≥ 20% of the LR's total range that isn't one leg of a steady ramp or a rise before the LR has ever fallen (warmup) | Cyclic/warm-restart schedules trip the last two by design; step-decay drops are reported |
+| `grad_norm` | Gradient-norm explosions and clipping saturation (notes) | Readings both statistically unusual and at least 10x the rolling median, counted in one finding; fraction of a trailing window within 0.5% of its own max, for saturation | Norms logged post-clip are saturated by construction; whether an explosion mattered is for the loss to say |
 | `throughput` | Step-time / throughput regressions | Median step time, early-run baseline window vs. recent window, flags ≥ 1.4× | Checkpoint/eval steps inflate single points; early-run kernel/dataloader warmup can pollute the baseline |
-| `eval_noise` | An eval metric too noisy to rank checkpoints by | Median absolute step-to-step jitter as a fraction of the run's total improvement; flags ≥ 15% | An already-converged run has small total improvement by construction |
-| `loss_floor` | Implausibly low train loss very early (heuristic) | Loss < 0.05 absolute **and** < 5% of its starting value within the first 10% of steps | Explicitly a heuristic: an easy task, a small-scale loss, or a resumed checkpoint all look identical to this |
+| `eval_noise` | An eval metric too noisy to rank checkpoints by (a note) | Median absolute step-to-step jitter as a fraction of the run's total improvement; flags ≥ 15% | An already-converged run has small total improvement by construction |
+| `loss_floor` | Implausibly low train loss very early (heuristic) | Loss < 0.05 absolute **and** < 5% of its starting value within the first 10% of steps; not applied to a "loss" that goes negative | Explicitly a heuristic: an easy task, a small-scale loss, or a resumed checkpoint all look identical to this |
+
+"Progress" is how far the loss level fell from where the run started to the
+best level it reached. It is the yardstick for every "how bad was that"
+judgement, because differences in a loss carry meaning and ratios do not: a
+cross-entropy going from 0.10 to 0.15 moved 0.05 nats, the same as one going
+from 2.00 to 2.05.
 
 ### Trust the healthy case
 
-A tool that flags an unremarkable run gets ignored, and recall on real
-incidents matters less than that first impression -- so trainspotter is
-tested for silence, not just for alarms. **On the healthy baseline run,
-trainspotter reports no warnings**, and `tests/test_examples_regression.py`
-asserts this on every commit, alongside asserting that the other four
-examples still flag the pathology they were built to demonstrate. Findings
-are also ordered errors-first, then warnings, then info (chronological
-within a level) -- so on a run that *did* break, the thing that broke
-leads the report instead of sitting below routine early-training noise.
+A tool that flags an unremarkable run gets ignored, so being quiet on healthy
+runs matters more than recall. That is measured, not asserted: of the 1,639
+public runs in the [census](studies/hub-census/README.md) that ended at their
+best loss, this checkout gives none an error and 5.7% a warning (the released
+0.2.6 gave 20.6% an error and 74.6% a warning or an error). The warnings that
+remain are setbacks and spikes the run recovered from.
+`tests/test_field_calibration.py` rebuilds the shapes those logs take (the
+heavy-tailed scatter of a per-step loss, a warmup logged every few steps, a
+level that climbs for a tenth of the run and returns) and pins what each
+detector says about them; `tests/test_examples_regression.py` asserts the
+bundled healthy baseline stays silent and the other four examples still flag
+what they were built to show. Findings are ordered errors-first, then
+warnings, then notes (chronological within a level).
 
 ## How it works
 
@@ -239,15 +282,21 @@ a CSV, or TensorBoard. Readers normalize common spellings (`loss` /
 through, so a custom metric like `eval/bleu` still reaches the detectors
 under its own name.
 
-**Robust statistics, not raw thresholds.** Spikes and gradient-norm
-explosions are judged by a *modified z-score* against a trailing rolling
-median and MAD (median absolute deviation), not a mean/stddev: a mean and
-stddev are themselves dragged around by the very outlier you're trying to
-detect, while the median and MAD barely move. This is the same construction
-Iglewicz & Hoaglin describe for outlier labeling. Plateau and overfitting
-use an ordinary-least-squares slope with a normal-approximation t-test
-(`math.erf`-based, no `scipy` dependency) rather than eyeballing "did it go
-up or down."
+**Levels, not points.** A logged training loss is one mini-batch's average:
+single points scatter widely, with a heavy upper tail, around a level that
+moves slowly. The detectors that judge whether something hurt the run
+(`spikes`, `setbacks`, `divergence`) first reduce the series to its levels
+(`detectors/base.py`: a centred rolling median, where the run started, the
+best level it reached, where it ended) and measure everything against the
+run's progress between start and best. A point is a spike only if it is both
+unusual and large on that scale.
+
+**Robust statistics, not raw thresholds.** Scatter is estimated from medians
+and median absolute deviations (and from successive differences in short
+series), not a mean/stddev: those are dragged around by the very outlier
+being judged. Plateau and overfitting use an ordinary-least-squares slope with
+a normal-approximation t-test (`math.erf`-based, no `scipy` dependency)
+rather than eyeballing "did it go up or down."
 
 **Charts don't let one spike flatten the rest of the curve.** The HTML
 report's axis logic (`report/html_report.py`) picks tick spacing with
@@ -335,11 +384,14 @@ pins.
 
 ## Accuracy and limitations
 
-- Every threshold in this README and in the detector table is a default,
-  not a law of nature -- they're tuned to be reasonable on the example
-  runs above, not validated against a large corpus of real training
-  incidents. Expect to adjust `window`, `threshold`, `alpha`, etc. for your
-  own runs' scale and logging frequency.
+- The detectors that carry a warning or an error were calibrated on 3,145
+  public `Trainer` logs ([the census](studies/hub-census/README.md)), against
+  how each run ended. Nobody labelled those runs by hand, they are mostly
+  small fine-tunes, and "ended badly" is computed from the same loss values
+  the detectors read; the study says what that does and does not establish.
+  Every threshold is still a default. `plateau`, `throughput`, `eval_noise`
+  and `loss_floor` were not recalibrated: their thresholds are the ones tuned
+  on the bundled examples.
 - **Readers are tested against real files**, not remembered schemas: every
   reader in `tests/test_readers.py` is exercised against a file this repo's
   test suite writes to disk in the documented format. The TensorBoard
@@ -365,13 +417,13 @@ pins.
   imply a different order. See the contract for oracle details.
   Retention does not make conflicting values a usable trajectory: repeated-step
   analysis and evidence are described in [the integrity contract](docs/input-integrity.md).
-- **Detectors are tested against synthetic signals with known ground
-  truth**: a spike planted at step *k* must be found at step *k*; a clean
-  curve must produce zero findings. See `tests/test_detector_*.py`. A
-  separate regression test (`tests/test_examples_regression.py`) runs the
-  whole detector set against all five real example logs and asserts the
-  healthy baseline stays quiet while the other four still flag what
-  they're supposed to.
+- **Detector tests use synthetic signals with known ground truth**: a spike
+  planted at step *k* must be found at step *k*; a clean curve must produce
+  zero findings (`tests/test_detector_*.py`, `tests/test_field_calibration.py`).
+  A regression test (`tests/test_examples_regression.py`) runs the whole
+  detector set against the five bundled example logs. The public logs
+  themselves are not in the repository; the census is how the detectors meet
+  them.
 - No detector here is a substitute for understanding your training run.
   They're heuristics built to reduce how often you have to stare at a
   chart by eye, not a certified diagnosis -- read the false-positive modes
@@ -384,8 +436,8 @@ pins.
   windows. Missing or invalid readings do not become a zero or move the window
   into earlier data. Inverted throughput is seconds per reported unit (sample
   or token), not seconds per training step.
-- The OLS significance tests (`plateau`, `overfitting`, `divergence`'s
-  sustained-growth check) use a normal approximation to the t-distribution,
+- The OLS significance tests (`plateau`, `overfitting`) use a normal
+  approximation to the t-distribution,
   accurate for windows of about 30+ points; on shorter windows they're
   slightly anti-conservative, which is why each detector also requires a
   minimum window size before trusting the test.
