@@ -71,6 +71,10 @@ class LossFloorDetector(Detector):
             return []
         for i in range(early_n):
             v = float(values[i])
+            # A negative "loss" is some other objective (a policy-gradient surrogate, a
+            # log-likelihood with its sign kept); its floor is not zero.
+            if v < 0:
+                return []
             if v <= self.abs_floor and v <= first_value * self.rel_floor:
                 return [
                     Finding(

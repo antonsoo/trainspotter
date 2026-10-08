@@ -17,8 +17,8 @@ def test_nan_is_flagged_as_error() -> None:
     assert nan_findings[0].step_start == 3
 
 
-def test_sustained_growth_is_flagged() -> None:
-    # decays, bottoms out, then climbs steadily for the whole tail window
+def test_a_loss_that_climbs_and_never_comes_back_is_flagged() -> None:
+    # decays, bottoms out, then climbs steadily to the end of the log
     decay = [5.0 * 0.9**i + 0.5 for i in range(30)]
     growth = [decay[-1] + 0.3 * i for i in range(1, 30)]
     values = decay + growth
@@ -26,9 +26,9 @@ def test_sustained_growth_is_flagged() -> None:
 
     findings = DivergenceDetector(metrics=("train/loss",)).run(run)
 
-    growth_findings = [f for f in findings if "growth" in f.title.lower()]
-    assert len(growth_findings) == 1
-    assert growth_findings[0].severity == "error"
+    assert [f.title for f in findings] == ["Diverged (did not recover)"]
+    assert findings[0].severity == "error"
+    assert findings[0].evidence["gave_back"] > 1.0  # it ended above where it started
 
 
 def test_clean_decay_has_no_false_alarm() -> None:

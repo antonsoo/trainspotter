@@ -17,7 +17,10 @@ def test_onset_detected_when_eval_rises_after_train_keeps_falling() -> None:
 
     assert len(findings) == 1
     assert findings[0].evidence["best_step"] == best_step - 1  # index of the minimum
-    assert findings[0].severity == "warning"
+    # It ends at more than twice its best: the last checkpoint is far worse than the best one.
+    assert findings[0].evidence["relative_rise"] > 0.5
+    assert findings[0].severity == "error"
+    assert findings[0].title == "Overfitting onset"
 
 
 def test_both_still_improving_has_no_finding() -> None:

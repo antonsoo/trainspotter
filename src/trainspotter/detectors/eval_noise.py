@@ -61,7 +61,8 @@ class EvalNoiseDetector(Detector):
             Finding(
                 detector=self.name,
                 title="Eval metric too noisy to rank checkpoints",
-                severity="warning",
+                # Advice about choosing a checkpoint, not a fault in the run.
+                severity="info",
                 metric=self.metric,
                 step_start=int(steps[0]),
                 step_end=int(steps[-1]),

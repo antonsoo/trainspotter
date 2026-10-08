@@ -62,7 +62,7 @@ def test_divergence_example_downgrades_overfitting_to_the_real_cause() -> None:
     matches = [f for f in findings if f.detector == "overfitting"]
     assert matches
     assert matches[0].severity == "info"
-    assert "explained by that divergence" in matches[0].message
+    assert "explains this rise better than ordinary overfitting" in matches[0].message
 
 
 def test_missing_warmup_example_flags_missing_warmup() -> None:

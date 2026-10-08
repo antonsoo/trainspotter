@@ -114,7 +114,8 @@ def test_conflicts_do_not_hide_an_independent_metric_failure() -> None:
         run.add_point("eval/loss", step, 1 if step < 40 else float("inf"))
     run.add_point("train/loss", 20, 100)
     run.finalize()
-    assert any(f.metric == "eval/loss" and f.severity == "error" for f in run_all(run))
+    titles = [f.title for f in run_all(run) if f.metric == "eval/loss"]
+    assert "Non-finite evaluation values" in titles
     assert not any(f.metric == "train/loss" for f in run_all(run))
 
 

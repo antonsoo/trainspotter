@@ -151,6 +151,174 @@ def _normal_cdf(z: float) -> float:
     return 0.5 * (1.0 + math.erf(z / math.sqrt(2.0)))
 
 
+# ---------------------------------------------------------------------------
+# Levels: where a loss curve started, the best it reached, and where it ended.
+#
+# A logged training loss is one mini-batch's average: single points scatter widely
+# around a level that moves slowly. What a reader cares about is the level, so the
+# detectors that judge "did this hurt the run" work on these, not on raw points.
+# ---------------------------------------------------------------------------
+
+#: Fewer points than this and there is no level to estimate.
+MIN_LEVEL_POINTS = 10
+#: The smoothing window never exceeds this many points, so a setback that lasts a
+#: few hundred logged points in a very long run is still seen.
+MAX_LEVEL_WINDOW = 201
+#: A level this share of the run's progress above its earlier best is an excursion. At a
+#: tenth, a third of the "setbacks" found in public runs that ended at their best loss were
+#: slow wiggles of a flat curve; at a quarter, what is left are real rises.
+EXCURSION_SHARE = 0.25
+
+
+@dataclass(slots=True)
+class Levels:
+    """A loss series reduced to the levels it moved between."""
+
+    smooth: FloatArray  #: centred rolling median, same length as the series
+    window: int
+    #: Where the run began: the median of its first three points or of its first 5%,
+    #: whichever is higher. Many runs lose most of their loss in the first few logged
+    #: points, and a 5% window would start measuring after that drop.
+    start: float
+    best: float  #: lowest smoothed level
+    best_index: int
+    final: float  #: median of the last 5% of points
+    noise: float  #: robust standard deviation of the smoothed series around the level
+    #: The same, as a fraction of the level, when every value is positive: a mini-batch
+    #: loss scatters in proportion to its level, so early points are noisier in absolute terms.
+    relative_noise: float | None = None
+    scatter: float = 0.0  #: robust standard deviation of single points around the level
+    relative_scatter: float | None = None  #: the same on the log scale, for a positive series
+    start_noise: float = 0.0  #: how far the estimate of `start` strays by chance
+
+    def noise_at(self, level: float) -> float:
+        """The level's noise where the loss is around `level`."""
+        if self.relative_noise is None:
+            return self.noise
+        return max(self.noise, self.relative_noise * abs(level))
+
+    @property
+    def progress(self) -> float:
+        """How far the level fell from its start to its best; the yardstick every
+        "how much did this cost" judgement is measured against."""
+        return self.start - self.best
+
+    @property
+    def has_progress(self) -> bool:
+        """Whether the level clearly fell. A flat, noisy series has a "best" a couple of
+        noises below its start by chance alone, so the bar is six of the level's noise,
+        and four of the noise in the start itself."""
+        return self.progress > max(6.0 * self.noise, 4.0 * self.start_noise)
+
+    @property
+    def gave_back(self) -> float:
+        """Share of the run's progress the final level sits above the best level."""
+        return (self.final - self.best) / self.progress if self.progress > 0 else 0.0
+
+
+def centered_median(values: FloatArray, window: int) -> FloatArray:
+    """Rolling median over a window centred on each point (shrinking at the ends)."""
+    half = window // 2
+    n = len(values)
+    return np.array([np.median(values[max(0, i - half) : i + half + 1]) for i in range(n)], dtype=float)
+
+
+def levels(values: FloatArray) -> Levels | None:
+    """Estimate a loss series' levels, or None when it has too few finite points."""
+    finite = values[np.isfinite(values)]
+    n = len(finite)
+    if n < MIN_LEVEL_POINTS:
+        return None
+    edge = max(3, n // 20)
+    window = min(max(5, n // 25), MAX_LEVEL_WINDOW) | 1
+    smooth = centered_median(finite, window)
+    best_index = int(np.argmin(smooth))
+    residual = finite - smooth
+    point_sd = 1.4826 * float(np.median(np.abs(residual - np.median(residual))))
+    # In a short series the window is five points wide and each residual is taken from a
+    # median that includes the point itself, which understates the scatter. Successive
+    # differences do not have that problem (and a trend shifts them all alike).
+    change = np.diff(finite)
+    point_sd = max(point_sd, 1.4826 * float(np.median(np.abs(change - np.median(change)))) / math.sqrt(2))
+    # A median of w points has about 1.2533 / sqrt(w) of one point's standard deviation.
+    shrink = 1.2533 / math.sqrt(window)
+    noise = shrink * point_sd
+    relative_scatter = None
+    if float(finite.min()) > 0:
+        ratio = np.log(finite / smooth)
+        relative_scatter = 1.4826 * float(np.median(np.abs(ratio - np.median(ratio))))
+    first_points, first_share = float(np.median(finite[:3])), float(np.median(finite[:edge]))
+    start, start_count = (first_points, 3) if first_points > first_share else (first_share, edge)
+    start_scatter = point_sd if relative_scatter is None else max(point_sd, relative_scatter * abs(start))
+    return Levels(
+        smooth=smooth,
+        window=window,
+        start=start,
+        start_noise=1.2533 * start_scatter / math.sqrt(start_count),
+        best=float(smooth[best_index]),
+        best_index=best_index,
+        final=float(np.median(finite[-edge:])),
+        noise=noise,
+        relative_noise=None if relative_scatter is None else shrink * relative_scatter,
+        scatter=point_sd,
+        relative_scatter=relative_scatter,
+    )
+
+
+@dataclass(slots=True)
+class Excursion:
+    """A stretch where the smoothed loss sat clearly above a level it had already reached."""
+
+    start_index: int
+    end_index: int
+    base: float  #: the best level reached before it
+    peak: float  #: the highest smoothed level during it
+    recovered: bool  #: False when the log ends before the level comes back
+
+
+def excursions(lv: Levels) -> list[Excursion]:
+    """Find the stretches where the level rose well above its earlier best.
+
+    "Well above" means by a quarter of the run's progress, and never less than
+    four times the level's own noise at that point. An excursion ends when the level is
+    back within a quarter of that margin of the earlier best.
+
+    The yardstick is the run's progress rather than a ratio to the best level
+    because loss differences, not ratios, are what carry meaning: a
+    cross-entropy that goes from 0.10 to 0.15 has moved 0.05 nats, the same
+    as one that goes from 2.00 to 2.05.
+    """
+    if not lv.has_progress:
+        return []
+    found: list[Excursion] = []
+    running_best = lv.smooth[0]
+    current: Excursion | None = None
+    margin = 0.0
+    for i, level in enumerate(lv.smooth):
+        if current is None:
+            running_best = min(running_best, level)
+            margin = max(EXCURSION_SHARE * lv.progress, 4.0 * lv.noise_at(running_best))
+            if level > running_best + margin:
+                current = Excursion(i, i, float(running_best), float(level), recovered=False)
+        else:
+            current.end_index = i
+            current.peak = max(current.peak, float(level))
+            if level <= current.base + 0.25 * margin:
+                current.recovered = True
+                found.append(current)
+                current = None
+                running_best = min(running_best, level)
+    if current is not None:
+        found.append(current)
+    return found
+
+
+def progress_text(share: float) -> str:
+    """``43% of the run's progress``, or ``29 times the run's progress`` once a
+    percentage stops being readable."""
+    return f"{share:.0%} of the run's progress" if share < 10 else f"{share:.0f} times the run's progress"
+
+
 def series_arrays(series: MetricSeries) -> tuple[FloatArray, FloatArray]:
     steps = np.array(series.steps(), dtype=float)
     values = np.array(series.values(), dtype=float)

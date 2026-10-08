@@ -8,11 +8,27 @@ and require it to be positive with p < `alpha` (default 0.1 -- looser than
 the divergence test, because overfitting onset is a real, common event we
 want to catch early rather than miss). Also require at least
 `min_points_after` (default 3) eval points after `k*`, and that eval has
-risen at least `min_rise` (default 1%) above its minimum, so a single noisy
-uptick right at the end doesn't fire. The train metric isn't required to
-be strictly monotonic -- only that it hasn't also turned upward at the same
-point (which would indicate divergence, not overfitting: see the
-`divergence` detector).
+risen at least `min_rise` (default 3%) above its minimum.
+
+**Severity follows the size of the rise.** Below `warn_rise` (default 10%)
+the finding is `info`; from there it is a `warning`; from `error_rise`
+(default 50%) an `error`: the last checkpoint is then far worse than the
+best one. A rise of `clear_rise` (default 5%) is already a `warning` when
+the trend is beyond doubt (at least eight evaluations after the best one,
+slope p < 0.001), so a slow, steady onset is still caught early.
+
+A run with only a handful of evaluations cannot pass a slope test. It is
+still reported when its last evaluation is at least `error_rise` above the
+best, or `far_rise` (default 25%) above with the evaluation before it also
+at least `warn_rise` above: 21 public runs ended a quarter above their best
+evaluation loss with too few evaluations for the trend test to say so. On public `Trainer` logs with an evaluation loss
+(`studies/hub-census/`), about one run in five ends 5% or more above its
+best and one in twenty ends 50% above; a 1% rise, the earlier bar for a
+warning, is within what a small evaluation set does by chance.
+
+When the training loss kept falling over the same range the finding is
+titled "Overfitting onset"; when it did not, or the log has no training
+loss, it is "Evaluation loss rising" and makes no claim about the cause.
 
 **False-positive modes.**
 - A noisy eval set (small validation split) can show a spurious upward
@@ -37,7 +53,7 @@ import numpy as np
 
 from trainspotter.model import Run
 
-from .base import Detector, Finding, format_p, ols_slope, series_arrays
+from .base import Detector, Finding, Severity, format_p, ols_slope, series_arrays
 
 
 def _rise(fraction: float) -> str:
@@ -54,31 +70,50 @@ class OverfittingDetector(Detector):
         eval_metric: str = "eval/loss",
         alpha: float = 0.1,
         min_points_after: int = 3,
-        min_rise: float = 0.01,
+        min_rise: float = 0.03,
+        warn_rise: float = 0.10,
+        clear_rise: float = 0.05,
+        far_rise: float = 0.25,
+        error_rise: float = 0.50,
     ) -> None:
         self.train_metric = train_metric
         self.eval_metric = eval_metric
         self.alpha = alpha
         self.min_points_after = min_points_after
         self.min_rise = min_rise
+        self.warn_rise = warn_rise
+        self.clear_rise = clear_rise
+        self.far_rise = far_rise
+        self.error_rise = error_rise
 
     def _run(self, run: Run) -> list[Finding]:
         eval_series = run.get(self.eval_metric)
-        if eval_series is None or len(eval_series) < self.min_points_after + 1:
+        if eval_series is None or len(eval_series) < 3:
             return []
         eval_steps, eval_values = series_arrays(eval_series)
         best_i = int(np.argmin(eval_values))
         after = eval_values[best_i:]
         after_steps = eval_steps[best_i:]
-        if len(after) - 1 < self.min_points_after:
+        tail = after[1:]
+        if len(tail) == 0:
             return []
 
-        slope, _se, p_value = ols_slope(after_steps, after)
         best_value = float(eval_values[best_i])
         current_value = float(eval_values[-1])
         rise = (current_value - best_value) / (abs(best_value) + 1e-12)
-
-        if not (slope > 0 and p_value < self.alpha and rise >= self.min_rise):
+        slope, p_value = 0.0, 1.0
+        if len(tail) >= self.min_points_after:
+            slope, _se, p_value = ols_slope(after_steps, after)
+        trend = slope > 0 and p_value < self.alpha and rise >= self.min_rise
+        # With three or four evaluations in the whole run no slope can be significant.
+        # A last evaluation far above the best one is still worth saying: half again
+        # above it, or a quarter above with the one before it also clearly higher.
+        far_above = rise >= self.error_rise or (
+            rise >= self.far_rise
+            and len(tail) >= 2
+            and float(tail[-2]) >= best_value * (1 + self.warn_rise)
+        )
+        if not (trend or far_above):
             return []
 
         train_series = run.get(self.train_metric)
@@ -94,18 +129,35 @@ class OverfittingDetector(Detector):
                         "(slope < 0) -- the classic overfitting signature."
                     )
 
+        # A small rise is still a warning when the trend is beyond doubt: catching the
+        # onset early is the point, and eight evaluations rising at p < 0.001 is not noise.
+        clear_trend = rise >= self.clear_rise and p_value < 0.001 and len(after) - 1 >= 8
+        evidence = (
+            f"slope {format_p(p_value)}"
+            if trend
+            else f"over {len(tail)} evaluation{'s' if len(tail) != 1 else ''}, too few for a trend test"
+        )
+        severity: Severity = (
+            "error"
+            if rise >= self.error_rise
+            else "warning"
+            if rise >= self.warn_rise or clear_trend
+            else "info"
+        )
         return [
             Finding(
                 detector=self.name,
-                title="Overfitting onset",
-                severity="warning",
+                # Without a falling training loss beside it, a rising evaluation loss is
+                # only that: there may be no training loss in the log at all.
+                title="Overfitting onset" if train_note else "Evaluation loss rising",
+                severity=severity,
                 metric=self.eval_metric,
                 step_start=int(eval_steps[best_i]),
                 step_end=int(eval_steps[-1]),
                 message=(
                     f"Best {self.eval_metric} was {best_value:.4g} at step "
                     f"{int(eval_steps[best_i])}; it's since risen to {current_value:.4g} "
-                    f"({_rise(rise)}, slope {format_p(p_value)})."
+                    f"({_rise(rise)}, {evidence})."
                 )
                 + train_note,
                 evidence={

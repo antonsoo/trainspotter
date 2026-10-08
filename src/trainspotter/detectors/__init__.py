@@ -14,6 +14,7 @@ from .loss_floor import LossFloorDetector
 from .lr_schedule import LRScheduleDetector
 from .overfitting import OverfittingDetector
 from .plateau import PlateauDetector
+from .setbacks import SetbackDetector
 from .spikes import SpikeDetector
 from .throughput import ThroughputDetector
 
@@ -40,6 +41,7 @@ def default_detectors() -> list[Detector]:
     them."""
     return [
         SpikeDetector(metrics=("train/loss", "eval/loss")),
+        SetbackDetector(),
         DivergenceDetector(),
         PlateauDetector(),
         OverfittingDetector(),
@@ -79,35 +81,38 @@ def run_all(run: Run, detectors: list[Detector] | None = None) -> list[Finding]:
 
 def _attribute_overfitting_to_divergence(findings: list[Finding]) -> None:
     """A run that diverges also, trivially, satisfies `overfitting`'s test:
-    eval loss shooting to infinity is technically "eval getting worse
-    while train keeps falling." That's not a second, independent problem
-    -- it's the same explosion the `divergence`/`spikes` findings already
-    describe, and reporting it as an equally-weighted "overfitting"
-    warning both misattributes the cause and doubles up the alarm.
+    eval loss shooting to infinity is technically "eval getting worse".
+    That's not a second, independent problem -- it's the same explosion the
+    `divergence`/`spikes` findings already describe, and reporting it as an
+    equally-weighted "overfitting" finding both misattributes the cause and
+    doubles up the alarm.
 
-    If an `overfitting` finding's step range overlaps a `divergence`
-    finding's, or an error-severity `spikes` finding's (a spike big
-    enough to be an error is generally the divergence event itself, even
-    on a run too short for the sustained-growth/NaN checks to have fired
-    yet), it's downgraded to `info` and its message notes why -- mutates
+    If a `divergence` finding, or a `spikes` finding on the training loss,
+    starts inside an `overfitting` finding's step range or within that
+    range's own length after it (the training loss is usually logged just
+    after the evaluation that first shows the damage), the `overfitting`
+    finding is downgraded to `info` and its message notes why -- mutates
     `findings` in place, called once by `run_all` after every detector has
     run, since only then do both step ranges exist to compare."""
     culprits = [
-        f for f in findings if f.detector == "divergence" or (f.detector == "spikes" and f.severity == "error")
+        f
+        for f in findings
+        if f.detector == "divergence" or (f.detector == "spikes" and f.metric == "train/loss")
     ]
     if not culprits:
         return
     for f in findings:
         if f.detector != "overfitting" or f.severity == "info":
             continue
+        slack = max(1, f.step_end - f.step_start)
         overlap = next(
-            (c for c in culprits if f.step_start <= c.step_end and c.step_start <= f.step_end),
+            (c for c in culprits if f.step_start <= c.step_end and c.step_start <= f.step_end + slack),
             None,
         )
         if overlap is None:
             continue
         f.severity = "info"
         f.message += (
-            f" (Downgraded: overlaps a {overlap.detector} finding at {_step_span(overlap)} -- "
-            "this eval rise looks explained by that divergence, not by ordinary overfitting.)"
+            f" (Downgraded: a {overlap.detector} finding at {_step_span(overlap)} explains "
+            "this rise better than ordinary overfitting does.)"
         )

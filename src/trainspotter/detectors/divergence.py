@@ -2,26 +2,38 @@
 
 **Algorithm.** Two independent triggers, either sufficient:
 
-1. *Non-finite*: any logged value is NaN or +/-Inf. Always `error`
-   severity -- there is no ambiguity here, training has broken.
-2. *Sustained growth*: fit an OLS line to the last `tail_frac` (default
-   25%) of the run (minimum `min_window` points, default 10) and flag if
-   the slope is positive with p < `alpha` (default 0.05, via
-   `detectors.base.ols_slope`'s normal-approximation t-test) AND the last
-   value is at least `growth_ratio` (default 1.5x) above the run's running
-   minimum. Both conditions matter: a positive-but-tiny slope on a metric
-   that's still near its best value is noise, not divergence.
+1. *Non-finite*: any logged value is NaN or +/-Inf. In the training loss
+   that is an `error` -- there is no ambiguity, training has broken. In an
+   evaluation metric it is a `warning`: 7 of the 1,654 public runs that
+   ended at their best training loss (`studies/hub-census/`) logged a NaN
+   evaluation loss along the way.
+2. *Did not recover* (`train/loss` only): reduce the series to its levels
+   (`detectors.base.levels`: where it started, the best smoothed level it
+   reached, the level of its last 5% of points). If the log ends inside an
+   excursion above the best level (`detectors.base.excursions`), the share
+   of the run's progress given back at the end sets the severity:
+   `warning` from `warn_share` (default 25%), `error` from `error_share`
+   (default 50%). The final level must also sit at least four times
+   the level's noise above the best. A loss that never got clearly below
+   its first level has no progress to measure against: it is an `error`
+   when it ends at least `growth_ratio` (default 1.5) times its first level.
+
+**Why levels.** The earlier test compared the last *point* with the lowest
+*point* and asked for a rising tail. On noisy per-step losses the lowest
+point is an outlier well below the level, so "1.5x the minimum" was easy to
+reach in a healthy run. It also ran on `eval/loss`, where a rise beside a
+training loss still at its best is overfitting and has a different remedy:
+of the 57 public runs it called diverged for a rising tail
+(`studies/hub-census/`), 27 were that. A rising `eval/loss` is now left to
+the `overfitting` detector.
 
 **False-positive modes.**
-- A metric that's supposed to increase (accuracy, reward, a "goodness"
-  eval score) will trip the sustained-growth trigger for the *right*
-  reason -- point this detector only at metrics where lower is better
-  (its default, `train/loss` and `eval/loss`).
-- A cyclic LR schedule or a curriculum that temporarily increases task
-  difficulty can produce a real, temporary upward trend that recovers
-  later; this detector only looks at the tail window, so it can't
-  distinguish "still recovering" from "diverged for good" without more
-  context.
+- A metric that is supposed to increase will trip this for the right
+  reason -- point it only at metrics where lower is better.
+- A cyclic schedule or a curriculum that raises difficulty late produces a
+  real rise that would have recovered; the log ending is all this sees.
+- A run stopped during a temporary setback is reported as not recovered,
+  which is true of the log and may not be true of the run.
 """
 
 from __future__ import annotations
@@ -32,7 +44,16 @@ import numpy as np
 
 from trainspotter.model import Run
 
-from .base import Detector, Finding, FloatArray, format_p, ols_slope, series_arrays
+from .base import (
+    Detector,
+    Finding,
+    FloatArray,
+    Levels,
+    Severity,
+    excursions,
+    levels,
+    series_arrays,
+)
 
 DEFAULT_METRICS = ("train/loss", "eval/loss")
 
@@ -43,15 +64,15 @@ class DivergenceDetector(Detector):
     def __init__(
         self,
         metrics: tuple[str, ...] = DEFAULT_METRICS,
-        tail_frac: float = 0.25,
-        min_window: int = 10,
-        alpha: float = 0.05,
+        level_metric: str = "train/loss",
+        warn_share: float = 0.25,
+        error_share: float = 0.5,
         growth_ratio: float = 1.5,
     ) -> None:
         self.metrics = metrics
-        self.tail_frac = tail_frac
-        self.min_window = min_window
-        self.alpha = alpha
+        self.level_metric = level_metric
+        self.warn_share = warn_share
+        self.error_share = error_share
         self.growth_ratio = growth_ratio
 
     def _run(self, run: Run) -> list[Finding]:
@@ -92,7 +113,8 @@ class DivergenceDetector(Detector):
                 continue
             steps, values = series_arrays(series)
             findings.extend(self._non_finite(metric_name, steps, values))
-            findings.extend(self._sustained_growth(metric_name, steps, values))
+            if metric_name == self.level_metric:
+                findings.extend(self._did_not_recover(metric_name, steps, values))
         return findings
 
     def _non_finite(self, metric_name: str, steps: FloatArray, values: FloatArray) -> list[Finding]:
@@ -100,12 +122,15 @@ class DivergenceDetector(Detector):
         if not bad:
             return []
         first, last = bad[0], bad[-1]
+        is_training = metric_name == self.level_metric
         kinds = sorted({"NaN" if math.isnan(values[i]) else "Inf" for i in bad})
         return [
             Finding(
                 detector=self.name,
-                title="Diverged (non-finite values)",
-                severity="error",
+                title="Diverged (non-finite values)" if is_training else "Non-finite evaluation values",
+                # A NaN in the training loss ends the run. A NaN in an evaluation metric,
+                # beside a training loss that stayed finite, is a broken evaluation.
+                severity="error" if is_training else "warning",
                 metric=metric_name,
                 step_start=int(steps[first]),
                 step_end=int(steps[last]),
@@ -123,52 +148,77 @@ class DivergenceDetector(Detector):
             )
         ]
 
-    def _sustained_growth(
-        self, metric_name: str, steps: FloatArray, values: FloatArray
-    ) -> list[Finding]:
+    def _did_not_recover(self, metric_name: str, steps: FloatArray, values: FloatArray) -> list[Finding]:
         finite = np.isfinite(values)
-        if finite.sum() < self.min_window:
-            return []
         steps_f, values_f = steps[finite], values[finite]
-        n = len(values_f)
-        window = max(self.min_window, int(n * self.tail_frac))
-        if window >= n:
+        lv = levels(values_f)
+        if lv is None:
             return []
-        tail_steps, tail_values = steps_f[-window:], values_f[-window:]
-        slope, _se, p_value = ols_slope(tail_steps, tail_values)
-        running_min = float(np.min(values_f))
-        last_value = float(tail_values[-1])
-        if running_min <= 0:  # noqa: SIM108 (nested ternary here is less readable)
-            ratio = float("inf") if last_value > 0 else 1.0
-        else:
-            ratio = last_value / running_min
-        if slope > 0 and p_value < self.alpha and ratio >= self.growth_ratio:
-            return [
-                Finding(
-                    detector=self.name,
-                    title="Diverged (sustained growth)",
-                    severity="error",
-                    metric=metric_name,
-                    step_start=int(tail_steps[0]),
-                    step_end=int(tail_steps[-1]),
-                    message=(
-                        f"{metric_name} has been climbing for the last {window} logged points "
-                        f"(slope {format_p(p_value)}) and is now {ratio:.2f}x its running minimum "
-                        f"({running_min:.4g})."
-                    ),
-                    evidence={
-                        "slope": slope,
-                        "p_value": p_value,
-                        "running_min": running_min,
-                        "last_value": last_value,
-                        "ratio_to_min": ratio,
-                        "window": window,
-                    },
-                    fixes=[
-                        "Lower the learning rate or restart from the last good checkpoint before this window.",
-                        "Check the LR schedule isn't re-warming up unintentionally (see lr_schedule detector).",
-                        "Look for a data distribution shift at this step range (new shard, curriculum stage change).",
-                    ],
-                )
-            ]
-        return []
+        if not lv.has_progress:
+            return self._rose_from_the_start(metric_name, steps_f, lv)
+        found = excursions(lv)
+        if not found or found[-1].recovered:
+            return []
+        last = found[-1]
+        gave_back = lv.gave_back
+        if gave_back < self.warn_share or lv.final - lv.best < 4.0 * lv.noise:
+            return []
+        severity: Severity = "error" if gave_back >= self.error_share else "warning"
+        best_step = int(steps_f[lv.best_index])
+        rise_step = int(steps_f[last.start_index])
+        return [
+            Finding(
+                detector=self.name,
+                title="Diverged (did not recover)",
+                severity=severity,
+                metric=metric_name,
+                step_start=rise_step,
+                step_end=int(steps_f[-1]),
+                message=(
+                    f"{metric_name} ended at {lv.final:.4g} after reaching {lv.best:.4g} around step "
+                    f"{best_step}. It has been above that level since step {rise_step} and the log "
+                    f"ends with {gave_back:.0%} of the run's progress given back."
+                ),
+                evidence={
+                    "start_level": lv.start,
+                    "best_level": lv.best,
+                    "best_step": best_step,
+                    "final_level": lv.final,
+                    "gave_back": gave_back,
+                    "rising_since_step": rise_step,
+                },
+                fixes=[
+                    f"Use a checkpoint from around step {best_step}, before the rise.",
+                    "Lower the learning rate or restart from the last good checkpoint before this window.",
+                    "Check the LR schedule isn't re-warming up unintentionally (see lr_schedule detector).",
+                    "Look for a data distribution shift at this step range (new shard, curriculum stage change).",
+                ],
+            )
+        ]
+
+    def _rose_from_the_start(self, metric_name: str, steps: FloatArray, lv: Levels) -> list[Finding]:
+        """A loss that never got clearly below its first level has no progress to give
+        back. If it ended well above that first level, it only ever went up."""
+        clear = max(6.0 * lv.noise, 4.0 * lv.start_noise)
+        if lv.start <= 0 or lv.final < self.growth_ratio * lv.start or lv.final - lv.start < clear:
+            return []
+        return [
+            Finding(
+                detector=self.name,
+                title="Diverged (rose from the start)",
+                severity="error",
+                metric=metric_name,
+                step_start=int(steps[0]),
+                step_end=int(steps[-1]),
+                message=(
+                    f"{metric_name} started around {lv.start:.4g} and ended at {lv.final:.4g}, "
+                    f"{lv.final / lv.start:.1f}x higher, without ever settling below its first level."
+                ),
+                evidence={"start_level": lv.start, "final_level": lv.final, "ratio": lv.final / lv.start},
+                fixes=[
+                    "Lower the learning rate; a loss that climbs from the first step is usually an LR an order of magnitude too high.",
+                    "Add LR warmup and gradient clipping.",
+                    "Check the loss is the quantity being minimized (sign, reduction, label alignment).",
+                ],
+            )
+        ]

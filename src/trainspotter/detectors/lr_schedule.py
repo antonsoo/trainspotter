@@ -7,7 +7,8 @@ and runs three independent checks:
 1. **Missing warmup.** If the LR's first logged value is already within
    `warmup_frac` (default 90%) of the run's peak LR, and the run has more
    than `min_steps_for_warmup_check` (default 20) points, there was
-   effectively no ramp-up.
+   effectively no ramp-up. Reported as `info`: it is a configuration
+   choice (and `transformers.Trainer`'s default), not a fault.
 2. **Non-monotonic after peak.** Once LR has reached its running maximum,
    almost every schedule (step, cosine, linear, polynomial decay) is
    non-increasing from then on. A later value that exceeds the running
@@ -35,8 +36,9 @@ and runs three independent checks:
   construction, not because anything broke. Check 3 only reports a jump
   that stands out from its neighbors: if an adjacent logged interval moves
   the same way at no less than half the per-step rate, the jump is one leg
-  of a steady ramp (a short warmup logged every few steps covers the whole
-  range in a handful of intervals) and isn't reported.
+  of a steady ramp and isn't reported. A rise before the LR has ever
+  fallen is never reported: that is warmup, and a short one logged every
+  few steps covers the whole range in two or three uneven intervals.
 - Step-decay schedules (``MultiStepLR``-style drops) change the LR in
   deliberate single jumps; check 3 reports each drop, as ``info``.
 """
@@ -95,7 +97,9 @@ class LRScheduleDetector(Detector):
                 Finding(
                     detector=self.name,
                     title="No LR warmup detected",
-                    severity="warning",
+                    # A configuration choice, and `transformers.Trainer`'s default: a fifth of
+                    # public runs log no warmup (studies/hub-census).
+                    severity="info",
                     metric=self.metric,
                     step_start=int(steps[0]),
                     step_end=int(steps[0]),
@@ -106,7 +110,7 @@ class LRScheduleDetector(Detector):
                     ),
                     evidence={"initial_lr": float(values[0]), "peak_lr": peak},
                     fixes=[
-                        "Add LR warmup (e.g. linear warmup over the first 1-10% of steps) -- it's a common fix for early spikes/instability.",
+                        "If the first steps are unstable (see any spike or setback findings near the start), add LR warmup over the first 1-10% of steps.",
                         "If warmup is configured but not logged until after it finishes, this may be a logging artifact -- check the logging interval.",
                     ],
                 )
@@ -169,7 +173,19 @@ class LRScheduleDetector(Detector):
                     return True
             return False
 
-        flagged = [i for i in range(len(deltas)) if abs(deltas[i]) > threshold and not part_of_ramp(i)]
+        # A rise before the LR has ever fallen is warmup, however coarsely it was logged: a
+        # ten-step warmup logged every five steps is two jumps of half the range each.
+        falls = np.flatnonzero(deltas < 0)
+        first_fall = int(falls[0]) if len(falls) else len(deltas)
+
+        def is_warmup(i: int) -> bool:
+            return bool(deltas[i] > 0 and i < first_fall)
+
+        flagged = [
+            i
+            for i in range(len(deltas))
+            if abs(deltas[i]) > threshold and not part_of_ramp(i) and not is_warmup(i)
+        ]
         findings = []
         for group in group_consecutive(flagged, gap=1):
             i = max(group, key=lambda i: abs(deltas[i]))
