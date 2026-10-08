@@ -191,6 +191,11 @@ class Run:
             extra = sum(len(group.readings) - 1 for group in groups)
             conflicts = sum(group.conflicting_values for group in groups)
             timing = sum(group.conflicting_times for group in groups)
+            if name == "epoch" and not conflicts and not timing:
+                # `Trainer` writes the epoch into both the training entry and the evaluation
+                # entry of a step. Two equal readings of where training was are one fact, and
+                # nearly every real log with an evaluation has them.
+                continue
             notes.append(
                 f"{name}: {extra} repeated {'reading' if extra == 1 else 'readings'} "
                 f"across {len(groups)} {'step' if len(groups) == 1 else 'steps'}; "

@@ -9,6 +9,7 @@ from pathlib import Path
 from trainspotter.detectors import run_all
 from trainspotter.readers import load_run
 from trainspotter.report import render_html, to_json_str
+from trainspotter.report.json_report import notable_repeats
 
 root = Path(__file__).resolve().parent.parent
 destination = Path(sys.argv[1])
@@ -64,7 +65,11 @@ for source in sources:
             "complete": run.input_complete(),
             "metrics": len(run.metrics),
             "findings": len(findings),
-            "repeatedGroups": sum(len(groups) for groups in run.repeated_steps().values()),
+            # The section appears only when something other than agreeing `epoch`
+            # duplicates repeats; when it does appear it lists every group.
+            "repeatedGroups": sum(len(groups) for groups in run.repeated_steps().values())
+            if notable_repeats(run)
+            else 0,
         }
     )
 print(json.dumps(manifest))

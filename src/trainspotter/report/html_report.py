@@ -26,7 +26,7 @@ from datetime import datetime, timezone
 
 from trainspotter.detectors import Finding
 from trainspotter.model import MetricSeries, Run
-from trainspotter.report.json_report import repeated_step_evidence
+from trainspotter.report.json_report import notable_repeats, repeated_step_evidence
 
 _SEVERITY_COLOR = {"error": "#ff5d5d", "warning": "#f2b84b", "info": "#5fb3ff"}
 _SEVERITY_LABEL = {"error": "ERR", "warning": "WARN", "info": "INFO"}
@@ -42,6 +42,12 @@ _FALLBACK_COLORS = ["#9aa7b0", "#6fd6c4", "#e08fd6"]
 # Charts skipped entirely (not diagnostic on their own) and metrics forced
 # to the end of the chart list (useful, but secondary to loss/lr/grad_norm).
 _SKIP_METRICS = {"epoch"}
+# `transformers.Trainer` logs these with every evaluation. They time the evaluation
+# loop, not the training run, and are flat lines in nearly every real log.
+_BOOKKEEPING_SUFFIXES = ("runtime", "samples_per_second", "steps_per_second")
+# A real log can carry a couple of hundred metrics; past this many charts the page stops
+# being a report. The rest are named below the last chart.
+_MAX_OTHER_CHARTS = 12
 _TRAILING_METRICS = ["step_time", "throughput"]
 _LOSS_METRICS = ["train/loss", "eval/loss"]
 _LEAD_METRICS = ["lr", "grad_norm"]
@@ -448,11 +454,18 @@ def _findings_rows(findings: list[Finding]) -> str:
     return "\n".join(rows)
 
 
-def _chart_plan(run: Run) -> list[list[str]]:
+def _is_bookkeeping(name: str) -> bool:
+    return "/" in name and name.rsplit("/", 1)[1] in _BOOKKEEPING_SUFFIXES
+
+
+def _chart_plan(run: Run) -> tuple[list[list[str]], list[str]]:
     """Which metrics to chart, grouped (a group of 2 = one overlaid chart),
     and in what order: loss (combined) -> lr -> grad_norm -> other eval
-    metrics -> step_time/throughput last. See the module docstring."""
+    metrics -> step_time/throughput last. See the module docstring. The
+    second value names the metrics left without a chart."""
     available = set(run.metric_names()) - _SKIP_METRICS
+    uncharted = sorted(m for m in available if _is_bookkeeping(m))
+    available -= set(uncharted)
     plan: list[list[str]] = []
 
     loss_group = [m for m in _LOSS_METRICS if m in available]
@@ -468,9 +481,10 @@ def _chart_plan(run: Run) -> list[list[str]]:
     trailing = [m for m in _TRAILING_METRICS if m in available]
     available -= set(trailing)
 
-    plan.extend([m] for m in sorted(available))
+    others = sorted(available)
+    plan.extend([m] for m in others[:_MAX_OTHER_CHARTS])
     plan.extend([m] for m in trailing)
-    return plan
+    return plan, sorted([*uncharted, *others[_MAX_OTHER_CHARTS:]])
 
 
 # The report is one file with no script in it, and this has the browser hold it to that:
@@ -481,7 +495,8 @@ _CSP = "default-src 'none'; style-src 'unsafe-inline'; img-src data:; base-uri '
 
 def _repeated_evidence(run: Run) -> str:
     records = repeated_step_evidence(run)
-    if not records:
+    # Agreeing `epoch` duplicates alone are not worth a section; with anything else, show all.
+    if not notable_repeats(run):
         return ""
     encoded = base64.b64encode(json.dumps({
         "schema_version": 1, "source_path": run.source_path, "repeated_steps": records,
@@ -527,7 +542,8 @@ def render_html(run: Run, findings: list[Finding], title: str = "trainspotter re
 
     charts_html = []
     fallback_i = 0
-    for group in _chart_plan(run):
+    plan, uncharted = _chart_plan(run)
+    for group in plan:
         entries: list[tuple[str, MetricSeries, str]] = []
         for name in group:
             series = analysis.metrics.get(name)
@@ -549,6 +565,12 @@ def render_html(run: Run, findings: list[Finding], title: str = "trainspotter re
             + note
             + (f'<div class="chart-scroll" tabindex="0" role="region" aria-label="{_esc(heading)} chart">'
                f"{_render_chart(entries, findings)}</div>" if entries else '') + '</section>'
+        )
+
+    if uncharted:
+        charts_html.append(
+            f'<p class="uncharted">{len(uncharted)} more metric{"s" if len(uncharted) != 1 else ""} '
+            f"in this log, not charted: {_esc(', '.join(uncharted))}.</p>"
         )
 
     all_steps = [s for series in run.metrics.values() for s in series.steps()]
@@ -752,6 +774,7 @@ body {
   text-transform: uppercase; color: var(--text-muted); margin: 0 0 4px; overflow-wrap: anywhere;
 }
 .chart { width: 100%; height: auto; display: block; }
+.uncharted { font-family: var(--mono); font-size: 12px; color: var(--text-muted); margin: 8px 2px; overflow-wrap: anywhere; }
 .chart-scroll { overflow-x: auto; }
 .chart-scroll:focus-visible { outline: 2px solid var(--info); outline-offset: 2px; }
 .chart-hint { display: none; }

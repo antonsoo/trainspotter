@@ -33,6 +33,19 @@ def _several_runs(run: Run) -> dict[str, Any]:
     return {"selected_run": run.meta["selected_run"], "runs": run.meta["runs"]}
 
 
+def notable_repeats(run: Run) -> list[dict[str, Any]]:
+    """The repeated readings a person should see: everything except agreeing `epoch`
+    values, which `Trainer` writes twice at every evaluated step (see `Run.input_notes`).
+    The JSON report keeps all of them."""
+    return [
+        record
+        for record in repeated_step_evidence(run)
+        if record["metric"] != "epoch"
+        or record["conflicting_values"]
+        or record["conflicting_times"]
+    ]
+
+
 def repeated_step_evidence(run: Run) -> list[dict[str, Any]]:
     """Complete decoded evidence, grouping identical readings with explicit counts."""
     result: list[dict[str, Any]] = []

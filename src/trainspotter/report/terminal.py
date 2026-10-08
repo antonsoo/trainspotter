@@ -16,7 +16,7 @@ from typing import TextIO
 
 from trainspotter.detectors import Finding
 from trainspotter.model import Run
-from trainspotter.report.json_report import repeated_step_evidence
+from trainspotter.report.json_report import notable_repeats
 
 _RESET = "\x1b[0m"
 _BOLD = "\x1b[1m"
@@ -92,7 +92,7 @@ def render_terminal(
         lines.append("skipped  " + style(f"{skipped} {rows} could not be read and are not in this report", "yellow"))
     for note in run.input_notes():
         lines.append("input    " + style(visible(note), "yellow"))
-    repeated = repeated_step_evidence(run)
+    repeated = notable_repeats(run)
     for record in repeated[:8]:
         values = ", ".join(str(reading["value"]) for reading in record["readings"][:4])
         if len(record["readings"]) > 4:
