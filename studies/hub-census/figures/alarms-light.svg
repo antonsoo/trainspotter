@@ -1,0 +1,70 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 880 372" width="880" height="372" role="img" font-family="system-ui, -apple-system, 'Segoe UI', Helvetica, Arial, sans-serif">
+<title>Share of public training runs each version flagged, by how the run ended</title>
+<rect width="880" height="372" fill="#fcfcfb"/>
+<text x="24.0" y="30.0" font-size="16" fill="#0b0b0b" font-weight="600">How often a run was flagged, by how it actually ended</text>
+<text x="24.0" y="50.0" font-size="12.5" fill="#52514e">Share of runs with at least one finding of that severity, among 1,988 public Trainer runs whose ending could be judged.</text>
+<rect x="24" y="68" width="11" height="11" rx="2" fill="#898781"/>
+<text x="41.0" y="78.0" font-size="12.5" fill="#52514e">trainspotter 0.2.6</text>
+<rect x="186" y="68" width="11" height="11" rx="2" fill="#2a78d6"/>
+<text x="202.8" y="78.0" font-size="12.5" fill="#52514e">this checkout</text>
+<text x="58.0" y="106.0" font-size="12.5" fill="#0b0b0b">an error</text>
+<line x1="58.0" y1="326.0" x2="420.0" y2="326.0" stroke="#e1e0d9"/>
+<text x="50.0" y="330.0" font-size="11.5" fill="#898781" text-anchor="end">0%</text>
+<line x1="58.0" y1="276.0" x2="420.0" y2="276.0" stroke="#e1e0d9"/>
+<text x="50.0" y="280.0" font-size="11.5" fill="#898781" text-anchor="end">25%</text>
+<line x1="58.0" y1="226.0" x2="420.0" y2="226.0" stroke="#e1e0d9"/>
+<text x="50.0" y="230.0" font-size="11.5" fill="#898781" text-anchor="end">50%</text>
+<line x1="58.0" y1="176.0" x2="420.0" y2="176.0" stroke="#e1e0d9"/>
+<text x="50.0" y="180.0" font-size="11.5" fill="#898781" text-anchor="end">75%</text>
+<line x1="58.0" y1="126.0" x2="420.0" y2="126.0" stroke="#e1e0d9"/>
+<text x="50.0" y="130.0" font-size="11.5" fill="#898781" text-anchor="end">100%</text>
+<line x1="58.0" y1="326.0" x2="420.0" y2="326.0" stroke="#c3c2b7"/>
+<path d="M94.3,326 V288.8 Q94.3,284.8 98.3,284.8 H112.3 Q116.3,284.8 116.3,288.8 V326 Z" fill="#898781"><title>ended at its best: 20.6% (trainspotter 0.2.6)</title></path>
+<text x="105.3" y="278.8" font-size="11.5" fill="#52514e" text-anchor="middle">21%</text>
+<path d="M120.3,326 V326.0 Q120.3,326.0 120.3,326.0 H142.3 Q142.3,326.0 142.3,326.0 V326 Z" fill="#2a78d6"><title>ended at its best: 0.0% (this checkout)</title></path>
+<text x="131.3" y="320.0" font-size="11.5" fill="#52514e" text-anchor="middle">0%</text>
+<text x="118.3" y="344.0" font-size="11.5" fill="#52514e" text-anchor="middle">ended at its best</text>
+<text x="118.3" y="359.0" font-size="11" fill="#898781" text-anchor="middle">1,639 runs</text>
+<path d="M215.0,326 V298.2 Q215.0,294.2 219.0,294.2 H233.0 Q237.0,294.2 237.0,298.2 V326 Z" fill="#898781"><title>in between: 15.9% (trainspotter 0.2.6)</title></path>
+<text x="226.0" y="288.2" font-size="11.5" fill="#52514e" text-anchor="middle">16%</text>
+<path d="M241.0,326 V326.0 Q241.0,326.0 241.0,326.0 H263.0 Q263.0,326.0 263.0,326.0 V326 Z" fill="#2a78d6"><title>in between: 0.0% (this checkout)</title></path>
+<text x="252.0" y="320.0" font-size="11.5" fill="#52514e" text-anchor="middle">0%</text>
+<text x="239.0" y="344.0" font-size="11.5" fill="#52514e" text-anchor="middle">in between</text>
+<text x="239.0" y="359.0" font-size="11" fill="#898781" text-anchor="middle">220 runs</text>
+<path d="M335.7,326 V213.8 Q335.7,209.8 339.7,209.8 H353.7 Q357.7,209.8 357.7,213.8 V326 Z" fill="#898781"><title>ended badly: 58.1% (trainspotter 0.2.6)</title></path>
+<text x="346.7" y="203.8" font-size="11.5" fill="#52514e" text-anchor="middle">58%</text>
+<path d="M361.7,326 V196.6 Q361.7,192.6 365.7,192.6 H379.7 Q383.7,192.6 383.7,196.6 V326 Z" fill="#2a78d6"><title>ended badly: 66.7% (this checkout)</title></path>
+<text x="372.7" y="186.6" font-size="11.5" fill="#52514e" text-anchor="middle">67%</text>
+<text x="359.7" y="344.0" font-size="11.5" fill="#52514e" text-anchor="middle">ended badly</text>
+<text x="359.7" y="359.0" font-size="11" fill="#898781" text-anchor="middle">129 runs</text>
+<text x="494.0" y="106.0" font-size="12.5" fill="#0b0b0b">a warning or an error</text>
+<line x1="494.0" y1="326.0" x2="856.0" y2="326.0" stroke="#e1e0d9"/>
+<text x="486.0" y="330.0" font-size="11.5" fill="#898781" text-anchor="end">0%</text>
+<line x1="494.0" y1="276.0" x2="856.0" y2="276.0" stroke="#e1e0d9"/>
+<text x="486.0" y="280.0" font-size="11.5" fill="#898781" text-anchor="end">25%</text>
+<line x1="494.0" y1="226.0" x2="856.0" y2="226.0" stroke="#e1e0d9"/>
+<text x="486.0" y="230.0" font-size="11.5" fill="#898781" text-anchor="end">50%</text>
+<line x1="494.0" y1="176.0" x2="856.0" y2="176.0" stroke="#e1e0d9"/>
+<text x="486.0" y="180.0" font-size="11.5" fill="#898781" text-anchor="end">75%</text>
+<line x1="494.0" y1="126.0" x2="856.0" y2="126.0" stroke="#e1e0d9"/>
+<text x="486.0" y="130.0" font-size="11.5" fill="#898781" text-anchor="end">100%</text>
+<line x1="494.0" y1="326.0" x2="856.0" y2="326.0" stroke="#c3c2b7"/>
+<path d="M530.3,326 V180.8 Q530.3,176.8 534.3,176.8 H548.3 Q552.3,176.8 552.3,180.8 V326 Z" fill="#898781"><title>ended at its best: 74.6% (trainspotter 0.2.6)</title></path>
+<text x="541.3" y="170.8" font-size="11.5" fill="#52514e" text-anchor="middle">75%</text>
+<path d="M556.3,326 V318.6 Q556.3,314.6 560.3,314.6 H574.3 Q578.3,314.6 578.3,318.6 V326 Z" fill="#2a78d6"><title>ended at its best: 5.7% (this checkout)</title></path>
+<text x="567.3" y="308.6" font-size="11.5" fill="#52514e" text-anchor="middle">6%</text>
+<text x="554.3" y="344.0" font-size="11.5" fill="#52514e" text-anchor="middle">ended at its best</text>
+<text x="554.3" y="359.0" font-size="11" fill="#898781" text-anchor="middle">1,639 runs</text>
+<path d="M651.0,326 V180.0 Q651.0,176.0 655.0,176.0 H669.0 Q673.0,176.0 673.0,180.0 V326 Z" fill="#898781"><title>in between: 75.0% (trainspotter 0.2.6)</title></path>
+<text x="662.0" y="170.0" font-size="11.5" fill="#52514e" text-anchor="middle">75%</text>
+<path d="M677.0,326 V280.0 Q677.0,276.0 681.0,276.0 H695.0 Q699.0,276.0 699.0,280.0 V326 Z" fill="#2a78d6"><title>in between: 25.0% (this checkout)</title></path>
+<text x="688.0" y="270.0" font-size="11.5" fill="#52514e" text-anchor="middle">25%</text>
+<text x="675.0" y="344.0" font-size="11.5" fill="#52514e" text-anchor="middle">in between</text>
+<text x="675.0" y="359.0" font-size="11" fill="#898781" text-anchor="middle">220 runs</text>
+<path d="M771.7,326 V137.8 Q771.7,133.8 775.7,133.8 H789.7 Q793.7,133.8 793.7,137.8 V326 Z" fill="#898781"><title>ended badly: 96.1% (trainspotter 0.2.6)</title></path>
+<text x="782.7" y="127.8" font-size="11.5" fill="#52514e" text-anchor="middle">96%</text>
+<path d="M797.7,326 V150.2 Q797.7,146.2 801.7,146.2 H815.7 Q819.7,146.2 819.7,150.2 V326 Z" fill="#2a78d6"><title>ended badly: 89.9% (this checkout)</title></path>
+<text x="808.7" y="140.2" font-size="11.5" fill="#52514e" text-anchor="middle">90%</text>
+<text x="795.7" y="344.0" font-size="11.5" fill="#52514e" text-anchor="middle">ended badly</text>
+<text x="795.7" y="359.0" font-size="11" fill="#898781" text-anchor="middle">129 runs</text>
+</svg>

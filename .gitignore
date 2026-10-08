@@ -16,3 +16,6 @@ htmlcov/
 site/
 .venv-minimums/
 node_modules/
+
+# Downloads made by studies/*/collect.py
+studies/*/cache/

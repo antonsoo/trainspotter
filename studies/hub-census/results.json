@@ -1,0 +1,291 @@
+{
+ "corpus": {
+  "models_scanned": 220000,
+  "newest": "2026-10-08T02:36:12.000Z",
+  "oldest": "2026-07-29T10:43:11.000Z",
+  "per_author_cap": 3,
+  "logs": 3208,
+  "not_trainer_logs": 63,
+  "readable": 3145,
+  "adapters": 28.7,
+  "tasks": {
+   "not stated": 1762,
+   "text-generation": 885,
+   "image-text-to-text": 105,
+   "robotics": 89,
+   "text-classification": 67,
+   "automatic-speech-recognition": 55
+  },
+  "with_train_loss": 3038,
+  "with_eval_loss": 1521,
+  "with_grad_norm": 2977,
+  "train_points": {
+   "p05": 5.0,
+   "p25": 31.0,
+   "median": 120.0,
+   "p75": 600.0,
+   "p95": 6107.25,
+   "max": 110264
+  },
+  "endings": {
+   "short": 825,
+   "no progress": 332,
+   "good": 1639,
+   "middling": 220,
+   "bad": 129
+  },
+  "bad_because": {
+   "ended half again above where it started": 16,
+   "evaluation loss 25% above its best": 80,
+   "gave back half its progress": 32,
+   "non-finite loss": 1
+  },
+  "eval": {
+   "runs_with_three_evaluations": 1213,
+   "ended_5pct_above_best": 21.8,
+   "ended_10pct_above_best": 17.3,
+   "ended_25pct_above_best": 10.4,
+   "ended_50pct_above_best": 5.4
+  },
+  "train": {
+   "runs_with_clear_progress": 1971,
+   "gave_back_10pct": 8.2,
+   "gave_back_25pct": 2.8,
+   "gave_back_50pct": 1.7
+  }
+ },
+ "before": {
+  "label": "0.2.6",
+  "runs": 3145,
+  "by_ending": {
+   "all": {
+    "runs": 3145,
+    "error": 19.6,
+    "warning_or_error": 63.5,
+    "any_finding": 72.2,
+    "findings_per_run": 16.74
+   },
+   "good": {
+    "runs": 1639,
+    "error": 20.6,
+    "warning_or_error": 74.6,
+    "any_finding": 82.1,
+    "findings_per_run": 14.16
+   },
+   "middling": {
+    "runs": 220,
+    "error": 15.9,
+    "warning_or_error": 75.0,
+    "any_finding": 87.3,
+    "findings_per_run": 8.29
+   },
+   "bad": {
+    "runs": 129,
+    "error": 58.1,
+    "warning_or_error": 96.1,
+    "any_finding": 97.7,
+    "findings_per_run": 25.28
+   },
+   "no progress": {
+    "runs": 332,
+    "error": 38.9,
+    "warning_or_error": 82.5,
+    "any_finding": 95.2,
+    "findings_per_run": 72.1
+   },
+   "short": {
+    "runs": 825,
+    "error": 4.7,
+    "warning_or_error": 25.6,
+    "any_finding": 35.4,
+    "findings_per_run": 0.5
+   }
+  },
+  "errors": {
+   "runs": 615,
+   "on_bad_endings": 12.2,
+   "on_good_endings": 54.8
+  },
+  "alarms": {
+   "runs": 1997,
+   "on_bad_endings": 6.2,
+   "on_good_endings": 61.2
+  },
+  "detectors": {
+   "divergence": {
+    "runs": 70,
+    "share": 2.2,
+    "runs_warning_or_error": 70,
+    "findings": 70
+   },
+   "eval_noise": {
+    "runs": 87,
+    "share": 2.8,
+    "runs_warning_or_error": 87,
+    "findings": 87
+   },
+   "grad_norm": {
+    "runs": 1265,
+    "share": 40.2,
+    "runs_warning_or_error": 1265,
+    "findings": 30098
+   },
+   "loss_floor": {
+    "runs": 239,
+    "share": 7.6,
+    "runs_warning_or_error": 0,
+    "findings": 239
+   },
+   "lr_schedule": {
+    "runs": 818,
+    "share": 26.0,
+    "runs_warning_or_error": 508,
+    "findings": 870
+   },
+   "overfitting": {
+    "runs": 211,
+    "share": 6.7,
+    "runs_warning_or_error": 157,
+    "findings": 211
+   },
+   "plateau": {
+    "runs": 532,
+    "share": 16.9,
+    "runs_warning_or_error": 0,
+    "findings": 808
+   },
+   "spikes": {
+    "runs": 1162,
+    "share": 36.9,
+    "runs_warning_or_error": 1162,
+    "findings": 20261
+   },
+   "throughput": {
+    "runs": 3,
+    "share": 0.1,
+    "runs_warning_or_error": 3,
+    "findings": 3
+   }
+  }
+ },
+ "after": {
+  "label": "current",
+  "runs": 3145,
+  "by_ending": {
+   "all": {
+    "runs": 3145,
+    "error": 3.8,
+    "warning_or_error": 11.4,
+    "any_finding": 50.0,
+    "findings_per_run": 0.9
+   },
+   "good": {
+    "runs": 1639,
+    "error": 0.0,
+    "warning_or_error": 5.7,
+    "any_finding": 51.3,
+    "findings_per_run": 0.84
+   },
+   "middling": {
+    "runs": 220,
+    "error": 0.0,
+    "warning_or_error": 25.0,
+    "any_finding": 74.1,
+    "findings_per_run": 1.41
+   },
+   "bad": {
+    "runs": 129,
+    "error": 66.7,
+    "warning_or_error": 89.9,
+    "any_finding": 99.2,
+    "findings_per_run": 2.87
+   },
+   "no progress": {
+    "runs": 332,
+    "error": 3.9,
+    "warning_or_error": 10.8,
+    "any_finding": 81.3,
+    "findings_per_run": 1.77
+   },
+   "short": {
+    "runs": 825,
+    "error": 2.4,
+    "warning_or_error": 7.3,
+    "any_finding": 20.7,
+    "findings_per_run": 0.25
+   }
+  },
+  "errors": {
+   "runs": 119,
+   "on_bad_endings": 72.3,
+   "on_good_endings": 0.0
+  },
+  "alarms": {
+   "runs": 360,
+   "on_bad_endings": 32.2,
+   "on_good_endings": 25.8
+  },
+  "detectors": {
+   "divergence": {
+    "runs": 74,
+    "share": 2.4,
+    "runs_warning_or_error": 74,
+    "findings": 75
+   },
+   "eval_noise": {
+    "runs": 86,
+    "share": 2.7,
+    "runs_warning_or_error": 0,
+    "findings": 86
+   },
+   "grad_norm": {
+    "runs": 570,
+    "share": 18.1,
+    "runs_warning_or_error": 0,
+    "findings": 598
+   },
+   "loss_floor": {
+    "runs": 182,
+    "share": 5.8,
+    "runs_warning_or_error": 0,
+    "findings": 182
+   },
+   "lr_schedule": {
+    "runs": 547,
+    "share": 17.4,
+    "runs_warning_or_error": 0,
+    "findings": 590
+   },
+   "overfitting": {
+    "runs": 220,
+    "share": 7.0,
+    "runs_warning_or_error": 178,
+    "findings": 220
+   },
+   "plateau": {
+    "runs": 535,
+    "share": 17.0,
+    "runs_warning_or_error": 0,
+    "findings": 812
+   },
+   "setbacks": {
+    "runs": 64,
+    "share": 2.0,
+    "runs_warning_or_error": 61,
+    "findings": 90
+   },
+   "spikes": {
+    "runs": 120,
+    "share": 3.8,
+    "runs_warning_or_error": 78,
+    "findings": 186
+   },
+   "throughput": {
+    "runs": 2,
+    "share": 0.1,
+    "runs_warning_or_error": 2,
+    "findings": 2
+   }
+  }
+ }
+}
