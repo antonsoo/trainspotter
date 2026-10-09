@@ -6,6 +6,23 @@ and this project uses [Semantic Versioning](https://semver.org/).
 
 ## Unreleased
 
+### Timing evidence and gates
+
+- Stop deriving seconds per training step from a reader's row-index fallback.
+  A change in logging cadence could previously produce a throughput warning;
+  that comparison now stays unavailable. Directly logged step time and
+  throughput remain usable without a step column.
+- JSON, terminal and offline HTML reports expose the selected timing source,
+  baseline/recent windows, units, unusable counts and unavailable reasons.
+  Invalid window values remain in place, so a broken clock cannot produce a
+  convenient comparison by sliding the window. The JSON `timing` object is an
+  additive schema-v1 field and uses the default detector window settings.
+- `analyze` and `watch` accept `--require-timing`. It exits 2 for incomplete
+  input or an unavailable timing comparison. Pair it with `--fail-on warning`
+  to gate measured slowdowns; an analysis report is written before the gate exits.
+- Add measured, deliberately paced training captures, an independent standard-library
+  clock calculation, and three timing examples to the static report gallery.
+
 ### Changed
 
 - **The detectors were recalibrated on 3,145 public `Trainer` logs**

@@ -110,6 +110,9 @@ trainspotter analyze path/to/trainer_state.json --output html --out report.html
   charts, no CDN, no JavaScript -- opens from disk, works offline forever).
 - **CI gating**: `--fail-on warning|error` exits non-zero if any finding at
   or above that severity was found, or the input could only be partially read.
+  The source checkout adds `--require-timing`: a speed gate can also reject an
+  unavailable timing comparison. Reports expose the timing source, exact windows
+  and unavailable reasons. See [the captured logging experiment](docs/timing-evidence.md).
 - **Live tailing**: `trainspotter watch <file>` re-reads a growing log on
   an interval and prints only newly-appeared findings.
 - **numpy is the only required dependency.** No pandas, no plotting
@@ -223,6 +226,26 @@ findings 1 error  2 warning  4 info
 | `0` | Report produced. With `--fail-on`, input was fully read and no finding met the configured severity |
 | `1` | A finding met the configured severity |
 | `2` | Input/output error, no numeric metrics, missing optional dependency, or incomplete input with `--fail-on` |
+
+For a performance gate, the source checkout supports:
+
+```bash
+trainspotter analyze run/metrics.csv --fail-on warning --require-timing
+```
+
+`--require-timing` returns `2` for incomplete input or unavailable timing, after
+writing the report. With usable timing, `--fail-on` controls finding severity as
+usual. The same option on `watch` stops on an unavailable comparison, including
+when a growing log has too few readings. Without this option, loss-only logs
+remain useful and do not fail solely because timing is unavailable.
+
+Wall-clock timing requires explicit training-step counts. A CSV containing
+only loss and timestamps uses row indices; a change in its logging interval
+cannot establish a training slowdown. Direct `step_time` or throughput readings
+remain usable without step counts because their units are already recorded.
+The [timing guide](docs/timing-evidence.md) shows the measured counterexample,
+the report's source/window evidence, and the limits. These additions are not
+in the published 0.2.6 package.
 
 A partial report is still written before a configured gate returns `2`. Its JSON
 contains `run.input_complete: false` and `summary.input_complete: false`, plus

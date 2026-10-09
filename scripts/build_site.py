@@ -44,6 +44,7 @@ class ExampleMeta:
     slug: str
     title: str
     blurb: str
+    source: str | None = None
 
 
 # Titles and one-line blurbs are static labels, same spirit as a table
@@ -79,6 +80,27 @@ EXAMPLES = [
         "transformers_tinygpt2",
         "Real transformers.Trainer run",
         "A genuine 2-layer GPT-2 trained via transformers.Trainer, not the numpy MLP.",
+    ),
+    ExampleMeta(
+        "timing-cadence",
+        "Timing without step counts",
+        "A measured training loop logs less often halfway through. Without step counts, "
+        "the report explains why per-step speed is unavailable.",
+        "timing/stable-without-steps.csv",
+    ),
+    ExampleMeta(
+        "timing-slowdown",
+        "Inspect a measured slowdown",
+        "A deliberate delay in a numerical training loop. Inspect the recorded source, "
+        "actual step intervals and baseline/recent medians.",
+        "timing/slow-with-steps.csv",
+    ),
+    ExampleMeta(
+        "timing-broken-clock",
+        "A broken timing window",
+        "One timestamp in the same captured log was deliberately moved backwards. "
+        "The timing comparison stays unavailable and shows the affected window.",
+        "timing/slow-broken-clock.csv",
     ),
 ]
 
@@ -201,7 +223,7 @@ def main() -> None:
     for meta in EXAMPLES:
         # Load by repo-relative path: the report prints its source path, and a
         # published page must not carry the build machine's absolute paths.
-        src = (EXAMPLES_DIR / f"{meta.slug}.trainer_state.json").relative_to(REPO_ROOT)
+        src = (EXAMPLES_DIR / (meta.source or f"{meta.slug}.trainer_state.json")).relative_to(REPO_ROOT)
         run = load_run(src)
         findings = run_all(run)
         page = render_html(run, findings, title=f"trainspotter - {meta.title}")
