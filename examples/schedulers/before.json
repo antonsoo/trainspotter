@@ -1,0 +1,229 @@
+{
+  "label": "91bd480",
+  "baseline": true,
+  "torch": "2.8.0+cpu",
+  "correct_resume_matches_uninterrupted": true,
+  "scenarios": {
+    "cosine-control": {
+      "sha256": "bdb6cd80cade444ea14b263a95d6ce426b06a5c0f8eb4420ef8af5d32d2d5dfc",
+      "observations": 240,
+      "maximum_rate_oracle_error": 6.938893903907228e-17,
+      "exit_code": 0,
+      "lr_findings": [
+        {
+          "detector": "lr_schedule",
+          "title": "No LR warmup detected",
+          "severity": "info",
+          "metric": "lr",
+          "step_start": 0,
+          "step_end": 0,
+          "message": "lr starts at 0.1, already 100% of the run's peak (0.1) -- no ramp-up phase visible in the log.",
+          "evidence": {
+            "initial_lr": 0.1,
+            "peak_lr": 0.1
+          },
+          "fixes": [
+            "If the first steps are unstable (see any spike or setback findings near the start), add LR warmup over the first 1-10% of steps.",
+            "If warmup is configured but not logged until after it finishes, this may be a logging artifact -- check the logging interval."
+          ]
+        }
+      ]
+    },
+    "cosine-overrun-sparse": {
+      "sha256": "237d53bcfefaa09876aacd0e7d0f3831fed420cca0b67db546552ccf1b83bd52",
+      "observations": 24,
+      "maximum_rate_oracle_error": 5.551115123125783e-17,
+      "exit_code": 0,
+      "lr_findings": [
+        {
+          "detector": "lr_schedule",
+          "title": "No LR warmup detected",
+          "severity": "info",
+          "metric": "lr",
+          "step_start": 0,
+          "step_end": 0,
+          "message": "lr starts at 0.1, already 100% of the run's peak (0.1) -- no ramp-up phase visible in the log.",
+          "evidence": {
+            "initial_lr": 0.1,
+            "peak_lr": 0.1
+          },
+          "fixes": [
+            "If the first steps are unstable (see any spike or setback findings near the start), add LR warmup over the first 1-10% of steps.",
+            "If warmup is configured but not logged until after it finishes, this may be a logging artifact -- check the logging interval."
+          ]
+        }
+      ]
+    },
+    "cosine-overrun": {
+      "sha256": "ed66b2f53db87ce756301a1d2a5fb4b46286f0e196c69469b2b62289ef5dbf87",
+      "observations": 240,
+      "maximum_rate_oracle_error": 6.938893903907228e-17,
+      "exit_code": 0,
+      "lr_findings": [
+        {
+          "detector": "lr_schedule",
+          "title": "No LR warmup detected",
+          "severity": "info",
+          "metric": "lr",
+          "step_start": 0,
+          "step_end": 0,
+          "message": "lr starts at 0.1, already 100% of the run's peak (0.1) -- no ramp-up phase visible in the log.",
+          "evidence": {
+            "initial_lr": 0.1,
+            "peak_lr": 0.1
+          },
+          "fixes": [
+            "If the first steps are unstable (see any spike or setback findings near the start), add LR warmup over the first 1-10% of steps.",
+            "If warmup is configured but not logged until after it finishes, this may be a logging artifact -- check the logging interval."
+          ]
+        }
+      ]
+    },
+    "cosine-restarts": {
+      "sha256": "cad456233d479915b31437265f6a644fff93e725c3d3435bb1326fdc816649ad",
+      "observations": 240,
+      "maximum_rate_oracle_error": 0.0,
+      "exit_code": 0,
+      "lr_findings": [
+        {
+          "detector": "lr_schedule",
+          "title": "No LR warmup detected",
+          "severity": "info",
+          "metric": "lr",
+          "step_start": 0,
+          "step_end": 0,
+          "message": "lr starts at 0.1, already 100% of the run's peak (0.1) -- no ramp-up phase visible in the log.",
+          "evidence": {
+            "initial_lr": 0.1,
+            "peak_lr": 0.1
+          },
+          "fixes": [
+            "If the first steps are unstable (see any spike or setback findings near the start), add LR warmup over the first 1-10% of steps.",
+            "If warmup is configured but not logged until after it finishes, this may be a logging artifact -- check the logging interval."
+          ]
+        },
+        {
+          "detector": "lr_schedule",
+          "title": "LR discontinuity",
+          "severity": "info",
+          "metric": "lr",
+          "step_start": 79,
+          "step_end": 80,
+          "message": "lr jumped from 3.855e-05 to 0.1 between step 79 and 80 -- 100% of the run's whole LR range (0.09996) in a single step, out of line with the logged intervals around it.",
+          "evidence": {
+            "before": 3.8548187963854955e-05,
+            "after": 0.1,
+            "jump_fraction_of_range": 1.0
+          },
+          "fixes": [
+            "Check for a checkpoint resume where the scheduler's step counter didn't match the optimizer's.",
+            "Check for a manual LR override mid-run."
+          ]
+        },
+        {
+          "detector": "lr_schedule",
+          "title": "LR discontinuity",
+          "severity": "info",
+          "metric": "lr",
+          "step_start": 159,
+          "step_end": 160,
+          "message": "lr jumped from 3.855e-05 to 0.1 between step 159 and 160 -- 100% of the run's whole LR range (0.09996) in a single step, out of line with the logged intervals around it.",
+          "evidence": {
+            "before": 3.8548187963854955e-05,
+            "after": 0.1,
+            "jump_fraction_of_range": 1.0
+          },
+          "fixes": [
+            "Check for a checkpoint resume where the scheduler's step counter didn't match the optimizer's.",
+            "Check for a manual LR override mid-run."
+          ]
+        }
+      ]
+    },
+    "linear-control-sparse": {
+      "sha256": "4b9d7d7d1304572d5b974d524a56bbb665c1464f6296b54733c5c9e94f4e442f",
+      "observations": 24,
+      "maximum_rate_oracle_error": 0.0,
+      "exit_code": 0,
+      "lr_findings": []
+    },
+    "linear-control": {
+      "sha256": "6777aeea9e9ab04c05fe03fbb5ad79bcfb637bf842ddbe38ffad4391d8da9bee",
+      "observations": 240,
+      "maximum_rate_oracle_error": 0.0,
+      "exit_code": 0,
+      "lr_findings": []
+    },
+    "linear-resume-reset-sparse": {
+      "sha256": "ac08b5a7085877a2ddd89b444f39640ed86cb4dabdf0ddceae7c2006815fbee9",
+      "observations": 24,
+      "maximum_rate_oracle_error": 0.0,
+      "exit_code": 0,
+      "lr_findings": []
+    },
+    "linear-resume-reset": {
+      "sha256": "9380038a615a2087b6ea19829932c8fbcf94e037e4f8e547d0bc85c049dc7596",
+      "observations": 240,
+      "maximum_rate_oracle_error": 0.0,
+      "exit_code": 0,
+      "lr_findings": []
+    },
+    "linear-resume-restored": {
+      "sha256": "6777aeea9e9ab04c05fe03fbb5ad79bcfb637bf842ddbe38ffad4391d8da9bee",
+      "observations": 240,
+      "maximum_rate_oracle_error": 0.0,
+      "exit_code": 0,
+      "lr_findings": []
+    },
+    "one-cycle-control": {
+      "sha256": "8dc938ed84894107002a60c36b11adde98b82ac49180a4e5f59fc4a59e66b897",
+      "observations": 240,
+      "maximum_rate_oracle_error": 2.7755575615628914e-17,
+      "exit_code": 0,
+      "lr_findings": []
+    },
+    "step-decay-control": {
+      "sha256": "98fea97b397df2e0f3febf9d7e307892031898b5a7aaf67138358815b4fd6374",
+      "observations": 240,
+      "maximum_rate_oracle_error": 0.0,
+      "exit_code": 0,
+      "lr_findings": [
+        {
+          "detector": "lr_schedule",
+          "title": "No LR warmup detected",
+          "severity": "info",
+          "metric": "lr",
+          "step_start": 0,
+          "step_end": 0,
+          "message": "lr starts at 0.1, already 100% of the run's peak (0.1) -- no ramp-up phase visible in the log.",
+          "evidence": {
+            "initial_lr": 0.1,
+            "peak_lr": 0.1
+          },
+          "fixes": [
+            "If the first steps are unstable (see any spike or setback findings near the start), add LR warmup over the first 1-10% of steps.",
+            "If warmup is configured but not logged until after it finishes, this may be a logging artifact -- check the logging interval."
+          ]
+        },
+        {
+          "detector": "lr_schedule",
+          "title": "LR discontinuity",
+          "severity": "info",
+          "metric": "lr",
+          "step_start": 79,
+          "step_end": 80,
+          "message": "lr jumped from 0.1 to 0.01 between step 79 and 80 -- 91% of the run's whole LR range (0.099) in a single step, out of line with the logged intervals around it.",
+          "evidence": {
+            "before": 0.1,
+            "after": 0.010000000000000002,
+            "jump_fraction_of_range": 0.9090909090909091
+          },
+          "fixes": [
+            "Check for a checkpoint resume where the scheduler's step counter didn't match the optimizer's.",
+            "Check for a manual LR override mid-run."
+          ]
+        }
+      ]
+    }
+  }
+}

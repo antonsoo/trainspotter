@@ -1,0 +1,248 @@
+{
+  "captured_at": "2026-10-09T16:17:18.377974+00:00",
+  "python": "3.12.12",
+  "torch": "2.8.0+cpu",
+  "platform": "Linux-6.18.40.1-microsoft-standard-WSL2-x86_64-with-glibc2.39",
+  "device": "cpu",
+  "threads": 1,
+  "data": "128 fixed synthetic binary classification examples, 8 features",
+  "model": "torch.nn.Linear(8, 1, dtype=torch.float64)",
+  "optimizer": "SGD(lr=0.1, momentum=0.9)",
+  "steps": 240,
+  "warmup": 40,
+  "resume_step": 200,
+  "script_sha256": "5527c4a8a606ae09788afc3d62fa0ba96a1a016b8545ac23cd1a842fd2738fdd",
+  "scenarios": {
+    "linear-control": {
+      "scheduler": "LambdaLR",
+      "initial_scheduler_state": {
+        "base_lrs": [
+          0.1
+        ],
+        "last_epoch": 0,
+        "_step_count": 1,
+        "_is_initial": false,
+        "_get_lr_called_within_step": false,
+        "_last_lr": [
+          0.0
+        ],
+        "lr_lambdas": [
+          null
+        ]
+      },
+      "resume": null
+    },
+    "linear-resume-restored": {
+      "scheduler": "LambdaLR",
+      "initial_scheduler_state": {
+        "base_lrs": [
+          0.1
+        ],
+        "last_epoch": 0,
+        "_step_count": 1,
+        "_is_initial": false,
+        "_get_lr_called_within_step": false,
+        "_last_lr": [
+          0.0
+        ],
+        "lr_lambdas": [
+          null
+        ]
+      },
+      "resume": {
+        "completed_updates": 200,
+        "checkpoint_scheduler_epoch": 200,
+        "resumed_scheduler_epoch": 200,
+        "optimizer_lr": 0.020000000000000004,
+        "scheduler_state_loaded": true
+      }
+    },
+    "linear-resume-reset": {
+      "scheduler": "LambdaLR",
+      "initial_scheduler_state": {
+        "base_lrs": [
+          0.1
+        ],
+        "last_epoch": 0,
+        "_step_count": 1,
+        "_is_initial": false,
+        "_get_lr_called_within_step": false,
+        "_last_lr": [
+          0.0
+        ],
+        "lr_lambdas": [
+          null
+        ]
+      },
+      "resume": {
+        "completed_updates": 200,
+        "checkpoint_scheduler_epoch": 200,
+        "resumed_scheduler_epoch": 0,
+        "optimizer_lr": 0.020000000000000004,
+        "scheduler_state_loaded": false
+      }
+    },
+    "cosine-control": {
+      "scheduler": "CosineAnnealingLR",
+      "initial_scheduler_state": {
+        "T_max": 240,
+        "eta_min": 0.0,
+        "base_lrs": [
+          0.1
+        ],
+        "last_epoch": 0,
+        "_step_count": 1,
+        "_is_initial": false,
+        "_get_lr_called_within_step": false,
+        "_last_lr": [
+          0.1
+        ]
+      },
+      "resume": null
+    },
+    "cosine-overrun": {
+      "scheduler": "CosineAnnealingLR",
+      "initial_scheduler_state": {
+        "T_max": 120,
+        "eta_min": 0.0,
+        "base_lrs": [
+          0.1
+        ],
+        "last_epoch": 0,
+        "_step_count": 1,
+        "_is_initial": false,
+        "_get_lr_called_within_step": false,
+        "_last_lr": [
+          0.1
+        ]
+      },
+      "resume": null
+    },
+    "cosine-restarts": {
+      "scheduler": "CosineAnnealingWarmRestarts",
+      "initial_scheduler_state": {
+        "T_0": 80,
+        "T_i": 80,
+        "T_mult": 1,
+        "eta_min": 0.0,
+        "T_cur": 0,
+        "base_lrs": [
+          0.1
+        ],
+        "last_epoch": 0,
+        "_step_count": 0,
+        "_is_initial": false,
+        "_get_lr_called_within_step": false,
+        "_last_lr": [
+          0.1
+        ]
+      },
+      "resume": null
+    },
+    "one-cycle-control": {
+      "scheduler": "OneCycleLR",
+      "initial_scheduler_state": {
+        "total_steps": 240,
+        "_schedule_phases": [
+          {
+            "end_step": 59.0,
+            "start_lr": "initial_lr",
+            "end_lr": "max_lr",
+            "start_momentum": "max_momentum",
+            "end_momentum": "base_momentum"
+          },
+          {
+            "end_step": 239,
+            "start_lr": "max_lr",
+            "end_lr": "min_lr",
+            "start_momentum": "base_momentum",
+            "end_momentum": "max_momentum"
+          }
+        ],
+        "_anneal_func_type": "cos",
+        "cycle_momentum": false,
+        "base_lrs": [
+          0.004
+        ],
+        "last_epoch": 0,
+        "_step_count": 1,
+        "_is_initial": false,
+        "_get_lr_called_within_step": false,
+        "_last_lr": [
+          0.0040000000000000036
+        ]
+      },
+      "resume": null
+    },
+    "step-decay-control": {
+      "scheduler": "StepLR",
+      "initial_scheduler_state": {
+        "step_size": 80,
+        "gamma": 0.1,
+        "base_lrs": [
+          0.1
+        ],
+        "last_epoch": 0,
+        "_step_count": 1,
+        "_is_initial": false,
+        "_get_lr_called_within_step": false,
+        "_last_lr": [
+          0.1
+        ]
+      },
+      "resume": null
+    }
+  },
+  "files": {
+    "linear-control.csv": {
+      "rows": 240,
+      "sha256": "6777aeea9e9ab04c05fe03fbb5ad79bcfb637bf842ddbe38ffad4391d8da9bee"
+    },
+    "linear-resume-restored.csv": {
+      "rows": 240,
+      "sha256": "6777aeea9e9ab04c05fe03fbb5ad79bcfb637bf842ddbe38ffad4391d8da9bee"
+    },
+    "linear-resume-reset.csv": {
+      "rows": 240,
+      "sha256": "9380038a615a2087b6ea19829932c8fbcf94e037e4f8e547d0bc85c049dc7596"
+    },
+    "cosine-control.csv": {
+      "rows": 240,
+      "sha256": "bdb6cd80cade444ea14b263a95d6ce426b06a5c0f8eb4420ef8af5d32d2d5dfc"
+    },
+    "cosine-overrun.csv": {
+      "rows": 240,
+      "sha256": "ed66b2f53db87ce756301a1d2a5fb4b46286f0e196c69469b2b62289ef5dbf87"
+    },
+    "cosine-restarts.csv": {
+      "rows": 240,
+      "sha256": "cad456233d479915b31437265f6a644fff93e725c3d3435bb1326fdc816649ad"
+    },
+    "one-cycle-control.csv": {
+      "rows": 240,
+      "sha256": "8dc938ed84894107002a60c36b11adde98b82ac49180a4e5f59fc4a59e66b897"
+    },
+    "step-decay-control.csv": {
+      "rows": 240,
+      "sha256": "98fea97b397df2e0f3febf9d7e307892031898b5a7aaf67138358815b4fd6374"
+    },
+    "linear-control-sparse.csv": {
+      "rows": 24,
+      "sha256": "4b9d7d7d1304572d5b974d524a56bbb665c1464f6296b54733c5c9e94f4e442f",
+      "derived_from": "linear-control",
+      "every_nth_update": 10
+    },
+    "linear-resume-reset-sparse.csv": {
+      "rows": 24,
+      "sha256": "ac08b5a7085877a2ddd89b444f39640ed86cb4dabdf0ddceae7c2006815fbee9",
+      "derived_from": "linear-resume-reset",
+      "every_nth_update": 10
+    },
+    "cosine-overrun-sparse.csv": {
+      "rows": 24,
+      "sha256": "237d53bcfefaa09876aacd0e7d0f3831fed420cca0b67db546552ccf1b83bd52",
+      "derived_from": "cosine-overrun",
+      "every_nth_update": 10
+    }
+  }
+}

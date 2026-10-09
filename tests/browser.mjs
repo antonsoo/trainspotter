@@ -115,6 +115,15 @@ try {
               assert.deepEqual(requests, []);
               assert.deepEqual(await page.evaluate(() => window.policyViolations), []);
               const json = JSON.parse(await readFile(join(scratch, report.file.replace(/\.html$/, '.json')), 'utf8'));
+              const reboundFindings = json.findings.filter(f => f.title === 'LR rose after decay');
+              const reboundArticles = page.locator('article.finding').filter({ has: page.getByRole('heading', { name: 'LR rose after decay', exact: true }) });
+              assert.equal(await reboundArticles.count(), reboundFindings.length);
+              for (const [index, finding] of reboundFindings.entries()) {
+                const article = reboundArticles.nth(index);
+                assert.equal(await article.locator('.message').innerText(), finding.message);
+                assert.equal(await article.locator('.chip').innerText(), 'INFO');
+                assert.ok((await article.locator('.evidence').innerText()).includes(`confirmed_step=${finding.evidence.confirmed_step}`));
+              }
               const timing = page.locator('.timing-evidence');
               if (json.timing.status === 'unavailable') {
                 assert.match(await timing.innerText(), /Timing unavailable/i);

@@ -16,6 +16,9 @@ destination = Path(sys.argv[1])
 destination.mkdir(parents=True, exist_ok=True)
 sources = sorted((root / "examples").glob("*.trainer_state.json"))
 sources.extend(sorted((root / "examples/timing").glob("*.csv")))
+sources.extend(root / "examples/schedulers/captured" / f"{name}.csv" for name in (
+    "linear-resume-reset", "linear-resume-restored", "cosine-overrun", "cosine-restarts",
+))
 partial = destination / "synthetic-partial.jsonl"
 partial.write_text('{"step":100,"loss":2}\n{broken\n{"step":200,"loss":1}\n')
 sources.append(partial)
