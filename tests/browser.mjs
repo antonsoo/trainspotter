@@ -124,6 +124,18 @@ try {
                 assert.equal(await article.locator('.chip').innerText(), 'INFO');
                 assert.ok((await article.locator('.evidence').innerText()).includes(`confirmed_step=${finding.evidence.confirmed_step}`));
               }
+              for (const finding of json.findings.filter(f => ['eval_noise', 'overfitting'].includes(f.detector))) {
+                const article = page.locator('article.finding').filter({ has: page.getByRole('heading', { name: finding.title, exact: true }) }).filter({ hasText: finding.message });
+                assert.equal(await article.count(), 1);
+                assert.equal(await article.locator('.message').innerText(), finding.message);
+                if (finding.detector === 'eval_noise') {
+                  assert.match(await article.innerText(), /does not measure evaluation uncertainty/);
+                  assert.equal(await article.locator('.chip').innerText(), 'INFO');
+                }
+                if (finding.title === 'Possible overfitting') {
+                  assert.match(await article.locator('.evidence').innerText(), /training_status=opposing_trends/);
+                }
+              }
               const timing = page.locator('.timing-evidence');
               if (json.timing.status === 'unavailable') {
                 assert.match(await timing.innerText(), /Timing unavailable/i);

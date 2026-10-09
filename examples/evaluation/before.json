@@ -1,0 +1,205 @@
+{
+  "baseline": true,
+  "captured_means_checked": 16,
+  "max_mean_absolute_error": 8.881784197001252e-16,
+  "fixed_evaluations_checked": 40,
+  "files": {
+    "regression-full.csv": {
+      "rows": 301,
+      "sha256": "d59ec7206eeeafc06c142980bbf047de8cb69fe2cecb13737929b96a0af40bf5",
+      "description": "Actual training, optimizer updates 0..300"
+    },
+    "smooth-six.csv": {
+      "rows": 6,
+      "sha256": "fa921200fbd63f3f1ab039074195fce3f14eb306c3ac2c60827faec92927eb64",
+      "description": "First six observations of regression-full.csv"
+    },
+    "late-training.csv": {
+      "rows": 301,
+      "sha256": "236fb0e9407ad6fa22bfbe64591aab17620aedfba3a3d77d68d06d9ca58500d3",
+      "description": "Derived: evaluation ends at 60; all training readings before 100 removed"
+    },
+    "fixed-repeat.csv": {
+      "rows": 20,
+      "sha256": "51b45ce045a88dbaf919d93e47ce18f8f05ff3c11656fa8bfd983ef96fb9342a",
+      "description": "Same frozen model and same full evaluation cohort, 20 passes"
+    },
+    "fixed-cohort-switch.csv": {
+      "rows": 20,
+      "sha256": "b0fe69af2334496222ab7a954b55982a5ec6b1d223a4d9845e609fe55edfdf4a",
+      "description": "Same frozen model; alternate full cohort and highest-loss 32 examples"
+    },
+    "nan-gap.csv": {
+      "rows": 301,
+      "sha256": "2ee1b5f4e7596bd63d007aaf2f798ca7c91cc3c6f3ad2e424ee4f2ad19d4c3a0",
+      "description": "Derived: evaluation at step 100 replaced by NaN"
+    },
+    "nan-final.csv": {
+      "rows": 301,
+      "sha256": "c8ab2f74c2bc0842200ef4d363b4aa18f0a4d3f912f1d63552d7c1a2f337d448",
+      "description": "Derived: final evaluation replaced by NaN"
+    },
+    "predictions.csv": {
+      "rows": 1184,
+      "sha256": "2a5a2301f611739cee6720b7a33b23b3528b3fad776e5f2fb0ddcae02c3be5a8",
+      "description": "Actual predictions and targets at eight checkpoints"
+    }
+  },
+  "findings": {
+    "regression-full": [
+      {
+        "detector": "overfitting",
+        "title": "Overfitting onset",
+        "severity": "error",
+        "metric": "eval/loss",
+        "step_start": 7,
+        "step_end": 300,
+        "message": "Best eval/loss was 1.271 at step 7; it's since risen to 2.198 (72.9%, slope p<0.0001). Meanwhile train/loss kept falling over the same range (slope < 0) -- the classic overfitting signature.",
+        "evidence": {
+          "best_step": 7,
+          "best_value": 1.2713647989634222,
+          "current_value": 2.198391922777203,
+          "relative_rise": 0.7291590301767688,
+          "slope_p_value": 0.0
+        },
+        "fixes": [
+          "Use the checkpoint at step 7 (best eval/loss), not the last one.",
+          "Add or increase regularization: weight decay, dropout, data augmentation.",
+          "Reduce model capacity or train for fewer steps / add early stopping.",
+          "Get more training data, or de-duplicate against the eval set if overlap is possible."
+        ]
+      }
+    ],
+    "smooth-six": [
+      {
+        "detector": "eval_noise",
+        "title": "Eval metric too noisy to rank checkpoints",
+        "severity": "info",
+        "metric": "eval/loss",
+        "step_start": 0,
+        "step_end": 5,
+        "message": "Typical step-to-step jitter in eval/loss (0.1003) is 16% of the whole run's total improvement (0.646) -- adjacent checkpoints may not be meaningfully different.",
+        "evidence": {
+          "step_noise": 0.10033183410705693,
+          "total_improvement": 0.6459575405558915,
+          "ratio": 0.1553226455419331
+        },
+        "fixes": [
+          "Evaluate on more data, or average multiple eval passes/seeds before comparing checkpoints.",
+          "Select checkpoints by a smoothed (e.g. EMA) version of this metric instead of the raw value.",
+          "Evaluate less frequently but on a larger sample each time, if eval cost is the constraint."
+        ]
+      }
+    ],
+    "late-training": [
+      {
+        "detector": "overfitting",
+        "title": "Overfitting onset",
+        "severity": "warning",
+        "metric": "eval/loss",
+        "step_start": 7,
+        "step_end": 60,
+        "message": "Best eval/loss was 1.271 at step 7; it's since risen to 1.81 (42.4%, slope p<0.0001). Meanwhile train/loss kept falling over the same range (slope < 0) -- the classic overfitting signature.",
+        "evidence": {
+          "best_step": 7,
+          "best_value": 1.2713647989634222,
+          "current_value": 1.810329915217713,
+          "relative_rise": 0.4239264109666238,
+          "slope_p_value": 0.0
+        },
+        "fixes": [
+          "Use the checkpoint at step 7 (best eval/loss), not the last one.",
+          "Add or increase regularization: weight decay, dropout, data augmentation.",
+          "Reduce model capacity or train for fewer steps / add early stopping.",
+          "Get more training data, or de-duplicate against the eval set if overlap is possible."
+        ]
+      }
+    ],
+    "fixed-repeat": [],
+    "fixed-cohort-switch": [
+      {
+        "detector": "overfitting",
+        "title": "Evaluation loss rising",
+        "severity": "error",
+        "metric": "eval/loss",
+        "step_start": 0,
+        "step_end": 19,
+        "message": "Best eval/loss was 2.198 at step 0; it's since risen to 6.443 (193.1%, over 19 evaluations, too few for a trend test).",
+        "evidence": {
+          "best_step": 0,
+          "best_value": 2.198391922777203,
+          "current_value": 6.442896035968593,
+          "relative_rise": 1.9307313082862068,
+          "slope_p_value": 0.7119231506921901
+        },
+        "fixes": [
+          "Use the checkpoint at step 0 (best eval/loss), not the last one.",
+          "Add or increase regularization: weight decay, dropout, data augmentation.",
+          "Reduce model capacity or train for fewer steps / add early stopping.",
+          "Get more training data, or de-duplicate against the eval set if overlap is possible."
+        ]
+      },
+      {
+        "detector": "eval_noise",
+        "title": "Eval metric too noisy to rank checkpoints",
+        "severity": "info",
+        "metric": "eval/loss",
+        "step_start": 0,
+        "step_end": 19,
+        "message": "Typical step-to-step jitter in eval/loss (4.245) is 100% of the whole run's total improvement (4.245) -- adjacent checkpoints may not be meaningfully different.",
+        "evidence": {
+          "step_noise": 4.24450411319139,
+          "total_improvement": 4.24450411319139,
+          "ratio": 0.9999999999997644
+        },
+        "fixes": [
+          "Evaluate on more data, or average multiple eval passes/seeds before comparing checkpoints.",
+          "Select checkpoints by a smoothed (e.g. EMA) version of this metric instead of the raw value.",
+          "Evaluate less frequently but on a larger sample each time, if eval cost is the constraint."
+        ]
+      }
+    ],
+    "nan-gap": [
+      {
+        "detector": "eval_noise",
+        "title": "Eval metric too noisy to rank checkpoints",
+        "severity": "info",
+        "metric": "eval/loss",
+        "step_start": 0,
+        "step_end": 300,
+        "message": "Typical step-to-step jitter in eval/loss (nan) is nan% of the whole run's total improvement (nan) -- adjacent checkpoints may not be meaningfully different.",
+        "evidence": {
+          "step_noise": "nan",
+          "total_improvement": "nan",
+          "ratio": "nan"
+        },
+        "fixes": [
+          "Evaluate on more data, or average multiple eval passes/seeds before comparing checkpoints.",
+          "Select checkpoints by a smoothed (e.g. EMA) version of this metric instead of the raw value.",
+          "Evaluate less frequently but on a larger sample each time, if eval cost is the constraint."
+        ]
+      }
+    ],
+    "nan-final": [
+      {
+        "detector": "eval_noise",
+        "title": "Eval metric too noisy to rank checkpoints",
+        "severity": "info",
+        "metric": "eval/loss",
+        "step_start": 0,
+        "step_end": 300,
+        "message": "Typical step-to-step jitter in eval/loss (nan) is nan% of the whole run's total improvement (nan) -- adjacent checkpoints may not be meaningfully different.",
+        "evidence": {
+          "step_noise": "nan",
+          "total_improvement": "nan",
+          "ratio": "nan"
+        },
+        "fixes": [
+          "Evaluate on more data, or average multiple eval passes/seeds before comparing checkpoints.",
+          "Select checkpoints by a smoothed (e.g. EMA) version of this metric instead of the raw value.",
+          "Evaluate less frequently but on a larger sample each time, if eval cost is the constraint."
+        ]
+      }
+    ]
+  }
+}

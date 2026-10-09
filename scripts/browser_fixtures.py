@@ -19,6 +19,8 @@ sources.extend(sorted((root / "examples/timing").glob("*.csv")))
 sources.extend(root / "examples/schedulers/captured" / f"{name}.csv" for name in (
     "linear-resume-reset", "linear-resume-restored", "cosine-overrun", "cosine-restarts",
 ))
+sources.extend(p for p in sorted((root / "examples/evaluation/captured").glob("*.csv"))
+               if p.name != "predictions.csv")
 partial = destination / "synthetic-partial.jsonl"
 partial.write_text('{"step":100,"loss":2}\n{broken\n{"step":200,"loss":1}\n')
 sources.append(partial)

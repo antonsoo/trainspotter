@@ -19,21 +19,24 @@ detected, where (step ranges), the evidence behind each, and the usual
 fixes. It runs post-hoc on a finished log, live via `watch` on a growing
 one, or as a CI gate that fails the build.
 
-## Calibrated on 3,145 real runs
+## Calibration study on 3,145 real runs
 
 Many people upload `Trainer`'s checkpoint directories to the Hugging Face Hub,
 `trainer_state.json` included, so thousands of real training logs are public.
 [**The census**](studies/hub-census/README.md) collects 3,145 of them, runs
 trainspotter over each, and compares its findings with how the run ended.
 
+The original calibration study below predates the later reader, scheduler, and
+[evaluation-evidence repairs](docs/evaluation-evidence.md). Its numbers describe
+that retained study snapshot, not a fresh accuracy estimate for the current checkout.
+
 The released detectors (0.2.6) did badly at this: they raised a warning or an
 error on 75% of the runs that ended at their best loss, and 12% of their errors
 were on runs that ended badly. They had been tuned on smooth generated curves,
-and a real per-step loss is not smooth. The detectors in this checkout
-(**unreleased**) were reworked against the corpus, and then scored once on
+and a real per-step loss is not smooth. The unreleased detectors in that study were reworked against the corpus, and then scored once on
 1,032 further logs from accounts the corpus does not contain:
 
-| | 0.2.6 | this checkout | Held out: 0.2.6 | this checkout |
+| | 0.2.6 | Calibration snapshot | Held out: 0.2.6 | Calibration snapshot |
 |---|---:|---:|---:|---:|
 | Runs that ended at their best loss and were given a warning or an error | 74.6% | 5.7% | 73.0% | 6.9% |
 | ... and were given an error | 20.6% | 0.0% | 18.4% | 0.0% |
@@ -88,6 +91,11 @@ trainspotter analyze path/to/trainer_state.json --output html --out report.html
 ```
 
 ## Features
+
+- **Evaluation evidence with limits:** smooth improvement is not labelled noise;
+  later training cannot explain an earlier evaluation interval. Reports retain
+  exact overlapping spans and treat non-finite readings as gaps.
+  [Captured model runs, independent score checks, and public-log audit](docs/evaluation-evidence.md).
 
 - **Five readers**, auto-detected from the file: Hugging Face
   `trainer_state.json`, generic CSV/JSONL, Weights & Biases CSVs (a run's
@@ -150,12 +158,13 @@ Real terminal output (from `examples/overfitting.trainer_state.json`, one
 finding shown):
 
 ```
-[WARN ] steps 125-799      overfitting Overfitting onset
-  Best eval/loss was 0.526 at step 125; it's since risen to 0.5554 (5.6%, slope p<0.0001).
-  Meanwhile train/loss kept falling over the same range (slope < 0) -- the classic
-  overfitting signature.
+[WARN ] steps 125-799      overfitting Possible overfitting
+  Lowest logged eval/loss in this finite segment was 0.526 at step 125; the last value is 0.5554
+  (5.6%, slope diagnostic p<0.0001). Within their shared interval, train/loss trends down (675
+  readings, steps 125-799) while eval/loss trends up (136 readings, steps 125-799). This is
+  consistent with overfitting, but does not establish its cause.
   metric: eval/loss
-  fix: Use the checkpoint at step 125 (best eval/loss), not the last one.
+  fix: If a checkpoint was saved near step 125, compare it with the last saved checkpoint on the same evaluation examples.
 ```
 
 ### What it reads
@@ -279,11 +288,11 @@ summary.
 | `setbacks` | The loss level rose, stayed up, and came back | The smoothed level sits a quarter of the run's progress above a level it had already reached; reported with the steps spent there, a warning from 5% of the run. One that starts in the first tenth of the run is an "early rise". A rise shorter than the smoothing window is a "loss burst" (a warning) when the level stood half the run's progress above its earlier best and more than 6 times the scatter of single points | An epoch boundary or a planned restart; a rise shorter than half the smoothing window (4% of the run, at least five points) does not move the level and is left to `spikes` |
 | `divergence` | A non-finite loss, or a rise the run never recovered from | Any NaN/Inf (an error in the training loss, a warning in an evaluation metric); or the log ends inside a rise with a quarter (warning) or half (error) of the run's progress given back; or the loss only ever rose | A run stopped during a temporary rise; a metric meant to increase |
 | `plateau` | A metric that's stalled, not just converged | Sliding-window OLS slope test (p ≥ 0.2 = not significant) plus a < 2% relative-change guard; suppressed if the window has already recovered ≥ 80% of the metric's total drop, or `lr` has decayed to ≤ 30% of its peak | A real stall near a coincidentally low value, or a metric that legitimately converged early |
-| `overfitting` | Evaluation loss rising after its best | Slope after the running minimum significantly positive (p < 0.1) and ≥ 3% above it; a note below 10%, a warning from 10% (or from 5% with an unmistakable trend), an error from 50%. Runs with too few evaluations for a slope test are reported when the last one is far above the best | A noisy eval set; a mid-run change in eval data |
+| `overfitting` | Evaluation loss rising after its lowest logged value | Final finite segment only; positive slope diagnostic and ≥ 3% rise, or a large endpoint rise. Notes below 10%, warnings from 10% (5% with a strong slope), errors from 50%; zero baselines give a note without a percentage. Possible overfitting requires opposing slopes within a shared training/evaluation interval | Selected minimum and correlated readings prevent calibrated inference; evaluation-data changes can produce the same pattern |
 | `lr_schedule` | No warmup, rises after decay, discontinuities (all notes) | First value vs. peak; time-ordered decline and rise exceeding 1% of their peak scale; a jump exceeding 20% of the LR's total range that isn't part of a steady ramp or initial warmup. Rebounds retain exact observations; the same upward jump is not reported twice | Cyclic/warm-restart schedules also rise after decay; intent is unknown. Step-decay drops can be reported |
 | `grad_norm` | Gradient-norm explosions and clipping saturation (notes) | Readings both statistically unusual and at least 10x the rolling median, counted in one finding; fraction of a trailing window within 0.5% of its own max, for saturation | Norms logged post-clip are saturated by construction; whether an explosion mattered is for the loss to say |
 | `throughput` | Step-time / throughput regressions | Median step time, early-run baseline window vs. recent window, flags ≥ 1.4× | Checkpoint/eval steps inflate single points; early-run kernel/dataloader warmup can pollute the baseline |
-| `eval_noise` | An eval metric too noisy to rank checkpoints by (a note) | Median absolute step-to-step jitter as a fraction of the run's total improvement; flags ≥ 15% | An already-converged run has small total improvement by construction |
+| `eval_noise` | Repeated evaluation fluctuations (a note) | At least two direction reversals and median absolute adjacent change ≥ 15% of the observed range, within a finite segment of ≥ 6 readings | Cadence-dependent description, not a noise estimate. Changing checkpoints or evaluation data can both cause swings |
 | `loss_floor` | Implausibly low train loss very early (heuristic) | Loss < 0.05 absolute **and** < 5% of its starting value within the first 10% of steps; not applied to a "loss" that goes negative | Explicitly a heuristic: an easy task, a small-scale loss, or a resumed checkpoint all look identical to this |
 
 "Progress" is how far the loss level fell from where the run started to the
@@ -476,11 +485,11 @@ pins.
   windows. Missing or invalid readings do not become a zero or move the window
   into earlier data. Inverted throughput is seconds per reported unit (sample
   or token), not seconds per training step.
-- The OLS significance tests (`plateau`, `overfitting`) use a normal
-  approximation to the t-distribution,
-  accurate for windows of about 30+ points; on shorter windows they're
-  slightly anti-conservative, which is why each detector also requires a
-  minimum window size before trusting the test.
+- The OLS diagnostics (`plateau`, `overfitting`) use a normal approximation
+  to the t-distribution. Small windows, correlated readings, and selecting
+  the minimum from the same history prevent calibrated probabilities of a
+  training fault. `eval_noise` describes fluctuations; aggregate histories
+  do not measure checkpoint uncertainty. See [evaluation evidence](docs/evaluation-evidence.md).
 
 ## Development
 

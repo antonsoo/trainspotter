@@ -6,6 +6,17 @@ and this project uses [Semantic Versioning](https://semver.org/).
 
 ## Unreleased
 
+- Evaluation evidence: `eval_noise` now describes repeated fluctuations, without
+  claiming checkpoint uncertainty; monotone curves, single turns, and NaN/Inf
+  gaps cannot manufacture noise findings. Evidence fields now describe scaled
+  adjacent changes, range, direction counts, and finite observations.
+- `overfitting` requires contemporaneous opposing loss trends for its "Possible
+  overfitting" title. It retains both observed spans, assesses only the final
+  finite evaluation segment, corrects negative-baseline thresholds, and marks
+  zero-baseline percentages unavailable. Suggestions no longer assume a saved
+  checkpoint exists. [Captures and audit](docs/evaluation-evidence.md).
+
+
 ### Learning-rate reversals
 
 - Repair the check for LR rising after decay: it previously looked for a

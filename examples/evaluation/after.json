@@ -1,0 +1,207 @@
+{
+  "baseline": false,
+  "captured_means_checked": 16,
+  "max_mean_absolute_error": 8.881784197001252e-16,
+  "fixed_evaluations_checked": 40,
+  "files": {
+    "regression-full.csv": {
+      "rows": 301,
+      "sha256": "d59ec7206eeeafc06c142980bbf047de8cb69fe2cecb13737929b96a0af40bf5",
+      "description": "Actual training, optimizer updates 0..300"
+    },
+    "smooth-six.csv": {
+      "rows": 6,
+      "sha256": "fa921200fbd63f3f1ab039074195fce3f14eb306c3ac2c60827faec92927eb64",
+      "description": "First six observations of regression-full.csv"
+    },
+    "late-training.csv": {
+      "rows": 301,
+      "sha256": "236fb0e9407ad6fa22bfbe64591aab17620aedfba3a3d77d68d06d9ca58500d3",
+      "description": "Derived: evaluation ends at 60; all training readings before 100 removed"
+    },
+    "fixed-repeat.csv": {
+      "rows": 20,
+      "sha256": "51b45ce045a88dbaf919d93e47ce18f8f05ff3c11656fa8bfd983ef96fb9342a",
+      "description": "Same frozen model and same full evaluation cohort, 20 passes"
+    },
+    "fixed-cohort-switch.csv": {
+      "rows": 20,
+      "sha256": "b0fe69af2334496222ab7a954b55982a5ec6b1d223a4d9845e609fe55edfdf4a",
+      "description": "Same frozen model; alternate full cohort and highest-loss 32 examples"
+    },
+    "nan-gap.csv": {
+      "rows": 301,
+      "sha256": "2ee1b5f4e7596bd63d007aaf2f798ca7c91cc3c6f3ad2e424ee4f2ad19d4c3a0",
+      "description": "Derived: evaluation at step 100 replaced by NaN"
+    },
+    "nan-final.csv": {
+      "rows": 301,
+      "sha256": "c8ab2f74c2bc0842200ef4d363b4aa18f0a4d3f912f1d63552d7c1a2f337d448",
+      "description": "Derived: final evaluation replaced by NaN"
+    },
+    "predictions.csv": {
+      "rows": 1184,
+      "sha256": "2a5a2301f611739cee6720b7a33b23b3528b3fad776e5f2fb0ddcae02c3be5a8",
+      "description": "Actual predictions and targets at eight checkpoints"
+    }
+  },
+  "findings": {
+    "regression-full": [
+      {
+        "detector": "overfitting",
+        "title": "Possible overfitting",
+        "severity": "error",
+        "metric": "eval/loss",
+        "step_start": 7,
+        "step_end": 300,
+        "message": "Lowest logged eval/loss in this finite segment was 1.271 at step 7; the last value is 2.198 (72.9%, slope diagnostic p<0.0001). Within their shared interval, train/loss trends down (294 readings, steps 7-300) while eval/loss trends up (294 readings, steps 7-300). This is consistent with overfitting, but does not establish its cause.",
+        "evidence": {
+          "segment_start": 0,
+          "segment_observations": 301,
+          "best_step": 7,
+          "best_value": 1.2713647989634222,
+          "current_value": 2.198391922777203,
+          "relative_rise": 0.7291590301773423,
+          "slope_p_value": 0.0,
+          "slope_status": "assessed",
+          "training_status": "opposing_trends",
+          "training_observations": 294,
+          "overlap_eval_observations": 294,
+          "training_step_start": 7,
+          "training_step_end": 300,
+          "overlap_eval_step_start": 7,
+          "overlap_eval_step_end": 300,
+          "training_scaled_slope": -0.000806358074243176,
+          "training_slope_p_value": 0.0,
+          "overlap_eval_scaled_slope": 0.00106208552195668,
+          "overlap_eval_slope_p_value": 0.0
+        },
+        "fixes": [
+          "If a checkpoint was saved near step 7, compare it with the last saved checkpoint on the same evaluation examples.",
+          "Check evaluation-data and metric-definition changes before attributing the rise to training.",
+          "If the regression persists on a comparable evaluation set, consider early stopping, regularization, or more training data."
+        ]
+      }
+    ],
+    "smooth-six": [],
+    "late-training": [
+      {
+        "detector": "overfitting",
+        "title": "Evaluation loss rising",
+        "severity": "warning",
+        "metric": "eval/loss",
+        "step_start": 7,
+        "step_end": 60,
+        "message": "Lowest logged eval/loss in this finite segment was 1.271 at step 7; the last value is 1.81 (42.4%, slope diagnostic p<0.0001).",
+        "evidence": {
+          "segment_start": 0,
+          "segment_observations": 61,
+          "best_step": 7,
+          "best_value": 1.2713647989634222,
+          "current_value": 1.810329915217713,
+          "relative_rise": 0.4239264109669574,
+          "slope_p_value": 0.0,
+          "slope_status": "assessed",
+          "training_status": "insufficient_overlap",
+          "training_observations": 0,
+          "overlap_eval_observations": 0
+        },
+        "fixes": [
+          "If a checkpoint was saved near step 7, compare it with the last saved checkpoint on the same evaluation examples.",
+          "Check evaluation-data and metric-definition changes before attributing the rise to training.",
+          "If the regression persists on a comparable evaluation set, consider early stopping, regularization, or more training data."
+        ]
+      }
+    ],
+    "fixed-repeat": [],
+    "fixed-cohort-switch": [
+      {
+        "detector": "overfitting",
+        "title": "Evaluation loss rising",
+        "severity": "error",
+        "metric": "eval/loss",
+        "step_start": 0,
+        "step_end": 19,
+        "message": "Lowest logged eval/loss in this finite segment was 2.198 at step 0; the last value is 6.443 (193.1%, rise threshold met; slope criterion not met).",
+        "evidence": {
+          "segment_start": 0,
+          "segment_observations": 20,
+          "best_step": 0,
+          "best_value": 2.198391922777203,
+          "current_value": 6.442896035968593,
+          "relative_rise": 1.930731308287085,
+          "slope_p_value": 0.7119231506921901,
+          "slope_status": "assessed",
+          "training_status": "missing"
+        },
+        "fixes": [
+          "If a checkpoint was saved near step 0, compare it with the last saved checkpoint on the same evaluation examples.",
+          "Check evaluation-data and metric-definition changes before attributing the rise to training.",
+          "If the regression persists on a comparable evaluation set, consider early stopping, regularization, or more training data."
+        ]
+      },
+      {
+        "detector": "eval_noise",
+        "title": "Evaluation values fluctuate",
+        "severity": "info",
+        "metric": "eval/loss",
+        "step_start": 0,
+        "step_end": 19,
+        "message": "eval/loss changes direction 18 times across 20 finite observations. Its median absolute adjacent change is 100% of the observed range. This describes the logged curve; it does not measure evaluation uncertainty or establish whether checkpoints differ.",
+        "evidence": {
+          "observations": 20,
+          "direction_changes": 18,
+          "upward_intervals": 10,
+          "downward_intervals": 9,
+          "scale": 6.442896035968593,
+          "scaled_median_absolute_change": 0.6587882358330328,
+          "scaled_value_range": 0.6587882358330328,
+          "ratio": 1.0
+        },
+        "fixes": [
+          "Check whether evaluation data, sampling, or metric definitions changed between logged values.",
+          "To compare saved checkpoints, evaluate them on the same examples and retain paired per-example scores; account for dependent examples.",
+          "Repeated evaluation only measures randomness present in that procedure; repeating a deterministic pass does not measure uncertainty across examples."
+        ]
+      }
+    ],
+    "nan-gap": [
+      {
+        "detector": "overfitting",
+        "title": "Possible overfitting",
+        "severity": "warning",
+        "metric": "eval/loss",
+        "step_start": 101,
+        "step_end": 300,
+        "message": "Lowest logged eval/loss in this finite segment was 1.96 at step 101; the last value is 2.198 (12.2%, slope diagnostic p<0.0001). Assessment starts at step 101, after the last non-finite evaluation. Within their shared interval, train/loss trends down (200 readings, steps 101-300) while eval/loss trends up (200 readings, steps 101-300). This is consistent with overfitting, but does not establish its cause.",
+        "evidence": {
+          "segment_start": 101,
+          "segment_observations": 200,
+          "best_step": 101,
+          "best_value": 1.9598488753596373,
+          "current_value": 2.198391922777203,
+          "relative_rise": 0.12171502120223043,
+          "slope_p_value": 0.0,
+          "slope_status": "assessed",
+          "training_status": "opposing_trends",
+          "training_observations": 200,
+          "overlap_eval_observations": 200,
+          "training_step_start": 101,
+          "training_step_end": 300,
+          "overlap_eval_step_start": 101,
+          "overlap_eval_step_end": 300,
+          "training_scaled_slope": -0.001006934924280825,
+          "training_slope_p_value": 0.0,
+          "overlap_eval_scaled_slope": 0.0005168657842926342,
+          "overlap_eval_slope_p_value": 0.0
+        },
+        "fixes": [
+          "If a checkpoint was saved near step 101, compare it with the last saved checkpoint on the same evaluation examples.",
+          "Check evaluation-data and metric-definition changes before attributing the rise to training.",
+          "If the regression persists on a comparable evaluation set, consider early stopping, regularization, or more training data."
+        ]
+      }
+    ],
+    "nan-final": []
+  }
+}

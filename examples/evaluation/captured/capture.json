@@ -1,0 +1,105 @@
+{
+  "captured_at": "2026-10-09T16:48:36.841363+00:00",
+  "python": "3.12.12",
+  "torch": "2.8.0+cpu",
+  "device": "cpu",
+  "threads": 1,
+  "data_seed": 31415,
+  "model_seed": 2718,
+  "data": "Synthetic linear regression, 16 features, Gaussian label noise sd=1; 20 train, 128 eval",
+  "model": "torch.nn.Linear(16, 1, dtype=torch.float64)",
+  "optimizer": "SGD(lr=0.03)",
+  "updates": 300,
+  "step_units": {
+    "regression": "completed optimizer updates; loss evaluated after update",
+    "fixed-*": "evaluation pass ordinal; optimizer remains at step 300"
+  },
+  "snapshot_sha256": {
+    "0": "e39cda8c457ac76c3b035d93ace1ad68f0c77ac72091e6d9222089d96e93b148",
+    "1": "a1cdf9e3af548b7a53ee24d484c9c9ee188c4f26713a2950fb0b87f741cba460",
+    "2": "28225c14a4d7d2f1395698a113bba31e0658ce9a0d092a2bf9662d01455156c5",
+    "3": "55f490e1e579bdae168c544d583faae835d536c4c6bebaa4adac8768e4f293dc",
+    "4": "5e5c536dc6df8db08ff44508723a7e6753409cb63e9ec55b3364213310185b9c",
+    "5": "07bd9fd629383cdd7677bb6dbdad66244143f063f4417927d427ef1ab6a91bad",
+    "60": "2120835ccca4d7bc41d24c36b5962056c05c873c924d41f6193b3c9a46ab04ea",
+    "300": "92289d57c1f2e1440bc3cc7645c389fa5542d0897961241c8528dfe772ccdf81"
+  },
+  "fixed_snapshot_sha256": "92289d57c1f2e1440bc3cc7645c389fa5542d0897961241c8528dfe772ccdf81",
+  "hard_example_indices": [
+    49,
+    84,
+    64,
+    25,
+    22,
+    91,
+    45,
+    88,
+    61,
+    117,
+    100,
+    85,
+    105,
+    6,
+    14,
+    93,
+    106,
+    32,
+    89,
+    78,
+    112,
+    42,
+    20,
+    63,
+    76,
+    35,
+    95,
+    83,
+    69,
+    104,
+    31,
+    7
+  ],
+  "script_sha256": "2275b66dd77e533db2b7947bc56c4862d78de8860d4d3d76ccf016f2adc5c74c",
+  "files": {
+    "regression-full.csv": {
+      "rows": 301,
+      "sha256": "d59ec7206eeeafc06c142980bbf047de8cb69fe2cecb13737929b96a0af40bf5",
+      "description": "Actual training, optimizer updates 0..300"
+    },
+    "smooth-six.csv": {
+      "rows": 6,
+      "sha256": "fa921200fbd63f3f1ab039074195fce3f14eb306c3ac2c60827faec92927eb64",
+      "description": "First six observations of regression-full.csv"
+    },
+    "late-training.csv": {
+      "rows": 301,
+      "sha256": "236fb0e9407ad6fa22bfbe64591aab17620aedfba3a3d77d68d06d9ca58500d3",
+      "description": "Derived: evaluation ends at 60; all training readings before 100 removed"
+    },
+    "fixed-repeat.csv": {
+      "rows": 20,
+      "sha256": "51b45ce045a88dbaf919d93e47ce18f8f05ff3c11656fa8bfd983ef96fb9342a",
+      "description": "Same frozen model and same full evaluation cohort, 20 passes"
+    },
+    "fixed-cohort-switch.csv": {
+      "rows": 20,
+      "sha256": "b0fe69af2334496222ab7a954b55982a5ec6b1d223a4d9845e609fe55edfdf4a",
+      "description": "Same frozen model; alternate full cohort and highest-loss 32 examples"
+    },
+    "nan-gap.csv": {
+      "rows": 301,
+      "sha256": "2ee1b5f4e7596bd63d007aaf2f798ca7c91cc3c6f3ad2e424ee4f2ad19d4c3a0",
+      "description": "Derived: evaluation at step 100 replaced by NaN"
+    },
+    "nan-final.csv": {
+      "rows": 301,
+      "sha256": "c8ab2f74c2bc0842200ef4d363b4aa18f0a4d3f912f1d63552d7c1a2f337d448",
+      "description": "Derived: final evaluation replaced by NaN"
+    },
+    "predictions.csv": {
+      "rows": 1184,
+      "sha256": "2a5a2301f611739cee6720b7a33b23b3528b3fad776e5f2fb0ddcae02c3be5a8",
+      "description": "Actual predictions and targets at eight checkpoints"
+    }
+  }
+}
