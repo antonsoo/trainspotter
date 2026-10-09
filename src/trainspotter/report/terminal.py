@@ -17,6 +17,7 @@ from typing import TextIO
 from trainspotter.detectors import Finding
 from trainspotter.model import Run
 from trainspotter.report.json_report import notable_repeats
+from trainspotter.timing import assess_timing
 
 _RESET = "\x1b[0m"
 _BOLD = "\x1b[1m"
@@ -101,6 +102,20 @@ def render_terminal(
         lines.extend(textwrap.wrap(visible(description), width=96, subsequent_indent="         "))
     if repeated:
         lines.append(style(f"evidence {len(repeated)} repeated metric-step groups; --output json retains every reading/count", _DIM))
+
+    timing = assess_timing(run)
+    if timing.ratio is not None and timing.baseline is not None and timing.recent is not None:
+        lines.append("timing   " + visible(
+            f"{timing.baseline.median_seconds:.4g} -> {timing.recent.median_seconds:.4g} "
+            f"{timing.unit}; {timing.ratio:.4g}x recent / baseline ({timing.source})"
+        ))
+        lines.append(style(
+            f"         Default windows: first / last {timing.baseline.observations} "
+            "observations. --output html or json shows ranges and source details.", _DIM
+        ))
+    else:
+        lines.extend(textwrap.wrap("timing   Unavailable: " + visible(timing.reason or ""),
+                                   width=96, subsequent_indent="         "))
 
     counts = {"error": 0, "warning": 0, "info": 0}
     for f in findings:

@@ -27,6 +27,7 @@ from datetime import datetime, timezone
 from trainspotter.detectors import Finding
 from trainspotter.model import MetricSeries, Run
 from trainspotter.report.json_report import notable_repeats, repeated_step_evidence
+from trainspotter.timing import assess_timing
 
 _SEVERITY_COLOR = {"error": "#ff5d5d", "warning": "#f2b84b", "info": "#5fb3ff"}
 _SEVERITY_LABEL = {"error": "ERR", "warning": "WARN", "info": "INFO"}
@@ -533,6 +534,54 @@ def _repeated_evidence(run: Run) -> str:
     )
 
 
+def _timing_evidence(run: Run) -> str:
+    timing = assess_timing(run)
+    heading = "Timing comparison" if timing.ratio is not None else "Timing unavailable"
+    summary = (
+        f'<p class="timing-ratio"><strong>{timing.ratio:.4g}x</strong> recent / baseline '
+        f'time ({_esc(timing.unit or "")})</p>'
+        if timing.ratio is not None else f'<p>{_esc(timing.reason or "")}</p>'
+    )
+    source = (
+        f'<p>Source: <code>{_esc(timing.source)}</code>, from logged metric '
+        f'<code>{_esc(timing.source_metric or "")}</code>. '
+        f'{timing.observations} timing observations; {timing.invalid_observations} unusable.</p>'
+        if timing.source is not None else ''
+    )
+    table = ''
+    if timing.baseline is not None and timing.recent is not None:
+        rows = []
+        intervals = timing.baseline.interval_start_step is not None
+        for label, window in (("Baseline", timing.baseline), ("Recent", timing.recent)):
+            first = window.interval_start_step if intervals else window.first_position
+            median = f'{window.median_seconds:.6g}' if window.median_seconds is not None else 'Unavailable'
+            rows.append(
+                f'<tr><th scope="row">{label}</th><td>{first}&ndash;{window.last_position}</td>'
+                f'<td>{window.observations}</td><td>{window.invalid_observations}</td><td>{median}</td></tr>'
+            )
+        axis = "Row indices" if timing.axis == "row_index" else "Step intervals" if intervals else "Steps"
+        table = (
+            '<p class="table-hint">Scroll the timing table horizontally to inspect every column.</p>'
+            '<div class="table-scroll" tabindex="0" role="region" aria-label="Timing windows">'
+            '<table><caption>Baseline and recent timing windows</caption>'
+            f'<thead><tr><th scope="col">Window</th><th scope="col">{axis}</th>'
+            '<th scope="col">Observations</th><th scope="col">Unusable</th>'
+            f'<th scope="col">Median ({_esc(timing.unit or "")})</th></tr></thead>'
+            '<tbody>' + ''.join(rows) + '</tbody></table></div>'
+        )
+    notes = '<ul>' + ''.join(f'<li>{_esc(note)}</li>' for note in timing.notes) + '</ul>' if timing.notes else ''
+    return (
+        '<section class="timing-evidence" aria-labelledby="timing-heading">'
+        f'<h2 id="timing-heading">{heading}</h2>{summary}'
+        '<details><summary>Timing sources and windows</summary>'
+        + source + table + notes
+        + '<p>Default timing check: first and last 20% of observations, at least five each, '
+        'without overlap. This describes those windows, not every step of the run. '
+        'Direct throughput is time per reported unit (such as a sample or token). '
+        'Unavailable timing does not establish stable speed.</p></details></section>'
+    )
+
+
 def render_html(run: Run, findings: list[Finding], title: str = "trainspotter report") -> str:
     analysis = run.analysis_view()
     counts = {"error": 0, "warning": 0, "info": 0}
@@ -667,6 +716,7 @@ def render_html(run: Run, findings: list[Finding], title: str = "trainspotter re
 
   {evidence_html}
   {_repeated_evidence(run)}
+  {_timing_evidence(run)}
 
   <div class="charts">
     <p class="chart-hint">Scroll charts horizontally to inspect their full step range.</p>
@@ -743,6 +793,19 @@ body {
 .input-evidence th, .input-evidence td { text-align: left; padding: 7px 8px; border-bottom: 1px solid var(--line); overflow-wrap: anywhere; }
 .input-evidence th:nth-child(n+3), .input-evidence td:nth-child(n+3) { width: 110px; text-align: right; }
 .input-evidence tbody th { font-weight: normal; }
+.timing-evidence { margin: 16px 0 20px; padding: 12px 16px; background: var(--panel); border: 1px solid var(--line-strong); border-left: 3px solid var(--info); overflow-wrap: anywhere; }
+.timing-evidence h2 { margin: 0 0 6px; font: 13px var(--mono); color: var(--text-muted); text-transform: uppercase; letter-spacing: .06em; }
+.timing-evidence p { margin: 8px 0; }
+.timing-ratio { font-family: var(--mono); }
+.timing-ratio strong { font-size: 22px; color: var(--info); font-weight: normal; }
+.timing-evidence details { color: var(--text-muted); font-size: 12px; }
+.timing-evidence summary { cursor: pointer; padding: 4px 0; }
+.timing-evidence summary:focus-visible { outline: 2px solid var(--info); outline-offset: 3px; }
+.timing-evidence table { width: 100%; min-width: 580px; border-collapse: collapse; font-family: var(--mono); }
+.timing-evidence caption { text-align: left; padding: 10px 0; }
+.timing-evidence th, .timing-evidence td { text-align: right; padding: 8px; border-bottom: 1px solid var(--line); }
+.timing-evidence th:first-child { text-align: left; }
+.timing-evidence ul { padding-left: 20px; }
 .repeated-evidence summary { cursor: pointer; padding: 5px 0; }
 .repeated-evidence h2 { margin-top: 10px; }
 .repeated-evidence table { width: 100%; min-width: 800px; table-layout: fixed; border-collapse: collapse; font-family: var(--mono); font-size: 12px; }

@@ -18,6 +18,7 @@ from trainspotter.model import Run
 from trainspotter.readers import load_run
 from trainspotter.report import render_html, render_terminal, to_json_str
 from trainspotter.report.terminal import visible
+from trainspotter.timing import assess_timing
 
 _FORMAT_CHOICES = ("hf", "csv", "jsonl", "wandb", "lightning", "tensorboard")
 
@@ -41,6 +42,7 @@ def _build_parser() -> argparse.ArgumentParser:
     analyze.add_argument("--output", choices=("terminal", "json", "html"), default="terminal")
     analyze.add_argument("--out", default=None, help="Write the report to this file (HTML defaults to a .trainspotter.html file beside the source).")
     analyze.add_argument("--fail-on", choices=("warning", "error"), default=None, help="CI gate: exit 1 for findings at this severity, or 2 when input is incomplete.")
+    analyze.add_argument("--require-timing", action="store_true", help="Exit 2 unless input is complete and a timing comparison is available. Pair with --fail-on warning to gate slowdowns.")
     analyze.add_argument("--no-color", action="store_true", help="Disable ANSI color in the terminal report.")
     analyze.add_argument("--title", default=None, help="Title for the HTML report (default: derived from the input path).")
 
@@ -50,6 +52,7 @@ def _build_parser() -> argparse.ArgumentParser:
     watch.add_argument("--run", default=None, metavar="NAME", help="Which run to watch when the source holds several.")
     watch.add_argument("--interval", type=_interval, default=2.0, help="Positive seconds between re-reads (default: 2.0).")
     watch.add_argument("--fail-on", choices=("warning", "error"), default=None, help="Stop with exit 1 on a matching finding, or 2 when a loaded run has incomplete input.")
+    watch.add_argument("--require-timing", action="store_true", help="Stop with exit 2 if a loaded run has incomplete input or no usable timing comparison, including too few readings.")
     watch.add_argument("--once", action="store_true", help="Read and report once instead of looping (used by tests / one-shot checks).")
     watch.add_argument("--no-color", action="store_true")
 
@@ -122,10 +125,16 @@ def _require_metrics(run: Run) -> None:
         )
 
 
-def _gate(run: Run, findings: list[Finding], fail_on: Severity | None) -> int:
-    if fail_on is not None and not run.input_complete():
+def _gate(run: Run, findings: list[Finding], fail_on: Severity | None, require_timing: bool = False) -> int:
+    if (fail_on is not None or require_timing) and not run.input_complete():
         print("trainspotter: input is incomplete; CI gate could not be evaluated", file=sys.stderr)
         return 2
+    if require_timing:
+        timing = assess_timing(run)
+        if timing.status != "compared":
+            print("trainspotter: a usable timing comparison is required; "
+                  + visible(timing.reason or "timing is unavailable"), file=sys.stderr)
+            return 2
     return _fail_code(findings, fail_on)
 
 
@@ -134,7 +143,7 @@ def cmd_analyze(args: argparse.Namespace) -> int:
     _require_metrics(run)
     findings = run_all(run)
     _emit(run, findings, args)
-    return _gate(run, findings, args.fail_on)
+    return _gate(run, findings, args.fail_on, args.require_timing)
 
 
 def _extends(previous: Run, current: Run) -> bool:
@@ -199,7 +208,7 @@ def cmd_watch(args: argparse.Namespace) -> int:
                 print(f"[{f.severity.upper():7}] steps {step_range:<13} {f.detector:<12} {visible(f.title)}: {visible(f.message)}")
             seen = {identity(f): f.severity for f in findings}
             previous = run
-            exit_code = _gate(run, findings, args.fail_on)
+            exit_code = _gate(run, findings, args.fail_on, args.require_timing)
             if args.once or exit_code:
                 break
             time.sleep(args.interval)

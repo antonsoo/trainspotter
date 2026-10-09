@@ -6,6 +6,9 @@ tokens per second -- inverted so "bigger is slower" like step_time);
 failing that, the wall-clock deltas between consecutive points of the
 primary loss metric, if wall times were logged. If none of these exist,
 the detector reports nothing rather than guessing.
+Wall-clock derivation also needs explicit training steps: a row index cannot
+distinguish slow training from less frequent logging. Reports expose timing
+source, windows and unavailable reasons through `trainspotter.timing`.
 
 **Algorithm.** Split the derived per-step-time series into an early
 baseline window (`baseline_frac`, default first 20%, at least
@@ -30,26 +33,12 @@ that includes a checkpoint save doesn't skew the baseline). Flag if
 
 from __future__ import annotations
 
-import math
-
-import numpy as np
-
 from trainspotter.model import Run
+from trainspotter.timing import DEFAULT_BASELINE_FRAC, DEFAULT_MIN_WINDOW, assess_timing
 
-from .base import Detector, Finding, FloatArray
+from .base import Detector, Finding
 
 DEFAULT_RATIO = 1.4
-DEFAULT_MIN_WINDOW = 5
-DEFAULT_BASELINE_FRAC = 0.2
-
-
-def _positive_median(values: FloatArray) -> float:
-    ordered = np.sort(values)
-    hi = len(ordered) // 2
-    lo = (len(ordered) - 1) // 2
-    lower, upper = float(ordered[lo]), float(ordered[hi])
-    # The usual (lower + upper) / 2 overflows for two large, valid timings.
-    return lower + (upper - lower) / 2
 
 
 class ThroughputDetector(Detector):
@@ -66,37 +55,24 @@ class ThroughputDetector(Detector):
         self.baseline_frac = baseline_frac
 
     def _run(self, run: Run) -> list[Finding]:
-        steps, times, source = self._derive_step_times(run)
-        if steps is None or times is None or len(steps) < self.min_window * 2:
+        timing = assess_timing(run, min_window=self.min_window, baseline_fraction=self.baseline_frac)
+        if timing.ratio is None or timing.ratio < self.ratio:
             return []
-        n = len(times)
-        window = max(self.min_window, int(n * self.baseline_frac))
-        if window * 2 > n:
-            window = n // 2
-        baseline = times[:window]
-        recent = times[-window:]
-        # Do not slide the windows past missing/broken timing readings until a
-        # convenient finite comparison appears. They no longer describe these windows.
-        if not (np.all(np.isfinite(baseline) & (baseline > 0))
-                and np.all(np.isfinite(recent) & (recent > 0))):
-            return []
-        baseline_med = _positive_median(baseline)
-        recent_med = _positive_median(recent)
-        if baseline_med <= 0:
-            return []
-        ratio = recent_med / baseline_med
-        if not math.isfinite(ratio) or ratio < self.ratio:
-            return []
+        assert timing.baseline is not None and timing.recent is not None
+        assert timing.source is not None and timing.unit is not None
+        assert timing.baseline.median_seconds is not None and timing.recent.median_seconds is not None
+        baseline_med, recent_med = timing.baseline.median_seconds, timing.recent.median_seconds
+        ratio, source, unit = timing.ratio, timing.source, timing.unit
+        window = timing.recent.observations
         quantity = "time per reported unit" if source == "1/throughput" else "step time"
-        unit = "s/unit" if source == "1/throughput" else "s/step"
         return [
             Finding(
                 detector=self.name,
                 title="Throughput regression",
                 severity="warning",
                 metric=source,
-                step_start=int(steps[-window]),
-                step_end=int(steps[-1]),
+                step_start=timing.recent.first_position,
+                step_end=timing.recent.last_position,
                 message=(
                     f"Median {quantity} over the last {window} points ({recent_med:.4g} {unit}) is "
                     f"{ratio:.2f}x the early-run baseline ({baseline_med:.4g} {unit}, first {window} "
@@ -118,44 +94,3 @@ class ThroughputDetector(Detector):
                 ],
             )
         ]
-
-    def _derive_step_times(
-        self, run: Run
-    ) -> tuple[FloatArray | None, FloatArray | None, str]:
-        step_time = run.get("step_time")
-        if step_time is not None and len(step_time) >= self.min_window * 2:
-            steps = np.array(step_time.steps(), dtype=float)
-            times = np.array(step_time.values(), dtype=float)
-            return steps, times, "step_time"
-
-        throughput = run.get("throughput")
-        if throughput is not None and len(throughput) >= self.min_window * 2:
-            steps = np.array(throughput.steps(), dtype=float)
-            vals = np.array(throughput.values(), dtype=float)
-            valid = np.isfinite(vals) & (vals > 0)
-            times = np.full(vals.shape, np.nan)
-            with np.errstate(over="ignore", divide="ignore"):
-                np.divide(1.0, vals, out=times, where=valid)
-            return steps, times, "1/throughput"
-
-        for name in ("train/loss", "eval/loss"):
-            series = run.get(name)
-            if series is None:
-                continue
-            wall_times = [p.wall_time for p in series.points]
-            if any(w is None for w in wall_times) or len(wall_times) < self.min_window * 2 + 1:
-                continue
-            wt = np.array(wall_times, dtype=float)
-            st = np.array(series.steps(), dtype=float)
-            with np.errstate(over="ignore", invalid="ignore"):
-                dt = np.diff(wt)
-            ds = np.diff(st)
-            # Seconds per step, not per logged point: a log that goes from every 10 steps to
-            # every 50 has not become five times slower.
-            usable = np.isfinite(dt) & (dt > 0) & (ds > 0)
-            times = np.full(dt.shape, np.nan)
-            with np.errstate(over="ignore", divide="ignore", invalid="ignore"):
-                np.divide(dt, ds, out=times, where=usable)
-            return st[1:], times, f"wall_time({name})"
-
-        return None, None, ""

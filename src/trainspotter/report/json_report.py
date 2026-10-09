@@ -10,6 +10,7 @@ from typing import Any
 
 from trainspotter.detectors import Finding
 from trainspotter.model import Run
+from trainspotter.timing import assess_timing
 
 SCHEMA_VERSION = 1
 
@@ -118,6 +119,7 @@ def to_json_dict(run: Run, findings: list[Finding]) -> dict[str, Any]:
             "total_findings": len(findings),
             "by_severity": by_severity,
         },
+        "timing": assess_timing(run).to_dict(),
         "findings": [
             {
                 "detector": f.detector,
