@@ -108,6 +108,11 @@ trainspotter analyze path/to/trainer_state.json --output html --out report.html
 - **Three report formats**: a color-coded terminal report, JSON (stable
   schema, for tooling), and a self-contained HTML report (inline SVG
   charts, no CDN, no JavaScript -- opens from disk, works offline forever).
+- **Learning-rate reversals (source checkout)**: finds a renewed rise after
+  decay, even below the original peak, with exact peak/low/confirmation steps.
+  A missing-scheduler-state resume and a cosine-horizon overrun previously
+  went unreported. [Captured optimizer runs and limits](docs/learning-rate-rebounds.md)
+  show both, plus correct-resume and intended-cycle controls; observations stay informational.
 - **CI gating**: `--fail-on warning|error` exits non-zero if any finding at
   or above that severity was found, or the input could only be partially read.
   The source checkout adds `--require-timing`: a speed gate can also reject an
@@ -275,7 +280,7 @@ summary.
 | `divergence` | A non-finite loss, or a rise the run never recovered from | Any NaN/Inf (an error in the training loss, a warning in an evaluation metric); or the log ends inside a rise with a quarter (warning) or half (error) of the run's progress given back; or the loss only ever rose | A run stopped during a temporary rise; a metric meant to increase |
 | `plateau` | A metric that's stalled, not just converged | Sliding-window OLS slope test (p ≥ 0.2 = not significant) plus a < 2% relative-change guard; suppressed if the window has already recovered ≥ 80% of the metric's total drop, or `lr` has decayed to ≤ 30% of its peak | A real stall near a coincidentally low value, or a metric that legitimately converged early |
 | `overfitting` | Evaluation loss rising after its best | Slope after the running minimum significantly positive (p < 0.1) and ≥ 3% above it; a note below 10%, a warning from 10% (or from 5% with an unmistakable trend), an error from 50%. Runs with too few evaluations for a slope test are reported when the last one is far above the best | A noisy eval set; a mid-run change in eval data |
-| `lr_schedule` | No warmup, LR rising after its peak, discontinuities (all notes) | Ramp check on the first value vs. peak; running-max monotonicity after the peak; a jump of ≥ 20% of the LR's total range that isn't one leg of a steady ramp or a rise before the LR has ever fallen (warmup) | Cyclic/warm-restart schedules trip the last two by design; step-decay drops are reported |
+| `lr_schedule` | No warmup, rises after decay, discontinuities (all notes) | First value vs. peak; time-ordered decline and rise exceeding 1% of their peak scale; a jump exceeding 20% of the LR's total range that isn't part of a steady ramp or initial warmup. Rebounds retain exact observations; the same upward jump is not reported twice | Cyclic/warm-restart schedules also rise after decay; intent is unknown. Step-decay drops can be reported |
 | `grad_norm` | Gradient-norm explosions and clipping saturation (notes) | Readings both statistically unusual and at least 10x the rolling median, counted in one finding; fraction of a trailing window within 0.5% of its own max, for saturation | Norms logged post-clip are saturated by construction; whether an explosion mattered is for the loss to say |
 | `throughput` | Step-time / throughput regressions | Median step time, early-run baseline window vs. recent window, flags ≥ 1.4× | Checkpoint/eval steps inflate single points; early-run kernel/dataloader warmup can pollute the baseline |
 | `eval_noise` | An eval metric too noisy to rank checkpoints by (a note) | Median absolute step-to-step jitter as a fraction of the run's total improvement; flags ≥ 15% | An already-converged run has small total improvement by construction |
