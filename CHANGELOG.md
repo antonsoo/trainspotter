@@ -18,6 +18,10 @@ and this project uses [Semantic Versioning](https://semver.org/).
 - Default `peak_grace_frac` to zero so appended observations cannot hide an
   earlier rebound. Explicit nonzero values still ignore an initial fraction
   of logged points. Ordinary warmup is excluded by requiring a preceding decline.
+- Retain eight controlled PyTorch training captures, independent CLI replay,
+  correct-resume and intentional-cycle controls, and a public-log audit.
+  The audit describes 174 observed reversals across 82 logs, without claiming
+  that their schedules were faulty. See `docs/learning-rate-rebounds.md`.
 
 ### Timing evidence and gates
 

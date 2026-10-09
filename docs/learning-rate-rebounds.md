@@ -127,3 +127,6 @@ See the [capture README](../examples/schedulers/README.md) for runnable CLI,
 independent replay and recapture commands. The [public-log audit](../studies/scheduler-rebounds/README.md)
 measures the additional observations on the existing corpus, preserving unknown
 intent and unreadable inputs.
+
+[Verification](scheduler-verification.md) records clean-install checks,
+installed-wheel replays, browser evidence and the large-input measurement.

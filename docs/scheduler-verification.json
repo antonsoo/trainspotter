@@ -1,0 +1,329 @@
+{
+  "verified_at": "2026-10-09T16:31:23.851456+00:00",
+  "clean_source_revision": "1a0654874361fe3a25da4cccb2f88659400b5eed",
+  "detector_sha256": "6cc240b8afaca7ed71cabd247babedb99a53f3811b5d6a08bdf635599143f07b",
+  "environment": {
+    "platform": "Linux-6.18.40.1-microsoft-standard-WSL2-x86_64-with-glibc2.39",
+    "logical_cpus": 14,
+    "node": "v26.7.0",
+    "npm": "12.0.1"
+  },
+  "checks": {
+    "clean_pytest": 404,
+    "working_python_3_12_pytest": 404,
+    "ruff": "passed",
+    "mypy_source_files": 27,
+    "build": "wheel built from source distribution",
+    "static_site_reports": 9,
+    "diff_check": "passed"
+  },
+  "installed_environments": {
+    "before-env": {
+      "python": "3.12.12",
+      "numpy": "2.5.3",
+      "installed_package_verified": true
+    },
+    "wheel-current": {
+      "python": "3.14.7",
+      "numpy": "2.5.3",
+      "installed_package_verified": true
+    },
+    "wheel-minimum": {
+      "python": "3.10.21",
+      "numpy": "1.24.0",
+      "installed_package_verified": true
+    }
+  },
+  "artifacts": {
+    "trainspotter-0.2.6-py3-none-any.whl": {
+      "sha256": "d74568f2814ff308e9c5b6fe1659ccaa0a68861f584aca6b2c6fabfe46ffa013",
+      "bytes": 100469
+    },
+    "trainspotter-0.2.6.tar.gz": {
+      "sha256": "bd8e8c90235d573c52ec06853472d31d6637d3cbf498edf79a946aa2e2ffd3c9",
+      "bytes": 115785
+    }
+  },
+  "capture_replay": {
+    "csv_files": 11,
+    "native_training_runs": 8,
+    "observations_including_sparse_derivatives": 1992,
+    "maximum_closed_form_rate_error": 6.938893903907228e-17,
+    "recaptured_csvs_match_before_capture": true,
+    "correct_resume_identical_to_uninterrupted": true
+  },
+  "browser": {
+    "workflows": 96,
+    "engines": {
+      "chromium": "153.0.8010.12",
+      "firefox": "155.0"
+    },
+    "layouts": [
+      "desktop",
+      "mobile"
+    ],
+    "axe_violations": 0,
+    "external_requests": 0,
+    "policy_violations": 0,
+    "scheduler_workflows": [
+      {
+        "engine": "chromium",
+        "browser_version": "153.0.8010.12",
+        "layout": "desktop",
+        "file": "linear-resume-reset.html",
+        "complete": true,
+        "metrics": 3,
+        "findings": 1,
+        "repeatedGroups": 0,
+        "axeViolations": 0,
+        "externalRequests": 0,
+        "policyViolations": 0
+      },
+      {
+        "engine": "chromium",
+        "browser_version": "153.0.8010.12",
+        "layout": "desktop",
+        "file": "linear-resume-restored.html",
+        "complete": true,
+        "metrics": 3,
+        "findings": 0,
+        "repeatedGroups": 0,
+        "axeViolations": 0,
+        "externalRequests": 0,
+        "policyViolations": 0
+      },
+      {
+        "engine": "chromium",
+        "browser_version": "153.0.8010.12",
+        "layout": "desktop",
+        "file": "cosine-overrun.html",
+        "complete": true,
+        "metrics": 3,
+        "findings": 2,
+        "repeatedGroups": 0,
+        "axeViolations": 0,
+        "externalRequests": 0,
+        "policyViolations": 0
+      },
+      {
+        "engine": "chromium",
+        "browser_version": "153.0.8010.12",
+        "layout": "desktop",
+        "file": "cosine-restarts.html",
+        "complete": true,
+        "metrics": 3,
+        "findings": 3,
+        "repeatedGroups": 0,
+        "axeViolations": 0,
+        "externalRequests": 0,
+        "policyViolations": 0
+      },
+      {
+        "engine": "chromium",
+        "browser_version": "153.0.8010.12",
+        "layout": "mobile",
+        "file": "linear-resume-reset.html",
+        "complete": true,
+        "metrics": 3,
+        "findings": 1,
+        "repeatedGroups": 0,
+        "axeViolations": 0,
+        "externalRequests": 0,
+        "policyViolations": 0
+      },
+      {
+        "engine": "chromium",
+        "browser_version": "153.0.8010.12",
+        "layout": "mobile",
+        "file": "linear-resume-restored.html",
+        "complete": true,
+        "metrics": 3,
+        "findings": 0,
+        "repeatedGroups": 0,
+        "axeViolations": 0,
+        "externalRequests": 0,
+        "policyViolations": 0
+      },
+      {
+        "engine": "chromium",
+        "browser_version": "153.0.8010.12",
+        "layout": "mobile",
+        "file": "cosine-overrun.html",
+        "complete": true,
+        "metrics": 3,
+        "findings": 2,
+        "repeatedGroups": 0,
+        "axeViolations": 0,
+        "externalRequests": 0,
+        "policyViolations": 0
+      },
+      {
+        "engine": "chromium",
+        "browser_version": "153.0.8010.12",
+        "layout": "mobile",
+        "file": "cosine-restarts.html",
+        "complete": true,
+        "metrics": 3,
+        "findings": 3,
+        "repeatedGroups": 0,
+        "axeViolations": 0,
+        "externalRequests": 0,
+        "policyViolations": 0
+      },
+      {
+        "engine": "firefox",
+        "browser_version": "155.0",
+        "layout": "desktop",
+        "file": "linear-resume-reset.html",
+        "complete": true,
+        "metrics": 3,
+        "findings": 1,
+        "repeatedGroups": 0,
+        "axeViolations": 0,
+        "externalRequests": 0,
+        "policyViolations": 0
+      },
+      {
+        "engine": "firefox",
+        "browser_version": "155.0",
+        "layout": "desktop",
+        "file": "linear-resume-restored.html",
+        "complete": true,
+        "metrics": 3,
+        "findings": 0,
+        "repeatedGroups": 0,
+        "axeViolations": 0,
+        "externalRequests": 0,
+        "policyViolations": 0
+      },
+      {
+        "engine": "firefox",
+        "browser_version": "155.0",
+        "layout": "desktop",
+        "file": "cosine-overrun.html",
+        "complete": true,
+        "metrics": 3,
+        "findings": 2,
+        "repeatedGroups": 0,
+        "axeViolations": 0,
+        "externalRequests": 0,
+        "policyViolations": 0
+      },
+      {
+        "engine": "firefox",
+        "browser_version": "155.0",
+        "layout": "desktop",
+        "file": "cosine-restarts.html",
+        "complete": true,
+        "metrics": 3,
+        "findings": 3,
+        "repeatedGroups": 0,
+        "axeViolations": 0,
+        "externalRequests": 0,
+        "policyViolations": 0
+      },
+      {
+        "engine": "firefox",
+        "browser_version": "155.0",
+        "layout": "mobile",
+        "file": "linear-resume-reset.html",
+        "complete": true,
+        "metrics": 3,
+        "findings": 1,
+        "repeatedGroups": 0,
+        "axeViolations": 0,
+        "externalRequests": 0,
+        "policyViolations": 0
+      },
+      {
+        "engine": "firefox",
+        "browser_version": "155.0",
+        "layout": "mobile",
+        "file": "linear-resume-restored.html",
+        "complete": true,
+        "metrics": 3,
+        "findings": 0,
+        "repeatedGroups": 0,
+        "axeViolations": 0,
+        "externalRequests": 0,
+        "policyViolations": 0
+      },
+      {
+        "engine": "firefox",
+        "browser_version": "155.0",
+        "layout": "mobile",
+        "file": "cosine-overrun.html",
+        "complete": true,
+        "metrics": 3,
+        "findings": 2,
+        "repeatedGroups": 0,
+        "axeViolations": 0,
+        "externalRequests": 0,
+        "policyViolations": 0
+      },
+      {
+        "engine": "firefox",
+        "browser_version": "155.0",
+        "layout": "mobile",
+        "file": "cosine-restarts.html",
+        "complete": true,
+        "metrics": 3,
+        "findings": 3,
+        "repeatedGroups": 0,
+        "axeViolations": 0,
+        "externalRequests": 0,
+        "policyViolations": 0
+      }
+    ]
+  },
+  "large_controlled_input": {
+    "observations": 200000,
+    "input_bytes": 4542865,
+    "input_sha256": "06ed11b2fa4e1776289df124e28507fcffd38e02448a11d399dfe136e1897fa1",
+    "before_findings": 0,
+    "after_findings": 1,
+    "low_step": 120000,
+    "high_step": 199999,
+    "measurements": {
+      "json": {
+        "seconds": 1.19,
+        "max_rss_kib": 75096,
+        "bytes": 2461
+      },
+      "html": {
+        "seconds": 1.31,
+        "max_rss_kib": 94256,
+        "bytes": 56659
+      }
+    },
+    "browser": [
+      {
+        "browser": "chromium",
+        "version": "153.0.8010.12",
+        "observations": 200000,
+        "findings": 1,
+        "pageErrors": 0
+      },
+      {
+        "browser": "firefox",
+        "version": "155.0",
+        "observations": 200000,
+        "findings": 1,
+        "pageErrors": 0
+      }
+    ],
+    "note": "One local scale check, not a performance comparison or accuracy estimate."
+  },
+  "screenshots": {
+    "resume-mobile.png": {
+      "sha256": "4f8a47022d1b0691ac21d08381d44806b850bbdc1e5170f780b3d23a055dd8e4",
+      "bytes": 109190
+    },
+    "resume-desktop.png": {
+      "sha256": "3dd7a575601d56dc3ce64a5ada6bec201a6f455cfa81b7320e89f0690189bff4",
+      "bytes": 131733
+    }
+  },
+  "public_audit_sha256": "e1a2233d6e5a763824964970ff04fae215fb1a7f9179adfc80e501fdf0c7089c",
+  "publication": "local only; no push, tag, package release or deployment"
+}
