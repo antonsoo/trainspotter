@@ -1,0 +1,64 @@
+{
+  "scope": "One fresh CLI process per output, installed wheel, synthetic timing-only CSV; not a model training benchmark",
+  "checked_at": "2026-10-09T06:55:24Z",
+  "machine": "Linux-6.18.40.1-microsoft-standard-WSL2-x86_64-with-glibc2.39",
+  "logical_cpus": 14,
+  "runtime": {
+    "python": "3.14.7",
+    "numpy": "2.5.3"
+  },
+  "input_bytes": 988905,
+  "input_sha256": "87df3522547029321eefa953c94ab189c6d88211fa3f0dc76d269d027a54f76e",
+  "wheel_sha256": "387ccc9e5910c19ceb42537684abdf7d53a676d4058618f8855d14293c10e655",
+  "generator": "header step,step_time followed by i,0.1 for i=0..49999 and i,0.3 for i=50000..99999; LF line endings",
+  "checks": [
+    {
+      "output": "json",
+      "observations": 100000,
+      "wall_seconds": 0.6006383370004187,
+      "gnu_time_seconds": 0.59,
+      "max_rss_kib": 58944,
+      "report_bytes": 2669,
+      "exit": 1
+    },
+    {
+      "output": "html",
+      "observations": 100000,
+      "wall_seconds": 0.6636210190008569,
+      "gnu_time_seconds": 0.66,
+      "max_rss_kib": 68656,
+      "report_bytes": 57711,
+      "exit": 1
+    }
+  ],
+  "timing": {
+    "status": "compared",
+    "axis": "step",
+    "source": "step_time",
+    "source_metric": "step_time",
+    "unit": "s/step",
+    "observations": 100000,
+    "invalid_observations": 0,
+    "baseline": {
+      "first_position": 0,
+      "last_position": 19999,
+      "interval_start_step": null,
+      "observations": 20000,
+      "invalid_observations": 0,
+      "median_seconds": 0.1
+    },
+    "recent": {
+      "first_position": 80000,
+      "last_position": 99999,
+      "interval_start_step": null,
+      "observations": 20000,
+      "invalid_observations": 0,
+      "median_seconds": 0.3
+    },
+    "ratio": 2.9999999999999996,
+    "reason": null,
+    "notes": [],
+    "min_window": 5,
+    "baseline_fraction": 0.2
+  }
+}

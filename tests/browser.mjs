@@ -1,4 +1,5 @@
 import assert from 'node:assert/strict';
+import { createHash } from 'node:crypto';
 import { spawnSync } from 'node:child_process';
 import { mkdtemp, mkdir, readFile, rm, writeFile } from 'node:fs/promises';
 import { tmpdir } from 'node:os';
@@ -10,6 +11,7 @@ import { chromium, firefox } from 'playwright';
 const root = resolve(dirname(fileURLToPath(import.meta.url)), '..');
 const scratch = await mkdtemp(join(tmpdir(), 'trainspotter-reports-'));
 const screenshotDir = process.env.TRAINSPOTTER_SCREENSHOTS;
+const timingScreenshotDir = process.env.TRAINSPOTTER_TIMING_SCREENSHOTS;
 const evidence = [];
 async function checkKeyboardScroll(page, region) {
   await region.focus();
@@ -35,6 +37,7 @@ try {
   assert.equal(build.status, 0, build.stderr);
   const reports = JSON.parse(build.stdout);
   if (screenshotDir) await mkdir(screenshotDir, { recursive: true });
+  if (timingScreenshotDir) await mkdir(timingScreenshotDir, { recursive: true });
   for (const [engine, launcher] of Object.entries({ chromium, firefox })) {
     const browser = await launcher.launch({ headless: true });
     try {
@@ -79,6 +82,10 @@ try {
               await page.keyboard.press('Enter');
               assert.equal(await page.locator('.input-evidence').getAttribute('open'), '');
               assert.equal(await page.locator('.input-evidence tbody tr').count(), report.metrics);
+              const timingDetails = page.locator('.timing-evidence details');
+              await timingDetails.locator('summary').focus();
+              await page.keyboard.press('Enter');
+              assert.equal(await timingDetails.getAttribute('open'), '');
               if (report.repeatedGroups) {
                 const repeat = page.locator('.repeated-evidence');
                 await repeat.locator('summary').focus();
@@ -108,6 +115,16 @@ try {
               assert.deepEqual(requests, []);
               assert.deepEqual(await page.evaluate(() => window.policyViolations), []);
               const json = JSON.parse(await readFile(join(scratch, report.file.replace(/\.html$/, '.json')), 'utf8'));
+              const timing = page.locator('.timing-evidence');
+              if (json.timing.status === 'unavailable') {
+                assert.match(await timing.innerText(), /Timing unavailable/i);
+                assert.ok((await timing.innerText()).includes(json.timing.reason));
+              } else {
+                assert.match(await timing.innerText(), /Timing comparison/i);
+                assert.equal(await timing.locator('tbody tr').count(), 2);
+                assert.ok((await timing.innerText()).includes(json.timing.source));
+                assert.ok((await timing.innerText()).includes(json.timing.unit));
+              }
               assert.equal(json.summary.input_complete, report.complete);
               if (screenshotDir && engine === 'chromium' && (
                 (layout === 'desktop' && report.file.startsWith('divergence')) ||
@@ -116,7 +133,17 @@ try {
               )) {
                 await page.screenshot({ path: join(screenshotDir, `${layout}-${report.file}.png`), fullPage: true });
               }
-              evidence.push({ engine, layout, ...report, axeViolations: 0, externalRequests: 0, policyViolations: 0 });
+              let timingScreenshot;
+              if (timingScreenshotDir && (
+                (layout === 'desktop' && (report.file === 'slow-with-steps.html' || (engine === 'chromium' && ['stable-without-steps.html', 'slow-broken-clock.html'].includes(report.file)))) ||
+                (layout === 'mobile' && engine === 'chromium' && report.file === 'slow-with-steps.html')
+              )) {
+                const file = `${layout === 'mobile' ? 'mobile' : engine}-${report.file.replace(/\.html$/, '')}.png`;
+                const path = join(timingScreenshotDir, file);
+                await timing.screenshot({ path });
+                timingScreenshot = { file, sha256: createHash('sha256').update(await readFile(path)).digest('hex') };
+              }
+              evidence.push({ engine, browser_version: browser.version(), layout, ...report, axeViolations: 0, externalRequests: 0, policyViolations: 0, ...(timingScreenshot ? { timingScreenshot } : {}) });
             } finally {
               await page.close();
             }

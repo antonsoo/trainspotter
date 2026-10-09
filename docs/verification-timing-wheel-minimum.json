@@ -1,0 +1,199 @@
+{
+  "verified_at": "2026-10-09T06:50:25.062794+00:00",
+  "scope": "Controlled paced numerical training captures; real measured clocks",
+  "cli": "installed executable",
+  "verifier_python": "3.12.12",
+  "machine": "Linux-6.18.40.1-microsoft-standard-WSL2-x86_64-with-glibc2.39",
+  "runtime": {
+    "python": "3.10.21",
+    "numpy": "1.24.0",
+    "timing_module_sha256": "1104789081dc783f0d53e372fd93c77ffe4f828e6ee9ca310c0c1b528f1e31e0"
+  },
+  "capture_sha256": "5c31c50e7d3b1c8ffc7efbc253fcfbc48a62e009b9d68aaf48bdaf089643b5e6",
+  "oracle": "Stdlib CSV, captured clocks, step differences and statistics.median",
+  "checks": [
+    {
+      "file": "stable-with-steps.csv",
+      "sha256": "d1ccaa58c8b258db707b1e259d17640855b922f90eaa1ff990014a2a1c70b3bf",
+      "readings": 71,
+      "timing_status": "compared",
+      "source": "wall_time(train/loss)",
+      "expected_ratio": 1.0024139520017437,
+      "reported_ratio": 1.0024139520017437,
+      "windows": {
+        "baseline": {
+          "first_position": 4,
+          "last_position": 56,
+          "interval_start_step": 0,
+          "observations": 14,
+          "invalid_observations": 0,
+          "median_seconds": 0.0030868467500795305
+        },
+        "recent": {
+          "first_position": 270,
+          "last_position": 400,
+          "interval_start_step": 260,
+          "observations": 14,
+          "invalid_observations": 0,
+          "median_seconds": 0.003094298249970961
+        }
+      },
+      "gate_exit": 0,
+      "require_timing_gate_exit": 0,
+      "throughput_findings": 0,
+      "capture_and_oracle_equal": true
+    },
+    {
+      "file": "stable-without-steps.csv",
+      "sha256": "768adbb209c8bd59cc4ef6a49e335aeb5daac295eccf3bf4c28ff735a621d6d1",
+      "readings": 71,
+      "timing_status": "unavailable",
+      "source": null,
+      "expected_ratio": null,
+      "reported_ratio": null,
+      "windows": null,
+      "gate_exit": 0,
+      "require_timing_gate_exit": 2,
+      "throughput_findings": 0,
+      "capture_and_oracle_equal": true
+    },
+    {
+      "file": "slow-with-steps.csv",
+      "sha256": "3f2a12ab42f4a8a9abc7ad95a7e9213b6e3d04a955386be2a709da5e9f4b9921",
+      "readings": 71,
+      "timing_status": "compared",
+      "source": "wall_time(train/loss)",
+      "expected_ratio": 2.944204287763826,
+      "reported_ratio": 2.944204287763826,
+      "windows": {
+        "baseline": {
+          "first_position": 4,
+          "last_position": 56,
+          "interval_start_step": 0,
+          "observations": 14,
+          "invalid_observations": 0,
+          "median_seconds": 0.003088526749934317
+        },
+        "recent": {
+          "first_position": 270,
+          "last_position": 400,
+          "interval_start_step": 260,
+          "observations": 14,
+          "invalid_observations": 0,
+          "median_seconds": 0.00909325370002989
+        }
+      },
+      "gate_exit": 1,
+      "require_timing_gate_exit": 1,
+      "throughput_findings": 1,
+      "capture_and_oracle_equal": true
+    },
+    {
+      "file": "slow-direct.csv",
+      "sha256": "e27da779df40b14ee2355cc3457919ea005a15cf1eee2b7b8db0050081a87f43",
+      "readings": 400,
+      "timing_status": "compared",
+      "source": "step_time",
+      "expected_ratio": 2.94393242190368,
+      "reported_ratio": 2.94393242190368,
+      "windows": {
+        "baseline": {
+          "first_position": 0,
+          "last_position": 79,
+          "interval_start_step": null,
+          "observations": 80,
+          "invalid_observations": 0,
+          "median_seconds": 0.0030878630000188423
+        },
+        "recent": {
+          "first_position": 320,
+          "last_position": 399,
+          "interval_start_step": null,
+          "observations": 80,
+          "invalid_observations": 0,
+          "median_seconds": 0.009090460000152234
+        }
+      },
+      "gate_exit": 1,
+      "require_timing_gate_exit": 1,
+      "throughput_findings": 1,
+      "capture_and_oracle_equal": true
+    },
+    {
+      "file": "slow-throughput.csv",
+      "sha256": "77e8d4f693969697ce76d49d99f589777832383fb693fb321b489294c9733818",
+      "readings": 400,
+      "timing_status": "compared",
+      "source": "1/throughput",
+      "expected_ratio": 2.94393242190368,
+      "reported_ratio": 2.94393242190368,
+      "windows": {
+        "baseline": {
+          "first_position": 0,
+          "last_position": 79,
+          "interval_start_step": null,
+          "observations": 80,
+          "invalid_observations": 0,
+          "median_seconds": 2.4123929687647205e-05
+        },
+        "recent": {
+          "first_position": 320,
+          "last_position": 399,
+          "interval_start_step": null,
+          "observations": 80,
+          "invalid_observations": 0,
+          "median_seconds": 7.101921875118933e-05
+        }
+      },
+      "gate_exit": 1,
+      "require_timing_gate_exit": 1,
+      "throughput_findings": 1,
+      "capture_and_oracle_equal": true
+    },
+    {
+      "file": "slow-missing-time.csv",
+      "sha256": "d14aaa6297f9ac2c7eb2a639e6a1c95bde69440d914d996608a9dca66c00d54d",
+      "readings": 71,
+      "timing_status": "unavailable",
+      "source": null,
+      "expected_ratio": null,
+      "reported_ratio": null,
+      "windows": null,
+      "gate_exit": 0,
+      "require_timing_gate_exit": 2,
+      "throughput_findings": 0,
+      "capture_and_oracle_equal": true
+    },
+    {
+      "file": "slow-broken-clock.csv",
+      "sha256": "0ebce7b12ba50ed70ec7bfa5b71c4aaeb59a2c0da31adc9a4ff5fe4c4a2ad2cc",
+      "readings": 71,
+      "timing_status": "unavailable",
+      "source": "wall_time(train/loss)",
+      "expected_ratio": null,
+      "reported_ratio": null,
+      "windows": {
+        "baseline": {
+          "first_position": 4,
+          "last_position": 56,
+          "interval_start_step": 0,
+          "observations": 14,
+          "invalid_observations": 1,
+          "median_seconds": null
+        },
+        "recent": {
+          "first_position": 270,
+          "last_position": 400,
+          "interval_start_step": 260,
+          "observations": 14,
+          "invalid_observations": 0,
+          "median_seconds": 0.00909325370002989
+        }
+      },
+      "gate_exit": 0,
+      "require_timing_gate_exit": 2,
+      "throughput_findings": 0,
+      "capture_and_oracle_equal": true
+    }
+  ]
+}

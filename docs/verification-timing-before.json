@@ -1,0 +1,224 @@
+{
+  "baseline_revision": "9d86d3396b9f1e3a21b2102f6f85fed00e612374",
+  "baseline_detector_sha256": "fa78e70e8fb12bd875710bd940d3de2753255c7407992a81469751b0dbd001e2",
+  "scope": "Previous detector loaded from git with the same current reader and captured CSV inputs",
+  "checks": [
+    {
+      "file": "slow-broken-clock.csv",
+      "sha256": "0ebce7b12ba50ed70ec7bfa5b71c4aaeb59a2c0da31adc9a4ff5fe4c4a2ad2cc",
+      "before": [],
+      "after": [],
+      "unchanged": true
+    },
+    {
+      "file": "slow-direct.csv",
+      "sha256": "e27da779df40b14ee2355cc3457919ea005a15cf1eee2b7b8db0050081a87f43",
+      "before": [
+        {
+          "detector": "throughput",
+          "title": "Throughput regression",
+          "severity": "warning",
+          "metric": "step_time",
+          "step_start": 320,
+          "step_end": 399,
+          "message": "Median step time over the last 80 points (0.00909 s/step) is 2.94x the early-run baseline (0.003088 s/step, first 80 points), derived from step_time.",
+          "evidence": {
+            "baseline_median_s": 0.0030878630000188423,
+            "recent_median_s": 0.009090460000152234,
+            "ratio": 2.94393242190368,
+            "window": 80,
+            "source": "step_time",
+            "unit": "s/step"
+          },
+          "fixes": [
+            "Check for a dataloader/IO bottleneck (e.g. a slow shard, network storage stall, growing prefetch queue).",
+            "Check for memory pressure/fragmentation causing more frequent allocator work or CPU-GPU sync.",
+            "Check other processes on the same GPU/host, or a thermal/power throttling event.",
+            "If a sequence-length or batch-size curriculum increases work per step by design, this may be expected -- not a regression."
+          ]
+        }
+      ],
+      "after": [
+        {
+          "detector": "throughput",
+          "title": "Throughput regression",
+          "severity": "warning",
+          "metric": "step_time",
+          "step_start": 320,
+          "step_end": 399,
+          "message": "Median step time over the last 80 points (0.00909 s/step) is 2.94x the early-run baseline (0.003088 s/step, first 80 points), derived from step_time.",
+          "evidence": {
+            "baseline_median_s": 0.0030878630000188423,
+            "recent_median_s": 0.009090460000152234,
+            "ratio": 2.94393242190368,
+            "window": 80,
+            "source": "step_time",
+            "unit": "s/step"
+          },
+          "fixes": [
+            "Check for a dataloader/IO bottleneck (e.g. a slow shard, network storage stall, growing prefetch queue).",
+            "Check for memory pressure/fragmentation causing more frequent allocator work or CPU-GPU sync.",
+            "Check other processes on the same GPU/host, or a thermal/power throttling event.",
+            "If a sequence-length or batch-size curriculum increases work per step by design, this may be expected -- not a regression."
+          ]
+        }
+      ],
+      "unchanged": true
+    },
+    {
+      "file": "slow-missing-time.csv",
+      "sha256": "d14aaa6297f9ac2c7eb2a639e6a1c95bde69440d914d996608a9dca66c00d54d",
+      "before": [],
+      "after": [],
+      "unchanged": true
+    },
+    {
+      "file": "slow-throughput.csv",
+      "sha256": "77e8d4f693969697ce76d49d99f589777832383fb693fb321b489294c9733818",
+      "before": [
+        {
+          "detector": "throughput",
+          "title": "Throughput regression",
+          "severity": "warning",
+          "metric": "1/throughput",
+          "step_start": 320,
+          "step_end": 399,
+          "message": "Median time per reported unit over the last 80 points (7.102e-05 s/unit) is 2.94x the early-run baseline (2.412e-05 s/unit, first 80 points), derived from 1/throughput.",
+          "evidence": {
+            "baseline_median_s": 2.4123929687647205e-05,
+            "recent_median_s": 7.101921875118933e-05,
+            "ratio": 2.94393242190368,
+            "window": 80,
+            "source": "1/throughput",
+            "unit": "s/unit"
+          },
+          "fixes": [
+            "Check for a dataloader/IO bottleneck (e.g. a slow shard, network storage stall, growing prefetch queue).",
+            "Check for memory pressure/fragmentation causing more frequent allocator work or CPU-GPU sync.",
+            "Check other processes on the same GPU/host, or a thermal/power throttling event.",
+            "If a sequence-length or batch-size curriculum increases work per step by design, this may be expected -- not a regression."
+          ]
+        }
+      ],
+      "after": [
+        {
+          "detector": "throughput",
+          "title": "Throughput regression",
+          "severity": "warning",
+          "metric": "1/throughput",
+          "step_start": 320,
+          "step_end": 399,
+          "message": "Median time per reported unit over the last 80 points (7.102e-05 s/unit) is 2.94x the early-run baseline (2.412e-05 s/unit, first 80 points), derived from 1/throughput.",
+          "evidence": {
+            "baseline_median_s": 2.4123929687647205e-05,
+            "recent_median_s": 7.101921875118933e-05,
+            "ratio": 2.94393242190368,
+            "window": 80,
+            "source": "1/throughput",
+            "unit": "s/unit"
+          },
+          "fixes": [
+            "Check for a dataloader/IO bottleneck (e.g. a slow shard, network storage stall, growing prefetch queue).",
+            "Check for memory pressure/fragmentation causing more frequent allocator work or CPU-GPU sync.",
+            "Check other processes on the same GPU/host, or a thermal/power throttling event.",
+            "If a sequence-length or batch-size curriculum increases work per step by design, this may be expected -- not a regression."
+          ]
+        }
+      ],
+      "unchanged": true
+    },
+    {
+      "file": "slow-with-steps.csv",
+      "sha256": "3f2a12ab42f4a8a9abc7ad95a7e9213b6e3d04a955386be2a709da5e9f4b9921",
+      "before": [
+        {
+          "detector": "throughput",
+          "title": "Throughput regression",
+          "severity": "warning",
+          "metric": "wall_time(train/loss)",
+          "step_start": 270,
+          "step_end": 400,
+          "message": "Median step time over the last 14 points (0.009093 s/step) is 2.94x the early-run baseline (0.003089 s/step, first 14 points), derived from wall_time(train/loss).",
+          "evidence": {
+            "baseline_median_s": 0.003088526749934317,
+            "recent_median_s": 0.00909325370002989,
+            "ratio": 2.944204287763826,
+            "window": 14,
+            "source": "wall_time(train/loss)",
+            "unit": "s/step"
+          },
+          "fixes": [
+            "Check for a dataloader/IO bottleneck (e.g. a slow shard, network storage stall, growing prefetch queue).",
+            "Check for memory pressure/fragmentation causing more frequent allocator work or CPU-GPU sync.",
+            "Check other processes on the same GPU/host, or a thermal/power throttling event.",
+            "If a sequence-length or batch-size curriculum increases work per step by design, this may be expected -- not a regression."
+          ]
+        }
+      ],
+      "after": [
+        {
+          "detector": "throughput",
+          "title": "Throughput regression",
+          "severity": "warning",
+          "metric": "wall_time(train/loss)",
+          "step_start": 270,
+          "step_end": 400,
+          "message": "Median step time over the last 14 points (0.009093 s/step) is 2.94x the early-run baseline (0.003089 s/step, first 14 points), derived from wall_time(train/loss).",
+          "evidence": {
+            "baseline_median_s": 0.003088526749934317,
+            "recent_median_s": 0.00909325370002989,
+            "ratio": 2.944204287763826,
+            "window": 14,
+            "source": "wall_time(train/loss)",
+            "unit": "s/step"
+          },
+          "fixes": [
+            "Check for a dataloader/IO bottleneck (e.g. a slow shard, network storage stall, growing prefetch queue).",
+            "Check for memory pressure/fragmentation causing more frequent allocator work or CPU-GPU sync.",
+            "Check other processes on the same GPU/host, or a thermal/power throttling event.",
+            "If a sequence-length or batch-size curriculum increases work per step by design, this may be expected -- not a regression."
+          ]
+        }
+      ],
+      "unchanged": true
+    },
+    {
+      "file": "stable-with-steps.csv",
+      "sha256": "d1ccaa58c8b258db707b1e259d17640855b922f90eaa1ff990014a2a1c70b3bf",
+      "before": [],
+      "after": [],
+      "unchanged": true
+    },
+    {
+      "file": "stable-without-steps.csv",
+      "sha256": "768adbb209c8bd59cc4ef6a49e335aeb5daac295eccf3bf4c28ff735a621d6d1",
+      "before": [
+        {
+          "detector": "throughput",
+          "title": "Throughput regression",
+          "severity": "warning",
+          "metric": "wall_time(train/loss)",
+          "step_start": 57,
+          "step_end": 70,
+          "message": "Median step time over the last 14 points (0.03094 s/step) is 2.51x the early-run baseline (0.01235 s/step, first 14 points), derived from wall_time(train/loss).",
+          "evidence": {
+            "baseline_median_s": 0.012347387000318122,
+            "recent_median_s": 0.030942982499709615,
+            "ratio": 2.5060348800043597,
+            "window": 14,
+            "source": "wall_time(train/loss)",
+            "unit": "s/step"
+          },
+          "fixes": [
+            "Check for a dataloader/IO bottleneck (e.g. a slow shard, network storage stall, growing prefetch queue).",
+            "Check for memory pressure/fragmentation causing more frequent allocator work or CPU-GPU sync.",
+            "Check other processes on the same GPU/host, or a thermal/power throttling event.",
+            "If a sequence-length or batch-size curriculum increases work per step by design, this may be expected -- not a regression."
+          ]
+        }
+      ],
+      "after": [],
+      "unchanged": false
+    }
+  ]
+}
