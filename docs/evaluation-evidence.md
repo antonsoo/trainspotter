@@ -131,3 +131,12 @@ The independent replay recalculated 16 means from predictions and targets,
 with maximum absolute difference 8.89e-16, and checked 40 fixed-model passes.
 These are controlled workflow checks, not a general sensitivity or specificity
 estimate.
+
+Verification used a clean checkout with a fresh locked installation: ruff and
+mypy passed, 419 checks passed, the wheel built from its source distribution,
+and the site builder produced nine reports. The seven captured logs also
+passed through a fresh wheel installation on Python 3.10.21 with NumPy 1.24.0.
+Chromium and Firefox passed 124 report workflows at desktop and 320-pixel
+widths, including keyboard use, accessibility, CSP, and zero external requests.
+Both retained screenshots were opened and inspected; narrow charts scroll
+horizontally while findings wrap. These changes are local and unreleased.
