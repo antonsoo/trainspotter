@@ -1,64 +1,73 @@
-"""Overfitting-onset detector.
+"""Evaluation regression, with contemporaneous training evidence when available.
 
-**Algorithm.** Requires both a train and an eval metric (default
-`train/loss`, `eval/loss`). Find the step `k*` of the eval metric's running
-minimum (the best checkpoint so far at every point). After `k*`, look at
-the remaining eval points: fit an OLS slope (via `detectors.base.ols_slope`)
-and require it to be positive with p < `alpha` (default 0.1 -- looser than
-the divergence test, because overfitting onset is a real, common event we
-want to catch early rather than miss). Also require at least
-`min_points_after` (default 3) eval points after `k*`, and that eval has
-risen at least `min_rise` (default 3%) above its minimum.
+Only the final contiguous finite evaluation segment is assessed. Its lowest
+logged value is compared with its last value. The original rise thresholds
+are retained: a positive OLS slope with p < 0.1 and >=3% rise, or a >=50%
+final rise, or >=25% with the penultimate value >=10% above the minimum.
+From 10% the severity is warning; from 50%, error. A >=5% rise with at least
+eight later evaluations and slope p < 0.001 is also a warning. Percentages
+use the absolute minimum for negative losses. A zero baseline has no relative
+rise: an observed increase is informational, with its raw endpoints retained.
 
-**Severity follows the size of the rise.** Below `warn_rise` (default 10%)
-the finding is `info`; from there it is a `warning`; from `error_rise`
-(default 50%) an `error`: the last checkpoint is then far worse than the
-best one. A rise of `clear_rise` (default 5%) is already a `warning` when
-the trend is beyond doubt (at least eight evaluations after the best one,
-slope p < 0.001), so a slow, steady onset is still caught early.
+The OLS p-values are heuristic diagnostics, not calibrated probabilities of
+overfitting: the minimum is selected from the same curve, readings can be
+correlated, and the shared slope routine uses a normal approximation.
 
-A run with only a handful of evaluations cannot pass a slope test. It is
-still reported when its last evaluation is at least `error_rise` above the
-best, or `far_rise` (default 25%) above with the evaluation before it also
-at least `warn_rise` above: 26 public runs with three or four evaluations ended a
-quarter or more above their best evaluation loss, too few for the trend test to say
-so. Of the public `Trainer` logs with at least three evaluations (`studies/hub-census/`),
-about one run in five ends 5% or more above its best and one in twenty ends 50% above; a 1% rise, the earlier bar for a
-warning, is within what a small evaluation set does by chance.
+"Possible overfitting" additionally requires falling training loss AND rising
+evaluation loss within their shared step interval, with at least three finite
+observations of each. Later training after evaluation ended cannot support
+this claim. The exact observed spans are retained; neither curve is interpolated.
+Nonfinite training within the shared interval prevents its slope assessment.
 
-When the training loss kept falling over the same range the finding is
-titled "Overfitting onset"; when it did not, or the log has no training
-loss, it is "Evaluation loss rising" and makes no claim about the cause.
-
-**False-positive modes.**
-- A noisy eval set (small validation split) can show a spurious upward
-  eval trend after the true best point by chance; see the `eval_noise`
-  detector, which flags exactly this risk and should be read alongside
-  this one.
-- A change in eval *data* mid-run (curriculum, harder eval subset added
-  later) looks identical to genuine overfitting.
-- LR schedule changes near `k*` (e.g. decay finishing) can cause both
-  metrics to move in ways that coincidentally resemble this pattern.
-- Divergence trivially satisfies this test too: an exploding eval loss is
-  technically "getting worse after the best point." `detectors.run_all`
-  downgrades a finding here to `info` when its step range overlaps a
-  `divergence` finding, or an error-severity `spikes` finding, rather than
-  reporting the same explosion twice under two different names -- calling
-  this detector directly (not through `run_all`) skips that attribution.
+A change in evaluation data or metric definition can produce the same pattern.
+Aggregate logs cannot establish checkpoint uncertainty or whether a checkpoint
+was saved. run_all additionally attributes overlapping divergence/spike findings.
 """
 
 from __future__ import annotations
+
+import math
 
 import numpy as np
 
 from trainspotter.model import Run
 
-from .base import Detector, Finding, Severity, format_p, ols_slope, series_arrays
+from .base import (
+    Detector,
+    Finding,
+    FloatArray,
+    Severity,
+    finite_spans,
+    format_p,
+    ols_slope,
+    series_arrays,
+)
 
 
-def _rise(fraction: float) -> str:
-    """5.6% for an ordinary rise; a multiple once the percentage stops being readable."""
-    return f"{fraction * 100:.1f}%" if fraction < 10 else f"{fraction + 1:.0f}x its minimum"
+def _relative_rise(best: float, current: float) -> float:
+    if best == 0:
+        return math.inf if current > 0 else 0.0
+    # Subtract after dividing so finite opposite-sign endpoints do not overflow.
+    return current / abs(best) - math.copysign(1.0, best)
+
+
+def _rise(fraction: float, best: float) -> str:
+    if best == 0:
+        return "relative rise unavailable from a zero baseline"
+    if not math.isfinite(fraction):
+        return "relative rise exceeds numeric range"
+    if best < 0:
+        return (
+            f"{fraction * 100:.1f}% of the absolute minimum"
+            if fraction < 10
+            else f"{fraction:.4g} times the absolute minimum higher"
+        )
+    return f"{fraction * 100:.1f}%" if fraction < 10 else f"{fraction + 1:.4g}x its minimum"
+
+
+def _scaled_slope(steps: FloatArray, values: FloatArray) -> tuple[float, float, float]:
+    scale = float(np.max(np.abs(values)))
+    return ols_slope(steps, values / scale if scale else values)
 
 
 class OverfittingDetector(Detector):
@@ -90,88 +99,147 @@ class OverfittingDetector(Detector):
         eval_series = run.get(self.eval_metric)
         if eval_series is None or len(eval_series) < 3:
             return []
-        eval_steps, eval_values = series_arrays(eval_series)
+        all_steps, all_values = series_arrays(eval_series)
+        spans = finite_spans(all_values)
+        # This detector describes the end of the logged run. A final invalid
+        # evaluation is reported by divergence, not silently replaced by an earlier one.
+        if not spans or spans[-1][1] != len(all_values):
+            return []
+        start, stop = spans[-1]
+        eval_steps, eval_values = all_steps[start:stop], all_values[start:stop]
+        if len(eval_values) < 3:
+            return []
         best_i = int(np.argmin(eval_values))
-        after = eval_values[best_i:]
-        after_steps = eval_steps[best_i:]
+        after, after_steps = eval_values[best_i:], eval_steps[best_i:]
         tail = after[1:]
         if len(tail) == 0:
             return []
-
-        best_value = float(eval_values[best_i])
-        current_value = float(eval_values[-1])
-        rise = (current_value - best_value) / (abs(best_value) + 1e-12)
+        best_value, current_value = float(after[0]), float(after[-1])
+        rise = _relative_rise(best_value, current_value)
         slope, p_value = 0.0, 1.0
-        if len(tail) >= self.min_points_after:
-            slope, _se, p_value = ols_slope(after_steps, after)
+        slope_available = len(tail) >= self.min_points_after and len(after) >= 3
+        if slope_available:
+            slope, _se, p_value = _scaled_slope(after_steps, after)
         trend = slope > 0 and p_value < self.alpha and rise >= self.min_rise
-        # With three or four evaluations in the whole run no slope can be significant.
-        # A last evaluation far above the best one is still worth saying: half again
-        # above it, or a quarter above with the one before it also clearly higher.
         far_above = rise >= self.error_rise or (
             rise >= self.far_rise
             and len(tail) >= 2
-            and float(tail[-2]) >= best_value * (1 + self.warn_rise)
+            and _relative_rise(best_value, float(tail[-2])) >= self.warn_rise
         )
         if not (trend or far_above):
             return []
-
-        train_series = run.get(self.train_metric)
-        train_note = ""
-        if train_series is not None and len(train_series) >= 2:
-            t_steps, t_values = series_arrays(train_series)
-            mask = t_steps >= eval_steps[best_i]
-            if mask.sum() >= 2:
-                t_slope, _t_se, t_p = ols_slope(t_steps[mask], t_values[mask])
-                if t_slope < 0 and t_p < 0.2:
-                    train_note = (
-                        f" Meanwhile {self.train_metric} kept falling over the same range "
-                        "(slope < 0) -- the classic overfitting signature."
-                    )
-
-        # A small rise is still a warning when the trend is beyond doubt: catching the
-        # onset early is the point, and eight evaluations rising at p < 0.001 is not noise.
-        clear_trend = rise >= self.clear_rise and p_value < 0.001 and len(after) - 1 >= 8
-        evidence = (
-            f"slope {format_p(p_value)}"
+        train_note, training_evidence = self._training_evidence(run, after_steps, after)
+        clear_trend = rise >= self.clear_rise and p_value < 0.001 and len(tail) >= 8
+        slope_note = (
+            f"slope diagnostic {format_p(p_value)}"
             if trend
+            else "rise threshold met; slope criterion not met"
+            if slope_available
             else f"over {len(tail)} evaluation{'s' if len(tail) != 1 else ''}, too few for a trend test"
         )
         severity: Severity = (
-            "error"
+            "info"
+            if best_value == 0
+            else "error"
             if rise >= self.error_rise
             else "warning"
             if rise >= self.warn_rise or clear_trend
             else "info"
         )
+        segment_note = (
+            f" Assessment starts at step {int(eval_steps[0])}, after the last non-finite evaluation."
+            if start
+            else ""
+        )
         return [
             Finding(
                 detector=self.name,
-                # Without a falling training loss beside it, a rising evaluation loss is
-                # only that: there may be no training loss in the log at all.
-                title="Overfitting onset" if train_note else "Evaluation loss rising",
+                title="Possible overfitting" if train_note else "Evaluation loss rising",
                 severity=severity,
                 metric=self.eval_metric,
-                step_start=int(eval_steps[best_i]),
-                step_end=int(eval_steps[-1]),
+                step_start=int(after_steps[0]),
+                step_end=int(after_steps[-1]),
                 message=(
-                    f"Best {self.eval_metric} was {best_value:.4g} at step "
-                    f"{int(eval_steps[best_i])}; it's since risen to {current_value:.4g} "
-                    f"({_rise(rise)}, {evidence})."
+                    f"Lowest logged {self.eval_metric} in this finite segment was {best_value:.4g} "
+                    f"at step {int(after_steps[0])}; the last value is {current_value:.4g} "
+                    f"({_rise(rise, best_value)}, {slope_note})."
                 )
+                + segment_note
                 + train_note,
                 evidence={
-                    "best_step": int(eval_steps[best_i]),
+                    "segment_start": int(eval_steps[0]),
+                    "segment_observations": len(eval_values),
+                    "best_step": int(after_steps[0]),
                     "best_value": best_value,
                     "current_value": current_value,
-                    "relative_rise": rise,
+                    "relative_rise": rise
+                    if math.isfinite(rise)
+                    else (
+                        "unavailable: zero baseline" if best_value == 0 else "exceeds numeric range"
+                    ),
                     "slope_p_value": p_value,
+                    "slope_status": "assessed" if slope_available else "insufficient_observations",
+                    **training_evidence,
                 },
                 fixes=[
-                    f"Use the checkpoint at step {int(eval_steps[best_i])} (best {self.eval_metric}), not the last one.",
-                    "Add or increase regularization: weight decay, dropout, data augmentation.",
-                    "Reduce model capacity or train for fewer steps / add early stopping.",
-                    "Get more training data, or de-duplicate against the eval set if overlap is possible.",
+                    f"If a checkpoint was saved near step {int(after_steps[0])}, compare it with the last saved checkpoint on the same evaluation examples.",
+                    "Check evaluation-data and metric-definition changes before attributing the rise to training.",
+                    "If the regression persists on a comparable evaluation set, consider early stopping, regularization, or more training data.",
                 ],
             )
         ]
+
+    def _training_evidence(
+        self, run: Run, eval_steps: FloatArray, eval_values: FloatArray
+    ) -> tuple[str, dict[str, float | int | str]]:
+        series = run.get(self.train_metric)
+        evidence: dict[str, float | int | str] = {"training_status": "missing"}
+        if series is None or not len(series):
+            return "", evidence
+        train_steps, train_values = series_arrays(series)
+        lo = max(float(eval_steps[0]), float(train_steps[0]))
+        hi = min(float(eval_steps[-1]), float(train_steps[-1]))
+        tm = (train_steps >= lo) & (train_steps <= hi)
+        em = (eval_steps >= lo) & (eval_steps <= hi)
+        evidence.update(
+            {
+                "training_status": "insufficient_overlap",
+                "training_observations": int(tm.sum()),
+                "overlap_eval_observations": int(em.sum()),
+            }
+        )
+        if tm.sum() < 3 or em.sum() < 3:
+            return "", evidence
+        ts, tv = train_steps[tm], train_values[tm]
+        es, ev = eval_steps[em], eval_values[em]
+        evidence.update(
+            {
+                "training_step_start": int(ts[0]),
+                "training_step_end": int(ts[-1]),
+                "overlap_eval_step_start": int(es[0]),
+                "overlap_eval_step_end": int(es[-1]),
+            }
+        )
+        if not np.all(np.isfinite(tv)):
+            evidence["training_status"] = "nonfinite_overlap"
+            return "", evidence
+        t_slope, _t_se, t_p = _scaled_slope(ts, tv)
+        e_slope, _e_se, e_p = _scaled_slope(es, ev)
+        evidence.update(
+            {
+                "training_status": "opposing_trends_not_established",
+                "training_scaled_slope": t_slope,
+                "training_slope_p_value": t_p,
+                "overlap_eval_scaled_slope": e_slope,
+                "overlap_eval_slope_p_value": e_p,
+            }
+        )
+        if t_slope >= 0 or t_p >= 0.2 or e_slope <= 0 or e_p >= self.alpha:
+            return "", evidence
+        evidence["training_status"] = "opposing_trends"
+        return (
+            f" Within their shared interval, {self.train_metric} trends down "
+            f"({len(ts)} readings, steps {int(ts[0])}-{int(ts[-1])}) while "
+            f"{self.eval_metric} trends up ({len(es)} readings, steps {int(es[0])}-{int(es[-1])}). "
+            "This is consistent with overfitting, but does not establish its cause."
+        ), evidence

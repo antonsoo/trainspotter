@@ -245,7 +245,7 @@ def test_a_rising_evaluation_loss_is_not_called_divergence() -> None:
     run.finalize()
     by_detector = {f.detector: f for f in run_all(run)}
     assert "divergence" not in by_detector
-    assert by_detector["overfitting"].title == "Overfitting onset"
+    assert by_detector["overfitting"].title == "Possible overfitting"
     assert by_detector["overfitting"].severity == "error"
 
 

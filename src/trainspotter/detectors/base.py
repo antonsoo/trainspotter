@@ -107,6 +107,12 @@ def group_consecutive(indices: list[int], gap: int = 1) -> list[list[int]]:
     return groups
 
 
+def finite_spans(values: FloatArray) -> list[tuple[int, int]]:
+    """Half-open contiguous spans; invalid readings are gaps, not observations."""
+    boundaries = np.flatnonzero(np.diff(np.r_[False, np.isfinite(values), False]))
+    return [(int(start), int(stop)) for start, stop in boundaries.reshape(-1, 2)]
+
+
 def ols_slope(x: FloatArray, y: FloatArray) -> tuple[float, float, float]:
     """Ordinary least squares slope of y on x, its standard error, and the
     two-sided p-value against H0: slope == 0, via a normal approximation to
