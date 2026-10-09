@@ -9,12 +9,17 @@ and runs three independent checks:
    than `min_steps_for_warmup_check` (default 20) points, there was
    effectively no ramp-up. Reported as `info`: it is a configuration
    choice (and `transformers.Trainer`'s default), not a fault.
-2. **Non-monotonic after peak.** Once LR has reached its running maximum,
-   almost every schedule (step, cosine, linear, polynomial decay) is
-   non-increasing from then on. A later value that exceeds the running
-   maximum by more than `bump_tol` (default 1%) -- outside the first
-   `peak_grace_frac` (default 5%) of steps, to allow a slightly noisy
-   peak -- is flagged as unexpected.
+2. **Rise after decay.** Walk the observations in time order. A decline
+   exceeding `bump_tol` (default 1% of its preceding peak) establishes a
+   falling phase. A subsequent rise exceeding the same fraction of the
+   larger of the preceding peak and the new value establishes a rebound.
+   Report its preceding peak, low point, first confirmation and high point,
+   even if it never reaches the preceding peak. Small wiggles and plateaus
+   stay in the same phase; another material decline starts a new phase.
+   Optional `peak_grace_frac` ignores lows inside an initial fraction of
+   logged points. It now defaults to zero: the decline check separates a
+   rebound from warmup, and appending later points must not erase an early
+   rebound. An explicit grace uses point count, not elapsed steps.
 3. **Discontinuity.** A step-to-step LR change whose absolute size exceeds
    `jump_frac` (default 20%) of the LR's whole observed range
    (`max(lr) - min(lr)` over the run) -- a jump big enough, relative to
@@ -25,12 +30,14 @@ and runs three independent checks:
    collapse to ~0 and then call the very next real step of the ramp an
    "outlier" -- a false positive trainspotter hit on its own warmup demo
    data during development. Measuring jumps against the run's total range
-   instead sidesteps that failure mode entirely.
+   instead sidesteps that failure mode entirely. An upward discontinuity
+   already covered by a rebound is reported only as that rebound.
 
 **False-positive modes.**
 - Cyclic schedules (cosine with restarts, one-cycle repeated, cyclical
   LR) are *designed* to be non-monotonic; checks 2 and 3 will fire
-  repeatedly and should be ignored for those schedules.
+  repeatedly. All findings here are informational: the log cannot tell
+  whether a rise was intended, a resume mistake or an overrun of a schedule.
 - A schedule with genuinely few logged points (coarse logging interval)
   can have single steps that cover a large fraction of the LR range by
   construction, not because anything broke. Check 3 only reports a jump
@@ -44,6 +51,9 @@ and runs three independent checks:
 """
 
 from __future__ import annotations
+
+import math
+from bisect import bisect_right
 
 import numpy as np
 
@@ -65,7 +75,7 @@ class LRScheduleDetector(Detector):
         warmup_frac: float = 0.9,
         min_steps_for_warmup_check: int = 20,
         bump_tol: float = 0.01,
-        peak_grace_frac: float = 0.05,
+        peak_grace_frac: float = 0.0,
         jump_frac: float = 0.2,
     ) -> None:
         self.metric = metric
@@ -77,13 +87,20 @@ class LRScheduleDetector(Detector):
 
     def _run(self, run: Run) -> list[Finding]:
         series = run.get(self.metric)
-        if series is None or len(series) < 5:
+        if series is None or len(series) < 3:
             return []
         steps, values = series_arrays(series)
         findings: list[Finding] = []
         findings.extend(self._missing_warmup(steps, values))
-        findings.extend(self._non_monotonic_after_peak(steps, values))
-        findings.extend(self._discontinuity(steps, values))
+        rebounds = self._rises_after_decay(steps, values)
+        findings.extend(rebounds)
+        starts = [f.step_start for f in rebounds]
+        for jump in self._discontinuity(steps, values):
+            prior = bisect_right(starts, jump.step_start) - 1
+            rising = float(jump.evidence["after"]) > float(jump.evidence["before"])
+            if rising and prior >= 0 and jump.step_end <= rebounds[prior].step_end:
+                continue
+            findings.append(jump)
         return findings
 
     def _missing_warmup(self, steps: FloatArray, values: FloatArray) -> list[Finding]:
@@ -117,43 +134,82 @@ class LRScheduleDetector(Detector):
             ]
         return []
 
-    def _non_monotonic_after_peak(self, steps: FloatArray, values: FloatArray) -> list[Finding]:
-        n = len(values)
-        peak_i = int(np.argmax(values))
-        grace = int(n * self.peak_grace_frac)
-        start = max(peak_i + 1, grace)
-        if start >= n:
-            return []
-        running_max = values[peak_i]
-        peak_val = float(values[peak_i])
-        bumps = []
-        for i in range(start, n):
-            running_max = max(running_max, values[i])
-            if values[i] > peak_val * (1 + self.bump_tol) and i > peak_i:
-                bumps.append(i)
-        if not bumps:
-            return []
-        i = bumps[0]
-        return [
-            Finding(
-                detector=self.name,
-                title="LR increased after its peak",
-                severity="info",
-                metric=self.metric,
-                step_start=int(steps[i]),
-                step_end=int(steps[bumps[-1]]),
-                message=(
-                    f"lr rose to {values[i]:.4g} at step {int(steps[i])}, above its "
-                    f"earlier peak of {peak_val:.4g} at step {int(steps[peak_i])}. "
-                    "Expected for cyclic/restart schedules; unexpected otherwise."
-                ),
-                evidence={"earlier_peak": peak_val, "peak_step": int(steps[peak_i])},
-                fixes=[
-                    "If you're using a cyclic schedule or warm restarts, this is expected -- ignore.",
-                    "Otherwise, check the scheduler's state was restored correctly after a checkpoint resume.",
-                ],
+    def _rises_after_decay(self, steps: FloatArray, values: FloatArray) -> list[Finding]:
+        grace = int(len(values) * self.peak_grace_frac)
+        findings: list[Finding] = []
+        peak: int | None = None
+        low: int | None = None
+        # Indices of the preceding peak, the low, and the first confirmed rise.
+        # Once confirmed, `peak` follows this episode's high until a material fall.
+        episode: tuple[int, int, int] | None = None
+
+        def finish() -> None:
+            if episode is None or peak is None:
+                return
+            previous, bottom, confirmed = episode
+            if bottom < grace:
+                return
+            earlier = float(values[previous])
+            minimum = float(values[bottom])
+            maximum = float(values[peak])
+            findings.append(
+                Finding(
+                    detector=self.name,
+                    title="LR rose after decay",
+                    severity="info",
+                    metric=self.metric,
+                    step_start=int(steps[bottom]),
+                    step_end=int(steps[peak]),
+                    message=(
+                        f"{self.metric} fell from {earlier:.4g} at step {int(steps[previous])} "
+                        f"to {minimum:.4g} at step {int(steps[bottom])}, then rose to "
+                        f"{maximum:.4g} at step {int(steps[peak])}. "
+                        "This can be an intended cycle or restart; the log alone does not "
+                        "establish a scheduler fault."
+                    ),
+                    evidence={
+                        "earlier_peak": earlier,
+                        "peak_step": int(steps[previous]),
+                        "low_value": minimum,
+                        "low_step": int(steps[bottom]),
+                        "high_value": maximum,
+                        "high_step": int(steps[peak]),
+                        "confirmed_step": int(steps[confirmed]),
+                        "rise_fraction_of_peak": (maximum - minimum) / max(earlier, maximum),
+                        "bump_tolerance": self.bump_tol,
+                    },
+                    fixes=[
+                        "If this matches an intended cycle or warm restart, no correction is needed.",
+                        "Otherwise, check that scheduler state was restored with the optimizer after a checkpoint resume.",
+                        "Check the scheduler's configured horizon and how often scheduler.step() is called.",
+                    ],
+                )
             )
-        ]
+
+        for i, raw_value in enumerate(values):
+            value = float(raw_value)
+            if not math.isfinite(value) or value < 0:
+                # Do not join a decline and a rise across an unusable observation.
+                # Already observed episodes remain reportable before the gap.
+                finish()
+                peak, low, episode = None, None, None
+            elif peak is None:
+                peak = i
+            elif low is None:
+                peak_value = float(values[peak])
+                if value >= peak_value:
+                    peak = i
+                elif peak_value - value > self.bump_tol * peak_value:
+                    finish()
+                    episode = None
+                    low = i
+            elif value <= values[low]:
+                low = i
+            elif value - float(values[low]) > self.bump_tol * max(float(values[peak]), value):
+                episode = peak, low, i
+                peak, low = i, None
+        finish()
+        return findings
 
     def _discontinuity(self, steps: FloatArray, values: FloatArray) -> list[Finding]:
         if len(values) < 6:

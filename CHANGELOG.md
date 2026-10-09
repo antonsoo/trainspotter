@@ -6,6 +6,19 @@ and this project uses [Semantic Versioning](https://semver.org/).
 
 ## Unreleased
 
+### Learning-rate reversals
+
+- Repair the check for LR rising after decay: it previously looked for a
+  value above the entire run's maximum and could never report a rise. Walk
+  the observations in order, retaining the preceding peak, low, first
+  confirmation and high of each rebound, including below the original peak.
+- Keep reversals informational: intentional cycles and warm restarts can
+  produce the same shape. An upward discontinuity already described by a
+  rebound is not reported twice. Unusable LR readings break the evidence chain.
+- Default `peak_grace_frac` to zero so appended observations cannot hide an
+  earlier rebound. Explicit nonzero values still ignore an initial fraction
+  of logged points. Ordinary warmup is excluded by requiring a preceding decline.
+
 ### Timing evidence and gates
 
 - Stop deriving seconds per training step from a reader's row-index fallback.

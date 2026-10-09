@@ -93,6 +93,28 @@ def test_watch_rechecks_rewritten_history(tmp_path, monkeypatch, capsys):
     assert "Previously read data changed" in out
 
 
+def test_watch_reports_each_new_lr_rise_once(tmp_path, monkeypatch, capsys):
+    path = tmp_path / "lr.csv"
+    values = [0.1, 0.05, 0.01]
+
+    def write():
+        path.write_text("step,learning_rate\n" + "".join(
+            f"{i},{v}\n" for i, v in enumerate(values)
+        ))
+
+    def append(more):
+        values.extend(more)
+        write()
+
+    write()
+    _polls(monkeypatch, [lambda: append([0.02]), lambda: append([0.03, 0.04]),
+                         lambda: append([0.001, 0.02]), lambda: append([0.03])])
+    assert cli.main(["watch", str(path), "--fail-on", "warning"]) == 0
+    out = capsys.readouterr().out
+    assert out.count("LR rose after decay") == 2
+    assert "steps 2-3" in out and "steps 6-7" in out
+
+
 def test_watch_keeps_the_selected_run_when_another_grows_larger(tmp_path, monkeypatch, capsys):
     path = tmp_path / "chart.csv"
     header = "Step,a - loss,a - loss__MIN,a - loss__MAX,b - loss,b - loss__MIN,b - loss__MAX\n"
