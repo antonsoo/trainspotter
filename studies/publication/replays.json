@@ -1,0 +1,162 @@
+{
+  "runtime_source_commit": "3e5ef24",
+  "site_source_commit": "e26e11b",
+  "fresh_captures": {
+    "evaluation": {
+      "files_sha256": {
+        "fixed-cohort-switch.csv": "b0fe69af2334496222ab7a954b55982a5ec6b1d223a4d9845e609fe55edfdf4a",
+        "fixed-repeat.csv": "51b45ce045a88dbaf919d93e47ce18f8f05ff3c11656fa8bfd983ef96fb9342a",
+        "late-training.csv": "236fb0e9407ad6fa22bfbe64591aab17620aedfba3a3d77d68d06d9ca58500d3",
+        "nan-final.csv": "c8ab2f74c2bc0842200ef4d363b4aa18f0a4d3f912f1d63552d7c1a2f337d448",
+        "nan-gap.csv": "2ee1b5f4e7596bd63d007aaf2f798ca7c91cc3c6f3ad2e424ee4f2ad19d4c3a0",
+        "predictions.csv": "2a5a2301f611739cee6720b7a33b23b3528b3fad776e5f2fb0ddcae02c3be5a8",
+        "regression-full.csv": "d59ec7206eeeafc06c142980bbf047de8cb69fe2cecb13737929b96a0af40bf5",
+        "smooth-six.csv": "fa921200fbd63f3f1ab039074195fce3f14eb306c3ac2c60827faec92927eb64"
+      },
+      "regenerated_csvs_byte_identical": true,
+      "fresh_capture_timestamp": "2026-10-10T01:17:06.085135+00:00"
+    },
+    "schedulers": {
+      "files_sha256": {
+        "cosine-control.csv": "bdb6cd80cade444ea14b263a95d6ce426b06a5c0f8eb4420ef8af5d32d2d5dfc",
+        "cosine-overrun-sparse.csv": "237d53bcfefaa09876aacd0e7d0f3831fed420cca0b67db546552ccf1b83bd52",
+        "cosine-overrun.csv": "ed66b2f53db87ce756301a1d2a5fb4b46286f0e196c69469b2b62289ef5dbf87",
+        "cosine-restarts.csv": "cad456233d479915b31437265f6a644fff93e725c3d3435bb1326fdc816649ad",
+        "linear-control-sparse.csv": "4b9d7d7d1304572d5b974d524a56bbb665c1464f6296b54733c5c9e94f4e442f",
+        "linear-control.csv": "6777aeea9e9ab04c05fe03fbb5ad79bcfb637bf842ddbe38ffad4391d8da9bee",
+        "linear-resume-reset-sparse.csv": "ac08b5a7085877a2ddd89b444f39640ed86cb4dabdf0ddceae7c2006815fbee9",
+        "linear-resume-reset.csv": "9380038a615a2087b6ea19829932c8fbcf94e037e4f8e547d0bc85c049dc7596",
+        "linear-resume-restored.csv": "6777aeea9e9ab04c05fe03fbb5ad79bcfb637bf842ddbe38ffad4391d8da9bee",
+        "one-cycle-control.csv": "8dc938ed84894107002a60c36b11adde98b82ac49180a4e5f59fc4a59e66b897",
+        "step-decay-control.csv": "98fea97b397df2e0f3febf9d7e307892031898b5a7aaf67138358815b4fd6374"
+      },
+      "regenerated_csvs_byte_identical": true,
+      "fresh_capture_timestamp": "2026-10-10T01:17:07.965714+00:00"
+    }
+  },
+  "public_log_audits": {
+    "evaluation": {
+      "matches_retained_except_timing": true,
+      "seconds": 76.518,
+      "counts": {
+        "manifest.json": {
+          "listed": 3208,
+          "read": 3145,
+          "with_eval": 1512,
+          "eval_noise_before": 86,
+          "eval_noise_after": 52,
+          "eval_noise_removed_runs": 35,
+          "eval_noise_added_runs": 0,
+          "overfitting_before": 220,
+          "overfitting_after": 221,
+          "overfitting_removed_runs": 0,
+          "overfitting_added_runs": 1,
+          "training_attribution_before": 190,
+          "training_attribution_after": 170,
+          "training_attribution_removed": 21,
+          "training_attribution_added": 1,
+          "no_usable_eval": 1633,
+          "unavailable": 63,
+          "structurally_changed_runs": 59
+        },
+        "manifest-heldout.json": {
+          "listed": 1051,
+          "read": 1032,
+          "with_eval": 507,
+          "eval_noise_before": 33,
+          "eval_noise_after": 16,
+          "eval_noise_removed_runs": 17,
+          "eval_noise_added_runs": 0,
+          "overfitting_before": 79,
+          "overfitting_after": 79,
+          "overfitting_removed_runs": 0,
+          "overfitting_added_runs": 0,
+          "training_attribution_before": 72,
+          "training_attribution_after": 64,
+          "training_attribution_removed": 8,
+          "training_attribution_added": 0,
+          "no_usable_eval": 525,
+          "structurally_changed_runs": 25,
+          "unavailable": 19
+        }
+      }
+    },
+    "scheduler": {
+      "matches_retained_except_timing": true,
+      "seconds": 78.005,
+      "counts": {
+        "manifest.json": {
+          "listed": 3208,
+          "read": 3145,
+          "with_lr": 3039,
+          "lr_observations": 3999405,
+          "before_findings": 590,
+          "after_findings": 654,
+          "rebound_episodes": 119,
+          "runs_with_rebounds": 60,
+          "no_usable_lr": 106,
+          "unavailable": 63,
+          "changed_runs": 60
+        },
+        "manifest-heldout.json": {
+          "listed": 1051,
+          "read": 1032,
+          "with_lr": 1013,
+          "lr_observations": 1048940,
+          "before_findings": 188,
+          "after_findings": 218,
+          "rebound_episodes": 55,
+          "runs_with_rebounds": 22,
+          "changed_runs": 22,
+          "no_usable_lr": 19,
+          "unavailable": 19
+        }
+      }
+    }
+  },
+  "independent_mean_checks": 16,
+  "fixed_model_evaluation_passes_checked": 40,
+  "maximum_mean_absolute_error": 8.881784197001252e-16,
+  "installed_wheel": {
+    "python": "3.10.21",
+    "numpy": "1.24.0",
+    "evaluation_scenarios": 7,
+    "scheduler_scenarios": 11,
+    "independent_replays_passed": true
+  },
+  "clean_and_installed_runtime_sha256": {
+    "trainspotter/__init__.py": "f902908eabb455be7238326cae68b500f401e4962b326bc7696dbc748be6437b",
+    "trainspotter/cli.py": "98b722e0888cf262be8148e53a41339886d1375e94af389c7e3827ba1409b83d",
+    "trainspotter/model.py": "5307a5a19e0176929ee257994eca4c9bafe29417b069023b2ca92821442cdf5b",
+    "trainspotter/py.typed": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "trainspotter/timing.py": "1104789081dc783f0d53e372fd93c77ffe4f828e6ee9ca310c0c1b528f1e31e0",
+    "trainspotter/detectors/__init__.py": "38482b71273ec74fdf748c447e35c1132451b5f9a74a581a8e72067d91624e09",
+    "trainspotter/detectors/base.py": "2efd4f9aee7a0a23cdd73984d7b7c2a08d489ad49a5d7659b90463c67513dd5f",
+    "trainspotter/detectors/divergence.py": "a850e69d7afcecaff65a46ff80b4ab440301dacbbc56ba15055a5ffda1b131dc",
+    "trainspotter/detectors/eval_noise.py": "1fa2258d2d3247fa0486fda30867e1b769bf5d06ffd864402c91fd1610b350ca",
+    "trainspotter/detectors/grad_norm.py": "ec0d16de05b98068ac644a8a18e22f3c6d08231b4eea1805d99402f9e9b99e89",
+    "trainspotter/detectors/loss_floor.py": "b2d55a82a50f6948c39486f85a782adf03a9dd9504162cc72edd4f03b4c82af0",
+    "trainspotter/detectors/lr_schedule.py": "6cc240b8afaca7ed71cabd247babedb99a53f3811b5d6a08bdf635599143f07b",
+    "trainspotter/detectors/overfitting.py": "bb3e0de68e033caa75e6290708fce67d967dc929db78c5bc687c99476897b38f",
+    "trainspotter/detectors/plateau.py": "79d8706c22d3b8a3d78addb4c27845ea4c4f4f57d6acd3711e000c26d879359a",
+    "trainspotter/detectors/setbacks.py": "ad16c242d00a4ce08cf7424d85bebf5d0fd32d430a8eec6941b79de3b08a7011",
+    "trainspotter/detectors/spikes.py": "f5e6b72df13bb95f03ab7306b9906c46845baac9ab2c5db86c9360f61dafd2d7",
+    "trainspotter/detectors/throughput.py": "b6a506b973629696564601546992b051700bdece9bbc67b2bd05e402d4a68a54",
+    "trainspotter/readers/__init__.py": "806bd2c756ca7f7241ab760e6449a455143cf36330c48f1a5076fe19d5c9f22e",
+    "trainspotter/readers/common.py": "4501e803a4b1dce1c2206ef711e25da290b50719120ad8e773a65f2ada7a0dd1",
+    "trainspotter/readers/hf.py": "c77d82ca2b01c6b4496108ce0b8bdc45bae012c7631b667ee3523c415c1b11ad",
+    "trainspotter/readers/lightning.py": "5c5d125f09b66a4985fb98d7e2e588943d70aa6a1a3bcfb442d9e8be183d5c9a",
+    "trainspotter/readers/tabular.py": "8355a19634ff7d8bc212e980279a4f0415c574ceec61031c724f1b46b489e582",
+    "trainspotter/readers/tensorboard.py": "66e15cdf3ec3d4761626835b9af8f7468ca13893b97f4f335103cd219af96afb",
+    "trainspotter/readers/wandb.py": "2ad7a4b87ae8865672068185f6d2932972181cedbe41d579d6c6f049bd7aa96f",
+    "trainspotter/report/__init__.py": "317d8be1f917cf65f0312a083c62f7bf268d37b5c9d7232c3a0bf37ae18b9a0a",
+    "trainspotter/report/html_report.py": "f61230058ce96648e7aba0b69d8e33c31d1e3d7e8d0d4713a4a841a0b362b0cf",
+    "trainspotter/report/json_report.py": "8ceea2b09ed59c7704f06426851e477a8b7dd9940e64bfaa44539c6c6ce6344e",
+    "trainspotter/report/terminal.py": "112cf5dd6374f076b53663b070babd8226db2a57a07307c44b02b2eb238bee6b"
+  },
+  "clean_python_tests": {
+    "python": "3.14.7",
+    "passed": 419,
+    "seconds": 40.18
+  }
+}

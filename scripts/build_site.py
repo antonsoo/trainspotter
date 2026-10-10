@@ -115,6 +115,7 @@ EXAMPLES = [
         "A measured training loop logs less often halfway through. Without step counts, "
         "the report explains why per-step speed is unavailable.",
         "timing/stable-without-steps.csv",
+        "docs/timing-evidence.md",
     ),
     ExampleMeta(
         "timing-slowdown",
@@ -122,6 +123,7 @@ EXAMPLES = [
         "A deliberate delay in a numerical training loop. Inspect the recorded source, "
         "actual step intervals and baseline/recent medians.",
         "timing/slow-with-steps.csv",
+        "docs/timing-evidence.md",
     ),
     ExampleMeta(
         "timing-broken-clock",
@@ -129,6 +131,7 @@ EXAMPLES = [
         "One timestamp in the same captured log was deliberately moved backwards. "
         "The timing comparison stays unavailable and shows the affected window.",
         "timing/slow-broken-clock.csv",
+        "docs/timing-evidence.md",
     ),
 ]
 

@@ -1,0 +1,324 @@
+{
+  "local_gallery": {
+    "http": [
+      {
+        "browser": "chromium",
+        "width": 1440,
+        "sample": "scheduler-resume",
+        "counts": [
+          "0 error",
+          "0 warning",
+          "1 info"
+        ],
+        "source_sha256": "9380038a615a2087b6ea19829932c8fbcf94e037e4f8e547d0bc85c049dc7596",
+        "keyboard_download_matches_input": true,
+        "accessibility_violations": 0
+      },
+      {
+        "browser": "chromium",
+        "width": 1440,
+        "sample": "evaluation-overlap",
+        "counts": [
+          "0 error",
+          "1 warning",
+          "0 info"
+        ],
+        "source_sha256": "236fb0e9407ad6fa22bfbe64591aab17620aedfba3a3d77d68d06d9ca58500d3",
+        "keyboard_download_matches_input": true,
+        "accessibility_violations": 0
+      },
+      {
+        "browser": "chromium",
+        "width": 1440,
+        "sample": "evaluation-cohorts",
+        "counts": [
+          "1 error",
+          "0 warning",
+          "1 info"
+        ],
+        "source_sha256": "b0fe69af2334496222ab7a954b55982a5ec6b1d223a4d9845e609fe55edfdf4a",
+        "keyboard_download_matches_input": true,
+        "accessibility_violations": 0
+      },
+      {
+        "browser": "chromium",
+        "width": 320,
+        "sample": "scheduler-resume",
+        "counts": [
+          "0 error",
+          "0 warning",
+          "1 info"
+        ],
+        "source_sha256": "9380038a615a2087b6ea19829932c8fbcf94e037e4f8e547d0bc85c049dc7596",
+        "keyboard_download_matches_input": true,
+        "accessibility_violations": 0
+      },
+      {
+        "browser": "chromium",
+        "width": 320,
+        "sample": "evaluation-overlap",
+        "counts": [
+          "0 error",
+          "1 warning",
+          "0 info"
+        ],
+        "source_sha256": "236fb0e9407ad6fa22bfbe64591aab17620aedfba3a3d77d68d06d9ca58500d3",
+        "keyboard_download_matches_input": true,
+        "accessibility_violations": 0
+      },
+      {
+        "browser": "chromium",
+        "width": 320,
+        "sample": "evaluation-cohorts",
+        "counts": [
+          "1 error",
+          "0 warning",
+          "1 info"
+        ],
+        "source_sha256": "b0fe69af2334496222ab7a954b55982a5ec6b1d223a4d9845e609fe55edfdf4a",
+        "keyboard_download_matches_input": true,
+        "accessibility_violations": 0
+      },
+      {
+        "browser": "firefox",
+        "width": 1440,
+        "sample": "scheduler-resume",
+        "counts": [
+          "0 error",
+          "0 warning",
+          "1 info"
+        ],
+        "source_sha256": "9380038a615a2087b6ea19829932c8fbcf94e037e4f8e547d0bc85c049dc7596",
+        "keyboard_download_matches_input": true,
+        "accessibility_violations": 0
+      },
+      {
+        "browser": "firefox",
+        "width": 1440,
+        "sample": "evaluation-overlap",
+        "counts": [
+          "0 error",
+          "1 warning",
+          "0 info"
+        ],
+        "source_sha256": "236fb0e9407ad6fa22bfbe64591aab17620aedfba3a3d77d68d06d9ca58500d3",
+        "keyboard_download_matches_input": true,
+        "accessibility_violations": 0
+      },
+      {
+        "browser": "firefox",
+        "width": 1440,
+        "sample": "evaluation-cohorts",
+        "counts": [
+          "1 error",
+          "0 warning",
+          "1 info"
+        ],
+        "source_sha256": "b0fe69af2334496222ab7a954b55982a5ec6b1d223a4d9845e609fe55edfdf4a",
+        "keyboard_download_matches_input": true,
+        "accessibility_violations": 0
+      },
+      {
+        "browser": "firefox",
+        "width": 320,
+        "sample": "scheduler-resume",
+        "counts": [
+          "0 error",
+          "0 warning",
+          "1 info"
+        ],
+        "source_sha256": "9380038a615a2087b6ea19829932c8fbcf94e037e4f8e547d0bc85c049dc7596",
+        "keyboard_download_matches_input": true,
+        "accessibility_violations": 0
+      },
+      {
+        "browser": "firefox",
+        "width": 320,
+        "sample": "evaluation-overlap",
+        "counts": [
+          "0 error",
+          "1 warning",
+          "0 info"
+        ],
+        "source_sha256": "236fb0e9407ad6fa22bfbe64591aab17620aedfba3a3d77d68d06d9ca58500d3",
+        "keyboard_download_matches_input": true,
+        "accessibility_violations": 0
+      },
+      {
+        "browser": "firefox",
+        "width": 320,
+        "sample": "evaluation-cohorts",
+        "counts": [
+          "1 error",
+          "0 warning",
+          "1 info"
+        ],
+        "source_sha256": "b0fe69af2334496222ab7a954b55982a5ec6b1d223a4d9845e609fe55edfdf4a",
+        "keyboard_download_matches_input": true,
+        "accessibility_violations": 0
+      }
+    ],
+    "file": [
+      {
+        "browser": "chromium",
+        "width": 1440,
+        "sample": "scheduler-resume",
+        "counts": [
+          "0 error",
+          "0 warning",
+          "1 info"
+        ],
+        "source_sha256": "9380038a615a2087b6ea19829932c8fbcf94e037e4f8e547d0bc85c049dc7596",
+        "keyboard_download_matches_input": true,
+        "accessibility_violations": 0
+      },
+      {
+        "browser": "chromium",
+        "width": 1440,
+        "sample": "evaluation-overlap",
+        "counts": [
+          "0 error",
+          "1 warning",
+          "0 info"
+        ],
+        "source_sha256": "236fb0e9407ad6fa22bfbe64591aab17620aedfba3a3d77d68d06d9ca58500d3",
+        "keyboard_download_matches_input": true,
+        "accessibility_violations": 0
+      },
+      {
+        "browser": "chromium",
+        "width": 1440,
+        "sample": "evaluation-cohorts",
+        "counts": [
+          "1 error",
+          "0 warning",
+          "1 info"
+        ],
+        "source_sha256": "b0fe69af2334496222ab7a954b55982a5ec6b1d223a4d9845e609fe55edfdf4a",
+        "keyboard_download_matches_input": true,
+        "accessibility_violations": 0
+      },
+      {
+        "browser": "chromium",
+        "width": 320,
+        "sample": "scheduler-resume",
+        "counts": [
+          "0 error",
+          "0 warning",
+          "1 info"
+        ],
+        "source_sha256": "9380038a615a2087b6ea19829932c8fbcf94e037e4f8e547d0bc85c049dc7596",
+        "keyboard_download_matches_input": true,
+        "accessibility_violations": 0
+      },
+      {
+        "browser": "chromium",
+        "width": 320,
+        "sample": "evaluation-overlap",
+        "counts": [
+          "0 error",
+          "1 warning",
+          "0 info"
+        ],
+        "source_sha256": "236fb0e9407ad6fa22bfbe64591aab17620aedfba3a3d77d68d06d9ca58500d3",
+        "keyboard_download_matches_input": true,
+        "accessibility_violations": 0
+      },
+      {
+        "browser": "chromium",
+        "width": 320,
+        "sample": "evaluation-cohorts",
+        "counts": [
+          "1 error",
+          "0 warning",
+          "1 info"
+        ],
+        "source_sha256": "b0fe69af2334496222ab7a954b55982a5ec6b1d223a4d9845e609fe55edfdf4a",
+        "keyboard_download_matches_input": true,
+        "accessibility_violations": 0
+      },
+      {
+        "browser": "firefox",
+        "width": 1440,
+        "sample": "scheduler-resume",
+        "counts": [
+          "0 error",
+          "0 warning",
+          "1 info"
+        ],
+        "source_sha256": "9380038a615a2087b6ea19829932c8fbcf94e037e4f8e547d0bc85c049dc7596",
+        "keyboard_download_matches_input": true,
+        "accessibility_violations": 0
+      },
+      {
+        "browser": "firefox",
+        "width": 1440,
+        "sample": "evaluation-overlap",
+        "counts": [
+          "0 error",
+          "1 warning",
+          "0 info"
+        ],
+        "source_sha256": "236fb0e9407ad6fa22bfbe64591aab17620aedfba3a3d77d68d06d9ca58500d3",
+        "keyboard_download_matches_input": true,
+        "accessibility_violations": 0
+      },
+      {
+        "browser": "firefox",
+        "width": 1440,
+        "sample": "evaluation-cohorts",
+        "counts": [
+          "1 error",
+          "0 warning",
+          "1 info"
+        ],
+        "source_sha256": "b0fe69af2334496222ab7a954b55982a5ec6b1d223a4d9845e609fe55edfdf4a",
+        "keyboard_download_matches_input": true,
+        "accessibility_violations": 0
+      },
+      {
+        "browser": "firefox",
+        "width": 320,
+        "sample": "scheduler-resume",
+        "counts": [
+          "0 error",
+          "0 warning",
+          "1 info"
+        ],
+        "source_sha256": "9380038a615a2087b6ea19829932c8fbcf94e037e4f8e547d0bc85c049dc7596",
+        "keyboard_download_matches_input": true,
+        "accessibility_violations": 0
+      },
+      {
+        "browser": "firefox",
+        "width": 320,
+        "sample": "evaluation-overlap",
+        "counts": [
+          "0 error",
+          "1 warning",
+          "0 info"
+        ],
+        "source_sha256": "236fb0e9407ad6fa22bfbe64591aab17620aedfba3a3d77d68d06d9ca58500d3",
+        "keyboard_download_matches_input": true,
+        "accessibility_violations": 0
+      },
+      {
+        "browser": "firefox",
+        "width": 320,
+        "sample": "evaluation-cohorts",
+        "counts": [
+          "1 error",
+          "0 warning",
+          "1 info"
+        ],
+        "source_sha256": "b0fe69af2334496222ab7a954b55982a5ec6b1d223a4d9845e609fe55edfdf4a",
+        "keyboard_download_matches_input": true,
+        "accessibility_violations": 0
+      }
+    ]
+  },
+  "all_embedded_inputs_match": 12,
+  "clean_pages_match_ignoring_build_time": 13,
+  "offline_report_workflows": 124,
+  "offline_workflows_sha256": "c532a9cd5bce12767a87ddabb9d4539425cbf0fd5f8bad4f289369583b9456c6"
+}
