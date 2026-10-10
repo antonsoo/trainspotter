@@ -1,0 +1,220 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; style-src 'unsafe-inline'; img-src data:; base-uri 'none'; form-action 'none'">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 32 32%22><rect width=%2232%22 height=%2232%22 rx=%226%22 fill=%22%230b0e11%22/><path d=%22M4 22 L12 20 L18 21 L22 8 L28 6%22 stroke=%22%234fc3f7%22 stroke-width=%222.4%22 fill=%22none%22 stroke-linecap=%22round%22/></svg>">
+<title>trainspotter - Training after evaluation ended</title>
+<style>
+
+:root {
+  --bg: #0a0d10;
+  --panel: #10151a;
+  --panel-2: #0d1216;
+  --line: #1f2830;
+  --line-strong: #2c3944;
+  --text: #d9e2e8;
+  --text-muted: #8b97a1;
+  --text-dim: #6e7c87;
+  --err: #ff5d5d;
+  --warn: #f2b84b;
+  --info: #5fb3ff;
+  --mono: ui-monospace, "SFMono-Regular", "Cascadia Mono", Consolas, "Liberation Mono", monospace;
+  --sans: -apple-system, "Segoe UI", "Helvetica Neue", Arial, sans-serif;
+}
+* { box-sizing: border-box; }
+a { color: var(--info); }
+a:focus-visible, .repeated-evidence summary:focus-visible, .table-scroll:focus-visible {
+  outline: 2px solid var(--info); outline-offset: 3px;
+}
+html, body { margin: 0; padding: 0; background: var(--bg); color: var(--text); }
+body {
+  font-family: var(--sans);
+  font-size: 14px;
+  line-height: 1.5;
+  padding: 0 0 48px;
+}
+.bezel { max-width: 980px; margin: 0 auto; padding: 28px 20px 0; }
+
+.masthead {
+  display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between;
+  gap: 12px 24px; padding-bottom: 16px; border-bottom: 1px solid var(--line-strong);
+}
+.brand { display: flex; align-items: baseline; gap: 10px; }
+.brand-mark { color: var(--info); font-size: 11px; }
+.brand-name { margin: 0; line-height: inherit; font-family: var(--mono); font-weight: 700; font-size: 17px; letter-spacing: 0.12em; }
+.brand-sub { font-family: var(--mono); color: var(--text-dim); font-size: 12px; letter-spacing: 0.06em; text-transform: uppercase; }
+.readouts { display: flex; flex-wrap: wrap; gap: 18px 28px; margin: 0; font-family: var(--mono); font-size: 12px; }
+.readouts > div { display: flex; flex-direction: column; gap: 2px; max-width: 260px; }
+.readouts dt { color: var(--text-dim); text-transform: uppercase; letter-spacing: 0.08em; font-size: 10px; }
+.readouts dd { margin: 0; color: var(--text-muted); overflow-wrap: anywhere; }
+.readouts dd.warn { color: var(--warn); }
+.input-notes { border-left: 3px solid var(--warn); padding: 10px 14px; margin: 18px 0 4px; background: var(--panel); }
+.input-notes h2 { margin: 0 0 4px; color: var(--warn); font-size: 14px; }
+.input-notes ul { margin: 0; padding-left: 18px; overflow-wrap: anywhere; }
+.input-evidence { margin: 12px 0; font-family: var(--mono); color: var(--text-muted); font-size: 12px; }
+.input-evidence summary { cursor: pointer; padding: 6px 0; }
+.input-evidence summary:focus-visible { outline: 2px solid var(--info); outline-offset: 4px; }
+.table-scroll { overflow-x: auto; }
+.input-evidence table { width: 100%; min-width: 560px; border-collapse: collapse; table-layout: fixed; }
+.input-evidence caption { text-align: left; padding: 8px 0; }
+.input-evidence th, .input-evidence td { text-align: left; padding: 7px 8px; border-bottom: 1px solid var(--line); overflow-wrap: anywhere; }
+.input-evidence th:nth-child(n+3), .input-evidence td:nth-child(n+3) { width: 110px; text-align: right; }
+.input-evidence tbody th { font-weight: normal; }
+.timing-evidence { margin: 16px 0 20px; padding: 12px 16px; background: var(--panel); border: 1px solid var(--line-strong); border-left: 3px solid var(--info); overflow-wrap: anywhere; }
+.timing-evidence h2 { margin: 0 0 6px; font: 13px var(--mono); color: var(--text-muted); text-transform: uppercase; letter-spacing: .06em; }
+.timing-evidence p { margin: 8px 0; }
+.timing-ratio { font-family: var(--mono); }
+.timing-ratio strong { font-size: 22px; color: var(--info); font-weight: normal; }
+.timing-evidence details { color: var(--text-muted); font-size: 12px; }
+.timing-evidence summary { cursor: pointer; padding: 4px 0; }
+.timing-evidence summary:focus-visible { outline: 2px solid var(--info); outline-offset: 3px; }
+.timing-evidence table { width: 100%; min-width: 580px; border-collapse: collapse; font-family: var(--mono); }
+.timing-evidence caption { text-align: left; padding: 10px 0; }
+.timing-evidence th, .timing-evidence td { text-align: right; padding: 8px; border-bottom: 1px solid var(--line); }
+.timing-evidence th:first-child { text-align: left; }
+.timing-evidence ul { padding-left: 20px; }
+.repeated-evidence summary { cursor: pointer; padding: 5px 0; }
+.repeated-evidence h2 { margin-top: 10px; }
+.repeated-evidence table { width: 100%; min-width: 800px; table-layout: fixed; border-collapse: collapse; font-family: var(--mono); font-size: 12px; }
+.repeated-evidence th, .repeated-evidence td { text-align: left; padding: 8px; border-bottom: 1px solid var(--line); overflow-wrap: anywhere; }
+.repeated-evidence th:nth-child(1) { width: 140px; }
+.repeated-evidence th:nth-child(2) { width: 70px; }
+.repeated-evidence th:nth-child(3) { width: 210px; }
+.repeated-evidence caption { text-align: left; padding: 10px 0; }
+.table-hint { color: var(--text-muted); font-size: 12px; margin: 8px 0; }
+@media (min-width: 900px) { .table-hint { display: none; } }
+
+.summary { padding: 18px 0 8px; }
+.summary { display: grid; grid-template-columns: repeat(3, auto) 1fr; align-items: center; gap: 20px; }
+.count { display: flex; align-items: baseline; gap: 8px; font-family: var(--mono); }
+.count .n { font-size: 22px; font-weight: 700; }
+.count .l { font-size: 11px; text-transform: uppercase; letter-spacing: 0.08em; color: var(--text-dim); }
+.count.sev-error .n { color: var(--err); }
+.count.sev-warning .n { color: var(--warn); }
+.count.sev-info .n { color: var(--info); }
+.strip-wrap { min-width: 220px; }
+.strip { width: 100%; height: 34px; display: block; }
+.strip-bg { fill: var(--panel-2); }
+.strip-base { stroke: var(--line-strong); stroke-width: 1; }
+
+.charts { display: flex; flex-direction: column; gap: 6px; margin-top: 10px; }
+.chart-block { background: var(--panel); border: 1px solid var(--line); border-radius: 2px; padding: 10px 14px 4px; }
+.chart-block h2 {
+  font-family: var(--mono); font-size: 12px; font-weight: 600; letter-spacing: 0.08em;
+  text-transform: uppercase; color: var(--text-muted); margin: 0 0 4px; overflow-wrap: anywhere;
+}
+.chart { width: 100%; height: auto; display: block; }
+.uncharted { font-family: var(--mono); font-size: 12px; color: var(--text-muted); margin: 8px 2px; overflow-wrap: anywhere; }
+.chart-scroll { overflow-x: auto; }
+.chart-scroll:focus-visible { outline: 2px solid var(--info); outline-offset: 2px; }
+.chart-hint { display: none; }
+.grid { stroke: var(--line); stroke-width: 1; }
+.frame { stroke: var(--line-strong); stroke-width: 1; }
+.axis-y, .axis-x { font-family: var(--mono); font-size: 9px; fill: var(--text-dim); }
+.legend { font-family: var(--mono); font-size: 10px; fill: var(--text-muted); }
+.marker-bad { font-family: var(--mono); font-size: 13px; fill: var(--err); font-weight: 700; }
+.off-scale-label { font-family: var(--mono); font-size: 9px; font-weight: 600; }
+
+.findings-log { margin-top: 28px; }
+.log-title {
+  font-family: var(--mono); font-size: 12px; letter-spacing: 0.1em; text-transform: uppercase;
+  color: var(--text-muted); border-bottom: 1px solid var(--line-strong); padding-bottom: 8px;
+}
+.clean { color: var(--text-muted); font-family: var(--mono); font-size: 13px; }
+.finding { border-bottom: 1px solid var(--line); padding: 14px 0; }
+.finding:last-child { border-bottom: none; }
+.finding-head { display: flex; flex-wrap: wrap; align-items: baseline; gap: 10px; }
+.finding-head h3 { font-size: 14.5px; margin: 0; color: var(--text); font-weight: 600; }
+.chip {
+  font-family: var(--mono); font-size: 10px; font-weight: 700; letter-spacing: 0.06em;
+  padding: 2px 6px; border-radius: 2px; border: 1px solid currentColor;
+}
+.chip.sev-error { color: var(--err); }
+.chip.sev-warning { color: var(--warn); }
+.chip.sev-info { color: var(--info); }
+.steps, .detector { font-family: var(--mono); font-size: 11px; color: var(--text-dim); }
+.detector::before { content: "\00b7 "; }
+.message { margin: 6px 0 4px; color: var(--text); }
+.finding, .brand { overflow-wrap: anywhere; min-width: 0; }
+.evidence { font-family: var(--mono); font-size: 11.5px; color: var(--text-muted); margin: 0 0 6px; }
+.evidence .k { color: var(--text-dim); }
+.fixes { margin: 0; padding-left: 18px; color: var(--text-muted); font-size: 13px; }
+.fixes li { margin: 2px 0; }
+
+.masthead-foot {
+  margin-top: 32px; padding-top: 14px; border-top: 1px solid var(--line);
+  color: var(--text-dim); font-family: var(--mono); font-size: 11px;
+}
+
+@media (max-width: 600px) {
+  .chart { width: 760px; max-width: none; }
+  .axis-y, .axis-x, .legend, .off-scale-label { font-size: 12px; }
+  .chart-hint { display: block; margin: 2px 0 8px; color: var(--text-muted); font-size: 12px; }
+  .brand { flex-wrap: wrap; }
+  .summary { grid-template-columns: repeat(3, auto); }
+  .strip-wrap { grid-column: 1 / -1; order: 10; }
+}
+
+</style>
+</head>
+<body>
+<div class="bezel">
+  <header class="masthead">
+    <div class="brand">
+      <span class="brand-mark" aria-hidden="true">&#9679;</span>
+      <h1 class="brand-name">TRAINSPOTTER</h1>
+      <span class="brand-sub">run diagnostic</span>
+    </div>
+    <dl class="readouts">
+      <div><dt>source</dt><dd>examples/<wbr>evaluation/<wbr>captured/<wbr>late-training.csv</dd></div>
+      <div><dt>format</dt><dd>csv</dd></div>
+      
+      <div><dt>steps</dt><dd>0&ndash;300</dd></div>
+      
+      
+      <div><dt>generated</dt><dd>2026-10-10 01:25 UTC</dd></div>
+    </dl>
+  </header>
+
+  <main><section class="chart-block sample-context" aria-labelledby="sample-heading"><h2 id="sample-heading">Training after evaluation ended</h2><p>Derived from a controlled regression run on synthetic data: evaluation readings end at step 60; training readings start at 100. The evaluation rise is observed, but these disjoint intervals cannot support a contemporaneous training trend.</p><p><a download="late-training.csv" href="data:text/csv;base64,c3RlcCxsb3NzLGV2YWxfbG9zcwowLCwxLjkyODc2ODY0NDEwOTM0NDgKMSwsMS42MzkyODQwNjY0MjYwNwoyLCwxLjQ2NjQ5MzU2MTA2NzcyNQozLCwxLjM2NjE2MTcyNjk2MDY2OAo0LCwxLjMxMDY2Nzg3ODk2MDkxMTIKNSwsMS4yODI4MTExMDM1NTM0NTMzCjYsLDEuMjcxOTEyMzM5NTYwNzE2NAo3LCwxLjI3MTM2NDc5ODk2MzQyMjIKOCwsMS4yNzcwOTY5NzU1OTQ0MDc1CjksLDEuMjg2NjEwMTQ5MjYyNzkwOAoxMCwsMS4yOTgzNzcxMjc4NTE1MDIyCjExLCwxLjMxMTQ2Nzc5NjAxOTAzNjYKMTIsLDEuMzI1MzE2Nzk4NzIwNTMzCjEzLCwxLjMzOTU4MDA4NTkzODgxODUKMTQsLDEuMzU0MDQ2ODQ2MDg5MzI4NwoxNSwsMS4zNjg1ODU4MzM3MTY2NTUKMTYsLDEuMzgzMTEyOTUyOTA3NjE3CjE3LCwxLjM5NzU3MTg5NzM5Nzg1NjQKMTgsLDEuNDExOTIyNzQ5MjQ0MjUxNwoxOSwsMS40MjYxMzUzODA1OTIxODk1CjIwLCwxLjQ0MDE4NTcxNjkyODI4NDMKMjEsLDEuNDU0MDUzNjc2MTU4MDU4MwoyMiwsMS40Njc3MjIwNjY2MTgxNTc2CjIzLCwxLjQ4MTE3NjAxNjIyNjY5NTgKMjQsLDEuNDk0NDAyNjgxOTk0NDI5CjI1LCwxLjUwNzM5MTA5NjUwMjU1NzIKMjYsLDEuNTIwMTMyMDcyMjg1NDI3CjI3LCwxLjUzMjYxODEyMjk0Njk2MzgKMjgsLDEuNTQ0ODQzMzgxNjI3ODgzNwoyOSwsMS41NTY4MDM1MDk1MzQzODQ0CjMwLCwxLjU2ODQ5NTU5MzU4NTk0MDgKMzEsLDEuNTc5OTE4MDM1MjUzODA3NAozMiwsMS41OTEwNzA0MzM4MDM0ODc2CjMzLCwxLjYwMTk1MzQ2NzI5NTcxNjMKMzQsLDEuNjEyNTY4Nzc0MzUxODE5CjM1LCwxLjYyMjkxODgzOTE0MTMxNDMKMzYsLDEuNjMzMDA2ODgxNDYwOTE4OQozNywsMS42NDI4MzY3NTMyMjUxNjY5CjM4LCwxLjY1MjQxMjg0MjIxNTI1ODQKMzksLDEuNjYxNzM5OTgzNTQ0ODQ2NQo0MCwsMS42NzA4MjMzNzg5OTY2MjE4CjQxLCwxLjY3OTY2ODUyNDE1Mjc0OTEKNDIsLDEuNjg4MjgxMTQzMDc0MjE0Ngo0MywsMS42OTY2NjcxMzAxNjc1OTY2CjQ0LCwxLjcwNDgzMjQ5ODgwMjEyMjYKNDUsLDEuNzEyNzgzMzM2MTk2MDY1Mgo0NiwsMS43MjA1MjU3NjQwNzE3OTY4CjQ3LCwxLjcyODA2NTkwNDU3NzAxNTUKNDgsLDEuNzM1NDA5ODUwOTgwNjIzNQo0OSwsMS43NDI1NjM2NDI2NzE2Nzg2CjUwLCwxLjc0OTUzMzI0NDAxNTU2MDIKNTEsLDEuNzU2MzI0NTI2NjUwNzU3NAo1MiwsMS43NjI5NDMyNTQ4NDA3MzkzCjUzLCwxLjc2OTM5NTA3MzUyNjg1NTUKNTQsLDEuNzc1Njg1NDk4NzU5MzUzOAo1NSwsMS43ODE4MTk5MTAyMTM1OTI1CjU2LCwxLjc4NzgwMzU0NTUyNzA5ODIKNTcsLDEuNzkzNjQxNDk2MjE5ODg2Ngo1OCwsMS43OTkzMzg3MDQ5ODUzNjYKNTksLDEuODA0ODk5OTY0MTYyMTAxNQo2MCwsMS44MTAzMjk5MTUyMTc3MTMKNjEsLAo2MiwsCjYzLCwKNjQsLAo2NSwsCjY2LCwKNjcsLAo2OCwsCjY5LCwKNzAsLAo3MSwsCjcyLCwKNzMsLAo3NCwsCjc1LCwKNzYsLAo3NywsCjc4LCwKNzksLAo4MCwsCjgxLCwKODIsLAo4MywsCjg0LCwKODUsLAo4NiwsCjg3LCwKODgsLAo4OSwsCjkwLCwKOTEsLAo5MiwsCjkzLCwKOTQsLAo5NSwsCjk2LCwKOTcsLAo5OCwsCjk5LCwKMTAwLDAuMDkzNzcxOTUzMTc1NzY1MjQsCjEwMSwwLjA5MzM3OTgzMjU4MTc2Mzg4LAoxMDIsMC4wOTI5OTY5MjY2MjE2OTYzNCwKMTAzLDAuMDkyNjIyOTIxODgyMDcwNjUsCjEwNCwwLjA5MjI1NzUxOTAzMzA2MDk1LAoxMDUsMC4wOTE5MDA0MzIwNTU2NzAzNiwKMTA2LDAuMDkxNTUxMzg3NTE4MDA1MzIsCjEwNywwLjA5MTIxMDEyMzg5NzE2NTQ2LAoxMDgsMC4wOTA4NzYzOTA5NDM1MjY3MywKMTA5LDAuMDkwNTQ5OTQ5MDg0NDQ0MjIsCjExMCwwLjA5MDIzMDU2ODg2NDYyOTksCjExMSwwLjA4OTkxODAzMDQyMDY3MDk0LAoxMTIsMC4wODk2MTIxMjI5ODczNDY3MywKMTEzLDAuMDg5MzEyNjQ0NDMzNTc3MTIsCjExNCwwLjA4OTAxOTQwMDgyNjAwMDQzLAoxMTUsMC4wODg3MzIyMDYwMTgzMjU4OCwKMTE2LDAuMDg4NDUwODgxMjY0NzQyNzYsCjExNywwLjA4ODE3NTI1NDg1NTc5NjY2LAoxMTgsMC4wODc5MDUxNjE3NzUyNTQyMywKMTE5LDAuMDg3NjQwNDQzMzc2NTkzNDEsCjEyMCwwLjA4NzM4MDk0NzA3Nzg0MzQzLAoxMjEsMC4wODcxMjY1MjYwNzM2MDAzNywKMTIyLDAuMDg2ODc3MDM5MDYzMTIwMTgsCjEyMywwLjA4NjYzMjM0OTk5MzQ3MTU0LAoxMjQsMC4wODYzOTIzMjc4MTY4MDM1OSwKMTI1LDAuMDg2MTU2ODQ2MjYwODQ0NzIsCjEyNiwwLjA4NTkyNTc4MzYxMTgxNTU1LAoxMjcsMC4wODU2OTkwMjI1MDg5OTA1NywKMTI4LDAuMDg1NDc2NDQ5NzUwMTk4LAoxMjksMC4wODUyNTc5NTYxMDc1OTQxNywKMTMwLDAuMDg1MDQzNDM2MTUzMDkzOTgsCjEzMSwwLjA4NDgzMjc4ODA5Mjg4MDY3LAoxMzIsMC4wODQ2MjU5MTM2MTA0NTUzLAoxMzMsMC4wODQ0MjI3MTc3MTc3MjM5NCwKMTM0LDAuMDg0MjIzMTA4NjEzNjUxMTIsCjEzNSwwLjA4NDAyNjk5NzU1MDA0MDY0LAoxMzYsMC4wODM4MzQyOTg3MDQwMzI3MSwKMTM3LDAuMDgzNjQ0OTI5MDU2OTMyMjQsCjEzOCwwLjA4MzQ1ODgwODI3OTAwOTMsCjEzOSwwLjA4MzI3NTg1ODYxOTkzMjk2LAoxNDAsMC4wODMwOTYwMDQ4MDQ1MjM2NiwKMTQxLDAuMDgyOTE5MTczOTMzNTI4MTMsCjE0MiwwLjA4Mjc0NTI5NTM4OTEzODI1LAoxNDMsMC4wODI1NzQzMDA3NDQ5OTM2NSwKMTQ0LDAuMDgyNDA2MTIzNjgwNDI0NywKMTQ1LDAuMDgyMjQwNjk5ODk4NzAzNzEsCjE0NiwwLjA4MjA3Nzk2NzA0OTA5MTU3LAoxNDcsMC4wODE5MTc4NjQ2NTI0NzUzLAoxNDgsMC4wODE3NjAzMzQwMzA0MDY1NCwKMTQ5LDAuMDgxNjA1MzE4MjM3MzYxODYsCjE1MCwwLjA4MTQ1Mjc2MTk5NjA1NTk3LAoxNTEsMC4wODEzMDI2MTE2MzU2NTAxMywKMTUyLDAuMDgxMTU0ODE1MDMyNzA0NTIsCjE1MywwLjA4MTAwOTMyMTU1NDczNTk5LAoxNTQsMC4wODA4NjYwODIwMDYyNDY1LAoxNTUsMC4wODA3MjUwNDg1NzcwOTg5NSwKMTU2LDAuMDgwNTg2MTc0NzkzMTIxMzMsCjE1NywwLjA4MDQ0OTQxNTQ2ODgyODE1LAoxNTgsMC4wODAzMTQ3MjY2NjIxNTQ5MywKMTU5LDAuMDgwMTgyMDY1NjMxMTA0NzgsCjE2MCwwLjA4MDA1MTM5MDc5MjIxNjM5LAoxNjEsMC4wNzk5MjI2NjE2ODA3NjE0NywKMTYyLDAuMDc5Nzk1ODM4OTEyNTkwNzMsCjE2MywwLjA3OTY3MDg4NDE0NzU0ODUzLAoxNjQsMC4wNzk1NDc3NjAwNTQzODA1OCwKMTY1LDAuMDc5NDI2NDMwMjc3MDY1MDQsCjE2NiwwLjA3OTMwNjg1OTQwMjQ5OTU3LAoxNjcsMC4wNzkxODkwMTI5Mjk0ODExOSwKMTY4LDAuMDc5MDcyODU3MjM4OTE4MzcsCjE2OSwwLjA3ODk1ODM1OTU2NTIxODkyLAoxNzAsMC4wNzg4NDU0ODc5Njg3OTk1NiwKMTcxLDAuMDc4NzM0MjExMzA5NjY2MzcsCjE3MiwwLjA3ODYyNDQ5OTIyMjAxNjgsCjE3MywwLjA3ODUxNjMyMjA4OTgxODIyLAoxNzQsMC4wNzg0MDk2NTEwMjMzMTg2NSwKMTc1LDAuMDc4MzA0NDU3ODM2NDQ4NzcsCjE3NiwwLjA3ODIwMDcxNTAyNTA3NTA2LAoxNzcsMC4wNzgwOTgzOTU3NDYwNjc3NiwKMTc4LDAuMDc3OTk3NDczNzk3MTQ3MSwKMTc5LDAuMDc3ODk3OTIzNTk3NDc0NDIsCjE4MCwwLjA3Nzc5OTcyMDE2ODk1NjQ5LAoxODEsMC4wNzc3MDI4MzkxMTgyMzIwMiwKMTgyLDAuMDc3NjA3MjU2NjE5MzEwODUsCjE4MywwLjA3NzUxMjk0OTM5NjgzOTY4LAoxODQsMC4wNzc0MTk4OTQ3MDk5NjYyLAoxODUsMC4wNzczMjgwNzAzMzY3Nzc5OCwKMTg2LDAuMDc3MjM3NDU0NTU5MjkxMzUsCjE4NywwLjA3NzE0ODAyNjE0ODk2ODA3LAoxODgsMC4wNzcwNTk3NjQzNTI3MzgwNSwKMTg5LDAuMDc2OTcyNjQ4ODc5NTA3MDcsCjE5MCwwLjA3Njg4NjY1OTg4NzEyOTc1LAoxOTEsMC4wNzY4MDE3Nzc5Njk4MzA4NywKMTkyLDAuMDc2NzE3OTg0MTQ2MDUyODUsCjE5MywwLjA3NjYzNTI1OTg0NjcxNzgyLAoxOTQsMC4wNzY1NTM1ODY5MDM4ODMxOCwKMTk1LDAuMDc2NDcyOTQ3NTM5Nzc3NjUsCjE5NiwwLjA3NjM5MzMyNDM1NjIwMjQzLAoxOTcsMC4wNzYzMTQ3MDAzMjQyODI3LAoxOTgsMC4wNzYyMzcwNTg3NzQ1NTY1MSwKMTk5LDAuMDc2MTYwMzgzMzg3Mzg3MzMsCjIwMCwwLjA3NjA4NDY1ODE4MzY4OTQxLAoyMDEsMC4wNzYwMDk4Njc1MTU5NTEzMywKMjAyLDAuMDc1OTM1OTk2MDU5NTQ5MzQsCjIwMywwLjA3NTg2MzAyODgwNDMzODAxLAoyMDQsMC4wNzU3OTA5NTEwNDY1MDc0NiwKMjA1LDAuMDc1NzE5NzQ4MzgwNjk4NTMsCjIwNiwwLjA3NTY0OTQwNjY5MjM2NTMsCjIwNywwLjA3NTU3OTkxMjE1MDM3NjQsCjIwOCwwLjA3NTUxMTI1MTE5OTg0NTc4LAoyMDksMC4wNzU0NDM0MTA1NTUxODUzMywKMjEwLDAuMDc1Mzc2Mzc3MTkzMzcwNTYsCjIxMSwwLjA3NTMxMDEzODM0NzQxMjI0LAoyMTIsMC4wNzUyNDQ2ODE1MDAwMjY1NywKMjEzLDAuMDc1MTc5OTk0Mzc3NDk1NTMsCjIxNCwwLjA3NTExNjA2NDk0MzcxMzYsCjIxNSwwLjA3NTA1Mjg4MTM5NDQxMDQ0LAoyMTYsMC4wNzQ5OTA0MzIxNTE1NDY2MywKMjE3LDAuMDc0OTI4NzA1ODU3ODc0MzgsCjIxOCwwLjA3NDg2NzY5MTM3MTY1ODgsCjIxOSwwLjA3NDgwNzM3Nzc2MTU1Mjk3LAoyMjAsMC4wNzQ3NDc3NTQzMDE2MjI0MiwKMjIxLDAuMDc0Njg4ODEwNDY2NTEzNjYsCjIyMiwwLjA3NDYzMDUzNTkyNjc2MTg2LAoyMjMsMC4wNzQ1NzI5MjA1NDQyMzIzLAoyMjQsMC4wNzQ1MTU5NTQzNjc2OTI4NCwKMjI1LDAuMDc0NDU5NjI3NjI4NTEwNzMsCjIyNiwwLjA3NDQwMzkzMDczNjQ3MTM4LAoyMjcsMC4wNzQzNDg4NTQyNzU3MTQxLAoyMjgsMC4wNzQyOTQzODkwMDA3ODE3OCwKMjI5LDAuMDc0MjQwNTI1ODMyNzc5NTEsCjIzMCwwLjA3NDE4NzI1NTg1NTYzOTgzLAoyMzEsMC4wNzQxMzQ1NzAzMTI0OTA2MywKMjMyLDAuMDc0MDgyNDYwNjAyMTIxNzYsCjIzMywwLjA3NDAzMDkxODI3NTU0ODU0LAoyMzQsMC4wNzM5Nzk5MzUwMzI2NjgxNCwKMjM1LDAuMDczOTI5NTAyNzE5MDA1MzgsCjIzNiwwLjA3Mzg3OTYxMzMyMjU0NjM2LAoyMzcsMC4wNzM4MzAyNTg5NzA2NTY3MywKMjM4LDAuMDczNzgxNDMxOTI3MDgwOTksCjIzOSwwLjA3MzczMzEyNDU4OTAyMTQ3LAoyNDAsMC4wNzM2ODUzMjk0ODQyOTQxNCwKMjQxLDAuMDczNjM4MDM5MjY4NTU4OCwKMjQyLDAuMDczNTkxMjQ2NzIyNjIwNzMsCjI0MywwLjA3MzU0NDk0NDc0OTgwMzE1LAoyNDQsMC4wNzM0OTkxMjYzNzMzODY5NywKMjQ1LDAuMDczNDUzNzg0NzM0MTE1NTUsCjI0NiwwLjA3MzQwODkxMzA4Nzc2NDQ3LAoyNDcsMC4wNzMzNjQ1MDQ4MDI3NzIwNSwKMjQ4LDAuMDczMzIwNTUzMzU3OTI5NzgsCjI0OSwwLjA3MzI3NzA1MjM0MDEzMTQ5LAoyNTAsMC4wNzMyMzM5OTU0NDIxNzgyNiwKMjUxLDAuMDczMTkxMzc2NDYwNjM4MjUsCjI1MiwwLjA3MzE0OTE4OTI5Mzc1OTc3LAoyNTMsMC4wNzMxMDc0Mjc5Mzk0MzU2NywKMjU0LDAuMDczMDY2MDg2NDkzMjE3NjEsCjI1NSwwLjA3MzAyNTE1OTE0NjM3OTQ2LAoyNTYsMC4wNzI5ODQ2NDAxODQwMjY5MiwKMjU3LDAuMDcyOTQ0NTIzOTgzMjU0MzUsCjI1OCwwLjA3MjkwNDgwNTAxMTM0NDA3LAoyNTksMC4wNzI4NjU0Nzc4MjQwMTA3MywKMjYwLDAuMDcyODI2NTM3MDYzNjg2OTMsCjI2MSwwLjA3Mjc4Nzk3NzQ1Nzg0OSwKMjYyLDAuMDcyNzQ5NzkzODE3MzgzNywKMjYzLDAuMDcyNzExOTgxMDM0OTkyMDMsCjI2NCwwLjA3MjY3NDUzNDA4MzYzMTc1LAoyNjUsMC4wNzI2Mzc0NDgwMTQ5OTUzNywKMjY2LDAuMDcyNjAwNzE3OTU4MDIzNTQsCjI2NywwLjA3MjU2NDMzOTExNzQ1NDAxLAoyNjgsMC4wNzI1MjgzMDY3NzI0MDIwMywKMjY5LDAuMDcyNDkyNjE2Mjc0OTc1MTQsCjI3MCwwLjA3MjQ1NzI2MzA0ODkxODc4LAoyNzEsMC4wNzI0MjIyNDI1ODgyOTIzNywKMjcyLDAuMDcyMzg3NTUwNDU2MTc2MDQsCjI3MywwLjA3MjM1MzE4MjI4MzQwNjE1LAoyNzQsMC4wNzIzMTkxMzM3NjczMzkwNSwKMjc1LDAuMDcyMjg1NDAwNjcwNjQyNTQsCjI3NiwwLjA3MjI1MTk3ODgyMDExNDI4LAoyNzcsMC4wNzIyMTg4NjQxMDU1MjYyNSwKMjc4LDAuMDcyMTg2MDUyNDc4NDk0OTIsCjI3OSwwLjA3MjE1MzUzOTk1MTM3NTQxLAoyODAsMC4wNzIxMjEzMjI1OTYxODA4LAoyODEsMC4wNzIwODkzOTY1NDM1MjQ0NiwKMjgyLDAuMDcyMDU3NzU3OTgxNTg0OTUsCjI4MywwLjA3MjAyNjQwMzE1NTA5Mzg3LAoyODQsMC4wNzE5OTUzMjgzNjQzNDUsCjI4NSwwLjA3MTk2NDUyOTk2NDIyNDg1LAoyODYsMC4wNzE5MzQwMDQzNjMyNjMyNSwKMjg3LDAuMDcxOTAzNzQ4MDIyNzA1MjMsCjI4OCwwLjA3MTg3Mzc1NzQ1NTYwMDkzLAoyODksMC4wNzE4NDQwMjkyMjU5MTYsCjI5MCwwLjA3MTgxNDU1OTk0NzY1OTY1LAoyOTEsMC4wNzE3ODUzNDYyODQwMzE2LAoyOTIsMC4wNzE3NTYzODQ5NDY1ODU2MiwKMjkzLDAuMDcxNzI3NjcyNjk0NDExOSwKMjk0LDAuMDcxNjk5MjA2MzMzMzM0NjMsCjI5NSwwLjA3MTY3MDk4MjcxNTEyNzA0LAoyOTYsMC4wNzE2NDI5OTg3MzY3NDIxLAoyOTcsMC4wNzE2MTUyNTEzMzk1NTg2OCwKMjk4LDAuMDcxNTg3NzM3NTA4NjQzMTQsCjI5OSwwLjA3MTU2MDQ1NDI3MjAyNTg3LAozMDAsMC4wNzE1MzMzOTg2OTk5OTE5NywK">Download the input log</a> | <a href="https://github.com/antonsoo/trainspotter/blob/main/docs/evaluation-evidence.md">Capture method and limits</a></p></section>
+  
+  <section class="summary">
+    <div class="count sev-error"><span class="n">0</span><span class="l">error</span></div>
+    <div class="count sev-warning"><span class="n">1</span><span class="l">warning</span></div>
+    <div class="count sev-info"><span class="n">0</span><span class="l">info</span></div>
+    <div class="strip-wrap"><svg class="strip" viewBox="0 0 920 34" role="img" aria-label="Finding timeline for the whole run"><rect x="0" y="0" width="920" height="34" class="strip-bg"/><line x1="0" y1="33" x2="920" y2="33" class="strip-base"/><rect x="73.8" y="2" width="149.8" height="28" fill="#f2b84b" fill-opacity="0.85"/></svg></div>
+  </section>
+
+  <details class="input-evidence"><summary>Metric sources and point counts</summary><p class="table-hint">Scroll the table horizontally to inspect every column.</p><div class="table-scroll" tabindex="0" role="region" aria-label="Metric sources and point counts"><table><caption>Names used by the report and their original source</caption><thead><tr><th scope="col">Report metric</th><th scope="col">Source metric</th><th scope="col">Readings</th><th scope="col">Analysis points</th></tr></thead><tbody><tr><th scope="row">eval/loss</th><td>eval_loss</td><td>61</td><td>61</td></tr><tr><th scope="row">train/loss</th><td>loss</td><td>201</td><td>201</td></tr></tbody></table></div></details>
+  
+  <section class="timing-evidence" aria-labelledby="timing-heading"><h2 id="timing-heading">Timing unavailable</h2><p>No eligible timing source. The comparison needs enough step_time or throughput readings, or loss observations with timestamps and explicit training steps. Conflicting repeated-step values are excluded from this check.</p><details><summary>Timing sources and windows</summary><ul><li>wall_time(train/loss): 201 of 201 points have no timestamp. No intervals were bridged across missing timestamps.</li><li>wall_time(eval/loss): 61 of 61 points have no timestamp. No intervals were bridged across missing timestamps.</li></ul><p>Default timing check: first and last 20% of observations, at least five each, without overlap. This describes those windows, not every step of the run. Direct throughput is time per reported unit (such as a sample or token). Unavailable timing does not establish stable speed.</p></details></section>
+
+  <div class="charts">
+    <p class="chart-hint">Scroll charts horizontally to inspect their full step range.</p>
+    <section class="chart-block"><h2>train/loss / eval/loss</h2><div class="chart-scroll" tabindex="0" role="region" aria-label="train/loss / eval/loss chart"><svg class="chart" viewBox="0 0 920 198" role="img" aria-label="train/loss vs eval/loss over steps 0 to 300"><rect x="54.0" y="0" width="10" height="10" fill="#4fd1e8"/><text class="legend" x="68.0" y="9" text-anchor="start">train/loss</text><rect x="160.0" y="0" width="10" height="10" fill="#ffb454"/><text class="legend" x="174.0" y="9" text-anchor="start">eval/loss</text><line class="grid" x1="54" y1="172.0" x2="902" y2="172.0"/><text class="axis-y" x="46" y="175.0" text-anchor="end">0</text><line class="grid" x1="54" y1="138.4" x2="902" y2="138.4"/><text class="axis-y" x="46" y="141.4" text-anchor="end">0.5</text><line class="grid" x1="54" y1="104.8" x2="902" y2="104.8"/><text class="axis-y" x="46" y="107.8" text-anchor="end">1</text><line class="grid" x1="54" y1="71.2" x2="902" y2="71.2"/><text class="axis-y" x="46" y="74.2" text-anchor="end">1.5</text><line class="grid" x1="54" y1="37.6" x2="902" y2="37.6"/><text class="axis-y" x="46" y="40.6" text-anchor="end">2</text><line class="grid" x1="54.0" y1="32" x2="54.0" y2="172"/><text class="axis-x" x="54.0" y="188" text-anchor="middle">0</text><line class="grid" x1="336.7" y1="32" x2="336.7" y2="172"/><text class="axis-x" x="336.7" y="188" text-anchor="middle">100</text><line class="grid" x1="619.3" y1="32" x2="619.3" y2="172"/><text class="axis-x" x="619.3" y="188" text-anchor="middle">200</text><line class="grid" x1="902.0" y1="32" x2="902.0" y2="172"/><text class="axis-x" x="902.0" y="188" text-anchor="middle">300</text><rect class="finding-band" x="73.8" y="32" width="149.8" height="140" fill="#f2b84b" fill-opacity="0.16"/><line x1="73.8" y1="32" x2="73.8" y2="172" stroke="#f2b84b" stroke-opacity="0.55" stroke-width="1"/><path d="M336.7 165.7 L339.5 165.7 L342.3 165.7 L345.1 165.8 L348.0 165.8 L350.8 165.8 L353.6 165.8 L356.5 165.9 L359.3 165.9 L362.1 165.9 L364.9 165.9 L367.8 166.0 L370.6 166.0 L373.4 166.0 L376.2 166.0 L379.1 166.0 L381.9 166.1 L384.7 166.1 L387.5 166.1 L390.4 166.1 L393.2 166.1 L396.0 166.1 L398.9 166.2 L401.7 166.2 L404.5 166.2 L407.3 166.2 L410.2 166.2 L413.0 166.2 L415.8 166.3 L418.6 166.3 L421.5 166.3 L424.3 166.3 L427.1 166.3 L429.9 166.3 L432.8 166.3 L435.6 166.4 L438.4 166.4 L441.3 166.4 L444.1 166.4 L446.9 166.4 L449.7 166.4 L452.6 166.4 L455.4 166.4 L458.2 166.5 L461.0 166.5 L463.9 166.5 L466.7 166.5 L469.5 166.5 L472.3 166.5 L475.2 166.5 L478.0 166.5 L480.8 166.5 L483.7 166.5 L486.5 166.6 L489.3 166.6 L492.1 166.6 L495.0 166.6 L497.8 166.6 L500.6 166.6 L503.4 166.6 L506.3 166.6 L509.1 166.6 L511.9 166.6 L514.7 166.6 L517.6 166.7 L520.4 166.7 L523.2 166.7 L526.1 166.7 L528.9 166.7 L531.7 166.7 L534.5 166.7 L537.4 166.7 L540.2 166.7 L543.0 166.7 L545.8 166.7 L548.7 166.7 L551.5 166.7 L554.3 166.8 L557.1 166.8 L560.0 166.8 L562.8 166.8 L565.6 166.8 L568.5 166.8 L571.3 166.8 L574.1 166.8 L576.9 166.8 L579.8 166.8 L582.6 166.8 L585.4 166.8 L588.2 166.8 L591.1 166.8 L593.9 166.8 L596.7 166.8 L599.5 166.8 L602.4 166.9 L605.2 166.9 L608.0 166.9 L610.9 166.9 L613.7 166.9 L616.5 166.9 L619.3 166.9 L622.2 166.9 L625.0 166.9 L627.8 166.9 L630.6 166.9 L633.5 166.9 L636.3 166.9 L639.1 166.9 L641.9 166.9 L644.8 166.9 L647.6 166.9 L650.4 166.9 L653.3 166.9 L656.1 166.9 L658.9 167.0 L661.7 167.0 L664.6 167.0 L667.4 167.0 L670.2 167.0 L673.0 167.0 L675.9 167.0 L678.7 167.0 L681.5 167.0 L684.3 167.0 L687.2 167.0 L690.0 167.0 L692.8 167.0 L695.7 167.0 L698.5 167.0 L701.3 167.0 L704.1 167.0 L707.0 167.0 L709.8 167.0 L712.6 167.0 L715.4 167.0 L718.3 167.0 L721.1 167.0 L723.9 167.0 L726.7 167.0 L729.6 167.0 L732.4 167.0 L735.2 167.1 L738.1 167.1 L740.9 167.1 L743.7 167.1 L746.5 167.1 L749.4 167.1 L752.2 167.1 L755.0 167.1 L757.8 167.1 L760.7 167.1 L763.5 167.1 L766.3 167.1 L769.1 167.1 L772.0 167.1 L774.8 167.1 L777.6 167.1 L780.5 167.1 L783.3 167.1 L786.1 167.1 L788.9 167.1 L791.8 167.1 L794.6 167.1 L797.4 167.1 L800.2 167.1 L803.1 167.1 L805.9 167.1 L808.7 167.1 L811.5 167.1 L814.4 167.1 L817.2 167.1 L820.0 167.1 L822.9 167.1 L825.7 167.1 L828.5 167.1 L831.3 167.1 L834.2 167.1 L837.0 167.1 L839.8 167.1 L842.6 167.2 L845.5 167.2 L848.3 167.2 L851.1 167.2 L853.9 167.2 L856.8 167.2 L859.6 167.2 L862.4 167.2 L865.3 167.2 L868.1 167.2 L870.9 167.2 L873.7 167.2 L876.6 167.2 L879.4 167.2 L882.2 167.2 L885.0 167.2 L887.9 167.2 L890.7 167.2 L893.5 167.2 L896.3 167.2 L899.2 167.2 L902.0 167.2" fill="none" stroke="#4fd1e8" stroke-width="1.75"/><path d="M54.0 42.4 L56.8 61.8 L59.7 73.4 L62.5 80.2 L65.3 83.9 L68.1 85.8 L71.0 86.5 L73.8 86.6 L76.6 86.2 L79.4 85.5 L82.3 84.7 L85.1 83.9 L87.9 82.9 L90.7 82.0 L93.6 81.0 L96.4 80.0 L99.2 79.0 L102.1 78.1 L104.9 77.1 L107.7 76.2 L110.5 75.2 L113.4 74.3 L116.2 73.4 L119.0 72.5 L121.8 71.6 L124.7 70.7 L127.5 69.8 L130.3 69.0 L133.1 68.2 L136.0 67.4 L138.8 66.6 L141.6 65.8 L144.5 65.1 L147.3 64.3 L150.1 63.6 L152.9 62.9 L155.8 62.2 L158.6 61.6 L161.4 60.9 L164.2 60.3 L167.1 59.7 L169.9 59.1 L172.7 58.5 L175.5 58.0 L178.4 57.4 L181.2 56.9 L184.0 56.4 L186.9 55.9 L189.7 55.4 L192.5 54.9 L195.3 54.4 L198.2 54.0 L201.0 53.5 L203.8 53.1 L206.6 52.7 L209.5 52.2 L212.3 51.8 L215.1 51.5 L217.9 51.1 L220.8 50.7 L223.6 50.3" fill="none" stroke="#ffb454" stroke-width="1.75"/><rect class="frame" x="54" y="32" width="848" height="140" fill="none"/></svg></div></section>
+  </div>
+
+  <section class="findings-log">
+    <h2 class="log-title">Findings log</h2>
+    <article class="finding sev-warning">
+  <div class="finding-head">
+    <span class="chip sev-warning">WARN</span>
+    <span class="steps">steps 7&ndash;60</span>
+    <span class="detector">overfitting</span>
+    <h3>Evaluation loss rising</h3>
+  </div>
+  <p class="message">Lowest logged eval/loss in this finite segment was 1.271 at step 7; the last value is 1.81 (42.4%, slope diagnostic p&lt;0.0001).</p>
+  <p class="evidence"><span class='k'>segment_start</span>=0 &nbsp; <span class='k'>segment_observations</span>=61 &nbsp; <span class='k'>best_step</span>=7 &nbsp; <span class='k'>best_value</span>=1.271 &nbsp; <span class='k'>current_value</span>=1.81 &nbsp; <span class='k'>relative_rise</span>=0.4239 &nbsp; <span class='k'>slope_p_value</span>=0 &nbsp; <span class='k'>slope_status</span>=assessed &nbsp; <span class='k'>training_status</span>=insufficient_overlap &nbsp; <span class='k'>training_observations</span>=0 &nbsp; <span class='k'>overlap_eval_observations</span>=0</p>
+  <ul class="fixes"><li>If a checkpoint was saved near step 7, compare it with the last saved checkpoint on the same evaluation examples.</li><li>Check evaluation-data and metric-definition changes before attributing the rise to training.</li><li>If the regression persists on a comparable evaluation set, consider early stopping, regularization, or more training data.</li></ul>
+</article>
+  </section>
+  </main>
+
+  <footer class="masthead-foot">
+    <span>trainspotter &mdash; heuristic diagnostics, not ground truth. Read each finding's false-positive modes before acting on it.</span>
+  </footer>
+</div>
+</body>
+</html>

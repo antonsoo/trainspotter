@@ -1,0 +1,210 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; style-src 'unsafe-inline'; img-src data:; base-uri 'none'; form-action 'none'">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 32 32%22><rect width=%2232%22 height=%2232%22 rx=%226%22 fill=%22%230b0e11%22/><path d=%22M4 22 L12 20 L18 21 L22 8 L28 6%22 stroke=%22%234fc3f7%22 stroke-width=%222.4%22 fill=%22none%22 stroke-linecap=%22round%22/></svg>">
+<title>trainspotter - A broken timing window</title>
+<style>
+
+:root {
+  --bg: #0a0d10;
+  --panel: #10151a;
+  --panel-2: #0d1216;
+  --line: #1f2830;
+  --line-strong: #2c3944;
+  --text: #d9e2e8;
+  --text-muted: #8b97a1;
+  --text-dim: #6e7c87;
+  --err: #ff5d5d;
+  --warn: #f2b84b;
+  --info: #5fb3ff;
+  --mono: ui-monospace, "SFMono-Regular", "Cascadia Mono", Consolas, "Liberation Mono", monospace;
+  --sans: -apple-system, "Segoe UI", "Helvetica Neue", Arial, sans-serif;
+}
+* { box-sizing: border-box; }
+a { color: var(--info); }
+a:focus-visible, .repeated-evidence summary:focus-visible, .table-scroll:focus-visible {
+  outline: 2px solid var(--info); outline-offset: 3px;
+}
+html, body { margin: 0; padding: 0; background: var(--bg); color: var(--text); }
+body {
+  font-family: var(--sans);
+  font-size: 14px;
+  line-height: 1.5;
+  padding: 0 0 48px;
+}
+.bezel { max-width: 980px; margin: 0 auto; padding: 28px 20px 0; }
+
+.masthead {
+  display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between;
+  gap: 12px 24px; padding-bottom: 16px; border-bottom: 1px solid var(--line-strong);
+}
+.brand { display: flex; align-items: baseline; gap: 10px; }
+.brand-mark { color: var(--info); font-size: 11px; }
+.brand-name { margin: 0; line-height: inherit; font-family: var(--mono); font-weight: 700; font-size: 17px; letter-spacing: 0.12em; }
+.brand-sub { font-family: var(--mono); color: var(--text-dim); font-size: 12px; letter-spacing: 0.06em; text-transform: uppercase; }
+.readouts { display: flex; flex-wrap: wrap; gap: 18px 28px; margin: 0; font-family: var(--mono); font-size: 12px; }
+.readouts > div { display: flex; flex-direction: column; gap: 2px; max-width: 260px; }
+.readouts dt { color: var(--text-dim); text-transform: uppercase; letter-spacing: 0.08em; font-size: 10px; }
+.readouts dd { margin: 0; color: var(--text-muted); overflow-wrap: anywhere; }
+.readouts dd.warn { color: var(--warn); }
+.input-notes { border-left: 3px solid var(--warn); padding: 10px 14px; margin: 18px 0 4px; background: var(--panel); }
+.input-notes h2 { margin: 0 0 4px; color: var(--warn); font-size: 14px; }
+.input-notes ul { margin: 0; padding-left: 18px; overflow-wrap: anywhere; }
+.input-evidence { margin: 12px 0; font-family: var(--mono); color: var(--text-muted); font-size: 12px; }
+.input-evidence summary { cursor: pointer; padding: 6px 0; }
+.input-evidence summary:focus-visible { outline: 2px solid var(--info); outline-offset: 4px; }
+.table-scroll { overflow-x: auto; }
+.input-evidence table { width: 100%; min-width: 560px; border-collapse: collapse; table-layout: fixed; }
+.input-evidence caption { text-align: left; padding: 8px 0; }
+.input-evidence th, .input-evidence td { text-align: left; padding: 7px 8px; border-bottom: 1px solid var(--line); overflow-wrap: anywhere; }
+.input-evidence th:nth-child(n+3), .input-evidence td:nth-child(n+3) { width: 110px; text-align: right; }
+.input-evidence tbody th { font-weight: normal; }
+.timing-evidence { margin: 16px 0 20px; padding: 12px 16px; background: var(--panel); border: 1px solid var(--line-strong); border-left: 3px solid var(--info); overflow-wrap: anywhere; }
+.timing-evidence h2 { margin: 0 0 6px; font: 13px var(--mono); color: var(--text-muted); text-transform: uppercase; letter-spacing: .06em; }
+.timing-evidence p { margin: 8px 0; }
+.timing-ratio { font-family: var(--mono); }
+.timing-ratio strong { font-size: 22px; color: var(--info); font-weight: normal; }
+.timing-evidence details { color: var(--text-muted); font-size: 12px; }
+.timing-evidence summary { cursor: pointer; padding: 4px 0; }
+.timing-evidence summary:focus-visible { outline: 2px solid var(--info); outline-offset: 3px; }
+.timing-evidence table { width: 100%; min-width: 580px; border-collapse: collapse; font-family: var(--mono); }
+.timing-evidence caption { text-align: left; padding: 10px 0; }
+.timing-evidence th, .timing-evidence td { text-align: right; padding: 8px; border-bottom: 1px solid var(--line); }
+.timing-evidence th:first-child { text-align: left; }
+.timing-evidence ul { padding-left: 20px; }
+.repeated-evidence summary { cursor: pointer; padding: 5px 0; }
+.repeated-evidence h2 { margin-top: 10px; }
+.repeated-evidence table { width: 100%; min-width: 800px; table-layout: fixed; border-collapse: collapse; font-family: var(--mono); font-size: 12px; }
+.repeated-evidence th, .repeated-evidence td { text-align: left; padding: 8px; border-bottom: 1px solid var(--line); overflow-wrap: anywhere; }
+.repeated-evidence th:nth-child(1) { width: 140px; }
+.repeated-evidence th:nth-child(2) { width: 70px; }
+.repeated-evidence th:nth-child(3) { width: 210px; }
+.repeated-evidence caption { text-align: left; padding: 10px 0; }
+.table-hint { color: var(--text-muted); font-size: 12px; margin: 8px 0; }
+@media (min-width: 900px) { .table-hint { display: none; } }
+
+.summary { padding: 18px 0 8px; }
+.summary { display: grid; grid-template-columns: repeat(3, auto) 1fr; align-items: center; gap: 20px; }
+.count { display: flex; align-items: baseline; gap: 8px; font-family: var(--mono); }
+.count .n { font-size: 22px; font-weight: 700; }
+.count .l { font-size: 11px; text-transform: uppercase; letter-spacing: 0.08em; color: var(--text-dim); }
+.count.sev-error .n { color: var(--err); }
+.count.sev-warning .n { color: var(--warn); }
+.count.sev-info .n { color: var(--info); }
+.strip-wrap { min-width: 220px; }
+.strip { width: 100%; height: 34px; display: block; }
+.strip-bg { fill: var(--panel-2); }
+.strip-base { stroke: var(--line-strong); stroke-width: 1; }
+
+.charts { display: flex; flex-direction: column; gap: 6px; margin-top: 10px; }
+.chart-block { background: var(--panel); border: 1px solid var(--line); border-radius: 2px; padding: 10px 14px 4px; }
+.chart-block h2 {
+  font-family: var(--mono); font-size: 12px; font-weight: 600; letter-spacing: 0.08em;
+  text-transform: uppercase; color: var(--text-muted); margin: 0 0 4px; overflow-wrap: anywhere;
+}
+.chart { width: 100%; height: auto; display: block; }
+.uncharted { font-family: var(--mono); font-size: 12px; color: var(--text-muted); margin: 8px 2px; overflow-wrap: anywhere; }
+.chart-scroll { overflow-x: auto; }
+.chart-scroll:focus-visible { outline: 2px solid var(--info); outline-offset: 2px; }
+.chart-hint { display: none; }
+.grid { stroke: var(--line); stroke-width: 1; }
+.frame { stroke: var(--line-strong); stroke-width: 1; }
+.axis-y, .axis-x { font-family: var(--mono); font-size: 9px; fill: var(--text-dim); }
+.legend { font-family: var(--mono); font-size: 10px; fill: var(--text-muted); }
+.marker-bad { font-family: var(--mono); font-size: 13px; fill: var(--err); font-weight: 700; }
+.off-scale-label { font-family: var(--mono); font-size: 9px; font-weight: 600; }
+
+.findings-log { margin-top: 28px; }
+.log-title {
+  font-family: var(--mono); font-size: 12px; letter-spacing: 0.1em; text-transform: uppercase;
+  color: var(--text-muted); border-bottom: 1px solid var(--line-strong); padding-bottom: 8px;
+}
+.clean { color: var(--text-muted); font-family: var(--mono); font-size: 13px; }
+.finding { border-bottom: 1px solid var(--line); padding: 14px 0; }
+.finding:last-child { border-bottom: none; }
+.finding-head { display: flex; flex-wrap: wrap; align-items: baseline; gap: 10px; }
+.finding-head h3 { font-size: 14.5px; margin: 0; color: var(--text); font-weight: 600; }
+.chip {
+  font-family: var(--mono); font-size: 10px; font-weight: 700; letter-spacing: 0.06em;
+  padding: 2px 6px; border-radius: 2px; border: 1px solid currentColor;
+}
+.chip.sev-error { color: var(--err); }
+.chip.sev-warning { color: var(--warn); }
+.chip.sev-info { color: var(--info); }
+.steps, .detector { font-family: var(--mono); font-size: 11px; color: var(--text-dim); }
+.detector::before { content: "\00b7 "; }
+.message { margin: 6px 0 4px; color: var(--text); }
+.finding, .brand { overflow-wrap: anywhere; min-width: 0; }
+.evidence { font-family: var(--mono); font-size: 11.5px; color: var(--text-muted); margin: 0 0 6px; }
+.evidence .k { color: var(--text-dim); }
+.fixes { margin: 0; padding-left: 18px; color: var(--text-muted); font-size: 13px; }
+.fixes li { margin: 2px 0; }
+
+.masthead-foot {
+  margin-top: 32px; padding-top: 14px; border-top: 1px solid var(--line);
+  color: var(--text-dim); font-family: var(--mono); font-size: 11px;
+}
+
+@media (max-width: 600px) {
+  .chart { width: 760px; max-width: none; }
+  .axis-y, .axis-x, .legend, .off-scale-label { font-size: 12px; }
+  .chart-hint { display: block; margin: 2px 0 8px; color: var(--text-muted); font-size: 12px; }
+  .brand { flex-wrap: wrap; }
+  .summary { grid-template-columns: repeat(3, auto); }
+  .strip-wrap { grid-column: 1 / -1; order: 10; }
+}
+
+</style>
+</head>
+<body>
+<div class="bezel">
+  <header class="masthead">
+    <div class="brand">
+      <span class="brand-mark" aria-hidden="true">&#9679;</span>
+      <h1 class="brand-name">TRAINSPOTTER</h1>
+      <span class="brand-sub">run diagnostic</span>
+    </div>
+    <dl class="readouts">
+      <div><dt>source</dt><dd>examples/<wbr>timing/<wbr>slow-broken-clock.csv</dd></div>
+      <div><dt>format</dt><dd>csv</dd></div>
+      
+      <div><dt>steps</dt><dd>0&ndash;400</dd></div>
+      
+      
+      <div><dt>generated</dt><dd>2026-10-10 01:25 UTC</dd></div>
+    </dl>
+  </header>
+
+  <main><section class="chart-block sample-context" aria-labelledby="sample-heading"><h2 id="sample-heading">A broken timing window</h2><p>One timestamp in the same captured log was deliberately moved backwards. The timing comparison stays unavailable and shows the affected window.</p><p><a download="slow-broken-clock.csv" href="data:text/csv;base64,c3RlcCx3YWxsX3RpbWUsbG9zcw0KMCw3ODI1Ljk5ODUwMzk1OCwwLjY5MzE0NzE4MDU1OTk0NTMNCjQsNzgyNi4wMTA4NTY4OTIsMC41OTM5NzI5OTA5OTM3NTA5DQo4LDc4MjYuMDIzMTQxNzksMC41MjY0NTc2Njk3NDk3MjUNCjEyLDc4MjYuMDM1NDgzMTg3LDAuNDc4MTg1MjQyOTU2NTU0NzMNCjE2LDc4MjUuNzg1NDgzMTg3LDAuNDQxOTMxNDczMTgwODg1DQoyMCw3ODI2LjA2MDE4NzA2MywwLjQxMzU0NzMzNzc3NjMyMTI0DQoyNCw3ODI2LjA3MjU1MjQ3MiwwLjM5MDU2OTcwNDI5OTEzNjINCjI4LDc4MjYuMDg0OTE2MzA3LDAuMzcxNDY4NTgzNTYxOTE4Mg0KMzIsNzgyNi4wOTczMDM4NzgsMC4zNTUyNDk5OTY0OTA4ODEzDQozNiw3ODI2LjEwOTY2NDAxMiwwLjM0MTI0MTQyMTY2MDA4OTUNCjQwLDc4MjYuMTIyMDE5MjM2LDAuMzI4OTcxMzMxNDA5NjkxMTUNCjQ0LDc4MjYuMTM0MzYyNzIyLDAuMzE4MDk4NzM1NDkxOTcxMw0KNDgsNzgyNi4xNDY3MzAxOTQsMC4zMDgzNzAzNDExNjg3NDY3Mw0KNTIsNzgyNi4xNTkwODI1MjgsMC4yOTk1OTM1NjQyMjgwNTgzDQo1Niw3ODI2LjE3MTQ5MjIzMiwwLjI5MTYxODk3NDIzNzc4NTA0DQo2MCw3ODI2LjE4Mzg5MDI2MywwLjI4NDMyODU0NDc5MjE5NTMNCjY0LDc4MjYuMTk2Mjk5NTY1LDAuMjc3NjI3NTg0OTQ5MTM3ODYNCjY4LDc4MjYuMjA4NjYxNTU3LDAuMjcxNDM5MDY5NTI3OTEyOTcNCjcyLDc4MjYuMjIxMDEyNjI5LDAuMjY1Njk5NTcxNjA3NTUxNjQNCjc2LDc4MjYuMjMzMjg1NjQ5LDAuMjYwMzU2Mjg5MjgxNTM5NTMNCjgwLDc4MjYuMjQ1NjM4MzAzLDAuMjU1MzY0ODM1MDY3MzA4Mg0KODQsNzgyNi4yNTgwMDkyNTIsMC4yNTA2ODc1NjY3NzU2MDU4DQo4OCw3ODI2LjI3MDM3NzU1NiwwLjI0NjI5MjMwOTM1NDc0ODg4DQo5Miw3ODI2LjI4ODAxODE1MSwwLjI0MjE1MTM2MzQ2MjIxOTU1DQo5Niw3ODI2LjMwMDQwNTQ5MSwwLjIzODI0MDcyNzMzNDQ1Mzg0DQoxMDAsNzgyNi4zMTI3NjUzMDksMC4yMzQ1Mzk0Nzk0MzIxNjk2DQoxMDQsNzgyNi4zMjUxMjE1OSwwLjIzMTAyOTI4Mzc1NDE3NTE0DQoxMDgsNzgyNi4zMzc1MjgwNzgsMC4yMjc2OTM5ODk4MDM5OTIwMw0KMTEyLDc4MjYuMzQ5OTAxODcyLDAuMjI0NTE5MzA2MzU3OTkyOA0KMTE2LDc4MjYuMzYyMjM1NDQ0LDAuMjIxNDkyNTMzMzM3MjUzMDUNCjEyMCw3ODI2LjM3NDY3MzI4NywwLjIxODYwMjMzOTgzODA3MzgNCjEyNCw3ODI2LjM4NzA0OTczOCwwLjIxNTgzODU3OTE0MDQ1MzUNCjEyOCw3ODI2LjM5OTQ1MjI5NywwLjIxMzE5MjEzMzU3MjA3OTE3DQoxMzIsNzgyNi40MTE4MjM3NjcsMC4yMTA2NTQ3ODM2NTM2DQoxMzYsNzgyNi40MjQxNjMzMjYsMC4yMDgyMTkwOTcxMjY2MDk2Mw0KMTQwLDc4MjYuNDM2NTEyODc0LDAuMjA1ODc4MzM0MzY2NTkyNjQNCjE0NCw3ODI2LjQ0ODg1ODU0NSwwLjIwMzYyNjM2NzM3OTIwMDgNCjE0OCw3ODI2LjQ2MTIxNzAyLDAuMjAxNDU3NjEwMTIwNDU3MjQNCjE1Miw3ODI2LjQ3MzU1MTgxLDAuMTk5MzY2OTU4MzA3MDU0NDgNCjE1Niw3ODI2LjQ4NTkwMDAyNSwwLjE5NzM0OTczNzIxOTMxMTY1DQoxNjAsNzgyNi40OTgyMDkyNTYsMC4xOTU0MDE2NTYyNjcwNTk4DQoxNjQsNzgyNi41MTA1NTU2NDgsMC4xOTM1MTg3NjkzMDMxMzQ4Mw0KMTY4LDc4MjYuNTIyODg0Njk2LDAuMTkxNjk3NDM5ODQxOTE2MTINCjE3Miw3ODI2LjUzNTIyNTc4MiwwLjE4OTkzNDMxMDQ4MDM0OTENCjE3Niw3ODI2LjU0NzU4MTAwNywwLjE4ODIyNjI3NTkzMjk1ODQzDQoxODAsNzgyNi41NTk5MjA0OCwwLjE4NjU3MDQ1OTE4NTc4MDE2DQoxODQsNzgyNi41NzIzMDk2OCwwLjE4NDk2NDE5MDM1MTAyMzkNCjE4OCw3ODI2LjU4NDY2MjI2NCwwLjE4MzQwNDk4Nzg2Nzg0NTkzDQoxOTIsNzgyNi41OTcwMjMxNTgsMC4xODE4OTA1NDE3NDc0MDUzNQ0KMTk2LDc4MjYuNjA5Mzk2NzI3LDAuMTgwNDE4Njk4NjA0NDAyMzUNCjIwMCw3ODI2LjYyMTc1OTczMiwwLjE3ODk4NzQ0ODI1NDE2MTYzDQoyMTAsNzgyNi43MTI2Njc5NzUsMC4xNzU1NzQ4Nzg2MDk0Mzg5Mw0KMjIwLDc4MjYuODA0MDUxNTYyLDAuMTcyMzc4MzM3Mzg2MzU0NzINCjIzMCw3ODI2Ljg5NTAwMDE1MywwLjE2OTM3NTQwNzU2OTYwNDI2DQoyNDAsNzgyNi45ODU5MTUzNCwwLjE2NjU0NjgyMTQ0Njk4NDI0DQoyNTAsNzgyNy4wNzY5MDc0OSwwLjE2Mzg3NTkxMjc5MjA0ODUNCjI2MCw3ODI3LjE2Nzc3Mzg0NywwLjE2MTM0ODE4MTE4MjIyMzQ0DQoyNzAsNzgyNy4yNTg2NjYzMTYsMC4xNTg5NTA5NDIzMDgyMjQ1NA0KMjgwLDc4MjcuMzQ5NTk4NDE5LDAuMTU2NjczMDQ0OTE4NDM1NzYNCjI5MCw3ODI3LjQ0MDQ5MTQxOCwwLjE1NDUwNDYzOTg5OTI1NzE3DQozMDAsNzgyNy41MzEzMTE1MTcsMC4xNTI0MzY5OTA1MTMyNzE3NQ0KMzEwLDc4MjcuNjIyMjQ0NDg4LDAuMTUwNDYyMzE1Mzk5NTk3MTUNCjMyMCw3ODI3LjcxMzE2NzMyNSwwLjE0ODU3MzY1Nzg1NTk1MjMzDQozMzAsNzgyNy44MDQwNDA3OTEsMC4xNDY3NjQ3NzYzNTY4MTExDQozNDAsNzgyNy44OTQ5MTg0ODEsMC4xNDUwMzAwNTIzNDcyNjg4NQ0KMzUwLDc4MjcuOTg1ODcxMzc1LDAuMTQzMzY0NDEyMTgwNDM2MQ0KMzYwLDc4MjguMDc2ODcyMjMxLDAuMTQxNzYzMjYwNzAzNDc2NjcNCjM3MCw3ODI4LjE2Nzg0MTczMywwLjE0MDIyMjQyNDQ5MTY4NDY1DQozODAsNzgyOC4yNTg3NzYxNTYsMC4xMzg3MzgxMDMxMTYxODU4Nw0KMzkwLDc4MjguMzQ5Nzc3LDAuMTM3MzA2ODI3MTM0NjkyOTINCjQwMCw3ODI4LjQ0MDgzMzAxMSwwLjEzNTkyNTQyMTczNTM4ODAyDQo=">Download the input log</a> | <a href="https://github.com/antonsoo/trainspotter/blob/main/docs/timing-evidence.md">Capture method and limits</a></p></section>
+  
+  <section class="summary">
+    <div class="count sev-error"><span class="n">0</span><span class="l">error</span></div>
+    <div class="count sev-warning"><span class="n">0</span><span class="l">warning</span></div>
+    <div class="count sev-info"><span class="n">0</span><span class="l">info</span></div>
+    <div class="strip-wrap"><svg class="strip" viewBox="0 0 920 34" role="img" aria-label="Finding timeline for the whole run"><rect x="0" y="0" width="920" height="34" class="strip-bg"/><line x1="0" y1="33" x2="920" y2="33" class="strip-base"/></svg></div>
+  </section>
+
+  <details class="input-evidence"><summary>Metric sources and point counts</summary><p class="table-hint">Scroll the table horizontally to inspect every column.</p><div class="table-scroll" tabindex="0" role="region" aria-label="Metric sources and point counts"><table><caption>Names used by the report and their original source</caption><thead><tr><th scope="col">Report metric</th><th scope="col">Source metric</th><th scope="col">Readings</th><th scope="col">Analysis points</th></tr></thead><tbody><tr><th scope="row">train/loss</th><td>loss</td><td>71</td><td>71</td></tr></tbody></table></div></details>
+  
+  <section class="timing-evidence" aria-labelledby="timing-heading"><h2 id="timing-heading">Timing unavailable</h2><p>The baseline or recent window contains invalid timing observations. The windows were not moved past them; no speed comparison is available.</p><details><summary>Timing sources and windows</summary><p>Source: <code>wall_time(train/loss)</code>, from logged metric <code>loss</code>. 70 timing observations; 1 unusable.</p><p class="table-hint">Scroll the timing table horizontally to inspect every column.</p><div class="table-scroll" tabindex="0" role="region" aria-label="Timing windows"><table><caption>Baseline and recent timing windows</caption><thead><tr><th scope="col">Window</th><th scope="col">Step intervals</th><th scope="col">Observations</th><th scope="col">Unusable</th><th scope="col">Median (s/step)</th></tr></thead><tbody><tr><th scope="row">Baseline</th><td>0&ndash;56</td><td>14</td><td>1</td><td>Unavailable</td></tr><tr><th scope="row">Recent</th><td>260&ndash;400</td><td>14</td><td>0</td><td>0.00909325</td></tr></tbody></table></div><ul><li>Wall-clock intervals include evaluation, checkpointing, pauses and other work between observations. They are not isolated compute timings.</li></ul><p>Default timing check: first and last 20% of observations, at least five each, without overlap. This describes those windows, not every step of the run. Direct throughput is time per reported unit (such as a sample or token). Unavailable timing does not establish stable speed.</p></details></section>
+
+  <div class="charts">
+    <p class="chart-hint">Scroll charts horizontally to inspect their full step range.</p>
+    <section class="chart-block"><h2>train/loss</h2><div class="chart-scroll" tabindex="0" role="region" aria-label="train/loss chart"><svg class="chart" viewBox="0 0 920 180" role="img" aria-label="train/loss over steps 0 to 400"><line class="grid" x1="54" y1="154.0" x2="902" y2="154.0"/><text class="axis-y" x="46" y="157.0" text-anchor="end">0</text><line class="grid" x1="54" y1="116.6" x2="902" y2="116.6"/><text class="axis-y" x="46" y="119.6" text-anchor="end">0.2</text><line class="grid" x1="54" y1="79.2" x2="902" y2="79.2"/><text class="axis-y" x="46" y="82.2" text-anchor="end">0.4</text><line class="grid" x1="54" y1="41.8" x2="902" y2="41.8"/><text class="axis-y" x="46" y="44.8" text-anchor="end">0.6</text><line class="grid" x1="54.0" y1="14" x2="54.0" y2="154"/><text class="axis-x" x="54.0" y="170" text-anchor="middle">0</text><line class="grid" x1="266.0" y1="14" x2="266.0" y2="154"/><text class="axis-x" x="266.0" y="170" text-anchor="middle">100</text><line class="grid" x1="478.0" y1="14" x2="478.0" y2="154"/><text class="axis-x" x="478.0" y="170" text-anchor="middle">200</text><line class="grid" x1="690.0" y1="14" x2="690.0" y2="154"/><text class="axis-x" x="690.0" y="170" text-anchor="middle">300</text><line class="grid" x1="902.0" y1="14" x2="902.0" y2="154"/><text class="axis-x" x="902.0" y="170" text-anchor="middle">400</text><path d="M54.0 24.4 L62.5 42.9 L71.0 55.5 L79.4 64.6 L87.9 71.4 L96.4 76.7 L104.9 81.0 L113.4 84.5 L121.8 87.6 L130.3 90.2 L138.8 92.5 L147.3 94.5 L155.8 96.3 L164.2 98.0 L172.7 99.5 L181.2 100.8 L189.7 102.1 L198.2 103.2 L206.6 104.3 L215.1 105.3 L223.6 106.2 L232.1 107.1 L240.6 107.9 L249.0 108.7 L257.5 109.4 L266.0 110.1 L274.5 110.8 L283.0 111.4 L291.4 112.0 L299.9 112.6 L308.4 113.1 L316.9 113.6 L325.4 114.1 L333.8 114.6 L342.3 115.1 L350.8 115.5 L359.3 115.9 L367.8 116.3 L376.2 116.7 L384.7 117.1 L393.2 117.5 L401.7 117.8 L410.2 118.1 L418.6 118.5 L427.1 118.8 L435.6 119.1 L444.1 119.4 L452.6 119.7 L461.0 120.0 L469.5 120.3 L478.0 120.5 L499.2 121.2 L520.4 121.8 L541.6 122.3 L562.8 122.9 L584.0 123.4 L605.2 123.8 L626.4 124.3 L647.6 124.7 L668.8 125.1 L690.0 125.5 L711.2 125.9 L732.4 126.2 L753.6 126.6 L774.8 126.9 L796.0 127.2 L817.2 127.5 L838.4 127.8 L859.6 128.1 L880.8 128.3 L902.0 128.6" fill="none" stroke="#4fd1e8" stroke-width="1.75"/><rect class="frame" x="54" y="14" width="848" height="140" fill="none"/></svg></div></section>
+  </div>
+
+  <section class="findings-log">
+    <h2 class="log-title">Findings log</h2>
+    <p class="clean">No pathologies detected in the metrics this detector set covers.</p>
+  </section>
+  </main>
+
+  <footer class="masthead-foot">
+    <span>trainspotter &mdash; heuristic diagnostics, not ground truth. Read each finding's false-positive modes before acting on it.</span>
+  </footer>
+</div>
+</body>
+</html>

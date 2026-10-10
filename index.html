@@ -63,14 +63,26 @@ footer a { color: var(--text-dim); }
     at each build, not hand-typed.</p>
   </header>
   <main class="grid">
-    <a class="card" href="baseline.html">
+    <a class="card" href="scheduler-resume.html">
+  <h2>A scheduler reset below its old peak</h2>
+  <p>Controlled CPU PyTorch training: optimizer state is restored at step 200, but the scheduler counter is deliberately reset. The later rise never reaches the original peak. A log alone cannot tell this mistake from an intended restart.</p>
+  <div class="chips"><span class="chip sev-error">0 error</span><span class="chip sev-warning">0 warning</span><span class="chip sev-info">1 info</span></div>
+</a><a class="card" href="evaluation-overlap.html">
+  <h2>Training after evaluation ended</h2>
+  <p>Derived from a controlled regression run on synthetic data: evaluation readings end at step 60; training readings start at 100. The evaluation rise is observed, but these disjoint intervals cannot support a contemporaneous training trend.</p>
+  <div class="chips"><span class="chip sev-error">0 error</span><span class="chip sev-warning">1 warning</span><span class="chip sev-info">0 info</span></div>
+</a><a class="card" href="evaluation-cohorts.html">
+  <h2>Same model, different evaluation data</h2>
+  <p>A frozen regression model alternates between all 128 evaluation examples and the 32 highest-loss examples. The swings come from deliberate cohort selection. Here step means evaluation pass, not optimizer update; the weights do not change.</p>
+  <div class="chips"><span class="chip sev-error">1 error</span><span class="chip sev-warning">0 warning</span><span class="chip sev-info">1 info</span></div>
+</a><a class="card" href="baseline.html">
   <h2>Baseline</h2>
   <p>Ordinary warmup + cosine-decay training on the full dataset. Nothing wrong with it.</p>
   <div class="chips"><span class="chip sev-error">0 error</span><span class="chip sev-warning">0 warning</span><span class="chip sev-info">0 info</span></div>
 </a><a class="card" href="divergence.html">
   <h2>Divergence</h2>
   <p>320 healthy steps, then a simulated LR-schedule incident blows the run up.</p>
-  <div class="chips"><span class="chip sev-error">3 error</span><span class="chip sev-warning">1 warning</span><span class="chip sev-info">2 info</span></div>
+  <div class="chips"><span class="chip sev-error">1 error</span><span class="chip sev-warning">2 warning</span><span class="chip sev-info">4 info</span></div>
 </a><a class="card" href="overfitting.html">
   <h2>Overfitting</h2>
   <p>40 training examples, no regularization -- eval loss turns upward after step 125.</p>
@@ -78,19 +90,31 @@ footer a { color: var(--text-dim); }
 </a><a class="card" href="missing_warmup.html">
   <h2>Missing warmup</h2>
   <p>Learning rate jumps straight to its peak from step 0, no ramp-up.</p>
-  <div class="chips"><span class="chip sev-error">0 error</span><span class="chip sev-warning">3 warning</span><span class="chip sev-info">0 info</span></div>
+  <div class="chips"><span class="chip sev-error">0 error</span><span class="chip sev-warning">1 warning</span><span class="chip sev-info">1 info</span></div>
 </a><a class="card" href="throughput_drop.html">
   <h2>Throughput drop</h2>
   <p>A real, measured mid-run slowdown (an actual time.sleep, not a fabricated number).</p>
-  <div class="chips"><span class="chip sev-error">0 error</span><span class="chip sev-warning">3 warning</span><span class="chip sev-info">0 info</span></div>
+  <div class="chips"><span class="chip sev-error">0 error</span><span class="chip sev-warning">1 warning</span><span class="chip sev-info">0 info</span></div>
 </a><a class="card" href="transformers_tinygpt2.html">
   <h2>Real transformers.Trainer run</h2>
   <p>A genuine 2-layer GPT-2 trained via transformers.Trainer, not the numpy MLP.</p>
   <div class="chips"><span class="chip sev-error">0 error</span><span class="chip sev-warning">0 warning</span><span class="chip sev-info">0 info</span></div>
+</a><a class="card" href="timing-cadence.html">
+  <h2>Timing without step counts</h2>
+  <p>A measured training loop logs less often halfway through. Without step counts, the report explains why per-step speed is unavailable.</p>
+  <div class="chips"><span class="chip sev-error">0 error</span><span class="chip sev-warning">0 warning</span><span class="chip sev-info">0 info</span></div>
+</a><a class="card" href="timing-slowdown.html">
+  <h2>Inspect a measured slowdown</h2>
+  <p>A deliberate delay in a numerical training loop. Inspect the recorded source, actual step intervals and baseline/recent medians.</p>
+  <div class="chips"><span class="chip sev-error">0 error</span><span class="chip sev-warning">1 warning</span><span class="chip sev-info">0 info</span></div>
+</a><a class="card" href="timing-broken-clock.html">
+  <h2>A broken timing window</h2>
+  <p>One timestamp in the same captured log was deliberately moved backwards. The timing comparison stays unavailable and shows the affected window.</p>
+  <div class="chips"><span class="chip sev-error">0 error</span><span class="chip sev-warning">0 warning</span><span class="chip sev-info">0 info</span></div>
 </a>
   </main>
   <footer>
-    <span>Built 2026-10-03 03:08 UTC &middot;
+    <span>Built 2026-10-10 01:25 UTC &middot;
     <a href="https://github.com/antonsoo/trainspotter">source</a></span>
   </footer>
 </div>
