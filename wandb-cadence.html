@@ -1,0 +1,211 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; style-src 'unsafe-inline'; img-src data:; base-uri 'none'; form-action 'none'">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 32 32%22><rect width=%2232%22 height=%2232%22 rx=%226%22 fill=%22%230b0e11%22/><path d=%22M4 22 L12 20 L18 21 L22 8 L28 6%22 stroke=%22%234fc3f7%22 stroke-width=%222.4%22 fill=%22none%22 stroke-linecap=%22round%22/></svg>">
+<title>trainspotter - Logging less often is not slower training</title>
+<style>
+
+:root {
+  --bg: #0a0d10;
+  --panel: #10151a;
+  --panel-2: #0d1216;
+  --line: #1f2830;
+  --line-strong: #2c3944;
+  --text: #d9e2e8;
+  --text-muted: #8b97a1;
+  --text-dim: #6e7c87;
+  --err: #ff5d5d;
+  --warn: #f2b84b;
+  --info: #5fb3ff;
+  --mono: ui-monospace, "SFMono-Regular", "Cascadia Mono", Consolas, "Liberation Mono", monospace;
+  --sans: -apple-system, "Segoe UI", "Helvetica Neue", Arial, sans-serif;
+}
+* { box-sizing: border-box; }
+a { color: var(--info); }
+a:focus-visible, .repeated-evidence summary:focus-visible, .table-scroll:focus-visible {
+  outline: 2px solid var(--info); outline-offset: 3px;
+}
+html, body { margin: 0; padding: 0; background: var(--bg); color: var(--text); }
+body {
+  font-family: var(--sans);
+  font-size: 14px;
+  line-height: 1.5;
+  padding: 0 0 48px;
+}
+.bezel { max-width: 980px; margin: 0 auto; padding: 28px 20px 0; }
+
+.masthead {
+  display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between;
+  gap: 12px 24px; padding-bottom: 16px; border-bottom: 1px solid var(--line-strong);
+}
+.brand { display: flex; align-items: baseline; gap: 10px; }
+.brand-mark { color: var(--info); font-size: 11px; }
+.brand-name { margin: 0; line-height: inherit; font-family: var(--mono); font-weight: 700; font-size: 17px; letter-spacing: 0.12em; }
+.brand-sub { font-family: var(--mono); color: var(--text-dim); font-size: 12px; letter-spacing: 0.06em; text-transform: uppercase; }
+.readouts { display: flex; flex-wrap: wrap; gap: 18px 28px; margin: 0; font-family: var(--mono); font-size: 12px; }
+.readouts > div { display: flex; flex-direction: column; gap: 2px; max-width: 260px; }
+.readouts dt { color: var(--text-dim); text-transform: uppercase; letter-spacing: 0.08em; font-size: 10px; }
+.readouts dd { margin: 0; color: var(--text-muted); overflow-wrap: anywhere; }
+.readouts dd.warn { color: var(--warn); }
+.input-notes { border-left: 3px solid var(--warn); padding: 10px 14px; margin: 18px 0 4px; background: var(--panel); }
+.input-notes h2 { margin: 0 0 4px; color: var(--warn); font-size: 14px; }
+.input-notes ul { margin: 0; padding-left: 18px; overflow-wrap: anywhere; }
+.input-evidence { margin: 12px 0; font-family: var(--mono); color: var(--text-muted); font-size: 12px; }
+.input-evidence summary { cursor: pointer; padding: 6px 0; }
+.input-evidence summary:focus-visible { outline: 2px solid var(--info); outline-offset: 4px; }
+.table-scroll { overflow-x: auto; }
+.input-evidence table { width: 100%; min-width: 560px; border-collapse: collapse; table-layout: fixed; }
+.input-evidence caption { text-align: left; padding: 8px 0; }
+.input-evidence th, .input-evidence td { text-align: left; padding: 7px 8px; border-bottom: 1px solid var(--line); overflow-wrap: anywhere; }
+.input-evidence th:nth-child(n+3), .input-evidence td:nth-child(n+3) { width: 110px; text-align: right; }
+.input-evidence tbody th { font-weight: normal; }
+.timing-evidence { margin: 16px 0 20px; padding: 12px 16px; background: var(--panel); border: 1px solid var(--line-strong); border-left: 3px solid var(--info); overflow-wrap: anywhere; }
+.timing-evidence h2 { margin: 0 0 6px; font: 13px var(--mono); color: var(--text-muted); text-transform: uppercase; letter-spacing: .06em; }
+.timing-evidence p { margin: 8px 0; }
+.timing-ratio { font-family: var(--mono); }
+.timing-ratio strong { font-size: 22px; color: var(--info); font-weight: normal; }
+.timing-evidence details { color: var(--text-muted); font-size: 12px; }
+.timing-evidence summary { cursor: pointer; padding: 4px 0; }
+.timing-evidence summary:focus-visible { outline: 2px solid var(--info); outline-offset: 3px; }
+.timing-evidence table { width: 100%; min-width: 580px; border-collapse: collapse; font-family: var(--mono); }
+.timing-evidence caption { text-align: left; padding: 10px 0; }
+.timing-evidence th, .timing-evidence td { text-align: right; padding: 8px; border-bottom: 1px solid var(--line); }
+.timing-evidence th:first-child { text-align: left; }
+.timing-evidence ul { padding-left: 20px; }
+.repeated-evidence summary { cursor: pointer; padding: 5px 0; }
+.repeated-evidence h2 { margin-top: 10px; }
+.repeated-evidence table { width: 100%; min-width: 800px; table-layout: fixed; border-collapse: collapse; font-family: var(--mono); font-size: 12px; }
+.repeated-evidence th, .repeated-evidence td { text-align: left; padding: 8px; border-bottom: 1px solid var(--line); overflow-wrap: anywhere; }
+.repeated-evidence th:nth-child(1) { width: 140px; }
+.repeated-evidence th:nth-child(2) { width: 70px; }
+.repeated-evidence th:nth-child(3) { width: 210px; }
+.repeated-evidence caption { text-align: left; padding: 10px 0; }
+.table-hint { color: var(--text-muted); font-size: 12px; margin: 8px 0; }
+@media (min-width: 900px) { .table-hint { display: none; } }
+
+.summary { padding: 18px 0 8px; }
+.summary { display: grid; grid-template-columns: repeat(3, auto) 1fr; align-items: center; gap: 20px; }
+.count { display: flex; align-items: baseline; gap: 8px; font-family: var(--mono); }
+.count .n { font-size: 22px; font-weight: 700; }
+.count .l { font-size: 11px; text-transform: uppercase; letter-spacing: 0.08em; color: var(--text-dim); }
+.count.sev-error .n { color: var(--err); }
+.count.sev-warning .n { color: var(--warn); }
+.count.sev-info .n { color: var(--info); }
+.strip-wrap { min-width: 220px; }
+.strip { width: 100%; height: 34px; display: block; }
+.strip-bg { fill: var(--panel-2); }
+.strip-base { stroke: var(--line-strong); stroke-width: 1; }
+
+.charts { display: flex; flex-direction: column; gap: 6px; margin-top: 10px; }
+.chart-block { background: var(--panel); border: 1px solid var(--line); border-radius: 2px; padding: 10px 14px 4px; }
+.chart-block h2 {
+  font-family: var(--mono); font-size: 12px; font-weight: 600; letter-spacing: 0.08em;
+  text-transform: uppercase; color: var(--text-muted); margin: 0 0 4px; overflow-wrap: anywhere;
+}
+.chart { width: 100%; height: auto; display: block; }
+.uncharted { font-family: var(--mono); font-size: 12px; color: var(--text-muted); margin: 8px 2px; overflow-wrap: anywhere; }
+.chart-scroll { overflow-x: auto; }
+.chart-scroll:focus-visible { outline: 2px solid var(--info); outline-offset: 2px; }
+.chart-hint { display: none; }
+.grid { stroke: var(--line); stroke-width: 1; }
+.frame { stroke: var(--line-strong); stroke-width: 1; }
+.axis-y, .axis-x { font-family: var(--mono); font-size: 9px; fill: var(--text-dim); }
+.legend { font-family: var(--mono); font-size: 10px; fill: var(--text-muted); }
+.marker-bad { font-family: var(--mono); font-size: 13px; fill: var(--err); font-weight: 700; }
+.off-scale-label { font-family: var(--mono); font-size: 9px; font-weight: 600; }
+
+.findings-log { margin-top: 28px; }
+.log-title {
+  font-family: var(--mono); font-size: 12px; letter-spacing: 0.1em; text-transform: uppercase;
+  color: var(--text-muted); border-bottom: 1px solid var(--line-strong); padding-bottom: 8px;
+}
+.clean { color: var(--text-muted); font-family: var(--mono); font-size: 13px; }
+.finding { border-bottom: 1px solid var(--line); padding: 14px 0; }
+.finding:last-child { border-bottom: none; }
+.finding-head { display: flex; flex-wrap: wrap; align-items: baseline; gap: 10px; }
+.finding-head h3 { font-size: 14.5px; margin: 0; color: var(--text); font-weight: 600; }
+.chip {
+  font-family: var(--mono); font-size: 10px; font-weight: 700; letter-spacing: 0.06em;
+  padding: 2px 6px; border-radius: 2px; border: 1px solid currentColor;
+}
+.chip.sev-error { color: var(--err); }
+.chip.sev-warning { color: var(--warn); }
+.chip.sev-info { color: var(--info); }
+.steps, .detector { font-family: var(--mono); font-size: 11px; color: var(--text-dim); }
+.detector::before { content: "\00b7 "; }
+.message { margin: 6px 0 4px; color: var(--text); }
+.finding, .brand { overflow-wrap: anywhere; min-width: 0; }
+.evidence { font-family: var(--mono); font-size: 11.5px; color: var(--text-muted); margin: 0 0 6px; }
+.evidence .k { color: var(--text-dim); }
+.fixes { margin: 0; padding-left: 18px; color: var(--text-muted); font-size: 13px; }
+.fixes li { margin: 2px 0; }
+
+.masthead-foot {
+  margin-top: 32px; padding-top: 14px; border-top: 1px solid var(--line);
+  color: var(--text-dim); font-family: var(--mono); font-size: 11px;
+}
+
+@media (max-width: 600px) {
+  .chart { width: 760px; max-width: none; }
+  .axis-y, .axis-x, .legend, .off-scale-label { font-size: 12px; }
+  .chart-hint { display: block; margin: 2px 0 8px; color: var(--text-muted); font-size: 12px; }
+  .brand { flex-wrap: wrap; }
+  .summary { grid-template-columns: repeat(3, auto); }
+  .strip-wrap { grid-column: 1 / -1; order: 10; }
+}
+
+</style>
+</head>
+<body>
+<div class="bezel">
+  <header class="masthead">
+    <div class="brand">
+      <span class="brand-mark" aria-hidden="true">&#9679;</span>
+      <h1 class="brand-name">TRAINSPOTTER</h1>
+      <span class="brand-sub">run diagnostic</span>
+    </div>
+    <dl class="readouts">
+      <div><dt>source</dt><dd>examples/<wbr>wandb-axes/<wbr>stable-training.csv</dd></div>
+      <div><dt>format</dt><dd>wandb</dd></div>
+      
+      <div><dt>steps</dt><dd>0&ndash;1200</dd></div>
+      <div><dt>axis source</dt><dd>trainer/<wbr>global_step</dd></div>
+      
+      
+      <div><dt>generated</dt><dd>2026-10-10 02:59 UTC</dd></div>
+    </dl>
+  </header>
+
+  <main><section class="chart-block sample-context" aria-labelledby="sample-heading"><h2 id="sample-heading">Logging less often is not slower training</h2><p>A controlled numerical training run recorded with the W&amp;B SDK offline. The logger changes from every 4 updates to every 20. The report uses trainer/global_step to divide elapsed time by actual updates.</p><p><a download="stable-training.csv" href="data:text/csv;base64,Y2FwdHVyZS9lbGFwc2VkLF90aW1lc3RhbXAsX3J1bnRpbWUsX3N0ZXAsdHJhaW5lci9nbG9iYWxfc3RlcCx0cmFpbi9sb3NzDQoxLjAxMTk5ODM5MjY0MTU0NDNlLTA2LDE3OTE1OTg5MjMuMjYyNjg5NCwwLjAxODgzMTQ3NSwwLDAsMC42OTMxNDcxODA1NTk5NDUzDQowLjAxNjk5NjE4MTAwMjQ2ODgwMiwxNzkxNTk4OTIzLjI3OTQ1OTUsMC4wMzU1NDEyMDIsMSw0LDAuNjgxNTc5NDcwOTQ5NDQ0NQ0KMC4wMzM3Mjc3MDIwMDA3NjA0NywxNzkxNTk4OTIzLjI5NjE4MjYsMC4wNTIyMjc1NjYsMiw4LDAuNjcwNDY4ODEzNzYyNjA2DQowLjA1MDQwMjU5Mjk5ODU4MDA3NiwxNzkxNTk4OTIzLjMxMjg4NDYsMC4wNjg5MjI2MjYsMywxMiwwLjY1OTc5NTMxMjI4ODIwMTQNCjAuMDY3MTExMDA2OTk2MTI4NzEsMTc5MTU5ODkyMy4zMjk1NjU4LDAuMDg1NjM5NDA2LDQsMTYsMC42NDk1Mzk1NDEwOTk3NTQ2DQowLjA4Mzg2MTkyNDk5ODkyNzg2LDE3OTE1OTg5MjMuMzQ2MzI1LDAuMTAyNDQ1NjExLDUsMjAsMC42Mzk2ODI2MDk1NDM4Nzk3DQowLjEwMDY0NjM1Njk5MzgyMDUyLDE3OTE1OTg5MjMuMzYzMTEzNiwwLjExOTI1ODMyMiw2LDI0LDAuNjMwMjA2MjEyMTg2ODc3DQowLjExNzQ1MjIyMDAwMTcyMzYyLDE3OTE1OTg5MjMuMzc5OTI0NSwwLjEzNjAyMDEyNiw3LDI4LDAuNjIxMDkyNjY3MjY1NjAxNg0KMC4xMzQyMzc1NDM5OTk5MTU5NCwxNzkxNTk4OTIzLjM5NjcwNCwwLjE1MjkxNDg1Niw4LDMyLDAuNjEyMzI0OTQ0MjkyMTI3DQowLjE1MTExMzIyMjAwMzkxNDQyLDE3OTE1OTg5MjMuNDEzNTcwMiwwLjE2OTYyOTMxOCw5LDM2LDAuNjAzODg2NjgyMDA5NzI0Mw0KMC4xNjc4MzY3ODc5OTQwMTk3LDE3OTE1OTg5MjMuNDMwMjkyLDAuMTg2NDAzNjYxLDEwLDQwLDAuNTk1NzYyMTk3OTAwMTMxNw0KMC4xODQ1NzExMDMwMDM2OTA5NSwxNzkxNTk4OTIzLjQ0NzAzNjUsMC4yMDMxODM1ODQsMTEsNDQsMC41ODc5MzY0OTA0MDg4NjQNCjAuMjAxMzYyMjk5MDA1MjY4MTQsMTc5MTU5ODkyMy40NjM4MTc0LDAuMjE5OTQwODM0LDEyLDQ4LDAuNTgwMzk1MjM0OTk1NjAxOQ0KMC4yMTgyNDIxMTQwMDIzNTA3MiwxNzkxNTk4OTIzLjQ4MDY5NiwwLjIzNjgzMzA2NCwxMyw1MiwwLjU3MzEyNDc3NTAzODY2MzcNCjAuMjM1MDIwNTY1MDAwMDEzNDUsMTc5MTU5ODkyMy40OTc0NzQ3LDAuMjUzNTIyOTc0LDE0LDU2LDAuNTY2MTEyMTA4NTMzMTM3OQ0KMC4yNTE3MDYxMDYwMDYxNjc4MywxNzkxNTk4OTIzLjUxNDE2OCwwLjI3MDI2MDU4NSwxNSw2MCwwLjU1OTM0NDg3MTQyNzE1Nw0KMC4yNjg0NDEzNjM5OTQ0OTc4LDE3OTE1OTg5MjMuNTMwOTA0OCwwLjI4Njk3MTE2NSwxNiw2NCwwLjU1MjgxMTMxODM0NDQ4MTgNCjAuMjg1MTYyMzMzOTk1Njg1OSwxNzkxNTk4OTIzLjU0NzYxNTUsMC4zMDM2NjE3MDcsMTcsNjgsMC41NDY1MDAzMDEzNDc0MzM0DQowLjMwMTg1ODk2NjAwNTk2NjA3LDE3OTE1OTg5MjMuNTY0MzIxNSwwLjMyMDQ0MTU5LDE4LDcyLDAuNTQwNDAxMjQ3MzA0Njc0Mw0KMC4zMTg4MjE5NTI5OTg0MDUzLDE3OTE1OTg5MjMuNTgxMjc0NSwwLjMzNzMyMzI1LDE5LDc2LDAuNTM0NTA0MTM0MzQ0OTk3Mg0KMC4zMzU1MTM3MDcwMDI5NzQxLDE3OTE1OTg5MjMuNTk3OTY1LDAuMzU0MDAxNjA3LDIwLDgwLDAuNTI4Nzk5NDY3ODAyMTIwNQ0KMC4zNTIxNzY4NjQwMDU3NDE2NiwxNzkxNTk4OTIzLjYxNDYyODgsMC4zNzA2NjY4OTksMjEsODQsMC41MjMyNzgyNTU5ODY5MjQzDQowLjM2ODkzMjg0MDk5NjQyMTksMTc5MTU5ODkyMy42MzEzODcyLDAuMzg3NTQ0NjkxLDIyLDg4LDAuNTE3OTMxOTg2MDYyNjk2Mg0KMC4zODU3NTQ0NDUwMDAyMDI0LDE3OTE1OTg5MjMuNjQ4MjEwNSwwLjQwNDI4NTMwOSwyMyw5MiwwLjUxMjc1MjYwMDI0NTUzOA0KMC40MDI0NzI1MjQwMDE0OTU5LDE3OTE1OTg5MjMuNjY0OTM4NywwLjQyMTA2NDY1MSwyNCw5NiwwLjUwNzczMjQ3MjUwNTc1MjQNCjAuNDE5MjI2OTU0MDA3MTcyLDE3OTE1OTg5MjMuNjgxNjkyMSwwLjQzNzgwMDIwOSwyNSwxMDAsMC41MDI4NjQzODU5MDYyMTk2DQowLjQzNTk4NTE0NjAwMzA3NjgsMTc5MTU5ODkyMy42OTg0NDg3LDAuNDU0NTUyMTU5LDI2LDEwNCwwLjQ5ODE0MTUxMDY3OTk0MDk1DQowLjQ1Mjg1MTEzNTAwNzIyMjIsMTc5MTU5ODkyMy43MTUzMTA2LDAuNDcxNDAxNDY2LDI3LDEwOCwwLjQ5MzU1NzM4MzEyMDQxMjgNCjAuNDY5NjEyMjEyMDA3NjMyNSwxNzkxNTk4OTIzLjczMjA2ODUsMC40ODgxMzIyNDUsMjgsMTEyLDAuNDg5MTA1ODg1MzM0NzM0MQ0KMC40ODYzMTY4NTk5OTg2MjM4NCwxNzkxNTk4OTIzLjc0ODc3ODgsMC41MDQ5MDYyNTYsMjksMTE2LDAuNDg0NzgxMjI1ODg5NzI0Nw0KMC41MDMwODYzMDI5OTY5NjIzLDE3OTE1OTg5MjMuNzY1NTM2LDAuNTIxNTc5OTQ1LDMwLDEyMCwwLjQ4MDU3NzkyMTM2NTMxMjc0DQowLjUxOTgwMjc0NDAwNTU3MzksMTc5MTU5ODkyMy43ODIyNTUyLDAuNTM4MzIxNjc0LDMxLDEyNCwwLjQ3NjQ5MDc3ODgxNjUyMjcNCjAuNTM2NTA5NDY2OTk3ODEzNCwxNzkxNTk4OTIzLjc5ODk2MTksMC41NTUwMDIzNzcsMzIsMTI4LDAuNDcyNTE0ODc5MTM1MTIwNw0KMC41NTMxNzk5MzkwMDA5ODM3LDE3OTE1OTg5MjMuODE1NjMwMiwwLjU3MTY2OTkyMywzMywxMzIsMC40Njg2NDU1NjEyOTM5MjQ5DQowLjU2OTg0OTE5OTAwNDIzODUsMTc5MTU5ODkyMy44MzIzMDExLDAuNTg4MzQyNDcsMzQsMTM2LDAuNDY0ODc4NDA3NDUwNjMwNw0KMC41ODY1NTg3NzYwMDU0MDQxLDE3OTE1OTg5MjMuODQ5MDExMiwwLjYwNTA3MDQ5NywzNSwxNDAsMC40NjEyMDkyMjg4ODM0MDU1NA0KMC42MDMyNzM4MTQwMDU2NjA4LDE3OTE1OTg5MjMuODY1NzYsMC42MjE5MjQ5OCwzNiwxNDQsMC40NTc2MzQwNTI3MjcyMTE5Nw0KMC42MjAwNjQ5Nzg5OTcxMDY3LDE3OTE1OTg5MjMuODgyNTMwMiwwLjYzODY0NzcyMywzNywxNDgsMC40NTQxNDkxMDk0Nzc1ODczDQowLjYzNjg2ODA5NzAwNDQ4MDcsMTc5MTU5ODkyMy44OTkzMzQsMC42NTU0MjM2NDgsMzgsMTUyLDAuNDUwNzUwODIxMjI3MjQ0OQ0KMC42NTM2MzAwMjYwMDQ5NzU3LDE3OTE1OTg5MjMuOTE2MDgzLDAuNjcyMTE4NTQ4LDM5LDE1NiwwLjQ0NzQzNTc5MDYwMDE5ODM0DQowLjY3MDMzMDI1MDk5OTU0MSwxNzkxNTk4OTIzLjkzMjc5MjcsMC42ODg5MTUxMDksNDAsMTYwLDAuNDQ0MjAwNzkwMzQ3OTk3NjQNCjAuNjg3MDkzMjg3MDA3ODgzMiwxNzkxNTk4OTIzLjk0OTU0ODIsMC43MDU1OTg3MjIsNDEsMTY0LDAuNDQxMDQyNzUzNTczMDAzOA0KMC43MDM3ODg4NzgwMDMyNTE3LDE3OTE1OTg5MjMuOTY2MjQzLDAuNzIyMjg4MDgsNDIsMTY4LDAuNDM3OTU4NzY0NTQ0Mjg2Ng0KMC43MjA0OTQxNDUwMDM2MTMxLDE3OTE1OTg5MjMuOTgyOTU3NiwwLjczOTE5MDA2Nyw0MywxNzIsMC40MzQ5NDYwNTAwNzI2NjYyDQowLjczNzM2NDE4MjAwMTMyOSwxNzkxNTk4OTIzLjk5OTgxNywwLjc1NTg4ODk5NCw0NCwxNzYsMC40MzIwMDE5NzE0MTI1MjU0DQowLjc1NDA1ODIyODAwNTMwNTksMTc5MTU5ODkyNC4wMTY1MTE0LDAuNzcyNTg1NzM1LDQ1LDE4MCwwLjQyOTEyNDAxNjY1OTI3MDgNCjAuNzcwODA1MTQ4MDAwMzYzMywxNzkxNTk4OTI0LjAzMzI4NDQsMC43ODk0ODU0MDUsNDYsMTg0LDAuNDI2MzA5NzkzNjEyNjU5OQ0KMC43ODc2NzAxMDQwMDc3MDIzLDE3OTE1OTg5MjQuMDUwMTQ5LDAuODA2Mzk4MjQ5LDQ3LDE4OCwwLjQyMzU1NzAyMzA3NzU5OTcNCjAuODA0NTUzNjA1OTk0NDQyNSwxNzkxNTk4OTI0LjA2NzAyMiwwLjgyMzE3NzczNSw0OCwxOTIsMC40MjA4NjM1MzI1NzU0MzczNQ0KMC44MjEzNjIwNDQ5OTY5MzEyLDE3OTE1OTg5MjQuMDgzODI4NCwwLjgzOTk1NzA3Miw0OSwxOTYsMC40MTgyMjcyNTA0NDAxODIxNg0KMC44MzgxNTgxNjkwMDQ2MDA1LDE3OTE1OTg5MjQuMTAwNjM2NywwLjg1Njc5ODM4Myw1MCwyMDAsMC40MTU2NDYyMDAyNzU0OTU3DQowLjkyMTYyNTQxNzAwMjM2MDMsMTc5MTU5ODkyNC4xODQxNDE2LDAuOTQwMzcxMzg2LDUxLDIyMCwwLjQwMzUwNjI5NDA1Mjg0MzENCjEuMDA0NDkyNzkxMDA1NzU5NSwxNzkxNTk4OTI0LjI2Njk3OSwxLjAyMzIxMDYxMiw1MiwyNDAsMC4zOTI0OTcyMzE5OTk0MDQyMw0KMS4wODcyNjcwMTcwMDY1MjQ4LDE3OTE1OTg5MjQuMzQ5NzU0OCwxLjEwNjAzOTkxOCw1MywyNjAsMC4zODI0NTI5OTQ5NDQ0NjA5NA0KMS4xNzA0NTkyNDAwMDU1ODQ0LDE3OTE1OTg5MjQuNDMyOTY0MywxLjE4OTI1ODA5Niw1NCwyODAsMC4zNzMyMzkwOTA2NTcxODA2NA0KMS4yNTMyODQwMjI5OTc4MzIsMTc5MTU5ODkyNC41MTU3NTk3LDEuMjcxOTQyMjM3LDU1LDMwMCwwLjM2NDc0NTQ5MDQ1OTExNzM2DQoxLjMzNjA3NjAwNzk5NTg3MSwxNzkxNTk4OTI0LjU5ODU2MTgsMS4zNTQ4MTM2NTEsNTYsMzIwLDAuMzU2ODgxMzQwNTQ5NDU5OQ0KMS40MTg4MDg2MjcwMDA1NDQyLDE3OTE1OTg5MjQuNjgxMjg5NywxLjQzNzQ5MjQyNiw1NywzNDAsMC4zNDk1NzA5NjQxMjQzOTA2DQoxLjUwMTUzODI0NTk5NjkyNiwxNzkxNTk4OTI0Ljc2NDAyNzgsMS41MjAyOTY3ODUsNTgsMzYwLDAuMzQyNzUwODA5OTgwNjQ4MQ0KMS41ODQzMTA3NTgwMDAzNTYxLDE3OTE1OTg5MjQuODQ2NzkyLDEuNjAzMDI1MzQ3LDU5LDM4MCwwLjMzNjM2NzEwMTI5NzM0OTg3DQoxLjY2NzE2ODk2MDk5Mzg3NjcsMTc5MTU5ODkyNC45Mjk2NjEzLDEuNjg1OTE0MTU4LDYwLDQwMCwwLjMzMDM3NDAwNzEzNjA2NTcNCjEuNzUwMDg2Njk3OTk3MTc2LDE3OTE1OTg5MjUuMDEyNTY0LDEuNzY4OTA0NDg2LDYxLDQyMCwwLjMyNDczMjIwNzc2MjA1NDI1DQoxLjgzMzEzNTc3MDAwODA4NDQsMTc5MTU5ODkyNS4wOTU2NTg4LDEuODUyMDc3NzA2OTk5OTk5OSw2Miw0NDAsMC4zMTk0MDc3NTkzNTY4MzYzDQoxLjkxNjA4MzM4Mzk5OTY0ODUsMTc5MTU5ODkyNS4xNzg1NzEyLDEuOTM1MDgzMDI4LDYzLDQ2MCwwLjMxNDM3MTE4ODMzNTU5MDMNCjEuOTk5MDM0NjQ1OTk2Mjg5MywxNzkxNTk4OTI1LjI2MTUyNzUsMi4wMTc3ODYzNDYsNjQsNDgwLDAuMzA5NTk2NzYzMjQzNjg1Nw0KMi4wODE4NjY3NDgwMDUyNjgsMTc5MTU5ODkyNS4zNDQzNzIsMi4xMDA4NDMxOTIsNjUsNTAwLDAuMzA1MDYxOTA1MTEzODgxNjUNCjIuMTY0NzExNDg1MDA1NjgyMywxNzkxNTk4OTI1LjQyNzIxODcsMi4xODM1MDU1MzA5OTk5OTk4LDY2LDUyMCwwLjMwMDc0NjcwNjYyNDY1NzcNCjIuMjQ3NjE3MzM5MDAyMzE3NywxNzkxNTk4OTI1LjUxMDExNTYsMi4yNjY0MjA4Miw2Nyw1NDAsMC4yOTY2MzM1MzczODk5NTc1DQoyLjMzMDQ1NDMyMDAwNjUzOCwxNzkxNTk4OTI1LjU5Mjk0MDgsMi4zNDkyMzc2NzEsNjgsNTYwLDAuMjkyNzA2NzE3OTE4MjExNA0KMi40MTMyMzIzNTc5OTc5MTMsMTc5MTU5ODkyNS42NzU3Mjg4LDIuNDMyMDU3MzM1LDY5LDU4MCwwLjI4ODk1MjI0ODY4OTI0NTMNCjIuNDk2MTEzNTQ0OTk5Mzg5LDE3OTE1OTg5MjUuNzU4NjA0MywyLjUxNDg2ODg2Miw3MCw2MDAsMC4yODUzNTc1ODM3NTcyNTI4NA0KMi41Nzg5MDQ2NzMwMDYwMzYzLDE3OTE1OTg5MjUuODQxNDE0LDIuNTk3NzkyNjUxLDcxLDYyMCwwLjI4MTkxMTQ0MDU0NDQ1MzQNCjIuNjYxOTg3MTkzMDAxNTUwNiwxNzkxNTk4OTI1LjkyNDQ4NSwyLjY4MDc2Mzg0MSw3Miw2NDAsMC4yNzg2MDM2MzkyMjI3ODk4Ng0KMi43NDUwMDc5NzAwMDY1NTQ0LDE3OTE1OTg5MjYuMDA3NDk4NSwyLjc2MzgzNDM5NCw3Myw2NjAsMC4yNzU0MjQ5NjY0MjA3NjA5DQoyLjgyNzg3OTE5NzAwNzg2LDE3OTE1OTg5MjYuMDkwMzYzNywyLjg0NjYxNDIxNSw3NCw2ODAsMC4yNzIzNjcwNTkwMzUyMzY3DQoyLjkxMDY4ODQ1NDk5ODMwOCwxNzkxNTk4OTI2LjE3MzE4NTYsMi45Mjk0NzkwNTEsNzUsNzAwLDAuMjY5NDIyMzA0NzQ0ODU2NQ0KMi45OTM2NDU4NzkwMDM0NTIsMTc5MTU5ODkyNi4yNTYxNDAyLDMuMDEyNDIxOTg2LDc2LDcyMCwwLjI2NjU4Mzc1NjQ2NTIzMzgNCjMuMDc2NTc5MTA1OTk2NjQzLDE3OTE1OTg5MjYuMzM5MzAzMywzLjA5NTU2OTQ3Nyw3Nyw3NDAsMC4yNjM4NDUwNTg0OTYzNjINCjMuMTU5NjU3MTM0MDA1MTAxNCwxNzkxNTk4OTI2LjQyMjE1MDEsMy4xNzg0MDgzNzgsNzgsNzYwLDAuMjYxMjAwMzgyNTE5MjUwMjYNCjMuMjQyNzk3NjUxMDA4MDA0MywxNzkxNTk4OTI2LjUwNTMsMy4yNjE2MjE0MzEsNzksNzgwLDAuMjU4NjQ0MzcxOTI0NjgzMzcNCjMuMzI1ODkzMzAxOTk2OTg0NSwxNzkxNTk4OTI2LjU4ODM4MDYsMy4zNDQ3MDYwMSw4MCw4MDAsMC4yNTYxNzIwOTMyMTk0NzkwNA0KMy40MDkwMDk5NjI5OTc1MTU3LDE3OTE1OTg5MjYuNjcxNDk2OSwzLjQyNzczODQzOSw4MSw4MjAsMC4yNTM3Nzg5OTM0NjgwNzk0DQozLjQ5MjEzNTc3Nzk5NjczNjYsMTc5MTU5ODkyNi43NTQ2MjQsMy41MTA4NzY2OTIsODIsODQwLDAuMjUxNDYwODYyOTAwMTIwOQ0KMy41NzQ5NDg5MTkwMDU2OTIsMTc5MTU5ODkyNi44Mzc0NTAzLDMuNTkzNzUwNzA1LDgzLDg2MCwwLjI0OTIxMzgwMTk1NTgwODENCjMuNjU3OTU2Nzk4OTk3NDc1LDE3OTE1OTg5MjYuOTIwNDQ1MiwzLjY3NjczMjkxNyw4NCw4ODAsMC4yNDcwMzQxOTIxNTY3NzM5DQozLjc0MTAwODExNTAwMTAyMywxNzkxNTk4OTI3LjAwMzU1NDMsMy43NTk4MjEzMjQsODUsOTAwLDAuMjQ0OTE4NjcwMjg1NTg2Mg0KMy44MjQxMDk3MTIwMDQ0Mjg3LDE3OTE1OTg5MjcuMDg2NjA3NywzLjg0MzAxMjk3MTAwMDAwMDMsODYsOTIwLDAuMjQyODY0MTA1NDM2MDU4NzQNCjMuOTA3MDc0Mjg5MDAzNTAzNSwxNzkxNTk4OTI3LjE2OTU2MTksMy45MjU4MzgxMDc5OTk5OTk4LDg3LDk0MCwwLjI0MDg2NzU3ODU2MjE0NTMNCjMuOTg5ODgxNDM5MDAzNTExMywxNzkxNTk4OTI3LjI1MjQwOTcsNC4wMDg3NDk5NTUsODgsOTYwLDAuMjM4OTI2MzY0MjA3OTEzMTMNCjQuMDcyODUyOTAwMDA0MzY0LDE3OTE1OTg5MjcuMzM1NjQyLDQuMDkyMTE1NzQ3LDg5LDk4MCwwLjIzNzAzNzkxNDE0Njg4MDMNCjQuMTU2MTYyMjg3OTk2MjY3LDE3OTE1OTg5MjcuNDE4NjQyNSw0LjE3NTAzNTY4ODk5OTk5OTYsOTAsMTAwMCwwLjIzNTE5OTg0MjY5NzQ1NDAzDQo0LjIzOTEzMzU5NDAwNDY3LDE3OTE1OTg5MjcuNTAxNjI0LDQuMjU3ODY3NjQsOTEsMTAyMCwwLjIzMzQwOTkxMzUxMzYwOTQNCjQuMzIyMjc3MjY4MDAxOTI2LDE3OTE1OTg5MjcuNTg0NzY4Myw0LjM0MTA3MDUzOSw5MiwxMDQwLDAuMjMxNjY2MDI3Njc3MzM4OQ0KNC40MDUzODQ5MjIwMDcyMTUsMTc5MTU5ODkyNy42Njc4ODEsNC40MjQxNjQ3MTcsOTMsMTA2MCwwLjIyOTk2NjIxMjk0MjYzODcNCjQuNDg4MjE1OTkxOTk0MzY2LDE3OTE1OTg5MjcuNzUwNzAyMSw0LjUwNjk0MzI4NSw5NCwxMDgwLDAuMjI4MzA4NjE0MDAwNTU1NDQNCjQuNTcxMTUxNDg0MDA3NzE0LDE3OTE1OTg5MjcuODMzNjQyLDQuNTg5ODk3ODUzLDk1LDExMDAsMC4yMjY2OTE0ODM2NTE2ODQzNA0KNC42NTQwNzQwOTA5OTg2MiwxNzkxNTk4OTI3LjkxNjU2NSw0LjY3Mjg2MzU1OSw5NiwxMTIwLDAuMjI1MTEzMTc0Nzg2OTM2MQ0KNC43MzY5NTQ0ODU5OTc1NTgsMTc5MTU5ODkyNy45OTk0Niw0Ljc1NTc0NDM0LDk3LDExNDAsMC4yMjM1NzIxMzMwODk3NzAzNg0KNC44MTk4MDI1OTg5OTg2NDksMTc5MTU5ODkyOC4wODIzMjY0LDQuODM4NzU1NjkyOTk5OTk5NSw5OCwxMTYwLDAuMjIyMDY2ODkwMzgzNzQ5Nw0KNC45MDI4MzE3NjEwMDYzODIsMTc5MTU5ODkyOC4xNjUzMjMsNC45MjE2MDE3MDcsOTksMTE4MCwwLjIyMDU5NjA1ODU1ODQ1MjkNCjQuOTg1NjMxODMxOTk0Mzk3LDE3OTE1OTg5MjguMjQ4MTI2NSw1LjAwNDQyMjg2OCwxMDAsMTIwMCwwLjIxOTE1ODMyNDAxNDczOTA2DQo=">Download the input log</a> | <a href="https://github.com/antonsoo/trainspotter/blob/main/docs/wandb-axes.md">Capture method and limits</a></p></section>
+  
+  <section class="summary">
+    <div class="count sev-error"><span class="n">0</span><span class="l">error</span></div>
+    <div class="count sev-warning"><span class="n">0</span><span class="l">warning</span></div>
+    <div class="count sev-info"><span class="n">0</span><span class="l">info</span></div>
+    <div class="strip-wrap"><svg class="strip" viewBox="0 0 920 34" role="img" aria-label="Finding timeline for the whole run"><rect x="0" y="0" width="920" height="34" class="strip-bg"/><line x1="0" y1="33" x2="920" y2="33" class="strip-base"/></svg></div>
+  </section>
+
+  <details class="input-evidence"><summary>Metric sources and point counts</summary><p class="table-hint">Scroll the table horizontally to inspect every column.</p><div class="table-scroll" tabindex="0" role="region" aria-label="Metric sources and point counts"><table><caption>Names used by the report and their original source</caption><thead><tr><th scope="col">Report metric</th><th scope="col">Source metric</th><th scope="col">Readings</th><th scope="col">Analysis points</th></tr></thead><tbody><tr><th scope="row">capture/elapsed</th><td>capture/elapsed</td><td>101</td><td>101</td></tr><tr><th scope="row">train/loss</th><td>train/loss</td><td>101</td><td>101</td></tr></tbody></table></div></details>
+  
+  <section class="timing-evidence" aria-labelledby="timing-heading"><h2 id="timing-heading">Timing comparison</h2><p class="timing-ratio"><strong>0.9907x</strong> recent / baseline time (s/step)</p><details><summary>Timing sources and windows</summary><p>Source: <code>wall_time(train/loss)</code>, from logged metric <code>train/loss</code>. 100 timing observations; 0 unusable.</p><p class="table-hint">Scroll the timing table horizontally to inspect every column.</p><div class="table-scroll" tabindex="0" role="region" aria-label="Timing windows"><table><caption>Baseline and recent timing windows</caption><thead><tr><th scope="col">Window</th><th scope="col">Step intervals</th><th scope="col">Observations</th><th scope="col">Unusable</th><th scope="col">Median (s/step)</th></tr></thead><tbody><tr><th scope="row">Baseline</th><td>0&ndash;80</td><td>20</td><td>0</td><td>0.00418686</td></tr><tr><th scope="row">Recent</th><td>800&ndash;1200</td><td>20</td><td>0</td><td>0.00414801</td></tr></tbody></table></div><ul><li>Wall-clock intervals include evaluation, checkpointing, pauses and other work between observations. They are not isolated compute timings.</li></ul><p>Coordinates: <code>trainer/global_step</code> (steps).</p><p>Default timing check: first and last 20% of observations, at least five each, without overlap. This describes those windows, not every step of the run. Direct throughput is time per reported unit (such as a sample or token). Unavailable timing does not establish stable speed.</p></details></section>
+
+  <div class="charts">
+    <p class="chart-hint">Scroll charts horizontally to inspect the full range of steps.</p>
+    <section class="chart-block"><h2>train/loss</h2><div class="chart-scroll" tabindex="0" role="region" aria-label="train/loss chart"><svg class="chart" viewBox="0 0 920 180" role="img" aria-label="train/loss over steps 0 to 1200"><line class="grid" x1="54" y1="154.0" x2="902" y2="154.0"/><text class="axis-y" x="46" y="157.0" text-anchor="end">0</text><line class="grid" x1="54" y1="116.6" x2="902" y2="116.6"/><text class="axis-y" x="46" y="119.6" text-anchor="end">0.2</text><line class="grid" x1="54" y1="79.2" x2="902" y2="79.2"/><text class="axis-y" x="46" y="82.2" text-anchor="end">0.4</text><line class="grid" x1="54" y1="41.8" x2="902" y2="41.8"/><text class="axis-y" x="46" y="44.8" text-anchor="end">0.6</text><line class="grid" x1="54.0" y1="14" x2="54.0" y2="154"/><text class="axis-x" x="54.0" y="170" text-anchor="middle">0</text><line class="grid" x1="407.3" y1="14" x2="407.3" y2="154"/><text class="axis-x" x="407.3" y="170" text-anchor="middle">500</text><line class="grid" x1="760.7" y1="14" x2="760.7" y2="154"/><text class="axis-x" x="760.7" y="170" text-anchor="middle">1000</text><path d="M54.0 24.4 L56.8 26.5 L59.7 28.6 L62.5 30.6 L65.3 32.5 L68.1 34.4 L71.0 36.1 L73.8 37.8 L76.6 39.5 L79.4 41.1 L82.3 42.6 L85.1 44.0 L87.9 45.5 L90.7 46.8 L93.6 48.1 L96.4 49.4 L99.2 50.6 L102.1 51.8 L104.9 52.9 L107.7 54.0 L110.5 55.1 L113.4 56.1 L116.2 57.1 L119.0 58.1 L121.8 59.0 L124.7 60.0 L127.5 60.8 L130.3 61.7 L133.1 62.5 L136.0 63.3 L138.8 64.1 L141.6 64.9 L144.5 65.6 L147.3 66.4 L150.1 67.1 L152.9 67.7 L155.8 68.4 L158.6 69.1 L161.4 69.7 L164.2 70.3 L167.1 70.9 L169.9 71.5 L172.7 72.1 L175.5 72.7 L178.4 73.2 L181.2 73.7 L184.0 74.3 L186.9 74.8 L189.7 75.3 L192.5 75.8 L195.3 76.3 L209.5 78.5 L223.6 80.6 L237.7 82.5 L251.9 84.2 L266.0 85.8 L280.1 87.3 L294.3 88.6 L308.4 89.9 L322.5 91.1 L336.7 92.2 L350.8 93.3 L364.9 94.3 L379.1 95.2 L393.2 96.1 L407.3 96.9 L421.5 97.8 L435.6 98.5 L449.7 99.3 L463.9 100.0 L478.0 100.6 L492.1 101.3 L506.3 101.9 L520.4 102.5 L534.5 103.1 L548.7 103.6 L562.8 104.1 L576.9 104.7 L591.1 105.2 L605.2 105.6 L619.3 106.1 L633.5 106.5 L647.6 107.0 L661.7 107.4 L675.9 107.8 L690.0 108.2 L704.1 108.6 L718.3 109.0 L732.4 109.3 L746.5 109.7 L760.7 110.0 L774.8 110.3 L788.9 110.7 L803.1 111.0 L817.2 111.3 L831.3 111.6 L845.5 111.9 L859.6 112.2 L873.7 112.5 L887.9 112.7 L902.0 113.0" fill="none" stroke="#4fd1e8" stroke-width="1.75"/><rect class="frame" x="54" y="14" width="848" height="140" fill="none"/></svg></div></section><section class="chart-block"><h2>capture/elapsed</h2><div class="chart-scroll" tabindex="0" role="region" aria-label="capture/elapsed chart"><svg class="chart" viewBox="0 0 920 180" role="img" aria-label="capture/elapsed over steps 0 to 1200"><line class="grid" x1="54" y1="154.0" x2="902" y2="154.0"/><text class="axis-y" x="46" y="157.0" text-anchor="end">0</text><line class="grid" x1="54" y1="102.0" x2="902" y2="102.0"/><text class="axis-y" x="46" y="105.0" text-anchor="end">2</text><line class="grid" x1="54" y1="50.0" x2="902" y2="50.0"/><text class="axis-y" x="46" y="53.0" text-anchor="end">4</text><line class="grid" x1="54.0" y1="14" x2="54.0" y2="154"/><text class="axis-x" x="54.0" y="170" text-anchor="middle">0</text><line class="grid" x1="407.3" y1="14" x2="407.3" y2="154"/><text class="axis-x" x="407.3" y="170" text-anchor="middle">500</text><line class="grid" x1="760.7" y1="14" x2="760.7" y2="154"/><text class="axis-x" x="760.7" y="170" text-anchor="middle">1000</text><path d="M54.0 154.0 L56.8 153.6 L59.7 153.1 L62.5 152.7 L65.3 152.3 L68.1 151.8 L71.0 151.4 L73.8 150.9 L76.6 150.5 L79.4 150.1 L82.3 149.6 L85.1 149.2 L87.9 148.8 L90.7 148.3 L93.6 147.9 L96.4 147.5 L99.2 147.0 L102.1 146.6 L104.9 146.2 L107.7 145.7 L110.5 145.3 L113.4 144.8 L116.2 144.4 L119.0 144.0 L121.8 143.5 L124.7 143.1 L127.5 142.7 L130.3 142.2 L133.1 141.8 L136.0 141.4 L138.8 140.9 L141.6 140.5 L144.5 140.1 L147.3 139.6 L150.1 139.2 L152.9 138.7 L155.8 138.3 L158.6 137.9 L161.4 137.4 L164.2 137.0 L167.1 136.6 L169.9 136.1 L172.7 135.7 L175.5 135.3 L178.4 134.8 L181.2 134.4 L184.0 134.0 L186.9 133.5 L189.7 133.1 L192.5 132.6 L195.3 132.2 L209.5 130.0 L223.6 127.9 L237.7 125.7 L251.9 123.6 L266.0 121.4 L280.1 119.3 L294.3 117.1 L308.4 115.0 L322.5 112.8 L336.7 110.7 L350.8 108.5 L364.9 106.3 L379.1 104.2 L393.2 102.0 L407.3 99.9 L421.5 97.7 L435.6 95.6 L449.7 93.4 L463.9 91.3 L478.0 89.1 L492.1 86.9 L506.3 84.8 L520.4 82.6 L534.5 80.5 L548.7 78.3 L562.8 76.2 L576.9 74.0 L591.1 71.8 L605.2 69.7 L619.3 67.5 L633.5 65.4 L647.6 63.2 L661.7 61.0 L675.9 58.9 L690.0 56.7 L704.1 54.6 L718.3 52.4 L732.4 50.3 L746.5 48.1 L760.7 45.9 L774.8 43.8 L788.9 41.6 L803.1 39.5 L817.2 37.3 L831.3 35.1 L845.5 33.0 L859.6 30.8 L873.7 28.7 L887.9 26.5 L902.0 24.4" fill="none" stroke="#9aa7b0" stroke-width="1.75"/><rect class="frame" x="54" y="14" width="848" height="140" fill="none"/></svg></div></section>
+  </div>
+
+  <section class="findings-log">
+    <h2 class="log-title">Findings log</h2>
+    <p class="clean">No pathologies detected in the metrics this detector set covers.</p>
+  </section>
+  </main>
+
+  <footer class="masthead-foot">
+    <span>trainspotter &mdash; heuristic diagnostics, not ground truth. Read each finding's false-positive modes before acting on it.</span>
+  </footer>
+</div>
+</body>
+</html>

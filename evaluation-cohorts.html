@@ -172,9 +172,10 @@ body {
       <div><dt>format</dt><dd>csv</dd></div>
       
       <div><dt>steps</dt><dd>0&ndash;19</dd></div>
+      <div><dt>axis source</dt><dd>step</dd></div>
       
       
-      <div><dt>generated</dt><dd>2026-10-10 01:25 UTC</dd></div>
+      <div><dt>generated</dt><dd>2026-10-10 02:59 UTC</dd></div>
     </dl>
   </header>
 
@@ -189,10 +190,10 @@ body {
 
   <details class="input-evidence"><summary>Metric sources and point counts</summary><p class="table-hint">Scroll the table horizontally to inspect every column.</p><div class="table-scroll" tabindex="0" role="region" aria-label="Metric sources and point counts"><table><caption>Names used by the report and their original source</caption><thead><tr><th scope="col">Report metric</th><th scope="col">Source metric</th><th scope="col">Readings</th><th scope="col">Analysis points</th></tr></thead><tbody><tr><th scope="row">eval/loss</th><td>eval_loss</td><td>20</td><td>20</td></tr></tbody></table></div></details>
   
-  <section class="timing-evidence" aria-labelledby="timing-heading"><h2 id="timing-heading">Timing unavailable</h2><p>No eligible timing source. The comparison needs enough step_time or throughput readings, or loss observations with timestamps and explicit training steps. Conflicting repeated-step values are excluded from this check.</p><details><summary>Timing sources and windows</summary><ul><li>wall_time(eval/loss): 20 of 20 points have no timestamp. No intervals were bridged across missing timestamps.</li></ul><p>Default timing check: first and last 20% of observations, at least five each, without overlap. This describes those windows, not every step of the run. Direct throughput is time per reported unit (such as a sample or token). Unavailable timing does not establish stable speed.</p></details></section>
+  <section class="timing-evidence" aria-labelledby="timing-heading"><h2 id="timing-heading">Timing unavailable</h2><p>No eligible timing source. The comparison needs enough step_time or throughput readings, or loss observations with timestamps and explicit training steps. Conflicting repeated-step values are excluded from this check.</p><details><summary>Timing sources and windows</summary><ul><li>wall_time(eval/loss): 20 of 20 points have no timestamp. No intervals were bridged across missing timestamps.</li></ul><p>Coordinates: <code>step</code> (steps).</p><p>Default timing check: first and last 20% of observations, at least five each, without overlap. This describes those windows, not every step of the run. Direct throughput is time per reported unit (such as a sample or token). Unavailable timing does not establish stable speed.</p></details></section>
 
   <div class="charts">
-    <p class="chart-hint">Scroll charts horizontally to inspect their full step range.</p>
+    <p class="chart-hint">Scroll charts horizontally to inspect the full range of steps.</p>
     <section class="chart-block"><h2>eval/loss</h2><div class="chart-scroll" tabindex="0" role="region" aria-label="eval/loss chart"><svg class="chart" viewBox="0 0 920 180" role="img" aria-label="eval/loss over steps 0 to 19"><line class="grid" x1="54" y1="154.0" x2="902" y2="154.0"/><text class="axis-y" x="46" y="157.0" text-anchor="end">0</text><line class="grid" x1="54" y1="113.8" x2="902" y2="113.8"/><text class="axis-y" x="46" y="116.8" text-anchor="end">2</text><line class="grid" x1="54" y1="73.5" x2="902" y2="73.5"/><text class="axis-y" x="46" y="76.5" text-anchor="end">4</text><line class="grid" x1="54" y1="33.3" x2="902" y2="33.3"/><text class="axis-y" x="46" y="36.3" text-anchor="end">6</text><line class="grid" x1="54.0" y1="14" x2="54.0" y2="154"/><text class="axis-x" x="54.0" y="170" text-anchor="middle">0</text><line class="grid" x1="277.2" y1="14" x2="277.2" y2="154"/><text class="axis-x" x="277.2" y="170" text-anchor="middle">5</text><line class="grid" x1="500.3" y1="14" x2="500.3" y2="154"/><text class="axis-x" x="500.3" y="170" text-anchor="middle">10</text><line class="grid" x1="723.5" y1="14" x2="723.5" y2="154"/><text class="axis-x" x="723.5" y="170" text-anchor="middle">15</text><rect class="finding-band" x="54.0" y="14" width="848.0" height="140" fill="#ff5d5d" fill-opacity="0.16"/><line x1="54.0" y1="14" x2="54.0" y2="154" stroke="#ff5d5d" stroke-opacity="0.55" stroke-width="1"/><rect class="finding-band" x="54.0" y="14" width="848.0" height="140" fill="#5fb3ff" fill-opacity="0.16"/><line x1="54.0" y1="14" x2="54.0" y2="154" stroke="#5fb3ff" stroke-opacity="0.55" stroke-width="1"/><path d="M54.0 109.8 L98.6 24.4 L143.3 109.8 L187.9 24.4 L232.5 109.8 L277.2 24.4 L321.8 109.8 L366.4 24.4 L411.1 109.8 L455.7 24.4 L500.3 109.8 L544.9 24.4 L589.6 109.8 L634.2 24.4 L678.8 109.8 L723.5 24.4 L768.1 109.8 L812.7 24.4 L857.4 109.8 L902.0 24.4" fill="none" stroke="#ffb454" stroke-width="1.75"/><rect class="frame" x="54" y="14" width="848" height="140" fill="none"/></svg></div></section>
   </div>
 
