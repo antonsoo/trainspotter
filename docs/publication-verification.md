@@ -67,4 +67,20 @@ TRAINSPOTTER_SITE_URL=file:///absolute/path/to/site/index.html \
 The site build output is `site/`. Source publication and Pages publication are
 separate from a package release: the PyPI version remains 0.2.6 and does not
 contain these detector repairs. No package, tag, or Hugging Face deployment is
-part of this pass. Hosted verification is recorded after the Pages push.
+part of this pass.
+
+## Hosted verification
+
+Source through `cf6d4b6` and Pages commit `7a6216e` were pushed. The
+[public gallery](https://antonsoo.github.io/trainspotter/) serves all thirteen
+HTML files byte-for-byte as built from the clean archive. The three new examples
+passed the same twelve browser/scenario/viewport checks on the public HTTPS
+site, including keyboard downloads with exact source bytes. The browser checker
+explicitly waits for the report response to finish loading before counting its
+findings, which matters when a hosted response arrives in chunks.
+
+GitHub's Pages build-status endpoint returned 404; this deployment confirmation
+comes from the served files and live browser workflows. Actions is disabled;
+no successful Actions run is claimed. The final source commit adds only this
+hosted evidence and the browser navigation wait, so the deployed report bytes
+remain unchanged.

@@ -43,6 +43,8 @@ for (const [name, launcher] of Object.entries({ chromium, firefox })) {
         const card = page.locator(`a.card[href="${sample.slug}.html"]`);
         const counts = await card.locator('.chip').allTextContents();
         await card.click();
+        // Hosted responses can stream the context before the findings arrive.
+        await page.waitForURL(new URL(`${sample.slug}.html`, base).href, { waitUntil: 'load' });
         const context = await page.locator('.sample-context').innerText();
         assert.match(context, sample.context);
         const finding = page.locator('article.finding').filter({ has: page.getByRole('heading', { name: sample.heading, exact: true }) });
