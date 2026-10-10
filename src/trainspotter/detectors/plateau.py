@@ -4,9 +4,8 @@
 floored at `min_window`=30) over the metric. In each window, fit an OLS
 line and test H0: slope == 0 via the normal-approximation t-test in
 `detectors.base.ols_slope`. A window is "flat" if p >= `alpha` (default
-0.2 -- deliberately loose: we want to fail to reject "no trend", so a
-*higher* p threshold flags more windows as flat, the opposite of a
-significance test's usual use) AND the window's total relative change
+0.2; raising this threshold flags fewer windows as flat) AND the window's
+total relative change
 `|last - first| / (|first| + eps)` is below `rel_change` (default 2%), so
 a slope that's statistically insignificant only because the window is
 short doesn't get flagged as a plateau. Flagged windows within one
@@ -54,7 +53,8 @@ import numpy as np
 
 from trainspotter.model import Run
 
-from .base import Detector, Finding, FloatArray, group_consecutive, ols_slope, series_arrays
+from ._rolling_slope import flat_slope_windows
+from .base import Detector, Finding, FloatArray, group_consecutive, series_arrays
 
 DEFAULT_METRICS = ("train/loss",)
 
@@ -96,17 +96,11 @@ class PlateauDetector(Detector):
             total_drop = start_value - float(np.min(values))
             lr_steps, lr_values, peak_lr = self._lr_context(run)
 
-            flat_windows: list[int] = []
-            for start in range(0, n - window + 1):
-                w_steps = steps[start : start + window]
-                w_values = values[start : start + window]
-                if not np.all(np.isfinite(w_values)):
-                    continue
-                _slope, _se, p_value = ols_slope(w_steps, w_values)
-                first, last = w_values[0], w_values[-1]
-                rel = abs(last - first) / (abs(first) + 1e-12)
-                if p_value >= self.alpha and rel < self.rel_change:
-                    flat_windows.append(start)
+            first, last = values[: n - window + 1], values[window - 1 :]
+            with np.errstate(invalid="ignore", over="ignore"):
+                rel = np.abs(last - first) / (np.abs(first) + 1e-12)
+            flat = flat_slope_windows(steps, values, window, self.alpha, rel < self.rel_change)
+            flat_windows = np.flatnonzero(flat).tolist()
             for group in group_consecutive(flat_windows, gap=window):
                 lo, hi = group[0], group[-1] + window - 1
                 seg = values[lo : hi + 1]

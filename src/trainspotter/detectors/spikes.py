@@ -57,6 +57,7 @@ from .base import (
     progress_text,
     rolling_median_mad,
     series_arrays,
+    trailing_median,
 )
 
 DEFAULT_WINDOW = 21
@@ -120,9 +121,10 @@ class SpikeDetector(Detector):
             # Height above the level around the point and above the points just before
             # it: the first readings of a run are high because training had not begun,
             # and the way down from them is not a spike.
-            before = np.array(
-                [np.median(values[max(0, i - 5) : i]) if i >= HISTORY else np.inf for i in range(len(values))]
-            )
+            before = np.empty(len(values), dtype=float)
+            before[0] = np.inf
+            before[1:] = trailing_median(values[:-1], 5)
+            before[:HISTORY] = np.inf
             share = (values - np.maximum(lv.smooth, before)) / lv.progress
             unusual = [i for i in range(HISTORY, len(values)) if z[i] > self.threshold]
             large = group_consecutive([i for i in unusual if share[i] >= self.warn_share], gap=2)

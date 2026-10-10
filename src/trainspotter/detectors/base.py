@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import math
+from collections.abc import Iterator
 from dataclasses import dataclass, field
 from typing import Literal
 
@@ -60,21 +61,59 @@ class Detector:
 # ---------------------------------------------------------------------------
 
 
+def _window_batches(values: FloatArray, window: int) -> Iterator[tuple[int, FloatArray]]:
+    """Bound the copies made by median/partition, not just the strided view.
+
+    A view of every 201-point window is cheap, but reducing that entire view
+    would allocate about 1.6 GB for a million readings. Each reduction here
+    handles at most 262,144 doubles (2 MiB), or one unusually wide window.
+    The views stay read-only: partition must never rearrange the input history.
+    """
+    views = np.lib.stride_tricks.sliding_window_view(values, window)
+    batch = max(1, 262_144 // window)
+    for lo in range(0, len(views), batch):
+        yield lo, views[lo : lo + batch]
+
+
+def trailing_median(values: FloatArray, window: int) -> FloatArray:
+    """Median including the current reading, with shrinking initial windows."""
+    if window < 1:
+        raise ValueError("window must be positive")
+    med = np.empty(len(values), dtype=float)
+    if not len(values):
+        return med
+    window = min(window, len(values))
+    for i in range(window - 1):
+        med[i] = np.median(values[: i + 1])
+    for lo, views in _window_batches(values, window):
+        med[lo + window - 1 : lo + window - 1 + len(views)] = np.median(views, axis=1)
+    return med
+
+
 def rolling_median_mad(values: FloatArray, window: int) -> tuple[FloatArray, FloatArray]:
     """Trailing rolling median and MAD (median absolute deviation) at each
     index, using only values up to and including that index (so it works
     identically in a post-hoc pass and in `watch` streaming mode). The first
     `window - 1` points use whatever history is available, shrinking the
     effective window rather than producing NaN."""
+    if window < 1:
+        raise ValueError("window must be positive")
     n = len(values)
     med = np.empty(n, dtype=float)
     mad = np.empty(n, dtype=float)
-    for i in range(n):
-        lo = max(0, i - window + 1)
-        chunk = values[lo : i + 1]
+    if not n:
+        return med, mad
+    window = min(window, n)
+    for i in range(window - 1):
+        chunk = values[: i + 1]
         m = float(np.median(chunk))
         med[i] = m
         mad[i] = float(np.median(np.abs(chunk - m)))
+    for lo, views in _window_batches(values, window):
+        dest = slice(lo + window - 1, lo + window - 1 + len(views))
+        med[dest] = np.median(views, axis=1)
+        deviations = np.abs(views - med[dest, None])
+        mad[dest] = np.median(deviations, axis=1, overwrite_input=True)
     return med, mad
 
 
@@ -128,23 +167,50 @@ def ols_slope(x: FloatArray, y: FloatArray) -> tuple[float, float, float]:
     n = len(x)
     if n < 3 or not (np.all(np.isfinite(x)) and np.all(np.isfinite(y))):
         return 0.0, float("inf"), 1.0
-    x_mean, y_mean = x.mean(), y.mean()
-    sxx = float(np.sum((x - x_mean) ** 2))
+    # Fit translated, scaled coordinates. Reconstructing y from a large
+    # intercept loses small residuals, and squaring unscaled readings can
+    # overflow even when both the slope and its uncertainty are representable.
+    dx, x_scale, x_factor = _center_for_fit(x)
+    dy, y_scale, y_factor = _center_for_fit(y)
+    sxx = float(np.sum(dx**2))
     if sxx == 0.0:
         return 0.0, float("inf"), 1.0
-    slope = float(np.sum((x - x_mean) * (y - y_mean)) / sxx)
-    intercept = y_mean - slope * x_mean
-    residuals = y - (slope * x + intercept)
-    dof = n - 2
-    if dof <= 0:
-        return slope, float("inf"), 1.0
-    resid_var = float(np.sum(residuals**2) / dof)
-    se = math.sqrt(resid_var / sxx) if sxx > 0 else float("inf")
-    if se == 0.0:
-        return slope, 0.0, 1.0 if slope == 0.0 else 0.0
-    t_stat = slope / se
+    unit_slope = float(np.sum(dx * dy) / sxx)
+    residuals = dy - unit_slope * dx
+    unit_se = math.sqrt(float(np.sum(residuals**2)) / (n - 2) / sxx)
+    slope = _fit_units(unit_slope, y_scale, x_scale, y_factor / x_factor)
+    se = _fit_units(unit_se, y_scale, x_scale, y_factor / x_factor)
+    if unit_se == 0.0:
+        return slope, se, 1.0 if unit_slope == 0.0 else 0.0
+    t_stat = unit_slope / unit_se
     p_value = 2.0 * (1.0 - _normal_cdf(abs(t_stat)))
     return slope, se, p_value
+
+
+def _center_for_fit(values: FloatArray) -> tuple[FloatArray, float, float]:
+    with np.errstate(over="ignore"):
+        shifted = values - values[0]
+    factor = 1.0
+    if not np.all(np.isfinite(shifted)):
+        # Opposite-sign finite endpoints can have an unrepresentable difference.
+        shifted = values / 2 - values[0] / 2
+        factor = 2.0
+    scale = float(np.max(np.abs(shifted))) or 1.0
+    shifted /= scale
+    shifted -= shifted.mean()
+    return shifted, scale, factor
+
+
+def _fit_units(value: float, y_scale: float, x_scale: float, factor: float) -> float:
+    # Combine exponents before rounding. y_scale/x_scale alone can overflow
+    # even when multiplying by a small fitted coefficient would be finite.
+    v, ve = math.frexp(value)
+    y, ye = math.frexp(y_scale)
+    x, xe = math.frexp(x_scale)
+    try:
+        return math.ldexp(v * y / x * factor, ve + ye - xe)
+    except OverflowError:
+        return math.copysign(math.inf, value)
 
 
 def format_p(p_value: float) -> str:
@@ -224,9 +290,21 @@ class Levels:
 
 def centered_median(values: FloatArray, window: int) -> FloatArray:
     """Rolling median over a window centred on each point (shrinking at the ends)."""
+    if window < 1:
+        raise ValueError("window must be positive")
     half = window // 2
     n = len(values)
-    return np.array([np.median(values[max(0, i - half) : i + half + 1]) for i in range(n)], dtype=float)
+    med = np.empty(n, dtype=float)
+    width = 2 * half + 1  # Preserve the symmetric convention for even window arguments.
+    if width > n:
+        return np.array([np.median(values[max(0, i - half) : i + half + 1]) for i in range(n)], dtype=float)
+    for i in range(half):
+        med[i] = np.median(values[: i + half + 1])
+    for lo, views in _window_batches(values, width):
+        med[lo + half : lo + half + len(views)] = np.median(views, axis=1)
+    for i in range(n - half, n):
+        med[i] = np.median(values[i - half :])
+    return med
 
 
 def levels(values: FloatArray) -> Levels | None:
