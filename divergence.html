@@ -175,7 +175,7 @@ body {
       <div><dt>axis source</dt><dd>step</dd></div>
       
       
-      <div><dt>generated</dt><dd>2026-10-10 02:59 UTC</dd></div>
+      <div><dt>generated</dt><dd>2026-10-10 05:22 UTC</dd></div>
     </dl>
   </header>
 
@@ -261,7 +261,7 @@ body {
     <span class="detector">grad_norm</span>
     <h3>Gradient-norm explosion</h3>
   </div>
-  <p class="message">grad_norm exceeded 10x its rolling median 1 time; the largest was 23.02 at step 321, 57x the median around it. Read it with the loss: an explosion the loss did not react to was absorbed (usually by clipping).</p>
+  <p class="message">grad_norm exceeded 10x its rolling median 1 time; the largest was 23.02 at step 321, 57x the median around it. Compare the logged loss and optimizer updates; the norm alone does not establish clipping or an effect on training.</p>
   <p class="evidence"><span class='k'>count</span>=1 &nbsp; <span class='k'>peak_step</span>=321 &nbsp; <span class='k'>peak_value</span>=23.02 &nbsp; <span class='k'>ratio_to_median</span>=57.02</p>
   <ul class="fixes"><li>Enable or lower gradient clipping (e.g. max-norm 1.0).</li><li>Lower the learning rate.</li><li>Check the batch at this step for an outlier example (e.g. a corrupted/extreme-length sample).</li></ul>
 </article>
@@ -272,9 +272,9 @@ body {
     <span class="detector">grad_norm</span>
     <h3>Non-finite gradient norm</h3>
   </div>
-  <p class="message">grad_norm was NaN or infinite at 1 logged step, first at step 322.</p>
-  <p class="evidence"><span class='k'>first_bad_step</span>=322 &nbsp; <span class='k'>count</span>=1</p>
-  <ul class="fixes"><li>If the loss stayed finite, this is usually mixed-precision overflow in the norm itself: try bf16, or check the gradient scaler.</li><li>If the loss went non-finite too, see the divergence finding.</li></ul>
+  <p class="message">grad_norm has 1 NaN or infinite reading, first at step 322.</p>
+  <p class="evidence"><span class='k'>first_bad_step</span>=322 &nbsp; <span class='k'>count</span>=1 &nbsp; <span class='k'>distinct_bad_steps</span>=1 &nbsp; <span class='k'>trajectory_status</span>=available</p>
+  <ul class="fixes"><li>Inspect gradient computation and norm measurement at these steps; a logged non-finite norm alone does not establish its cause.</li><li>If using mixed precision, inspect the gradient scaler and whether the optimizer skipped these updates.</li><li>If the loss went non-finite too, see the divergence finding.</li></ul>
 </article>
   </section>
   </main>

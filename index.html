@@ -63,7 +63,15 @@ footer a { color: var(--text-dim); }
     at each build, not hand-typed.</p>
   </header>
   <main class="grid">
-    <a class="card" href="wandb-cadence.html">
+    <a class="card" href="loss-cadence.html">
+  <h2>A late loss drop is still late when logging is sparse</h2>
+  <p>Controlled CPU PyTorch SGD on a scalar quadratic. This file retains step 0 and steps 900-1000 from one recorded run. Its first low reading is 90% through the logged training span, despite being the second CSV row.</p>
+  <div class="chips"><span class="chip sev-error">0 error</span><span class="chip sev-warning">0 warning</span><span class="chip sev-info">0 info</span></div>
+</a><a class="card" href="gradient-concentration.html">
+  <h2>Constant gradient norms without any clipping</h2>
+  <p>Controlled CPU PyTorch SGD on absolute error. No clipping function is called. The norm stays at 1 for all 100 updates; an otherwise identical clipped run has the same pre-clip norms. This history describes concentration, not its cause.</p>
+  <div class="chips"><span class="chip sev-error">0 error</span><span class="chip sev-warning">0 warning</span><span class="chip sev-info">1 info</span></div>
+</a><a class="card" href="wandb-cadence.html">
   <h2>Logging less often is not slower training</h2>
   <p>A controlled numerical training run recorded with the W&amp;B SDK offline. The logger changes from every 4 updates to every 20. The report uses trainer/global_step to divide elapsed time by actual updates.</p>
   <div class="chips"><span class="chip sev-error">0 error</span><span class="chip sev-warning">0 warning</span><span class="chip sev-info">0 info</span></div>
@@ -126,7 +134,7 @@ footer a { color: var(--text-dim); }
 </a>
   </main>
   <footer>
-    <span>Built 2026-10-10 02:59 UTC &middot;
+    <span>Built 2026-10-10 05:22 UTC &middot;
     <a href="https://github.com/antonsoo/trainspotter">source</a></span>
   </footer>
 </div>

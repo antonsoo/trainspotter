@@ -1,0 +1,211 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; style-src 'unsafe-inline'; img-src data:; base-uri 'none'; form-action 'none'">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 32 32%22><rect width=%2232%22 height=%2232%22 rx=%226%22 fill=%22%230b0e11%22/><path d=%22M4 22 L12 20 L18 21 L22 8 L28 6%22 stroke=%22%234fc3f7%22 stroke-width=%222.4%22 fill=%22none%22 stroke-linecap=%22round%22/></svg>">
+<title>trainspotter - A late loss drop is still late when logging is sparse</title>
+<style>
+
+:root {
+  --bg: #0a0d10;
+  --panel: #10151a;
+  --panel-2: #0d1216;
+  --line: #1f2830;
+  --line-strong: #2c3944;
+  --text: #d9e2e8;
+  --text-muted: #8b97a1;
+  --text-dim: #6e7c87;
+  --err: #ff5d5d;
+  --warn: #f2b84b;
+  --info: #5fb3ff;
+  --mono: ui-monospace, "SFMono-Regular", "Cascadia Mono", Consolas, "Liberation Mono", monospace;
+  --sans: -apple-system, "Segoe UI", "Helvetica Neue", Arial, sans-serif;
+}
+* { box-sizing: border-box; }
+a { color: var(--info); }
+a:focus-visible, .repeated-evidence summary:focus-visible, .table-scroll:focus-visible {
+  outline: 2px solid var(--info); outline-offset: 3px;
+}
+html, body { margin: 0; padding: 0; background: var(--bg); color: var(--text); }
+body {
+  font-family: var(--sans);
+  font-size: 14px;
+  line-height: 1.5;
+  padding: 0 0 48px;
+}
+.bezel { max-width: 980px; margin: 0 auto; padding: 28px 20px 0; }
+
+.masthead {
+  display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between;
+  gap: 12px 24px; padding-bottom: 16px; border-bottom: 1px solid var(--line-strong);
+}
+.brand { display: flex; align-items: baseline; gap: 10px; }
+.brand-mark { color: var(--info); font-size: 11px; }
+.brand-name { margin: 0; line-height: inherit; font-family: var(--mono); font-weight: 700; font-size: 17px; letter-spacing: 0.12em; }
+.brand-sub { font-family: var(--mono); color: var(--text-dim); font-size: 12px; letter-spacing: 0.06em; text-transform: uppercase; }
+.readouts { display: flex; flex-wrap: wrap; gap: 18px 28px; margin: 0; font-family: var(--mono); font-size: 12px; }
+.readouts > div { display: flex; flex-direction: column; gap: 2px; max-width: 260px; }
+.readouts dt { color: var(--text-dim); text-transform: uppercase; letter-spacing: 0.08em; font-size: 10px; }
+.readouts dd { margin: 0; color: var(--text-muted); overflow-wrap: anywhere; }
+.readouts dd.warn { color: var(--warn); }
+.input-notes { border-left: 3px solid var(--warn); padding: 10px 14px; margin: 18px 0 4px; background: var(--panel); }
+.input-notes h2 { margin: 0 0 4px; color: var(--warn); font-size: 14px; }
+.input-notes ul { margin: 0; padding-left: 18px; overflow-wrap: anywhere; }
+.input-evidence { margin: 12px 0; font-family: var(--mono); color: var(--text-muted); font-size: 12px; }
+.input-evidence summary { cursor: pointer; padding: 6px 0; }
+.input-evidence summary:focus-visible { outline: 2px solid var(--info); outline-offset: 4px; }
+.table-scroll { overflow-x: auto; }
+.input-evidence table { width: 100%; min-width: 560px; border-collapse: collapse; table-layout: fixed; }
+.input-evidence caption { text-align: left; padding: 8px 0; }
+.input-evidence th, .input-evidence td { text-align: left; padding: 7px 8px; border-bottom: 1px solid var(--line); overflow-wrap: anywhere; }
+.input-evidence th:nth-child(n+3), .input-evidence td:nth-child(n+3) { width: 110px; text-align: right; }
+.input-evidence tbody th { font-weight: normal; }
+.timing-evidence { margin: 16px 0 20px; padding: 12px 16px; background: var(--panel); border: 1px solid var(--line-strong); border-left: 3px solid var(--info); overflow-wrap: anywhere; }
+.timing-evidence h2 { margin: 0 0 6px; font: 13px var(--mono); color: var(--text-muted); text-transform: uppercase; letter-spacing: .06em; }
+.timing-evidence p { margin: 8px 0; }
+.timing-ratio { font-family: var(--mono); }
+.timing-ratio strong { font-size: 22px; color: var(--info); font-weight: normal; }
+.timing-evidence details { color: var(--text-muted); font-size: 12px; }
+.timing-evidence summary { cursor: pointer; padding: 4px 0; }
+.timing-evidence summary:focus-visible { outline: 2px solid var(--info); outline-offset: 3px; }
+.timing-evidence table { width: 100%; min-width: 580px; border-collapse: collapse; font-family: var(--mono); }
+.timing-evidence caption { text-align: left; padding: 10px 0; }
+.timing-evidence th, .timing-evidence td { text-align: right; padding: 8px; border-bottom: 1px solid var(--line); }
+.timing-evidence th:first-child { text-align: left; }
+.timing-evidence ul { padding-left: 20px; }
+.repeated-evidence summary { cursor: pointer; padding: 5px 0; }
+.repeated-evidence h2 { margin-top: 10px; }
+.repeated-evidence table { width: 100%; min-width: 800px; table-layout: fixed; border-collapse: collapse; font-family: var(--mono); font-size: 12px; }
+.repeated-evidence th, .repeated-evidence td { text-align: left; padding: 8px; border-bottom: 1px solid var(--line); overflow-wrap: anywhere; }
+.repeated-evidence th:nth-child(1) { width: 140px; }
+.repeated-evidence th:nth-child(2) { width: 70px; }
+.repeated-evidence th:nth-child(3) { width: 210px; }
+.repeated-evidence caption { text-align: left; padding: 10px 0; }
+.table-hint { color: var(--text-muted); font-size: 12px; margin: 8px 0; }
+@media (min-width: 900px) { .table-hint { display: none; } }
+
+.summary { padding: 18px 0 8px; }
+.summary { display: grid; grid-template-columns: repeat(3, auto) 1fr; align-items: center; gap: 20px; }
+.count { display: flex; align-items: baseline; gap: 8px; font-family: var(--mono); }
+.count .n { font-size: 22px; font-weight: 700; }
+.count .l { font-size: 11px; text-transform: uppercase; letter-spacing: 0.08em; color: var(--text-dim); }
+.count.sev-error .n { color: var(--err); }
+.count.sev-warning .n { color: var(--warn); }
+.count.sev-info .n { color: var(--info); }
+.strip-wrap { min-width: 220px; }
+.strip { width: 100%; height: 34px; display: block; }
+.strip-bg { fill: var(--panel-2); }
+.strip-base { stroke: var(--line-strong); stroke-width: 1; }
+
+.charts { display: flex; flex-direction: column; gap: 6px; margin-top: 10px; }
+.chart-block { background: var(--panel); border: 1px solid var(--line); border-radius: 2px; padding: 10px 14px 4px; }
+.chart-block h2 {
+  font-family: var(--mono); font-size: 12px; font-weight: 600; letter-spacing: 0.08em;
+  text-transform: uppercase; color: var(--text-muted); margin: 0 0 4px; overflow-wrap: anywhere;
+}
+.chart { width: 100%; height: auto; display: block; }
+.uncharted { font-family: var(--mono); font-size: 12px; color: var(--text-muted); margin: 8px 2px; overflow-wrap: anywhere; }
+.chart-scroll { overflow-x: auto; }
+.chart-scroll:focus-visible { outline: 2px solid var(--info); outline-offset: 2px; }
+.chart-hint { display: none; }
+.grid { stroke: var(--line); stroke-width: 1; }
+.frame { stroke: var(--line-strong); stroke-width: 1; }
+.axis-y, .axis-x { font-family: var(--mono); font-size: 9px; fill: var(--text-dim); }
+.legend { font-family: var(--mono); font-size: 10px; fill: var(--text-muted); }
+.marker-bad { font-family: var(--mono); font-size: 13px; fill: var(--err); font-weight: 700; }
+.off-scale-label { font-family: var(--mono); font-size: 9px; font-weight: 600; }
+
+.findings-log { margin-top: 28px; }
+.log-title {
+  font-family: var(--mono); font-size: 12px; letter-spacing: 0.1em; text-transform: uppercase;
+  color: var(--text-muted); border-bottom: 1px solid var(--line-strong); padding-bottom: 8px;
+}
+.clean { color: var(--text-muted); font-family: var(--mono); font-size: 13px; }
+.finding { border-bottom: 1px solid var(--line); padding: 14px 0; }
+.finding:last-child { border-bottom: none; }
+.finding-head { display: flex; flex-wrap: wrap; align-items: baseline; gap: 10px; }
+.finding-head h3 { font-size: 14.5px; margin: 0; color: var(--text); font-weight: 600; }
+.chip {
+  font-family: var(--mono); font-size: 10px; font-weight: 700; letter-spacing: 0.06em;
+  padding: 2px 6px; border-radius: 2px; border: 1px solid currentColor;
+}
+.chip.sev-error { color: var(--err); }
+.chip.sev-warning { color: var(--warn); }
+.chip.sev-info { color: var(--info); }
+.steps, .detector { font-family: var(--mono); font-size: 11px; color: var(--text-dim); }
+.detector::before { content: "\00b7 "; }
+.message { margin: 6px 0 4px; color: var(--text); }
+.finding, .brand { overflow-wrap: anywhere; min-width: 0; }
+.evidence { font-family: var(--mono); font-size: 11.5px; color: var(--text-muted); margin: 0 0 6px; }
+.evidence .k { color: var(--text-dim); }
+.fixes { margin: 0; padding-left: 18px; color: var(--text-muted); font-size: 13px; }
+.fixes li { margin: 2px 0; }
+
+.masthead-foot {
+  margin-top: 32px; padding-top: 14px; border-top: 1px solid var(--line);
+  color: var(--text-dim); font-family: var(--mono); font-size: 11px;
+}
+
+@media (max-width: 600px) {
+  .chart { width: 760px; max-width: none; }
+  .axis-y, .axis-x, .legend, .off-scale-label { font-size: 12px; }
+  .chart-hint { display: block; margin: 2px 0 8px; color: var(--text-muted); font-size: 12px; }
+  .brand { flex-wrap: wrap; }
+  .summary { grid-template-columns: repeat(3, auto); }
+  .strip-wrap { grid-column: 1 / -1; order: 10; }
+}
+
+</style>
+</head>
+<body>
+<div class="bezel">
+  <header class="masthead">
+    <div class="brand">
+      <span class="brand-mark" aria-hidden="true">&#9679;</span>
+      <h1 class="brand-name">TRAINSPOTTER</h1>
+      <span class="brand-sub">run diagnostic</span>
+    </div>
+    <dl class="readouts">
+      <div><dt>source</dt><dd>examples/<wbr>diagnostic-evidence/<wbr>slow-sparse.csv</dd></div>
+      <div><dt>format</dt><dd>csv</dd></div>
+      
+      <div><dt>steps</dt><dd>0&ndash;1000</dd></div>
+      <div><dt>axis source</dt><dd>step</dd></div>
+      
+      
+      <div><dt>generated</dt><dd>2026-10-10 05:22 UTC</dd></div>
+    </dl>
+  </header>
+
+  <main><section class="chart-block sample-context" aria-labelledby="sample-heading"><h2 id="sample-heading">A late loss drop is still late when logging is sparse</h2><p>Controlled CPU PyTorch SGD on a scalar quadratic. This file retains step 0 and steps 900-1000 from one recorded run. Its first low reading is 90% through the logged training span, despite being the second CSV row.</p><p><a download="slow-sparse.csv" href="data:text/csv;base64,c3RlcCxsb3NzDQowLDIuMA0KOTAwLDAuMDAwMjQxMzEwMDEwMTc5NDQwMjgNCjkwMSwwLjAwMDIzODkwMjk0MjgyNzkwMDM3DQo5MDIsMC4wMDAyMzY1MTk4ODU5NzMxOTIwMw0KOTAzLDAuMDAwMjM0MTYwNjAwMTEwNjA5NDINCjkwNCwwLjAwMDIzMTgyNDg0ODEyNDUwNjE0DQo5MDUsMC4wMDAyMjk1MTIzOTUyNjQ0NjQxNw0KOTA2LDAuMDAwMjI3MjIzMDA5MTIxNzAxMQ0KOTA3LDAuMDAwMjI0OTU2NDU5NjA1NzEyMTQNCjkwOCwwLjAwMDIyMjcxMjUxODkyMTE0NTE3DQo5MDksMC4wMDAyMjA0OTA5NjE1NDQ5MDY3Ng0KOTEwLDAuMDAwMjE4MjkxNTY0MjAzNDk2MzMNCjkxMSwwLjAwMDIxNjExNDEwNTg1MDU2NjQzDQo5MTIsMC4wMDAyMTM5NTgzNjc2NDQ3MDcwNA0KOTEzLDAuMDAwMjExODI0MTMyOTI3NDUxMQ0KOTE0LDAuMDAwMjA5NzExMTg3MjAxNDk5NzYNCjkxNSwwLjAwMDIwNzYxOTMxODEwOTE2NDgzDQo5MTYsMC4wMDAyMDU1NDgzMTU0MTEwMjU5NA0KOTE3LDAuMDAwMjAzNDk3OTcwOTY0ODAwOTYNCjkxOCwwLjAwMDIwMTQ2ODA3ODcwNDQyNzA0DQo5MTksMC4wMDAxOTk0NTg0MzQ2MTkzNTA0DQo5MjAsMC4wMDAxOTc0Njg4MzY3MzQwMjI0DQo5MjEsMC4wMDAxOTU0OTkwODUwODc2MDA0OA0KOTIyLDAuMDAwMTkzNTQ4OTgxNzEzODUxNjYNCjkyMywwLjAwMDE5MTYxODMzMDYyMTI1Ng0KOTI0LDAuMDAwMTg5NzA2OTM3NzczMzA4OTUNCjkyNSwwLjAwMDE4NzgxNDYxMTA2OTAyMDIxDQo5MjYsMC4wMDAxODU5NDExNjAzMjM2MDY3NQ0KOTI3LDAuMDAwMTg0MDg2Mzk3MjQ5Mzc4OA0KOTI4LDAuMDAwMTgyMjUwMTM1NDM2ODE2MjYNCjkyOSwwLjAwMDE4MDQzMjE5MDMzNTgzNDA0DQo5MzAsMC4wMDAxNzg2MzIzNzkyMzcyMzQxDQo5MzEsMC4wMDAxNzY4NTA1MjEyNTQzNDI2OA0KOTMyLDAuMDAwMTc1MDg2NDM3MzA0ODMwNjQNCjkzMywwLjAwMDE3MzMzOTk1MDA5MjcxNDk1DQo5MzQsMC4wMDAxNzE2MTA4ODQwOTA1NDAxDQo5MzUsMC4wMDAxNjk4OTkwNjU1MjE3MzY5OA0KOTM2LDAuMDAwMTY4MjA0MzIyMzQzMTU3NjINCjkzNywwLjAwMDE2NjUyNjQ4NDIyNzc4NDYyDQo5MzgsMC4wMDAxNjQ4NjUzODI1NDc2MTI0Nw0KOTM5LDAuMDAwMTYzMjIwODUwMzU2NzAwMDQNCjk0MCwwLjAwMDE2MTU5MjcyMjM3NDM5MTk1DQo5NDEsMC4wMDAxNTk5ODA4MzQ5Njg3MDc0DQo5NDIsMC4wMDAxNTgzODUwMjYxMzk4OTQ1DQo5NDMsMC4wMDAxNTY4MDUxMzU1MDQxNDkwNw0KOTQ0LDAuMDAwMTU1MjQxMDA0Mjc3NDk1MjENCjk0NSwwLjAwMDE1MzY5MjQ3NTI1OTgyNzINCjk0NiwwLjAwMDE1MjE1OTM5MjgxOTExMDQ2DQo5NDcsMC4wMDAxNTA2NDE2MDI4NzU3Mzk4DQo5NDgsMC4wMDAxNDkxMzg5NTI4ODcwNTQzMw0KOTQ5LDAuMDAwMTQ3NjUxMjkxODMyMDA1OTMNCjk1MCwwLjAwMDE0NjE3ODQ3MDE5NTk4MTcxDQo5NTEsMC4wMDAxNDQ3MjAzMzk5NTU3NzY4DQo5NTIsMC4wMDAxNDMyNzY3NTQ1NjQ3MTc5Mw0KOTUzLDAuMDAwMTQxODQ3NTY4OTM3OTM0ODYNCjk1NCwwLjAwMDE0MDQzMjYzOTQzNzc3ODk3DQo5NTUsMC4wMDAxMzkwMzE4MjM4NTkzODcxNA0KOTU2LDAuMDAwMTM3NjQ0OTgxNDE2Mzg5NzgNCjk1NywwLjAwMDEzNjI3MTk3MjcyNjc2MTI2DQo5NTgsMC4wMDAxMzQ5MTI2NTk3OTg4MTE4DQo5NTksMC4wMDAxMzM1NjY5MDYwMTczMTg2Mw0KOTYwLDAuMDAwMTMyMjM0NTc2MTI5Nzk1ODcNCjk2MSwwLjAwMDEzMDkxNTUzNjIzMjkwMTE2DQo5NjIsMC4wMDAxMjk2MDk2NTM3NTg5Nzc5NQ0KOTYzLDAuMDAwMTI4MzE2Nzk3NDYyNzMyMTQNCjk2NCwwLjAwMDEyNzAzNjgzNzQwODA0MTQNCjk2NSwwLjAwMDEyNTc2OTY0NDk1NDg5NjE4DQo5NjYsMC4wMDAxMjQ1MTUwOTI3NDY0NzEwOA0KOTY3LDAuMDAwMTIzMjczMDU0Njk2MzI1MDINCjk2OCwwLjAwMDEyMjA0MzQwNTk3NTcyOTE2DQo5NjksMC4wMDAxMjA4MjYwMjMwMDExMjEyNg0KOTcwLDAuMDAwMTE5NjIwNzgzNDIxNjg1MDgNCjk3MSwwLjAwMDExODQyNzU2NjEwNzA1Mzc3DQo5NzIsMC4wMDAxMTcyNDYyNTExMzUxMzU5DQo5NzMsMC4wMDAxMTYwNzY3MTk3ODAwNjI5NA0KOTc0LDAuMDAwMTE0OTE4ODU0NTAwMjU2ODENCjk3NSwwLjAwMDExMzc3MjUzODkyNjYxNjc1DQo5NzYsMC4wMDAxMTI2Mzc2NTc4NTA4MjM3NA0KOTc3LDAuMDAwMTExNTE0MDk3MjEzNzYxNzgNCjk3OCwwLjAwMDExMDQwMTc0NDA5NDA1NDUNCjk3OSwwLjAwMDEwOTMwMDQ4NjY5NjcxNjMxDQo5ODAsMC4wMDAxMDgyMTAyMTQzNDE5MTY1Nw0KOTgxLDAuMDAwMTA3MTMwODE3NDUzODU1OTUNCjk4MiwwLjAwMDEwNjA2MjE4NzU0OTc1Mzc0DQo5ODMsMC4wMDAxMDUwMDQyMTcyMjg5NDQ5NA0KOTg0LDAuMDAwMTAzOTU2ODAwMTYyMDg2Mg0KOTg1LDAuMDAwMTAyOTE5ODMxMDgwNDY5NA0KOTg2LDAuMDAwMTAxODkzMjA1NzY1NDQxNzINCjk4NywwLjAwMDEwMDg3NjgyMTAzNzkzMTQ0DQo5ODgsOS45ODcwNTc0NzQ4MDc4MDdlLTA1DQo5ODksOS44ODc0MzY1NzY0OTY1OThlLTA1DQo5OTAsOS43ODg4MDkzOTY2NDYwNDVlLTA1DQo5OTEsOS42OTExNjYwMjI5MTQ0OTllLTA1DQo5OTIsOS41OTQ0OTY2NDE4MzU5MjdlLTA1DQo5OTMsOS40OTg3OTE1Mzc4MzM2MTRlLTA1DQo5OTQsOS40MDQwNDEwOTIyNDM3MjVlLTA1DQo5OTUsOS4zMTAyMzU3ODIzNDg1OTNlLTA1DQo5OTYsOS4yMTczNjYxODA0MTk2NjZlLTA1DQo5OTcsOS4xMjU0MjI5NTI3Njk5NzllLTA1DQo5OTgsOS4wMzQzOTY4NTg4MTYxZS0wNQ0KOTk5LDguOTQ0Mjc4NzUwMTQ5NDA4ZS0wNQ0KMTAwMCw4Ljg1NTA1OTU2OTYxNjY2OGUtMDUNCg==">Download the input log</a> | <a href="https://github.com/antonsoo/trainspotter/blob/main/docs/diagnostic-evidence.md">Capture method and limits</a></p></section>
+  
+  <section class="summary">
+    <div class="count sev-error"><span class="n">0</span><span class="l">error</span></div>
+    <div class="count sev-warning"><span class="n">0</span><span class="l">warning</span></div>
+    <div class="count sev-info"><span class="n">0</span><span class="l">info</span></div>
+    <div class="strip-wrap"><svg class="strip" viewBox="0 0 920 34" role="img" aria-label="Finding timeline for the whole run"><rect x="0" y="0" width="920" height="34" class="strip-bg"/><line x1="0" y1="33" x2="920" y2="33" class="strip-base"/></svg></div>
+  </section>
+
+  <details class="input-evidence"><summary>Metric sources and point counts</summary><p class="table-hint">Scroll the table horizontally to inspect every column.</p><div class="table-scroll" tabindex="0" role="region" aria-label="Metric sources and point counts"><table><caption>Names used by the report and their original source</caption><thead><tr><th scope="col">Report metric</th><th scope="col">Source metric</th><th scope="col">Readings</th><th scope="col">Analysis points</th></tr></thead><tbody><tr><th scope="row">train/loss</th><td>loss</td><td>102</td><td>102</td></tr></tbody></table></div></details>
+  
+  <section class="timing-evidence" aria-labelledby="timing-heading"><h2 id="timing-heading">Timing unavailable</h2><p>No eligible timing source. The comparison needs enough step_time or throughput readings, or loss observations with timestamps and explicit training steps. Conflicting repeated-step values are excluded from this check.</p><details><summary>Timing sources and windows</summary><ul><li>wall_time(train/loss): 102 of 102 points have no timestamp. No intervals were bridged across missing timestamps.</li></ul><p>Coordinates: <code>step</code> (steps).</p><p>Default timing check: first and last 20% of observations, at least five each, without overlap. This describes those windows, not every step of the run. Direct throughput is time per reported unit (such as a sample or token). Unavailable timing does not establish stable speed.</p></details></section>
+
+  <div class="charts">
+    <p class="chart-hint">Scroll charts horizontally to inspect the full range of steps.</p>
+    <section class="chart-block"><h2>train/loss</h2><div class="chart-scroll" tabindex="0" role="region" aria-label="train/loss chart"><svg class="chart" viewBox="0 0 920 180" role="img" aria-label="train/loss over steps 0 to 1000"><line class="grid" x1="54" y1="154.0" x2="902" y2="154.0"/><text class="axis-y" x="46" y="157.0" text-anchor="end">0</text><line class="grid" x1="54" y1="118.2" x2="902" y2="118.2"/><text class="axis-y" x="46" y="121.2" text-anchor="end">0.0001</text><line class="grid" x1="54" y1="82.4" x2="902" y2="82.4"/><text class="axis-y" x="46" y="85.4" text-anchor="end">0.0002</text><line class="grid" x1="54" y1="46.6" x2="902" y2="46.6"/><text class="axis-y" x="46" y="49.6" text-anchor="end">0.0003</text><line class="grid" x1="54.0" y1="14" x2="54.0" y2="154"/><text class="axis-x" x="54.0" y="170" text-anchor="middle">0</text><line class="grid" x1="223.6" y1="14" x2="223.6" y2="154"/><text class="axis-x" x="223.6" y="170" text-anchor="middle">200</text><line class="grid" x1="393.2" y1="14" x2="393.2" y2="154"/><text class="axis-x" x="393.2" y="170" text-anchor="middle">400</text><line class="grid" x1="562.8" y1="14" x2="562.8" y2="154"/><text class="axis-x" x="562.8" y="170" text-anchor="middle">600</text><line class="grid" x1="732.4" y1="14" x2="732.4" y2="154"/><text class="axis-x" x="732.4" y="170" text-anchor="middle">800</text><line class="grid" x1="902.0" y1="14" x2="902.0" y2="154"/><text class="axis-x" x="902.0" y="170" text-anchor="middle">1000</text><path d="M54.0 24.4 L817.2 67.6 L818.0 68.4 L818.9 69.3 L819.7 70.1 L820.6 71.0 L821.4 71.8 L822.3 72.6 L823.1 73.4 L824.0 74.2 L824.8 75.0 L825.7 75.8 L826.5 76.6 L827.4 77.4 L828.2 78.1 L829.1 78.9 L829.9 79.6 L830.8 80.4 L831.6 81.1 L832.5 81.8 L833.3 82.6 L834.2 83.3 L835.0 84.0 L835.9 84.7 L836.7 85.4 L837.6 86.1 L838.4 86.7 L839.2 87.4 L840.1 88.1 L840.9 88.7 L841.8 89.4 L842.6 90.0 L843.5 90.7 L844.3 91.3 L845.2 91.9 L846.0 92.5 L846.9 93.1 L847.7 93.8 L848.6 94.4 L849.4 95.0 L850.3 95.5 L851.1 96.1 L852.0 96.7 L852.8 97.3 L853.7 97.8 L854.5 98.4 L855.4 99.0 L856.2 99.5 L857.1 100.0 L857.9 100.6 L858.8 101.1 L859.6 101.6 L860.4 102.2 L861.3 102.7 L862.1 103.2 L863.0 103.7 L863.8 104.2 L864.7 104.7 L865.5 105.2 L866.4 105.7 L867.2 106.2 L868.1 106.6 L868.9 107.1 L869.8 107.6 L870.6 108.0 L871.5 108.5 L872.3 109.0 L873.2 109.4 L874.0 109.8 L874.9 110.3 L875.7 110.7 L876.6 111.2 L877.4 111.6 L878.3 112.0 L879.1 112.4 L880.0 112.8 L880.8 113.3 L881.6 113.7 L882.5 114.1 L883.3 114.5 L884.2 114.9 L885.0 115.2 L885.9 115.6 L886.7 116.0 L887.6 116.4 L888.4 116.8 L889.3 117.1 L890.1 117.5 L891.0 117.9 L891.8 118.2 L892.7 118.6 L893.5 118.9 L894.4 119.3 L895.2 119.6 L896.1 120.0 L896.9 120.3 L897.8 120.7 L898.6 121.0 L899.5 121.3 L900.3 121.6 L901.2 122.0 L902.0 122.3" fill="none" stroke="#4fd1e8" stroke-width="1.75"/><path class="marker-offscale" d="M50.0 24.0 L54.0 17.0 L58.0 24.0 Z" fill="#4fd1e8"/><text class="off-scale-label" x="62.0" y="34.0" text-anchor="start"><tspan fill="#4fd1e8">2</tspan></text><rect class="frame" x="54" y="14" width="848" height="140" fill="none"/></svg></div></section>
+  </div>
+
+  <section class="findings-log">
+    <h2 class="log-title">Findings log</h2>
+    <p class="clean">No pathologies detected in the metrics this detector set covers.</p>
+  </section>
+  </main>
+
+  <footer class="masthead-foot">
+    <span>trainspotter &mdash; heuristic diagnostics, not ground truth. Read each finding's false-positive modes before acting on it.</span>
+  </footer>
+</div>
+</body>
+</html>
