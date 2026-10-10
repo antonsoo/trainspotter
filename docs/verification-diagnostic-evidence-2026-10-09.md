@@ -70,3 +70,19 @@ observed. [Browser results](../studies/diagnostic-evidence/gallery-local.json).
 All four retained desktop/mobile screenshots were opened and visually
 inspected. The longer gradient explanation wraps on mobile; charts retain
 their existing accessible horizontal scrolling.
+
+## Publication verified
+
+Source was pushed through `c5103f6`. The existing `gh-pages` branch was
+updated to `671a6f1` with the clean `d3221a9` build. Later documentation
+records this verification without changing the runtime or published build.
+
+The actual hosted index, [sparse-loss report](https://antonsoo.github.io/trainspotter/loss-cadence.html),
+and [unclipped-gradient report](https://antonsoo.github.io/trainspotter/gradient-concentration.html)
+match the clean build byte-for-byte. The gallery checker then passed all
+16 workflows against the public site and its offline files in Chromium and
+Firefox, including keyboard navigation, finding counts, accessibility,
+and exact CSV downloads. [Publication record](../studies/diagnostic-evidence/publication.json)
+retains the URL, timestamp, commits, hashes, and browser results.
+
+These are source and static-site updates. The PyPI version remains unchanged.
