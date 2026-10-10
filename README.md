@@ -28,6 +28,12 @@ logging events and leaves per-training-step timing unavailable. Select a custom
 counter with `--step-key`. [Captured records, commands and limits](docs/wandb-axes.md).
 These fixes are available from source and are **not yet in the PyPI release**.
 
+The current source also corrects [loss and gradient evidence](docs/diagnostic-evidence.md):
+a late low-loss reading does not become "early" because logging is sparse,
+constant gradient norms do not establish clipping, and short histories keep
+their observed NaN/Inf norms. The retained PyTorch captures include clipped
+and unclipped runs with identical pre-clip norm histories.
+
 ## Calibration study on 3,145 real runs
 
 Many people upload `Trainer`'s checkpoint directories to the Hugging Face Hub,
@@ -73,6 +79,8 @@ setback: a third of the run spent above a loss level it had already reached.*
 ## Report
 
 The [sample gallery](https://antonsoo.github.io/trainspotter/) includes a
+[sparse log of a late loss drop](https://antonsoo.github.io/trainspotter/loss-cadence.html),
+[constant gradients without clipping](https://antonsoo.github.io/trainspotter/gradient-concentration.html),
 [W&B run with changing logging cadence](https://antonsoo.github.io/trainspotter/wandb-cadence.html),
 [timing without a training counter](https://antonsoo.github.io/trainspotter/wandb-logging-only.html),
 [a measured slowdown](https://antonsoo.github.io/trainspotter/wandb-slowdown.html),

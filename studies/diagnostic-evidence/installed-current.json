@@ -1,0 +1,163 @@
+{
+  "python": "3.14.7",
+  "numpy": "2.5.3",
+  "trainspotter": "0.2.6",
+  "cli_calls": 34,
+  "watch_nonfinite_observed": true,
+  "checks": [
+    {
+      "input": "slow-dense.csv",
+      "sha256": "0e4b599e57cd40f2d16ca9e7dc0ca25b1b3937c5e4d6d8ee7abb732a1828623c",
+      "exit_codes": {
+        "json": 0,
+        "gate": 0,
+        "html": 0
+      },
+      "findings": {
+        "error": 0,
+        "warning": 0,
+        "info": 0
+      }
+    },
+    {
+      "input": "slow-sparse.csv",
+      "sha256": "398498b225bc376551561f120f766dfae85579cf8d06aa123bee9314461f926b",
+      "exit_codes": {
+        "json": 0,
+        "gate": 0,
+        "html": 0
+      },
+      "findings": {
+        "error": 0,
+        "warning": 0,
+        "info": 0
+      }
+    },
+    {
+      "input": "fast-dense.csv",
+      "sha256": "a73bca4e1470724a6799cded5bc7ddc866e63695eb967acf0c5e0b5f886b0ded",
+      "exit_codes": {
+        "json": 0,
+        "gate": 0,
+        "html": 0
+      },
+      "findings": {
+        "error": 0,
+        "warning": 0,
+        "info": 1
+      }
+    },
+    {
+      "input": "slow-sparse-no-step.csv",
+      "sha256": "9729cd7fa2e94de584fb1d720a2e844b1b47f7ccf8c3bba463fb3ba96b62fb44",
+      "exit_codes": {
+        "json": 0,
+        "gate": 0,
+        "html": 0
+      },
+      "findings": {
+        "error": 0,
+        "warning": 0,
+        "info": 0
+      }
+    },
+    {
+      "input": "unclipped-before.csv",
+      "sha256": "d7a4191752fd37b8a0940d890bd78ae656ea32318168fd156fa77ca4cad90b82",
+      "exit_codes": {
+        "json": 0,
+        "gate": 0,
+        "html": 0
+      },
+      "findings": {
+        "error": 0,
+        "warning": 0,
+        "info": 1
+      }
+    },
+    {
+      "input": "unclipped-after.csv",
+      "sha256": "d7a4191752fd37b8a0940d890bd78ae656ea32318168fd156fa77ca4cad90b82",
+      "exit_codes": {
+        "json": 0,
+        "gate": 0,
+        "html": 0
+      },
+      "findings": {
+        "error": 0,
+        "warning": 0,
+        "info": 1
+      }
+    },
+    {
+      "input": "clipped-before.csv",
+      "sha256": "5d604137a7f5bcbeb085247f908c5ca52d27d7d2ca6b06fc8f1b37fe1f9130fe",
+      "exit_codes": {
+        "json": 0,
+        "gate": 0,
+        "html": 0
+      },
+      "findings": {
+        "error": 0,
+        "warning": 0,
+        "info": 1
+      }
+    },
+    {
+      "input": "clipped-after.csv",
+      "sha256": "4636842174e57e187693bf9de60441eeb651272e081cbf7c131b39cca869e9fc",
+      "exit_codes": {
+        "json": 0,
+        "gate": 0,
+        "html": 0
+      },
+      "findings": {
+        "error": 0,
+        "warning": 0,
+        "info": 1
+      }
+    },
+    {
+      "input": "overflow-one-step.csv",
+      "sha256": "84616ae2c29f83b0ae1aa875a44e0a002f9066c769590eb328cf6c6291a65a38",
+      "exit_codes": {
+        "json": 0,
+        "gate": 1,
+        "html": 0
+      },
+      "findings": {
+        "error": 1,
+        "warning": 0,
+        "info": 1
+      }
+    },
+    {
+      "input": "infinite-gradient-tail.csv",
+      "sha256": "73c28ccca34150e403a596784384a77d519a862d2f876aad0c54ed200743057a",
+      "exit_codes": {
+        "json": 0,
+        "gate": 0,
+        "html": 0
+      },
+      "findings": {
+        "error": 0,
+        "warning": 0,
+        "info": 1
+      }
+    },
+    {
+      "input": "infinite-start-loss.csv",
+      "sha256": "a33b9870b0a0f82473acc70298edd06389fe20130497cd0caecbd1464f2aacd7",
+      "exit_codes": {
+        "json": 0,
+        "gate": 1,
+        "html": 0
+      },
+      "findings": {
+        "error": 1,
+        "warning": 0,
+        "info": 1
+      }
+    }
+  ]
+}

@@ -101,8 +101,8 @@ training quality.
 
 ```bash
 uv run python studies/diagnostic-evidence/replay.py --check --output /tmp/diagnostics.json
-uv run trainspotter analyze examples/diagnostic-evidence/slow-sparse.csv --format html --out /tmp/loss.html
-uv run trainspotter analyze examples/diagnostic-evidence/unclipped-before.csv --format json
+uv run trainspotter analyze examples/diagnostic-evidence/slow-sparse.csv --output html --out /tmp/loss.html
+uv run trainspotter analyze examples/diagnostic-evidence/unclipped-before.csv --output json
 ```
 
 The controlled examples establish counterexamples to the previous claims.
