@@ -124,30 +124,34 @@ def main() -> None:
                 },
             }
         )
-    before = [
-        json.loads(line) for line in (args.artifacts / "before.jsonl").read_text().splitlines()
-    ]
-    after = [json.loads(line) for line in (args.artifacts / "after.jsonl").read_text().splitlines()]
-    changed, rounded, exact, readable, unavailable = [], 0, 0, 0, 0
-    for a, b in zip(before, after, strict=True):
-        assert a["identity"] == b["identity"]
-        readable += "report" in a
-        unavailable += "unavailable" in a
-        diff = differences(a, b)
-        if diff:
-            changed.append({"identity": a["identity"], "paths": diff})
-        elif a == b:
-            exact += 1
-        else:
-            rounded += 1
+    changed, rounded, exact, readable, unavailable, compared = [], 0, 0, 0, 0, 0
+    # Some reports contain extensive repeated-step evidence. Compare one run
+    # at a time rather than retaining two complete decoded corpora in memory.
+    with (
+        (args.artifacts / "before.jsonl").open() as before,
+        (args.artifacts / "after.jsonl").open() as after,
+    ):
+        for before_line, after_line in zip(before, after, strict=True):
+            a, b = json.loads(before_line), json.loads(after_line)
+            assert a["identity"] == b["identity"]
+            compared += 1
+            readable += "report" in a
+            unavailable += "unavailable" in a
+            diff = differences(a, b)
+            if diff:
+                changed.append({"identity": a["identity"], "paths": diff})
+            elif a == b:
+                exact += 1
+            else:
+                rounded += 1
     result = {
         "python": platform.python_version(),
         "manifests": {p.name: digest(p) for p in manifests},
         "runs": runs,
-        "compared": len(before),
+        "compared": compared,
         "readable": readable,
         "unavailable": unavailable,
-        "unreadable": len(before) - readable - unavailable,
+        "unreadable": compared - readable - unavailable,
         "exactly_equal": exact,
         "only_float_roundoff": rounded,
         "float_comparison": {"relative_tolerance": 1e-10, "absolute_tolerance": 1e-12},

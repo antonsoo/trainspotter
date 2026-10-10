@@ -1,6 +1,7 @@
 # A logging counter is not a training-step counter
 
-This fix is local and unreleased. Install the source checkout to use `--step-key`.
+This fix is available from source and is not yet in the PyPI release. Install
+the cloned checkout with `python -m pip install .` to use `--step-key`.
 
 The previous checkout (`9e988eb`) divided W&B `_runtime` intervals by `_step`.
 In the [retained offline SDK experiment](../examples/wandb-axes/README.md), steady

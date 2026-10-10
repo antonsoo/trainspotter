@@ -1,7 +1,9 @@
 # W&B coordinate verification
 
 Verified locally on 9 October 2026 (Pacific time). No package, branch or hosted
-site was published. Implementation: `fb72ee5`; retained captures and source
+site was published during this initial verification. Subsequent source and
+gallery publication is recorded in [the long-history verification](verification-long-histories.md).
+Implementation: `fb72ee5`; retained captures and source
 under clean verification: `7268b09`. This record and the gallery verifier follow
 those commits without further changes to library code.
 

@@ -1,0 +1,89 @@
+{
+  "python": "3.12.12",
+  "manifests": {
+    "manifest.json": "b4f2abeb45c77f93f62c6f7b08ca92acb8a2b3951f327825c969e802fbcc2d55",
+    "manifest-heldout.json": "13a9d300f8c7131154723c8981d720f80277ee3e539d91d46030f36c0a0577a5"
+  },
+  "runs": [
+    {
+      "label": "before",
+      "elapsed_s": 678.3972287780052,
+      "output_sha256": "b2355c5cbbf2889be4fd81155efc89f6be0924184c7cd0978b786a8925df29c0",
+      "source_sha256": {
+        "trainspotter/__init__.py": "f902908eabb455be7238326cae68b500f401e4962b326bc7696dbc748be6437b",
+        "trainspotter/cli.py": "e25bf55b6036bac0b53599647bf27ec255834aa8030b016117858f077de139ae",
+        "trainspotter/detectors/__init__.py": "38482b71273ec74fdf748c447e35c1132451b5f9a74a581a8e72067d91624e09",
+        "trainspotter/detectors/base.py": "2efd4f9aee7a0a23cdd73984d7b7c2a08d489ad49a5d7659b90463c67513dd5f",
+        "trainspotter/detectors/divergence.py": "a850e69d7afcecaff65a46ff80b4ab440301dacbbc56ba15055a5ffda1b131dc",
+        "trainspotter/detectors/eval_noise.py": "1fa2258d2d3247fa0486fda30867e1b769bf5d06ffd864402c91fd1610b350ca",
+        "trainspotter/detectors/grad_norm.py": "ec0d16de05b98068ac644a8a18e22f3c6d08231b4eea1805d99402f9e9b99e89",
+        "trainspotter/detectors/loss_floor.py": "b2d55a82a50f6948c39486f85a782adf03a9dd9504162cc72edd4f03b4c82af0",
+        "trainspotter/detectors/lr_schedule.py": "6cc240b8afaca7ed71cabd247babedb99a53f3811b5d6a08bdf635599143f07b",
+        "trainspotter/detectors/overfitting.py": "bb3e0de68e033caa75e6290708fce67d967dc929db78c5bc687c99476897b38f",
+        "trainspotter/detectors/plateau.py": "79d8706c22d3b8a3d78addb4c27845ea4c4f4f57d6acd3711e000c26d879359a",
+        "trainspotter/detectors/setbacks.py": "ad16c242d00a4ce08cf7424d85bebf5d0fd32d430a8eec6941b79de3b08a7011",
+        "trainspotter/detectors/spikes.py": "f5e6b72df13bb95f03ab7306b9906c46845baac9ab2c5db86c9360f61dafd2d7",
+        "trainspotter/detectors/throughput.py": "b6a506b973629696564601546992b051700bdece9bbc67b2bd05e402d4a68a54",
+        "trainspotter/model.py": "527371ee1812cd857cb807e8422d14fa002938f282e7ac21064d391a59630b58",
+        "trainspotter/readers/__init__.py": "301d4e5a6f396632e297eb68cf69d9c968c8fd6a55d31c24ba2b274343d178f9",
+        "trainspotter/readers/common.py": "4501e803a4b1dce1c2206ef711e25da290b50719120ad8e773a65f2ada7a0dd1",
+        "trainspotter/readers/hf.py": "bee46a5a8d0ead8718ce51ef98124ef1690f89d93cd81da0da70995a3d755aa6",
+        "trainspotter/readers/lightning.py": "36cf68c7dc9e90f99de4e3007647c9308323154cb6aa96b0b09d9b40af0929f4",
+        "trainspotter/readers/tabular.py": "4921cca04fafa1ea59a3f5f7e233bb156cab1b2dd593ed5dd00993169259d2bc",
+        "trainspotter/readers/tensorboard.py": "66e15cdf3ec3d4761626835b9af8f7468ca13893b97f4f335103cd219af96afb",
+        "trainspotter/readers/wandb.py": "6819770281c5dc292928544b8a78e1b3294b3b40130935a3bd29c9ddb8e80a7a",
+        "trainspotter/report/__init__.py": "317d8be1f917cf65f0312a083c62f7bf268d37b5c9d7232c3a0bf37ae18b9a0a",
+        "trainspotter/report/html_report.py": "51408fac53e32854a6e0c51bd94df75fe98884470725eb152a0c0bfd2d971d66",
+        "trainspotter/report/json_report.py": "83259d14e5d05c03cafcf134de987ad5c16e6e05ce16534c067401b413452900",
+        "trainspotter/report/terminal.py": "6beacecc76a8134eacf1929792bf5747b30d06426bfcd3c43855e854903d16ca",
+        "trainspotter/timing.py": "16f3de6a150563d62dee5f7b3b2edcaacfa8d21b3a4407bf902c84e779e52c3b"
+      }
+    },
+    {
+      "label": "after",
+      "elapsed_s": 184.06495188799454,
+      "output_sha256": "8752d07d6ea0c480e296df833b502ed923fc596018f43df0d886f374a0b8eb86",
+      "source_sha256": {
+        "trainspotter/__init__.py": "f902908eabb455be7238326cae68b500f401e4962b326bc7696dbc748be6437b",
+        "trainspotter/cli.py": "e25bf55b6036bac0b53599647bf27ec255834aa8030b016117858f077de139ae",
+        "trainspotter/detectors/__init__.py": "38482b71273ec74fdf748c447e35c1132451b5f9a74a581a8e72067d91624e09",
+        "trainspotter/detectors/_rolling_slope.py": "1ed39d9ca2e6141dd196b4295f9631fe2343942aefa4ff40e96cc188b7da954f",
+        "trainspotter/detectors/base.py": "6040f66b97202e2903c26eee4f0512177b737f63294beeac532b86a5700a8c54",
+        "trainspotter/detectors/divergence.py": "a850e69d7afcecaff65a46ff80b4ab440301dacbbc56ba15055a5ffda1b131dc",
+        "trainspotter/detectors/eval_noise.py": "1fa2258d2d3247fa0486fda30867e1b769bf5d06ffd864402c91fd1610b350ca",
+        "trainspotter/detectors/grad_norm.py": "ec0d16de05b98068ac644a8a18e22f3c6d08231b4eea1805d99402f9e9b99e89",
+        "trainspotter/detectors/loss_floor.py": "b2d55a82a50f6948c39486f85a782adf03a9dd9504162cc72edd4f03b4c82af0",
+        "trainspotter/detectors/lr_schedule.py": "6cc240b8afaca7ed71cabd247babedb99a53f3811b5d6a08bdf635599143f07b",
+        "trainspotter/detectors/overfitting.py": "bb3e0de68e033caa75e6290708fce67d967dc929db78c5bc687c99476897b38f",
+        "trainspotter/detectors/plateau.py": "a3f88c543d3a02042070fac99162d9e82519c6741a5ecb979d834902d3ef61e2",
+        "trainspotter/detectors/setbacks.py": "ad16c242d00a4ce08cf7424d85bebf5d0fd32d430a8eec6941b79de3b08a7011",
+        "trainspotter/detectors/spikes.py": "97383ca0a1fba92f3cbcadbbe2c0683f0ea4d04501e65d69a48c3900166eda97",
+        "trainspotter/detectors/throughput.py": "b6a506b973629696564601546992b051700bdece9bbc67b2bd05e402d4a68a54",
+        "trainspotter/model.py": "527371ee1812cd857cb807e8422d14fa002938f282e7ac21064d391a59630b58",
+        "trainspotter/readers/__init__.py": "301d4e5a6f396632e297eb68cf69d9c968c8fd6a55d31c24ba2b274343d178f9",
+        "trainspotter/readers/common.py": "4501e803a4b1dce1c2206ef711e25da290b50719120ad8e773a65f2ada7a0dd1",
+        "trainspotter/readers/hf.py": "bee46a5a8d0ead8718ce51ef98124ef1690f89d93cd81da0da70995a3d755aa6",
+        "trainspotter/readers/lightning.py": "36cf68c7dc9e90f99de4e3007647c9308323154cb6aa96b0b09d9b40af0929f4",
+        "trainspotter/readers/tabular.py": "4921cca04fafa1ea59a3f5f7e233bb156cab1b2dd593ed5dd00993169259d2bc",
+        "trainspotter/readers/tensorboard.py": "66e15cdf3ec3d4761626835b9af8f7468ca13893b97f4f335103cd219af96afb",
+        "trainspotter/readers/wandb.py": "6819770281c5dc292928544b8a78e1b3294b3b40130935a3bd29c9ddb8e80a7a",
+        "trainspotter/report/__init__.py": "317d8be1f917cf65f0312a083c62f7bf268d37b5c9d7232c3a0bf37ae18b9a0a",
+        "trainspotter/report/html_report.py": "51408fac53e32854a6e0c51bd94df75fe98884470725eb152a0c0bfd2d971d66",
+        "trainspotter/report/json_report.py": "83259d14e5d05c03cafcf134de987ad5c16e6e05ce16534c067401b413452900",
+        "trainspotter/report/terminal.py": "6beacecc76a8134eacf1929792bf5747b30d06426bfcd3c43855e854903d16ca",
+        "trainspotter/timing.py": "16f3de6a150563d62dee5f7b3b2edcaacfa8d21b3a4407bf902c84e779e52c3b"
+      }
+    }
+  ],
+  "compared": 4259,
+  "readable": 4177,
+  "unavailable": 0,
+  "unreadable": 82,
+  "exactly_equal": 4021,
+  "only_float_roundoff": 238,
+  "float_comparison": {
+    "relative_tolerance": 1e-10,
+    "absolute_tolerance": 1e-12
+  },
+  "changed": []
+}

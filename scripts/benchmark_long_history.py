@@ -104,6 +104,7 @@ def main() -> None:
     parser.add_argument("--out", type=Path, required=True)
     parser.add_argument("--python", default=sys.executable)
     parser.add_argument("--timeout", type=float, default=300)
+    parser.add_argument("--skip-million", action="store_true", help="Run only the two 100k cases")
     parser.add_argument(
         "--repeats", type=int, default=3, help="100k inputs; million-row input runs once"
     )
@@ -120,7 +121,10 @@ def main() -> None:
         "memory": "Linux peak RSS in KiB, includes interpreter, reader, detectors and rendering",
         "cases": [],
     }
-    for kind, n in [("cadence", 100_000), ("stall-spike", 100_000), ("stall-spike", 1_000_000)]:
+    cases = [("cadence", 100_000), ("stall-spike", 100_000)]
+    if not args.skip_million:
+        cases.append(("stall-spike", 1_000_000))
+    for kind, n in cases:
         path = args.artifacts / f"{kind}-{n}.csv"
         case = generate(path, kind, n)
         reports: dict[str, Any] = {}

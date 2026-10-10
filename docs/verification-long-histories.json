@@ -1,0 +1,173 @@
+{
+  "runtime_commit": "3c4d4a4",
+  "clean_archive_commit": "8717013",
+  "python_checks": {
+    "source_python": "3.12.12",
+    "archive_python": "3.14.7",
+    "tests": 476,
+    "archive_test_elapsed_s": 15.88,
+    "ruff": "pass",
+    "mypy_source_files": 28
+  },
+  "minimum_installed_checks": {
+    "python": "3.10.21",
+    "numpy": "1.24.0",
+    "tests": 88,
+    "elapsed_s": 8.44
+  },
+  "dist": {
+    ".gitignore": "684888c0ebb17f374298b65ee2807526c066094c701bcc7ebbe1c1095f494fc1",
+    "trainspotter-0.2.6-py3-none-any.whl": "7e2a06b3d2bbdf105583b47b7902fabccd802747f47ce95016bd2e5823d11226",
+    "trainspotter-0.2.6.tar.gz": "041aabced009b0bf94bd313c4d24d5f4374c6dc17155a0f02715985c580ac092"
+  },
+  "machine": {
+    "logical_cpus": 14,
+    "platform": "Linux-6.18.40.1-microsoft-standard-WSL2-x86_64-with-glibc2.39",
+    "memory_total_kib": 49333236
+  },
+  "installed": [
+    {
+      "environment": "wheel-min",
+      "million_report_identical": false,
+      "million_report_substantive_differences": [],
+      "float_comparison": {
+        "relative_tolerance": 1e-10,
+        "absolute_tolerance": 1e-12
+      },
+      "warning_gate_exit": 1,
+      "watch_identical": true,
+      "python": "3.10.21",
+      "numpy": "1.24.0",
+      "installed_in_site_packages": true,
+      "modules": {
+        "detectors/base.py": "6040f66b97202e2903c26eee4f0512177b737f63294beeac532b86a5700a8c54",
+        "detectors/plateau.py": "a3f88c543d3a02042070fac99162d9e82519c6741a5ecb979d834902d3ef61e2",
+        "detectors/spikes.py": "97383ca0a1fba92f3cbcadbbe2c0683f0ea4d04501e65d69a48c3900166eda97",
+        "detectors/_rolling_slope.py": "1ed39d9ca2e6141dd196b4295f9631fe2343942aefa4ff40e96cc188b7da954f"
+      }
+    },
+    {
+      "environment": "wheel-current",
+      "million_report_identical": true,
+      "million_report_substantive_differences": [],
+      "float_comparison": {
+        "relative_tolerance": 1e-10,
+        "absolute_tolerance": 1e-12
+      },
+      "warning_gate_exit": 1,
+      "watch_identical": true,
+      "python": "3.14.7",
+      "numpy": "2.5.3",
+      "installed_in_site_packages": true,
+      "modules": {
+        "detectors/base.py": "6040f66b97202e2903c26eee4f0512177b737f63294beeac532b86a5700a8c54",
+        "detectors/plateau.py": "a3f88c543d3a02042070fac99162d9e82519c6741a5ecb979d834902d3ef61e2",
+        "detectors/spikes.py": "97383ca0a1fba92f3cbcadbbe2c0683f0ea4d04501e65d69a48c3900166eda97",
+        "detectors/_rolling_slope.py": "1ed39d9ca2e6141dd196b4295f9631fe2343942aefa4ff40e96cc188b7da954f"
+      }
+    }
+  ],
+  "million_browser": {
+    "html": "million.html",
+    "html_bytes": 58310,
+    "html_sha256": "9db68a05dabab817319d0557bb10d225e0175fde6fdba46cbc27fa9f76f91450",
+    "checks": [
+      {
+        "engine": "chromium",
+        "version": "153.0.8010.12",
+        "layout": "desktop",
+        "viewport": {
+          "width": 1440,
+          "height": 1000
+        },
+        "workflow_ms": 1124.65438,
+        "findings": 2,
+        "violations": 0,
+        "external_requests": 0,
+        "page_errors": []
+      },
+      {
+        "engine": "chromium",
+        "version": "153.0.8010.12",
+        "layout": "mobile",
+        "viewport": {
+          "width": 320,
+          "height": 780
+        },
+        "workflow_ms": 838.2018640000001,
+        "findings": 2,
+        "violations": 0,
+        "external_requests": 0,
+        "page_errors": []
+      },
+      {
+        "engine": "firefox",
+        "version": "155.0",
+        "layout": "desktop",
+        "viewport": {
+          "width": 1440,
+          "height": 1000
+        },
+        "workflow_ms": 1465.053446,
+        "findings": 2,
+        "violations": 0,
+        "external_requests": 0,
+        "page_errors": []
+      },
+      {
+        "engine": "firefox",
+        "version": "155.0",
+        "layout": "mobile",
+        "viewport": {
+          "width": 320,
+          "height": 780
+        },
+        "workflow_ms": 883.8441939999993,
+        "findings": 2,
+        "violations": 0,
+        "external_requests": 0,
+        "page_errors": []
+      }
+    ]
+  },
+  "regression_browser": {
+    "workflows": 148,
+    "html_only": "offline",
+    "engines": [
+      "Chromium",
+      "Firefox"
+    ],
+    "widths": [
+      1440,
+      320
+    ],
+    "axe_violations": 0,
+    "external_requests": 0,
+    "ledger_sha256": "7d49f082e6f037a562aeedd26ece3434cf1c060a3a9f588de3748415d54e635a"
+  },
+  "gallery": {
+    "workflows": 28,
+    "exact_download_bytes": true,
+    "ledger_sha256": "8daa4e00f88b83cb0b150dbd8962c87b7c3afae684672d10d9219ba68b16b46f"
+  },
+  "wandb_installed_replay": {
+    "wheel-min": {
+      "scenarios": 8,
+      "ledger_sha256": "4161cadb33e845aeb28940ee7967d2febdbc46c14ddd3af9b1a31d3b09fbf4a4"
+    },
+    "wheel-current": {
+      "scenarios": 8,
+      "ledger_sha256": "4362e5ac8c1901bbcbeaf1971fcb9d272ec36df4578ceb1e1b2b1e9b078a9247"
+    }
+  },
+  "source_install": {
+    "command": "python -m pip install .",
+    "fresh_environment": true,
+    "python": "3.14.7",
+    "numpy": "2.5.3",
+    "built_wheel_sha256": "26e2fdac9c16a53b5fcd79dd6240843f99b5f1720647d0af51100037242e08e1",
+    "stable_wandb_axis": "step",
+    "timing_status": "compared",
+    "findings": 0
+  }
+}

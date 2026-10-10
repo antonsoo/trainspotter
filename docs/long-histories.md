@@ -11,6 +11,31 @@ cadence. Profiling the preceding implementation (`e218e33`) found about
 regression window contains 10% of the history, so fitting every window from
 scratch made this part quadratic in history length.
 
+## Measured CLI behavior
+
+Complete CLI processes, Python 3.12.12 / NumPy 2.5.3 on a shared 14-vCPU
+WSL2 Linux machine with approximately 47 GiB visible RAM:
+
+| Synthetic input | Before | After | Comparison |
+| --- | ---: | ---: | --- |
+| 100,000 observations, changing logging cadence | 10.07 s | 1.00 s | Complete JSON identical |
+| 100,000 observations, stall and single-point spike | 12.85 s | 1.11 s | Complete JSON identical |
+| 1,000,000 observations, stall and single-point spike | Timed out at 300 s | 8.53 s | Both injected features retained; old JSON unavailable |
+
+The 100,000-row numbers are medians across six paired runs per input. Median
+paired speedups are 10.5x and 11.6x respectively. Other CPU workloads were
+observed on this shared machine, so absolute latency varies: for example,
+the cadence case ranged from 8.96-17.95 seconds before and 0.86-1.89 seconds
+after. [Every sample and input hash is retained](verification-long-histories-benchmark.json).
+
+The million-row case runs once per revision. Its JSON process peaks at
+288.1 MiB RSS. The full HTML report takes 9.12 seconds, peaks at 357.8 MiB,
+and produces a 58,310-byte offline file. These memory figures include the
+reader and rendering: the whole log is still loaded in memory. `watch`
+still rereads its source; this change does not make it an incremental engine.
+The [clean-install and public-log verification](verification-long-histories.md)
+records the separate correctness checks.
+
 ## Rolling medians
 
 Full windows are reduced in batches using NumPy's read-only
@@ -71,6 +96,8 @@ processes sequentially with the same Python and NumPy, records Linux peak
 RSS, compares complete JSON output, and checks a known stall and spike.
 The million-observation case is run once; the two 100,000-observation cases
 are run three times by default. A baseline timeout is recorded explicitly.
+Use `--skip-million` to run just the smaller cases, as in the second retained
+measurement pass.
 
 ```sh
 mkdir -p /tmp/trainspotter-before

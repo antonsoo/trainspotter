@@ -26,7 +26,7 @@ the recorded `trainer/global_step` and reports **0.991x**. A deliberately delaye
 run still reports **2.90x**. When only `_step` is available, the report identifies
 logging events and leaves per-training-step timing unavailable. Select a custom
 counter with `--step-key`. [Captured records, commands and limits](docs/wandb-axes.md).
-This change is local and **unreleased**.
+These fixes are available from source and are **not yet in the PyPI release**.
 
 ## Calibration study on 3,145 real runs
 
@@ -73,6 +73,9 @@ setback: a third of the run spent above a loss level it had already reached.*
 ## Report
 
 The [sample gallery](https://antonsoo.github.io/trainspotter/) includes a
+[W&B run with changing logging cadence](https://antonsoo.github.io/trainspotter/wandb-cadence.html),
+[timing without a training counter](https://antonsoo.github.io/trainspotter/wandb-logging-only.html),
+[a measured slowdown](https://antonsoo.github.io/trainspotter/wandb-slowdown.html),
 [scheduler reset below its old peak](https://antonsoo.github.io/trainspotter/scheduler-resume.html),
 [disjoint training and evaluation intervals](https://antonsoo.github.io/trainspotter/evaluation-overlap.html),
 and a [frozen model evaluated on changing cohorts](https://antonsoo.github.io/trainspotter/evaluation-cohorts.html).
@@ -88,8 +91,7 @@ checkout; the detector repairs are not yet in the PyPI release.
 
 Browse every bundled example's full HTML report at
 **[antonsoo.github.io/trainspotter](https://antonsoo.github.io/trainspotter/)**
-(built by `scripts/build_site.py`; the hosted copy is from the released
-version). The two images above are real output from
+(built from the source checkout by `scripts/build_site.py`). The two images above are real output from
 `examples/divergence.trainer_state.json`, a run built to fail (see
 [Demo data](#real-demo-data) for how).
 
@@ -99,6 +101,13 @@ version). The two images above are real output from
 pip install trainspotter
 git clone --depth 1 https://github.com/antonsoo/trainspotter && cd trainspotter
 trainspotter analyze examples/divergence.trainer_state.json
+```
+
+Those commands install the PyPI release. To use the current reader, detector,
+and long-history improvements, install the cloned checkout:
+
+```bash
+python -m pip install .
 ```
 
 Or point it at your own log:

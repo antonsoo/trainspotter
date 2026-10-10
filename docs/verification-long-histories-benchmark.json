@@ -1,0 +1,355 @@
+{
+  "baseline_commit": "e218e33",
+  "runtime_commit": "3c4d4a4",
+  "measurement_note": "Two sequential passes; all samples retained. Other CPU workloads were observed on this shared 14-vCPU WSL2 host during the repeat. These are observed CLI latencies, not exclusive-CPU measurements. Million-row baseline timed out; no baseline result equality is claimed for that input.",
+  "small_case_summary": [
+    {
+      "kind": "cadence",
+      "rows": 100000,
+      "paired_samples": 6,
+      "before_median_s": 10.068764401505177,
+      "after_median_s": 1.000742045995139,
+      "median_paired_speedup": 10.465064508588167,
+      "before_range_s": [
+        8.956721062000724,
+        17.951277678992483
+      ],
+      "after_range_s": [
+        0.8588738389953505,
+        1.8855124120018445
+      ],
+      "after_peak_rss_kib": 62548,
+      "identical_json": true
+    },
+    {
+      "kind": "stall-spike",
+      "rows": 100000,
+      "paired_samples": 6,
+      "before_median_s": 12.847975956996379,
+      "after_median_s": 1.1052350599929923,
+      "median_paired_speedup": 11.613944075029089,
+      "before_range_s": [
+        11.267138344002888,
+        15.67372640800022
+      ],
+      "after_range_s": [
+        0.9701528019941179,
+        1.2245131539966678
+      ],
+      "after_peak_rss_kib": 62552,
+      "identical_json": true
+    }
+  ],
+  "passes": [
+    {
+      "python": "3.12.12",
+      "logical_cpus": 14,
+      "platform": "Linux-6.18.40.1-microsoft-standard-WSL2-x86_64-with-glibc2.39",
+      "method": "sequential complete CLI processes; elapsed includes interpreter startup",
+      "memory": "Linux peak RSS in KiB, includes interpreter, reader, detectors and rendering",
+      "cases": [
+        {
+          "kind": "cadence",
+          "rows": 100000,
+          "bytes": 3862445,
+          "sha256": "2f0d005b70a10fc4932577fd77947f25ccc7b67e5bd03f3dd148fae725107ad2",
+          "measurements": {
+            "before": [
+              {
+                "elapsed_s": 9.919110652001109,
+                "peak_rss_kib": 61576,
+                "numpy": "2.5.3",
+                "report_bytes": 1857,
+                "report_sha256": "0b4b5c92981f0c274e4405d33a81aa2e28d5a266dad9c2416c16ee14f02d5595"
+              },
+              {
+                "elapsed_s": 9.77773599801003,
+                "peak_rss_kib": 61444,
+                "numpy": "2.5.3",
+                "report_bytes": 1857,
+                "report_sha256": "0b4b5c92981f0c274e4405d33a81aa2e28d5a266dad9c2416c16ee14f02d5595"
+              },
+              {
+                "elapsed_s": 10.218418151009246,
+                "peak_rss_kib": 61432,
+                "numpy": "2.5.3",
+                "report_bytes": 1857,
+                "report_sha256": "0b4b5c92981f0c274e4405d33a81aa2e28d5a266dad9c2416c16ee14f02d5595"
+              }
+            ],
+            "after": [
+              {
+                "elapsed_s": 0.9119182279973757,
+                "peak_rss_kib": 62316,
+                "numpy": "2.5.3",
+                "report_bytes": 1857,
+                "report_sha256": "0b4b5c92981f0c274e4405d33a81aa2e28d5a266dad9c2416c16ee14f02d5595"
+              },
+              {
+                "elapsed_s": 1.0284572009986732,
+                "peak_rss_kib": 62548,
+                "numpy": "2.5.3",
+                "report_bytes": 1857,
+                "report_sha256": "0b4b5c92981f0c274e4405d33a81aa2e28d5a266dad9c2416c16ee14f02d5595"
+              },
+              {
+                "elapsed_s": 0.9730268909916049,
+                "peak_rss_kib": 62540,
+                "numpy": "2.5.3",
+                "report_bytes": 1857,
+                "report_sha256": "0b4b5c92981f0c274e4405d33a81aa2e28d5a266dad9c2416c16ee14f02d5595"
+              }
+            ]
+          },
+          "identical_json": true,
+          "finding_ranges": [],
+          "median_speedup": 10.194076591133687
+        },
+        {
+          "kind": "stall-spike",
+          "rows": 100000,
+          "bytes": 2347287,
+          "sha256": "ca65e46809ab8c350853165bd5c8c5640d8e44f76cf39f2c857488ef2231e0ab",
+          "measurements": {
+            "before": [
+              {
+                "elapsed_s": 11.267138344002888,
+                "peak_rss_kib": 61064,
+                "numpy": "2.5.3",
+                "report_bytes": 3522,
+                "report_sha256": "8d8ee62f83862c75feb2ab6d9721452596fe940a062ad3e0b6917d8d5de594fa"
+              },
+              {
+                "elapsed_s": 12.226199263997842,
+                "peak_rss_kib": 61584,
+                "numpy": "2.5.3",
+                "report_bytes": 3522,
+                "report_sha256": "8d8ee62f83862c75feb2ab6d9721452596fe940a062ad3e0b6917d8d5de594fa"
+              },
+              {
+                "elapsed_s": 11.559789527993416,
+                "peak_rss_kib": 61608,
+                "numpy": "2.5.3",
+                "report_bytes": 3522,
+                "report_sha256": "8d8ee62f83862c75feb2ab6d9721452596fe940a062ad3e0b6917d8d5de594fa"
+              }
+            ],
+            "after": [
+              {
+                "elapsed_s": 1.0099846640077885,
+                "peak_rss_kib": 62508,
+                "numpy": "2.5.3",
+                "report_bytes": 3522,
+                "report_sha256": "8d8ee62f83862c75feb2ab6d9721452596fe940a062ad3e0b6917d8d5de594fa"
+              },
+              {
+                "elapsed_s": 1.0807731639943086,
+                "peak_rss_kib": 62420,
+                "numpy": "2.5.3",
+                "report_bytes": 3522,
+                "report_sha256": "8d8ee62f83862c75feb2ab6d9721452596fe940a062ad3e0b6917d8d5de594fa"
+              },
+              {
+                "elapsed_s": 0.9701528019941179,
+                "peak_rss_kib": 62224,
+                "numpy": "2.5.3",
+                "report_bytes": 3522,
+                "report_sha256": "8d8ee62f83862c75feb2ab6d9721452596fe940a062ad3e0b6917d8d5de594fa"
+              }
+            ]
+          },
+          "identical_json": true,
+          "finding_ranges": [
+            [
+              "spikes",
+              73700,
+              73700
+            ],
+            [
+              "plateau",
+              20000,
+              60000
+            ]
+          ],
+          "median_speedup": 11.445509956678187
+        },
+        {
+          "kind": "stall-spike",
+          "rows": 1000000,
+          "bytes": 25656565,
+          "sha256": "cdb8aa06adb0d519f50513866c7fc59f9f9bfd2cf70c461848d6be0af9d982eb",
+          "measurements": {
+            "before": [
+              {
+                "timeout_s": 300
+              }
+            ],
+            "after": [
+              {
+                "elapsed_s": 8.527912917998037,
+                "peak_rss_kib": 294964,
+                "numpy": "2.5.3",
+                "report_bytes": 3543,
+                "report_sha256": "5fa1249b4bd9df1200fb98908ec7d1789f96c168731d36668c5c203c92484da9"
+              }
+            ]
+          },
+          "identical_json": null,
+          "finding_ranges": [
+            [
+              "spikes",
+              737000,
+              737000
+            ],
+            [
+              "plateau",
+              200000,
+              600000
+            ]
+          ],
+          "html_after": {
+            "elapsed_s": 9.121013826996204,
+            "peak_rss_kib": 366408,
+            "numpy": "2.5.3",
+            "report_bytes": 58310,
+            "report_sha256": "32c9c370047bfbef2eaea41f0642af918be8610b52448254774f55b0f140806f"
+          }
+        }
+      ]
+    },
+    {
+      "python": "3.12.12",
+      "logical_cpus": 14,
+      "platform": "Linux-6.18.40.1-microsoft-standard-WSL2-x86_64-with-glibc2.39",
+      "method": "sequential complete CLI processes; elapsed includes interpreter startup",
+      "memory": "Linux peak RSS in KiB, includes interpreter, reader, detectors and rendering",
+      "cases": [
+        {
+          "kind": "cadence",
+          "rows": 100000,
+          "bytes": 3862445,
+          "sha256": "2f0d005b70a10fc4932577fd77947f25ccc7b67e5bd03f3dd148fae725107ad2",
+          "measurements": {
+            "before": [
+              {
+                "elapsed_s": 8.956721062000724,
+                "peak_rss_kib": 61316,
+                "numpy": "2.5.3",
+                "report_bytes": 1857,
+                "report_sha256": "0b4b5c92981f0c274e4405d33a81aa2e28d5a266dad9c2416c16ee14f02d5595"
+              },
+              {
+                "elapsed_s": 17.951277678992483,
+                "peak_rss_kib": 61244,
+                "numpy": "2.5.3",
+                "report_bytes": 1857,
+                "report_sha256": "0b4b5c92981f0c274e4405d33a81aa2e28d5a266dad9c2416c16ee14f02d5595"
+              },
+              {
+                "elapsed_s": 15.685889026004588,
+                "peak_rss_kib": 61272,
+                "numpy": "2.5.3",
+                "report_bytes": 1857,
+                "report_sha256": "0b4b5c92981f0c274e4405d33a81aa2e28d5a266dad9c2416c16ee14f02d5595"
+              }
+            ],
+            "after": [
+              {
+                "elapsed_s": 0.8588738389953505,
+                "peak_rss_kib": 62480,
+                "numpy": "2.5.3",
+                "report_bytes": 1857,
+                "report_sha256": "0b4b5c92981f0c274e4405d33a81aa2e28d5a266dad9c2416c16ee14f02d5595"
+              },
+              {
+                "elapsed_s": 1.8855124120018445,
+                "peak_rss_kib": 62448,
+                "numpy": "2.5.3",
+                "report_bytes": 1857,
+                "report_sha256": "0b4b5c92981f0c274e4405d33a81aa2e28d5a266dad9c2416c16ee14f02d5595"
+              },
+              {
+                "elapsed_s": 1.3479911419999553,
+                "peak_rss_kib": 62264,
+                "numpy": "2.5.3",
+                "report_bytes": 1857,
+                "report_sha256": "0b4b5c92981f0c274e4405d33a81aa2e28d5a266dad9c2416c16ee14f02d5595"
+              }
+            ]
+          },
+          "identical_json": true,
+          "finding_ranges": [],
+          "median_speedup": 11.636492657312365
+        },
+        {
+          "kind": "stall-spike",
+          "rows": 100000,
+          "bytes": 2347287,
+          "sha256": "ca65e46809ab8c350853165bd5c8c5640d8e44f76cf39f2c857488ef2231e0ab",
+          "measurements": {
+            "before": [
+              {
+                "elapsed_s": 15.67372640800022,
+                "peak_rss_kib": 61248,
+                "numpy": "2.5.3",
+                "report_bytes": 3522,
+                "report_sha256": "8d8ee62f83862c75feb2ab6d9721452596fe940a062ad3e0b6917d8d5de594fa"
+              },
+              {
+                "elapsed_s": 13.469752649994916,
+                "peak_rss_kib": 61528,
+                "numpy": "2.5.3",
+                "report_bytes": 3522,
+                "report_sha256": "8d8ee62f83862c75feb2ab6d9721452596fe940a062ad3e0b6917d8d5de594fa"
+              },
+              {
+                "elapsed_s": 13.98644725199847,
+                "peak_rss_kib": 61564,
+                "numpy": "2.5.3",
+                "report_bytes": 3522,
+                "report_sha256": "8d8ee62f83862c75feb2ab6d9721452596fe940a062ad3e0b6917d8d5de594fa"
+              }
+            ],
+            "after": [
+              {
+                "elapsed_s": 1.1762205669947434,
+                "peak_rss_kib": 62544,
+                "numpy": "2.5.3",
+                "report_bytes": 3522,
+                "report_sha256": "8d8ee62f83862c75feb2ab6d9721452596fe940a062ad3e0b6917d8d5de594fa"
+              },
+              {
+                "elapsed_s": 1.2245131539966678,
+                "peak_rss_kib": 62540,
+                "numpy": "2.5.3",
+                "report_bytes": 3522,
+                "report_sha256": "8d8ee62f83862c75feb2ab6d9721452596fe940a062ad3e0b6917d8d5de594fa"
+              },
+              {
+                "elapsed_s": 1.129696955991676,
+                "peak_rss_kib": 62552,
+                "numpy": "2.5.3",
+                "report_bytes": 3522,
+                "report_sha256": "8d8ee62f83862c75feb2ab6d9721452596fe940a062ad3e0b6917d8d5de594fa"
+              }
+            ]
+          },
+          "identical_json": true,
+          "finding_ranges": [
+            [
+              "spikes",
+              73700,
+              73700
+            ],
+            [
+              "plateau",
+              20000,
+              60000
+            ]
+          ],
+          "median_speedup": 11.891007217918318
+        }
+      ]
+    }
+  ]
+}
