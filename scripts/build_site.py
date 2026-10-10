@@ -53,6 +53,24 @@ class ExampleMeta:
 # (see main()) -- only what a fresh `run_all()` reports at build time.
 EXAMPLES = [
     ExampleMeta(
+        "loss-cadence",
+        "A late loss drop is still late when logging is sparse",
+        "Controlled CPU PyTorch SGD on a scalar quadratic. This file retains step 0 "
+        "and steps 900-1000 from one recorded run. Its first low reading is 90% "
+        "through the logged training span, despite being the second CSV row.",
+        "diagnostic-evidence/slow-sparse.csv",
+        "docs/diagnostic-evidence.md",
+    ),
+    ExampleMeta(
+        "gradient-concentration",
+        "Constant gradient norms without any clipping",
+        "Controlled CPU PyTorch SGD on absolute error. No clipping function is called. "
+        "The norm stays at 1 for all 100 updates; an otherwise identical clipped run "
+        "has the same pre-clip norms. This history describes concentration, not its cause.",
+        "diagnostic-evidence/unclipped-before.csv",
+        "docs/diagnostic-evidence.md",
+    ),
+    ExampleMeta(
         "wandb-cadence",
         "Logging less often is not slower training",
         "A controlled numerical training run recorded with the W&B SDK offline. The logger "

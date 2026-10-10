@@ -1,0 +1,969 @@
+{
+  "torch": "2.8.0+cpu",
+  "closed_form_max_absolute_error": {
+    "slow": 1.1102230246251565e-15,
+    "fast": 2.220446049250313e-16
+  },
+  "sparse_points_identical_to_dense": true,
+  "identical_pre_clip_histories": true,
+  "reports": {
+    "slow-dense": {
+      "schema_version": 1,
+      "run": {
+        "source_format": "csv",
+        "source_path": "slow-dense.csv",
+        "skipped_rows": 0,
+        "skipped_values": 0,
+        "input_complete": true,
+        "input_notes": [],
+        "unread_event_bytes": 0,
+        "overwritten_points": 0,
+        "restart_markers": 0,
+        "step_column": "step",
+        "step_axis": "step",
+        "step_selection": "automatic",
+        "metric_sources": {
+          "train/loss": "loss"
+        },
+        "ambiguous_metric_sources": [],
+        "repeated_steps": [],
+        "metrics": {
+          "train/loss": {
+            "count": 1001,
+            "analysis_count": 1001,
+            "distinct_steps": 1001,
+            "analysis_excluded": false,
+            "first_step": 0,
+            "last_step": 1000
+          }
+        }
+      },
+      "summary": {
+        "input_complete": true,
+        "total_findings": 0,
+        "by_severity": {
+          "error": 0,
+          "warning": 0,
+          "info": 0
+        }
+      },
+      "timing": {
+        "status": "unavailable",
+        "axis": "step",
+        "source": null,
+        "source_metric": null,
+        "unit": null,
+        "observations": 0,
+        "invalid_observations": 0,
+        "baseline": null,
+        "recent": null,
+        "ratio": null,
+        "reason": "No eligible timing source. The comparison needs enough step_time or throughput readings, or loss observations with timestamps and explicit training steps. Conflicting repeated-step values are excluded from this check.",
+        "notes": [
+          "wall_time(train/loss): 1001 of 1001 points have no timestamp. No intervals were bridged across missing timestamps."
+        ],
+        "min_window": 5,
+        "baseline_fraction": 0.2
+      },
+      "findings": []
+    },
+    "slow-sparse": {
+      "schema_version": 1,
+      "run": {
+        "source_format": "csv",
+        "source_path": "slow-sparse.csv",
+        "skipped_rows": 0,
+        "skipped_values": 0,
+        "input_complete": true,
+        "input_notes": [],
+        "unread_event_bytes": 0,
+        "overwritten_points": 0,
+        "restart_markers": 0,
+        "step_column": "step",
+        "step_axis": "step",
+        "step_selection": "automatic",
+        "metric_sources": {
+          "train/loss": "loss"
+        },
+        "ambiguous_metric_sources": [],
+        "repeated_steps": [],
+        "metrics": {
+          "train/loss": {
+            "count": 102,
+            "analysis_count": 102,
+            "distinct_steps": 102,
+            "analysis_excluded": false,
+            "first_step": 0,
+            "last_step": 1000
+          }
+        }
+      },
+      "summary": {
+        "input_complete": true,
+        "total_findings": 1,
+        "by_severity": {
+          "error": 0,
+          "warning": 0,
+          "info": 1
+        }
+      },
+      "timing": {
+        "status": "unavailable",
+        "axis": "step",
+        "source": null,
+        "source_metric": null,
+        "unit": null,
+        "observations": 0,
+        "invalid_observations": 0,
+        "baseline": null,
+        "recent": null,
+        "ratio": null,
+        "reason": "No eligible timing source. The comparison needs enough step_time or throughput readings, or loss observations with timestamps and explicit training steps. Conflicting repeated-step values are excluded from this check.",
+        "notes": [
+          "wall_time(train/loss): 102 of 102 points have no timestamp. No intervals were bridged across missing timestamps."
+        ],
+        "min_window": 5,
+        "baseline_fraction": 0.2
+      },
+      "findings": [
+        {
+          "detector": "loss_floor",
+          "title": "Suspiciously low loss early (heuristic)",
+          "severity": "info",
+          "metric": "train/loss",
+          "step_start": 0,
+          "step_end": 900,
+          "message": "train/loss dropped to 0.0002413 by step 900 -- only 0.0% of its starting value (2), this early in the run. Possibly just an easy task; possibly train/eval overlap or label leakage. Heuristic, not a statistical finding -- see docstring for false-positive modes.",
+          "evidence": {
+            "step": 900,
+            "value": 0.00024131001017944028,
+            "first_value": 2.0,
+            "fraction_of_start": 0.00012065500508972014
+          },
+          "fixes": [
+            "Check for train/eval overlap (duplicate or near-duplicate examples).",
+            "Check the label isn't leaking into the input features (e.g. a column that encodes the target).",
+            "If the task is genuinely easy (small/simple dataset), this may be entirely normal."
+          ]
+        }
+      ]
+    },
+    "fast-dense": {
+      "schema_version": 1,
+      "run": {
+        "source_format": "csv",
+        "source_path": "fast-dense.csv",
+        "skipped_rows": 0,
+        "skipped_values": 0,
+        "input_complete": true,
+        "input_notes": [],
+        "unread_event_bytes": 0,
+        "overwritten_points": 0,
+        "restart_markers": 0,
+        "step_column": "step",
+        "step_axis": "step",
+        "step_selection": "automatic",
+        "metric_sources": {
+          "train/loss": "loss"
+        },
+        "ambiguous_metric_sources": [],
+        "repeated_steps": [],
+        "metrics": {
+          "train/loss": {
+            "count": 1001,
+            "analysis_count": 1001,
+            "distinct_steps": 1001,
+            "analysis_excluded": false,
+            "first_step": 0,
+            "last_step": 1000
+          }
+        }
+      },
+      "summary": {
+        "input_complete": true,
+        "total_findings": 1,
+        "by_severity": {
+          "error": 0,
+          "warning": 0,
+          "info": 1
+        }
+      },
+      "timing": {
+        "status": "unavailable",
+        "axis": "step",
+        "source": null,
+        "source_metric": null,
+        "unit": null,
+        "observations": 0,
+        "invalid_observations": 0,
+        "baseline": null,
+        "recent": null,
+        "ratio": null,
+        "reason": "No eligible timing source. The comparison needs enough step_time or throughput readings, or loss observations with timestamps and explicit training steps. Conflicting repeated-step values are excluded from this check.",
+        "notes": [
+          "wall_time(train/loss): 1001 of 1001 points have no timestamp. No intervals were bridged across missing timestamps."
+        ],
+        "min_window": 5,
+        "baseline_fraction": 0.2
+      },
+      "findings": [
+        {
+          "detector": "loss_floor",
+          "title": "Suspiciously low loss early (heuristic)",
+          "severity": "info",
+          "metric": "train/loss",
+          "step_start": 0,
+          "step_end": 18,
+          "message": "train/loss dropped to 0.04506 by step 18 -- only 2.3% of its starting value (2), this early in the run. Possibly just an easy task; possibly train/eval overlap or label leakage. Heuristic, not a statistical finding -- see docstring for false-positive modes.",
+          "evidence": {
+            "step": 18,
+            "value": 0.04505679908987835,
+            "first_value": 2.0,
+            "fraction_of_start": 0.022528399544939175
+          },
+          "fixes": [
+            "Check for train/eval overlap (duplicate or near-duplicate examples).",
+            "Check the label isn't leaking into the input features (e.g. a column that encodes the target).",
+            "If the task is genuinely easy (small/simple dataset), this may be entirely normal."
+          ]
+        }
+      ]
+    },
+    "slow-sparse-no-step": {
+      "schema_version": 1,
+      "run": {
+        "source_format": "csv",
+        "source_path": "slow-sparse-no-step.csv",
+        "skipped_rows": 0,
+        "skipped_values": 0,
+        "input_complete": true,
+        "input_notes": [
+          "The horizontal axis uses (row index); these are not training-step counts."
+        ],
+        "unread_event_bytes": 0,
+        "overwritten_points": 0,
+        "restart_markers": 0,
+        "step_column": "(row index)",
+        "step_axis": "row_index",
+        "step_selection": "automatic",
+        "metric_sources": {
+          "train/loss": "loss"
+        },
+        "ambiguous_metric_sources": [],
+        "repeated_steps": [],
+        "metrics": {
+          "train/loss": {
+            "count": 102,
+            "analysis_count": 102,
+            "distinct_steps": 102,
+            "analysis_excluded": false,
+            "first_step": 0,
+            "last_step": 101
+          }
+        }
+      },
+      "summary": {
+        "input_complete": true,
+        "total_findings": 1,
+        "by_severity": {
+          "error": 0,
+          "warning": 0,
+          "info": 1
+        }
+      },
+      "timing": {
+        "status": "unavailable",
+        "axis": "row_index",
+        "source": null,
+        "source_metric": null,
+        "unit": null,
+        "observations": 0,
+        "invalid_observations": 0,
+        "baseline": null,
+        "recent": null,
+        "ratio": null,
+        "reason": "Wall-clock timing needs an explicit training-step column; this source uses row indices. Logging intervals cannot establish seconds per training step. Log step counts, step_time, or throughput, or select a training counter with --step-key.",
+        "notes": [],
+        "min_window": 5,
+        "baseline_fraction": 0.2
+      },
+      "findings": [
+        {
+          "detector": "loss_floor",
+          "title": "Suspiciously low loss early (heuristic)",
+          "severity": "info",
+          "metric": "train/loss",
+          "step_start": 0,
+          "step_end": 1,
+          "message": "train/loss dropped to 0.0002413 by step 1 -- only 0.0% of its starting value (2), this early in the run. Possibly just an easy task; possibly train/eval overlap or label leakage. Heuristic, not a statistical finding -- see docstring for false-positive modes.",
+          "evidence": {
+            "step": 1,
+            "value": 0.00024131001017944028,
+            "first_value": 2.0,
+            "fraction_of_start": 0.00012065500508972014
+          },
+          "fixes": [
+            "Check for train/eval overlap (duplicate or near-duplicate examples).",
+            "Check the label isn't leaking into the input features (e.g. a column that encodes the target).",
+            "If the task is genuinely easy (small/simple dataset), this may be entirely normal."
+          ]
+        }
+      ]
+    },
+    "unclipped-before": {
+      "schema_version": 1,
+      "run": {
+        "source_format": "csv",
+        "source_path": "unclipped-before.csv",
+        "skipped_rows": 0,
+        "skipped_values": 0,
+        "input_complete": true,
+        "input_notes": [],
+        "unread_event_bytes": 0,
+        "overwritten_points": 0,
+        "restart_markers": 0,
+        "step_column": "step",
+        "step_axis": "step",
+        "step_selection": "automatic",
+        "metric_sources": {
+          "train/loss": "loss",
+          "grad_norm": "grad_norm"
+        },
+        "ambiguous_metric_sources": [],
+        "repeated_steps": [],
+        "metrics": {
+          "grad_norm": {
+            "count": 100,
+            "analysis_count": 100,
+            "distinct_steps": 100,
+            "analysis_excluded": false,
+            "first_step": 0,
+            "last_step": 99
+          },
+          "train/loss": {
+            "count": 100,
+            "analysis_count": 100,
+            "distinct_steps": 100,
+            "analysis_excluded": false,
+            "first_step": 0,
+            "last_step": 99
+          }
+        }
+      },
+      "summary": {
+        "input_complete": true,
+        "total_findings": 1,
+        "by_severity": {
+          "error": 0,
+          "warning": 0,
+          "info": 1
+        }
+      },
+      "timing": {
+        "status": "unavailable",
+        "axis": "step",
+        "source": null,
+        "source_metric": null,
+        "unit": null,
+        "observations": 0,
+        "invalid_observations": 0,
+        "baseline": null,
+        "recent": null,
+        "ratio": null,
+        "reason": "No eligible timing source. The comparison needs enough step_time or throughput readings, or loss observations with timestamps and explicit training steps. Conflicting repeated-step values are excluded from this check.",
+        "notes": [
+          "wall_time(train/loss): 100 of 100 points have no timestamp. No intervals were bridged across missing timestamps."
+        ],
+        "min_window": 5,
+        "baseline_fraction": 0.2
+      },
+      "findings": [
+        {
+          "detector": "grad_norm",
+          "title": "Gradient clipping likely saturated",
+          "severity": "info",
+          "metric": "grad_norm",
+          "step_start": 50,
+          "step_end": 99,
+          "message": "100% of the last 50 grad_norm readings sit within 0.5% of 1 -- consistent with clipping pinning the norm at a ceiling most steps.",
+          "evidence": {
+            "ceiling": 1.0,
+            "fraction_at_ceiling": 1.0,
+            "window": 50
+          },
+          "fixes": [
+            "If grad_norm is logged pre-clip: raise the clip threshold, or lower the LR so gradients naturally stay under it.",
+            "If grad_norm is logged post-clip, this is expected by construction and not necessarily a problem."
+          ]
+        }
+      ]
+    },
+    "unclipped-after": {
+      "schema_version": 1,
+      "run": {
+        "source_format": "csv",
+        "source_path": "unclipped-after.csv",
+        "skipped_rows": 0,
+        "skipped_values": 0,
+        "input_complete": true,
+        "input_notes": [],
+        "unread_event_bytes": 0,
+        "overwritten_points": 0,
+        "restart_markers": 0,
+        "step_column": "step",
+        "step_axis": "step",
+        "step_selection": "automatic",
+        "metric_sources": {
+          "train/loss": "loss",
+          "grad_norm": "grad_norm"
+        },
+        "ambiguous_metric_sources": [],
+        "repeated_steps": [],
+        "metrics": {
+          "grad_norm": {
+            "count": 100,
+            "analysis_count": 100,
+            "distinct_steps": 100,
+            "analysis_excluded": false,
+            "first_step": 0,
+            "last_step": 99
+          },
+          "train/loss": {
+            "count": 100,
+            "analysis_count": 100,
+            "distinct_steps": 100,
+            "analysis_excluded": false,
+            "first_step": 0,
+            "last_step": 99
+          }
+        }
+      },
+      "summary": {
+        "input_complete": true,
+        "total_findings": 1,
+        "by_severity": {
+          "error": 0,
+          "warning": 0,
+          "info": 1
+        }
+      },
+      "timing": {
+        "status": "unavailable",
+        "axis": "step",
+        "source": null,
+        "source_metric": null,
+        "unit": null,
+        "observations": 0,
+        "invalid_observations": 0,
+        "baseline": null,
+        "recent": null,
+        "ratio": null,
+        "reason": "No eligible timing source. The comparison needs enough step_time or throughput readings, or loss observations with timestamps and explicit training steps. Conflicting repeated-step values are excluded from this check.",
+        "notes": [
+          "wall_time(train/loss): 100 of 100 points have no timestamp. No intervals were bridged across missing timestamps."
+        ],
+        "min_window": 5,
+        "baseline_fraction": 0.2
+      },
+      "findings": [
+        {
+          "detector": "grad_norm",
+          "title": "Gradient clipping likely saturated",
+          "severity": "info",
+          "metric": "grad_norm",
+          "step_start": 50,
+          "step_end": 99,
+          "message": "100% of the last 50 grad_norm readings sit within 0.5% of 1 -- consistent with clipping pinning the norm at a ceiling most steps.",
+          "evidence": {
+            "ceiling": 1.0,
+            "fraction_at_ceiling": 1.0,
+            "window": 50
+          },
+          "fixes": [
+            "If grad_norm is logged pre-clip: raise the clip threshold, or lower the LR so gradients naturally stay under it.",
+            "If grad_norm is logged post-clip, this is expected by construction and not necessarily a problem."
+          ]
+        }
+      ]
+    },
+    "clipped-before": {
+      "schema_version": 1,
+      "run": {
+        "source_format": "csv",
+        "source_path": "clipped-before.csv",
+        "skipped_rows": 0,
+        "skipped_values": 0,
+        "input_complete": true,
+        "input_notes": [],
+        "unread_event_bytes": 0,
+        "overwritten_points": 0,
+        "restart_markers": 0,
+        "step_column": "step",
+        "step_axis": "step",
+        "step_selection": "automatic",
+        "metric_sources": {
+          "train/loss": "loss",
+          "grad_norm": "grad_norm"
+        },
+        "ambiguous_metric_sources": [],
+        "repeated_steps": [],
+        "metrics": {
+          "grad_norm": {
+            "count": 100,
+            "analysis_count": 100,
+            "distinct_steps": 100,
+            "analysis_excluded": false,
+            "first_step": 0,
+            "last_step": 99
+          },
+          "train/loss": {
+            "count": 100,
+            "analysis_count": 100,
+            "distinct_steps": 100,
+            "analysis_excluded": false,
+            "first_step": 0,
+            "last_step": 99
+          }
+        }
+      },
+      "summary": {
+        "input_complete": true,
+        "total_findings": 1,
+        "by_severity": {
+          "error": 0,
+          "warning": 0,
+          "info": 1
+        }
+      },
+      "timing": {
+        "status": "unavailable",
+        "axis": "step",
+        "source": null,
+        "source_metric": null,
+        "unit": null,
+        "observations": 0,
+        "invalid_observations": 0,
+        "baseline": null,
+        "recent": null,
+        "ratio": null,
+        "reason": "No eligible timing source. The comparison needs enough step_time or throughput readings, or loss observations with timestamps and explicit training steps. Conflicting repeated-step values are excluded from this check.",
+        "notes": [
+          "wall_time(train/loss): 100 of 100 points have no timestamp. No intervals were bridged across missing timestamps."
+        ],
+        "min_window": 5,
+        "baseline_fraction": 0.2
+      },
+      "findings": [
+        {
+          "detector": "grad_norm",
+          "title": "Gradient clipping likely saturated",
+          "severity": "info",
+          "metric": "grad_norm",
+          "step_start": 50,
+          "step_end": 99,
+          "message": "100% of the last 50 grad_norm readings sit within 0.5% of 1 -- consistent with clipping pinning the norm at a ceiling most steps.",
+          "evidence": {
+            "ceiling": 1.0,
+            "fraction_at_ceiling": 1.0,
+            "window": 50
+          },
+          "fixes": [
+            "If grad_norm is logged pre-clip: raise the clip threshold, or lower the LR so gradients naturally stay under it.",
+            "If grad_norm is logged post-clip, this is expected by construction and not necessarily a problem."
+          ]
+        }
+      ]
+    },
+    "clipped-after": {
+      "schema_version": 1,
+      "run": {
+        "source_format": "csv",
+        "source_path": "clipped-after.csv",
+        "skipped_rows": 0,
+        "skipped_values": 0,
+        "input_complete": true,
+        "input_notes": [],
+        "unread_event_bytes": 0,
+        "overwritten_points": 0,
+        "restart_markers": 0,
+        "step_column": "step",
+        "step_axis": "step",
+        "step_selection": "automatic",
+        "metric_sources": {
+          "train/loss": "loss",
+          "grad_norm": "grad_norm"
+        },
+        "ambiguous_metric_sources": [],
+        "repeated_steps": [],
+        "metrics": {
+          "grad_norm": {
+            "count": 100,
+            "analysis_count": 100,
+            "distinct_steps": 100,
+            "analysis_excluded": false,
+            "first_step": 0,
+            "last_step": 99
+          },
+          "train/loss": {
+            "count": 100,
+            "analysis_count": 100,
+            "distinct_steps": 100,
+            "analysis_excluded": false,
+            "first_step": 0,
+            "last_step": 99
+          }
+        }
+      },
+      "summary": {
+        "input_complete": true,
+        "total_findings": 1,
+        "by_severity": {
+          "error": 0,
+          "warning": 0,
+          "info": 1
+        }
+      },
+      "timing": {
+        "status": "unavailable",
+        "axis": "step",
+        "source": null,
+        "source_metric": null,
+        "unit": null,
+        "observations": 0,
+        "invalid_observations": 0,
+        "baseline": null,
+        "recent": null,
+        "ratio": null,
+        "reason": "No eligible timing source. The comparison needs enough step_time or throughput readings, or loss observations with timestamps and explicit training steps. Conflicting repeated-step values are excluded from this check.",
+        "notes": [
+          "wall_time(train/loss): 100 of 100 points have no timestamp. No intervals were bridged across missing timestamps."
+        ],
+        "min_window": 5,
+        "baseline_fraction": 0.2
+      },
+      "findings": [
+        {
+          "detector": "grad_norm",
+          "title": "Gradient clipping likely saturated",
+          "severity": "info",
+          "metric": "grad_norm",
+          "step_start": 50,
+          "step_end": 99,
+          "message": "100% of the last 50 grad_norm readings sit within 0.5% of 0.25 -- consistent with clipping pinning the norm at a ceiling most steps.",
+          "evidence": {
+            "ceiling": 0.24999975000025002,
+            "fraction_at_ceiling": 1.0,
+            "window": 50
+          },
+          "fixes": [
+            "If grad_norm is logged pre-clip: raise the clip threshold, or lower the LR so gradients naturally stay under it.",
+            "If grad_norm is logged post-clip, this is expected by construction and not necessarily a problem."
+          ]
+        }
+      ]
+    },
+    "overflow-one-step": {
+      "schema_version": 1,
+      "run": {
+        "source_format": "csv",
+        "source_path": "overflow-one-step.csv",
+        "skipped_rows": 0,
+        "skipped_values": 0,
+        "input_complete": true,
+        "input_notes": [],
+        "unread_event_bytes": 0,
+        "overwritten_points": 0,
+        "restart_markers": 0,
+        "step_column": "step",
+        "step_axis": "step",
+        "step_selection": "automatic",
+        "metric_sources": {
+          "train/loss": "loss",
+          "grad_norm": "grad_norm"
+        },
+        "ambiguous_metric_sources": [],
+        "repeated_steps": [],
+        "metrics": {
+          "grad_norm": {
+            "count": 1,
+            "analysis_count": 1,
+            "distinct_steps": 1,
+            "analysis_excluded": false,
+            "first_step": 0,
+            "last_step": 0
+          },
+          "train/loss": {
+            "count": 1,
+            "analysis_count": 1,
+            "distinct_steps": 1,
+            "analysis_excluded": false,
+            "first_step": 0,
+            "last_step": 0
+          }
+        }
+      },
+      "summary": {
+        "input_complete": true,
+        "total_findings": 1,
+        "by_severity": {
+          "error": 1,
+          "warning": 0,
+          "info": 0
+        }
+      },
+      "timing": {
+        "status": "unavailable",
+        "axis": "step",
+        "source": null,
+        "source_metric": null,
+        "unit": null,
+        "observations": 0,
+        "invalid_observations": 0,
+        "baseline": null,
+        "recent": null,
+        "ratio": null,
+        "reason": "No eligible timing source. The comparison needs enough step_time or throughput readings, or loss observations with timestamps and explicit training steps. Conflicting repeated-step values are excluded from this check.",
+        "notes": [
+          "wall_time(train/loss): 1 analysis points; at least 11 are required."
+        ],
+        "min_window": 5,
+        "baseline_fraction": 0.2
+      },
+      "findings": [
+        {
+          "detector": "divergence",
+          "title": "Diverged (non-finite values)",
+          "severity": "error",
+          "metric": "train/loss",
+          "step_start": 0,
+          "step_end": 0,
+          "message": "train/loss became Inf at step 0 (1 non-finite point(s) in this run).",
+          "evidence": {
+            "first_bad_step": 0,
+            "count": 1
+          },
+          "fixes": [
+            "Lower the learning rate; this is the single most common cause.",
+            "Enable gradient clipping if it isn't already on.",
+            "Check for a divide-by-zero or log(0) in the loss (e.g. an unstable custom loss term, an empty batch after filtering).",
+            "If using mixed precision, check the loss-scaler didn't overflow, or try bf16 instead of fp16."
+          ]
+        }
+      ]
+    },
+    "infinite-gradient-tail": {
+      "schema_version": 1,
+      "run": {
+        "source_format": "csv",
+        "source_path": "infinite-gradient-tail.csv",
+        "skipped_rows": 0,
+        "skipped_values": 0,
+        "input_complete": true,
+        "input_notes": [],
+        "unread_event_bytes": 0,
+        "overwritten_points": 0,
+        "restart_markers": 0,
+        "step_column": "step",
+        "step_axis": "step",
+        "step_selection": "automatic",
+        "metric_sources": {
+          "grad_norm": "grad_norm"
+        },
+        "ambiguous_metric_sources": [],
+        "repeated_steps": [],
+        "metrics": {
+          "grad_norm": {
+            "count": 50,
+            "analysis_count": 50,
+            "distinct_steps": 50,
+            "analysis_excluded": false,
+            "first_step": 0,
+            "last_step": 49
+          }
+        }
+      },
+      "summary": {
+        "input_complete": true,
+        "total_findings": 2,
+        "by_severity": {
+          "error": 0,
+          "warning": 0,
+          "info": 2
+        }
+      },
+      "timing": {
+        "status": "unavailable",
+        "axis": "step",
+        "source": null,
+        "source_metric": null,
+        "unit": null,
+        "observations": 0,
+        "invalid_observations": 0,
+        "baseline": null,
+        "recent": null,
+        "ratio": null,
+        "reason": "No eligible timing source. The comparison needs enough step_time or throughput readings, or loss observations with timestamps and explicit training steps. Conflicting repeated-step values are excluded from this check.",
+        "notes": [],
+        "min_window": 5,
+        "baseline_fraction": 0.2
+      },
+      "findings": [
+        {
+          "detector": "grad_norm",
+          "title": "Gradient clipping likely saturated",
+          "severity": "info",
+          "metric": "grad_norm",
+          "step_start": 0,
+          "step_end": 49,
+          "message": "98% of the last 50 grad_norm readings sit within 0.5% of inf -- consistent with clipping pinning the norm at a ceiling most steps.",
+          "evidence": {
+            "ceiling": "inf",
+            "fraction_at_ceiling": 0.98,
+            "window": 50
+          },
+          "fixes": [
+            "If grad_norm is logged pre-clip: raise the clip threshold, or lower the LR so gradients naturally stay under it.",
+            "If grad_norm is logged post-clip, this is expected by construction and not necessarily a problem."
+          ]
+        },
+        {
+          "detector": "grad_norm",
+          "title": "Non-finite gradient norm",
+          "severity": "info",
+          "metric": "grad_norm",
+          "step_start": 49,
+          "step_end": 49,
+          "message": "grad_norm was NaN or infinite at 1 logged step, first at step 49.",
+          "evidence": {
+            "first_bad_step": 49,
+            "count": 1
+          },
+          "fixes": [
+            "If the loss stayed finite, this is usually mixed-precision overflow in the norm itself: try bf16, or check the gradient scaler.",
+            "If the loss went non-finite too, see the divergence finding."
+          ]
+        }
+      ]
+    },
+    "infinite-start-loss": {
+      "schema_version": 1,
+      "run": {
+        "source_format": "csv",
+        "source_path": "infinite-start-loss.csv",
+        "skipped_rows": 0,
+        "skipped_values": 0,
+        "input_complete": true,
+        "input_notes": [],
+        "unread_event_bytes": 0,
+        "overwritten_points": 0,
+        "restart_markers": 0,
+        "step_column": "step",
+        "step_axis": "step",
+        "step_selection": "automatic",
+        "metric_sources": {
+          "train/loss": "loss"
+        },
+        "ambiguous_metric_sources": [],
+        "repeated_steps": [],
+        "metrics": {
+          "train/loss": {
+            "count": 100,
+            "analysis_count": 100,
+            "distinct_steps": 100,
+            "analysis_excluded": false,
+            "first_step": 0,
+            "last_step": 99
+          }
+        }
+      },
+      "summary": {
+        "input_complete": true,
+        "total_findings": 3,
+        "by_severity": {
+          "error": 1,
+          "warning": 0,
+          "info": 2
+        }
+      },
+      "timing": {
+        "status": "unavailable",
+        "axis": "step",
+        "source": null,
+        "source_metric": null,
+        "unit": null,
+        "observations": 0,
+        "invalid_observations": 0,
+        "baseline": null,
+        "recent": null,
+        "ratio": null,
+        "reason": "No eligible timing source. The comparison needs enough step_time or throughput readings, or loss observations with timestamps and explicit training steps. Conflicting repeated-step values are excluded from this check.",
+        "notes": [
+          "wall_time(train/loss): 100 of 100 points have no timestamp. No intervals were bridged across missing timestamps."
+        ],
+        "min_window": 5,
+        "baseline_fraction": 0.2
+      },
+      "findings": [
+        {
+          "detector": "divergence",
+          "title": "Diverged (non-finite values)",
+          "severity": "error",
+          "metric": "train/loss",
+          "step_start": 0,
+          "step_end": 0,
+          "message": "train/loss became Inf at step 0 (1 non-finite point(s) in this run).",
+          "evidence": {
+            "first_bad_step": 0,
+            "count": 1
+          },
+          "fixes": [
+            "Lower the learning rate; this is the single most common cause.",
+            "Enable gradient clipping if it isn't already on.",
+            "Check for a divide-by-zero or log(0) in the loss (e.g. an unstable custom loss term, an empty batch after filtering).",
+            "If using mixed precision, check the loss-scaler didn't overflow, or try bf16 instead of fp16."
+          ]
+        },
+        {
+          "detector": "loss_floor",
+          "title": "Suspiciously low loss early (heuristic)",
+          "severity": "info",
+          "metric": "train/loss",
+          "step_start": 0,
+          "step_end": 1,
+          "message": "train/loss dropped to 0.04 by step 1 -- only 0.0% of its starting value (inf), this early in the run. Possibly just an easy task; possibly train/eval overlap or label leakage. Heuristic, not a statistical finding -- see docstring for false-positive modes.",
+          "evidence": {
+            "step": 1,
+            "value": 0.04,
+            "first_value": "inf",
+            "fraction_of_start": 0.0
+          },
+          "fixes": [
+            "Check for train/eval overlap (duplicate or near-duplicate examples).",
+            "Check the label isn't leaking into the input features (e.g. a column that encodes the target).",
+            "If the task is genuinely easy (small/simple dataset), this may be entirely normal."
+          ]
+        },
+        {
+          "detector": "plateau",
+          "title": "Plateau",
+          "severity": "info",
+          "metric": "train/loss",
+          "step_start": 1,
+          "step_end": 99,
+          "message": "train/loss barely moved from step 1 to 99 (99 points, range 0.04-0.04).",
+          "evidence": {
+            "window": 30,
+            "alpha": 0.2,
+            "rel_change_threshold": 0.02,
+            "value_range": 0.0
+          },
+          "fixes": [
+            "If this is early training, check warmup finished and LR reached its target.",
+            "Try a higher LR, an LR-range test, or a different schedule (cosine/one-cycle) if the plateau is unexpected.",
+            "Check for a frozen/detached parameter group if the plateau starts abruptly."
+          ]
+        }
+      ]
+    }
+  }
+}

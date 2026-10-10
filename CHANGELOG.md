@@ -6,6 +6,13 @@ and this project uses [Semantic Versioning](https://semver.org/).
 
 ## Unreleased
 
+- Measure `loss_floor`'s early window by the observed training-step span,
+  not logging frequency. Require a training axis and valid early baseline.
+  Describe gradient concentration without inferring clipping; retain single
+  non-finite norms and non-finite evidence in conflicting histories. Invalid
+  norms cannot define a ceiling, and gaps separate gradient comparisons.
+  [CPU PyTorch counterexamples and exact inputs](docs/diagnostic-evidence.md).
+
 - Reduce repeated work on long loss histories: batch rolling medians/MADs with
   bounded temporary storage and use locally rebased regression moments for
   plateau windows. Keep the existing window definitions and diagnostic rules;

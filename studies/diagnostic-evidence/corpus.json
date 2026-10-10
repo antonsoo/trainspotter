@@ -1,0 +1,1304 @@
+{
+  "baseline_revision": "93c74bdbe23cf86c356fd858d4534c1d6efd47b3",
+  "detector_sha256": {
+    "grad_norm": {
+      "before": "ec0d16de05b98068ac644a8a18e22f3c6d08231b4eea1805d99402f9e9b99e89",
+      "after": "353bd6e6670d9578a78bcadd9d6def20c003f59be18a211e129177dfb79d9ae8"
+    },
+    "loss_floor": {
+      "before": "b2d55a82a50f6948c39486f85a782adf03a9dd9504162cc72edd4f03b4c82af0",
+      "after": "1ccd776c28f23097827633022125fa420c274e9e04a59c41bbf86d7d3e776b75"
+    }
+  },
+  "scope": "Two detectors; identical current readers; no causal ground truth",
+  "seconds": 110.008,
+  "slices": {
+    "manifest.json": {
+      "manifest_sha256": "b4f2abeb45c77f93f62c6f7b08ca92acb8a2b3951f327825c969e802fbcc2d55",
+      "input_fingerprint_sha256": "0a15b43d6f884cc15c99a31032d37fab61e4dfe91e3cade145405a2d94e1d78f",
+      "counts": {
+        "listed": 3208,
+        "read": 3145,
+        "incomplete_inputs": 141,
+        "grad_norm_before_findings": 598,
+        "grad_norm_before_runs": 570,
+        "grad_norm_before_concentration": 1,
+        "grad_norm_before_nonfinite": 85,
+        "grad_norm_after_findings": 598,
+        "grad_norm_after_runs": 572,
+        "grad_norm_after_concentration": 0,
+        "grad_norm_after_nonfinite": 87,
+        "loss_floor_before_findings": 182,
+        "loss_floor_before_runs": 182,
+        "loss_floor_before_concentration": 0,
+        "loss_floor_before_nonfinite": 0,
+        "loss_floor_after_findings": 181,
+        "loss_floor_after_runs": 181,
+        "loss_floor_after_concentration": 0,
+        "loss_floor_after_nonfinite": 0,
+        "unavailable": 63,
+        "grad_norm_changed_observations": 11,
+        "loss_floor_changed_observations": 9
+      },
+      "unavailable": [
+        {
+          "source": "IDK-Chaitanya/SAGE-Implementation@8b7da8e44c20e0439d7afe850ca473645e619d51:best/trainer_state.json",
+          "reason": "ValueError"
+        },
+        {
+          "source": "Munaza10/rvq-reverse-distillation@d2fed234fa3bd372ce7fe97a203b9d16d55c1bc4:trainer_state.json",
+          "reason": "ValueError"
+        },
+        {
+          "source": "junbrro/fred-backup-transport-smoke-20261003@4d0298b37f909575e893579f5d248d53a8a4e03a:checkpoint-10000/trainer_state.json",
+          "reason": "ValueError"
+        },
+        {
+          "source": "hassanql/road-mistral24b-fv@c0c51f0174f240de10e2b2b956b9974a4e79ca67:mistral24b_fv_fit/checkpoint-336/trainer_state.json",
+          "reason": "ValueError"
+        },
+        {
+          "source": "hr1018/tokencal-model@5416c0014e3d708a2699201f2834d238df23436c:checkpoints/M0_STANDARD_SFT/best/trainer_state.json",
+          "reason": "ValueError"
+        },
+        {
+          "source": "xuanjohnny/memorywam-event-jepa-warmup-20261001@889a48aece04584d4055f645ef42124a64b2ceb7:checkpoints/state/step_000500/trainer_state.json",
+          "reason": "ValueError"
+        },
+        {
+          "source": "amrykytt57/arabic-chat-llm-v3-50b-model@f40c23195ac49de56f8a407f80e6721f7b471744:checkpoints/pretrain/latest/trainer_state.json",
+          "reason": "ValueError"
+        },
+        {
+          "source": "nikooo6666/4rc-droid-stage1@1de002a926837378b78c535fb4ff0add231b275d:checkpoint-250000/trainer_state.json",
+          "reason": "ValueError"
+        },
+        {
+          "source": "yava-code/Tessera-135M-Gate@4c542e3d8ac2e88eb332e3bc2b7b539e17564e50:trainer_state.json",
+          "reason": "ValueError"
+        },
+        {
+          "source": "yava-code/Tessera-1B-Nano@267c38d70f3ed2ca3069145a20c7c9b392a7d88e:trainer_state.json",
+          "reason": "ValueError"
+        },
+        {
+          "source": "yava-code/Tessera-1B-Nano-Base@92732a4fdae8f2eeb1a626b407bdd6bb67ae6013:trainer_state.json",
+          "reason": "ValueError"
+        },
+        {
+          "source": "Arushhh/c1b-judge-lora-sdar30b-b32@53944d795214acce51caf560ee539303372f9e71:main/final/trainer_state.json",
+          "reason": "ValueError"
+        },
+        {
+          "source": "Abhayn01/ARKA-SLM-V1-General-LoRA@cbe06b8156fac29f13b7022d85149716ae8adc91:final/trainer_state.json",
+          "reason": "ValueError"
+        },
+        {
+          "source": "Aziolla/SLR-Workspace@67f9e00dfc5a08a841c8bfb048ff721e4b6be0bc:R1-H6/checkpoint_15024/trainer_state.json",
+          "reason": "ValueError"
+        },
+        {
+          "source": "shdjd017/arabic-chat-llm-model@75e03d1bc071e595501c799e22649f3882c2a95f:checkpoints/pretrain/latest/trainer_state.json",
+          "reason": "ValueError"
+        },
+        {
+          "source": "Quicksort-fr/T-CRED-SL@cf1b196cec08032bdab5733b88cd54e59c4019e7:metadata/trainer_state.json",
+          "reason": "ValueError"
+        },
+        {
+          "source": "huiwon/fastwam_openarm_wam_v1_robot_b32_50k@f60a8ec506990ccc2d7d2ca31029cfd62765c1fe:checkpoint-50000/trainer_state.json",
+          "reason": "ValueError"
+        },
+        {
+          "source": "angelic123/fastwam_droid_wan21_1p3b_step100k@729a3bbbc8be2c87b5a423f4392d63e55ef7b4b2:trainer_state.json",
+          "reason": "ValueError"
+        },
+        {
+          "source": "deepakg123/tamil-100m-pretrain@0ae7564daf550edbc3c4053c4d620f60479bcc88:checkpoint-156464/trainer_state.json",
+          "reason": "ValueError"
+        },
+        {
+          "source": "hohieuresearch/q6k1rh72@24c78db31dd414eb933cc7f2ab940eb723e0b57f:global_step_217/trainer_state.json",
+          "reason": "ValueError"
+        },
+        {
+          "source": "hohieuresearch/kqfqh2v0@7927b1b692bcf1ce74916c04b7bb4dd3a22e559e:global_step_217/trainer_state.json",
+          "reason": "ValueError"
+        },
+        {
+          "source": "ljw07/openwam-libero-isaacsim-step128000-resume@6544a841640b0ecbbe78cb4056b36599a2582a8c:accel_state_step_128000/trainer_state.json",
+          "reason": "ValueError"
+        },
+        {
+          "source": "yrlyrl/physjepa-motion-caches@24ddd5c81469a9b4fd80c5a2dc61dcab7a90c7c5:stage1_textflow_20261002/v28_fot_pool/checkpoint-002000/trainer_state.json",
+          "reason": "ValueError"
+        },
+        {
+          "source": "prince4332/dots.tts-mf-akan-twi@55ba4707e39571c554f302b8daf5f2568224ecbc:trainer_state.json",
+          "reason": "ValueError"
+        },
+        {
+          "source": "dangphuc2109/legalqa-qwen2.5-3b-adapter@fa1a5e6c99d118be4f1b0eb716202a297cf59a37:runs/run_5433e8b4787137c9_20260920_193355/trainer_state.json",
+          "reason": "ValueError"
+        },
+        {
+          "source": "gugabobo/neuroadapter-subject1-selection-4090@dd7c329ef010bbc2a498d0542fe9124e2e98a686:resume-backup/checkpoint-update-00265625/trainer_state.json",
+          "reason": "ValueError"
+        },
+        {
+          "source": "Noietch/dual-yam-delta-eef-v2-full-30k-checkpoint-20000@2aafc6b0af5c739462cbe0389e7a5c870f7eac92:trainer_state.json",
+          "reason": "ValueError"
+        },
+        {
+          "source": "Richard-ZZZZZ/robotwin-bihub-joint-wam-v3-step9000@7103e4931f74e414f284287baba3d25d8709ced1:trainer_state.json",
+          "reason": "ValueError"
+        },
+        {
+          "source": "Datawhale/hello-robotics-chapter16@03b03af044bba98fc61acd396caaaf08c4199164:checkpoints/stage3_g2_lora/g2_pickplace_lora_r16_v2/checkpoint_step_2000/trainer_state.json",
+          "reason": "ValueError"
+        },
+        {
+          "source": "emberian/h-15b-e1-replay@45d781ef5fb67f44b48454cff539dbbe5c9bf312:trainer_state.json",
+          "reason": "ValueError"
+        },
+        {
+          "source": "Richard-ZZZZZ/robotwin-bihub-joint-wam-v3-step2000@25b27239d05a009b476f5e99c9305abb1c243fdb:trainer_state.json",
+          "reason": "ValueError"
+        },
+        {
+          "source": "emberian/h-k2-0.9b-replay@6167eb91a59fe574010dd6476cec9465e6b5ad2e:trainer_state.json",
+          "reason": "ValueError"
+        },
+        {
+          "source": "seekingtroooth/ghl-support-qlora-t4@cc4a1e2affcf5c8db315e35d9b41cb7d4f6e1684:v3/adapter/trainer_state.json",
+          "reason": "ValueError"
+        },
+        {
+          "source": "emberian/h-05b-replay@76a2d97965cbe691ffabd140c82767c71d9ac572:trainer_state.json",
+          "reason": "ValueError"
+        },
+        {
+          "source": "nhavanvietcode/legal-e5-adamw-r170-candidates-v1@f56aa763f5f5925ab21cd828e7a25102f8ba1ab5:models/checkpoint-141/trainer_state.json",
+          "reason": "ValueError"
+        },
+        {
+          "source": "smirki/qwen3.5-4b-v2@81b87202a83230484e3cb4cb976b93befb544ff4:lora/trainer_state.json",
+          "reason": "ValueError"
+        },
+        {
+          "source": "dwadca/curriculum_token_reconstruction_unconstrained@4197ac4f4fd06bf92acb4eedf21f7dce20491727:checkpoint-5964/trainer_state.json",
+          "reason": "ValueError"
+        },
+        {
+          "source": "smirki/qwen3.5-4b-terminal-v1@03e5ee9db3d4b0f466aa56e1ed297e4e22761df4:lora/trainer_state.json",
+          "reason": "ValueError"
+        },
+        {
+          "source": "GT-111/bi-lawm-robotwin-finetune-from-bidir50k@2944c739c974022030a84357abe2d904ad0d3df5:checkpoints/step-005000/trainer_state.json",
+          "reason": "ValueError"
+        },
+        {
+          "source": "GT-111/bi-lawm-realman-finetune-from-bidir50k@c054be9181eb236fa068c370e3f2d2eed0286ad8:checkpoints/step-005000/trainer_state.json",
+          "reason": "ValueError"
+        },
+        {
+          "source": "dual-sim/outputs@e72380e03bc6c8922c449732940734de51feffc7:train/agibot/dualsim-v4.1-bs8-lr1e4-D3-T3-P1/main/step_3500/trainer_state.json",
+          "reason": "ValueError"
+        },
+        {
+          "source": "dwadca/latent-cot-bench@d0169b588d17bde8684bbe077d73fca40aa35dbe:outputs/token_reconstruction_unconstrained/checkpoint-37275/trainer_state.json",
+          "reason": "ValueError"
+        },
+        {
+          "source": "anuj-inavlabs/kupe-thinkspark-audio-270m@f0adb0efc7087c34408cc5ad1d1e735aa4d58171:step500/trainer_state.json",
+          "reason": "ValueError"
+        },
+        {
+          "source": "niksixus/qwen2.5-1.5b-gsm8k-drgrpo-lora@c8b40cf221af71300bf8382defc4a68d153efcf3:trainer_state.json",
+          "reason": "ValueError"
+        },
+        {
+          "source": "GT-111/bi-lawm-bidir-stage2@eac420be11ff38ec4e0d6bc5d2b3a042997c8d1c:checkpoints/step-010000/trainer_state.json",
+          "reason": "ValueError"
+        },
+        {
+          "source": "Jamil82/bdcoderai-650@64773f6af4f5e7c3b1652d1564094e669a4c767b:checkpoints/step_0000000/trainer_state.json",
+          "reason": "ValueError"
+        },
+        {
+          "source": "swadeshb/branch-opd-smoke-entropy-branch-tailopd@1424294fe7dd721050b4793fec7c78a40924fc33:trainer_state.json",
+          "reason": "ValueError"
+        },
+        {
+          "source": "swadeshb/branch-opd-smoke-random-branch-tailopd@b7269b312fb39c182f661d4673848989ea0330dc:trainer_state.json",
+          "reason": "ValueError"
+        },
+        {
+          "source": "yupinging/posttrain-production@6a57880e70877f77f960da4c2f23078e46758df8:Qwen-opd/training_results/step1493-format-repair-step50/trainer_state.json",
+          "reason": "ValueError"
+        },
+        {
+          "source": "t47092/pixelwam@c55465feceb2cd550c114d4332937df9a81980a7:libero/latent-fastwam/joint-2cam224_2026-07-27_step-021700/deepspeed_state/step_021700/trainer_state.json",
+          "reason": "ValueError"
+        },
+        {
+          "source": "vinhthuanly/tinygiant-omni-checkpoints@7bcec4ecc4524addacc35dce7a92726c926b26d6:runs/default/checkpoints/checkpoint-00035000/trainer_state.json",
+          "reason": "ValueError"
+        },
+        {
+          "source": "rubentium/sparse-checkpoints@eca882c2c2cc28ea2831b4d094db3a0fde2b720a:FINAL4_20260927/rope1e4/365m_mixed_rope1e4_qkgainfp32_s42/run_20261002_022706/checkpoint-44000/trainer_state.json",
+          "reason": "ValueError"
+        },
+        {
+          "source": "SCZZ/ld4wam_p1@5b14ae75f87c7fa64a6cd8f2076046d058f52d7a:accel_state_step_4500/trainer_state.json",
+          "reason": "ValueError"
+        },
+        {
+          "source": "Devsyril/nllb-200-gur-gbe@7416bd47ab1b61823ea13f58c68f94cc8f626ba8:trainer_state.json",
+          "reason": "ValueError"
+        },
+        {
+          "source": "Johnny221B/opd-agent@93c3528621e3726efcb98e7c62384ae9e48c6a74:RQ1/elasticmem/qwen2.5-3b/last/trainer_state.json",
+          "reason": "ValueError"
+        },
+        {
+          "source": "titose515/airspace-tie-v1@50a7e6648ca7477e04e5f8adcb899e62b9f294ec:trainer_state.json",
+          "reason": "ValueError"
+        },
+        {
+          "source": "sanhuo11/BeginVLA-12M@0c0f56f07d4cb73a987204475528a2c2aaa4303d:pretrained/trainer_state.json",
+          "reason": "ValueError"
+        },
+        {
+          "source": "zrgong/acewam-fullkv-press-button-d00133b@fb733922f1c6228e8c11b6f49fe6b8984398df7b:trainer_state.json",
+          "reason": "ValueError"
+        },
+        {
+          "source": "durgeshkidsyt/qwen3-4b-qlora-v1.0@c9807b5ad6356656d850a5425f1d21f06a536a97:adapter/trainer_state.json",
+          "reason": "ValueError"
+        },
+        {
+          "source": "alirezaaminzadeh/soc-agent-traces-smollm3-3b@4a39fcd1913a08a37345427d01ea408f419f6e7d:trainer_state.json",
+          "reason": "ValueError"
+        },
+        {
+          "source": "JaydenJing/mms-tts-khm-finetuned@38380e338714d41ab76f51638bf1946e6170e46d:last-checkpoint/trainer_state.json",
+          "reason": "ValueError"
+        },
+        {
+          "source": "phonsobon/mms-tts-khm-finetuned@9823d5b1bfcb2ece89698c12f40ab9a02f0b9d33:last-checkpoint/trainer_state.json",
+          "reason": "ValueError"
+        },
+        {
+          "source": "chentang1999/PPACER@ec81834dc5819b34acd2054126826f8aa765b3ff:PACER_Progress_Estimator_v0.4/pacer_progress_estimator_v0_4/runs/stage1_apb/model/best/trainer_state.json",
+          "reason": "ValueError"
+        }
+      ],
+      "changed": [
+        {
+          "source": "Raiza16/studymate-flant5-lora@039d1502a3562f9f7a563d65cb745f9d65d72613:checkpoint-39/trainer_state.json",
+          "sha256": "c0a5abf8ae318a49b3414ef7692d84abe727e9892052a9a1bdeda139a2220d35",
+          "detector": "grad_norm",
+          "before": [],
+          "after": [
+            {
+              "kind": "Non-finite gradient norm",
+              "span": [
+                10,
+                30
+              ],
+              "severity": "info",
+              "count": 3,
+              "value": null,
+              "ceiling": null
+            }
+          ]
+        },
+        {
+          "source": "jongrock17/DEBATE-kor-large@80a3b963175c08c19ba7e06ca757745f342c26bb:checkpoint-32118/trainer_state.json",
+          "sha256": "cbfaf3c9cb928ef6a34072e2665555f40720959931471f456e9b1470d6764462",
+          "detector": "grad_norm",
+          "before": [
+            {
+              "kind": "Non-finite gradient norm",
+              "span": [
+                29300,
+                29300
+              ],
+              "severity": "info",
+              "count": 1,
+              "value": null,
+              "ceiling": null
+            },
+            {
+              "kind": "Gradient-norm explosion",
+              "span": [
+                6550,
+                31150
+              ],
+              "severity": "info",
+              "count": 34,
+              "value": null,
+              "ceiling": null
+            }
+          ],
+          "after": [
+            {
+              "kind": "Non-finite gradient norm",
+              "span": [
+                29300,
+                29300
+              ],
+              "severity": "info",
+              "count": 1,
+              "value": null,
+              "ceiling": null
+            },
+            {
+              "kind": "Gradient-norm explosion",
+              "span": [
+                6550,
+                31150
+              ],
+              "severity": "info",
+              "count": 32,
+              "value": null,
+              "ceiling": null
+            }
+          ]
+        },
+        {
+          "source": "OpenPathAI/Orbit-3.1-Llama-thinking@25d830519f896470bdb933013cbb16a06f3e50f2:checkpoints/checkpoint-3000/trainer_state.json",
+          "sha256": "6390effe4512c7fea08ed318bec284cf9fe5ce9b2a12d467ad9ca38c4fd8a288",
+          "detector": "loss_floor",
+          "before": [
+            {
+              "kind": "Suspiciously low loss early (heuristic)",
+              "span": [
+                1,
+                151
+              ],
+              "severity": "info",
+              "count": null,
+              "value": 0.0,
+              "ceiling": null
+            }
+          ],
+          "after": []
+        },
+        {
+          "source": "mamoon94/greenenergy-ev-assistant@fb29a89585509efdfab0496782af5e36994584d3:checkpoint-313/trainer_state.json",
+          "sha256": "9b4e25c2555ca0bc3bebb496348f201b120cff47447a01826715307e991dd910",
+          "detector": "loss_floor",
+          "before": [],
+          "after": [
+            {
+              "kind": "Suspiciously low loss early (heuristic)",
+              "span": [
+                10,
+                40
+              ],
+              "severity": "info",
+              "count": null,
+              "value": 0.01253141015768051,
+              "ceiling": null
+            }
+          ]
+        },
+        {
+          "source": "jangkj/rrlvr-iclr__umlsB@fb05b983559cfd308bbd2cdffad3e0e1de51c929:umls_s0__rl_combined/final/trainer_state.json",
+          "sha256": "90859beda2af6693497d6e35d467dda32ab1ae2970bd89042c378549cbfc2140",
+          "detector": "loss_floor",
+          "before": [
+            {
+              "kind": "Suspiciously low loss early (heuristic)",
+              "span": [
+                5,
+                15
+              ],
+              "severity": "info",
+              "count": null,
+              "value": 0.001711505651473999,
+              "ceiling": null
+            }
+          ],
+          "after": []
+        },
+        {
+          "source": "confect/google-font-classifier-v6@f3278aeb376030accb2252c9a691bc919271aeed:lora_r16/checkpoint-143440/trainer_state.json",
+          "sha256": "fbb7b5aa60a5336a21830d07994870fd2b9aa0758cdf40a58efee9b904f794a8",
+          "detector": "grad_norm",
+          "before": [
+            {
+              "kind": "Non-finite gradient norm",
+              "span": [
+                550,
+                135530
+              ],
+              "severity": "info",
+              "count": 4,
+              "value": null,
+              "ceiling": null
+            },
+            {
+              "kind": "Gradient-norm explosion",
+              "span": [
+                75960,
+                143300
+              ],
+              "severity": "info",
+              "count": 155,
+              "value": null,
+              "ceiling": null
+            }
+          ],
+          "after": [
+            {
+              "kind": "Non-finite gradient norm",
+              "span": [
+                550,
+                135530
+              ],
+              "severity": "info",
+              "count": 4,
+              "value": null,
+              "ceiling": null
+            },
+            {
+              "kind": "Gradient-norm explosion",
+              "span": [
+                75960,
+                143300
+              ],
+              "severity": "info",
+              "count": 154,
+              "value": null,
+              "ceiling": null
+            }
+          ]
+        },
+        {
+          "source": "mirrchang/wallpad-1b-v14b-lora@58ec138e4bba836b87342c43460875471e5926e6:checkpoint-1032/trainer_state.json",
+          "sha256": "6e39d721f32d33874fd43d9cb12cfce342826d763b747e4854d8a86b1d9da208",
+          "detector": "loss_floor",
+          "before": [],
+          "after": [
+            {
+              "kind": "Suspiciously low loss early (heuristic)",
+              "span": [
+                25,
+                125
+              ],
+              "severity": "info",
+              "count": null,
+              "value": 0.0464,
+              "ceiling": null
+            }
+          ]
+        },
+        {
+          "source": "Jayasri2006/cricket-qwn@77e1da191211db24a68fc1d7beb263b68149844c:trainer_state.json",
+          "sha256": "4c890d4b8df1f546378d30e7be4bd8d651b4898b670e51a1afdffe3b03a0f5c7",
+          "detector": "grad_norm",
+          "before": [],
+          "after": [
+            {
+              "kind": "Non-finite gradient norm",
+              "span": [
+                1,
+                1
+              ],
+              "severity": "info",
+              "count": 1,
+              "value": null,
+              "ceiling": null
+            }
+          ]
+        },
+        {
+          "source": "logan7000/mllm-cogrpo-heter-qwen25vl-7b-x-internvl35-8b-open-r1-mmupt-groupB-internvl35-8b-full@31bd2427dafa0f4cc1bda79b615e85d3d6b6e8a3:best/trainer_state.json",
+          "sha256": "86ad5ae2abd4f803be01a352b178dd63a74f19d677e0563078c5745bd7bed174",
+          "detector": "loss_floor",
+          "before": [
+            {
+              "kind": "Suspiciously low loss early (heuristic)",
+              "span": [
+                1,
+                5
+              ],
+              "severity": "info",
+              "count": null,
+              "value": 0.0,
+              "ceiling": null
+            }
+          ],
+          "after": []
+        },
+        {
+          "source": "7h3cyb3rm0nk/rcd@bbc1aef48696a45c99a6b3b709a1e1b8ed7a409a:checkpoint-38160/trainer_state.json",
+          "sha256": "4a299f45268750d64059dd0653463982bc30d3f1403e423bca4801d95455baf2",
+          "detector": "grad_norm",
+          "before": [
+            {
+              "kind": "Non-finite gradient norm",
+              "span": [
+                16860,
+                18390
+              ],
+              "severity": "info",
+              "count": 2,
+              "value": null,
+              "ceiling": null
+            },
+            {
+              "kind": "Gradient-norm explosion",
+              "span": [
+                180,
+                36150
+              ],
+              "severity": "info",
+              "count": 46,
+              "value": null,
+              "ceiling": null
+            }
+          ],
+          "after": [
+            {
+              "kind": "Non-finite gradient norm",
+              "span": [
+                16860,
+                18390
+              ],
+              "severity": "info",
+              "count": 2,
+              "value": null,
+              "ceiling": null
+            },
+            {
+              "kind": "Gradient-norm explosion",
+              "span": [
+                180,
+                36150
+              ],
+              "severity": "info",
+              "count": 45,
+              "value": null,
+              "ceiling": null
+            }
+          ]
+        },
+        {
+          "source": "ReasoningRegisters/olmo32b-cue@8df586e091370cdf0a77590593068b137cd1db93:checkpoint-300/trainer_state.json",
+          "sha256": "1c13223889a8f738787dd6810d5f9f5b1e65d565a8f3270654d07368cf2a7748",
+          "detector": "loss_floor",
+          "before": [
+            {
+              "kind": "Suspiciously low loss early (heuristic)",
+              "span": [
+                1,
+                18
+              ],
+              "severity": "info",
+              "count": null,
+              "value": 0.000313393771648407,
+              "ceiling": null
+            }
+          ],
+          "after": []
+        },
+        {
+          "source": "mirrchang/wallpad-1b-v10-lora@26cf05f622b4215595c0d44b2f0a8e001662be1c:checkpoint-812/trainer_state.json",
+          "sha256": "76ec922a46cf777d56968724337decc6038e7471973bd2e301b10fb284ba0fd8",
+          "detector": "loss_floor",
+          "before": [],
+          "after": [
+            {
+              "kind": "Suspiciously low loss early (heuristic)",
+              "span": [
+                25,
+                100
+              ],
+              "severity": "info",
+              "count": null,
+              "value": 0.0484,
+              "ceiling": null
+            }
+          ]
+        },
+        {
+          "source": "mirrchang/wallpad-1b-v9-lora@6857c897cea08e7f7cebbed6c5b37550eb13aad3:checkpoint-808/trainer_state.json",
+          "sha256": "433daea6e03832b8fcb794e5abb084ac258dc1e676977dfb4b86f7007d0f07cd",
+          "detector": "loss_floor",
+          "before": [],
+          "after": [
+            {
+              "kind": "Suspiciously low loss early (heuristic)",
+              "span": [
+                25,
+                100
+              ],
+              "severity": "info",
+              "count": null,
+              "value": 0.0486,
+              "ceiling": null
+            }
+          ]
+        },
+        {
+          "source": "aixk/SpectraGMF-98m@0d81e63d233a7bf9688b6141ea178400eed94b4c:checkpoint-3400/trainer_state.json",
+          "sha256": "66e0fc4f61896d124b69899bf1aa219830338995ca74dc5ad875aac0da7717e3",
+          "detector": "grad_norm",
+          "before": [
+            {
+              "kind": "Non-finite gradient norm",
+              "span": [
+                200,
+                2940
+              ],
+              "severity": "info",
+              "count": 5,
+              "value": null,
+              "ceiling": null
+            },
+            {
+              "kind": "Gradient-norm explosion",
+              "span": [
+                230,
+                3300
+              ],
+              "severity": "info",
+              "count": 4,
+              "value": null,
+              "ceiling": null
+            }
+          ],
+          "after": [
+            {
+              "kind": "Non-finite gradient norm",
+              "span": [
+                200,
+                2940
+              ],
+              "severity": "info",
+              "count": 5,
+              "value": null,
+              "ceiling": null
+            },
+            {
+              "kind": "Gradient-norm explosion",
+              "span": [
+                2220,
+                3300
+              ],
+              "severity": "info",
+              "count": 3,
+              "value": null,
+              "ceiling": null
+            }
+          ]
+        },
+        {
+          "source": "aixk/HyperBit-ConceptShared2-98m@ceeb908fb63226918cd985d8847c63dd19cc7ae4:checkpoint-1800/trainer_state.json",
+          "sha256": "6bf3de5176efc83d53f2c88c880f71f054ce5008b915b9bbf42ae448dc831870",
+          "detector": "grad_norm",
+          "before": [
+            {
+              "kind": "Non-finite gradient norm",
+              "span": [
+                310,
+                800
+              ],
+              "severity": "info",
+              "count": 4,
+              "value": null,
+              "ceiling": null
+            },
+            {
+              "kind": "Gradient-norm explosion",
+              "span": [
+                330,
+                1170
+              ],
+              "severity": "info",
+              "count": 8,
+              "value": null,
+              "ceiling": null
+            }
+          ],
+          "after": [
+            {
+              "kind": "Non-finite gradient norm",
+              "span": [
+                310,
+                800
+              ],
+              "severity": "info",
+              "count": 4,
+              "value": null,
+              "ceiling": null
+            },
+            {
+              "kind": "Gradient-norm explosion",
+              "span": [
+                550,
+                1170
+              ],
+              "severity": "info",
+              "count": 6,
+              "value": null,
+              "ceiling": null
+            }
+          ]
+        },
+        {
+          "source": "KoSett/large-v2-aug-transcribe@8118b5e534e3e1d190d60d554c9dce26e527f40e:last-checkpoint/trainer_state.json",
+          "sha256": "28ba353375ba5bbc1fc50f42efdd0d1d368b5722cfd824bc84969cef88f74970",
+          "detector": "grad_norm",
+          "before": [
+            {
+              "kind": "Non-finite gradient norm",
+              "span": [
+                7575,
+                7575
+              ],
+              "severity": "info",
+              "count": 1,
+              "value": null,
+              "ceiling": null
+            },
+            {
+              "kind": "concentration",
+              "span": [
+                6975,
+                8200
+              ],
+              "severity": "info",
+              "count": null,
+              "value": null,
+              "ceiling": "inf"
+            }
+          ],
+          "after": [
+            {
+              "kind": "Non-finite gradient norm",
+              "span": [
+                7575,
+                7575
+              ],
+              "severity": "info",
+              "count": 1,
+              "value": null,
+              "ceiling": null
+            }
+          ]
+        },
+        {
+          "source": "MTGxTHOR/qwen2.5-vl-3b-plant-pathology-v116-grpo@2640a284c555d3b8a0bf42b427ae7006d3257494:last-checkpoint/trainer_state.json",
+          "sha256": "ed41a8ca2ef7afe34b6b43132bd5b14e62056f6d0f5caa2697a858cafbf154ee",
+          "detector": "grad_norm",
+          "before": [
+            {
+              "kind": "Non-finite gradient norm",
+              "span": [
+                6,
+                800
+              ],
+              "severity": "info",
+              "count": 11,
+              "value": null,
+              "ceiling": null
+            },
+            {
+              "kind": "Gradient-norm explosion",
+              "span": [
+                19,
+                3834
+              ],
+              "severity": "info",
+              "count": 48,
+              "value": null,
+              "ceiling": null
+            }
+          ],
+          "after": [
+            {
+              "kind": "Non-finite gradient norm",
+              "span": [
+                6,
+                800
+              ],
+              "severity": "info",
+              "count": 11,
+              "value": null,
+              "ceiling": null
+            },
+            {
+              "kind": "Gradient-norm explosion",
+              "span": [
+                33,
+                3834
+              ],
+              "severity": "info",
+              "count": 47,
+              "value": null,
+              "ceiling": null
+            }
+          ]
+        },
+        {
+          "source": "grpo-spurious-rewards/recovered_qwen_small_low0.2_high0.28_s0@603c6a590bb7b80089e7bba797452ee195e70d8c:checkpoint-2400/trainer_state.json",
+          "sha256": "1639107aa1384ca0df78f12c6f59d28304d00844f52be928e216ea77583ce881",
+          "detector": "loss_floor",
+          "before": [
+            {
+              "kind": "Suspiciously low loss early (heuristic)",
+              "span": [
+                1,
+                2
+              ],
+              "severity": "info",
+              "count": null,
+              "value": 0.0,
+              "ceiling": null
+            }
+          ],
+          "after": []
+        },
+        {
+          "source": "ayymen/omniASR-CTC-300M-v2-waxal_lin_sna-2epoch@881e4c3a8269cc960ab5fa564c3ddaec710c90c9:last-checkpoint/trainer_state.json",
+          "sha256": "fa3208fa5e9b06e89baa6968546fd27a418b92393b983683a95fbbe2a828a027",
+          "detector": "grad_norm",
+          "before": [
+            {
+              "kind": "Non-finite gradient norm",
+              "span": [
+                11,
+                1537
+              ],
+              "severity": "info",
+              "count": 8,
+              "value": null,
+              "ceiling": null
+            },
+            {
+              "kind": "Gradient-norm explosion",
+              "span": [
+                35,
+                1984
+              ],
+              "severity": "info",
+              "count": 46,
+              "value": null,
+              "ceiling": null
+            }
+          ],
+          "after": [
+            {
+              "kind": "Non-finite gradient norm",
+              "span": [
+                11,
+                1537
+              ],
+              "severity": "info",
+              "count": 8,
+              "value": null,
+              "ceiling": null
+            },
+            {
+              "kind": "Gradient-norm explosion",
+              "span": [
+                35,
+                1984
+              ],
+              "severity": "info",
+              "count": 45,
+              "value": null,
+              "ceiling": null
+            }
+          ]
+        },
+        {
+          "source": "suryayammanur/smart-mcq-deberta@038440dd5d1a635937d45b8da83dbc7314ee4bc1:trainer_state.json",
+          "sha256": "212b980d3d1fc24fc3caf6afaa7c44f640371dd9f26c6e3211968f3e393f90da",
+          "detector": "grad_norm",
+          "before": [
+            {
+              "kind": "Non-finite gradient norm",
+              "span": [
+                380,
+                380
+              ],
+              "severity": "info",
+              "count": 1,
+              "value": null,
+              "ceiling": null
+            },
+            {
+              "kind": "Gradient-norm explosion",
+              "span": [
+                540,
+                540
+              ],
+              "severity": "info",
+              "count": 1,
+              "value": null,
+              "ceiling": null
+            }
+          ],
+          "after": [
+            {
+              "kind": "Non-finite gradient norm",
+              "span": [
+                380,
+                380
+              ],
+              "severity": "info",
+              "count": 1,
+              "value": null,
+              "ceiling": null
+            }
+          ]
+        }
+      ]
+    },
+    "manifest-heldout.json": {
+      "manifest_sha256": "13a9d300f8c7131154723c8981d720f80277ee3e539d91d46030f36c0a0577a5",
+      "input_fingerprint_sha256": "d5cd477b639d9b5ffd5f913429d1a9d141b46a88c076ab39290b8dc0f4d2747b",
+      "counts": {
+        "listed": 1051,
+        "read": 1032,
+        "incomplete_inputs": 44,
+        "grad_norm_before_findings": 193,
+        "grad_norm_before_runs": 188,
+        "grad_norm_before_concentration": 1,
+        "grad_norm_before_nonfinite": 24,
+        "grad_norm_after_findings": 192,
+        "grad_norm_after_runs": 188,
+        "grad_norm_after_concentration": 0,
+        "grad_norm_after_nonfinite": 24,
+        "loss_floor_before_findings": 35,
+        "loss_floor_before_runs": 35,
+        "loss_floor_before_concentration": 0,
+        "loss_floor_before_nonfinite": 0,
+        "loss_floor_after_findings": 33,
+        "loss_floor_after_runs": 33,
+        "loss_floor_after_concentration": 0,
+        "loss_floor_after_nonfinite": 0,
+        "loss_floor_changed_observations": 6,
+        "unavailable": 19,
+        "grad_norm_changed_observations": 2
+      },
+      "unavailable": [
+        {
+          "source": "samarthshrivas/rippletts-test-ckpts@e835880d4b0c9b2f9da172118e03128bddc61f04:checkpoints/best/trainer_state.json",
+          "reason": "ValueError"
+        },
+        {
+          "source": "Alwin114/qwen3-lrat-0722@47fffda9103f03bd481f6fde444ed226f82b23bd:trainer_state.json",
+          "reason": "ValueError"
+        },
+        {
+          "source": "danilovabg/wisper_small_fine_tune_bg@67da17571e96c4b1455372d689d9b11fba46c00e:trainer_state.json",
+          "reason": "ValueError"
+        },
+        {
+          "source": "remg1997/modernbert-small-factorized-linear-dual-babylm2026@56e1a306ecf360622d12124e053eb1d1a0825516:trainer_state.json",
+          "reason": "ValueError"
+        },
+        {
+          "source": "remg1997/modernbert-small-modernbert-small-factorized-linear-babylm2026@55867438e2aa73de3c1fa6d038218e1c963e9abb:trainer_state.json",
+          "reason": "ValueError"
+        },
+        {
+          "source": "remg1997/modernbert-small-phase7-zipfian-whitening-babylm2026@4334a33193d455228e1ceb40a78453d980eccb01:trainer_state.json",
+          "reason": "ValueError"
+        },
+        {
+          "source": "toilaluan/wcwc@991f1828f2554c1ed550b4dd24ee0cd436ed0e3f:trainer_state.json",
+          "reason": "ValueError"
+        },
+        {
+          "source": "Siyuc/lotus-dag-runs@913ae8832c18065dcc5c481622770b0f1b347ed3:slr/h10-sharedslots16/checkpoint_6/trainer_state.json",
+          "reason": "ValueError"
+        },
+        {
+          "source": "notakwithac/Qwen3-18e8531d-35aa-4b42-91e3-4d4c4bba14d0-Friend2-28311f75@8feed10484b0caa6ccd25e5b58598420b724b77f:checkpoints/checkpoint-epoch-14/trainer_state.json",
+          "reason": "ValueError"
+        },
+        {
+          "source": "notakwithac/Qwen3-18e8531d-35aa-4b42-91e3-4d4c4bba14d0-Friend1-6d8b0224@1a09d6a72a1db102ab392396e9829ddfa11b212d:checkpoints/checkpoint-epoch-14/trainer_state.json",
+          "reason": "ValueError"
+        },
+        {
+          "source": "notakwithac/Qwen3-18e8531d-35aa-4b42-91e3-4d4c4bba14d0-Bella-229bae15@85ebeced5217e9969bad91924642ce5cab495192:checkpoints/checkpoint-epoch-14/trainer_state.json",
+          "reason": "ValueError"
+        },
+        {
+          "source": "aaachier/OmniForcing-backup@1c6195ce8efba32704d14c6aeb8fb33dc3077571:step1_ltx23/checkpoint_001000/trainer_state.json",
+          "reason": "ValueError"
+        },
+        {
+          "source": "soyuj/llama3.2-1b-sae-splade-l11-65k@54f5a348080882d43e90827d2731accc1d09cacc:checkpoint/trainer_state.json",
+          "reason": "ValueError"
+        },
+        {
+          "source": "soyuj/llama3.2-1b-sae-splade-l12-16k@a2506c549036839efb64b876f91912fc7eb53b20:checkpoint/trainer_state.json",
+          "reason": "ValueError"
+        },
+        {
+          "source": "MangoGoes/starflow_cont.ft32@c34b251b08ea3a9d3e143ab740c94e43f5fb7605:trainer_state.json",
+          "reason": "ValueError"
+        },
+        {
+          "source": "toilaluan/raev2-compressor@846e2213dcf6218d3b726448ae52d8104c925c0f:trainer_state.json",
+          "reason": "ValueError"
+        },
+        {
+          "source": "toilaluan/efficient-rae-26k@11b51d0607fea383c2527d404979911f65764896:trainer_state.json",
+          "reason": "ValueError"
+        },
+        {
+          "source": "Mincofficial/TutoriLFM-1.2B-LoRA-adapter@0c588ecbb836a814adb7cc6a33f340fbaa66675d:LiquidAI_LFM2.5-1.2B-Instruct_1783470908/checkpoint-30/trainer_state.json",
+          "reason": "ValueError"
+        },
+        {
+          "source": "QyrouNnet-AI/reasoning-summarizer-qwen3.5-0.8b-preview@9c18c4ce94ad23c7b89530d39f21a91ace435118:training/trainer_state.json",
+          "reason": "ValueError"
+        }
+      ],
+      "changed": [
+        {
+          "source": "sydqiang/X-R1-1.5B-cn-math@6dd3fba392c4a7f04889bef16906e5dfdcb4107f:trainer_state.json",
+          "sha256": "0559ff8a0b9dc176282df09f8fb12f7505a0d97484eec375378b2b5e4706b204",
+          "detector": "loss_floor",
+          "before": [
+            {
+              "kind": "Suspiciously low loss early (heuristic)",
+              "span": [
+                1,
+                2
+              ],
+              "severity": "info",
+              "count": null,
+              "value": 0.0,
+              "ceiling": null
+            }
+          ],
+          "after": []
+        },
+        {
+          "source": "rsoohyun213/Qwen2.5-VL-7B-Instruct-v6_s2_exp_s4_exp2_s5_exp1_only_blocks_filtered-full_SFT@67f1ff3f3c511fb369705c68ca5810a589fbdd9c:checkpoint-938/trainer_state.json",
+          "sha256": "3e2bcf9f73a909207299ba145a52016bc0bc783b7f94bea0b521f38411e524b8",
+          "detector": "loss_floor",
+          "before": [],
+          "after": [
+            {
+              "kind": "Suspiciously low loss early (heuristic)",
+              "span": [
+                1,
+                94
+              ],
+              "severity": "info",
+              "count": null,
+              "value": 0.0477,
+              "ceiling": null
+            }
+          ]
+        },
+        {
+          "source": "lamm-mit/scientific-sft-grpo-design-grpo@122f6487d6b5e8e4e249fdd3d9cadc7efa704ca5:checkpoint-350/trainer_state.json",
+          "sha256": "f6ac0eeb7f78ffff3db8dcb79dca2c8dc8e39c1f7c64171e71be6955771c0a3b",
+          "detector": "loss_floor",
+          "before": [
+            {
+              "kind": "Suspiciously low loss early (heuristic)",
+              "span": [
+                1,
+                5
+              ],
+              "severity": "info",
+              "count": null,
+              "value": 0.0,
+              "ceiling": null
+            }
+          ],
+          "after": []
+        },
+        {
+          "source": "johnjeanc/checkpoint-100@388b5843b15fab1dc5ca024716269a32aaf9bf17:trainer_state.json",
+          "sha256": "ea1612d8afe3c4f3585141d8982d88fafde8ce33aff16dc45404e68542d0d015",
+          "detector": "loss_floor",
+          "before": [
+            {
+              "kind": "Suspiciously low loss early (heuristic)",
+              "span": [
+                1,
+                2
+              ],
+              "severity": "info",
+              "count": null,
+              "value": 0.00037196691846475005,
+              "ceiling": null
+            }
+          ],
+          "after": []
+        },
+        {
+          "source": "johnjeanc/checkpoint-50@55c70d1e1cedfa4e92fe2352d6a4022a22bd9e3a:trainer_state.json",
+          "sha256": "a69eb49f8a1ab9eb32b9c491b1e35182bde12d129751053e0931ba40fdd9ac22",
+          "detector": "loss_floor",
+          "before": [
+            {
+              "kind": "Suspiciously low loss early (heuristic)",
+              "span": [
+                1,
+                2
+              ],
+              "severity": "info",
+              "count": null,
+              "value": 0.00037196691846475005,
+              "ceiling": null
+            }
+          ],
+          "after": []
+        },
+        {
+          "source": "Japhari/sdt-gm4-hesabu-flare-v0.01@bb9df60c8c9335e7400693a86fc5293d80e01107:trainer_state.json",
+          "sha256": "7f17aa46a5e85f79e2ab5ae69e0e5e0c7d40ce2cb2eda75fe99850fc7852e35b",
+          "detector": "grad_norm",
+          "before": [
+            {
+              "kind": "Non-finite gradient norm",
+              "span": [
+                60,
+                850
+              ],
+              "severity": "info",
+              "count": 10,
+              "value": null,
+              "ceiling": null
+            },
+            {
+              "kind": "Gradient-norm explosion",
+              "span": [
+                420,
+                420
+              ],
+              "severity": "info",
+              "count": 1,
+              "value": null,
+              "ceiling": null
+            },
+            {
+              "kind": "concentration",
+              "span": [
+                360,
+                850
+              ],
+              "severity": "info",
+              "count": null,
+              "value": null,
+              "ceiling": "inf"
+            }
+          ],
+          "after": [
+            {
+              "kind": "Non-finite gradient norm",
+              "span": [
+                60,
+                850
+              ],
+              "severity": "info",
+              "count": 10,
+              "value": null,
+              "ceiling": null
+            },
+            {
+              "kind": "Gradient-norm explosion",
+              "span": [
+                420,
+                420
+              ],
+              "severity": "info",
+              "count": 1,
+              "value": null,
+              "ceiling": null
+            }
+          ]
+        },
+        {
+          "source": "HUY2612/vintern-cc3@41ce320714c0b3bd56844d017eda697b2ff0be07:trainer_state.json",
+          "sha256": "bf79abeedad2a2d5b90f83f39e29c0c950f8dc529e6d7e44957231c8ff6d565b",
+          "detector": "loss_floor",
+          "before": [],
+          "after": [
+            {
+              "kind": "Suspiciously low loss early (heuristic)",
+              "span": [
+                5,
+                30
+              ],
+              "severity": "info",
+              "count": null,
+              "value": 0.0119,
+              "ceiling": null
+            }
+          ]
+        },
+        {
+          "source": "SadeghK/bge-m3-3gpp@d7b2684b13e79a1400b87073a921c650619c6619:trainer_state.json",
+          "sha256": "2f137b4e56a85c1319c49f7987cdeedf883312e5f2733d4dedd0791dbb17404e",
+          "detector": "grad_norm",
+          "before": [
+            {
+              "kind": "Non-finite gradient norm",
+              "span": [
+                100,
+                348100
+              ],
+              "severity": "info",
+              "count": 6,
+              "value": null,
+              "ceiling": null
+            },
+            {
+              "kind": "Gradient-norm explosion",
+              "span": [
+                10100,
+                398850
+              ],
+              "severity": "info",
+              "count": 947,
+              "value": null,
+              "ceiling": null
+            }
+          ],
+          "after": [
+            {
+              "kind": "Non-finite gradient norm",
+              "span": [
+                100,
+                348100
+              ],
+              "severity": "info",
+              "count": 6,
+              "value": null,
+              "ceiling": null
+            },
+            {
+              "kind": "Gradient-norm explosion",
+              "span": [
+                10100,
+                398850
+              ],
+              "severity": "info",
+              "count": 949,
+              "value": null,
+              "ceiling": null
+            }
+          ]
+        }
+      ]
+    }
+  }
+}
