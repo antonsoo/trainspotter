@@ -371,6 +371,12 @@ being judged. Plateau and overfitting use an ordinary-least-squares slope with
 a normal-approximation t-test (`math.erf`-based, no `scipy` dependency)
 rather than eyeballing "did it go up or down."
 
+**Long histories.** The source checkout batches median calculations and reuses
+local regression moments across overlapping plateau windows. Every observation
+still contributes to diagnosis; numerically uncertain slope decisions use a
+direct fit. [Algorithms, scaling measurements, and a million-observation
+report](docs/long-histories.md) explain the memory and accuracy boundaries.
+
 **Charts don't let one spike flatten the rest of the curve.** The HTML
 report's axis logic (`report/html_report.py`) picks tick spacing with
 Heckbert's "nice numbers" algorithm (`Graphics Gems`, 1990 -- 1/2/5x10^n

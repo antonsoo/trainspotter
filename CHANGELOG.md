@@ -6,6 +6,12 @@ and this project uses [Semantic Versioning](https://semver.org/).
 
 ## Unreleased
 
+- Reduce repeated work on long loss histories: batch rolling medians/MADs with
+  bounded temporary storage and use locally rebased regression moments for
+  plateau windows. Keep the existing window definitions and diagnostic rules;
+  uncertain numerical decisions use a direct fit. Correct OLS residual precision
+  at large offsets. [Algorithms and reproduction](docs/long-histories.md).
+
 - Distinguish W&B logging counters from training steps. Use a single recorded
   training counter when present; keep `_step`/default chart `Step` visibly on a
   logging axis otherwise, with wall-clock per-training-step timing unavailable.
