@@ -16,6 +16,7 @@ destination = Path(sys.argv[1])
 destination.mkdir(parents=True, exist_ok=True)
 sources = sorted((root / "examples").glob("*.trainer_state.json"))
 sources.extend(sorted((root / "examples/timing").glob("*.csv")))
+sources.extend(sorted((root / "examples/wandb-axes").glob("*.csv")))
 sources.extend(root / "examples/schedulers/captured" / f"{name}.csv" for name in (
     "linear-resume-reset", "linear-resume-restored", "cosine-overrun", "cosine-restarts",
 ))

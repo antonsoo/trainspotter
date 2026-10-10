@@ -57,6 +57,12 @@ for wall-clock derivation, `interval_start_step` also records where the first
 interval began. Counts, settings and notes are included. Numerical evidence is
 finite or null, so standard JSON parsers can read it.
 
+The later [W&B axis repair](wandb-axes.md) also distinguishes `logging_step`:
+W&B's `_step` and default chart `Step` do not establish training progress.
+`run.step_column` names the selected counter and `run.step_selection` records
+automatic versus explicit selection. Direct durations/rates remain usable on
+a logging axis; wall-clock seconds per training step require training coordinates.
+
 Report timing evidence always uses the default window settings. Library callers
 using a customized `ThroughputDetector` can call `assess_timing(run, min_window=...,
 baseline_fraction=...)` for its corresponding windows. Findings retain their own

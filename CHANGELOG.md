@@ -6,6 +6,14 @@ and this project uses [Semantic Versioning](https://semver.org/).
 
 ## Unreleased
 
+- Distinguish W&B logging counters from training steps. Use a single recorded
+  training counter when present; keep `_step`/default chart `Step` visibly on a
+  logging axis otherwise, with wall-clock per-training-step timing unavailable.
+  Add `--step-key` to analyze/watch and `step_key=` to tabular library readers.
+  Ambiguous counters require a choice; invalid selected coordinates never fall
+  back to logging positions. JSON, HTML and terminal reports expose the axis
+  and explicit selections. [Offline SDK capture and verification](docs/wandb-axes.md).
+
 - Add three public reports for scheduler resets, disjoint evaluation/training
   intervals and deliberate evaluation-cohort changes. Every gallery report
   now carries its capture context and exact input log as an offline download.

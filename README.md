@@ -19,6 +19,15 @@ detected, where (step ranges), the evidence behind each, and the usual
 fixes. It runs post-hoc on a finished log, live via `watch` on a growing
 one, or as a CI gate that fails the build.
 
+**Logging less often must not look like slower training.** In a new controlled
+offline W&B capture, the previous checkout reported a **4.95x slowdown** when
+the logger changed from every 4 updates to every 20. The source checkout now uses
+the recorded `trainer/global_step` and reports **0.991x**. A deliberately delayed
+run still reports **2.90x**. When only `_step` is available, the report identifies
+logging events and leaves per-training-step timing unavailable. Select a custom
+counter with `--step-key`. [Captured records, commands and limits](docs/wandb-axes.md).
+This change is local and **unreleased**.
+
 ## Calibration study on 3,145 real runs
 
 Many people upload `Trainer`'s checkpoint directories to the Hugging Face Hub,
@@ -180,8 +189,8 @@ finding shown):
 | Source | What is in it | How it is read |
 |---|---|---|
 | `trainer_state.json` | `log_history` of one `transformers.Trainer` run | Every entry with a `step`; the closing summary entry (`train_runtime`, the run's average `train_loss`) is metadata, not a point |
-| W&B run history CSV | `_step`, `_runtime`, one column per logged key | As logged; `_`-prefixed bookkeeping columns are skipped |
-| W&B chart export (`wandb_export_*.csv`) | `Step`, then `<run> - <metric>`, `...__MIN`, `...__MAX` for every run drawn | One run; the MIN/MAX band columns are not metrics |
+| W&B run history CSV | `_step`, `_runtime`, one column per logged key | One recognized training counter or `--step-key`; otherwise `_step` remains a logging axis. Other `_`-prefixed bookkeeping columns are skipped |
+| W&B chart export (`wandb_export_*.csv`) | `Step`, then `<run> - <metric>`, `...__MIN`, `...__MAX` for every run drawn | One run; default `Step` is a logging axis. The MIN/MAX band columns are not metrics |
 | W&B runs table | One row per run (`Name`, `State`, `Runtime`, config...) | Refused: its rows are different runs, not steps |
 | Lightning `metrics.csv` | `step`, `epoch`, sparse metric columns | Blank cells skipped; `train_loss_step` is the loss curve, `train_loss_epoch` keeps its name |
 | TensorBoard logdir | Legacy scalar summaries and tensor-valued scalars, in one directory or a tree | Split directories (`train/`, `validation/`) and `add_scalars` directories (`Loss_train/`) are parts of one run; other subdirectories are runs. Modern event streams use explicit restart markers, never wall-clock sorting or an inferred restart from an out-of-order reading |
@@ -204,6 +213,13 @@ CSV header is rejected; a JSONL object with duplicate keys is skipped. Nonblank,
 nonnumeric cells in recognized or otherwise numeric metric columns are reported.
 Sparse blanks and nulls remain ordinary missing observations. NaN/Inf metric
 values are retained as diagnostic evidence.
+
+For CSV, JSONL, Lightning and W&B, `--step-key 'optimizer/updates'` selects an
+exact column name. W&B histories automatically use a single `trainer/global_step`,
+`train/global_step`, `global_step` or separate `step` column. Several candidates
+require an explicit choice. Missing or invalid values in that counter are never
+filled from `_step`. See [axis selection](docs/wandb-axes.md) for chart exports and
+the case where the logger explicitly received `step=optimizer_step`.
 
 **Repeated steps are evidence, not extra training progress.** The source checkout
 counts equal readings of the same metric/step once for analysis. Conflicting

@@ -126,6 +126,8 @@ The existing JSON schema version 1 has additive fields:
 | `run.metric_sources` | Report metric to original name, or writer directory and tag |
 | `run.ambiguous_metric_sources` | Logical metric names claimed by multiple writer directories |
 | `run.step_column` | Original coordinate column, or a disclosed ordinal axis |
+| `run.step_axis` | `step`, `logging_step` or `row_index`; W&B logging positions do not establish training progress |
+| `run.step_selection` | `automatic` or `explicit`; `--step-key` asserts a training counter |
 | `run.input_notes` | Human-readable limits on the imported observations |
 
 `input_complete` does not describe training completion, logging coverage, or statistical

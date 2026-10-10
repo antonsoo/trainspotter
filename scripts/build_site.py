@@ -53,6 +53,31 @@ class ExampleMeta:
 # (see main()) -- only what a fresh `run_all()` reports at build time.
 EXAMPLES = [
     ExampleMeta(
+        "wandb-cadence",
+        "Logging less often is not slower training",
+        "A controlled numerical training run recorded with the W&B SDK offline. The logger "
+        "changes from every 4 updates to every 20. The report uses trainer/global_step "
+        "to divide elapsed time by actual updates.",
+        "wandb-axes/stable-training.csv",
+        "docs/wandb-axes.md",
+    ),
+    ExampleMeta(
+        "wandb-logging-only",
+        "A logging counter cannot measure training speed",
+        "The same SDK capture with its training counter removed. The timestamps and loss "
+        "are unchanged; _step counts logging events. Per-training-step timing is unavailable.",
+        "wandb-axes/stable-logging.csv",
+        "docs/wandb-axes.md",
+    ),
+    ExampleMeta(
+        "wandb-slowdown",
+        "A measured delay with changing logging cadence",
+        "A second offline SDK capture deliberately adds a delay after update 200. The "
+        "timing warning uses training updates, while the logger also changes frequency.",
+        "wandb-axes/slow-training.csv",
+        "docs/wandb-axes.md",
+    ),
+    ExampleMeta(
         "scheduler-resume",
         "A scheduler reset below its old peak",
         "Controlled CPU PyTorch training: optimizer state is restored at step 200, "

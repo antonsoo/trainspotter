@@ -12,6 +12,7 @@ const root = resolve(dirname(fileURLToPath(import.meta.url)), '..');
 const scratch = await mkdtemp(join(tmpdir(), 'trainspotter-reports-'));
 const screenshotDir = process.env.TRAINSPOTTER_SCREENSHOTS;
 const timingScreenshotDir = process.env.TRAINSPOTTER_TIMING_SCREENSHOTS;
+const axisScreenshotDir = process.env.TRAINSPOTTER_AXIS_SCREENSHOTS;
 const evidence = [];
 async function checkKeyboardScroll(page, region) {
   await region.focus();
@@ -38,6 +39,7 @@ try {
   const reports = JSON.parse(build.stdout);
   if (screenshotDir) await mkdir(screenshotDir, { recursive: true });
   if (timingScreenshotDir) await mkdir(timingScreenshotDir, { recursive: true });
+  if (axisScreenshotDir) await mkdir(axisScreenshotDir, { recursive: true });
   for (const [engine, launcher] of Object.entries({ chromium, firefox })) {
     const browser = await launcher.launch({ headless: true });
     try {
@@ -137,6 +139,12 @@ try {
                 }
               }
               const timing = page.locator('.timing-evidence');
+              const axisLabel = { step: 'steps', logging_step: 'logging steps', row_index: 'row indices' }[json.run.step_axis];
+              assert.equal(await page.locator('.readouts dt').filter({ hasText: new RegExp(`^${axisLabel}$`) }).count(), 1);
+              for (const chart of await page.locator('svg.chart').all()) {
+                assert.ok((await chart.getAttribute('aria-label')).includes(`over ${axisLabel} `));
+              }
+              assert.ok((await timing.innerText()).includes(json.run.step_column));
               if (json.timing.status === 'unavailable') {
                 assert.match(await timing.innerText(), /Timing unavailable/i);
                 assert.ok((await timing.innerText()).includes(json.timing.reason));
@@ -164,7 +172,17 @@ try {
                 await timing.screenshot({ path });
                 timingScreenshot = { file, sha256: createHash('sha256').update(await readFile(path)).digest('hex') };
               }
-              evidence.push({ engine, browser_version: browser.version(), layout, ...report, axeViolations: 0, externalRequests: 0, policyViolations: 0, ...(timingScreenshot ? { timingScreenshot } : {}) });
+              let axisScreenshot;
+              if (axisScreenshotDir && (
+                (layout === 'desktop' && engine === 'chromium' && ['stable-training.html', 'stable-logging.html', 'slow-training.html'].includes(report.file)) ||
+                (report.file === 'slow-training.html' && ((layout === 'mobile' && engine === 'chromium') || (layout === 'desktop' && engine === 'firefox')))
+              )) {
+                const file = `${engine}-${layout}-${report.file.replace(/\.html$/, '')}.png`;
+                const path = join(axisScreenshotDir, file);
+                await page.screenshot({ path, fullPage: true });
+                axisScreenshot = { file, sha256: createHash('sha256').update(await readFile(path)).digest('hex') };
+              }
+              evidence.push({ engine, browser_version: browser.version(), layout, ...report, axis: json.run.step_axis, axeViolations: 0, externalRequests: 0, policyViolations: 0, ...(timingScreenshot ? { timingScreenshot } : {}), ...(axisScreenshot ? { axisScreenshot } : {}) });
             } finally {
               await page.close();
             }

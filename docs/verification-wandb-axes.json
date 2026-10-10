@@ -1,0 +1,208 @@
+{
+  "verified_at": "2026-10-10T02:24:29.309956+00:00",
+  "verifier_python": "3.12.12",
+  "sdk_version": "0.22.3",
+  "capture_sha256": "b60dc6390d4c5fbe98484994a6fa6fdeff3f38a136b3361158a29b03106d2bf4",
+  "command": [
+    "python",
+    "-m",
+    "trainspotter.cli"
+  ],
+  "history_records_checked": 202,
+  "update_observations_checked": 2402,
+  "clocks": {
+    "stable": {
+      "sdk_training": {
+        "baseline_seconds": 0.004186857624999998,
+        "recent_seconds": 0.004148006849999985,
+        "ratio": 0.9907207795249515,
+        "baseline_range": [
+          0,
+          80
+        ],
+        "recent_range": [
+          800,
+          1200
+        ],
+        "observations": 100
+      },
+      "independent_updates": {
+        "baseline_seconds": 0.004185771998891141,
+        "recent_seconds": 0.004148569175231386,
+        "ratio": 0.9911120759397286,
+        "baseline_range": [
+          0,
+          80
+        ],
+        "recent_range": [
+          800,
+          1200
+        ],
+        "observations": 100
+      },
+      "logging_counter": {
+        "baseline_seconds": 0.016747430499999993,
+        "recent_seconds": 0.08296013699999971,
+        "ratio": 4.953603897624758,
+        "baseline_range": [
+          0,
+          20
+        ],
+        "recent_range": [
+          80,
+          100
+        ],
+        "observations": 100
+      }
+    },
+    "slow": {
+      "sdk_training": {
+        "baseline_seconds": 0.004192037500000003,
+        "recent_seconds": 0.012152918099999965,
+        "ratio": 2.899048040481498,
+        "baseline_range": [
+          0,
+          80
+        ],
+        "recent_range": [
+          800,
+          1200
+        ],
+        "observations": 100
+      },
+      "independent_updates": {
+        "baseline_seconds": 0.00418653374981659,
+        "recent_seconds": 0.012152042950037866,
+        "ratio": 2.9026501818049937,
+        "baseline_range": [
+          0,
+          80
+        ],
+        "recent_range": [
+          800,
+          1200
+        ],
+        "observations": 100
+      },
+      "logging_counter": {
+        "baseline_seconds": 0.016768150000000013,
+        "recent_seconds": 0.2430583619999993,
+        "ratio": 14.495240202407487,
+        "baseline_range": [
+          0,
+          20
+        ],
+        "recent_range": [
+          80,
+          100
+        ],
+        "observations": 100
+      }
+    }
+  },
+  "checks": [
+    {
+      "case": "stable-training",
+      "input_sha256": "100508c128b4d857dcf441747b01625a0bd879321c7d4cb91c8b76ba1207cc6a",
+      "ratio": 0.9907207795249515,
+      "axis": "step",
+      "step_column": "trainer/global_step",
+      "ordinary_exit": 0,
+      "timing_gate_exit": 0,
+      "throughput_findings": 0
+    },
+    {
+      "case": "stable-logging",
+      "input_sha256": "3af4f9d55d796c14fae7ef29ff58b9eb41fcf0219c00115f498aeefe9ff0d8bf",
+      "ratio": null,
+      "axis": "logging_step",
+      "step_column": "_step",
+      "ordinary_exit": 0,
+      "timing_gate_exit": 2,
+      "throughput_findings": 0
+    },
+    {
+      "case": "stable-custom",
+      "input_sha256": "2ae912ca78dc34c34300214fcc0c6edf8add5597ac9d1a0c4495aa34248e688c",
+      "ratio": null,
+      "axis": "logging_step",
+      "step_column": "_step",
+      "ordinary_exit": 0,
+      "timing_gate_exit": 2,
+      "throughput_findings": 0
+    },
+    {
+      "case": "stable-custom-selected",
+      "input_sha256": "2ae912ca78dc34c34300214fcc0c6edf8add5597ac9d1a0c4495aa34248e688c",
+      "ratio": 0.9907207795249515,
+      "axis": "step",
+      "step_column": "optimizer/updates",
+      "ordinary_exit": 0,
+      "timing_gate_exit": 0,
+      "throughput_findings": 0
+    },
+    {
+      "case": "slow-training",
+      "input_sha256": "71abe85c765e8e3b8b16615096369e67549886ed75320911bc43bae3e3a524fd",
+      "ratio": 2.899048040481498,
+      "axis": "step",
+      "step_column": "trainer/global_step",
+      "ordinary_exit": 1,
+      "timing_gate_exit": 1,
+      "throughput_findings": 1
+    },
+    {
+      "case": "slow-logging",
+      "input_sha256": "b127f8c8545a89a0202bec91b0edb6c7749bbb088460c36aae1ba440cb61abf5",
+      "ratio": null,
+      "axis": "logging_step",
+      "step_column": "_step",
+      "ordinary_exit": 0,
+      "timing_gate_exit": 2,
+      "throughput_findings": 0
+    },
+    {
+      "case": "slow-custom",
+      "input_sha256": "9bcb1c666f73531975817332ab41b7b611693bce304cca721aec2fafa06e2f31",
+      "ratio": null,
+      "axis": "logging_step",
+      "step_column": "_step",
+      "ordinary_exit": 0,
+      "timing_gate_exit": 2,
+      "throughput_findings": 0
+    },
+    {
+      "case": "slow-custom-selected",
+      "input_sha256": "9bcb1c666f73531975817332ab41b7b611693bce304cca721aec2fafa06e2f31",
+      "ratio": 2.899048040481498,
+      "axis": "step",
+      "step_column": "optimizer/updates",
+      "ordinary_exit": 1,
+      "timing_gate_exit": 1,
+      "throughput_findings": 1
+    }
+  ],
+  "baseline_ref": "9e988eb",
+  "baseline": [
+    {
+      "case": "stable-training",
+      "ratio": 4.953603897624758,
+      "exit": 1
+    },
+    {
+      "case": "stable-logging",
+      "ratio": 4.953603897624758,
+      "exit": 1
+    },
+    {
+      "case": "slow-training",
+      "ratio": 14.495240202407487,
+      "exit": 1
+    },
+    {
+      "case": "slow-logging",
+      "ratio": 14.495240202407487,
+      "exit": 1
+    }
+  ]
+}
