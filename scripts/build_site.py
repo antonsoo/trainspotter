@@ -4,21 +4,21 @@ For every real example log under `examples/`, runs it through
 trainspotter's own library code -- the same `load_run` / `run_all` /
 `render_html` the CLI calls, not a re-implementation -- and writes its
 HTML report. The index page's finding counts are computed from those same
-results at build time; nothing here is hand-typed or copied from a
-previous run, so the site can never drift from what the tool actually
-reports.
+results at build time. Labels describe the captures; counts and findings
+come from the same analysis.
 
 Usage:
     uv run python scripts/build_site.py [--out-dir site]
 
 Output: `<out-dir>/index.html` plus one `<out-dir>/<example>.html` per
-example (default out-dir: `site/`, gitignored -- CI builds and publishes
-it fresh on every push; see .github/workflows/pages.yml).
+example (default out-dir: `site/`, gitignored). The Pages workflow can
+publish this build; a local build does not itself update the hosted site.
 """
 
 from __future__ import annotations
 
 import argparse
+import base64
 import html
 import os
 from dataclasses import dataclass
@@ -45,12 +45,40 @@ class ExampleMeta:
     title: str
     blurb: str
     source: str | None = None
+    method: str | None = None
 
 
 # Titles and one-line blurbs are static labels, same spirit as a table
 # caption; the finding counts shown next to each one are never hand-typed
 # (see main()) -- only what a fresh `run_all()` reports at build time.
 EXAMPLES = [
+    ExampleMeta(
+        "scheduler-resume",
+        "A scheduler reset below its old peak",
+        "Controlled CPU PyTorch training: optimizer state is restored at step 200, "
+        "but the scheduler counter is deliberately reset. The later rise never "
+        "reaches the original peak. A log alone cannot tell this mistake from an intended restart.",
+        "schedulers/captured/linear-resume-reset.csv",
+        "docs/learning-rate-rebounds.md",
+    ),
+    ExampleMeta(
+        "evaluation-overlap",
+        "Training after evaluation ended",
+        "Derived from a controlled regression run on synthetic data: evaluation readings "
+        "end at step 60; training readings start at 100. The evaluation rise is observed, "
+        "but these disjoint intervals cannot support a contemporaneous training trend.",
+        "evaluation/captured/late-training.csv",
+        "docs/evaluation-evidence.md",
+    ),
+    ExampleMeta(
+        "evaluation-cohorts",
+        "Same model, different evaluation data",
+        "A frozen regression model alternates between all 128 evaluation examples and "
+        "the 32 highest-loss examples. The swings come from deliberate cohort selection. "
+        "Here step means evaluation pass, not optimizer update; the weights do not change.",
+        "evaluation/captured/fixed-cohort-switch.csv",
+        "examples/evaluation/README.md",
+    ),
     ExampleMeta(
         "baseline",
         "Baseline",
@@ -228,6 +256,23 @@ def main() -> None:
         findings = run_all(run)
         page = render_html(run, findings, title=f"trainspotter - {meta.title}")
         page = page.replace("<title>", f'<link rel="icon" href="{_ICON}">\n<title>', 1)
+        # Keep experimental context and the exact input with a downloaded report.
+        # They explain the capture; they do not alter the automated findings.
+        mime = "text/csv" if src.suffix == ".csv" else "application/json"
+        encoded = base64.b64encode(src.read_bytes()).decode("ascii")
+        method = meta.method or "README.md#real-demo-data"
+        context = (
+            '<section class="chart-block sample-context" aria-labelledby="sample-heading">'
+            f'<h2 id="sample-heading">{html.escape(meta.title)}</h2>'
+            f'<p>{html.escape(meta.blurb)}</p>'
+            f'<p><a download="{html.escape(src.name)}" '
+            f'href="data:{mime};base64,{encoded}">Download the input log</a> | '
+            '<a '
+            f'href="https://github.com/antonsoo/trainspotter/blob/main/{html.escape(method)}">'
+            'Capture method and limits</a></p></section>'
+        )
+        assert page.count("<main>") == 1
+        page = page.replace("<main>", "<main>" + context, 1)
         (out_dir / f"{meta.slug}.html").write_text(page, encoding="utf-8")
         rows.append((meta, _counts(findings)))
         print(f"  {meta.slug}: {_counts(findings)}")

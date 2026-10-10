@@ -139,4 +139,6 @@ passed through a fresh wheel installation on Python 3.10.21 with NumPy 1.24.0.
 Chromium and Firefox passed 124 report workflows at desktop and 320-pixel
 widths, including keyboard use, accessibility, CSP, and zero external requests.
 Both retained screenshots were opened and inspected; narrow charts scroll
-horizontally while findings wrap. These changes are local and unreleased.
+horizontally while findings wrap. The detector changes remain unreleased on
+PyPI. The later [publication verification](publication-verification.md) records
+a fresh training capture, audit replay and deployed examples.

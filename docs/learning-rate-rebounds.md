@@ -7,8 +7,9 @@ That condition could never be true. A separate discontinuity check caught
 some abrupt jumps, but smooth rebounds could produce no findings at all.
 
 This is an informational observation. A log alone cannot establish whether the
-schedule was intended or whether it harmed training. The correction is local
-and unreleased.
+schedule was intended or whether it harmed training. The correction remains
+unreleased on PyPI. See the later [publication verification](publication-verification.md)
+for the fresh capture and deployed example.
 
 ## Reproduced with a real optimizer
 

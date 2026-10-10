@@ -6,6 +6,10 @@ and this project uses [Semantic Versioning](https://semver.org/).
 
 ## Unreleased
 
+- Add three public reports for scheduler resets, disjoint evaluation/training
+  intervals and deliberate evaluation-cohort changes. Every gallery report
+  now carries its capture context and exact input log as an offline download.
+
 - Evaluation evidence: `eval_noise` now describes repeated fluctuations, without
   claiming checkpoint uncertainty; monotone curves, single turns, and NaN/Inf
   gaps cannot manufacture noise findings. Evidence fields now describe scaled

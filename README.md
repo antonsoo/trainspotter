@@ -63,6 +63,14 @@ setback: a third of the run spent above a loss level it had already reached.*
 
 ## Report
 
+The [sample gallery](https://antonsoo.github.io/trainspotter/) includes a
+[scheduler reset below its old peak](https://antonsoo.github.io/trainspotter/scheduler-resume.html),
+[disjoint training and evaluation intervals](https://antonsoo.github.io/trainspotter/evaluation-overlap.html),
+and a [frozen model evaluated on changing cohorts](https://antonsoo.github.io/trainspotter/evaluation-cohorts.html).
+Each report explains the controlled experiment and embeds its exact input log
+for download, including when opened from disk. These reports use the source
+checkout; the detector repairs are not yet in the PyPI release.
+
 ![Top of the trainspotter HTML report on the bundled divergence example: a header with the run's source and step range, an error/warning/info summary with a health-strip timeline, and the combined train/loss + eval/loss chart -- 320 steps of ordinary cosine-schedule training, then a labeled spike as the run breaks -- followed by the findings log, the non-finite training loss first.](docs/assets/html-report-divergence.png)
 
 *(top of the report -- [full report, all 5 charts + all 7 findings](docs/assets/html-report-divergence-full.png))*
