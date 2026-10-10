@@ -96,6 +96,8 @@ def to_json_dict(run: Run, findings: list[Finding]) -> dict[str, Any]:
             "overwritten_points": run.overwritten_points(),
             "restart_markers": run.meta.get("restart_markers", 0),
             "step_column": run.meta.get("step_column", "step"),
+            "step_axis": run.axis_kind(),
+            "step_selection": run.meta.get("step_selection", "automatic"),
             "metric_sources": run.meta.get("metric_sources", {}),
             "ambiguous_metric_sources": run.meta.get("ambiguous_metric_sources", []),
             "repeated_steps": repeated_step_evidence(run),

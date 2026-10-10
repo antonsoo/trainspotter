@@ -291,7 +291,7 @@ def _render_off_scale_labels(
 
 
 def _render_chart(
-    entries: list[tuple[str, MetricSeries, str]], findings: list[Finding]
+    entries: list[tuple[str, MetricSeries, str]], findings: list[Finding], axis_label: str = "steps",
 ) -> str:
     """Render one chart overlaying 1+ metric series (`entries`) that share
     an x (step) and y (value) axis. A 2nd+ series is what makes the
@@ -316,7 +316,7 @@ def _render_chart(
     label = " vs ".join(metric_names)
     parts.append(
         f'<svg class="chart" viewBox="0 0 {_W} {chart_h}" role="img" '
-        f'aria-label="{_esc(label)} over steps {int(step_min)} to {int(step_max)}">'
+        f'aria-label="{_esc(label)} over {_esc(axis_label)} {int(step_min)} to {int(step_max)}">'
     )
 
     if has_legend:
@@ -431,7 +431,7 @@ def _render_health_strip(run: Run, findings: list[Finding]) -> str:
     return "".join(parts)
 
 
-def _findings_rows(findings: list[Finding]) -> str:
+def _findings_rows(findings: list[Finding], axis_label: str = "steps") -> str:
     if not findings:
         return '<p class="clean">No pathologies detected in the metrics this detector set covers.</p>'
     rows = []
@@ -443,7 +443,7 @@ def _findings_rows(findings: list[Finding]) -> str:
             f"""<article class="finding sev-{f.severity}">
   <div class="finding-head">
     <span class="chip sev-{f.severity}">{_SEVERITY_LABEL[f.severity]}</span>
-    <span class="steps">steps {step_range}</span>
+    <span class="steps">{_esc(axis_label)} {step_range}</span>
     <span class="detector">{_esc(f.detector)}</span>
     <h3>{_esc(f.title)}</h3>
   </div>
@@ -501,6 +501,7 @@ def _repeated_evidence(run: Run) -> str:
         return ""
     encoded = base64.b64encode(json.dumps({
         "schema_version": 1, "source_path": run.source_path, "repeated_steps": records,
+        "step_axis": run.axis_kind(), "step_column": run.meta.get("step_column", "step"),
     }, allow_nan=False).encode()).decode("ascii")
     rows = []
     for record in records[:100]:
@@ -528,7 +529,7 @@ def _repeated_evidence(run: Run) -> str:
         '<p class="table-hint">Scroll the table horizontally to inspect every column.</p>'
         '<div class="table-scroll" tabindex="0" role="region" aria-label="Repeated-step readings">'
         '<table><caption>Decoded readings retained from the input</caption>'
-        '<thead><tr><th scope="col">Metric</th><th scope="col">Step</th>'
+        f'<thead><tr><th scope="col">Metric</th><th scope="col">{_esc(run.axis_label().capitalize())}</th>'
         '<th scope="col">Analysis</th><th scope="col">Value, wall time and count</th></tr></thead>'
         '<tbody>' + ''.join(rows) + '</tbody></table></div></details>'
     )
@@ -559,7 +560,7 @@ def _timing_evidence(run: Run) -> str:
                 f'<tr><th scope="row">{label}</th><td>{first}&ndash;{window.last_position}</td>'
                 f'<td>{window.observations}</td><td>{window.invalid_observations}</td><td>{median}</td></tr>'
             )
-        axis = "Row indices" if timing.axis == "row_index" else "Step intervals" if intervals else "Steps"
+        axis = "Step intervals" if intervals else run.axis_label().capitalize()
         table = (
             '<p class="table-hint">Scroll the timing table horizontally to inspect every column.</p>'
             '<div class="table-scroll" tabindex="0" role="region" aria-label="Timing windows">'
@@ -575,6 +576,8 @@ def _timing_evidence(run: Run) -> str:
         f'<h2 id="timing-heading">{heading}</h2>{summary}'
         '<details><summary>Timing sources and windows</summary>'
         + source + table + notes
+        + f'<p>Coordinates: <code>{_esc(str(run.meta.get("step_column", "step")))}</code> '
+        f'({_esc(run.axis_label())}).</p>'
         + '<p>Default timing check: first and last 20% of observations, at least five each, '
         'without overlap. This describes those windows, not every step of the run. '
         'Direct throughput is time per reported unit (such as a sample or token). '
@@ -613,7 +616,7 @@ def render_html(run: Run, findings: list[Finding], title: str = "trainspotter re
             f'<section class="chart-block"><h2>{_esc(heading)}</h2>'
             + note
             + (f'<div class="chart-scroll" tabindex="0" role="region" aria-label="{_esc(heading)} chart">'
-               f"{_render_chart(entries, findings)}</div>" if entries else '') + '</section>'
+               f"{_render_chart(entries, findings, run.axis_label())}</div>" if entries else '') + '</section>'
         )
 
     if uncharted:
@@ -671,7 +674,7 @@ def render_html(run: Run, findings: list[Finding], title: str = "trainspotter re
         '<th scope="col">Readings</th><th scope="col">Analysis points</th></tr></thead><tbody>' + source_rows
         + '</tbody></table></div></details>'
     )
-    finding_rows = _findings_rows(findings) if findings or run.input_complete() else (
+    finding_rows = _findings_rows(findings, run.axis_label()) if findings or run.input_complete() else (
         '<p class="clean">No findings in the readable data. Input is incomplete.</p>'
     )
 
@@ -698,7 +701,8 @@ def render_html(run: Run, findings: list[Finding], title: str = "trainspotter re
       <div><dt>source</dt><dd>{_esc_path(run.source_path) if run.source_path else "(stdin)"}</dd></div>
       <div><dt>format</dt><dd>{_esc(run.source_format)}</dd></div>
       {run_readout}
-      <div><dt>steps</dt><dd>{step_range}</dd></div>
+      <div><dt>{_esc(run.axis_label())}</dt><dd>{step_range}</dd></div>
+      <div><dt>axis source</dt><dd>{_esc_path(str(run.meta.get("step_column", "step")))}</dd></div>
       {skipped_readout}
       {resumed_readout}
       <div><dt>generated</dt><dd>{generated}</dd></div>
@@ -719,7 +723,7 @@ def render_html(run: Run, findings: list[Finding], title: str = "trainspotter re
   {_timing_evidence(run)}
 
   <div class="charts">
-    <p class="chart-hint">Scroll charts horizontally to inspect their full step range.</p>
+    <p class="chart-hint">Scroll charts horizontally to inspect the full range of {_esc(run.axis_label())}.</p>
     {"".join(charts_html)}
   </div>
 

@@ -9,6 +9,9 @@ from __future__ import annotations
 
 import math
 from dataclasses import dataclass, field
+from typing import Literal
+
+AxisKind = Literal["step", "logging_step", "row_index"]
 
 
 @dataclass(frozen=True, slots=True)
@@ -102,6 +105,20 @@ class Run:
 
     def metric_names(self) -> list[str]:
         return sorted(self.metrics)
+
+    def axis_kind(self) -> AxisKind:
+        """Coordinates can locate a reading without measuring training progress."""
+        if self.meta.get("step_axis") == "logging_step":
+            return "logging_step"
+        column = self.meta.get("step_column")
+        if isinstance(column, str) and column.startswith("(row index"):
+            return "row_index"
+        return "step"
+
+    def axis_label(self) -> str:
+        return {"step": "steps", "logging_step": "logging steps", "row_index": "row indices"}[
+            self.axis_kind()
+        ]
 
     def repeated_steps(self) -> dict[str, list[RepeatedStep]]:
         return {
@@ -230,6 +247,17 @@ class Run:
         axis = self.meta.get("step_column")
         if isinstance(axis, str) and axis.startswith("(row index"):
             notes.append(f"The horizontal axis uses {axis}; these are not training-step counts.")
+        if self.axis_kind() == "logging_step":
+            notes.append(
+                f"The horizontal axis uses W&B logging counter {axis!r}; "
+                "findings locate logging events, not training steps. Log a training counter "
+                "or select one with --step-key to measure progress per training step."
+            )
+        if self.meta.get("step_selection") == "explicit":
+            notes.append(
+                f"Training-step column {axis!r} was selected explicitly (--step-key); "
+                "its values are interpreted as training-step counts."
+            )
         if not self.input_complete():
             notes.append("Input is incomplete; findings describe only the readable data.")
         return notes

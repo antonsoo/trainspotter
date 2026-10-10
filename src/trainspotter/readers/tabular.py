@@ -23,7 +23,13 @@ from .common import metric_names, metric_value, try_float, try_step, unique_obje
 _STEP_KEYS = ("step", "global_step", "iteration", "iter")
 
 
-def _find_step_key(keys: Sequence[str]) -> str | None:
+def _find_step_key(keys: Sequence[str], step_key: str | None = None) -> str | None:
+    if step_key is not None:
+        if step_key not in keys:
+            raise ValueError(
+                f"step column {step_key!r} not found; --step-key must name an exact column"
+            )
+        return step_key
     lower = {k.strip().lower(): k for k in keys}
     candidates = [k for k in keys if k.strip().lower() in _STEP_KEYS]
     if len(candidates) > 1:
@@ -96,9 +102,11 @@ def _decimal_points(row: dict[str, object]) -> dict[str, object]:
     }
 
 
-def read_csv(path: str | Path) -> Run:
+def read_csv(path: str | Path, *, step_key: str | None = None) -> Run:
     p = Path(path)
     run = Run(source_format="csv", source_path=str(p))
+    if step_key is not None:
+        run.meta["step_selection"] = "explicit"
     # utf-8-sig: Excel's "CSV UTF-8" starts with a byte-order mark, which would otherwise be
     # part of the first column's name (so "step" was no longer the step column).
     with p.open(encoding="utf-8-sig", newline="") as fh:
@@ -108,7 +116,7 @@ def read_csv(path: str | Path) -> Run:
         reader = csv.DictReader(fh, delimiter=delimiter, strict=True)
         fieldnames = reader.fieldnames or []
         validate_columns(fieldnames)
-        step_key = _find_step_key(fieldnames)
+        step_key = _find_step_key(fieldnames, step_key)
         run.meta["step_column"] = step_key or "(row index)"
         run.meta["columns"] = fieldnames
         names = _metric_names(run, fieldnames, step_key)
@@ -121,9 +129,11 @@ def read_csv(path: str | Path) -> Run:
     return run
 
 
-def read_jsonl(path: str | Path) -> Run:
+def read_jsonl(path: str | Path, *, step_key: str | None = None) -> Run:
     p = Path(path)
     run = Run(source_format="jsonl", source_path=str(p))
+    if step_key is not None:
+        run.meta["step_selection"] = "explicit"
     skipped = 0
     rows: list[dict[str, object]] = []
     with p.open(encoding="utf-8-sig") as fh:
@@ -143,7 +153,7 @@ def read_jsonl(path: str | Path) -> Run:
     # In order of first appearance, so that which of two rival names wins does not depend on
     # how they sort.
     all_keys = list(dict.fromkeys(k for row in rows for k in row))
-    step_key = _find_step_key(all_keys)
+    step_key = _find_step_key(all_keys, step_key)
     run.meta["step_column"] = step_key or "(row index)"
     names = _metric_names(run, all_keys, step_key)
     skipped += sum(not _ingest_row(run, row, step_key, i, names) for i, row in enumerate(rows))

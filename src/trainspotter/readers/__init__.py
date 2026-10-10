@@ -68,14 +68,21 @@ def detect_format(path: str | Path) -> str:
     )
 
 
-def load_run(path: str | Path, fmt: str | None = None, run_name: str | None = None) -> Run:
+def load_run(
+    path: str | Path, fmt: str | None = None, run_name: str | None = None,
+    *, step_key: str | None = None,
+) -> Run:
     """Load a Run from `path`, auto-detecting the format unless `fmt` is given.
 
     `run_name` picks one run out of a source that holds several (a W&B chart export, a
     TensorBoard logdir); see `readers.common.select_run`.
+    `step_key` selects an exact integer training-step column in tabular inputs;
+    the caller asserts this column measures training progress, not logger calls.
     """
     p = Path(path)
     fmt = fmt or detect_format(p)
+    if step_key is not None and fmt not in ("csv", "jsonl", "wandb", "lightning"):
+        raise ValueError("--step-key selects a column in CSV, JSONL, W&B or Lightning input")
     if run_name is not None and fmt not in ("wandb", "tensorboard"):
         raise ValueError(
             f"--run picks one run out of a W&B chart export or a TensorBoard logdir; "
@@ -84,13 +91,13 @@ def load_run(path: str | Path, fmt: str | None = None, run_name: str | None = No
     if fmt == "hf":
         run = read_hf_trainer_state(p)
     elif fmt == "csv":
-        run = read_csv(p)
+        run = read_csv(p, step_key=step_key)
     elif fmt == "jsonl":
-        run = read_jsonl(p)
+        run = read_jsonl(p, step_key=step_key)
     elif fmt == "wandb":
-        run = read_wandb_csv(p, run_name)
+        run = read_wandb_csv(p, run_name, step_key=step_key)
     elif fmt == "lightning":
-        run = read_lightning_csv(p)
+        run = read_lightning_csv(p, step_key=step_key)
     elif fmt == "tensorboard":
         from .tensorboard import read_tensorboard  # optional dependency
 

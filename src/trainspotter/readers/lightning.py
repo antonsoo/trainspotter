@@ -16,7 +16,7 @@ from trainspotter.model import Run
 from .tabular import read_csv
 
 
-def read_lightning_csv(path: str | Path) -> Run:
-    run = read_csv(path)
+def read_lightning_csv(path: str | Path, *, step_key: str | None = None) -> Run:
+    run = read_csv(path, step_key=step_key)
     run.source_format = "lightning"
     return run

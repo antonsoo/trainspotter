@@ -39,7 +39,7 @@ _READER_META = {
     "skipped_rows", "skipped_lines", "skipped_entries", "skipped_events", "unread_event_bytes",
     "metric_sources", "invalid_metric_values", "invalid_known_metrics", "selected_run", "runs",
     "overwritten_points", "restart_markers", "step_column", "columns", "train_summary",
-    "ambiguous_metric_sources",
+    "ambiguous_metric_sources", "step_axis", "step_selection",
 }
 
 

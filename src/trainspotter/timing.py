@@ -13,7 +13,7 @@ from typing import Any, Literal
 import numpy as np
 import numpy.typing as npt
 
-from trainspotter.model import MetricSeries, Run
+from trainspotter.model import AxisKind, MetricSeries, Run
 
 DEFAULT_MIN_WINDOW = 5
 DEFAULT_BASELINE_FRAC = 0.2
@@ -34,7 +34,7 @@ class TimingWindow:
 @dataclass(slots=True)
 class TimingEvidence:
     status: Literal["compared", "unavailable"] = "unavailable"
-    axis: Literal["step", "row_index"] = "step"
+    axis: AxisKind = "step"
     source: str | None = None
     source_metric: str | None = None
     unit: str | None = None
@@ -129,9 +129,7 @@ def assess_timing(
         raise ValueError("baseline_fraction must be finite and positive")
     run = run.analysis_view()
     result = TimingEvidence(min_window=min_window, baseline_fraction=baseline_fraction)
-    axis = run.meta.get("step_column")
-    if isinstance(axis, str) and axis.startswith("(row index"):
-        result.axis = "row_index"
+    result.axis = run.axis_kind()
     required = min_window * 2
     step_time = run.get("step_time")
     if _enough(step_time, required, "step_time", result.notes) and step_time is not None:
@@ -147,11 +145,13 @@ def assess_timing(
         result.notes.append("A reported unit may be a sample or token; it is not a training step.")
         return _compare(result, run, "throughput", "1/throughput", throughput.steps(), times)
 
-    if result.axis == "row_index":
+    if result.axis != "step":
+        coordinates = "row indices" if result.axis == "row_index" else "W&B logging steps"
         result.reason = (
-            "Wall-clock timing needs an explicit training-step column; this source uses row "
-            "indices. Logging intervals cannot establish seconds per training step. "
-            "Log step counts, step_time, or throughput to assess speed."
+            "Wall-clock timing needs an explicit training-step column; this source uses "
+            f"{coordinates}. Logging intervals cannot establish seconds per training step. "
+            "Log step counts, step_time, or throughput, "
+            "or select a training counter with --step-key."
         )
         return result
 

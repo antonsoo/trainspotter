@@ -39,6 +39,7 @@ def _build_parser() -> argparse.ArgumentParser:
     analyze.add_argument("path", help="Path to a log file (or a TensorBoard logdir).")
     analyze.add_argument("--format", choices=_FORMAT_CHOICES, default=None, help="Force a reader instead of auto-detecting from the path.")
     analyze.add_argument("--run", default=None, metavar="NAME", help="Which run to analyse when the source holds several (a W&B chart export, a TensorBoard logdir): its name, or the start of it. Default: the run with the most points.")
+    analyze.add_argument("--step-key", default=None, metavar="COLUMN", help="Exact training-step column in CSV/JSONL/W&B/Lightning input. Values must be integers. Selecting a column asserts it counts training steps, including when selecting W&B _step.")
     analyze.add_argument("--output", choices=("terminal", "json", "html"), default="terminal")
     analyze.add_argument("--out", default=None, help="Write the report to this file (HTML defaults to a .trainspotter.html file beside the source).")
     analyze.add_argument("--fail-on", choices=("warning", "error"), default=None, help="CI gate: exit 1 for findings at this severity, or 2 when input is incomplete.")
@@ -50,6 +51,7 @@ def _build_parser() -> argparse.ArgumentParser:
     watch.add_argument("path", help="Path to a log file being actively written.")
     watch.add_argument("--format", choices=_FORMAT_CHOICES, default=None)
     watch.add_argument("--run", default=None, metavar="NAME", help="Which run to watch when the source holds several.")
+    watch.add_argument("--step-key", default=None, metavar="COLUMN", help="Exact training-step column in CSV/JSONL/W&B/Lightning input (same as analyze).")
     watch.add_argument("--interval", type=_interval, default=2.0, help="Positive seconds between re-reads (default: 2.0).")
     watch.add_argument("--fail-on", choices=("warning", "error"), default=None, help="Stop with exit 1 on a matching finding, or 2 when a loaded run has incomplete input.")
     watch.add_argument("--require-timing", action="store_true", help="Stop with exit 2 if a loaded run has incomplete input or no usable timing comparison, including too few readings.")
@@ -139,7 +141,7 @@ def _gate(run: Run, findings: list[Finding], fail_on: Severity | None, require_t
 
 
 def cmd_analyze(args: argparse.Namespace) -> int:
-    run = load_run(args.path, fmt=args.format, run_name=args.run)
+    run = load_run(args.path, fmt=args.format, run_name=args.run, step_key=args.step_key)
     _require_metrics(run)
     findings = run_all(run)
     _emit(run, findings, args)
@@ -148,6 +150,11 @@ def cmd_analyze(args: argparse.Namespace) -> int:
 
 def _extends(previous: Run, current: Run) -> bool:
     """A rewrite/restart invalidates finding suppression. NaN equals NaN for this comparison."""
+    if (
+        previous.axis_kind() != current.axis_kind()
+        or previous.meta.get("step_column") != current.meta.get("step_column")
+    ):
+        return False
     for name, old in previous.metrics.items():
         new = current.get(name)
         if new is None or len(new) < len(old):
@@ -171,7 +178,7 @@ def cmd_watch(args: argparse.Namespace) -> int:
     try:
         while True:
             try:
-                run = load_run(path, fmt=args.format, run_name=selected)
+                run = load_run(path, fmt=args.format, run_name=selected, step_key=args.step_key)
                 _require_metrics(run)
             except (ValueError, OSError, csv.Error) as exc:
                 # A file being written mid-flush can be transiently unparsable;
@@ -205,7 +212,7 @@ def cmd_watch(args: argparse.Namespace) -> int:
             new = [f for f in findings if seen.get(identity(f)) != f.severity]
             for f in new:
                 step_range = str(f.step_start) if f.step_start == f.step_end else f"{f.step_start}-{f.step_end}"
-                print(f"[{f.severity.upper():7}] steps {step_range:<13} {f.detector:<12} {visible(f.title)}: {visible(f.message)}")
+                print(f"[{f.severity.upper():7}] {run.axis_label()} {step_range:<13} {f.detector:<12} {visible(f.title)}: {visible(f.message)}")
             seen = {identity(f): f.severity for f in findings}
             previous = run
             exit_code = _gate(run, findings, args.fail_on, args.require_timing)

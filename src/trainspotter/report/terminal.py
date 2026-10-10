@@ -80,6 +80,9 @@ def render_terminal(
             + style(f"1 of {len(others) + 1} in this source; --run picks another: {shown}", "yellow")
         )
     lines.append("metrics  " + (", ".join(visible(m) for m in run.metric_names()) or "(none found)"))
+    lines.append("axis     " + visible(
+        f"{run.axis_label()} from {run.meta.get('step_column', 'step')}"
+    ))
     overwritten = run.overwritten_points()
     if overwritten:
         points = "point" if overwritten == 1 else "points"
@@ -98,7 +101,7 @@ def render_terminal(
         values = ", ".join(str(reading["value"]) for reading in record["readings"][:4])
         if len(record["readings"]) > 4:
             values += ", ..."
-        description = f"repeat   {record['metric']} step {record['step']}: {record['count']} readings ({values})"
+        description = f"repeat   {record['metric']} at {run.axis_label()} {record['step']}: {record['count']} readings ({values})"
         lines.extend(textwrap.wrap(visible(description), width=96, subsequent_indent="         "))
     if repeated:
         lines.append(style(f"evidence {len(repeated)} repeated metric-step groups; --output json retains every reading/count", _DIM))
@@ -138,7 +141,7 @@ def render_terminal(
             step_range = str(f.step_start) if f.step_start == f.step_end else f"{f.step_start}-{f.step_end}"
             sev_color = _SEVERITY_COLOR[f.severity]
             label = style(f"[{_SEVERITY_LABEL[f.severity]}]", sev_color, _BOLD)
-            header = f"{label} " + style(f"steps {step_range:<13}", _DIM) + style(f"{f.detector:<12}", _DIM) + style(visible(f.title), _BOLD)
+            header = f"{label} " + style(f"{run.axis_label()} {step_range:<13}", _DIM) + style(f"{f.detector:<12}", _DIM) + style(visible(f.title), _BOLD)
             lines.append(header)
             for wrapped in textwrap.wrap(visible(f.message), width=96, initial_indent="  ", subsequent_indent="  "):
                 lines.append(wrapped)
