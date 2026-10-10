@@ -1,0 +1,1449 @@
+{
+  "captured_at": "2026-10-10T05:17:11.952997+00:00",
+  "python": "3.12.12",
+  "torch": "2.8.0+cpu",
+  "device": "cpu",
+  "loss_experiment": {
+    "objective": "w**2/2; w starts at 2; float64 SGD for 1000 updates",
+    "learning_rates": {
+      "slow": 0.005,
+      "fast": 0.1
+    },
+    "sparse_selection": "same slow run, retain step 0 and steps 900 through 1000",
+    "no_step_selection": "same sparse rows with the step column removed"
+  },
+  "gradient_experiment": {
+    "objective": "abs(w-10); w starts at 0; float64 SGD, lr=0.01, 100 updates",
+    "captures": {
+      "unclipped": {
+        "clip_threshold": null,
+        "observations": [
+          {
+            "step": 0,
+            "loss": 10.0,
+            "norm_before": 1.0,
+            "norm_after": 1.0,
+            "returned_norm": null
+          },
+          {
+            "step": 1,
+            "loss": 9.99,
+            "norm_before": 1.0,
+            "norm_after": 1.0,
+            "returned_norm": null
+          },
+          {
+            "step": 2,
+            "loss": 9.98,
+            "norm_before": 1.0,
+            "norm_after": 1.0,
+            "returned_norm": null
+          },
+          {
+            "step": 3,
+            "loss": 9.97,
+            "norm_before": 1.0,
+            "norm_after": 1.0,
+            "returned_norm": null
+          },
+          {
+            "step": 4,
+            "loss": 9.96,
+            "norm_before": 1.0,
+            "norm_after": 1.0,
+            "returned_norm": null
+          },
+          {
+            "step": 5,
+            "loss": 9.95,
+            "norm_before": 1.0,
+            "norm_after": 1.0,
+            "returned_norm": null
+          },
+          {
+            "step": 6,
+            "loss": 9.94,
+            "norm_before": 1.0,
+            "norm_after": 1.0,
+            "returned_norm": null
+          },
+          {
+            "step": 7,
+            "loss": 9.93,
+            "norm_before": 1.0,
+            "norm_after": 1.0,
+            "returned_norm": null
+          },
+          {
+            "step": 8,
+            "loss": 9.92,
+            "norm_before": 1.0,
+            "norm_after": 1.0,
+            "returned_norm": null
+          },
+          {
+            "step": 9,
+            "loss": 9.91,
+            "norm_before": 1.0,
+            "norm_after": 1.0,
+            "returned_norm": null
+          },
+          {
+            "step": 10,
+            "loss": 9.9,
+            "norm_before": 1.0,
+            "norm_after": 1.0,
+            "returned_norm": null
+          },
+          {
+            "step": 11,
+            "loss": 9.89,
+            "norm_before": 1.0,
+            "norm_after": 1.0,
+            "returned_norm": null
+          },
+          {
+            "step": 12,
+            "loss": 9.88,
+            "norm_before": 1.0,
+            "norm_after": 1.0,
+            "returned_norm": null
+          },
+          {
+            "step": 13,
+            "loss": 9.87,
+            "norm_before": 1.0,
+            "norm_after": 1.0,
+            "returned_norm": null
+          },
+          {
+            "step": 14,
+            "loss": 9.86,
+            "norm_before": 1.0,
+            "norm_after": 1.0,
+            "returned_norm": null
+          },
+          {
+            "step": 15,
+            "loss": 9.85,
+            "norm_before": 1.0,
+            "norm_after": 1.0,
+            "returned_norm": null
+          },
+          {
+            "step": 16,
+            "loss": 9.84,
+            "norm_before": 1.0,
+            "norm_after": 1.0,
+            "returned_norm": null
+          },
+          {
+            "step": 17,
+            "loss": 9.83,
+            "norm_before": 1.0,
+            "norm_after": 1.0,
+            "returned_norm": null
+          },
+          {
+            "step": 18,
+            "loss": 9.82,
+            "norm_before": 1.0,
+            "norm_after": 1.0,
+            "returned_norm": null
+          },
+          {
+            "step": 19,
+            "loss": 9.81,
+            "norm_before": 1.0,
+            "norm_after": 1.0,
+            "returned_norm": null
+          },
+          {
+            "step": 20,
+            "loss": 9.8,
+            "norm_before": 1.0,
+            "norm_after": 1.0,
+            "returned_norm": null
+          },
+          {
+            "step": 21,
+            "loss": 9.79,
+            "norm_before": 1.0,
+            "norm_after": 1.0,
+            "returned_norm": null
+          },
+          {
+            "step": 22,
+            "loss": 9.78,
+            "norm_before": 1.0,
+            "norm_after": 1.0,
+            "returned_norm": null
+          },
+          {
+            "step": 23,
+            "loss": 9.77,
+            "norm_before": 1.0,
+            "norm_after": 1.0,
+            "returned_norm": null
+          },
+          {
+            "step": 24,
+            "loss": 9.76,
+            "norm_before": 1.0,
+            "norm_after": 1.0,
+            "returned_norm": null
+          },
+          {
+            "step": 25,
+            "loss": 9.75,
+            "norm_before": 1.0,
+            "norm_after": 1.0,
+            "returned_norm": null
+          },
+          {
+            "step": 26,
+            "loss": 9.74,
+            "norm_before": 1.0,
+            "norm_after": 1.0,
+            "returned_norm": null
+          },
+          {
+            "step": 27,
+            "loss": 9.73,
+            "norm_before": 1.0,
+            "norm_after": 1.0,
+            "returned_norm": null
+          },
+          {
+            "step": 28,
+            "loss": 9.72,
+            "norm_before": 1.0,
+            "norm_after": 1.0,
+            "returned_norm": null
+          },
+          {
+            "step": 29,
+            "loss": 9.709999999999999,
+            "norm_before": 1.0,
+            "norm_after": 1.0,
+            "returned_norm": null
+          },
+          {
+            "step": 30,
+            "loss": 9.7,
+            "norm_before": 1.0,
+            "norm_after": 1.0,
+            "returned_norm": null
+          },
+          {
+            "step": 31,
+            "loss": 9.69,
+            "norm_before": 1.0,
+            "norm_after": 1.0,
+            "returned_norm": null
+          },
+          {
+            "step": 32,
+            "loss": 9.68,
+            "norm_before": 1.0,
+            "norm_after": 1.0,
+            "returned_norm": null
+          },
+          {
+            "step": 33,
+            "loss": 9.67,
+            "norm_before": 1.0,
+            "norm_after": 1.0,
+            "returned_norm": null
+          },
+          {
+            "step": 34,
+            "loss": 9.66,
+            "norm_before": 1.0,
+            "norm_after": 1.0,
+            "returned_norm": null
+          },
+          {
+            "step": 35,
+            "loss": 9.65,
+            "norm_before": 1.0,
+            "norm_after": 1.0,
+            "returned_norm": null
+          },
+          {
+            "step": 36,
+            "loss": 9.64,
+            "norm_before": 1.0,
+            "norm_after": 1.0,
+            "returned_norm": null
+          },
+          {
+            "step": 37,
+            "loss": 9.629999999999999,
+            "norm_before": 1.0,
+            "norm_after": 1.0,
+            "returned_norm": null
+          },
+          {
+            "step": 38,
+            "loss": 9.62,
+            "norm_before": 1.0,
+            "norm_after": 1.0,
+            "returned_norm": null
+          },
+          {
+            "step": 39,
+            "loss": 9.61,
+            "norm_before": 1.0,
+            "norm_after": 1.0,
+            "returned_norm": null
+          },
+          {
+            "step": 40,
+            "loss": 9.6,
+            "norm_before": 1.0,
+            "norm_after": 1.0,
+            "returned_norm": null
+          },
+          {
+            "step": 41,
+            "loss": 9.59,
+            "norm_before": 1.0,
+            "norm_after": 1.0,
+            "returned_norm": null
+          },
+          {
+            "step": 42,
+            "loss": 9.58,
+            "norm_before": 1.0,
+            "norm_after": 1.0,
+            "returned_norm": null
+          },
+          {
+            "step": 43,
+            "loss": 9.57,
+            "norm_before": 1.0,
+            "norm_after": 1.0,
+            "returned_norm": null
+          },
+          {
+            "step": 44,
+            "loss": 9.56,
+            "norm_before": 1.0,
+            "norm_after": 1.0,
+            "returned_norm": null
+          },
+          {
+            "step": 45,
+            "loss": 9.549999999999999,
+            "norm_before": 1.0,
+            "norm_after": 1.0,
+            "returned_norm": null
+          },
+          {
+            "step": 46,
+            "loss": 9.54,
+            "norm_before": 1.0,
+            "norm_after": 1.0,
+            "returned_norm": null
+          },
+          {
+            "step": 47,
+            "loss": 9.53,
+            "norm_before": 1.0,
+            "norm_after": 1.0,
+            "returned_norm": null
+          },
+          {
+            "step": 48,
+            "loss": 9.52,
+            "norm_before": 1.0,
+            "norm_after": 1.0,
+            "returned_norm": null
+          },
+          {
+            "step": 49,
+            "loss": 9.51,
+            "norm_before": 1.0,
+            "norm_after": 1.0,
+            "returned_norm": null
+          },
+          {
+            "step": 50,
+            "loss": 9.5,
+            "norm_before": 1.0,
+            "norm_after": 1.0,
+            "returned_norm": null
+          },
+          {
+            "step": 51,
+            "loss": 9.49,
+            "norm_before": 1.0,
+            "norm_after": 1.0,
+            "returned_norm": null
+          },
+          {
+            "step": 52,
+            "loss": 9.48,
+            "norm_before": 1.0,
+            "norm_after": 1.0,
+            "returned_norm": null
+          },
+          {
+            "step": 53,
+            "loss": 9.469999999999999,
+            "norm_before": 1.0,
+            "norm_after": 1.0,
+            "returned_norm": null
+          },
+          {
+            "step": 54,
+            "loss": 9.459999999999999,
+            "norm_before": 1.0,
+            "norm_after": 1.0,
+            "returned_norm": null
+          },
+          {
+            "step": 55,
+            "loss": 9.45,
+            "norm_before": 1.0,
+            "norm_after": 1.0,
+            "returned_norm": null
+          },
+          {
+            "step": 56,
+            "loss": 9.44,
+            "norm_before": 1.0,
+            "norm_after": 1.0,
+            "returned_norm": null
+          },
+          {
+            "step": 57,
+            "loss": 9.43,
+            "norm_before": 1.0,
+            "norm_after": 1.0,
+            "returned_norm": null
+          },
+          {
+            "step": 58,
+            "loss": 9.42,
+            "norm_before": 1.0,
+            "norm_after": 1.0,
+            "returned_norm": null
+          },
+          {
+            "step": 59,
+            "loss": 9.41,
+            "norm_before": 1.0,
+            "norm_after": 1.0,
+            "returned_norm": null
+          },
+          {
+            "step": 60,
+            "loss": 9.4,
+            "norm_before": 1.0,
+            "norm_after": 1.0,
+            "returned_norm": null
+          },
+          {
+            "step": 61,
+            "loss": 9.39,
+            "norm_before": 1.0,
+            "norm_after": 1.0,
+            "returned_norm": null
+          },
+          {
+            "step": 62,
+            "loss": 9.379999999999999,
+            "norm_before": 1.0,
+            "norm_after": 1.0,
+            "returned_norm": null
+          },
+          {
+            "step": 63,
+            "loss": 9.37,
+            "norm_before": 1.0,
+            "norm_after": 1.0,
+            "returned_norm": null
+          },
+          {
+            "step": 64,
+            "loss": 9.36,
+            "norm_before": 1.0,
+            "norm_after": 1.0,
+            "returned_norm": null
+          },
+          {
+            "step": 65,
+            "loss": 9.35,
+            "norm_before": 1.0,
+            "norm_after": 1.0,
+            "returned_norm": null
+          },
+          {
+            "step": 66,
+            "loss": 9.34,
+            "norm_before": 1.0,
+            "norm_after": 1.0,
+            "returned_norm": null
+          },
+          {
+            "step": 67,
+            "loss": 9.33,
+            "norm_before": 1.0,
+            "norm_after": 1.0,
+            "returned_norm": null
+          },
+          {
+            "step": 68,
+            "loss": 9.32,
+            "norm_before": 1.0,
+            "norm_after": 1.0,
+            "returned_norm": null
+          },
+          {
+            "step": 69,
+            "loss": 9.309999999999999,
+            "norm_before": 1.0,
+            "norm_after": 1.0,
+            "returned_norm": null
+          },
+          {
+            "step": 70,
+            "loss": 9.299999999999999,
+            "norm_before": 1.0,
+            "norm_after": 1.0,
+            "returned_norm": null
+          },
+          {
+            "step": 71,
+            "loss": 9.29,
+            "norm_before": 1.0,
+            "norm_after": 1.0,
+            "returned_norm": null
+          },
+          {
+            "step": 72,
+            "loss": 9.28,
+            "norm_before": 1.0,
+            "norm_after": 1.0,
+            "returned_norm": null
+          },
+          {
+            "step": 73,
+            "loss": 9.27,
+            "norm_before": 1.0,
+            "norm_after": 1.0,
+            "returned_norm": null
+          },
+          {
+            "step": 74,
+            "loss": 9.26,
+            "norm_before": 1.0,
+            "norm_after": 1.0,
+            "returned_norm": null
+          },
+          {
+            "step": 75,
+            "loss": 9.25,
+            "norm_before": 1.0,
+            "norm_after": 1.0,
+            "returned_norm": null
+          },
+          {
+            "step": 76,
+            "loss": 9.24,
+            "norm_before": 1.0,
+            "norm_after": 1.0,
+            "returned_norm": null
+          },
+          {
+            "step": 77,
+            "loss": 9.23,
+            "norm_before": 1.0,
+            "norm_after": 1.0,
+            "returned_norm": null
+          },
+          {
+            "step": 78,
+            "loss": 9.219999999999999,
+            "norm_before": 1.0,
+            "norm_after": 1.0,
+            "returned_norm": null
+          },
+          {
+            "step": 79,
+            "loss": 9.209999999999999,
+            "norm_before": 1.0,
+            "norm_after": 1.0,
+            "returned_norm": null
+          },
+          {
+            "step": 80,
+            "loss": 9.2,
+            "norm_before": 1.0,
+            "norm_after": 1.0,
+            "returned_norm": null
+          },
+          {
+            "step": 81,
+            "loss": 9.19,
+            "norm_before": 1.0,
+            "norm_after": 1.0,
+            "returned_norm": null
+          },
+          {
+            "step": 82,
+            "loss": 9.18,
+            "norm_before": 1.0,
+            "norm_after": 1.0,
+            "returned_norm": null
+          },
+          {
+            "step": 83,
+            "loss": 9.17,
+            "norm_before": 1.0,
+            "norm_after": 1.0,
+            "returned_norm": null
+          },
+          {
+            "step": 84,
+            "loss": 9.16,
+            "norm_before": 1.0,
+            "norm_after": 1.0,
+            "returned_norm": null
+          },
+          {
+            "step": 85,
+            "loss": 9.149999999999999,
+            "norm_before": 1.0,
+            "norm_after": 1.0,
+            "returned_norm": null
+          },
+          {
+            "step": 86,
+            "loss": 9.139999999999999,
+            "norm_before": 1.0,
+            "norm_after": 1.0,
+            "returned_norm": null
+          },
+          {
+            "step": 87,
+            "loss": 9.129999999999999,
+            "norm_before": 1.0,
+            "norm_after": 1.0,
+            "returned_norm": null
+          },
+          {
+            "step": 88,
+            "loss": 9.12,
+            "norm_before": 1.0,
+            "norm_after": 1.0,
+            "returned_norm": null
+          },
+          {
+            "step": 89,
+            "loss": 9.11,
+            "norm_before": 1.0,
+            "norm_after": 1.0,
+            "returned_norm": null
+          },
+          {
+            "step": 90,
+            "loss": 9.1,
+            "norm_before": 1.0,
+            "norm_after": 1.0,
+            "returned_norm": null
+          },
+          {
+            "step": 91,
+            "loss": 9.09,
+            "norm_before": 1.0,
+            "norm_after": 1.0,
+            "returned_norm": null
+          },
+          {
+            "step": 92,
+            "loss": 9.08,
+            "norm_before": 1.0,
+            "norm_after": 1.0,
+            "returned_norm": null
+          },
+          {
+            "step": 93,
+            "loss": 9.07,
+            "norm_before": 1.0,
+            "norm_after": 1.0,
+            "returned_norm": null
+          },
+          {
+            "step": 94,
+            "loss": 9.059999999999999,
+            "norm_before": 1.0,
+            "norm_after": 1.0,
+            "returned_norm": null
+          },
+          {
+            "step": 95,
+            "loss": 9.049999999999999,
+            "norm_before": 1.0,
+            "norm_after": 1.0,
+            "returned_norm": null
+          },
+          {
+            "step": 96,
+            "loss": 9.04,
+            "norm_before": 1.0,
+            "norm_after": 1.0,
+            "returned_norm": null
+          },
+          {
+            "step": 97,
+            "loss": 9.03,
+            "norm_before": 1.0,
+            "norm_after": 1.0,
+            "returned_norm": null
+          },
+          {
+            "step": 98,
+            "loss": 9.02,
+            "norm_before": 1.0,
+            "norm_after": 1.0,
+            "returned_norm": null
+          },
+          {
+            "step": 99,
+            "loss": 9.01,
+            "norm_before": 1.0,
+            "norm_after": 1.0,
+            "returned_norm": null
+          }
+        ]
+      },
+      "clipped": {
+        "clip_threshold": 0.25,
+        "observations": [
+          {
+            "step": 0,
+            "loss": 10.0,
+            "norm_before": 1.0,
+            "norm_after": 0.24999975000025002,
+            "returned_norm": 1.0
+          },
+          {
+            "step": 1,
+            "loss": 9.997500002499997,
+            "norm_before": 1.0,
+            "norm_after": 0.24999975000025002,
+            "returned_norm": 1.0
+          },
+          {
+            "step": 2,
+            "loss": 9.995000004999994,
+            "norm_before": 1.0,
+            "norm_after": 0.24999975000025002,
+            "returned_norm": 1.0
+          },
+          {
+            "step": 3,
+            "loss": 9.992500007499993,
+            "norm_before": 1.0,
+            "norm_after": 0.24999975000025002,
+            "returned_norm": 1.0
+          },
+          {
+            "step": 4,
+            "loss": 9.99000000999999,
+            "norm_before": 1.0,
+            "norm_after": 0.24999975000025002,
+            "returned_norm": 1.0
+          },
+          {
+            "step": 5,
+            "loss": 9.987500012499988,
+            "norm_before": 1.0,
+            "norm_after": 0.24999975000025002,
+            "returned_norm": 1.0
+          },
+          {
+            "step": 6,
+            "loss": 9.985000014999985,
+            "norm_before": 1.0,
+            "norm_after": 0.24999975000025002,
+            "returned_norm": 1.0
+          },
+          {
+            "step": 7,
+            "loss": 9.982500017499982,
+            "norm_before": 1.0,
+            "norm_after": 0.24999975000025002,
+            "returned_norm": 1.0
+          },
+          {
+            "step": 8,
+            "loss": 9.98000001999998,
+            "norm_before": 1.0,
+            "norm_after": 0.24999975000025002,
+            "returned_norm": 1.0
+          },
+          {
+            "step": 9,
+            "loss": 9.977500022499978,
+            "norm_before": 1.0,
+            "norm_after": 0.24999975000025002,
+            "returned_norm": 1.0
+          },
+          {
+            "step": 10,
+            "loss": 9.975000024999975,
+            "norm_before": 1.0,
+            "norm_after": 0.24999975000025002,
+            "returned_norm": 1.0
+          },
+          {
+            "step": 11,
+            "loss": 9.972500027499972,
+            "norm_before": 1.0,
+            "norm_after": 0.24999975000025002,
+            "returned_norm": 1.0
+          },
+          {
+            "step": 12,
+            "loss": 9.97000002999997,
+            "norm_before": 1.0,
+            "norm_after": 0.24999975000025002,
+            "returned_norm": 1.0
+          },
+          {
+            "step": 13,
+            "loss": 9.967500032499968,
+            "norm_before": 1.0,
+            "norm_after": 0.24999975000025002,
+            "returned_norm": 1.0
+          },
+          {
+            "step": 14,
+            "loss": 9.965000034999965,
+            "norm_before": 1.0,
+            "norm_after": 0.24999975000025002,
+            "returned_norm": 1.0
+          },
+          {
+            "step": 15,
+            "loss": 9.962500037499963,
+            "norm_before": 1.0,
+            "norm_after": 0.24999975000025002,
+            "returned_norm": 1.0
+          },
+          {
+            "step": 16,
+            "loss": 9.96000003999996,
+            "norm_before": 1.0,
+            "norm_after": 0.24999975000025002,
+            "returned_norm": 1.0
+          },
+          {
+            "step": 17,
+            "loss": 9.957500042499957,
+            "norm_before": 1.0,
+            "norm_after": 0.24999975000025002,
+            "returned_norm": 1.0
+          },
+          {
+            "step": 18,
+            "loss": 9.955000044999956,
+            "norm_before": 1.0,
+            "norm_after": 0.24999975000025002,
+            "returned_norm": 1.0
+          },
+          {
+            "step": 19,
+            "loss": 9.952500047499953,
+            "norm_before": 1.0,
+            "norm_after": 0.24999975000025002,
+            "returned_norm": 1.0
+          },
+          {
+            "step": 20,
+            "loss": 9.95000004999995,
+            "norm_before": 1.0,
+            "norm_after": 0.24999975000025002,
+            "returned_norm": 1.0
+          },
+          {
+            "step": 21,
+            "loss": 9.947500052499947,
+            "norm_before": 1.0,
+            "norm_after": 0.24999975000025002,
+            "returned_norm": 1.0
+          },
+          {
+            "step": 22,
+            "loss": 9.945000054999944,
+            "norm_before": 1.0,
+            "norm_after": 0.24999975000025002,
+            "returned_norm": 1.0
+          },
+          {
+            "step": 23,
+            "loss": 9.942500057499942,
+            "norm_before": 1.0,
+            "norm_after": 0.24999975000025002,
+            "returned_norm": 1.0
+          },
+          {
+            "step": 24,
+            "loss": 9.94000005999994,
+            "norm_before": 1.0,
+            "norm_after": 0.24999975000025002,
+            "returned_norm": 1.0
+          },
+          {
+            "step": 25,
+            "loss": 9.937500062499938,
+            "norm_before": 1.0,
+            "norm_after": 0.24999975000025002,
+            "returned_norm": 1.0
+          },
+          {
+            "step": 26,
+            "loss": 9.935000064999935,
+            "norm_before": 1.0,
+            "norm_after": 0.24999975000025002,
+            "returned_norm": 1.0
+          },
+          {
+            "step": 27,
+            "loss": 9.932500067499932,
+            "norm_before": 1.0,
+            "norm_after": 0.24999975000025002,
+            "returned_norm": 1.0
+          },
+          {
+            "step": 28,
+            "loss": 9.93000006999993,
+            "norm_before": 1.0,
+            "norm_after": 0.24999975000025002,
+            "returned_norm": 1.0
+          },
+          {
+            "step": 29,
+            "loss": 9.927500072499928,
+            "norm_before": 1.0,
+            "norm_after": 0.24999975000025002,
+            "returned_norm": 1.0
+          },
+          {
+            "step": 30,
+            "loss": 9.925000074999925,
+            "norm_before": 1.0,
+            "norm_after": 0.24999975000025002,
+            "returned_norm": 1.0
+          },
+          {
+            "step": 31,
+            "loss": 9.922500077499922,
+            "norm_before": 1.0,
+            "norm_after": 0.24999975000025002,
+            "returned_norm": 1.0
+          },
+          {
+            "step": 32,
+            "loss": 9.92000007999992,
+            "norm_before": 1.0,
+            "norm_after": 0.24999975000025002,
+            "returned_norm": 1.0
+          },
+          {
+            "step": 33,
+            "loss": 9.917500082499917,
+            "norm_before": 1.0,
+            "norm_after": 0.24999975000025002,
+            "returned_norm": 1.0
+          },
+          {
+            "step": 34,
+            "loss": 9.915000084999916,
+            "norm_before": 1.0,
+            "norm_after": 0.24999975000025002,
+            "returned_norm": 1.0
+          },
+          {
+            "step": 35,
+            "loss": 9.912500087499913,
+            "norm_before": 1.0,
+            "norm_after": 0.24999975000025002,
+            "returned_norm": 1.0
+          },
+          {
+            "step": 36,
+            "loss": 9.91000008999991,
+            "norm_before": 1.0,
+            "norm_after": 0.24999975000025002,
+            "returned_norm": 1.0
+          },
+          {
+            "step": 37,
+            "loss": 9.907500092499907,
+            "norm_before": 1.0,
+            "norm_after": 0.24999975000025002,
+            "returned_norm": 1.0
+          },
+          {
+            "step": 38,
+            "loss": 9.905000094999904,
+            "norm_before": 1.0,
+            "norm_after": 0.24999975000025002,
+            "returned_norm": 1.0
+          },
+          {
+            "step": 39,
+            "loss": 9.902500097499903,
+            "norm_before": 1.0,
+            "norm_after": 0.24999975000025002,
+            "returned_norm": 1.0
+          },
+          {
+            "step": 40,
+            "loss": 9.9000000999999,
+            "norm_before": 1.0,
+            "norm_after": 0.24999975000025002,
+            "returned_norm": 1.0
+          },
+          {
+            "step": 41,
+            "loss": 9.897500102499897,
+            "norm_before": 1.0,
+            "norm_after": 0.24999975000025002,
+            "returned_norm": 1.0
+          },
+          {
+            "step": 42,
+            "loss": 9.895000104999895,
+            "norm_before": 1.0,
+            "norm_after": 0.24999975000025002,
+            "returned_norm": 1.0
+          },
+          {
+            "step": 43,
+            "loss": 9.892500107499892,
+            "norm_before": 1.0,
+            "norm_after": 0.24999975000025002,
+            "returned_norm": 1.0
+          },
+          {
+            "step": 44,
+            "loss": 9.89000010999989,
+            "norm_before": 1.0,
+            "norm_after": 0.24999975000025002,
+            "returned_norm": 1.0
+          },
+          {
+            "step": 45,
+            "loss": 9.887500112499888,
+            "norm_before": 1.0,
+            "norm_after": 0.24999975000025002,
+            "returned_norm": 1.0
+          },
+          {
+            "step": 46,
+            "loss": 9.885000114999885,
+            "norm_before": 1.0,
+            "norm_after": 0.24999975000025002,
+            "returned_norm": 1.0
+          },
+          {
+            "step": 47,
+            "loss": 9.882500117499882,
+            "norm_before": 1.0,
+            "norm_after": 0.24999975000025002,
+            "returned_norm": 1.0
+          },
+          {
+            "step": 48,
+            "loss": 9.88000011999988,
+            "norm_before": 1.0,
+            "norm_after": 0.24999975000025002,
+            "returned_norm": 1.0
+          },
+          {
+            "step": 49,
+            "loss": 9.877500122499878,
+            "norm_before": 1.0,
+            "norm_after": 0.24999975000025002,
+            "returned_norm": 1.0
+          },
+          {
+            "step": 50,
+            "loss": 9.875000124999875,
+            "norm_before": 1.0,
+            "norm_after": 0.24999975000025002,
+            "returned_norm": 1.0
+          },
+          {
+            "step": 51,
+            "loss": 9.872500127499872,
+            "norm_before": 1.0,
+            "norm_after": 0.24999975000025002,
+            "returned_norm": 1.0
+          },
+          {
+            "step": 52,
+            "loss": 9.87000012999987,
+            "norm_before": 1.0,
+            "norm_after": 0.24999975000025002,
+            "returned_norm": 1.0
+          },
+          {
+            "step": 53,
+            "loss": 9.867500132499867,
+            "norm_before": 1.0,
+            "norm_after": 0.24999975000025002,
+            "returned_norm": 1.0
+          },
+          {
+            "step": 54,
+            "loss": 9.865000134999866,
+            "norm_before": 1.0,
+            "norm_after": 0.24999975000025002,
+            "returned_norm": 1.0
+          },
+          {
+            "step": 55,
+            "loss": 9.862500137499863,
+            "norm_before": 1.0,
+            "norm_after": 0.24999975000025002,
+            "returned_norm": 1.0
+          },
+          {
+            "step": 56,
+            "loss": 9.86000013999986,
+            "norm_before": 1.0,
+            "norm_after": 0.24999975000025002,
+            "returned_norm": 1.0
+          },
+          {
+            "step": 57,
+            "loss": 9.857500142499857,
+            "norm_before": 1.0,
+            "norm_after": 0.24999975000025002,
+            "returned_norm": 1.0
+          },
+          {
+            "step": 58,
+            "loss": 9.855000144999854,
+            "norm_before": 1.0,
+            "norm_after": 0.24999975000025002,
+            "returned_norm": 1.0
+          },
+          {
+            "step": 59,
+            "loss": 9.852500147499853,
+            "norm_before": 1.0,
+            "norm_after": 0.24999975000025002,
+            "returned_norm": 1.0
+          },
+          {
+            "step": 60,
+            "loss": 9.85000014999985,
+            "norm_before": 1.0,
+            "norm_after": 0.24999975000025002,
+            "returned_norm": 1.0
+          },
+          {
+            "step": 61,
+            "loss": 9.847500152499848,
+            "norm_before": 1.0,
+            "norm_after": 0.24999975000025002,
+            "returned_norm": 1.0
+          },
+          {
+            "step": 62,
+            "loss": 9.845000154999845,
+            "norm_before": 1.0,
+            "norm_after": 0.24999975000025002,
+            "returned_norm": 1.0
+          },
+          {
+            "step": 63,
+            "loss": 9.842500157499842,
+            "norm_before": 1.0,
+            "norm_after": 0.24999975000025002,
+            "returned_norm": 1.0
+          },
+          {
+            "step": 64,
+            "loss": 9.84000015999984,
+            "norm_before": 1.0,
+            "norm_after": 0.24999975000025002,
+            "returned_norm": 1.0
+          },
+          {
+            "step": 65,
+            "loss": 9.837500162499838,
+            "norm_before": 1.0,
+            "norm_after": 0.24999975000025002,
+            "returned_norm": 1.0
+          },
+          {
+            "step": 66,
+            "loss": 9.835000164999835,
+            "norm_before": 1.0,
+            "norm_after": 0.24999975000025002,
+            "returned_norm": 1.0
+          },
+          {
+            "step": 67,
+            "loss": 9.832500167499832,
+            "norm_before": 1.0,
+            "norm_after": 0.24999975000025002,
+            "returned_norm": 1.0
+          },
+          {
+            "step": 68,
+            "loss": 9.83000016999983,
+            "norm_before": 1.0,
+            "norm_after": 0.24999975000025002,
+            "returned_norm": 1.0
+          },
+          {
+            "step": 69,
+            "loss": 9.827500172499828,
+            "norm_before": 1.0,
+            "norm_after": 0.24999975000025002,
+            "returned_norm": 1.0
+          },
+          {
+            "step": 70,
+            "loss": 9.825000174999825,
+            "norm_before": 1.0,
+            "norm_after": 0.24999975000025002,
+            "returned_norm": 1.0
+          },
+          {
+            "step": 71,
+            "loss": 9.822500177499823,
+            "norm_before": 1.0,
+            "norm_after": 0.24999975000025002,
+            "returned_norm": 1.0
+          },
+          {
+            "step": 72,
+            "loss": 9.82000017999982,
+            "norm_before": 1.0,
+            "norm_after": 0.24999975000025002,
+            "returned_norm": 1.0
+          },
+          {
+            "step": 73,
+            "loss": 9.817500182499817,
+            "norm_before": 1.0,
+            "norm_after": 0.24999975000025002,
+            "returned_norm": 1.0
+          },
+          {
+            "step": 74,
+            "loss": 9.815000184999816,
+            "norm_before": 1.0,
+            "norm_after": 0.24999975000025002,
+            "returned_norm": 1.0
+          },
+          {
+            "step": 75,
+            "loss": 9.812500187499813,
+            "norm_before": 1.0,
+            "norm_after": 0.24999975000025002,
+            "returned_norm": 1.0
+          },
+          {
+            "step": 76,
+            "loss": 9.81000018999981,
+            "norm_before": 1.0,
+            "norm_after": 0.24999975000025002,
+            "returned_norm": 1.0
+          },
+          {
+            "step": 77,
+            "loss": 9.807500192499807,
+            "norm_before": 1.0,
+            "norm_after": 0.24999975000025002,
+            "returned_norm": 1.0
+          },
+          {
+            "step": 78,
+            "loss": 9.805000194999804,
+            "norm_before": 1.0,
+            "norm_after": 0.24999975000025002,
+            "returned_norm": 1.0
+          },
+          {
+            "step": 79,
+            "loss": 9.802500197499803,
+            "norm_before": 1.0,
+            "norm_after": 0.24999975000025002,
+            "returned_norm": 1.0
+          },
+          {
+            "step": 80,
+            "loss": 9.8000001999998,
+            "norm_before": 1.0,
+            "norm_after": 0.24999975000025002,
+            "returned_norm": 1.0
+          },
+          {
+            "step": 81,
+            "loss": 9.797500202499798,
+            "norm_before": 1.0,
+            "norm_after": 0.24999975000025002,
+            "returned_norm": 1.0
+          },
+          {
+            "step": 82,
+            "loss": 9.795000204999795,
+            "norm_before": 1.0,
+            "norm_after": 0.24999975000025002,
+            "returned_norm": 1.0
+          },
+          {
+            "step": 83,
+            "loss": 9.792500207499792,
+            "norm_before": 1.0,
+            "norm_after": 0.24999975000025002,
+            "returned_norm": 1.0
+          },
+          {
+            "step": 84,
+            "loss": 9.790000209999791,
+            "norm_before": 1.0,
+            "norm_after": 0.24999975000025002,
+            "returned_norm": 1.0
+          },
+          {
+            "step": 85,
+            "loss": 9.787500212499788,
+            "norm_before": 1.0,
+            "norm_after": 0.24999975000025002,
+            "returned_norm": 1.0
+          },
+          {
+            "step": 86,
+            "loss": 9.785000214999785,
+            "norm_before": 1.0,
+            "norm_after": 0.24999975000025002,
+            "returned_norm": 1.0
+          },
+          {
+            "step": 87,
+            "loss": 9.782500217499782,
+            "norm_before": 1.0,
+            "norm_after": 0.24999975000025002,
+            "returned_norm": 1.0
+          },
+          {
+            "step": 88,
+            "loss": 9.78000021999978,
+            "norm_before": 1.0,
+            "norm_after": 0.24999975000025002,
+            "returned_norm": 1.0
+          },
+          {
+            "step": 89,
+            "loss": 9.777500222499778,
+            "norm_before": 1.0,
+            "norm_after": 0.24999975000025002,
+            "returned_norm": 1.0
+          },
+          {
+            "step": 90,
+            "loss": 9.775000224999776,
+            "norm_before": 1.0,
+            "norm_after": 0.24999975000025002,
+            "returned_norm": 1.0
+          },
+          {
+            "step": 91,
+            "loss": 9.772500227499773,
+            "norm_before": 1.0,
+            "norm_after": 0.24999975000025002,
+            "returned_norm": 1.0
+          },
+          {
+            "step": 92,
+            "loss": 9.77000022999977,
+            "norm_before": 1.0,
+            "norm_after": 0.24999975000025002,
+            "returned_norm": 1.0
+          },
+          {
+            "step": 93,
+            "loss": 9.767500232499767,
+            "norm_before": 1.0,
+            "norm_after": 0.24999975000025002,
+            "returned_norm": 1.0
+          },
+          {
+            "step": 94,
+            "loss": 9.765000234999766,
+            "norm_before": 1.0,
+            "norm_after": 0.24999975000025002,
+            "returned_norm": 1.0
+          },
+          {
+            "step": 95,
+            "loss": 9.762500237499763,
+            "norm_before": 1.0,
+            "norm_after": 0.24999975000025002,
+            "returned_norm": 1.0
+          },
+          {
+            "step": 96,
+            "loss": 9.76000023999976,
+            "norm_before": 1.0,
+            "norm_after": 0.24999975000025002,
+            "returned_norm": 1.0
+          },
+          {
+            "step": 97,
+            "loss": 9.757500242499757,
+            "norm_before": 1.0,
+            "norm_after": 0.24999975000025002,
+            "returned_norm": 1.0
+          },
+          {
+            "step": 98,
+            "loss": 9.755000244999756,
+            "norm_before": 1.0,
+            "norm_after": 0.24999975000025002,
+            "returned_norm": 1.0
+          },
+          {
+            "step": 99,
+            "loss": 9.752500247499754,
+            "norm_before": 1.0,
+            "norm_after": 0.24999975000025002,
+            "returned_norm": 1.0
+          }
+        ]
+      }
+    },
+    "interpretation": "Unclipped and clipped pre-clip norms are identical; only measured before/after norms and the known capture procedure establish clipping."
+  },
+  "overflow_one_step": "float32 exp(100), backward: recorded loss and gradient overflow",
+  "injected_fixtures": [
+    "infinite-gradient-tail.csv",
+    "infinite-start-loss.csv"
+  ],
+  "files": {
+    "slow-dense.csv": "0e4b599e57cd40f2d16ca9e7dc0ca25b1b3937c5e4d6d8ee7abb732a1828623c",
+    "slow-sparse.csv": "398498b225bc376551561f120f766dfae85579cf8d06aa123bee9314461f926b",
+    "fast-dense.csv": "a73bca4e1470724a6799cded5bc7ddc866e63695eb967acf0c5e0b5f886b0ded",
+    "slow-sparse-no-step.csv": "9729cd7fa2e94de584fb1d720a2e844b1b47f7ccf8c3bba463fb3ba96b62fb44",
+    "unclipped-before.csv": "d7a4191752fd37b8a0940d890bd78ae656ea32318168fd156fa77ca4cad90b82",
+    "unclipped-after.csv": "d7a4191752fd37b8a0940d890bd78ae656ea32318168fd156fa77ca4cad90b82",
+    "clipped-before.csv": "5d604137a7f5bcbeb085247f908c5ca52d27d7d2ca6b06fc8f1b37fe1f9130fe",
+    "clipped-after.csv": "4636842174e57e187693bf9de60441eeb651272e081cbf7c131b39cca869e9fc",
+    "overflow-one-step.csv": "84616ae2c29f83b0ae1aa875a44e0a002f9066c769590eb328cf6c6291a65a38",
+    "infinite-gradient-tail.csv": "73c28ccca34150e403a596784384a77d519a862d2f876aad0c54ed200743057a",
+    "infinite-start-loss.csv": "a33b9870b0a0f82473acc70298edd06389fe20130497cd0caecbd1464f2aacd7"
+  }
+}

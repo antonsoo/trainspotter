@@ -1,20 +1,28 @@
 """Loss-floor / suspected-leakage heuristic.
 
-**This is explicitly a heuristic, not a statistical test** -- unlike the
-other detectors, there's no distribution-free way to say "this loss is
-*too* low" without knowing the task, the loss function's theoretical
-minimum, and the label distribution. It exists because an implausibly
-fast drop to near-zero loss is one of the most common early symptoms an
-experienced engineer would eyeball and immediately distrust.
+**This is explicitly a heuristic, not a statistical test.** A curve alone
+cannot establish that a loss is *too* low without knowing the task, the loss function's theoretical
+minimum, and the label distribution. A fast drop to near-zero loss is a
+reason to inspect those conditions, not evidence of leakage by itself.
 
-**Algorithm.** Within the first `early_frac` (default 10%) of logged
-steps, check whether the metric has already dropped below `abs_floor`
+**Algorithm.** Within the first `early_frac` (default 10%) of the interval
+between the first and last logged training steps, check whether the metric
+has already dropped below `abs_floor`
 (default 0.05, tuned for a typical cross-entropy loss on a non-trivial
 task -- override for MSE, contrastive, or other losses with a different
 natural scale) AND has fallen to at most `rel_floor` (default 5%) of its
 first logged value. Both conditions together avoid flagging a task whose
 loss is simply small in absolute terms from the start (e.g. a well-scaled
 regression target).
+
+The window uses training coordinates, not the number of logged observations:
+changing logging cadence must not turn a late observation into an early one.
+Row indices and W&B logging counters cannot establish training progress, so
+this heuristic requires a training-step axis. The first value must be finite
+and positive, and the early window must contain only finite, nonnegative
+readings. A missing/nonfinite baseline cannot establish a relative drop.
+The observed interval may start at a resumed checkpoint or end before the
+run is complete; this is never evidence about an unobserved full run.
 
 **False-positive modes (real, not edge cases -- read this list before
 trusting a finding here).**
@@ -33,9 +41,11 @@ for train/eval overlap or label leakage," not as a verdict.
 
 from __future__ import annotations
 
+import math
+
 from trainspotter.model import Run
 
-from .base import Detector, Finding, series_arrays
+from .base import Detector, Finding
 
 DEFAULT_EARLY_FRAC = 0.10
 DEFAULT_ABS_FLOOR = 0.05
@@ -61,42 +71,47 @@ class LossFloorDetector(Detector):
 
     def _run(self, run: Run) -> list[Finding]:
         series = run.get(self.metric)
-        if series is None or len(series) < self.min_points:
+        if series is None or len(series) < self.min_points or run.axis_kind() != "step":
             return []
-        steps, values = series_arrays(series)
-        n = len(values)
-        early_n = max(1, int(n * self.early_frac))
-        first_value = float(values[0])
-        if first_value <= 0:
+        first, last = series.points[0], series.points[-1]
+        span = last.step - first.step
+        if span <= 0 or not math.isfinite(first.value) or first.value <= 0:
             return []
-        for i in range(early_n):
-            v = float(values[i])
-            # A negative "loss" is some other objective (a policy-gradient surrogate, a
-            # log-likelihood with its sign kept); its floor is not zero.
-            if v < 0:
-                return []
-            if v <= self.abs_floor and v <= first_value * self.rel_floor:
+        early = [p for p in series.points if p.step - first.step <= span * self.early_frac]
+        # Validate the whole window before claiming an early drop: no nonfinite
+        # gaps, or a negative objective whose floor is not zero.
+        if any(not math.isfinite(p.value) or p.value < 0 for p in early):
+            return []
+        for point in early:
+            v = point.value
+            if v <= self.abs_floor and v <= first.value * self.rel_floor:
+                position = (point.step - first.step) / span
                 return [
                     Finding(
                         detector=self.name,
                         title="Suspiciously low loss early (heuristic)",
                         severity="info",
                         metric=self.metric,
-                        step_start=int(steps[0]),
-                        step_end=int(steps[i]),
+                        step_start=first.step,
+                        step_end=point.step,
                         message=(
-                            f"{self.metric} dropped to {v:.4g} by step {int(steps[i])} -- "
-                            f"only {v / first_value * 100:.1f}% of its starting value "
-                            f"({first_value:.4g}), this early in the run. Possibly just an "
+                            f"{self.metric} dropped to {v:.4g} by step {point.step} -- "
+                            f"only {v / first.value * 100:.1f}% of its first logged value "
+                            f"({first.value:.4g}), at {position:.1%} of the logged step span "
+                            f"({first.step}-{last.step}). Possibly just an "
                             "easy task; possibly train/eval overlap or label leakage. "
-                            "Heuristic, not a statistical finding -- see docstring for "
-                            "false-positive modes."
+                            "This heuristic does not establish leakage or describe "
+                            "training outside the logged interval."
                         ),
                         evidence={
-                            "step": int(steps[i]),
+                            "step": point.step,
                             "value": v,
-                            "first_value": first_value,
-                            "fraction_of_start": v / first_value,
+                            "first_value": first.value,
+                            "fraction_of_start": v / first.value,
+                            "first_logged_step": first.step,
+                            "last_logged_step": last.step,
+                            "early_span_fraction": self.early_frac,
+                            "fraction_of_logged_span": position,
                         },
                         fixes=[
                             "Check for train/eval overlap (duplicate or near-duplicate examples).",

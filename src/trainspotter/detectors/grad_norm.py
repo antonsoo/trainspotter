@@ -1,4 +1,4 @@
-"""Gradient-norm detector: explosions and clipping saturation.
+"""Gradient-norm observations: nonfinite values, explosions, and concentration.
 
 Only runs when a `grad_norm` metric is logged (most training loops that
 clip gradients log the norm *before* clipping; trainspotter doesn't know
@@ -17,22 +17,22 @@ severity to the spike, setback and divergence detectors. A NaN or infinite
 norm is reported separately, also as `info`: 46 public runs that ended at
 their best loss logged one.
 
-**Clipping-saturation algorithm.** Over a trailing window of `sat_window`
+Pointwise nonfinite evidence needs only one reading and survives conflicting
+repeated-step values. Explosions require at least five finite observations
+in a contiguous segment; a NaN/Inf gap must not join unrelated windows.
+
+**Concentration algorithm.** Over a trailing window of `sat_window`
 (default 50) points, compute how many are within `sat_tol` (default 0.5%)
 of the window's own maximum value. If that fraction exceeds
-`sat_fraction` (default 0.8), the norm is spending most of its time pinned
-at (or just under) one ceiling value -- almost always the clip threshold,
-meaning clipping is doing most of the work of controlling gradient scale
-rather than occasional correction.
+`sat_fraction` (default 0.8), report that observed concentration. The entire
+window must be finite and nonnegative, with a positive maximum.
 
-**False-positive modes.**
-- If `grad_norm` is logged *after* clipping, it's naturally capped at the
-  clip value and saturation there is by design, not a problem -- treat
-  this finding as informational unless you know norms are logged
-  pre-clip.
-- A model/task with a genuinely constant gradient scale (rare, but
-  possible near convergence) can trip saturation without any clipping
-  involved.
+**Interpretation.** A constant gradient can occur without any clipping.
+Post-clip norms can be capped by construction. Pre-clip norms do not measure
+how often clipping changed an update. A norm history alone cannot identify
+the logging convention, clipping threshold, or clipping frequency. This is
+a descriptive note; measure before/after norms or a clipping indicator
+before attributing the pattern to clipping or changing its threshold.
 """
 
 from __future__ import annotations
@@ -45,6 +45,7 @@ from .base import (
     Detector,
     Finding,
     FloatArray,
+    finite_spans,
     group_consecutive,
     robust_zscore,
     rolling_median_mad,
@@ -78,14 +79,22 @@ class GradNormDetector(Detector):
 
     def _run(self, run: Run) -> list[Finding]:
         series = run.get(self.metric)
-        if series is None or len(series) < 5:
+        ambiguous = series is None and self.metric in run._excluded_metrics
+        if ambiguous:
+            series = run._excluded_metrics[self.metric]
+        if series is None or series.is_empty():
             return []
         steps, values = series_arrays(series)
-        findings = self._explosions(steps, values)
+        findings = self._non_finite(steps, values, ambiguous=ambiguous)
+        if ambiguous:
+            return findings
+        findings.extend(self._explosions(steps, values))
         findings.extend(self._saturation(steps, values))
         return findings
 
-    def _explosions(self, steps: FloatArray, values: FloatArray) -> list[Finding]:
+    def _non_finite(
+        self, steps: FloatArray, values: FloatArray, *, ambiguous: bool,
+    ) -> list[Finding]:
         findings: list[Finding] = []
         finite = np.isfinite(values)
         if not finite.all():
@@ -101,29 +110,42 @@ class GradNormDetector(Detector):
                     step_start=int(steps[bad[0]]),
                     step_end=int(steps[bad[-1]]),
                     message=(
-                        f"grad_norm was NaN or infinite at {len(bad)} logged step"
-                        f"{'s' if len(bad) != 1 else ''}, first at step {int(steps[bad[0]])}."
+                        f"{self.metric} has {len(bad)} NaN or infinite "
+                        f"reading{'s' if len(bad) != 1 else ''}, first at step {int(steps[bad[0]])}."
+                        + (" Conflicting repeated-step values prevent trajectory analysis; "
+                           "these non-finite readings remain observed." if ambiguous else "")
                     ),
-                    evidence={"first_bad_step": int(steps[bad[0]]), "count": int(len(bad))},
+                    evidence={"first_bad_step": int(steps[bad[0]]), "count": int(len(bad)),
+                              "distinct_bad_steps": len(set(steps[bad])),
+                              "trajectory_status": "conflicting_values" if ambiguous else "available"},
                     fixes=[
-                        "If the loss stayed finite, this is usually mixed-precision overflow in the norm itself: try bf16, or check the gradient scaler.",
+                        "Inspect gradient computation and norm measurement at these steps; a logged non-finite norm alone does not establish its cause.",
+                        "If using mixed precision, inspect the gradient scaler and whether the optimizer skipped these updates.",
                         "If the loss went non-finite too, see the divergence finding.",
                     ],
                 )
             )
-        steps, values = steps[finite], values[finite]
-        if len(values) < 5:
-            return findings
-        z = robust_zscore(values, self.window)
-        median, _mad = rolling_median_mad(values, self.window)
-        with np.errstate(divide="ignore", invalid="ignore"):
-            ratio = np.where(median > 0, values / median, 0.0)
-        flagged = [i for i in range(len(values)) if z[i] > self.threshold and ratio[i] >= self.min_ratio]
-        groups = group_consecutive(flagged, gap=2)
+        return findings
+
+    def _explosions(self, steps: FloatArray, values: FloatArray) -> list[Finding]:
+        groups: list[list[int]] = []
+        ratio = np.zeros(len(values))
+        for start, stop in finite_spans(values):
+            segment = values[start:stop]
+            if len(segment) < 5:
+                continue
+            z = robust_zscore(segment, self.window)
+            median, _mad = rolling_median_mad(segment, self.window)
+            with np.errstate(over="ignore", divide="ignore", invalid="ignore"):
+                ratio[start:stop] = np.where(median > 0, segment / median, 0.0)
+            flagged = [start + i for i in range(len(segment))
+                       if z[i] > self.threshold and ratio[start + i] >= self.min_ratio]
+            groups.extend(group_consecutive(flagged, gap=2))
         if not groups:
-            return findings
+            return []
+        flagged = [i for group in groups for i in group]
         peak_i = max(flagged, key=lambda i: ratio[i])
-        findings.append(
+        return [
             Finding(
                 detector=self.name,
                 title="Gradient-norm explosion",
@@ -135,8 +157,8 @@ class GradNormDetector(Detector):
                     f"grad_norm exceeded {self.min_ratio:g}x its rolling median "
                     f"{len(groups)} time{'s' if len(groups) != 1 else ''}; the largest was "
                     f"{values[peak_i]:.4g} at step {int(steps[peak_i])}, {ratio[peak_i]:.0f}x the "
-                    "median around it. Read it with the loss: an explosion the loss did not "
-                    "react to was absorbed (usually by clipping)."
+                    "median around it. Compare the logged loss and optimizer updates; "
+                    "the norm alone does not establish clipping or an effect on training."
                 ),
                 evidence={
                     "count": len(groups),
@@ -150,14 +172,15 @@ class GradNormDetector(Detector):
                     "Check the batch at this step for an outlier example (e.g. a corrupted/extreme-length sample).",
                 ],
             )
-        )
-        return findings
+        ]
 
     def _saturation(self, steps: FloatArray, values: FloatArray) -> list[Finding]:
         n = len(values)
         if n < self.sat_window:
             return []
         window = values[-self.sat_window :]
+        if not np.all(np.isfinite(window)) or np.any(window < 0):
+            return []
         ceiling = float(np.max(window))
         if ceiling <= 0:
             return []
@@ -168,20 +191,24 @@ class GradNormDetector(Detector):
         return [
             Finding(
                 detector=self.name,
-                title="Gradient clipping likely saturated",
+                title="Gradient norms concentrated near their maximum",
                 severity="info",
                 metric=self.metric,
                 step_start=int(steps[-self.sat_window]),
                 step_end=int(steps[-1]),
                 message=(
                     f"{fraction * 100:.0f}% of the last {self.sat_window} grad_norm readings "
-                    f"sit within {self.sat_tol * 100:.1f}% of {ceiling:.4g} -- consistent with "
-                    "clipping pinning the norm at a ceiling most steps."
+                    f"sit within {self.sat_tol * 100:.1f}% of their observed maximum "
+                    f"({ceiling:.4g}). Constant gradients and post-clip logging can both "
+                    "produce this pattern. The norm history alone cannot establish "
+                    "whether clipping was used, its threshold, or how often it changed updates."
                 ),
-                evidence={"ceiling": ceiling, "fraction_at_ceiling": fraction, "window": self.sat_window},
+                evidence={"ceiling": ceiling, "fraction_at_ceiling": fraction,
+                          "window": self.sat_window, "clipping_status": "unknown"},
                 fixes=[
-                    "If grad_norm is logged pre-clip: raise the clip threshold, or lower the LR so gradients naturally stay under it.",
-                    "If grad_norm is logged post-clip, this is expected by construction and not necessarily a problem.",
+                    "Check whether the norm is measured before or after clipping.",
+                    "To measure clipping frequency, log the configured threshold and whether each update was clipped, or its before/after norms.",
+                    "Compare clipping with the loss and parameter updates before changing its threshold.",
                 ],
             )
         ]
