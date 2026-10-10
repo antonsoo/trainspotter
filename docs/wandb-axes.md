@@ -109,7 +109,7 @@ embedded for offline download. This build does not publish the site.
 The browser checks exercise Chromium and Firefox at desktop and 320px widths:
 coordinate labels, timing disclosures, keyboard scrolling, accessibility,
 no external requests and no CSP violations. Full checks, installed-wheel evidence
-and screenshot review are recorded in the accompanying verification files.
+and screenshot review are recorded in the [verification record](verification-wandb-axes.md).
 
 ![The real late delay remains visible in its training-step interval](assets/wandb-axes/chromium-desktop-slow-training.png)
 

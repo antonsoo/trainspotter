@@ -1,0 +1,75 @@
+{
+  "source_commit": "7268b0901d4052790a61f147dfb76836a825363f",
+  "clean_install": "git archive of source_commit; uv sync --locked --all-extras --dev into a fresh environment",
+  "clean_python": "3.14.7",
+  "checks": {
+    "ruff": "passed: src tests examples scripts",
+    "mypy": "passed: 27 source files",
+    "pytest": "444 passed in 43.54s",
+    "build": "sdist and wheel built from clean source",
+    "site": "15 generated report pages plus index",
+    "npm_ci": "passed; 4 packages installed",
+    "report_browsers": "148 workflows in Chromium and Firefox, desktop and 320px",
+    "gallery_browsers": "28 workflows including byte-identical CSV downloads served and file-offline, and installed-wheel explicit-axis reports"
+  },
+  "installed_runtimes": {
+    "wheel-min": {
+      "python": "3.10.21",
+      "numpy": "1.24.0",
+      "trainspotter": "0.2.6",
+      "installed_in_site_packages": true,
+      "module_sha256": {
+        "cli.py": "e25bf55b6036bac0b53599647bf27ec255834aa8030b016117858f077de139ae",
+        "model.py": "527371ee1812cd857cb807e8422d14fa002938f282e7ac21064d391a59630b58",
+        "readers/__init__.py": "301d4e5a6f396632e297eb68cf69d9c968c8fd6a55d31c24ba2b274343d178f9",
+        "readers/hf.py": "bee46a5a8d0ead8718ce51ef98124ef1690f89d93cd81da0da70995a3d755aa6",
+        "readers/lightning.py": "36cf68c7dc9e90f99de4e3007647c9308323154cb6aa96b0b09d9b40af0929f4",
+        "readers/tabular.py": "4921cca04fafa1ea59a3f5f7e233bb156cab1b2dd593ed5dd00993169259d2bc",
+        "readers/wandb.py": "6819770281c5dc292928544b8a78e1b3294b3b40130935a3bd29c9ddb8e80a7a",
+        "report/html_report.py": "51408fac53e32854a6e0c51bd94df75fe98884470725eb152a0c0bfd2d971d66",
+        "report/json_report.py": "83259d14e5d05c03cafcf134de987ad5c16e6e05ce16534c067401b413452900",
+        "report/terminal.py": "6beacecc76a8134eacf1929792bf5747b30d06426bfcd3c43855e854903d16ca",
+        "timing.py": "16f3de6a150563d62dee5f7b3b2edcaacfa8d21b3a4407bf902c84e779e52c3b"
+      }
+    },
+    "wheel-current": {
+      "python": "3.14.7",
+      "numpy": "2.5.3",
+      "trainspotter": "0.2.6",
+      "installed_in_site_packages": true,
+      "module_sha256": {
+        "cli.py": "e25bf55b6036bac0b53599647bf27ec255834aa8030b016117858f077de139ae",
+        "model.py": "527371ee1812cd857cb807e8422d14fa002938f282e7ac21064d391a59630b58",
+        "readers/__init__.py": "301d4e5a6f396632e297eb68cf69d9c968c8fd6a55d31c24ba2b274343d178f9",
+        "readers/hf.py": "bee46a5a8d0ead8718ce51ef98124ef1690f89d93cd81da0da70995a3d755aa6",
+        "readers/lightning.py": "36cf68c7dc9e90f99de4e3007647c9308323154cb6aa96b0b09d9b40af0929f4",
+        "readers/tabular.py": "4921cca04fafa1ea59a3f5f7e233bb156cab1b2dd593ed5dd00993169259d2bc",
+        "readers/wandb.py": "6819770281c5dc292928544b8a78e1b3294b3b40130935a3bd29c9ddb8e80a7a",
+        "report/html_report.py": "51408fac53e32854a6e0c51bd94df75fe98884470725eb152a0c0bfd2d971d66",
+        "report/json_report.py": "83259d14e5d05c03cafcf134de987ad5c16e6e05ce16534c067401b413452900",
+        "report/terminal.py": "6beacecc76a8134eacf1929792bf5747b30d06426bfcd3c43855e854903d16ca",
+        "timing.py": "16f3de6a150563d62dee5f7b3b2edcaacfa8d21b3a4407bf902c84e779e52c3b"
+      }
+    }
+  },
+  "artifacts": {
+    "dist/trainspotter-0.2.6-py3-none-any.whl": {
+      "sha256": "f966aad4e255a16eae8de6f210793ebe046f0e8f15e2042b568d3d426bf16864",
+      "bytes": 103512
+    },
+    "dist/trainspotter-0.2.6.tar.gz": {
+      "sha256": "a0091d0d5c623a64a13d6a9151fe20c24a0dbb3b4fa512cee122dddd8e27dc98",
+      "bytes": 129455
+    },
+    "clean-dist/trainspotter-0.2.6-py3-none-any.whl": {
+      "sha256": "f966aad4e255a16eae8de6f210793ebe046f0e8f15e2042b568d3d426bf16864",
+      "bytes": 103512
+    },
+    "clean-dist/trainspotter-0.2.6.tar.gz": {
+      "sha256": "181794f19da5ff4b96c398601c4dc3cf75f355068196dadb939bbfd29b4a7e8c",
+      "bytes": 129456
+    }
+  },
+  "all_clean_source_modules_match_checkout": true,
+  "local_only": true
+}

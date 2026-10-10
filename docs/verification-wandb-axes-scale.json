@@ -1,0 +1,63 @@
+{
+  "input_rows": 100000,
+  "input_bytes": 3962446,
+  "input_sha256": "97d08150eefee9f2d33a31d15a9f09b96c2e3d159ec61d855da5e2e4f3361cc4",
+  "input_kind": "Numerical control; constant 0.1 seconds/update, logging intervals change from 2 to 20 updates halfway",
+  "machine": "14 logical CPU WSL2 Linux, 48 GB RAM",
+  "checks": [
+    {
+      "output": "json",
+      "elapsed_seconds": 11.47,
+      "peak_rss_kib": 63416,
+      "output_bytes": 1889,
+      "exit": 0
+    },
+    {
+      "output": "html",
+      "elapsed_seconds": 9.15,
+      "peak_rss_kib": 72024,
+      "output_bytes": 54954,
+      "exit": 0
+    }
+  ],
+  "timing": {
+    "status": "compared",
+    "axis": "step",
+    "source": "wall_time(train/loss)",
+    "source_metric": "train/loss",
+    "unit": "s/step",
+    "observations": 99999,
+    "invalid_observations": 0,
+    "baseline": {
+      "first_position": 2,
+      "last_position": 39998,
+      "interval_start_step": 0,
+      "observations": 19999,
+      "invalid_observations": 0,
+      "median_seconds": 0.10000000000000853
+    },
+    "recent": {
+      "first_position": 700020,
+      "last_position": 1099980,
+      "interval_start_step": 700000,
+      "observations": 19999,
+      "invalid_observations": 0,
+      "median_seconds": 0.1
+    },
+    "ratio": 0.9999999999999148,
+    "reason": null,
+    "notes": [
+      "Wall-clock intervals include evaluation, checkpointing, pauses and other work between observations. They are not isolated compute timings."
+    ],
+    "min_window": 5,
+    "baseline_fraction": 0.2
+  },
+  "runtime": {
+    "python": "3.14.7",
+    "numpy": "2.5.3",
+    "trainspotter": "0.2.6",
+    "installed_in_site_packages": true
+  },
+  "wheel_sha256": "f966aad4e255a16eae8de6f210793ebe046f0e8f15e2042b568d3d426bf16864",
+  "measurement_note": "One run per output format, concurrent with browser verification. Full diagnosis includes loss detectors; not an isolated reader benchmark."
+}
