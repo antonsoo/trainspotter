@@ -39,3 +39,17 @@ folder can be its own run or an `add_scalars` writer for its parent; both possib
 owners retain the incomplete verdict. An intact selection says only that its
 supported recorded input was read, not that the training run finished or is healthy.
 These changes are local source work, not a new registry release or deployment.
+
+## Verification of source revision b7fa078
+
+A fresh archive of that commit passed `uv sync --locked --all-extras --dev`,
+`ruff check`, `mypy`, all **520 tests**, and `uv build` on Python 3.14.7. A
+separate Python 3.12.12 environment installed the built wheel with its TensorBoard
+extra and reproduced all five `verify.py --check` cases, including the CLI exits.
+The installed environment used TensorBoard 2.21.0; it did not import this checkout.
+
+The clean archive also passed **168 report workflows** using `npm ci` and
+`npm run test:browser`: Chromium and Firefox, desktop and 320px mobile, keyboard,
+axe, Content-Security-Policy, and no network requests. The report layout is unchanged;
+the new evidence is an additive JSON field. No package, site or remote branch was
+published by this verification.
