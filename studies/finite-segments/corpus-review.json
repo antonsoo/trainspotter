@@ -1,0 +1,360 @@
+{
+  "compared": 4259,
+  "readable": 4177,
+  "unreadable": 82,
+  "exactly_equal": 4233,
+  "wording_only_changes": 26,
+  "trajectory_changes": 0,
+  "input_state_changes": 0,
+  "severity_changes": 0,
+  "finding_count_changes": 0,
+  "input_identity_sha256_aggregate": "8b0c9db7931bb2c64fa9be62ed5dc9e1a0d586cd9b05ab5b92e30ae307f0b7da",
+  "changed": [
+    {
+      "identity": "Raiza16/studymate-flant5-lora@039d1502a3562f9f7a563d65cb745f9d65d72613:checkpoint-39/trainer_state.json",
+      "input_sha256": "c0a5abf8ae318a49b3414ef7692d84abe727e9892052a9a1bdeda139a2220d35",
+      "changes": [
+        {
+          "metric": "eval/loss",
+          "count": 3,
+          "before_title": "Non-finite evaluation values",
+          "after_title": "Non-finite evaluation values",
+          "suggestions_changed": true
+        }
+      ]
+    },
+    {
+      "identity": "Mahesh-Nallada/vlm-receipt-extraction-lora@cb107bd5e43f58c28bf42c4cbc80ef19a37d8c82:checkpoint-25/trainer_state.json",
+      "input_sha256": "229dcebbb6014044abf3dc2b966348d1a8b101e2bdffa3b33ad51c1b5ce719db",
+      "changes": [
+        {
+          "metric": "train/loss",
+          "count": 22,
+          "before_title": "Diverged (non-finite values)",
+          "after_title": "Non-finite training loss",
+          "suggestions_changed": true
+        },
+        {
+          "metric": "eval/loss",
+          "count": 1,
+          "before_title": "Non-finite evaluation values",
+          "after_title": "Non-finite evaluation values",
+          "suggestions_changed": true
+        }
+      ]
+    },
+    {
+      "identity": "THChou1220/gemma-4-e4b-kinetics384K_FFT@10e70565e45c388d0b7d37d958a71ffef7d17241:trainer_state.json",
+      "input_sha256": "d7c2e9fcc2e12c357b72dd5150a258d2e72dfc7fe3fb5535bb5df0e949e90db6",
+      "changes": [
+        {
+          "metric": "eval/loss",
+          "count": 1,
+          "before_title": "Non-finite evaluation values",
+          "after_title": "Non-finite evaluation values",
+          "suggestions_changed": true
+        }
+      ]
+    },
+    {
+      "identity": "Godsave22/vetkonect-qwen3-0.6b-lora-checkpoint-250@475c964c06ad391a18bc2800bcb6b25e1b665277:trainer_state.json",
+      "input_sha256": "05a9b655875eb3fc1de882f16ae061b069d65e4df669bc9e2bf367fe07f64165",
+      "changes": [
+        {
+          "metric": "eval/loss",
+          "count": 1,
+          "before_title": "Non-finite evaluation values",
+          "after_title": "Non-finite evaluation values",
+          "suggestions_changed": true
+        }
+      ]
+    },
+    {
+      "identity": "kkomyoeminaung/qwen3-8b-cpt-lora-2048@8b8022fbbfdad859b1a64ece0fd9953cfee82d5b:checkpoint-16600/trainer_state.json",
+      "input_sha256": "1594c994659b69b91ec3953985e82514a550dda35bf42c5ea53ea7d0885f3685",
+      "changes": [
+        {
+          "metric": "train/loss",
+          "count": 89,
+          "before_title": "Diverged (non-finite values)",
+          "after_title": "Non-finite training loss",
+          "suggestions_changed": true
+        }
+      ]
+    },
+    {
+      "identity": "RashidOmar/qwen25vl-3b-bangla-meme-type-target@a4e32c1f66c9e02aa42ce7df846baa3ed22ae495:checkpoint-174/trainer_state.json",
+      "input_sha256": "507553050053d697629550e7610e17457ed3ec97fcc0bf528b7763ade14769ef",
+      "changes": [
+        {
+          "metric": "eval/loss",
+          "count": 3,
+          "before_title": "Non-finite evaluation values",
+          "after_title": "Non-finite evaluation values",
+          "suggestions_changed": true
+        }
+      ]
+    },
+    {
+      "identity": "Godsave22/vetkonect-qwen3-0.6b-checkpoint-250@4d263918407a6f905e93419ac716c7dd17e55c83:trainer_state.json",
+      "input_sha256": "d1eaee145fdad88d756662e75e59bcd2c2419f9f5ecf805849741c706e77d17c",
+      "changes": [
+        {
+          "metric": "eval/loss",
+          "count": 1,
+          "before_title": "Non-finite evaluation values",
+          "after_title": "Non-finite evaluation values",
+          "suggestions_changed": true
+        }
+      ]
+    },
+    {
+      "identity": "zfan3/5in1_OneStage_223half22_Omni_73k_linear_v6_head_benchmarking@6e1d203d560d471f1bc90a3f89dbc56f9cf98b70:trainer_state.json",
+      "input_sha256": "1b8d0beb49f751f562984ef1d374e94004bcbbf358598ad15dd40eba591c0eef",
+      "changes": [
+        {
+          "metric": "eval/loss",
+          "count": 2,
+          "before_title": "Non-finite evaluation values",
+          "after_title": "Non-finite evaluation values",
+          "suggestions_changed": true
+        }
+      ]
+    },
+    {
+      "identity": "AFTAB-E-AALAM/kathe-kashmiri-indictrans2-v2@6e3ddb6c9a8fba182a8afdf6b5c0673803815595:last-checkpoint/trainer_state.json",
+      "input_sha256": "a48b525dae70d1f893304ebf301ab1f517abde22c69a6dc520deab226e356899",
+      "changes": [
+        {
+          "metric": "eval/loss",
+          "count": 3,
+          "before_title": "Non-finite evaluation values",
+          "after_title": "Non-finite evaluation values",
+          "suggestions_changed": true
+        }
+      ]
+    },
+    {
+      "identity": "Arkajyoti-Chakraborty/Qwen-2.5-7b-Mads-Bench@7c72f3f44e205a88d6c6d86fdda101888259900d:trainer_state.json",
+      "input_sha256": "c6f4e71413e9839124c1cf15d6139f96e5f2c7c654d011e637e3c842abb11036",
+      "changes": [
+        {
+          "metric": "eval/loss",
+          "count": 1,
+          "before_title": "Non-finite evaluation values",
+          "after_title": "Non-finite evaluation values",
+          "suggestions_changed": true
+        }
+      ]
+    },
+    {
+      "identity": "Arkajyoti-Chakraborty/xlam-2-8b-MADS-Bench-2@12b74f98fbabd7f489ffdee3ce1d6b005259499a:trainer_state.json",
+      "input_sha256": "ae6fac494f4d2392fbc9ee52e33dbbf11a9fef083a775b5c88a264211f03c5be",
+      "changes": [
+        {
+          "metric": "eval/loss",
+          "count": 1,
+          "before_title": "Non-finite evaluation values",
+          "after_title": "Non-finite evaluation values",
+          "suggestions_changed": true
+        }
+      ]
+    },
+    {
+      "identity": "whassy/gemma3-disaster-qlora@9245764a92a6aebe20bfc753af70ab009479a931:checkpoint-225/trainer_state.json",
+      "input_sha256": "f88841fc90e7723164065fb235b3978d5d812ebfbdfd7e1ed067ec82bf9d9e4b",
+      "changes": [
+        {
+          "metric": "eval/loss",
+          "count": 2,
+          "before_title": "Non-finite evaluation values",
+          "after_title": "Non-finite evaluation values",
+          "suggestions_changed": true
+        }
+      ]
+    },
+    {
+      "identity": "llmithull/HealthGPT-LoRA@8d1d923048cfefd3a7bc88b76de6e26a0cf86226:checkpoint-5625/trainer_state.json",
+      "input_sha256": "6117b6f5c734cff154cad4a8aef7d19593fa0b5e917a3d80fa168fd487dad432",
+      "changes": [
+        {
+          "metric": "eval/loss",
+          "count": 3,
+          "before_title": "Non-finite evaluation values",
+          "after_title": "Non-finite evaluation values",
+          "suggestions_changed": true
+        }
+      ]
+    },
+    {
+      "identity": "Arkajyoti-Chakraborty/xlam-2-8b-MADS-Bench@c93fda3db2f5e27ac46a8ff119f17d62227e7745:trainer_state.json",
+      "input_sha256": "5907afe59fab9e816bb8885142702a1fa228b987312cef13eb8d0b247f87f079",
+      "changes": [
+        {
+          "metric": "eval/loss",
+          "count": 3,
+          "before_title": "Non-finite evaluation values",
+          "after_title": "Non-finite evaluation values",
+          "suggestions_changed": true
+        }
+      ]
+    },
+    {
+      "identity": "iamjayeshc/ArgParser-v1-Qwen0.5B@08268c9611a6c2b6a1d3bcfd4217c655910b534f:checkpoint-141/trainer_state.json",
+      "input_sha256": "e0185270540f927d1368bd57c11c4ecb5f689fdf90c983dedddaeebea85abef4",
+      "changes": [
+        {
+          "metric": "eval/loss",
+          "count": 3,
+          "before_title": "Non-finite evaluation values",
+          "after_title": "Non-finite evaluation values",
+          "suggestions_changed": true
+        }
+      ]
+    },
+    {
+      "identity": "iamjayeshc/ArgParser-v4-Qwen1.5B@5254c540c3abed6124bccf5871a19059ad09ad6c:checkpoint-372/trainer_state.json",
+      "input_sha256": "7490fb903b4047d538965ab3391ab00cb94e98ec75b28bd1656ccb916b603721",
+      "changes": [
+        {
+          "metric": "eval/loss",
+          "count": 3,
+          "before_title": "Non-finite evaluation values",
+          "after_title": "Non-finite evaluation values",
+          "suggestions_changed": true
+        }
+      ]
+    },
+    {
+      "identity": "iamjayeshc/ArgParser-v3-Qwen1.5B@1c0968a474ab02822538f23687a367fb2ca2aaa9:checkpoint-57/trainer_state.json",
+      "input_sha256": "321c36baa017e10e0a7240cfd115712b76df31802f96f16493f0d0cc6138153e",
+      "changes": [
+        {
+          "metric": "eval/loss",
+          "count": 1,
+          "before_title": "Non-finite evaluation values",
+          "after_title": "Non-finite evaluation values",
+          "suggestions_changed": true
+        }
+      ]
+    },
+    {
+      "identity": "elsab/flan-t5-study-paraphraser@ffb4dc0ca920e873476ef0df6a56b35b256ede13:checkpoint-486/trainer_state.json",
+      "input_sha256": "2315bc8bcc869344d7331a5b6a1d1809e3eed5aeb43c6f016d227a1977d2ee15",
+      "changes": [
+        {
+          "metric": "eval/loss",
+          "count": 3,
+          "before_title": "Non-finite evaluation values",
+          "after_title": "Non-finite evaluation values",
+          "suggestions_changed": true
+        }
+      ]
+    },
+    {
+      "identity": "elsab/flan-t5-study-summarizer@b03183bb3a25dae6101b1507da642e65ec34a3ea:checkpoint-486/trainer_state.json",
+      "input_sha256": "189c7b694688c058a495a04c51e9131257958bf8363682aaccd0cf13838f3d25",
+      "changes": [
+        {
+          "metric": "eval/loss",
+          "count": 3,
+          "before_title": "Non-finite evaluation values",
+          "after_title": "Non-finite evaluation values",
+          "suggestions_changed": true
+        }
+      ]
+    },
+    {
+      "identity": "ethicalabs/Echo-DSRN-v0.1.3-Embed-Intent@297700e760aeabc008e6315b5a21d9471d2095c7:trainer_state.json",
+      "input_sha256": "7955411f72252e14d296293273fadf2310f02ae4920f8809b0417f242758b4ae",
+      "changes": [
+        {
+          "metric": "eval/loss",
+          "count": 3,
+          "before_title": "Non-finite evaluation values",
+          "after_title": "Non-finite evaluation values",
+          "suggestions_changed": true
+        }
+      ]
+    },
+    {
+      "identity": "aboly47/mt5-translation-en-es@1a195cbc44a6f101b467ff4192bfe593fdc14dc6:trainer_state.json",
+      "input_sha256": "e2277995be1ce26aa907cadc400397cdd0766c0cfd7163f4c066e92c3707ab72",
+      "changes": [
+        {
+          "metric": "eval/loss",
+          "count": 3,
+          "before_title": "Non-finite evaluation values",
+          "after_title": "Non-finite evaluation values",
+          "suggestions_changed": true
+        }
+      ]
+    },
+    {
+      "identity": "aliirtaza7/qwen25math15binstructp1@0d2cd09e9bd8fb79b6136c31b9222eb6b580bf54:last-checkpoint/trainer_state.json",
+      "input_sha256": "725434b77e2c664604206c9a065202f2c7d617327a574974a74a0c82f152862b",
+      "changes": [
+        {
+          "metric": "eval/loss",
+          "count": 8,
+          "before_title": "Non-finite evaluation values",
+          "after_title": "Non-finite evaluation values",
+          "suggestions_changed": true
+        }
+      ]
+    },
+    {
+      "identity": "subhan971/desi-food-qwen2.5-vl-lora@377ee41c9fb65911f0fe211c24af149fdacb00c4:trainer_state.json",
+      "input_sha256": "4595f3348af215d7faee7dafa284638648f22e822b01a0efe33eee8291e0748f",
+      "changes": [
+        {
+          "metric": "eval/loss",
+          "count": 2,
+          "before_title": "Non-finite evaluation values",
+          "after_title": "Non-finite evaluation values",
+          "suggestions_changed": true
+        }
+      ]
+    },
+    {
+      "identity": "properexit/ArgParser-v1@90f94d2a6737901c83f31158af61232f1d23f320:checkpoint-141/trainer_state.json",
+      "input_sha256": "e0185270540f927d1368bd57c11c4ecb5f689fdf90c983dedddaeebea85abef4",
+      "changes": [
+        {
+          "metric": "eval/loss",
+          "count": 3,
+          "before_title": "Non-finite evaluation values",
+          "after_title": "Non-finite evaluation values",
+          "suggestions_changed": true
+        }
+      ]
+    },
+    {
+      "identity": "properexit/ArgParser-v4@6cbde0ef615008b6485dab8d75676d54f837cdb9:checkpoint-372/trainer_state.json",
+      "input_sha256": "7490fb903b4047d538965ab3391ab00cb94e98ec75b28bd1656ccb916b603721",
+      "changes": [
+        {
+          "metric": "eval/loss",
+          "count": 3,
+          "before_title": "Non-finite evaluation values",
+          "after_title": "Non-finite evaluation values",
+          "suggestions_changed": true
+        }
+      ]
+    },
+    {
+      "identity": "properexit/ArgParser-v3@04833f3b2113c5b0df0f34539a0ecd248bff446c:checkpoint-57/trainer_state.json",
+      "input_sha256": "321c36baa017e10e0a7240cfd115712b76df31802f96f16493f0d0cc6138153e",
+      "changes": [
+        {
+          "metric": "eval/loss",
+          "count": 1,
+          "before_title": "Non-finite evaluation values",
+          "after_title": "Non-finite evaluation values",
+          "suggestions_changed": true
+        }
+      ]
+    }
+  ],
+  "scope": "Cached historical corpus, not an accuracy label or new live Hub census."
+}

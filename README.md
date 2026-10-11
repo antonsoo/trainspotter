@@ -34,6 +34,15 @@ constant gradient norms do not establish clipping, and short histories keep
 their observed NaN/Inf norms. The retained PyTorch captures include clipped
 and unclipped runs with identical pre-clip norm histories.
 
+**NaN/Inf gaps must not invent a loss trajectory.** The current source keeps
+spikes, setbacks and terminal-rise comparisons inside finite segments. A
+[controlled PyTorch capture](studies/finite-segments/README.md) previously
+produced a 30-step setback and an isolated spike by joining observations across
+two logging gaps. Those unsupported claims are gone; the non-finite training
+loss still fails the error gate. The alert names the observed loss, since a
+NaN logging reduction alone does not prove that optimizer updates diverged.
+This correction is local source work and is not in the PyPI release or hosted gallery.
+
 ## Calibration study on 3,145 real runs
 
 Many people upload `Trainer`'s checkpoint directories to the Hugging Face Hub,

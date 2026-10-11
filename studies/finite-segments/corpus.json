@@ -1,0 +1,250 @@
+{
+  "python": "3.12.12",
+  "manifests": {
+    "manifest.json": "b4f2abeb45c77f93f62c6f7b08ca92acb8a2b3951f327825c969e802fbcc2d55",
+    "manifest-heldout.json": "13a9d300f8c7131154723c8981d720f80277ee3e539d91d46030f36c0a0577a5"
+  },
+  "runs": [
+    {
+      "label": "before",
+      "elapsed_s": 239.27853964800306,
+      "output_sha256": "7f0084d91d45c2ddef5c0a04273bb1e4d1711b3f59426baaf46f32ae1f226faa",
+      "source_sha256": {
+        "trainspotter/__init__.py": "f902908eabb455be7238326cae68b500f401e4962b326bc7696dbc748be6437b",
+        "trainspotter/cli.py": "e25bf55b6036bac0b53599647bf27ec255834aa8030b016117858f077de139ae",
+        "trainspotter/detectors/__init__.py": "38482b71273ec74fdf748c447e35c1132451b5f9a74a581a8e72067d91624e09",
+        "trainspotter/detectors/_rolling_slope.py": "1ed39d9ca2e6141dd196b4295f9631fe2343942aefa4ff40e96cc188b7da954f",
+        "trainspotter/detectors/base.py": "6040f66b97202e2903c26eee4f0512177b737f63294beeac532b86a5700a8c54",
+        "trainspotter/detectors/divergence.py": "a850e69d7afcecaff65a46ff80b4ab440301dacbbc56ba15055a5ffda1b131dc",
+        "trainspotter/detectors/eval_noise.py": "1fa2258d2d3247fa0486fda30867e1b769bf5d06ffd864402c91fd1610b350ca",
+        "trainspotter/detectors/grad_norm.py": "353bd6e6670d9578a78bcadd9d6def20c003f59be18a211e129177dfb79d9ae8",
+        "trainspotter/detectors/loss_floor.py": "1ccd776c28f23097827633022125fa420c274e9e04a59c41bbf86d7d3e776b75",
+        "trainspotter/detectors/lr_schedule.py": "6cc240b8afaca7ed71cabd247babedb99a53f3811b5d6a08bdf635599143f07b",
+        "trainspotter/detectors/overfitting.py": "bb3e0de68e033caa75e6290708fce67d967dc929db78c5bc687c99476897b38f",
+        "trainspotter/detectors/plateau.py": "a3f88c543d3a02042070fac99162d9e82519c6741a5ecb979d834902d3ef61e2",
+        "trainspotter/detectors/setbacks.py": "ad16c242d00a4ce08cf7424d85bebf5d0fd32d430a8eec6941b79de3b08a7011",
+        "trainspotter/detectors/spikes.py": "97383ca0a1fba92f3cbcadbbe2c0683f0ea4d04501e65d69a48c3900166eda97",
+        "trainspotter/detectors/throughput.py": "b6a506b973629696564601546992b051700bdece9bbc67b2bd05e402d4a68a54",
+        "trainspotter/model.py": "527371ee1812cd857cb807e8422d14fa002938f282e7ac21064d391a59630b58",
+        "trainspotter/readers/__init__.py": "301d4e5a6f396632e297eb68cf69d9c968c8fd6a55d31c24ba2b274343d178f9",
+        "trainspotter/readers/common.py": "4501e803a4b1dce1c2206ef711e25da290b50719120ad8e773a65f2ada7a0dd1",
+        "trainspotter/readers/hf.py": "bee46a5a8d0ead8718ce51ef98124ef1690f89d93cd81da0da70995a3d755aa6",
+        "trainspotter/readers/lightning.py": "36cf68c7dc9e90f99de4e3007647c9308323154cb6aa96b0b09d9b40af0929f4",
+        "trainspotter/readers/tabular.py": "4921cca04fafa1ea59a3f5f7e233bb156cab1b2dd593ed5dd00993169259d2bc",
+        "trainspotter/readers/tensorboard.py": "7c832a4dd80fcce9744b8b78236b308cf50ac40204d8d89335f6d10c9ce6ffc2",
+        "trainspotter/readers/wandb.py": "6819770281c5dc292928544b8a78e1b3294b3b40130935a3bd29c9ddb8e80a7a",
+        "trainspotter/report/__init__.py": "317d8be1f917cf65f0312a083c62f7bf268d37b5c9d7232c3a0bf37ae18b9a0a",
+        "trainspotter/report/html_report.py": "51408fac53e32854a6e0c51bd94df75fe98884470725eb152a0c0bfd2d971d66",
+        "trainspotter/report/json_report.py": "360d387651fb2f210dedd461eab283973f82c6758c7a77168f46df2d856286e7",
+        "trainspotter/report/terminal.py": "6beacecc76a8134eacf1929792bf5747b30d06426bfcd3c43855e854903d16ca",
+        "trainspotter/timing.py": "16f3de6a150563d62dee5f7b3b2edcaacfa8d21b3a4407bf902c84e779e52c3b"
+      }
+    },
+    {
+      "label": "after",
+      "elapsed_s": 252.8088809040055,
+      "output_sha256": "c1f61b00734fb227aa4096555b4e6f5513be4054f97bdcb27646d5bd219a57c1",
+      "source_sha256": {
+        "trainspotter/__init__.py": "f902908eabb455be7238326cae68b500f401e4962b326bc7696dbc748be6437b",
+        "trainspotter/cli.py": "e25bf55b6036bac0b53599647bf27ec255834aa8030b016117858f077de139ae",
+        "trainspotter/detectors/__init__.py": "38482b71273ec74fdf748c447e35c1132451b5f9a74a581a8e72067d91624e09",
+        "trainspotter/detectors/_rolling_slope.py": "1ed39d9ca2e6141dd196b4295f9631fe2343942aefa4ff40e96cc188b7da954f",
+        "trainspotter/detectors/base.py": "edc2cb5fcfc0587ae1edac64605166a7ca4358d4f1b3c4f40fcb3b342953e107",
+        "trainspotter/detectors/divergence.py": "60e8b29e2c4706f2101c0c5f8c6d21b9a2a500e45a469d1e2b343062d4285cb7",
+        "trainspotter/detectors/eval_noise.py": "1fa2258d2d3247fa0486fda30867e1b769bf5d06ffd864402c91fd1610b350ca",
+        "trainspotter/detectors/grad_norm.py": "353bd6e6670d9578a78bcadd9d6def20c003f59be18a211e129177dfb79d9ae8",
+        "trainspotter/detectors/loss_floor.py": "1ccd776c28f23097827633022125fa420c274e9e04a59c41bbf86d7d3e776b75",
+        "trainspotter/detectors/lr_schedule.py": "6cc240b8afaca7ed71cabd247babedb99a53f3811b5d6a08bdf635599143f07b",
+        "trainspotter/detectors/overfitting.py": "bb3e0de68e033caa75e6290708fce67d967dc929db78c5bc687c99476897b38f",
+        "trainspotter/detectors/plateau.py": "a3f88c543d3a02042070fac99162d9e82519c6741a5ecb979d834902d3ef61e2",
+        "trainspotter/detectors/setbacks.py": "7d0e653f878d3f1787ab444563d026271c262aeb8828478243c6155a51fdcf85",
+        "trainspotter/detectors/spikes.py": "a884d3349b0b73c8d44c95b6d13a6cfefb41d413be3a7fe4d75d4641b01ddd30",
+        "trainspotter/detectors/throughput.py": "b6a506b973629696564601546992b051700bdece9bbc67b2bd05e402d4a68a54",
+        "trainspotter/model.py": "527371ee1812cd857cb807e8422d14fa002938f282e7ac21064d391a59630b58",
+        "trainspotter/readers/__init__.py": "301d4e5a6f396632e297eb68cf69d9c968c8fd6a55d31c24ba2b274343d178f9",
+        "trainspotter/readers/common.py": "4501e803a4b1dce1c2206ef711e25da290b50719120ad8e773a65f2ada7a0dd1",
+        "trainspotter/readers/hf.py": "bee46a5a8d0ead8718ce51ef98124ef1690f89d93cd81da0da70995a3d755aa6",
+        "trainspotter/readers/lightning.py": "36cf68c7dc9e90f99de4e3007647c9308323154cb6aa96b0b09d9b40af0929f4",
+        "trainspotter/readers/tabular.py": "4921cca04fafa1ea59a3f5f7e233bb156cab1b2dd593ed5dd00993169259d2bc",
+        "trainspotter/readers/tensorboard.py": "7c832a4dd80fcce9744b8b78236b308cf50ac40204d8d89335f6d10c9ce6ffc2",
+        "trainspotter/readers/wandb.py": "6819770281c5dc292928544b8a78e1b3294b3b40130935a3bd29c9ddb8e80a7a",
+        "trainspotter/report/__init__.py": "317d8be1f917cf65f0312a083c62f7bf268d37b5c9d7232c3a0bf37ae18b9a0a",
+        "trainspotter/report/html_report.py": "51408fac53e32854a6e0c51bd94df75fe98884470725eb152a0c0bfd2d971d66",
+        "trainspotter/report/json_report.py": "360d387651fb2f210dedd461eab283973f82c6758c7a77168f46df2d856286e7",
+        "trainspotter/report/terminal.py": "6beacecc76a8134eacf1929792bf5747b30d06426bfcd3c43855e854903d16ca",
+        "trainspotter/timing.py": "16f3de6a150563d62dee5f7b3b2edcaacfa8d21b3a4407bf902c84e779e52c3b"
+      }
+    }
+  ],
+  "compared": 4259,
+  "readable": 4177,
+  "unavailable": 0,
+  "unreadable": 82,
+  "exactly_equal": 4233,
+  "only_float_roundoff": 0,
+  "float_comparison": {
+    "relative_tolerance": 1e-10,
+    "absolute_tolerance": 1e-12
+  },
+  "changed": [
+    {
+      "identity": "Raiza16/studymate-flant5-lora@039d1502a3562f9f7a563d65cb745f9d65d72613:checkpoint-39/trainer_state.json",
+      "paths": [
+        "/report/findings/0/fixes"
+      ]
+    },
+    {
+      "identity": "Mahesh-Nallada/vlm-receipt-extraction-lora@cb107bd5e43f58c28bf42c4cbc80ef19a37d8c82:checkpoint-25/trainer_state.json",
+      "paths": [
+        "/report/findings/0/fixes",
+        "/report/findings/0/title",
+        "/report/findings/1/fixes"
+      ]
+    },
+    {
+      "identity": "THChou1220/gemma-4-e4b-kinetics384K_FFT@10e70565e45c388d0b7d37d958a71ffef7d17241:trainer_state.json",
+      "paths": [
+        "/report/findings/0/fixes"
+      ]
+    },
+    {
+      "identity": "Godsave22/vetkonect-qwen3-0.6b-lora-checkpoint-250@475c964c06ad391a18bc2800bcb6b25e1b665277:trainer_state.json",
+      "paths": [
+        "/report/findings/0/fixes"
+      ]
+    },
+    {
+      "identity": "kkomyoeminaung/qwen3-8b-cpt-lora-2048@8b8022fbbfdad859b1a64ece0fd9953cfee82d5b:checkpoint-16600/trainer_state.json",
+      "paths": [
+        "/report/findings/0/fixes",
+        "/report/findings/0/title"
+      ]
+    },
+    {
+      "identity": "RashidOmar/qwen25vl-3b-bangla-meme-type-target@a4e32c1f66c9e02aa42ce7df846baa3ed22ae495:checkpoint-174/trainer_state.json",
+      "paths": [
+        "/report/findings/0/fixes"
+      ]
+    },
+    {
+      "identity": "Godsave22/vetkonect-qwen3-0.6b-checkpoint-250@4d263918407a6f905e93419ac716c7dd17e55c83:trainer_state.json",
+      "paths": [
+        "/report/findings/0/fixes"
+      ]
+    },
+    {
+      "identity": "zfan3/5in1_OneStage_223half22_Omni_73k_linear_v6_head_benchmarking@6e1d203d560d471f1bc90a3f89dbc56f9cf98b70:trainer_state.json",
+      "paths": [
+        "/report/findings/0/fixes"
+      ]
+    },
+    {
+      "identity": "AFTAB-E-AALAM/kathe-kashmiri-indictrans2-v2@6e3ddb6c9a8fba182a8afdf6b5c0673803815595:last-checkpoint/trainer_state.json",
+      "paths": [
+        "/report/findings/1/fixes"
+      ]
+    },
+    {
+      "identity": "Arkajyoti-Chakraborty/Qwen-2.5-7b-Mads-Bench@7c72f3f44e205a88d6c6d86fdda101888259900d:trainer_state.json",
+      "paths": [
+        "/report/findings/0/fixes"
+      ]
+    },
+    {
+      "identity": "Arkajyoti-Chakraborty/xlam-2-8b-MADS-Bench-2@12b74f98fbabd7f489ffdee3ce1d6b005259499a:trainer_state.json",
+      "paths": [
+        "/report/findings/0/fixes"
+      ]
+    },
+    {
+      "identity": "whassy/gemma3-disaster-qlora@9245764a92a6aebe20bfc753af70ab009479a931:checkpoint-225/trainer_state.json",
+      "paths": [
+        "/report/findings/0/fixes"
+      ]
+    },
+    {
+      "identity": "llmithull/HealthGPT-LoRA@8d1d923048cfefd3a7bc88b76de6e26a0cf86226:checkpoint-5625/trainer_state.json",
+      "paths": [
+        "/report/findings/0/fixes"
+      ]
+    },
+    {
+      "identity": "Arkajyoti-Chakraborty/xlam-2-8b-MADS-Bench@c93fda3db2f5e27ac46a8ff119f17d62227e7745:trainer_state.json",
+      "paths": [
+        "/report/findings/0/fixes"
+      ]
+    },
+    {
+      "identity": "iamjayeshc/ArgParser-v1-Qwen0.5B@08268c9611a6c2b6a1d3bcfd4217c655910b534f:checkpoint-141/trainer_state.json",
+      "paths": [
+        "/report/findings/0/fixes"
+      ]
+    },
+    {
+      "identity": "iamjayeshc/ArgParser-v4-Qwen1.5B@5254c540c3abed6124bccf5871a19059ad09ad6c:checkpoint-372/trainer_state.json",
+      "paths": [
+        "/report/findings/0/fixes"
+      ]
+    },
+    {
+      "identity": "iamjayeshc/ArgParser-v3-Qwen1.5B@1c0968a474ab02822538f23687a367fb2ca2aaa9:checkpoint-57/trainer_state.json",
+      "paths": [
+        "/report/findings/0/fixes"
+      ]
+    },
+    {
+      "identity": "elsab/flan-t5-study-paraphraser@ffb4dc0ca920e873476ef0df6a56b35b256ede13:checkpoint-486/trainer_state.json",
+      "paths": [
+        "/report/findings/0/fixes"
+      ]
+    },
+    {
+      "identity": "elsab/flan-t5-study-summarizer@b03183bb3a25dae6101b1507da642e65ec34a3ea:checkpoint-486/trainer_state.json",
+      "paths": [
+        "/report/findings/0/fixes"
+      ]
+    },
+    {
+      "identity": "ethicalabs/Echo-DSRN-v0.1.3-Embed-Intent@297700e760aeabc008e6315b5a21d9471d2095c7:trainer_state.json",
+      "paths": [
+        "/report/findings/0/fixes"
+      ]
+    },
+    {
+      "identity": "aboly47/mt5-translation-en-es@1a195cbc44a6f101b467ff4192bfe593fdc14dc6:trainer_state.json",
+      "paths": [
+        "/report/findings/0/fixes"
+      ]
+    },
+    {
+      "identity": "aliirtaza7/qwen25math15binstructp1@0d2cd09e9bd8fb79b6136c31b9222eb6b580bf54:last-checkpoint/trainer_state.json",
+      "paths": [
+        "/report/findings/0/fixes"
+      ]
+    },
+    {
+      "identity": "subhan971/desi-food-qwen2.5-vl-lora@377ee41c9fb65911f0fe211c24af149fdacb00c4:trainer_state.json",
+      "paths": [
+        "/report/findings/0/fixes"
+      ]
+    },
+    {
+      "identity": "properexit/ArgParser-v1@90f94d2a6737901c83f31158af61232f1d23f320:checkpoint-141/trainer_state.json",
+      "paths": [
+        "/report/findings/0/fixes"
+      ]
+    },
+    {
+      "identity": "properexit/ArgParser-v4@6cbde0ef615008b6485dab8d75676d54f837cdb9:checkpoint-372/trainer_state.json",
+      "paths": [
+        "/report/findings/0/fixes"
+      ]
+    },
+    {
+      "identity": "properexit/ArgParser-v3@04833f3b2113c5b0df0f34539a0ecd248bff446c:checkpoint-57/trainer_state.json",
+      "paths": [
+        "/report/findings/0/fixes"
+      ]
+    }
+  ]
+}

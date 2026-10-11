@@ -13,6 +13,7 @@ const scratch = await mkdtemp(join(tmpdir(), 'trainspotter-reports-'));
 const screenshotDir = process.env.TRAINSPOTTER_SCREENSHOTS;
 const timingScreenshotDir = process.env.TRAINSPOTTER_TIMING_SCREENSHOTS;
 const axisScreenshotDir = process.env.TRAINSPOTTER_AXIS_SCREENSHOTS;
+const finiteScreenshotDir = process.env.TRAINSPOTTER_FINITE_SCREENSHOTS;
 const evidence = [];
 async function checkKeyboardScroll(page, region) {
   await region.focus();
@@ -40,6 +41,7 @@ try {
   if (screenshotDir) await mkdir(screenshotDir, { recursive: true });
   if (timingScreenshotDir) await mkdir(timingScreenshotDir, { recursive: true });
   if (axisScreenshotDir) await mkdir(axisScreenshotDir, { recursive: true });
+  if (finiteScreenshotDir) await mkdir(finiteScreenshotDir, { recursive: true });
   for (const [engine, launcher] of Object.entries({ chromium, firefox })) {
     const browser = await launcher.launch({ headless: true });
     try {
@@ -117,6 +119,20 @@ try {
               assert.deepEqual(requests, []);
               assert.deepEqual(await page.evaluate(() => window.policyViolations), []);
               const json = JSON.parse(await readFile(join(scratch, report.file.replace(/\.html$/, '.json')), 'utf8'));
+              if (report.file === 'observed.html') {
+                assert.deepEqual(json.findings.filter(f => ['divergence', 'spikes', 'setbacks'].includes(f.detector)).map(f => f.title), ['Non-finite training loss']);
+                assert.equal(await page.getByRole('heading', { name: 'Non-finite training loss', exact: true }).count(), 1);
+                assert.match(await page.locator('.findings-log').innerText(), /logging reduction separately/);
+              }
+              if (report.file === 'synthetic-after-gap.html') {
+                const setback = json.findings.find(f => f.detector === 'setbacks');
+                assert.deepEqual([setback.step_start, setback.step_end], [100, 120]);
+                assert.deepEqual([setback.evidence.segment_start_step, setback.evidence.segment_end_step], [40, 159]);
+                const article = page.locator('article.finding').filter({ has: page.getByRole('heading', { name: setback.title, exact: true }) });
+                assert.equal(await article.locator('.message').innerText(), setback.message);
+                assert.match(await article.locator('.evidence').innerText(), /share_of_segment=/);
+                assert.doesNotMatch(await article.locator('.evidence').innerText(), /share_of_run=/);
+              }
               const reboundFindings = json.findings.filter(f => f.title === 'LR rose after decay');
               const reboundArticles = page.locator('article.finding').filter({ has: page.getByRole('heading', { name: 'LR rose after decay', exact: true }) });
               assert.equal(await reboundArticles.count(), reboundFindings.length);
@@ -182,7 +198,17 @@ try {
                 await page.screenshot({ path, fullPage: true });
                 axisScreenshot = { file, sha256: createHash('sha256').update(await readFile(path)).digest('hex') };
               }
-              evidence.push({ engine, browser_version: browser.version(), layout, ...report, axis: json.run.step_axis, axeViolations: 0, externalRequests: 0, policyViolations: 0, ...(timingScreenshot ? { timingScreenshot } : {}), ...(axisScreenshot ? { axisScreenshot } : {}) });
+              let finiteScreenshot;
+              if (finiteScreenshotDir && (
+                (layout === 'desktop' && report.file === 'observed.html') ||
+                (layout === 'mobile' && engine === 'chromium' && report.file === 'synthetic-after-gap.html')
+              )) {
+                const file = `${engine}-${layout}-${report.file.replace(/\.html$/, '')}.png`;
+                const path = join(finiteScreenshotDir, file);
+                await page.screenshot({ path, fullPage: true });
+                finiteScreenshot = { file, sha256: createHash('sha256').update(await readFile(path)).digest('hex') };
+              }
+              evidence.push({ engine, browser_version: browser.version(), layout, ...report, axis: json.run.step_axis, axeViolations: 0, externalRequests: 0, policyViolations: 0, ...(timingScreenshot ? { timingScreenshot } : {}), ...(axisScreenshot ? { axisScreenshot } : {}), ...(finiteScreenshot ? { finiteScreenshot } : {}) });
             } finally {
               await page.close();
             }

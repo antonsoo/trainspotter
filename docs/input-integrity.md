@@ -30,6 +30,32 @@ An unterminated quoted field is an input error. Comma, semicolon, and tab delimi
 UTF-8 BOMs, and decimal commas with non-comma delimiters are supported. All names in
 terminal diagnostics are shown with control characters escaped; HTML names are escaped.
 
+## Non-finite loss observations
+
+NaN/Inf loss readings are retained, not discarded as malformed input. A
+non-finite training loss remains an error finding and causes `--fail-on error`
+to exit 1 in otherwise complete input. Its title is **Non-finite training loss**:
+a bad objective, unstable optimizer and an empty logging reduction can produce
+the same observed value, so the report does not choose a cause.
+
+Loss spikes and recovered setbacks are assessed separately within contiguous
+finite observations. Their smoothing windows, progress, scatter and recovery
+endpoints never cross an explicit NaN/Inf reading. Terminal-rise analysis uses
+only the final finite segment and runs only if the last observation is finite.
+A history ending in NaN cannot be described using an earlier finite endpoint.
+
+For a history containing such gaps, trajectory findings expose
+`segment_start_step`, `segment_end_step` and `segment_observations`. Setback
+duration fractions use `share_of_segment`, not `share_of_run`; progress is
+relative to that segment too. Fewer than ten finite observations cannot
+establish a loss level. A later segment can contain a valid event, but is never
+called an early-run rise merely because its own first points rose.
+
+Sparse blank/null cells are still absent observations, not explicit boundaries.
+This rule cannot infer an unrecorded gap, checkpoint reset, dataset switch or
+missing batch from a finite curve. It does not establish real training health
+or wasted GPU time. [Controlled capture and before/after evidence](../studies/finite-segments/README.md).
+
 ## TensorBoard event order
 
 The optional reader uses TensorBoard's TFRecord decoder and protobuf definitions,

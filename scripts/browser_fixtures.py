@@ -25,6 +25,15 @@ sources.extend(p for p in sorted((root / "examples/evaluation/captured").glob("*
 sources.extend(root / "examples/diagnostic-evidence" / f"{name}.csv" for name in (
     "slow-sparse", "fast-dense", "unclipped-before", "overflow-one-step", "infinite-gradient-tail",
 ))
+sources.append(root / "studies/finite-segments/captured/observed.csv")
+after_gap = destination / "synthetic-after-gap.csv"
+after_gap.write_text("step,loss\n" + "".join(
+    f"{step},{value}\n" for step, value in enumerate(
+        [1.0] * 30 + [float("nan")] * 10
+        + [5.0] * 20 + [1.0] * 40 + [4.0] * 20 + [1.0] * 40
+    )
+))
+sources.append(after_gap)
 partial = destination / "synthetic-partial.jsonl"
 partial.write_text('{"step":100,"loss":2}\n{broken\n{"step":200,"loss":1}\n')
 sources.append(partial)

@@ -308,8 +308,14 @@ def centered_median(values: FloatArray, window: int) -> FloatArray:
 
 
 def levels(values: FloatArray) -> Levels | None:
-    """Estimate a loss series' levels, or None when it has too few finite points."""
-    finite = values[np.isfinite(values)]
+    """Estimate one finite segment's levels; callers must split at NaN/Inf.
+
+    Filtering here would erase the gap and let a rolling window, baseline or
+    recovery claim borrow observations from the other side of it.
+    """
+    if not np.all(np.isfinite(values)):
+        return None
+    finite = values
     n = len(finite)
     if n < MIN_LEVEL_POINTS:
         return None
@@ -397,10 +403,27 @@ def excursions(lv: Levels) -> list[Excursion]:
     return found
 
 
-def progress_text(share: float) -> str:
+def progress_text(share: float, scope: str = "run") -> str:
     """``43% of the run's progress``, or ``29 times the run's progress`` once a
     percentage stops being readable."""
-    return f"{share:.0%} of the run's progress" if share < 10 else f"{share:.0f} times the run's progress"
+    return (
+        f"{share:.0%} of the {scope}'s progress" if share < 10
+        else f"{share:.0f} times the {scope}'s progress"
+    )
+
+
+def add_segment_evidence(findings: list[Finding], steps: FloatArray) -> None:
+    """Name the finite observations behind a finding in a history with gaps."""
+    for finding in findings:
+        finding.evidence.update({
+            "segment_start_step": int(steps[0]),
+            "segment_end_step": int(steps[-1]),
+            "segment_observations": len(steps),
+        })
+        finding.message += (
+            f" Assessed within the finite segment at steps {int(steps[0])}-{int(steps[-1])} "
+            f"({len(steps)} observations); no loss trajectory is inferred across NaN/Inf readings."
+        )
 
 
 def series_arrays(series: MetricSeries) -> tuple[FloatArray, FloatArray]:

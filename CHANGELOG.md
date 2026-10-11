@@ -6,6 +6,13 @@ and this project uses [Semantic Versioning](https://semver.org/).
 
 ## Unreleased
 
+- Keep loss spikes, recovered setbacks and terminal-rise baselines within
+  contiguous finite observations. NaN/Inf gaps no longer join separate levels
+  or manufacture recovery durations; valid events after a gap remain visible
+  with explicit segment bounds and duration shares. Name a non-finite training
+  loss without asserting optimizer divergence; retain its error severity.
+  [Captured PyTorch counterexample and CLI replay](studies/finite-segments/README.md).
+
 - Scope TensorBoard skipped-event and unread-byte counts to the selected run.
   Retain other writers' integrity evidence in JSON, preserve damaged runs with
   zero scalar points, and conservatively attribute unread `add_scalars` writers.

@@ -25,6 +25,13 @@ of under 150, and about 2% of the run in a longer one. A run with more than
 An excursion the log ends inside is not reported here: the `divergence`
 detector judges those by how much of the run's progress is gone at the end.
 
+NaN/Inf readings split the history into finite segments. Smoothing, progress,
+scatter, duration shares and burst grouping use each segment independently;
+no excursion is joined across a gap. Segment-scoped findings name their bounds
+and use `share_of_segment` instead of `share_of_run`. The burst limit applies
+per segment. "Early rise" applies only in the segment starting at the run's
+first observation, since a later restart is not evidence of an early event.
+
 An excursion that begins in the first tenth of the run is titled "Early
 rise". It is the commonest kind in public logs: a run that starts from a
 trained checkpoint at a low loss, climbs while the learning rate warms up,
@@ -59,16 +66,17 @@ from __future__ import annotations
 
 import math
 
-import numpy as np
-
 from trainspotter.model import Run
 
 from .base import (
     Detector,
     Excursion,
     Finding,
+    FloatArray,
     Levels,
+    add_segment_evidence,
     excursions,
+    finite_spans,
     levels,
     progress_text,
     series_arrays,
@@ -108,8 +116,23 @@ class SetbackDetector(Detector):
         if series is None:
             return []
         steps, values = series_arrays(series)
-        finite = np.isfinite(values)
-        steps, values = steps[finite], values[finite]
+        spans = finite_spans(values)
+        partial = len(spans) != 1 or spans[0] != (0, len(values))
+        findings = []
+        for start, stop in spans:
+            segment_steps = steps[start:stop]
+            segment = self._segment(
+                segment_steps, values[start:stop], scope="finite segment" if partial else "run",
+                initial=start == 0,
+            )
+            if partial:
+                add_segment_evidence(segment, segment_steps)
+            findings.extend(segment)
+        return findings
+
+    def _segment(
+        self, steps: FloatArray, values: FloatArray, *, scope: str, initial: bool,
+    ) -> list[Finding]:
         lv = levels(values)
         if lv is None or not lv.has_progress:
             return []
@@ -132,7 +155,7 @@ class SetbackDetector(Detector):
                 continue
             if share < self.info_share:
                 continue
-            early = excursion.start_index < len(values) / 10
+            early = initial and excursion.start_index < len(values) / 10
             findings.append(
                 Finding(
                     detector=self.name,
@@ -144,14 +167,14 @@ class SetbackDetector(Detector):
                     message=(
                         f"{self.metric} left a level of {excursion.base:.4g} at step {first}, rose to "
                         f"{excursion.peak:.4g}, and was back by step {last}: {last - first} steps "
-                        f"({share:.0%} of the run) above a level it had already reached, with "
-                        f"{height:.0%} of the run's progress given back at the worst point."
+                        f"({share:.0%} of the {scope}) above a level it had already reached, with "
+                        f"{height:.0%} of the {scope}'s progress given back at the worst point."
                     ),
                     evidence={
                         "level_before": excursion.base,
                         "peak_level": excursion.peak,
                         "steps_lost": last - first,
-                        "share_of_run": share,
+                        ("share_of_run" if scope == "run" else "share_of_segment"): share,
                         "share_of_progress": height,
                     },
                     fixes=[
@@ -185,7 +208,7 @@ class SetbackDetector(Detector):
                         f"back {len(bursts)} times between step {bursts[0][0]} and step "
                         f"{bursts[-1][1]}, for up to {max(burst[2] for burst in bursts)} logged "
                         f"points at a time. The largest left a level of {worst.base:.4g} at step "
-                        f"{first} and rose to {worst.peak:.4g}, {progress_text(height)}."
+                        f"{first} and rose to {worst.peak:.4g}, {progress_text(height, scope)}."
                     ),
                     evidence={
                         "count": len(bursts),
@@ -211,7 +234,7 @@ class SetbackDetector(Detector):
                             f"{self.metric} left a level of {excursion.base:.4g} at step {first}, "
                             f"rose to {excursion.peak:.4g}, and was back by step {last}: "
                             f"{points} logged point{'s' if points != 1 else ''}, "
-                            f"{progress_text(height)} above a level it had already reached."
+                            f"{progress_text(height, scope)} above a level it had already reached."
                         ),
                         evidence={
                             "level_before": excursion.base,

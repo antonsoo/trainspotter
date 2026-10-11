@@ -79,7 +79,7 @@ def test_watch_does_not_repeat_an_extending_nonfinite_range(tmp_path, monkeypatc
                         lambda: None])
     assert cli.main(["watch", str(path)]) == 0
     out = capsys.readouterr().out
-    assert out.count("Diverged (non-finite values)") == 1
+    assert out.count("Non-finite training loss") == 1
     assert "history " not in out
 
 
@@ -89,7 +89,7 @@ def test_watch_rechecks_rewritten_history(tmp_path, monkeypatch, capsys):
     _polls(monkeypatch, [lambda: _loss(path, [9.0, float("nan")])])
     assert cli.main(["watch", str(path)]) == 0
     out = capsys.readouterr().out
-    assert out.count("Diverged (non-finite values)") == 2
+    assert out.count("Non-finite training loss") == 2
     assert "Previously read data changed" in out
 
 

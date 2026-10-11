@@ -335,7 +335,7 @@ def test_a_nan_in_the_training_loss_is_an_error_and_in_an_evaluation_a_warning()
     train[120] = math.inf
     broken_train = DivergenceDetector().run(make_run(**{"train/loss": train}))
     assert [(f.title, f.severity) for f in broken_train] == [
-        ("Diverged (non-finite values)", "error")
+        ("Non-finite training loss", "error")
     ]
 
 

@@ -24,6 +24,11 @@ of a run are never spikes: a run starts high and comes down, and that
 descent is not an event. Consecutive flagged steps are merged. A run with more than `max_findings`
 (default 5) warnings gets one finding that counts them.
 
+NaN/Inf readings split the history into finite segments. Every baseline,
+scatter estimate, window and finding group stays within its segment. The
+first three points of each segment are protected and the finding limit applies
+per segment. Findings disclose segment bounds when a gap exists.
+
 **Why both.** On 3,145 public `Trainer` logs (`studies/hub-census/`) the
 first condition alone, on the raw loss with a 21-point scale, fired on 37%
 of runs, 17 times each on average, and two thirds of those runs ended at
@@ -52,6 +57,8 @@ from .base import (
     Finding,
     FloatArray,
     Levels,
+    add_segment_evidence,
+    finite_spans,
     group_consecutive,
     levels,
     progress_text,
@@ -111,113 +118,127 @@ class SpikeDetector(Detector):
             if series is None or len(series) < 5:
                 continue
             steps, values = series_arrays(series)
-            finite = np.isfinite(values)
-            # Non-finite readings are the divergence detector's to report.
-            steps, values = steps[finite], values[finite]
-            lv = levels(values)
-            if lv is None or not lv.has_progress:
-                continue
-            z = self._scores(values, lv)
-            # Height above the level around the point and above the points just before
-            # it: the first readings of a run are high because training had not begun,
-            # and the way down from them is not a spike.
-            before = np.empty(len(values), dtype=float)
-            before[0] = np.inf
-            before[1:] = trailing_median(values[:-1], 5)
-            before[:HISTORY] = np.inf
-            share = (values - np.maximum(lv.smooth, before)) / lv.progress
-            unusual = [i for i in range(HISTORY, len(values)) if z[i] > self.threshold]
-            large = group_consecutive([i for i in unusual if share[i] >= self.warn_share], gap=2)
-            modest = group_consecutive(
-                [i for i in unusual if self.info_share <= share[i] < self.warn_share], gap=2
+            spans = finite_spans(values)
+            partial = len(spans) != 1 or spans[0] != (0, len(values))
+            for start, stop in spans:
+                segment_steps = steps[start:stop]
+                segment = self._segment(
+                    metric_name, segment_steps, values[start:stop],
+                    scope="finite segment" if partial else "run",
+                )
+                if partial:
+                    add_segment_evidence(segment, segment_steps)
+                findings.extend(segment)
+        return findings
+
+    def _segment(
+        self, metric_name: str, steps: FloatArray, values: FloatArray, *, scope: str,
+    ) -> list[Finding]:
+        findings: list[Finding] = []
+        lv = levels(values)
+        if lv is None or not lv.has_progress:
+            return []
+        z = self._scores(values, lv)
+        # Height above the level around the point and above the points just before
+        # it: the first readings of a run are high because training had not begun,
+        # and the way down from them is not a spike.
+        before = np.empty(len(values), dtype=float)
+        before[0] = np.inf
+        before[1:] = trailing_median(values[:-1], 5)
+        before[:HISTORY] = np.inf
+        share = (values - np.maximum(lv.smooth, before)) / lv.progress
+        unusual = [i for i in range(HISTORY, len(values)) if z[i] > self.threshold]
+        large = group_consecutive([i for i in unusual if share[i] >= self.warn_share], gap=2)
+        modest = group_consecutive(
+            [i for i in unusual if self.info_share <= share[i] < self.warn_share], gap=2
+        )
+        fixes = [
+            "Lower the learning rate or add/extend LR warmup.",
+            "Clip gradients (or lower the existing max-norm).",
+            "Check the batch at this step for a data or tokenization bug (e.g. an unmasked pad token, a corrupted shard).",
+        ]
+        if len(large) > self.max_findings:
+            worst = max((i for group in large for i in group), key=lambda i: share[i])
+            findings.append(
+                Finding(
+                    detector=self.name,
+                    title="Repeated loss spikes",
+                    severity="warning",
+                    metric=metric_name,
+                    step_start=int(steps[large[0][0]]),
+                    step_end=int(steps[large[-1][-1]]),
+                    message=(
+                        f"{metric_name} spiked {len(large)} times between step "
+                        f"{int(steps[large[0][0]])} and {int(steps[large[-1][-1]])}. The largest "
+                        f"reached {values[worst]:.4g} at step {int(steps[worst])}, "
+                        f"{progress_text(share[worst], scope)} above the level around it "
+                        f"({lv.smooth[worst]:.4g})."
+                    ),
+                    evidence={
+                        "count": len(large),
+                        "peak_step": int(steps[worst]),
+                        "peak_value": float(values[worst]),
+                        "share_of_progress": float(share[worst]),
+                    },
+                    fixes=fixes,
+                )
             )
-            fixes = [
-                "Lower the learning rate or add/extend LR warmup.",
-                "Clip gradients (or lower the existing max-norm).",
-                "Check the batch at this step for a data or tokenization bug (e.g. an unmasked pad token, a corrupted shard).",
-            ]
-            if len(large) > self.max_findings:
-                worst = max((i for group in large for i in group), key=lambda i: share[i])
+        else:
+            for group in large:
+                peak_i = max(group, key=lambda i: share[i])
                 findings.append(
                     Finding(
                         detector=self.name,
-                        title="Repeated loss spikes",
+                        title="Loss spike",
                         severity="warning",
                         metric=metric_name,
-                        step_start=int(steps[large[0][0]]),
-                        step_end=int(steps[large[-1][-1]]),
+                        step_start=int(steps[group[0]]),
+                        step_end=int(steps[group[-1]]),
                         message=(
-                            f"{metric_name} spiked {len(large)} times between step "
-                            f"{int(steps[large[0][0]])} and {int(steps[large[-1][-1]])}. The largest "
-                            f"reached {values[worst]:.4g} at step {int(steps[worst])}, "
-                            f"{progress_text(share[worst])} above the level around it "
-                            f"({lv.smooth[worst]:.4g})."
+                            f"{metric_name} jumped to {values[peak_i]:.4g} at step "
+                            f"{int(steps[peak_i])} from a level of {lv.smooth[peak_i]:.4g}, "
+                            f"{progress_text(share[peak_i], scope)}, for "
+                            f"{len(group)} logged point{'s' if len(group) != 1 else ''}."
                         ),
                         evidence={
-                            "count": len(large),
-                            "peak_step": int(steps[worst]),
-                            "peak_value": float(values[worst]),
-                            "share_of_progress": float(share[worst]),
+                            "peak_step": int(steps[peak_i]),
+                            "peak_value": float(values[peak_i]),
+                            "level": float(lv.smooth[peak_i]),
+                            "share_of_progress": float(share[peak_i]),
+                            "robust_z": float(z[peak_i]),
+                            "window": self.window,
+                            "threshold": self.threshold,
                         },
-                        fixes=fixes,
+                        fixes=[
+                            *fixes,
+                            "If the level came straight back and it doesn't recur, it may be one bad batch.",
+                        ],
                     )
                 )
-            else:
-                for group in large:
-                    peak_i = max(group, key=lambda i: share[i])
-                    findings.append(
-                        Finding(
-                            detector=self.name,
-                            title="Loss spike",
-                            severity="warning",
-                            metric=metric_name,
-                            step_start=int(steps[group[0]]),
-                            step_end=int(steps[group[-1]]),
-                            message=(
-                                f"{metric_name} jumped to {values[peak_i]:.4g} at step "
-                                f"{int(steps[peak_i])} from a level of {lv.smooth[peak_i]:.4g}, "
-                                f"{progress_text(share[peak_i])}, for "
-                                f"{len(group)} logged point{'s' if len(group) != 1 else ''}."
-                            ),
-                            evidence={
-                                "peak_step": int(steps[peak_i]),
-                                "peak_value": float(values[peak_i]),
-                                "level": float(lv.smooth[peak_i]),
-                                "share_of_progress": float(share[peak_i]),
-                                "robust_z": float(z[peak_i]),
-                                "window": self.window,
-                                "threshold": self.threshold,
-                            },
-                            fixes=[
-                                *fixes,
-                                "If the level came straight back and it doesn't recur, it may be one bad batch.",
-                            ],
-                        )
-                    )
-            if modest:
-                worst = max((i for group in modest for i in group), key=lambda i: share[i])
-                findings.append(
-                    Finding(
-                        detector=self.name,
-                        title="Isolated loss spikes",
-                        severity="info",
-                        metric=metric_name,
-                        step_start=int(steps[modest[0][0]]),
-                        step_end=int(steps[modest[-1][-1]]),
-                        message=(
-                            f"{metric_name} had {len(modest)} isolated point"
-                            f"{'s' if len(modest) != 1 else ''} well above the level around "
-                            f"{'them' if len(modest) != 1 else 'it'}; the largest was "
-                            f"{values[worst]:.4g} at step {int(steps[worst])} against a level of "
-                            f"{lv.smooth[worst]:.4g}, {progress_text(share[worst])}."
-                        ),
-                        evidence={
-                            "count": len(modest),
-                            "peak_step": int(steps[worst]),
-                            "peak_value": float(values[worst]),
-                            "share_of_progress": float(share[worst]),
-                        },
-                        fixes=["Usually one hard or malformed batch. Look at the data at that step if it recurs."],
-                    )
+        if modest:
+            worst = max((i for group in modest for i in group), key=lambda i: share[i])
+            findings.append(
+                Finding(
+                    detector=self.name,
+                    title="Isolated loss spikes",
+                    severity="info",
+                    metric=metric_name,
+                    step_start=int(steps[modest[0][0]]),
+                    step_end=int(steps[modest[-1][-1]]),
+                    message=(
+                        f"{metric_name} had {len(modest)} isolated point"
+                        f"{'s' if len(modest) != 1 else ''} well above the level around "
+                        f"{'them' if len(modest) != 1 else 'it'}; the largest was "
+                        f"{values[worst]:.4g} at step {int(steps[worst])} against a level of "
+                        f"{lv.smooth[worst]:.4g}, {progress_text(share[worst], scope)}."
+                    ),
+                    evidence={
+                        "count": len(modest),
+                        "peak_step": int(steps[worst]),
+                        "peak_value": float(values[worst]),
+                        "share_of_progress": float(share[worst]),
+                    },
+                    fixes=["Usually one hard or malformed batch. Look at the data at that step if it recurs."],
                 )
+            )
         return findings

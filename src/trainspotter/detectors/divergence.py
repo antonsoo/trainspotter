@@ -3,11 +3,12 @@
 **Algorithm.** Two independent triggers, either sufficient:
 
 1. *Non-finite*: any logged value is NaN or +/-Inf. In the training loss
-   that is an `error` -- there is no ambiguity, training has broken. In an
+   that is an `error`: the logged loss is unusable. It does not establish
+   whether optimizer updates failed or only the logging reduction did. In an
    evaluation metric it is a `warning`: 6 of the 1,639 public runs that
    ended at their best loss (`studies/hub-census/`) logged a NaN evaluation
    loss along the way.
-2. *Did not recover* (`train/loss` only): reduce the series to its levels
+2. *Did not recover* (`train/loss` only): reduce the final finite segment to its levels
    (`detectors.base.levels`: where it started, the best smoothed level it
    reached, the level of its last 5% of points). If the log ends inside an
    excursion above the best level (`detectors.base.excursions`), the share
@@ -17,6 +18,11 @@
    the level's noise above the best. A loss that never got clearly below
    its first level has no progress to measure against: it is an `error`
    when it ends at least `growth_ratio` (default 1.5) times its first level.
+
+NaN/Inf readings separate the trajectory. The terminal-level check requires a
+finite last observation; it never substitutes the last finite value for a
+non-finite ending. Progress and growth baselines belong to the final segment,
+and findings disclose that scope when the history contains a gap.
 
 **Why levels.** The earlier test compared the last *point* with the lowest
 *point* and asked for a rising tail. On noisy per-step losses the lowest
@@ -40,8 +46,6 @@ from __future__ import annotations
 
 import math
 
-import numpy as np
-
 from trainspotter.model import Run
 
 from .base import (
@@ -50,7 +54,9 @@ from .base import (
     FloatArray,
     Levels,
     Severity,
+    add_segment_evidence,
     excursions,
+    finite_spans,
     levels,
     series_arrays,
 )
@@ -114,7 +120,19 @@ class DivergenceDetector(Detector):
             steps, values = series_arrays(series)
             findings.extend(self._non_finite(metric_name, steps, values))
             if metric_name == self.level_metric:
-                findings.extend(self._did_not_recover(metric_name, steps, values))
+                spans = finite_spans(values)
+                # Terminal-level claims require a finite final observation. An
+                # earlier level is not where a log ending in NaN/Inf ended.
+                if spans and spans[-1][1] == len(values):
+                    start, stop = spans[-1]
+                    segment_steps = steps[start:stop]
+                    segment = self._did_not_recover(
+                        metric_name, segment_steps, values[start:stop],
+                        scope="final finite segment" if start else "run",
+                    )
+                    if start:
+                        add_segment_evidence(segment, segment_steps)
+                    findings.extend(segment)
         return findings
 
     def _non_finite(self, metric_name: str, steps: FloatArray, values: FloatArray) -> list[Finding]:
@@ -127,9 +145,9 @@ class DivergenceDetector(Detector):
         return [
             Finding(
                 detector=self.name,
-                title="Diverged (non-finite values)" if is_training else "Non-finite evaluation values",
-                # A NaN in the training loss ends the run. A NaN in an evaluation metric,
-                # beside a training loss that stayed finite, is a broken evaluation.
+                title="Non-finite training loss" if is_training else "Non-finite evaluation values",
+                # Keep the loss gate strict without inferring a training outcome
+                # from a logging observation (e.g. mean over an empty tensor).
                 severity="error" if is_training else "warning",
                 metric=metric_name,
                 step_start=int(steps[first]),
@@ -140,22 +158,21 @@ class DivergenceDetector(Detector):
                 ),
                 evidence={"first_bad_step": int(steps[first]), "count": len(bad)},
                 fixes=[
-                    "Lower the learning rate; this is the single most common cause.",
-                    "Enable gradient clipping if it isn't already on.",
-                    "Check for a divide-by-zero or log(0) in the loss (e.g. an unstable custom loss term, an empty batch after filtering).",
-                    "If using mixed precision, check the loss-scaler didn't overflow, or try bf16 instead of fp16.",
+                    "Inspect the objective and logging reduction separately: an empty batch or empty logging window can produce NaN even while optimizer updates remain finite.",
+                    "Check for a divide-by-zero or log(0) in the loss calculation.",
+                    "If the optimizer's loss or gradients also become non-finite, inspect the learning rate, gradient clipping and mixed-precision loss scaling.",
                 ],
             )
         ]
 
-    def _did_not_recover(self, metric_name: str, steps: FloatArray, values: FloatArray) -> list[Finding]:
-        finite = np.isfinite(values)
-        steps_f, values_f = steps[finite], values[finite]
-        lv = levels(values_f)
+    def _did_not_recover(
+        self, metric_name: str, steps: FloatArray, values: FloatArray, *, scope: str,
+    ) -> list[Finding]:
+        lv = levels(values)
         if lv is None:
             return []
         if not lv.has_progress:
-            return self._rose_from_the_start(metric_name, steps_f, lv)
+            return self._rose_from_the_start(metric_name, steps, lv, scope=scope)
         found = excursions(lv)
         if not found or found[-1].recovered:
             return []
@@ -164,8 +181,8 @@ class DivergenceDetector(Detector):
         if gave_back < self.warn_share or lv.final - lv.best < 4.0 * lv.noise:
             return []
         severity: Severity = "error" if gave_back >= self.error_share else "warning"
-        best_step = int(steps_f[lv.best_index])
-        rise_step = int(steps_f[last.start_index])
+        best_step = int(steps[lv.best_index])
+        rise_step = int(steps[last.start_index])
         return [
             Finding(
                 detector=self.name,
@@ -173,11 +190,11 @@ class DivergenceDetector(Detector):
                 severity=severity,
                 metric=metric_name,
                 step_start=rise_step,
-                step_end=int(steps_f[-1]),
+                step_end=int(steps[-1]),
                 message=(
                     f"{metric_name} ended at {lv.final:.4g} after reaching {lv.best:.4g} around step "
                     f"{best_step}. It has been above that level since step {rise_step} and the log "
-                    f"ends with {gave_back:.0%} of the run's progress given back."
+                    f"ends with {gave_back:.0%} of the {scope}'s progress given back."
                 ),
                 evidence={
                     "start_level": lv.start,
@@ -196,7 +213,9 @@ class DivergenceDetector(Detector):
             )
         ]
 
-    def _rose_from_the_start(self, metric_name: str, steps: FloatArray, lv: Levels) -> list[Finding]:
+    def _rose_from_the_start(
+        self, metric_name: str, steps: FloatArray, lv: Levels, *, scope: str,
+    ) -> list[Finding]:
         """A loss that never got clearly below its first level has no progress to give
         back. If it ended well above that first level, it only ever went up."""
         clear = max(6.0 * lv.noise, 4.0 * lv.start_noise)
@@ -205,13 +224,14 @@ class DivergenceDetector(Detector):
         return [
             Finding(
                 detector=self.name,
-                title="Diverged (rose from the start)",
+                title="Diverged (rose from the start)" if scope == "run" else "Loss rose within final finite segment",
                 severity="error",
                 metric=metric_name,
                 step_start=int(steps[0]),
                 step_end=int(steps[-1]),
                 message=(
-                    f"{metric_name} started around {lv.start:.4g} and ended at {lv.final:.4g}, "
+                    ("" if scope == "run" else f"Within the {scope}, ")
+                    + f"{metric_name} started around {lv.start:.4g} and ended at {lv.final:.4g}, "
                     f"{lv.final / lv.start:.1f}x higher, without ever settling below its first level."
                 ),
                 evidence={"start_level": lv.start, "final_level": lv.final, "ratio": lv.final / lv.start},

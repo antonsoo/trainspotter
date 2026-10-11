@@ -68,7 +68,7 @@ def test_a_diverged_run_prints_nothing_on_stderr(
     path.write_text("\n".join(rows) + "\n")
     assert main(["analyze", str(path), "--no-color"]) == 0
     captured = capfd.readouterr()
-    assert "Diverged (non-finite values)" in captured.out
+    assert "Non-finite training loss" in captured.out
     assert captured.err == ""
 
 
