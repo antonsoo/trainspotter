@@ -1,0 +1,145 @@
+{
+  "implementation_commit": "83ba8d20eaa7fbeb08c0aff58e3ac82fd1676d31",
+  "build": "fresh git archive; uv sync --locked --all-extras --dev --python 3.12; uv build builds wheel from sdist",
+  "artifacts": {
+    "trainspotter-0.2.6-py3-none-any.whl": {
+      "sha256": "1cc641d7bea916ecc60d033623ec42736294c2860ac744239082d0dfb8f95eef",
+      "bytes": 112527
+    },
+    "trainspotter-0.2.6.tar.gz": {
+      "sha256": "92b3bb385a914901e727c8ff9e1b1698423fa3c6be887cba9fd43676d65a7c4d",
+      "bytes": 151181
+    }
+  },
+  "installed": [
+    {
+      "python": "3.10.21",
+      "numpy": "1.24.0",
+      "source_files_identical": 28,
+      "plateau-evidence": {
+        "cases": 11,
+        "replay_sha256": "3bf883582e63aa4f8df6b13a2580274f30790c2362c77aad1b0e48f17089c5b5",
+        "independent_checks_passed": true
+      },
+      "finite-segments": {
+        "cases": 10,
+        "replay_sha256": "dc7906cc3c6f3f69eb52ac0edb3d271d6111961b363530e722b7fb321aa080a1",
+        "independent_checks_passed": true
+      },
+      "plateau_replay_exactly_equal_to_source": true,
+      "bundled_examples": [
+        {
+          "input": "baseline.trainer_state.json",
+          "exit_code": 0,
+          "findings": 0,
+          "exactly_equal_to_clean_source": true
+        },
+        {
+          "input": "divergence.trainer_state.json",
+          "exit_code": 1,
+          "findings": 7,
+          "exactly_equal_to_clean_source": true
+        },
+        {
+          "input": "missing_warmup.trainer_state.json",
+          "exit_code": 0,
+          "findings": 2,
+          "exactly_equal_to_clean_source": true
+        },
+        {
+          "input": "overfitting.trainer_state.json",
+          "exit_code": 0,
+          "findings": 1,
+          "exactly_equal_to_clean_source": true
+        },
+        {
+          "input": "throughput_drop.trainer_state.json",
+          "exit_code": 0,
+          "findings": 1,
+          "exactly_equal_to_clean_source": true
+        },
+        {
+          "input": "transformers_tinygpt2.trainer_state.json",
+          "exit_code": 0,
+          "findings": 0,
+          "exactly_equal_to_clean_source": true
+        }
+      ],
+      "html": {
+        "exit_code": 1,
+        "sha256": "d7cb6e3525e74277bef47278731b9c18de8b84add80098ce59a527f74f340de1",
+        "two_plateaus_and_setback": true
+      },
+      "watch_once": {
+        "exit_code": 1,
+        "nonfinite_alert_retained": true,
+        "unsupported_trajectory_absent": true
+      }
+    },
+    {
+      "python": "3.14.7",
+      "numpy": "2.5.3",
+      "source_files_identical": 28,
+      "plateau-evidence": {
+        "cases": 11,
+        "replay_sha256": "3bf883582e63aa4f8df6b13a2580274f30790c2362c77aad1b0e48f17089c5b5",
+        "independent_checks_passed": true
+      },
+      "finite-segments": {
+        "cases": 10,
+        "replay_sha256": "dc7906cc3c6f3f69eb52ac0edb3d271d6111961b363530e722b7fb321aa080a1",
+        "independent_checks_passed": true
+      },
+      "plateau_replay_exactly_equal_to_source": true,
+      "bundled_examples": [
+        {
+          "input": "baseline.trainer_state.json",
+          "exit_code": 0,
+          "findings": 0,
+          "exactly_equal_to_clean_source": true
+        },
+        {
+          "input": "divergence.trainer_state.json",
+          "exit_code": 1,
+          "findings": 7,
+          "exactly_equal_to_clean_source": true
+        },
+        {
+          "input": "missing_warmup.trainer_state.json",
+          "exit_code": 0,
+          "findings": 2,
+          "exactly_equal_to_clean_source": true
+        },
+        {
+          "input": "overfitting.trainer_state.json",
+          "exit_code": 0,
+          "findings": 1,
+          "exactly_equal_to_clean_source": true
+        },
+        {
+          "input": "throughput_drop.trainer_state.json",
+          "exit_code": 0,
+          "findings": 1,
+          "exactly_equal_to_clean_source": true
+        },
+        {
+          "input": "transformers_tinygpt2.trainer_state.json",
+          "exit_code": 0,
+          "findings": 0,
+          "exactly_equal_to_clean_source": true
+        }
+      ],
+      "html": {
+        "exit_code": 1,
+        "sha256": "d7cb6e3525e74277bef47278731b9c18de8b84add80098ce59a527f74f340de1",
+        "two_plateaus_and_setback": true
+      },
+      "watch_once": {
+        "exit_code": 1,
+        "nonfinite_alert_retained": true,
+        "unsupported_trajectory_absent": true
+      }
+    }
+  ],
+  "publication": "Built and installed locally; this receipt does not establish a PyPI release."
+}

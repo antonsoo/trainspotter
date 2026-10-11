@@ -70,8 +70,22 @@ def main() -> None:
                                 "before": [compact(f) for f in old_plateau],
                                 "after": [compact(f) for f in new_plateau]})
     assert counts["compared"] == 4259
+    categories = dict.fromkeys(
+        ("removed_all", "added_first", "same_count", "more_intervals", "fewer_intervals"), 0
+    )
+    for item in changed:
+        old_findings, new_findings = item["before"], item["after"]
+        category = (
+            "removed_all" if old_findings and not new_findings else
+            "added_first" if new_findings and not old_findings else
+            "same_count" if len(old_findings) == len(new_findings) else
+            "more_intervals" if len(new_findings) > len(old_findings) else "fewer_intervals"
+        )
+        categories[category] += 1
     result = {
         **counts, "changed_reports": len(changed),
+        "change_categories": categories,
+        "maximum_plateaus_in_one_report": max((len(x["after"]) for x in changed), default=0),
         "before_jsonl_sha256": digest(args.before), "after_jsonl_sha256": digest(args.after),
         "input_identity_sha256_aggregate": aggregate.hexdigest(),
         "other_findings_exactly_equal": True, "input_and_timing_evidence_exactly_equal": True,

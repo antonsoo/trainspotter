@@ -1,0 +1,42 @@
+{
+  "implementation_commit": "83ba8d20eaa7fbeb08c0aff58e3ac82fd1676d31",
+  "baseline_commit": "6b4511b",
+  "clean_archive": {
+    "python": "3.12.12",
+    "numpy": "2.5.3",
+    "ruff": "passed: src tests examples scripts studies/plateau-evidence",
+    "mypy": "passed: 28 source files",
+    "pytest": {
+      "passed": 548,
+      "seconds": 36.04
+    },
+    "build": "sdist and wheel from sdist passed",
+    "static_site": "scripts/build_site.py built index and 17 reports",
+    "npm_ci": "passed",
+    "browser": {
+      "workflows": 200,
+      "engines": [
+        [
+          "chromium",
+          "153.0.8010.12"
+        ],
+        [
+          "firefox",
+          "155.0"
+        ]
+      ],
+      "layouts": [
+        "1440px dark",
+        "320px light"
+      ],
+      "records_equal_to_source": true,
+      "axe_violations": 0,
+      "external_requests": 0,
+      "policy_violations": 0
+    }
+  },
+  "installed": "installed.json",
+  "corpus": "corpus.json",
+  "all_three_screenshots_visually_inspected": true,
+  "scope": "Source, clean build and local installed-package evidence. No PyPI release or hosted-demo update established."
+}

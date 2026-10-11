@@ -100,6 +100,52 @@ One retains its interval with a more precise description of level and raw
 scatter. In the other, a previously broad interval narrows and another splits.
 Do not interpret these extracts as complete diagnoses: other metrics are omitted.
 
+## Corpus compatibility and installed reports
+
+The [full change ledger](corpus.json) compares the same 4,259 cached records at
+`6b4511b` and `83ba8d2`: 4,177 readable and 82 unreadable. All non-plateau findings,
+input and timing evidence are identical; warning/error gates are unchanged.
+There are 799 changed reports and 3,460 exactly equal records. The unreadable
+records remain unreadable, not clean runs.
+
+| Change to plateau information | Reports |
+| --- | ---: |
+| Previous plateaus all removed | 33 |
+| First plateau information added | 98 |
+| More bounded intervals | 364 |
+| Fewer bounded intervals | 8 |
+| Same count, revised evidence or intervals | 296 |
+
+Total plateau findings increase from 1,055 to 2,134. This is a real cost of
+reporting bounded intervals: they may overlap, and one report now has 11.
+An interval that previously joined an early stall to a later converged floor
+can also stop being suppressed as a whole. This corpus has no plateau truth
+labels; added findings are not counted as detected failures, and removed
+findings are not counted as proved false positives. Every reported level range
+satisfies its recorded bound.
+
+The [wheel receipt](installed.json) checks Python 3.10.21 with NumPy 1.24.0 and
+Python 3.14.7 with NumPy 2.5.3. Both installations reproduce all 11 plateau cases
+byte-for-byte, pass the 10 finite-segment cases and their closed-form training
+capture checks, and match the six bundled Trainer reports from the clean source.
+The HTML report preserves the setback warning and two distinct plateaus;
+`--fail-on warning` exits 1. The logging-fault watch still exits 1 on the
+non-finite-loss error.
+
+![Firefox report separating the rise from two possible plateaus](../../docs/assets/plateau-evidence/firefox-desktop-returning-rise.png)
+
+The browser replay checks 200 reports/workflows across Chromium and Firefox,
+desktop dark mode and 320px light mode, including exact finding text/evidence,
+keyboard access, accessibility, CSP and no network requests. The
+[browser records](browser.json) include screenshot hashes; also inspect the
+[Chromium desktop](../../docs/assets/plateau-evidence/chromium-desktop-returning-rise.png)
+and [mobile public-series report](../../docs/assets/plateau-evidence/chromium-mobile-public-rca.png).
+The [verification receipt](verification.json) records the clean-archive checks.
+
+These are source and built-package checks, not a PyPI release or hosted-demo
+receipt. The workload checks above ran alongside other verification: the new
+level evidence adds computation, and their timings are not a speedup claim.
+
 ## Reproduce
 
 From the source checkout:
@@ -118,6 +164,15 @@ The synthetic sensitivity and workload commands are:
 ```sh
 uv run --locked python studies/plateau-evidence/sensitivity.py /tmp/plateau-noise.json --seed-start 100
 uv run --locked python studies/plateau-evidence/benchmark.py /tmp/plateau-workloads.json
+```
+
+With the existing hash-checked census cache, generate baseline and current
+JSONL using `scripts/verify_loss_corpus.py --worker --source /path/to/src`,
+`--cache studies/hub-census/cache`, both census manifests as `--manifest`
+arguments, and `--out /tmp/before.jsonl` or `/tmp/after.jsonl`. Then compare:
+
+```sh
+uv run --locked python studies/plateau-evidence/review_corpus.py /tmp/before.jsonl /tmp/after.jsonl /tmp/plateau-corpus.json
 ```
 
 The median level is an observation-derived estimate, not proof that an optimizer
