@@ -93,6 +93,7 @@ def to_json_dict(run: Run, findings: list[Finding]) -> dict[str, Any]:
             "input_complete": run.input_complete(),
             "input_notes": run.input_notes(),
             "unread_event_bytes": run.unread_event_bytes(),
+            "event_directories": run.meta.get("event_directories", []),
             "overwritten_points": run.overwritten_points(),
             "restart_markers": run.meta.get("restart_markers", 0),
             "step_column": run.meta.get("step_column", "step"),

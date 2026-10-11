@@ -215,3 +215,105 @@ def test_default_run_uses_retained_points_not_discarded_history(tmp_path: Path) 
 def test_selected_missing_run_is_rejected_even_for_an_empty_directory(tmp_path: Path) -> None:
     with pytest.raises(ValueError, match="no runs"):
         load_run(tmp_path, run_name="missing")
+
+
+def _truncate(directory: Path) -> None:
+    path = next(directory.glob('*tfevents*'))
+    path.write_bytes(path.read_bytes()[:-3])
+
+
+def test_unrelated_damaged_run_does_not_invalidate_selected_run(tmp_path: Path) -> None:
+    from trainspotter.cli import main
+    from trainspotter.report.json_report import to_json_dict
+
+    _write(tmp_path / 'selected', [_point(i, 1) for i in range(50)])
+    _write(tmp_path / 'other', [_point(1, 2), _point(2, 3)])
+    _truncate(tmp_path / 'other')
+    direct = load_run(tmp_path / 'selected')
+    selected = load_run(tmp_path, run_name='selected')
+    assert _actual(selected, 'train/loss') == _actual(direct, 'train/loss')
+    assert selected.input_complete() == direct.input_complete() is True
+    assert selected.unread_event_bytes() == 0
+    evidence = to_json_dict(selected, [])['run']['event_directories']
+    assert next(row for row in evidence if row['directory'] == 'other') == {
+        'directory': 'other', 'observed_runs': ['other'], 'possible_runs': ['other'],
+        'skipped_events': 0, 'unread_event_bytes': 39, 'selected': False,
+    }
+    assert main(['analyze', str(tmp_path), '--run', 'selected', '--fail-on', 'error']) == 0
+    assert main(['analyze', str(tmp_path), '--run', 'other', '--fail-on', 'error']) == 2
+    assert main(['watch', str(tmp_path), '--run', 'selected', '--once', '--fail-on', 'error']) == 0
+
+
+@pytest.mark.parametrize('writer', ['validation', 'Loss_validation'])
+def test_damaged_split_writer_stays_in_selected_run(tmp_path: Path, writer: str) -> None:
+    _write(tmp_path / 'selected' / 'train', [_point(0, 1)])
+    _write(tmp_path / 'selected' / writer, [_point(0, 2, 'Loss'), _point(1, 3, 'Loss')])
+    _truncate(tmp_path / 'selected' / writer)
+    _write(tmp_path / 'other', [_point(0, 4)])
+    selected = load_run(tmp_path, run_name='selected')
+    assert selected.unread_event_bytes() == 39
+    assert not selected.input_complete()
+    assert load_run(tmp_path, run_name='other').input_complete()
+
+
+def test_skipped_scalar_stays_with_its_run_even_without_accepted_points(tmp_path: Path) -> None:
+    _write(tmp_path / 'selected', [_point(1, 2)])
+    _write(tmp_path / 'broken', [_point(1, [1., 2.], tensor=True)])
+    selected = load_run(tmp_path, run_name='selected')
+    assert selected.input_complete() and selected.skipped_rows() == 0
+    assert ('broken' in selected.other_runs()[1])
+    broken = load_run(tmp_path, run_name='broken')
+    assert broken.skipped_rows() == 1
+    assert not broken.metrics and not broken.input_complete()
+
+
+def test_unread_writer_without_tags_is_retained_and_scoped_conservatively(tmp_path: Path) -> None:
+    _write(tmp_path / 'selected', [_point(1, 2)])
+    _write(tmp_path / 'other', [_point(1, 3)])
+    # No tag can be decoded, so this could be an add_scalars writer of 'selected'.
+    directory = tmp_path / 'selected' / 'Loss_validation'
+    directory.mkdir()
+    (directory / 'events.out.tfevents.broken').write_bytes(b'broken')
+    selected = load_run(tmp_path, run_name='selected')
+    assert not selected.input_complete() and selected.unread_event_bytes() == 6
+    assert load_run(tmp_path, run_name='other').input_complete()
+    empty = load_run(tmp_path, run_name='selected/Loss_validation')
+    assert not empty.metrics and empty.unread_event_bytes() == 6
+
+
+def test_truncated_only_run_can_be_selected_and_recovers(tmp_path: Path) -> None:
+    _write(tmp_path / 'broken', [_point(1, 2)])
+    path = next((tmp_path / 'broken').glob('*tfevents*'))
+    complete = path.read_bytes()
+    _truncate(tmp_path / 'broken')
+    _write(tmp_path / 'healthy', [_point(1, 3)])
+    broken = load_run(tmp_path, run_name='broken')
+    assert not broken.metrics and broken.unread_event_bytes() == 39
+    assert load_run(tmp_path, run_name='healthy').input_complete()
+    path.write_bytes(complete)
+    assert load_run(tmp_path, run_name='broken').input_complete()
+
+
+def test_invalid_step_scalar_is_scoped_to_its_run(tmp_path: Path) -> None:
+    _write(tmp_path / 'selected', [_point(1, 2)])
+    _write(tmp_path / 'other', [_point(2**60, 1)])
+    assert load_run(tmp_path, run_name='selected').input_complete()
+    other = load_run(tmp_path, run_name='other')
+    assert not other.input_complete() and other.skipped_rows() == 1
+
+
+def test_overflowing_record_length_is_unread_evidence_not_a_crash(tmp_path: Path) -> None:
+    import struct
+
+    from tensorboard.compat.tensorflow_stub.pywrap_tensorflow import masked_crc32c
+
+    _write(tmp_path, [_point(1, 2)])
+    path = next(tmp_path.glob('*tfevents*'))
+    # Correct checksum on an impossible length: this reaches the decoder's read().
+    header = struct.pack('<Q', 2**63)
+    with path.open('ab') as handle:
+        handle.write(header + struct.pack('<I', masked_crc32c(header)))
+    run = load_run(tmp_path)
+    assert _actual(run, 'train/loss') == [(1, 2)]
+    assert run.unread_event_bytes() == 12
+    assert not run.input_complete()

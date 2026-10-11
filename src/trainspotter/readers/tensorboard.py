@@ -38,6 +38,7 @@ def _place(dir_name: str, tag: str) -> tuple[str, str]:
 @dataclass
 class _Directory:
     points: dict[str, list[Point]] = field(default_factory=lambda: defaultdict(list))
+    scalar_tags: set[str] = field(default_factory=set)
     plugins: dict[str, str] = field(default_factory=dict)
     version: float | None = None
     most_recent_step: int = -1
@@ -65,6 +66,9 @@ class _Directory:
         if step is None:
             if event.HasField("summary") or event.HasField("session_log"):
                 self.skipped += 1
+                self.scalar_tags.update(
+                    value.tag or value.node_name for value in event.summary.value
+                )
             return
         if self.version is not None and self.version >= 2:
             if event.HasField("session_log") and event.session_log.status == SessionLog.START:
@@ -81,6 +85,7 @@ class _Directory:
             if value.HasField("metadata"):
                 self.plugins.setdefault(tag, value.metadata.plugin_data.plugin_name)
             if value.HasField("simple_value"):
+                self.scalar_tags.add(tag)
                 number = float(value.simple_value)
             elif value.HasField("tensor") and self.plugins.get(tag, "") in ("", "scalars"):
                 tensor = value.tensor
@@ -88,18 +93,22 @@ class _Directory:
                 # untrusted huge shape must not trigger an allocation just to discover it.
                 if tensor.tensor_shape.unknown_rank or tensor.tensor_shape.dim:
                     if self.plugins.get(tag) == "scalars":
+                        self.scalar_tags.add(tag)
                         self.skipped += 1
                     continue
                 try:
                     array = make_ndarray(tensor)
                     if array.dtype.kind not in "iuf":
                         if self.plugins.get(tag) == "scalars":
+                            self.scalar_tags.add(tag)
                             self.skipped += 1
                         continue
                     number = float(array.item())
                 except (ValueError, TypeError, OverflowError, KeyError):
+                    self.scalar_tags.add(tag)
                     self.skipped += 1
                     continue
+                self.scalar_tags.add(tag)
             else:
                 continue
             self.points[tag].append(Point(step, number, wall_time))
@@ -113,9 +122,18 @@ def _read_directory(files: list[Path]) -> _Directory:
     data = _Directory()
     for path in files:
         read_bytes = 0
-        for record in RawEventFileLoader(str(path)).Load():
+        records = iter(RawEventFileLoader(str(path)).Load())
+        while True:
+            try:
+                record = next(records)
+            except StopIteration:
+                break
+            except OverflowError:
+                # A damaged uint64 length can exceed Python's read() index range
+                # in TensorBoard's standalone decoder. Retain preceding readings
+                # and count the whole remaining tail as unread below.
+                break
             # TFRecord framing: 8-byte length + 4-byte length CRC + 4-byte data CRC.
-            # The loader tolerates a truncated tail, so account for unread bytes explicitly.
             read_bytes += len(record) + 16
             try:
                 data.consume(Event.FromString(record))
@@ -123,6 +141,23 @@ def _read_directory(files: list[Path]) -> _Directory:
                 data.skipped += 1
         data.unread_bytes += max(0, path.stat().st_size - read_bytes)
     return data
+
+
+def _possible_runs(directory: str) -> set[str]:
+    """Owners an undecodable record could have under this reader's layout rules.
+
+    A split directory always belongs to its parent. An add_scalars name only
+    identifies its parent once a matching tag is read; with unread records an
+    underscore directory can belong to itself or its parent. Do not turn that
+    uncertainty into a clean gate for either candidate.
+    """
+    parts = PurePosixPath(directory).parts
+    if parts and parts[-1].lower() in _SPLIT_DIRS:
+        return {"/".join(parts[:-1])}
+    owners = {"/".join(parts)}
+    if parts and "_" in parts[-1][:-1]:
+        owners.add("/".join(parts[:-1]))
+    return owners
 
 
 def read_tensorboard(path: str | Path, run_name: str | None = None) -> Run:
@@ -147,27 +182,39 @@ def read_tensorboard(path: str | Path, run_name: str | None = None) -> Run:
     overwritten: dict[str, int] = defaultdict(int)
     restarts: dict[str, int] = defaultdict(int)
     run = Run(source_format="tensorboard", source_path=str(p))
-    skipped = unread = 0
+    directories: list[dict[str, Any]] = []
     for directory, files in files_by_dir.items():
         data = _read_directory(files)
-        skipped += data.skipped
-        unread += data.unread_bytes
         relative = directory.relative_to(root).as_posix()
-        owners: set[str] = set()
+        owners = {_place(relative, tag)[0] for tag in data.scalar_tags}
+        damaged = bool(data.skipped or data.unread_bytes)
+        discovered = owners or ({_place(relative, "")[0]} if damaged else set())
+        for name in discovered:
+            by_run.setdefault(name, [])  # Damaged or fully purged runs stay selectable.
         for tag, points in data.points.items():
             name, metric = _place(relative, tag)
-            owners.add(name)
             overwritten[name] += data.overwritten.get(tag, 0)
             if points:
                 by_run[name].append((metric, f"{relative}: {tag}", points))
         for name in owners:
             restarts[name] += data.restarts
-    run.meta["skipped_events"] = skipped
-    run.meta["unread_event_bytes"] = unread
+        candidates = owners | _possible_runs(relative) if damaged else owners
+        directories.append({
+            "directory": relative, "observed_runs": sorted(owners),
+            "possible_runs": sorted(candidates), "skipped_events": data.skipped,
+            "unread_event_bytes": data.unread_bytes,
+        })
+    run.meta["event_directories"] = directories
     if not by_run and run_name is None:
         return run
     counts = {name: sum(len(points) for _, _, points in series) for name, series in by_run.items()}
     chosen = select_run(run, counts, run_name, what=f"{p}: TensorBoard logdir")
+    for record in directories:
+        record["selected"] = chosen in record["possible_runs"]
+    run.meta["skipped_events"] = sum(r["skipped_events"] for r in directories if r["selected"])
+    run.meta["unread_event_bytes"] = sum(
+        r["unread_event_bytes"] for r in directories if r["selected"]
+    )
     run.meta["selected_run"] = chosen
     run.meta["overwritten_points"] = overwritten[chosen]
     run.meta["restart_markers"] = restarts[chosen]

@@ -502,6 +502,10 @@ pins.
   and `--fail-on` gates that run only. A run is told from a split of a run
   by its directory name (`train`, `validation`, `val`, `eval`, `test`), so
   a run literally named `train` next to other runs is read as a split.
+  In this source checkout, TensorBoard read failures are also scoped to that
+  selection; damaged sibling runs remain in JSON directory evidence. Unread
+  content with ambiguous directory ownership still makes the possible owner
+  incomplete. [Controlled gate replay](studies/tensorboard-scope/README.md).
 - **Restart evidence is explicit in modern TensorBoard streams.** Every
   `SessionLog.START`, including the first observed marker, invalidates prior
   points at or beyond that step in the same writer directory. This follows

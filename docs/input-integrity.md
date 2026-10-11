@@ -110,8 +110,20 @@ or physical source-line numbers. [Examples and workflow](repeated-steps.md).
 TensorBoard's decoder tolerates a truncated trailing record while a writer is active.
 Trainspotter accounts for decoded record bytes and framing; remaining bytes are shown
 as unread rather than silently treating the report as complete. Corrupt records can
-also cause unread bytes. These counts concern the whole requested event source,
-including other runs in that source. Re-reading after the writer completes can recover.
+also cause unread bytes. These counts concern the selected run's writer directories;
+a damaged sibling run does not invalidate the selection. Re-reading after the writer
+completes can recover. A record length too large for the standalone decoder is retained
+as unread evidence, without losing preceding scalar observations.
+
+JSON retains `run.event_directories` for every discovered writer, including unrelated
+damage: relative directory, observed run names, possible run names, skipped events,
+unread bytes, and whether the directory contributes to the selected run's integrity.
+Damaged runs with no surviving scalar points remain selectable. Unknown record content
+cannot always identify a run: an underscore directory could be an `add_scalars` writer
+for its parent. Damage then conservatively applies to either possible owner, including
+when no tags survive. Open a known writer directly to narrow the source. The existing
+directory-name heuristics still determine run identity; this is not a manifest of
+the training process. [Controlled captures and gate replay](../studies/tensorboard-scope/README.md).
 
 The existing JSON schema version 1 has additive fields:
 
@@ -121,6 +133,7 @@ The existing JSON schema version 1 has additive fields:
 | `run.skipped_rows` | Rejected rows, JSONL records, HF entries, or TensorBoard events/scalar values |
 | `run.skipped_values` | Invalid nonblank metric cells |
 | `run.unread_event_bytes` | Bytes remaining after decoding event records |
+| `run.event_directories` | TensorBoard directory evidence and its relation to the selected run |
 | `run.overwritten_points` | Scalar observations invalidated by restart semantics |
 | `run.restart_markers` | START markers in the selected run's writer directories |
 | `run.metric_sources` | Report metric to original name, or writer directory and tag |

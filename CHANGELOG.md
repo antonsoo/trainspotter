@@ -6,6 +6,12 @@ and this project uses [Semantic Versioning](https://semver.org/).
 
 ## Unreleased
 
+- Scope TensorBoard skipped-event and unread-byte counts to the selected run.
+  Retain other writers' integrity evidence in JSON, preserve damaged runs with
+  zero scalar points, and conservatively attribute unread `add_scalars` writers.
+  Impossible record lengths now produce incomplete evidence instead of an
+  uncaught overflow. [Before/after CLI replay](studies/tensorboard-scope/README.md).
+
 - Measure `loss_floor`'s early window by the observed training-step span,
   not logging frequency. Require a training axis and valid early baseline.
   Describe gradient concentration without inferring clipping; retain single

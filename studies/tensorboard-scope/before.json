@@ -1,0 +1,38 @@
+{
+  "direct": {
+    "complete": true,
+    "unread_bytes": 0,
+    "skipped_events": 0,
+    "points": 50,
+    "gate_exit": 0,
+    "traceback": false
+  },
+  "selected_from_parent": {
+    "complete": false,
+    "unread_bytes": 39,
+    "skipped_events": 0,
+    "points": 50,
+    "gate_exit": 2,
+    "traceback": false
+  },
+  "damaged_sibling": {
+    "complete": false,
+    "unread_bytes": 39,
+    "skipped_events": 0,
+    "points": 49,
+    "gate_exit": 2,
+    "traceback": false
+  },
+  "damaged_validation": {
+    "complete": false,
+    "unread_bytes": 78,
+    "skipped_events": 0,
+    "points": 51,
+    "gate_exit": 2,
+    "traceback": false
+  },
+  "overflow_length": {
+    "exception": "OverflowError",
+    "message": "cannot fit 'int' into an index-sized integer"
+  }
+}
