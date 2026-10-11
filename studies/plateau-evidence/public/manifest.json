@@ -1,0 +1,20 @@
+[
+  {
+    "identity": "UnFaZeD07/Omni-R1@776ef5ce25f892a6062bfd81b5c2bf13d053dda0:trainer_state.json",
+    "url": "https://huggingface.co/UnFaZeD07/Omni-R1/resolve/776ef5ce25f892a6062bfd81b5c2bf13d053dda0/trainer_state.json",
+    "source_sha256": "1644f5319420ddb2844d81b7a209406cb12ffe03da3103d36095d3da79a8a6e7",
+    "derived_csv": "public-omni.csv",
+    "derived_sha256": "00b7e83ee6ecbcc254be1e6a9124ed05bb7d20d6cee5577bbe6532152c59f372",
+    "observations": 100,
+    "scope": "Numeric step/loss observations extracted from the cached public Trainer history, using its unambiguous analysis projection. Other metrics are omitted; this is a plateau-only case, not a full-run diagnostic or accuracy label."
+  },
+  {
+    "identity": "JesterbeanLTEA/grpo-5g-rca-qwen3-1.7b@2f11795428dffa2bd5a3b55a5072c8c6111e7d0c:last-checkpoint/trainer_state.json",
+    "url": "https://huggingface.co/JesterbeanLTEA/grpo-5g-rca-qwen3-1.7b/resolve/2f11795428dffa2bd5a3b55a5072c8c6111e7d0c/last-checkpoint/trainer_state.json",
+    "source_sha256": "21eff7263233460c0ec67780c0f66faa0401e6c33e00c35369ab0604809f7a8b",
+    "derived_csv": "public-rca.csv",
+    "derived_sha256": "706c8ad96f224e652fa34ca97df4fe74fdb77f104705307623436adc2085cea8",
+    "observations": 500,
+    "scope": "Numeric step/loss observations extracted from the cached public Trainer history, using its unambiguous analysis projection. Other metrics are omitted; this is a plateau-only case, not a full-run diagnostic or accuracy label."
+  }
+]

@@ -142,8 +142,10 @@ optimizer health, the cause of a rise, or wasted GPU time. Other detectors
 retain their own policies; plateau findings, for example, are not relabelled
 by this change. The after-gap example exposes a pre-existing plateau-grouping
 limitation: it describes steps 60-159 as barely moving despite the intervening
-rise from 1 to 4. The retained before/after files make this visible; it remains
-a separate follow-up. See the [input contract](../../docs/input-integrity.md).
+rise from 1 to 4. Those retained files describe the finite-segment fix's original
+snapshot. The [later plateau correction](../plateau-evidence/README.md) handles
+that separate defect. See the [input contract](../../docs/input-integrity.md).
 
-These are local source changes. No PyPI release, tag, push or hosted-gallery
-deployment was performed.
+The original verification above used local source and installed wheels. Later
+source publication is recorded separately; these receipts do not establish a
+PyPI release or hosted-gallery deployment.

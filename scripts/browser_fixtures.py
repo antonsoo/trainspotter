@@ -26,6 +26,8 @@ sources.extend(root / "examples/diagnostic-evidence" / f"{name}.csv" for name in
     "slow-sparse", "fast-dense", "unclipped-before", "overflow-one-step", "infinite-gradient-tail",
 ))
 sources.append(root / "studies/finite-segments/captured/observed.csv")
+sources.extend(sorted((root / "studies/plateau-evidence/fixtures").glob("*.csv")))
+sources.extend(sorted((root / "studies/plateau-evidence/public").glob("*.csv")))
 after_gap = destination / "synthetic-after-gap.csv"
 after_gap.write_text("step,loss\n" + "".join(
     f"{step},{value}\n" for step, value in enumerate(

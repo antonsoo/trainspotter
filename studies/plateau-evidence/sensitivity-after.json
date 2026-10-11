@@ -1,0 +1,74 @@
+{
+  "kind": "synthetic sensitivity sweep with known stationary expected loss",
+  "numpy": "2.5.3",
+  "seeds": "numpy default_rng(0..29)",
+  "shape": "100-point decay; 500 independent Gaussian readings with mean 5; 100-point decay",
+  "oracle": "Expected loss is exactly 5 at steps 100-599; later improvement makes a stall",
+  "limits": "IID Gaussian observation noise is not a model of all training logs. The current guard may miss noisy stationary levels and split a long plateau.",
+  "rows": [
+    {
+      "relative_noise_sd": 0,
+      "seeds": 30,
+      "runs_with_a_finding": 30,
+      "median_findings": 1.0,
+      "max_findings": 1,
+      "mean_stationary_region_coverage": 1.0
+    },
+    {
+      "relative_noise_sd": 0.001,
+      "seeds": 30,
+      "runs_with_a_finding": 30,
+      "median_findings": 1.0,
+      "max_findings": 1,
+      "mean_stationary_region_coverage": 0.9956666666666667
+    },
+    {
+      "relative_noise_sd": 0.005,
+      "seeds": 30,
+      "runs_with_a_finding": 30,
+      "median_findings": 1.0,
+      "max_findings": 2,
+      "mean_stationary_region_coverage": 0.9956666666666667
+    },
+    {
+      "relative_noise_sd": 0.01,
+      "seeds": 30,
+      "runs_with_a_finding": 30,
+      "median_findings": 2.0,
+      "max_findings": 3,
+      "mean_stationary_region_coverage": 0.9956666666666667
+    },
+    {
+      "relative_noise_sd": 0.02,
+      "seeds": 30,
+      "runs_with_a_finding": 30,
+      "median_findings": 3.0,
+      "max_findings": 6,
+      "mean_stationary_region_coverage": 0.9905999999999999
+    },
+    {
+      "relative_noise_sd": 0.05,
+      "seeds": 30,
+      "runs_with_a_finding": 30,
+      "median_findings": 3.0,
+      "max_findings": 5,
+      "mean_stationary_region_coverage": 0.9866666666666666
+    },
+    {
+      "relative_noise_sd": 0.1,
+      "seeds": 30,
+      "runs_with_a_finding": 30,
+      "median_findings": 2.0,
+      "max_findings": 5,
+      "mean_stationary_region_coverage": 0.9818
+    },
+    {
+      "relative_noise_sd": 0.2,
+      "seeds": 30,
+      "runs_with_a_finding": 30,
+      "median_findings": 2.0,
+      "max_findings": 4,
+      "mean_stationary_region_coverage": 0.9371999999999999
+    }
+  ]
+}

@@ -6,6 +6,13 @@ and this project uses [Semantic Versioning](https://semver.org/).
 
 ## Unreleased
 
+- Bound possible plateaus by their median loss level and observed local noise,
+  including the full union of merged windows. Equal endpoints and a weak linear
+  slope no longer make a recovered rise into a flat interval. Loss gaps split
+  baselines; LR suppression uses only prior finite, nonnegative evidence.
+  Retain raw ranges and noise allowances, and report "Possible plateau".
+  [Before/after examples, public logs and noise controls](studies/plateau-evidence/README.md).
+
 - Keep loss spikes, recovered setbacks and terminal-rise baselines within
   contiguous finite observations. NaN/Inf gaps no longer join separate levels
   or manufacture recovery durations; valid events after a gap remain visible

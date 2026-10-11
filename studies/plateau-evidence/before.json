@@ -1,0 +1,391 @@
+{
+  "independent_level_bounds_checked": false,
+  "cases": {
+    "returning-rise": {
+      "provenance": "synthetic boundary/control fixture",
+      "input_sha256": "f321ac0bea8430a6e4e610abd5372d707659b81996828e4b69bb19c29aa8d13a",
+      "exit_code": 0,
+      "input_complete": true,
+      "findings": [
+        {
+          "detector": "setbacks",
+          "title": "Setback",
+          "severity": "warning",
+          "metric": "train/loss",
+          "step_start": 50,
+          "step_end": 70,
+          "message": "train/loss left a level of 1 at step 50, rose to 4, and was back by step 70: 20 steps (13% of the run) above a level it had already reached, with 333% of the run's progress given back at the worst point.",
+          "evidence": {
+            "level_before": 1.0,
+            "peak_level": 4.0,
+            "steps_lost": 20,
+            "share_of_run": 0.12578616352201258,
+            "share_of_progress": 3.333333333333333
+          },
+          "fixes": [
+            "Look at what changed at the first step: the learning rate, a new data shard, an epoch boundary.",
+            "Lower the peak learning rate or clip gradients if the rise follows a large update.",
+            "If this was a planned restart or curriculum stage, it is expected."
+          ]
+        },
+        {
+          "detector": "plateau",
+          "title": "Plateau",
+          "severity": "info",
+          "metric": "train/loss",
+          "step_start": 0,
+          "step_end": 159,
+          "message": "train/loss barely moved from step 0 to 159 (160 points, range 0.1-4).",
+          "evidence": {
+            "window": 30,
+            "alpha": 0.2,
+            "rel_change_threshold": 0.02,
+            "value_range": 3.9
+          },
+          "fixes": [
+            "If this is early training, check warmup finished and LR reached its target.",
+            "Try a higher LR, an LR-range test, or a different schedule (cosine/one-cycle) if the plateau is unexpected.",
+            "Check for a frozen/detached parameter group if the plateau starts abruptly."
+          ]
+        }
+      ]
+    },
+    "symmetric-excursion": {
+      "provenance": "synthetic boundary/control fixture",
+      "input_sha256": "bc8539dfd0f6dfb63da5fe84001e1329200d668b40ac6b7b87f7ba57f089c4f3",
+      "exit_code": 0,
+      "input_complete": true,
+      "findings": [
+        {
+          "detector": "plateau",
+          "title": "Plateau",
+          "severity": "info",
+          "metric": "train/loss",
+          "step_start": 14,
+          "step_end": 45,
+          "message": "train/loss barely moved from step 14 to 45 (32 points, range 1-4).",
+          "evidence": {
+            "window": 30,
+            "alpha": 0.2,
+            "rel_change_threshold": 0.02,
+            "value_range": 3.0
+          },
+          "fixes": [
+            "If this is early training, check warmup finished and LR reached its target.",
+            "Try a higher LR, an LR-range test, or a different schedule (cosine/one-cycle) if the plateau is unexpected.",
+            "Check for a frozen/detached parameter group if the plateau starts abruptly."
+          ]
+        }
+      ]
+    },
+    "after-gap": {
+      "provenance": "synthetic boundary/control fixture",
+      "input_sha256": "e41582497348d01ac5fbd15cacbb9dca239a00855d8f567936d9452258ef89f4",
+      "exit_code": 1,
+      "input_complete": true,
+      "findings": [
+        {
+          "detector": "divergence",
+          "title": "Non-finite training loss",
+          "severity": "error",
+          "metric": "train/loss",
+          "step_start": 30,
+          "step_end": 39,
+          "message": "train/loss became NaN at step 30 (10 non-finite point(s) in this run).",
+          "evidence": {
+            "first_bad_step": 30,
+            "count": 10
+          },
+          "fixes": [
+            "Inspect the objective and logging reduction separately: an empty batch or empty logging window can produce NaN even while optimizer updates remain finite.",
+            "Check for a divide-by-zero or log(0) in the loss calculation.",
+            "If the optimizer's loss or gradients also become non-finite, inspect the learning rate, gradient clipping and mixed-precision loss scaling."
+          ]
+        },
+        {
+          "detector": "setbacks",
+          "title": "Setback",
+          "severity": "warning",
+          "metric": "train/loss",
+          "step_start": 100,
+          "step_end": 120,
+          "message": "train/loss left a level of 1 at step 100, rose to 4, and was back by step 120: 20 steps (17% of the finite segment) above a level it had already reached, with 75% of the finite segment's progress given back at the worst point. Assessed within the finite segment at steps 40-159 (120 observations); no loss trajectory is inferred across NaN/Inf readings.",
+          "evidence": {
+            "level_before": 1.0,
+            "peak_level": 4.0,
+            "steps_lost": 20,
+            "share_of_segment": 0.16806722689075632,
+            "share_of_progress": 0.75,
+            "segment_start_step": 40,
+            "segment_end_step": 159,
+            "segment_observations": 120
+          },
+          "fixes": [
+            "Look at what changed at the first step: the learning rate, a new data shard, an epoch boundary.",
+            "Lower the peak learning rate or clip gradients if the rise follows a large update.",
+            "If this was a planned restart or curriculum stage, it is expected."
+          ]
+        },
+        {
+          "detector": "plateau",
+          "title": "Plateau",
+          "severity": "info",
+          "metric": "train/loss",
+          "step_start": 0,
+          "step_end": 29,
+          "message": "train/loss barely moved from step 0 to 29 (30 points, range 1-1).",
+          "evidence": {
+            "window": 30,
+            "alpha": 0.2,
+            "rel_change_threshold": 0.02,
+            "value_range": 0.0
+          },
+          "fixes": [
+            "If this is early training, check warmup finished and LR reached its target.",
+            "Try a higher LR, an LR-range test, or a different schedule (cosine/one-cycle) if the plateau is unexpected.",
+            "Check for a frozen/detached parameter group if the plateau starts abruptly."
+          ]
+        },
+        {
+          "detector": "plateau",
+          "title": "Plateau",
+          "severity": "info",
+          "metric": "train/loss",
+          "step_start": 60,
+          "step_end": 159,
+          "message": "train/loss barely moved from step 60 to 159 (100 points, range 1-4).",
+          "evidence": {
+            "window": 30,
+            "alpha": 0.2,
+            "rel_change_threshold": 0.02,
+            "value_range": 3.0
+          },
+          "fixes": [
+            "If this is early training, check warmup finished and LR reached its target.",
+            "Try a higher LR, an LR-range test, or a different schedule (cosine/one-cycle) if the plateau is unexpected.",
+            "Check for a frozen/detached parameter group if the plateau starts abruptly."
+          ]
+        }
+      ]
+    },
+    "minimum-window": {
+      "provenance": "synthetic boundary/control fixture",
+      "input_sha256": "d540b07a05326da4136ebb21118f31efe77689d59103d674f37903f1b1420ab1",
+      "exit_code": 0,
+      "input_complete": true,
+      "findings": []
+    },
+    "genuine-stall": {
+      "provenance": "synthetic boundary/control fixture",
+      "input_sha256": "6a2fa2c0955511f832cbd870d9c13024be4fb4ac4d9decf5afc1e955253f4d8f",
+      "exit_code": 0,
+      "input_complete": true,
+      "findings": [
+        {
+          "detector": "plateau",
+          "title": "Plateau",
+          "severity": "info",
+          "metric": "train/loss",
+          "step_start": 40,
+          "step_end": 99,
+          "message": "train/loss barely moved from step 40 to 99 (60 points, range 4.999-5.001).",
+          "evidence": {
+            "window": 30,
+            "alpha": 0.2,
+            "rel_change_threshold": 0.02,
+            "value_range": 0.002000000000000668
+          },
+          "fixes": [
+            "If this is early training, check warmup finished and LR reached its target.",
+            "Try a higher LR, an LR-range test, or a different schedule (cosine/one-cycle) if the plateau is unexpected.",
+            "Check for a frozen/detached parameter group if the plateau starts abruptly."
+          ]
+        }
+      ]
+    },
+    "brief-blip": {
+      "provenance": "synthetic boundary/control fixture",
+      "input_sha256": "f6a725b19e8e233e46770d0ae2821a26dd3d255ae419988f020645a7c97ef384",
+      "exit_code": 0,
+      "input_complete": true,
+      "findings": [
+        {
+          "detector": "plateau",
+          "title": "Plateau",
+          "severity": "info",
+          "metric": "train/loss",
+          "step_start": 51,
+          "step_end": 100,
+          "message": "train/loss barely moved from step 51 to 100 (50 points, range 4.999-5.501).",
+          "evidence": {
+            "window": 30,
+            "alpha": 0.2,
+            "rel_change_threshold": 0.02,
+            "value_range": 0.5020000000000007
+          },
+          "fixes": [
+            "If this is early training, check warmup finished and LR reached its target.",
+            "Try a higher LR, an LR-range test, or a different schedule (cosine/one-cycle) if the plateau is unexpected.",
+            "Check for a frozen/detached parameter group if the plateau starts abruptly."
+          ]
+        }
+      ]
+    },
+    "converged-floor": {
+      "provenance": "synthetic boundary/control fixture",
+      "input_sha256": "bd9841741db81d5c299888488fc2309f6fdd09dfe74f9160008620826c2f9bd5",
+      "exit_code": 0,
+      "input_complete": true,
+      "findings": []
+    },
+    "future-lr": {
+      "provenance": "synthetic boundary/control fixture",
+      "input_sha256": "eac85182deb111acb46eee7216edf4529389363b43eb301c4d180f19e9047d19",
+      "exit_code": 0,
+      "input_complete": true,
+      "findings": []
+    },
+    "invalid-lr": {
+      "provenance": "synthetic boundary/control fixture",
+      "input_sha256": "b9ed2263881ed488f2915ce3f2470c825fff3b7070a9c5161e70e9b1f50af132",
+      "exit_code": 0,
+      "input_complete": true,
+      "findings": []
+    },
+    "public-omni": {
+      "provenance": "derived public step/loss data; see public/manifest.json",
+      "input_sha256": "00b7e83ee6ecbcc254be1e6a9124ed05bb7d20d6cee5577bbe6532152c59f372",
+      "exit_code": 0,
+      "input_complete": true,
+      "findings": [
+        {
+          "detector": "plateau",
+          "title": "Plateau",
+          "severity": "info",
+          "metric": "train/loss",
+          "step_start": 23,
+          "step_end": 82,
+          "message": "train/loss barely moved from step 23 to 82 (60 points, range 0.0006-1.2).",
+          "evidence": {
+            "window": 30,
+            "alpha": 0.2,
+            "rel_change_threshold": 0.02,
+            "value_range": 1.1992
+          },
+          "fixes": [
+            "If this is early training, check warmup finished and LR reached its target.",
+            "Try a higher LR, an LR-range test, or a different schedule (cosine/one-cycle) if the plateau is unexpected.",
+            "Check for a frozen/detached parameter group if the plateau starts abruptly."
+          ]
+        }
+      ]
+    },
+    "public-rca": {
+      "provenance": "derived public step/loss data; see public/manifest.json",
+      "input_sha256": "706c8ad96f224e652fa34ca97df4fe74fdb77f104705307623436adc2085cea8",
+      "exit_code": 1,
+      "input_complete": true,
+      "findings": [
+        {
+          "detector": "divergence",
+          "title": "Diverged (rose from the start)",
+          "severity": "error",
+          "metric": "train/loss",
+          "step_start": 1,
+          "step_end": 500,
+          "message": "train/loss started around 4.212e-06 and ended at 9.531e-05, 22.6x higher, without ever settling below its first level.",
+          "evidence": {
+            "start_level": 4.212372004985809e-06,
+            "final_level": 9.530782699584961e-05,
+            "ratio": 22.625690913110766
+          },
+          "fixes": [
+            "Lower the learning rate; a loss that climbs from the first step is usually an LR an order of magnitude too high.",
+            "Add LR warmup and gradient clipping.",
+            "Check the loss is the quantity being minimized (sign, reduction, label alignment)."
+          ]
+        },
+        {
+          "detector": "plateau",
+          "title": "Plateau",
+          "severity": "info",
+          "metric": "train/loss",
+          "step_start": 40,
+          "step_end": 89,
+          "message": "train/loss barely moved from step 40 to 89 (50 points, range 2.712e-06-0.05611).",
+          "evidence": {
+            "window": 50,
+            "alpha": 0.2,
+            "rel_change_threshold": 0.02,
+            "value_range": 0.05610375851392746
+          },
+          "fixes": [
+            "If this is early training, check warmup finished and LR reached its target.",
+            "Try a higher LR, an LR-range test, or a different schedule (cosine/one-cycle) if the plateau is unexpected.",
+            "Check for a frozen/detached parameter group if the plateau starts abruptly."
+          ]
+        },
+        {
+          "detector": "plateau",
+          "title": "Plateau",
+          "severity": "info",
+          "metric": "train/loss",
+          "step_start": 115,
+          "step_end": 252,
+          "message": "train/loss barely moved from step 115 to 252 (138 points, range 4.034e-06-0.6037).",
+          "evidence": {
+            "window": 50,
+            "alpha": 0.2,
+            "rel_change_threshold": 0.02,
+            "value_range": 0.603728074580431
+          },
+          "fixes": [
+            "If this is early training, check warmup finished and LR reached its target.",
+            "Try a higher LR, an LR-range test, or a different schedule (cosine/one-cycle) if the plateau is unexpected.",
+            "Check for a frozen/detached parameter group if the plateau starts abruptly."
+          ]
+        },
+        {
+          "detector": "plateau",
+          "title": "Plateau",
+          "severity": "info",
+          "metric": "train/loss",
+          "step_start": 280,
+          "step_end": 329,
+          "message": "train/loss barely moved from step 280 to 329 (50 points, range 4.771e-05-0.0005635).",
+          "evidence": {
+            "window": 50,
+            "alpha": 0.2,
+            "rel_change_threshold": 0.02,
+            "value_range": 0.0005157454870641232
+          },
+          "fixes": [
+            "If this is early training, check warmup finished and LR reached its target.",
+            "Try a higher LR, an LR-range test, or a different schedule (cosine/one-cycle) if the plateau is unexpected.",
+            "Check for a frozen/detached parameter group if the plateau starts abruptly."
+          ]
+        },
+        {
+          "detector": "plateau",
+          "title": "Plateau",
+          "severity": "info",
+          "metric": "train/loss",
+          "step_start": 333,
+          "step_end": 443,
+          "message": "train/loss barely moved from step 333 to 443 (111 points, range 7.042e-05-0.7956).",
+          "evidence": {
+            "window": 50,
+            "alpha": 0.2,
+            "rel_change_threshold": 0.02,
+            "value_range": 0.7954940535128117
+          },
+          "fixes": [
+            "If this is early training, check warmup finished and LR reached its target.",
+            "Try a higher LR, an LR-range test, or a different schedule (cosine/one-cycle) if the plateau is unexpected.",
+            "Check for a frozen/detached parameter group if the plateau starts abruptly."
+          ]
+        }
+      ]
+    }
+  }
+}

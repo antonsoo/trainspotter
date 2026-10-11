@@ -1,0 +1,28 @@
+{
+  "python": "3.12.12",
+  "numpy": "2.5.3",
+  "platform": "Linux-6.18.54.1-microsoft-standard-WSL2-x86_64-with-glibc2.39",
+  "available_cpus": 14,
+  "peak_process_rss_mib": 264.66796875,
+  "timing_scope": "One diagnostic call including analysis projection; excludes Run creation. Other verification ran concurrently; these are workload checks, not an isolated speed comparison. RSS includes the input Run.",
+  "rows": [
+    {
+      "case": "steady-improvement",
+      "observations": 100000,
+      "seconds": 0.023568533986690454,
+      "findings": 0
+    },
+    {
+      "case": "noisy-stationary",
+      "observations": 100000,
+      "seconds": 0.07108134700683877,
+      "findings": 1
+    },
+    {
+      "case": "million-constant",
+      "observations": 1000000,
+      "seconds": 0.36205884600349236,
+      "findings": 1
+    }
+  ]
+}

@@ -14,6 +14,7 @@ const screenshotDir = process.env.TRAINSPOTTER_SCREENSHOTS;
 const timingScreenshotDir = process.env.TRAINSPOTTER_TIMING_SCREENSHOTS;
 const axisScreenshotDir = process.env.TRAINSPOTTER_AXIS_SCREENSHOTS;
 const finiteScreenshotDir = process.env.TRAINSPOTTER_FINITE_SCREENSHOTS;
+const plateauScreenshotDir = process.env.TRAINSPOTTER_PLATEAU_SCREENSHOTS;
 const evidence = [];
 async function checkKeyboardScroll(page, region) {
   await region.focus();
@@ -42,6 +43,7 @@ try {
   if (timingScreenshotDir) await mkdir(timingScreenshotDir, { recursive: true });
   if (axisScreenshotDir) await mkdir(axisScreenshotDir, { recursive: true });
   if (finiteScreenshotDir) await mkdir(finiteScreenshotDir, { recursive: true });
+  if (plateauScreenshotDir) await mkdir(plateauScreenshotDir, { recursive: true });
   for (const [engine, launcher] of Object.entries({ chromium, firefox })) {
     const browser = await launcher.launch({ headless: true });
     try {
@@ -119,6 +121,16 @@ try {
               assert.deepEqual(requests, []);
               assert.deepEqual(await page.evaluate(() => window.policyViolations), []);
               const json = JSON.parse(await readFile(join(scratch, report.file.replace(/\.html$/, '.json')), 'utf8'));
+              if (report.file === 'returning-rise.html') {
+                assert.deepEqual(json.findings.filter(f => f.detector === 'plateau').map(f => [f.step_start, f.step_end]), [[0, 49], [70, 119]]);
+              }
+              for (const finding of json.findings.filter(f => f.detector === 'plateau')) {
+                const article = page.locator('article.finding').filter({ has: page.getByRole('heading', { name: 'Possible plateau', exact: true }) }).filter({ hasText: finding.message });
+                assert.equal(await article.count(), 1);
+                assert.equal(await article.locator('.message').innerText(), finding.message);
+                assert.match(await article.locator('.message').innerText(), /raw readings range/);
+                assert.match(await article.locator('.evidence').innerText(), /noise_allowance=/);
+              }
               if (report.file === 'observed.html') {
                 assert.deepEqual(json.findings.filter(f => ['divergence', 'spikes', 'setbacks'].includes(f.detector)).map(f => f.title), ['Non-finite training loss']);
                 assert.equal(await page.getByRole('heading', { name: 'Non-finite training loss', exact: true }).count(), 1);
@@ -208,7 +220,17 @@ try {
                 await page.screenshot({ path, fullPage: true });
                 finiteScreenshot = { file, sha256: createHash('sha256').update(await readFile(path)).digest('hex') };
               }
-              evidence.push({ engine, browser_version: browser.version(), layout, ...report, axis: json.run.step_axis, axeViolations: 0, externalRequests: 0, policyViolations: 0, ...(timingScreenshot ? { timingScreenshot } : {}), ...(axisScreenshot ? { axisScreenshot } : {}), ...(finiteScreenshot ? { finiteScreenshot } : {}) });
+              let plateauScreenshot;
+              if (plateauScreenshotDir && (
+                (layout === 'desktop' && report.file === 'returning-rise.html') ||
+                (layout === 'mobile' && engine === 'chromium' && report.file === 'public-rca.html')
+              )) {
+                const file = `${engine}-${layout}-${report.file.replace(/\.html$/, '')}.png`;
+                const path = join(plateauScreenshotDir, file);
+                await page.screenshot({ path, fullPage: true });
+                plateauScreenshot = { file, sha256: createHash('sha256').update(await readFile(path)).digest('hex') };
+              }
+              evidence.push({ engine, browser_version: browser.version(), layout, ...report, axis: json.run.step_axis, axeViolations: 0, externalRequests: 0, policyViolations: 0, ...(timingScreenshot ? { timingScreenshot } : {}), ...(axisScreenshot ? { axisScreenshot } : {}), ...(finiteScreenshot ? { finiteScreenshot } : {}), ...(plateauScreenshot ? { plateauScreenshot } : {}) });
             } finally {
               await page.close();
             }

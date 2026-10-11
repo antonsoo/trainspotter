@@ -56,6 +56,15 @@ This rule cannot infer an unrecorded gap, checkpoint reset, dataset switch or
 missing batch from a finite curve. It does not establish real training health
 or wasted GPU time. [Controlled capture and before/after evidence](../studies/finite-segments/README.md).
 
+Possible plateaus likewise use finite segments. A nonsignificant slope and
+matching endpoints are insufficient: each window and its merged interval must
+also fit a bound on the median-smoothed level. The report gives that level's
+range separately from raw readings and retains its allowance for observation
+noise. This is a heuristic, not a confidence interval for correlated losses.
+An LR-based suppression uses only readings at or before the finding's start,
+with NaN/Inf/negative LR observations breaking its peak history.
+[Examples, sensitivity and limitations](../studies/plateau-evidence/README.md).
+
 ## TensorBoard event order
 
 The optional reader uses TensorBoard's TFRecord decoder and protobuf definitions,
