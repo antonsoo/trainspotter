@@ -114,6 +114,23 @@ wording changes. The second command checks that every change is accounted for.
 The recorded full replays took 239.3 and 252.8 seconds on the same WSL2 host
 while other verification ran; these are not an isolated performance benchmark.
 
+## Build and installed checks
+
+[installed.json](installed.json) records the source commit, clean-built sdist
+and wheel hashes, and independent wheel installs on Python 3.10.21 with
+NumPy 1.24.0 and Python 3.14.7 with NumPy 2.5.3. Both installations reproduce
+all ten CLI cases exactly, retain the error in `watch --once` and HTML output,
+and match the source reports on all six bundled Trainer examples. Installed
+Python source bytes also match the clean archive.
+
+[verification.json](verification.json) records fresh installation, lint,
+type checking, all 531 tests, package and static-gallery builds. The
+[browser receipt](browser.json) retains 176 report workflows across Chromium
+and Firefox at desktop and 320px, including the capture and positive
+after-gap event. Those checks exercise keyboard scrolling, accessibility,
+content security policy and lack of external requests. The three saved
+screenshots were visually inspected.
+
 ## Scope
 
 An explicit NaN/Inf is a boundary. Sparse blanks/nulls remain absent readings;
@@ -123,7 +140,10 @@ ten observations, local smoothing/scatter/progress, and the same thresholds.
 Findings name segment bounds and duration fractions. They do not establish
 optimizer health, the cause of a rise, or wasted GPU time. Other detectors
 retain their own policies; plateau findings, for example, are not relabelled
-by this change. See the [input contract](../../docs/input-integrity.md).
+by this change. The after-gap example exposes a pre-existing plateau-grouping
+limitation: it describes steps 60-159 as barely moving despite the intervening
+rise from 1 to 4. The retained before/after files make this visible; it remains
+a separate follow-up. See the [input contract](../../docs/input-integrity.md).
 
 These are local source changes. No PyPI release, tag, push or hosted-gallery
 deployment was performed.

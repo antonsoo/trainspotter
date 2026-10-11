@@ -1,0 +1,82 @@
+{
+  "implementation_commit": "d5e137e481457171cb0e484346da8b610342f3b2",
+  "source": "fresh git archive in empty directory; no original venv or node_modules copied",
+  "checks": [
+    {
+      "command": "uv sync --locked --all-extras --dev --python 3.12",
+      "exit_code": 0
+    },
+    {
+      "command": "uv run --locked ruff check src tests examples scripts studies/finite-segments",
+      "exit_code": 0
+    },
+    {
+      "command": "uv run --locked mypy src",
+      "exit_code": 0,
+      "source_files": 28
+    },
+    {
+      "command": "uv run --locked pytest -q",
+      "exit_code": 0,
+      "passed": 531
+    },
+    {
+      "command": "uv build",
+      "exit_code": 0,
+      "artifacts": "sdist and wheel, hashed in installed.json"
+    },
+    {
+      "command": "npm ci",
+      "exit_code": 0
+    },
+    {
+      "command": "npm run test:browser",
+      "exit_code": 0,
+      "workflows": 176
+    },
+    {
+      "command": "uv run --locked python scripts/build_site.py",
+      "exit_code": 0,
+      "output": "site/",
+      "reports": 17
+    }
+  ],
+  "clean_browser": {
+    "sha256": "c3eb4a9012ddd12e00f0c800dbf9191df7fe28301891c137e4a251ed9c95e0a9",
+    "workflows": 176,
+    "same_results_as_retained_browser_receipt": true,
+    "engines": [
+      "chromium",
+      "firefox"
+    ],
+    "widths": [
+      1440,
+      320
+    ],
+    "axe_violations": 0,
+    "external_requests": 0,
+    "csp_violations": 0
+  },
+  "screenshots": {
+    "docs/assets/finite-segments/chromium-desktop-observed.png": {
+      "sha256": "3b965f71cb301a1efbdc2bad2ef20aa65e201f6605b836be4d1837eda0cf569a",
+      "bytes": 130340,
+      "visually_inspected": true
+    },
+    "docs/assets/finite-segments/chromium-mobile-synthetic-after-gap.png": {
+      "sha256": "7ee0e9ea709cf2035ca9def577e1bc9b28b2e9e2495052b592ac1b5fa50e7329",
+      "bytes": 240524,
+      "visually_inspected": true
+    },
+    "docs/assets/finite-segments/firefox-desktop-observed.png": {
+      "sha256": "bbf3f9ef323a928dd4a7e875167a87a796fa59f2501283c63399fb519abc087b",
+      "bytes": 146751,
+      "visually_inspected": true
+    }
+  },
+  "installed_receipt": "installed.json",
+  "controlled_reproduction": "10 CLI cases including an actual PyTorch capture; weight/objective closed form checked",
+  "historical_corpus": "4259 cached records; 4177 readable, 82 unreadable; 26 wording-only changes, no trajectory changes. See corpus-review.json.",
+  "remaining_limit": "Pre-existing plateau grouping can describe a recovered excursion as barely moved; retained after-gap-control case, tracked separately as officina-3zk0.",
+  "publication": "Local verification only. No publish, tag, push or hosted deployment."
+}
