@@ -1,0 +1,90 @@
+{
+  "source_commit": "90f351699f0cbb366926caee95de0012e5ac3a33",
+  "files": [
+    {
+      "path": "src/trainspotter/detectors/plateau.py",
+      "url": "https://raw.githubusercontent.com/antonsoo/trainspotter/90f351699f0cbb366926caee95de0012e5ac3a33/src/trainspotter/detectors/plateau.py",
+      "sha256": "87586934f30918134f89b3237922d2c957ade1d116730b60f3785d936896399f",
+      "bytes": 14503,
+      "identical_to_local": true
+    },
+    {
+      "path": "src/trainspotter/detectors/base.py",
+      "url": "https://raw.githubusercontent.com/antonsoo/trainspotter/90f351699f0cbb366926caee95de0012e5ac3a33/src/trainspotter/detectors/base.py",
+      "sha256": "edc2cb5fcfc0587ae1edac64605166a7ca4358d4f1b3c4f40fcb3b342953e107",
+      "bytes": 18291,
+      "identical_to_local": true
+    },
+    {
+      "path": "src/trainspotter/detectors/divergence.py",
+      "url": "https://raw.githubusercontent.com/antonsoo/trainspotter/90f351699f0cbb366926caee95de0012e5ac3a33/src/trainspotter/detectors/divergence.py",
+      "sha256": "60e8b29e2c4706f2101c0c5f8c6d21b9a2a500e45a469d1e2b343062d4285cb7",
+      "bytes": 11817,
+      "identical_to_local": true
+    },
+    {
+      "path": "src/trainspotter/detectors/setbacks.py",
+      "url": "https://raw.githubusercontent.com/antonsoo/trainspotter/90f351699f0cbb366926caee95de0012e5ac3a33/src/trainspotter/detectors/setbacks.py",
+      "sha256": "7d0e653f878d3f1787ab444563d026271c262aeb8828478243c6155a51fdcf85",
+      "bytes": 11859,
+      "identical_to_local": true
+    },
+    {
+      "path": "src/trainspotter/detectors/spikes.py",
+      "url": "https://raw.githubusercontent.com/antonsoo/trainspotter/90f351699f0cbb366926caee95de0012e5ac3a33/src/trainspotter/detectors/spikes.py",
+      "sha256": "a884d3349b0b73c8d44c95b6d13a6cfefb41d413be3a7fe4d75d4641b01ddd30",
+      "bytes": 11155,
+      "identical_to_local": true
+    },
+    {
+      "path": "tests/test_plateau_evidence.py",
+      "url": "https://raw.githubusercontent.com/antonsoo/trainspotter/90f351699f0cbb366926caee95de0012e5ac3a33/tests/test_plateau_evidence.py",
+      "sha256": "6a8cd101736522116a3025628146cc89e5ec964d9bfed6de0eb14e73d8e19355",
+      "bytes": 4293,
+      "identical_to_local": true
+    },
+    {
+      "path": "studies/plateau-evidence/README.md",
+      "url": "https://raw.githubusercontent.com/antonsoo/trainspotter/90f351699f0cbb366926caee95de0012e5ac3a33/studies/plateau-evidence/README.md",
+      "sha256": "9af2b99e3e7f8f8aa045ae5e3711a8c8d2b5dc1144e8b4a87a7ea22294c7a2bd",
+      "bytes": 9989,
+      "identical_to_local": true
+    },
+    {
+      "path": "studies/plateau-evidence/verification.json",
+      "url": "https://raw.githubusercontent.com/antonsoo/trainspotter/90f351699f0cbb366926caee95de0012e5ac3a33/studies/plateau-evidence/verification.json",
+      "sha256": "3e88f31ebc9aba947e75efaeb70e03acfeff0c603ef1344579d996712f492827",
+      "bytes": 1141,
+      "identical_to_local": true
+    },
+    {
+      "path": "studies/plateau-evidence/corpus.json",
+      "url": "https://raw.githubusercontent.com/antonsoo/trainspotter/90f351699f0cbb366926caee95de0012e5ac3a33/studies/plateau-evidence/corpus.json",
+      "sha256": "2e1cae65227dae43b3007f17141f63a547a90259140509027e698fc965f69318",
+      "bytes": 2226404,
+      "identical_to_local": true
+    },
+    {
+      "path": "studies/plateau-evidence/installed.json",
+      "url": "https://raw.githubusercontent.com/antonsoo/trainspotter/90f351699f0cbb366926caee95de0012e5ac3a33/studies/plateau-evidence/installed.json",
+      "sha256": "6188c8cbbb24a618cfe2c9327c53f7e38261ebf10008a40fa721325ed23fff9a",
+      "bytes": 4524,
+      "identical_to_local": true
+    },
+    {
+      "path": "studies/finite-segments/README.md",
+      "url": "https://raw.githubusercontent.com/antonsoo/trainspotter/90f351699f0cbb366926caee95de0012e5ac3a33/studies/finite-segments/README.md",
+      "sha256": "c463f93f3097786a58c50589f51bcf07599befcdde28c317bf6b3905126ce15e",
+      "bytes": 8302,
+      "identical_to_local": true
+    },
+    {
+      "path": "studies/finite-segments/captured/observed.csv",
+      "url": "https://raw.githubusercontent.com/antonsoo/trainspotter/90f351699f0cbb366926caee95de0012e5ac3a33/studies/finite-segments/captured/observed.csv",
+      "sha256": "c10e99a202079cd78540026fe73649c05d79c1564122eddca7d729ae8efa04b5",
+      "bytes": 3619,
+      "identical_to_local": true
+    }
+  ],
+  "scope": "Pinned public GitHub source and evidence bytes. Does not establish a PyPI release or hosted report update."
+}

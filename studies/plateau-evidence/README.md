@@ -146,6 +146,12 @@ These are source and built-package checks, not a PyPI release or hosted-demo
 receipt. The workload checks above ran alongside other verification: the new
 level evidence adds computation, and their timings are not a speedup claim.
 
+The [public-source receipt](public-source.json) subsequently fetched 12 pinned
+files at `90f3516` from GitHub and byte-compared them with this checkout,
+including the earlier finite-segment fix and its producer capture. Source
+availability does not establish that the registry package or hosted reports
+have changed.
+
 ## Reproduce
 
 From the source checkout:
