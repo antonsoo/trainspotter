@@ -1,0 +1,65 @@
+{
+  "implementationCommit": "859dca3a70b103e41d8be8275cfafa70f6d5e960",
+  "archiveFilesMatch": 416,
+  "artifacts": [
+    {
+      "name": "trainspotter-0.2.6-py3-none-any.whl",
+      "bytes": 116940,
+      "sha256": "28842701dfce3f8057dea6a967b9c3ac262035a0aa53093c926d8904f3450d5f"
+    },
+    {
+      "name": "trainspotter-0.2.6.tar.gz",
+      "bytes": 160688,
+      "sha256": "ccdeece7e39dbee64467a96b5b95285fe912f04eb3b8a9e8081f5adc96e87882"
+    }
+  ],
+  "installed": [
+    {
+      "python": "3.10.21",
+      "numpy": "1.24.0",
+      "moduleFilesMatch": 29,
+      "chartsMatchSourceReports": 4,
+      "watchOutputsMatchSource": 4,
+      "consoleScriptOverfittingGate": 1,
+      "ambiguousImportExit": 2,
+      "existingOutputPreserved": true
+    },
+    {
+      "python": "3.14.7",
+      "numpy": "2.5.4",
+      "moduleFilesMatch": 29,
+      "chartsMatchSourceReports": 4,
+      "watchOutputsMatchSource": 4,
+      "consoleScriptOverfittingGate": 1,
+      "ambiguousImportExit": 2,
+      "existingOutputPreserved": true
+    }
+  ],
+  "cleanChecks": {
+    "pythonTests": 629,
+    "browserWorkflows": 208,
+    "node": "24.21.0",
+    "ruff": "passed",
+    "mypySourceFiles": 28,
+    "siteReports": 17,
+    "commands": [
+      "uv sync --locked --all-extras --dev --python 3.12",
+      "ruff check src tests examples scripts",
+      "mypy src",
+      "pytest -q",
+      "uv build",
+      "python scripts/build_site.py --out-dir <scratch-site>",
+      "npm ci",
+      "node tests/browser.mjs"
+    ],
+    "logs": {
+      "clean-install.log": "f4115e1662e7aa14113e1cdf8ea42a1980364f7b1d8d2ff3259ed76928e7842d",
+      "clean-tests.log": "1406502e4ce6aea538c4246fe78fcc2f2b5795c0b768df7bdbe2e829d3f6b9ab",
+      "build.log": "f77a4a7c19da6b9bf8fafa3af836a8793d4dc0c166649256466ab1ab92cf2169",
+      "site-build.log": "c92be7fa63cb5ae5a01fdde0e9a8166f47da46161fe0eb114c6c64ee72ac670f",
+      "npm-ci.log": "d1cfcefcbb814d9968687725bb6e373ef58b100f2c2c3038dd1f8069258fe42a",
+      "clean-browser.log": "de946b40d7abc91cc3c6e482ab9b33559af6223101955a918d25f290c5a0a3f6"
+    }
+  },
+  "scope": "Source checkout and local package artifacts; no registry release or hosted deployment."
+}

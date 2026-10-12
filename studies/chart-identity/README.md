@@ -23,6 +23,8 @@ is emitted for these rejected imports.
 - [before.json](before.json) and [after.json](after.json): real CLI analyze,
   HTML generation and watch-once results; fixture hashes, complete JSON reports,
   history control and rejected selections.
+- [Ambiguous chart](fixtures/ambiguous.csv) and [history control](fixtures/history.csv):
+  retained inputs, byte-checked against the replay's hashes.
 - [replay.py](replay.py): regenerates the five inputs and compares the complete
   findings and metric summaries to the history control. The four corrected
   chart imports all retain both curves; the previous defaults did so for two.
@@ -40,6 +42,21 @@ The reader and CLI regressions also exercise declaration rejection on other
 formats, run-name whitespace, nonmetric value columns, empty/colliding metrics,
 mutually exclusive options, a growing chart, an added foreign run, recovery and
 changed source labels. The full Python suite passes 629 tests.
+
+The [clean-install receipt](verification.json) records a fresh archive of
+`859dca3`, with all 416 tracked files matched to their Git objects. Lint, strict
+type checking, 629 Python tests and 208 report workflows pass. The browser suite
+includes Chromium and Firefox at desktop and 320px, keyboard interaction,
+automated accessibility checks, CSP and no network. The static site build
+generates its index and 17 existing reports.
+
+The wheel's 29 package files match the source bytes. Fresh installs on Python
+3.10.21 / NumPy 1.24.0 (the minimum supported dependency) and Python 3.14.7 /
+NumPy 2.5.4 reproduce all four chart reports and watch outputs exactly. The
+installed console script exits 1 for the supported overfitting finding and 2
+for an ambiguous import; the latter preserves an existing output file. Package
+and source-archive hashes are in the receipt. Later commits add only retained
+fixtures and verification documentation.
 
 ## Reproduce
 
