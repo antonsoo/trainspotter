@@ -1,0 +1,257 @@
+{
+  "expectation": "before",
+  "results": [
+    {
+      "engine": "chromium",
+      "browserVersion": "153.0.8010.12",
+      "width": 1440,
+      "name": "unreadable",
+      "htmlBytes": 20651,
+      "htmlSha256": "ca8de906dbd605b8509ace38deb1b06d521042d86cef7134d9d679b8bb204bbf",
+      "openedFromFileWhileOffline": true,
+      "lrDiscontinuities": [],
+      "download": {
+        "data": {
+          "schema_version": 1,
+          "source_path": "unreadable.csv",
+          "step_axis": "step",
+          "step_column": "step",
+          "unreadable_steps": {
+            "lr": [
+              10
+            ]
+          }
+        },
+        "sha256": "216684631753790f8bea5e21b7418c53eb580fef890f4e8db6e91c087038a6bb"
+      },
+      "errors": [],
+      "httpRequests": [],
+      "policyViolations": [],
+      "axeViolations": 0,
+      "horizontalOverflow": false,
+      "screenshot": {
+        "filename": "chromium-1440.png",
+        "sha256": "6bfe53256e7caf6011c8937153fcfdfa4c433fb6b3623a7d2df7bb7847aee81b"
+      }
+    },
+    {
+      "engine": "chromium",
+      "browserVersion": "153.0.8010.12",
+      "width": 1440,
+      "name": "unknown-rise-phase",
+      "htmlBytes": 16537,
+      "htmlSha256": "37b689dba0af0f84b74afb7bc4d70e25033284f87f533782e3a6f1fa65e96fb7",
+      "openedFromFileWhileOffline": true,
+      "lrDiscontinuities": [],
+      "download": {
+        "data": {
+          "schema_version": 1,
+          "source_path": "unknown-rise-phase.csv",
+          "step_axis": "step",
+          "step_column": "step",
+          "unreadable_steps": {
+            "lr": [
+              40
+            ]
+          }
+        },
+        "sha256": "c2525af96cf311682280952eb4b19e6255b56d345132af317726cd8882acc792"
+      },
+      "errors": [],
+      "httpRequests": [],
+      "policyViolations": [],
+      "axeViolations": 0,
+      "horizontalOverflow": false,
+      "screenshot": null
+    },
+    {
+      "engine": "chromium",
+      "browserVersion": "153.0.8010.12",
+      "width": 375,
+      "name": "unreadable",
+      "htmlBytes": 20651,
+      "htmlSha256": "ca8de906dbd605b8509ace38deb1b06d521042d86cef7134d9d679b8bb204bbf",
+      "openedFromFileWhileOffline": true,
+      "lrDiscontinuities": [],
+      "download": {
+        "data": {
+          "schema_version": 1,
+          "source_path": "unreadable.csv",
+          "step_axis": "step",
+          "step_column": "step",
+          "unreadable_steps": {
+            "lr": [
+              10
+            ]
+          }
+        },
+        "sha256": "216684631753790f8bea5e21b7418c53eb580fef890f4e8db6e91c087038a6bb"
+      },
+      "errors": [],
+      "httpRequests": [],
+      "policyViolations": [],
+      "axeViolations": 0,
+      "horizontalOverflow": false,
+      "screenshot": {
+        "filename": "chromium-375.png",
+        "sha256": "3c07ae36cc464e05a41b54dd68898686e03aeb6abe3f94f8bc4858a5dd367a58"
+      }
+    },
+    {
+      "engine": "chromium",
+      "browserVersion": "153.0.8010.12",
+      "width": 375,
+      "name": "unknown-rise-phase",
+      "htmlBytes": 16537,
+      "htmlSha256": "37b689dba0af0f84b74afb7bc4d70e25033284f87f533782e3a6f1fa65e96fb7",
+      "openedFromFileWhileOffline": true,
+      "lrDiscontinuities": [],
+      "download": {
+        "data": {
+          "schema_version": 1,
+          "source_path": "unknown-rise-phase.csv",
+          "step_axis": "step",
+          "step_column": "step",
+          "unreadable_steps": {
+            "lr": [
+              40
+            ]
+          }
+        },
+        "sha256": "c2525af96cf311682280952eb4b19e6255b56d345132af317726cd8882acc792"
+      },
+      "errors": [],
+      "httpRequests": [],
+      "policyViolations": [],
+      "axeViolations": 0,
+      "horizontalOverflow": false,
+      "screenshot": null
+    },
+    {
+      "engine": "firefox",
+      "browserVersion": "155.0",
+      "width": 1440,
+      "name": "unreadable",
+      "htmlBytes": 20651,
+      "htmlSha256": "ca8de906dbd605b8509ace38deb1b06d521042d86cef7134d9d679b8bb204bbf",
+      "openedFromFileWhileOffline": true,
+      "lrDiscontinuities": [],
+      "download": {
+        "data": {
+          "schema_version": 1,
+          "source_path": "unreadable.csv",
+          "step_axis": "step",
+          "step_column": "step",
+          "unreadable_steps": {
+            "lr": [
+              10
+            ]
+          }
+        },
+        "sha256": "216684631753790f8bea5e21b7418c53eb580fef890f4e8db6e91c087038a6bb"
+      },
+      "errors": [],
+      "httpRequests": [],
+      "policyViolations": [],
+      "axeViolations": 0,
+      "horizontalOverflow": false,
+      "screenshot": {
+        "filename": "firefox-1440.png",
+        "sha256": "ba8fe7d56f2a503625a5f6a61aca669c4816c4f2006d50e335a1b158cdebf011"
+      }
+    },
+    {
+      "engine": "firefox",
+      "browserVersion": "155.0",
+      "width": 1440,
+      "name": "unknown-rise-phase",
+      "htmlBytes": 16537,
+      "htmlSha256": "37b689dba0af0f84b74afb7bc4d70e25033284f87f533782e3a6f1fa65e96fb7",
+      "openedFromFileWhileOffline": true,
+      "lrDiscontinuities": [],
+      "download": {
+        "data": {
+          "schema_version": 1,
+          "source_path": "unknown-rise-phase.csv",
+          "step_axis": "step",
+          "step_column": "step",
+          "unreadable_steps": {
+            "lr": [
+              40
+            ]
+          }
+        },
+        "sha256": "c2525af96cf311682280952eb4b19e6255b56d345132af317726cd8882acc792"
+      },
+      "errors": [],
+      "httpRequests": [],
+      "policyViolations": [],
+      "axeViolations": 0,
+      "horizontalOverflow": false,
+      "screenshot": null
+    },
+    {
+      "engine": "firefox",
+      "browserVersion": "155.0",
+      "width": 375,
+      "name": "unreadable",
+      "htmlBytes": 20651,
+      "htmlSha256": "ca8de906dbd605b8509ace38deb1b06d521042d86cef7134d9d679b8bb204bbf",
+      "openedFromFileWhileOffline": true,
+      "lrDiscontinuities": [],
+      "download": {
+        "data": {
+          "schema_version": 1,
+          "source_path": "unreadable.csv",
+          "step_axis": "step",
+          "step_column": "step",
+          "unreadable_steps": {
+            "lr": [
+              10
+            ]
+          }
+        },
+        "sha256": "216684631753790f8bea5e21b7418c53eb580fef890f4e8db6e91c087038a6bb"
+      },
+      "errors": [],
+      "httpRequests": [],
+      "policyViolations": [],
+      "axeViolations": 0,
+      "horizontalOverflow": false,
+      "screenshot": {
+        "filename": "firefox-375.png",
+        "sha256": "3b3b94f6cf9c08be613ffce415d724b9a01275f292f19a45594141f66f0fbe49"
+      }
+    },
+    {
+      "engine": "firefox",
+      "browserVersion": "155.0",
+      "width": 375,
+      "name": "unknown-rise-phase",
+      "htmlBytes": 16537,
+      "htmlSha256": "37b689dba0af0f84b74afb7bc4d70e25033284f87f533782e3a6f1fa65e96fb7",
+      "openedFromFileWhileOffline": true,
+      "lrDiscontinuities": [],
+      "download": {
+        "data": {
+          "schema_version": 1,
+          "source_path": "unknown-rise-phase.csv",
+          "step_axis": "step",
+          "step_column": "step",
+          "unreadable_steps": {
+            "lr": [
+              40
+            ]
+          }
+        },
+        "sha256": "c2525af96cf311682280952eb4b19e6255b56d345132af317726cd8882acc792"
+      },
+      "errors": [],
+      "httpRequests": [],
+      "policyViolations": [],
+      "axeViolations": 0,
+      "horizontalOverflow": false,
+      "screenshot": null
+    }
+  ]
+}

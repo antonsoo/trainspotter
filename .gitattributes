@@ -4,3 +4,6 @@ examples/schedulers/captured/*.csv -text whitespace=blank-at-eol,blank-at-eof,sp
 examples/diagnostic-evidence/*.csv -text whitespace=blank-at-eol,blank-at-eof,space-before-tab,cr-at-eol
 studies/finite-segments/captured/*.csv -text whitespace=blank-at-eol,blank-at-eof,space-before-tab,cr-at-eol
 studies/plateau-evidence/**/*.csv -text whitespace=blank-at-eol,blank-at-eof,space-before-tab,cr-at-eol
+studies/lr-gaps/captured/*.csv -text
+# Retained CLI HTML is byte-for-byte output, including template indentation.
+studies/lr-gaps/reports/**/*.html -text -whitespace

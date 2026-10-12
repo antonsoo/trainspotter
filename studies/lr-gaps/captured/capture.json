@@ -1,0 +1,18 @@
+{
+  "kind": "controlled CPU optimizer capture with deliberately damaged LR export cells",
+  "python": "3.12.12",
+  "torch": "2.8.0+cpu",
+  "objective": "1 + w**2/2, float64 SGD, initial w=3, initial lr=0.1",
+  "scheduler": "MultiStepLR, milestones [40,80], gamma=0.5; called after optimizer updates",
+  "observation": "120 observations of loss, current LR and weight before optimizer updates",
+  "fault": "Replace only the step-10 learning_rate cell; optimizer and loss unchanged",
+  "files": {
+    "complete.csv": "d24f931dd347bb257722fcac4ee33e96bd66da342e0c290603cd4ea074c6cd51",
+    "nan.csv": "6358c0d91f2869e41237bc3513f630018c7ddd799381f2074a9ceb9be30b9864",
+    "negative-inf.csv": "0e403bec8208028bb3141842e96cb2e0a5bea3690c6616dfc5de6b6178f132f9",
+    "negative.csv": "17709dc3ed8ce7a0a2722d0993527bf3d05b3f5b203c23e173ee5d69ce44e67b",
+    "optimizer.csv": "0dd4abf73a8fa7321f5ddf42cddff846b8de9f04bc55a80eb72adc3e870d4919",
+    "positive-inf.csv": "ebbf6c1b6468b26c0d92f7188c1ab7b8f0944ede1f0c87803d59fc4256b06f91",
+    "unreadable.csv": "84deb12be81d8a2b674ea7dd4f8c014e22ebff1dfc1286607a479c39293e415c"
+  }
+}

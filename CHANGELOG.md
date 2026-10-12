@@ -6,6 +6,13 @@ and this project uses [Semantic Versioning](https://semver.org/).
 
 ## Unreleased
 
+- Keep supported LR discontinuities visible when other readings are unreadable,
+  non-finite or negative. Peak/range calculations use finite nonnegative values;
+  ramp comparisons and phase detection stay within contiguous usable segments.
+  Negative values cannot create a spurious jump, and a later usable reading
+  cannot replace an unknown beginning in the missing-warmup check. Reports retain
+  the usable range and segment scope. [Controlled optimizer capture and limits](studies/lr-gaps/README.md).
+
 - Preserve known-coordinate unreadable metric values as trajectory boundaries in
   CSV, JSONL, Hugging Face, W&B, Lightning and TensorBoard scalar inputs. Invalid
   cells no longer invent rises, spikes or recovery durations across gaps, or hide

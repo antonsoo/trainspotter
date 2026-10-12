@@ -22,7 +22,7 @@ and runs three independent checks:
    rebound. An explicit grace uses point count, not elapsed steps.
 3. **Discontinuity.** A step-to-step LR change whose absolute size exceeds
    `jump_frac` (default 20%) of the LR's whole observed range
-   (`max(lr) - min(lr)` over the run) -- a jump big enough, relative to
+   (`max(lr) - min(lr)` over usable readings in the run) -- a jump big enough, relative to
    the schedule's entire span, that it can't be one ordinary step of a
    smooth ramp or decay. This deliberately avoids a rolling-MAD/z-score
    test: most schedules spend long stretches flat (full warmup, or a
@@ -32,6 +32,14 @@ and runs three independent checks:
    data during development. Measuring jumps against the run's total range
    instead sidesteps that failure mode entirely. An upward discontinuity
    already covered by a rebound is reported only as that rebound.
+
+Unreadable, non-finite and negative LR readings are unusable observations.
+They cannot set the peak/range or join adjacent intervals. Discontinuities
+require at least six contiguous usable readings; ramp neighbors and initial
+rise suppression stay within that segment. Their scale remains the usable
+range of the whole run, not a smaller segment-specific range. Missing-warmup
+notes require a usable first reading and at least 20 usable readings by default;
+they never substitute a later reading for an unusable beginning.
 
 **False-positive modes.**
 - Cyclic schedules (cosine with restarts, one-cycle repeated, cyclical
@@ -59,7 +67,7 @@ import numpy as np
 
 from trainspotter.model import Run
 
-from .base import Detector, Finding, FloatArray, group_consecutive, series_arrays
+from .base import Detector, Finding, FloatArray, finite_spans, group_consecutive, series_arrays
 
 
 def _between(step_gap: int) -> str:
@@ -104,13 +112,15 @@ class LRScheduleDetector(Detector):
         return findings
 
     def _missing_warmup(self, steps: FloatArray, values: FloatArray) -> list[Finding]:
-        if len(values) < self.min_steps_for_warmup_check:
+        usable = np.isfinite(values) & (values >= 0)
+        observed = values[usable]
+        if not usable[0] or len(observed) < self.min_steps_for_warmup_check:
             return []
-        peak = float(np.max(values))
+        peak = float(np.max(observed))
         if peak <= 0:
             return []
         if values[0] / peak >= self.warmup_frac:
-            return [
+            findings = [
                 Finding(
                     detector=self.name,
                     title="No LR warmup detected",
@@ -132,6 +142,17 @@ class LRScheduleDetector(Detector):
                     ],
                 )
             ]
+            if len(observed) != len(values):
+                excluded = len(values) - len(observed)
+                findings[0].evidence.update({
+                    "usable_lr_readings": len(observed),
+                    "unusable_lr_readings": excluded,
+                })
+                findings[0].message += (
+                    f" Peak assessed from {len(observed)} usable readings; {excluded} unusable "
+                    f"{'reading was' if excluded == 1 else 'readings were'} excluded."
+                )
+            return findings
         return []
 
     def _rises_after_decay(self, steps: FloatArray, values: FloatArray) -> list[Finding]:
@@ -212,10 +233,39 @@ class LRScheduleDetector(Detector):
         return findings
 
     def _discontinuity(self, steps: FloatArray, values: FloatArray) -> list[Finding]:
-        if len(values) < 6:
+        usable = np.isfinite(values) & (values >= 0)
+        observed = values[usable]
+        if len(observed) < 6:
             return []
-        lr_range = float(np.max(values) - np.min(values))
+        lr_range = float(np.max(observed) - np.min(observed))
         if lr_range <= 0:
+            return []
+        findings = []
+        for start, stop in finite_spans(np.where(usable, values, np.nan)):
+            segment = self._segment_discontinuities(steps[start:stop], values[start:stop], lr_range)
+            if len(observed) != len(values):
+                for finding in segment:
+                    finding.evidence.update({
+                        "segment_start_step": int(steps[start]),
+                        "segment_end_step": int(steps[stop - 1]),
+                        "segment_observations": stop - start,
+                        "usable_lr_readings": len(observed),
+                        "unusable_lr_readings": len(values) - len(observed),
+                        "usable_lr_range": lr_range,
+                    })
+                    finding.message = finding.message.replace("whole LR range", "usable LR range")
+                    finding.message += (
+                        f" Adjacency assessed within steps {int(steps[start])}-{int(steps[stop - 1])} "
+                        f"({stop - start} usable readings); no schedule is inferred across "
+                        "unreadable, non-finite or negative readings."
+                    )
+            findings.extend(segment)
+        return findings
+
+    def _segment_discontinuities(
+        self, steps: FloatArray, values: FloatArray, lr_range: float,
+    ) -> list[Finding]:
+        if len(values) < 6:
             return []
         deltas = np.diff(values)
         # Per-step rate, so a neighbor logged over a different interval compares fairly.

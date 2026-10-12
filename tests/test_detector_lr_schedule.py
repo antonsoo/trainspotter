@@ -188,3 +188,64 @@ def test_abrupt_restarts_are_not_reported_twice() -> None:
         ("LR rose after decay", 39, 40),
         ("LR rose after decay", 79, 80),
     ]
+
+
+@pytest.mark.parametrize("bad", [None, math.nan, math.inf, -math.inf, -1.0])
+def test_unusable_reading_cannot_erase_distant_real_drops_or_create_a_jump(bad):
+    values = [0.1] * 20 + [0.05] * 20 + [0.025] * 20
+    values[10] = bad
+    findings = LRScheduleDetector().run(make_run(lr=values))
+    assert [(f.title, f.step_start, f.step_end) for f in findings] == [
+        ("No LR warmup detected", 0, 0),
+        ("LR discontinuity", 19, 20),
+        ("LR discontinuity", 39, 40),
+    ]
+    for finding in findings[1:]:
+        assert finding.evidence["usable_lr_range"] == pytest.approx(0.075)
+        assert finding.evidence["segment_start_step"] == 11
+        assert finding.evidence["segment_end_step"] == 59
+        assert finding.evidence["unusable_lr_readings"] == 1
+
+
+@pytest.mark.parametrize("bad", [None, math.nan, math.inf, -math.inf, -1.0])
+def test_unknown_transition_is_not_replaced_by_the_two_nearest_usable_readings(bad):
+    values = [0.1] * 20 + [bad] + [0.01] * 20
+    findings = LRScheduleDetector().run(make_run(lr=values))
+    assert not any(f.title == "LR discontinuity" for f in findings)
+
+
+@pytest.mark.parametrize("bad", [None, math.nan, math.inf, -math.inf, -1.0])
+def test_a_gap_resets_the_initial_rise_phase_without_inventing_a_restart(bad):
+    values = [0.1] * 20 + [0.05] * 20 + [bad] + [0.001] * 10 + [0.1] * 20
+    findings = LRScheduleDetector().run(make_run(lr=values))
+    jumps = [f for f in findings if f.title == "LR discontinuity"]
+    assert [(f.step_start, f.step_end) for f in jumps] == [(19, 20)]
+    assert not any(f.title == "LR rose after decay" for f in findings)
+
+
+@pytest.mark.parametrize("bad", [None, math.nan, math.inf, -math.inf, -1.0])
+def test_unusable_beginning_is_not_evidence_of_missing_warmup(bad):
+    findings = LRScheduleDetector().run(make_run(lr=[bad] + [0.1] * 40))
+    assert findings == []
+
+
+def test_small_segment_range_does_not_inflate_a_change_relative_to_the_whole_run():
+    values = [1.0] * 20 + [math.nan] + [0.02] * 10 + [0.01] * 10
+    findings = LRScheduleDetector().run(make_run(lr=values))
+    assert not any(f.title == "LR discontinuity" for f in findings)
+
+
+def test_discontinuity_requires_six_contiguous_usable_observations():
+    values = [0.1] * 20 + [math.nan] + [0.1, 0.1, 0.01, 0.01, 0.01]
+    findings = LRScheduleDetector().run(make_run(lr=values))
+    assert not any(f.title == "LR discontinuity" for f in findings)
+
+
+def test_unusable_readings_do_not_supply_missing_warmup_sample_count():
+    values = [0.1] * 19 + [math.nan] * 20
+    assert LRScheduleDetector().run(make_run(lr=values)) == []
+
+
+@pytest.mark.parametrize("values", [[math.nan] * 20, [math.inf] * 20, [-1.0] * 20, [None] * 20])
+def test_no_usable_lr_history_has_no_schedule_findings(values):
+    assert LRScheduleDetector().run(make_run(lr=values)) == []

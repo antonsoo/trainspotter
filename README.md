@@ -173,6 +173,8 @@ trainspotter analyze path/to/trainer_state.json --output html --out report.html
   A missing-scheduler-state resume and a cosine-horizon overrun previously
   went unreported. [Captured optimizer runs and limits](docs/learning-rate-rebounds.md)
   show both, plus correct-resume and intended-cycle controls; observations stay informational.
+  [Unusable LR readings](studies/lr-gaps/README.md) now bound adjacency without
+  hiding supported changes elsewhere or inventing jumps through a logging gap.
 - **CI gating**: `--fail-on warning|error` exits non-zero if any finding at
   or above that severity was found, or the input could only be partially read.
   The source checkout adds `--require-timing`: a speed gate can also reject an
