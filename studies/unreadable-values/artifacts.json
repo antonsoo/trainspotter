@@ -1,0 +1,291 @@
+{
+  "baselineCommit": "95fcb4d749a73ed5fab8b33cb1bd4549221b461d",
+  "corpusAndBrowserSourceCommit": "672f3c0c3b7eb11b7b0ffd2d96547aafe23b21c6",
+  "installedPackageSourceCommit": "89c6b50dd38e7d4aacdf771d8265667cf117a1e0",
+  "scope": "Local clean archives and installed wheel; source work only. No registry release, tag or hosted deployment.",
+  "cleanArchiveSha256": "690ef70c4142a33492ee41ac15be942824fd31b99cf1f18ed2955a3aa8772ad4",
+  "packages": {
+    ".gitignore": {
+      "bytes": 1,
+      "sha256": "684888c0ebb17f374298b65ee2807526c066094c701bcc7ebbe1c1095f494fc1"
+    },
+    "trainspotter-0.2.6-py3-none-any.whl": {
+      "bytes": 114799,
+      "sha256": "f34d4ad1ae1a7cb4202f27e68d9c91d6844b85b4c6c3c19256ac75251e8c12ce"
+    },
+    "trainspotter-0.2.6.tar.gz": {
+      "bytes": 154594,
+      "sha256": "c7758ba65a69ce6081cf2a8a8bdf933afe33c613bcb890789f07b7e84f8d6f47"
+    }
+  },
+  "installedPythonSourceFiles": 28,
+  "installedPythonSourceHashes": {
+    "__init__.py": "f902908eabb455be7238326cae68b500f401e4962b326bc7696dbc748be6437b",
+    "cli.py": "2991d2a3d0f0cbd9ac078bba1e8e200b546b3b864f5cdaf3ac51998cb8c4e163",
+    "detectors/__init__.py": "38482b71273ec74fdf748c447e35c1132451b5f9a74a581a8e72067d91624e09",
+    "detectors/_rolling_slope.py": "bb5d8c31ad43864cca26a9633a7d616a80ccc26fc1c5cd199152c8a84c59e892",
+    "detectors/base.py": "a1b8ff3e7163f7b6aaa476b42565a8fccc46bfefd4e07270fbe3c69691c11bd8",
+    "detectors/divergence.py": "70721e99da4edbf8a5a67308d4222baeb1d951d8f076c745c698fe680fc557ac",
+    "detectors/eval_noise.py": "1fa2258d2d3247fa0486fda30867e1b769bf5d06ffd864402c91fd1610b350ca",
+    "detectors/grad_norm.py": "1a6e37d4b37324a089721f759999f4f8fd53d0d8bae06dde3a9cf016f6919089",
+    "detectors/loss_floor.py": "e50fed8be010eaa3fcd813f1d73b49871f3627d1035b0547d8bccdbd99bc3131",
+    "detectors/lr_schedule.py": "6cc240b8afaca7ed71cabd247babedb99a53f3811b5d6a08bdf635599143f07b",
+    "detectors/overfitting.py": "b581df9ad6223916f03aa4341ba3168518d3dd7820559a5102e14b7e175f88db",
+    "detectors/plateau.py": "41f3aa5f785316de91cb3d6075ff57e18e3c231a25bbc7d4f39a02b94b39c1fa",
+    "detectors/setbacks.py": "acabd69fdb7da9bc2bfd29004c43b8174a631fc7c35dc63a2bd3cd28ad2b65e0",
+    "detectors/spikes.py": "53a976289535bb047f135f88bfd04745d2d22992eb90ee723e89f9a5c70a626b",
+    "detectors/throughput.py": "b6a506b973629696564601546992b051700bdece9bbc67b2bd05e402d4a68a54",
+    "model.py": "a1d613d48df2ba758712eca69d837bff49f244fe16c609695fa44eae30064355",
+    "readers/__init__.py": "301d4e5a6f396632e297eb68cf69d9c968c8fd6a55d31c24ba2b274343d178f9",
+    "readers/common.py": "4626215e2730109b5161a438c5839ccf773125f3b7030a17659d71b0049b0e4b",
+    "readers/hf.py": "96044ace7ad474a21d937c4cd8e2a587991e2a658596cb06c31208a3570b3cef",
+    "readers/lightning.py": "36cf68c7dc9e90f99de4e3007647c9308323154cb6aa96b0b09d9b40af0929f4",
+    "readers/tabular.py": "273467122767e1c117d96173df41df38821575f89100eaad93b433efd7b25ede",
+    "readers/tensorboard.py": "0a38835c840b3d2a05b217c981bc483b250054bae7433bd2243829b185a50f4d",
+    "readers/wandb.py": "a5ef4cc5c43dc3a0c70b873439588b084c86d27874388a7db7a96aa1ff2a2ab1",
+    "report/__init__.py": "317d8be1f917cf65f0312a083c62f7bf268d37b5c9d7232c3a0bf37ae18b9a0a",
+    "report/html_report.py": "5f5407ccef4c41dcae35670ad63e2629acd7a1e87beec71fb3aea1938ffd7f33",
+    "report/json_report.py": "cdc432143cf1a7d65b14109f8ec7a15c4165fe27ee8901c7ed9f6a809b9239c7",
+    "report/terminal.py": "6beacecc76a8134eacf1929792bf5747b30d06426bfcd3c43855e854903d16ca",
+    "timing.py": "16f3de6a150563d62dee5f7b3b2edcaacfa8d21b3a4407bf902c84e779e52c3b"
+  },
+  "buildAndCheckInputs": {
+    "CHANGELOG.md": "752b96fe933354e180dd3d237820bd93dd424ef56b0bb51009eea26acfac5405",
+    "LICENSE": "e26144be8673d69c175126ad8dcd9ed78431464f0b97120b799dc75ec7edb647",
+    "README.md": "8e6f08e03ef459a45567f4d9d71e743bdb7039a0ff944560f6d896bf66174e8f",
+    "docs/diagnostic-evidence.md": "d7d7dde17ad672fa025bc818e05365dc552aef13015512005988eb8ece4e7b76",
+    "docs/evaluation-evidence.md": "4618c3374a461f8e87e0247ec7bbadc9c06f9ee8d6f22c94c1a22fb4d1d4c5b2",
+    "docs/input-integrity.md": "a9bf78fce2f864ae203fa774da43d8c793291489975ada853e915ded5a17b265",
+    "docs/learning-rate-rebounds.md": "86469d99c05c708ea766229a813c71de24cb422372bc7aa5f0b847bfc645128e",
+    "docs/long-histories.md": "681ff246034cd9283f963ba77d843f985c8830211c4aa9957520baf2791da428",
+    "docs/publication-verification.md": "fb3cfcbff3549abe253b02c3d3162c6b291098027c0a90272dc7c138d9ed461f",
+    "docs/repeated-steps.md": "cfd5e1babf79ab35a35bcabc609bb955bf530d60b13cde510053b846271cc6f2",
+    "docs/scheduler-verification.md": "c747e580c71449adafd59f80f05aa1749d5d554e38f40153b5542af1dd5e2f6b",
+    "docs/timing-evidence.md": "308ba70b7019674d2ab391216c26b598557506c9b1cdd8cb8d133f97917b0202",
+    "docs/verification-2026-10-07.md": "0fa051995da1ae57f8e7f16d57edadc94b4f4e904e24660c2fda13575db0695c",
+    "docs/verification-diagnostic-evidence-2026-10-09.md": "b405075953e509c8ee776bd3029e2e7210bf5422d1a1d53f133039d59623fa36",
+    "docs/verification-long-histories.md": "8aee09500cd9a5f2659cc37b692f4387f00226dcb3272a5ecabb8d8860c8fe2a",
+    "docs/verification-repeated-2026-10-07.md": "2db663af2a6b912eba33dcda04984f0fdbe8a5813e52918e7761b1db2f55a288",
+    "docs/verification-wandb-axes.md": "0f600ea83d302bcd35e8ea91b5035382c9b3b6c8d453db7b134be5746c713244",
+    "docs/wandb-axes.md": "0a72be56e2fc37f32ce98554023dd07c1664bb3a1dff042db9406d660964e195",
+    "package-lock.json": "49dc13c731f118cded4aa4146968a55db26287e610bd8535605d4393ee281097",
+    "package.json": "92b5cadef5fb758dbb357f6913dcf1e4f57de1dc2f62d19021dd7adc6afdc3da",
+    "pyproject.toml": "48d20faf4c840f307820c13f5ca90bcb689d3771aa4e35485209c2f717558d35",
+    "scripts/browser_fixtures.py": "3a1f8be4be524358cbddc898e0242342598114736761281edbe48387cef90448",
+    "src/trainspotter/__init__.py": "f902908eabb455be7238326cae68b500f401e4962b326bc7696dbc748be6437b",
+    "src/trainspotter/cli.py": "2991d2a3d0f0cbd9ac078bba1e8e200b546b3b864f5cdaf3ac51998cb8c4e163",
+    "src/trainspotter/detectors/__init__.py": "38482b71273ec74fdf748c447e35c1132451b5f9a74a581a8e72067d91624e09",
+    "src/trainspotter/detectors/_rolling_slope.py": "bb5d8c31ad43864cca26a9633a7d616a80ccc26fc1c5cd199152c8a84c59e892",
+    "src/trainspotter/detectors/base.py": "a1b8ff3e7163f7b6aaa476b42565a8fccc46bfefd4e07270fbe3c69691c11bd8",
+    "src/trainspotter/detectors/divergence.py": "70721e99da4edbf8a5a67308d4222baeb1d951d8f076c745c698fe680fc557ac",
+    "src/trainspotter/detectors/eval_noise.py": "1fa2258d2d3247fa0486fda30867e1b769bf5d06ffd864402c91fd1610b350ca",
+    "src/trainspotter/detectors/grad_norm.py": "1a6e37d4b37324a089721f759999f4f8fd53d0d8bae06dde3a9cf016f6919089",
+    "src/trainspotter/detectors/loss_floor.py": "e50fed8be010eaa3fcd813f1d73b49871f3627d1035b0547d8bccdbd99bc3131",
+    "src/trainspotter/detectors/lr_schedule.py": "6cc240b8afaca7ed71cabd247babedb99a53f3811b5d6a08bdf635599143f07b",
+    "src/trainspotter/detectors/overfitting.py": "b581df9ad6223916f03aa4341ba3168518d3dd7820559a5102e14b7e175f88db",
+    "src/trainspotter/detectors/plateau.py": "41f3aa5f785316de91cb3d6075ff57e18e3c231a25bbc7d4f39a02b94b39c1fa",
+    "src/trainspotter/detectors/setbacks.py": "acabd69fdb7da9bc2bfd29004c43b8174a631fc7c35dc63a2bd3cd28ad2b65e0",
+    "src/trainspotter/detectors/spikes.py": "53a976289535bb047f135f88bfd04745d2d22992eb90ee723e89f9a5c70a626b",
+    "src/trainspotter/detectors/throughput.py": "b6a506b973629696564601546992b051700bdece9bbc67b2bd05e402d4a68a54",
+    "src/trainspotter/model.py": "a1d613d48df2ba758712eca69d837bff49f244fe16c609695fa44eae30064355",
+    "src/trainspotter/readers/__init__.py": "301d4e5a6f396632e297eb68cf69d9c968c8fd6a55d31c24ba2b274343d178f9",
+    "src/trainspotter/readers/common.py": "4626215e2730109b5161a438c5839ccf773125f3b7030a17659d71b0049b0e4b",
+    "src/trainspotter/readers/hf.py": "96044ace7ad474a21d937c4cd8e2a587991e2a658596cb06c31208a3570b3cef",
+    "src/trainspotter/readers/lightning.py": "36cf68c7dc9e90f99de4e3007647c9308323154cb6aa96b0b09d9b40af0929f4",
+    "src/trainspotter/readers/tabular.py": "273467122767e1c117d96173df41df38821575f89100eaad93b433efd7b25ede",
+    "src/trainspotter/readers/tensorboard.py": "0a38835c840b3d2a05b217c981bc483b250054bae7433bd2243829b185a50f4d",
+    "src/trainspotter/readers/wandb.py": "a5ef4cc5c43dc3a0c70b873439588b084c86d27874388a7db7a96aa1ff2a2ab1",
+    "src/trainspotter/report/__init__.py": "317d8be1f917cf65f0312a083c62f7bf268d37b5c9d7232c3a0bf37ae18b9a0a",
+    "src/trainspotter/report/html_report.py": "5f5407ccef4c41dcae35670ad63e2629acd7a1e87beec71fb3aea1938ffd7f33",
+    "src/trainspotter/report/json_report.py": "cdc432143cf1a7d65b14109f8ec7a15c4165fe27ee8901c7ed9f6a809b9239c7",
+    "src/trainspotter/report/terminal.py": "6beacecc76a8134eacf1929792bf5747b30d06426bfcd3c43855e854903d16ca",
+    "src/trainspotter/timing.py": "16f3de6a150563d62dee5f7b3b2edcaacfa8d21b3a4407bf902c84e779e52c3b",
+    "tests/browser.mjs": "9ea568690cf098be8f613a82b526736bd468ddc0be3df3cc6ada42c887529acb",
+    "tests/conftest.py": "a1bd1d57e3482b6a1ea5204bf1d791d16f34dd471a3d6add4f14ac9bb4c579d0",
+    "tests/test_base.py": "dd1dc436e63e05329e737ad61e4dcd944d200cfaa82d13982abdaed275b158b4",
+    "tests/test_cli.py": "32550e0dfb50340e1be16d491126ed78ce05fece5918634633d467fe20337c02",
+    "tests/test_detector_divergence.py": "94cb473c5e4662068e650b0d3e3c70a0e2f63e0f14ddac577eeca0cd6b6633c1",
+    "tests/test_detector_eval_noise.py": "8b861733c9dd2b036e27d354f552bfdfe4b883d79bceb35eefec644f109dc7c2",
+    "tests/test_detector_grad_norm.py": "8d854b2572250ef9898df75d92a29397cefa0a82d0c67782f5fc77c410632225",
+    "tests/test_detector_loss_floor.py": "9e764baf72cae8dc361ea11ad0d4c35fef9decdba8e10604bd1060fd4825c009",
+    "tests/test_detector_lr_schedule.py": "13252c70133bd3c50e461f87995b68e8fb30472c2bd13317e0dbdfb3154abad7",
+    "tests/test_detector_overfitting.py": "46bcbeef006ff61d22b074e0558156b295e51585d38edde2a8827051a9c474f4",
+    "tests/test_detector_plateau.py": "5b2a0e1beab8c0dd48c8d4c2babf7b1d0d1152d7be32e51319182f62e5d49bf5",
+    "tests/test_detector_spikes.py": "de43e012c022681c494647a27a7888348927f0693a1a250042b77af0e587c30b",
+    "tests/test_detector_throughput.py": "8c6af88099a31cfac710fcef8426bd171220dd1642a4741f8e221787ecae63ce",
+    "tests/test_examples_regression.py": "da61c780c662afc3a7ff689fc274014e86c85fb3be73feda0331715f27465115",
+    "tests/test_field_calibration.py": "9500c2ac7ec2c14f4ba876bfcc3d2aa0733f9e2337a9a658385ce35f20142dbd",
+    "tests/test_fuzz.py": "c3e162f0e70f96a9275462842c28ff0dd5cf9a743c4d4bc27dceb83b76feebd6",
+    "tests/test_html_axes.py": "4d6b156de7521581415578dd82ef8b81f6be9685653758885fc0acbd09d78e4a",
+    "tests/test_loss_gaps.py": "f4a602894feb22e0c08bc44ff46988c5bc3130535cd5977a8bd40ffcf1c2bcd1",
+    "tests/test_numeric_evidence.py": "acd397020990f957e85f31f0c01482a89f96a3770e16202e0190e834dc424b30",
+    "tests/test_plateau_evidence.py": "6a8cd101736522116a3025628146cc89e5ec964d9bfed6de0eb14e73d8e19355",
+    "tests/test_reader_integrity.py": "21c337f217c6bfdeca8263b5580b68bc9cdc60962b2f301dcf0f07a89e7843e2",
+    "tests/test_reader_tensorboard.py": "c54206af1fa9ef35d5d6459e622de82c8d32766e20d0186ba0c4da8711169cc0",
+    "tests/test_readers.py": "9972262f9abd542823997849c0a002627be5b6dd18d686ac79c5daecfe630bba",
+    "tests/test_real_layouts.py": "895e87558315169e5c19177ad121d0166cdf2a50a01867999effcd15229730cc",
+    "tests/test_repeated_steps.py": "b0633773d538cd50f280dbb58a3d8c4b05e36bf6d298ee6579c10c4f9b7dcac4",
+    "tests/test_report_details.py": "6aabbce200e2f68921ab33397a242e98b29a9df1ecb0f4d78405e7e396d64537",
+    "tests/test_rolling_statistics.py": "b7fcbe77ecb1c90eb51b513d6df15731bc3402c35e1cc844c6cb1a0025d9b891",
+    "tests/test_spreadsheet_inputs.py": "58b4073b9600ab9e33fe2eb473932c6d7f234d1c27aa013f0e43c7118bf6b654",
+    "tests/test_tensorboard_evidence.py": "de5d423350e25c86abf4605a1ae4f29bb0a69894a2195d949993673dc59fd4f2",
+    "tests/test_timing_evidence.py": "6c1170ada0665a17c7072fe02bc98810c1827f23492586be5896cc107c603c76",
+    "tests/test_unreadable_values.py": "0bafa7dce362e045c15e5593d628ddf372bd89a7ce7a348d0a86d181f5cedfbe",
+    "tests/test_wandb_axes.py": "abb9660ac11e96d981171a5fb0e480df003902779b75549e3b9ee87e171e1d7d",
+    "tests/test_watch_integrity.py": "b5b3fdb1ea33eb2e010f0948809ca4e3cba01822dc78e279aa414d46c22bf2b0",
+    "uv.lock": "615366bb33446ccc448406b8fd83d5076ee943aba341dd4d5dcc64c4c6cd04d4"
+  },
+  "checks": [
+    {
+      "environment": "env310",
+      "python": "3.10.21",
+      "dependencies": {
+        "numpy": "2.2.6",
+        "tensorboard": "2.21.0",
+        "pytest": "9.1.1"
+      },
+      "passed": 578,
+      "testSourceCommit": "89c6b50dd38e7d4aacdf771d8265667cf117a1e0",
+      "logSha256": "42a02fb3c82db30b4239a27bcee567a7ec7332f821ed6774fa8f5cd9cde106be",
+      "typeCheck": "28 files passed",
+      "typeSourceCommit": "89c6b50dd38e7d4aacdf771d8265667cf117a1e0",
+      "typeLogSha256": "44323f12010ebbb5daa4cefef4cc4308006fe3b26ad3ced614a993eb79a8b535"
+    },
+    {
+      "environment": "env312",
+      "python": "3.12.12",
+      "dependencies": {
+        "numpy": "2.5.3",
+        "tensorboard": "2.21.0",
+        "pytest": "9.1.1"
+      },
+      "passed": 578,
+      "testSourceCommit": "89c6b50dd38e7d4aacdf771d8265667cf117a1e0",
+      "logSha256": "f058c8a77932e1ade090e40e17fc1089bc3bd5a57fd8b03a94663234743b9c63",
+      "typeCheck": "28 files passed",
+      "typeSourceCommit": "89c6b50dd38e7d4aacdf771d8265667cf117a1e0",
+      "typeLogSha256": "44323f12010ebbb5daa4cefef4cc4308006fe3b26ad3ced614a993eb79a8b535"
+    },
+    {
+      "environment": "env314",
+      "python": "3.14.7",
+      "dependencies": {
+        "numpy": "2.5.3",
+        "tensorboard": "2.21.0",
+        "pytest": "9.1.1"
+      },
+      "passed": 578,
+      "testSourceCommit": "672f3c0c3b7eb11b7b0ffd2d96547aafe23b21c6",
+      "logSha256": "0446945a06c69e2c32d79164def8e4238a10fea9ce590f2ec520857f8abebb95",
+      "typeCheck": "28 files passed",
+      "typeSourceCommit": "89c6b50dd38e7d4aacdf771d8265667cf117a1e0",
+      "typeLogSha256": "44323f12010ebbb5daa4cefef4cc4308006fe3b26ad3ced614a993eb79a8b535"
+    },
+    {
+      "environment": "minimums",
+      "python": "3.10.21",
+      "dependencies": {
+        "numpy": "1.24.0",
+        "tensorboard": "2.12.0",
+        "pytest": "9.0.3"
+      },
+      "passed": 578,
+      "testSourceCommit": "672f3c0c3b7eb11b7b0ffd2d96547aafe23b21c6",
+      "logSha256": "bde8e37d8f1f6ff29f6d7bc2afec8829244e685c7f92f290d646744bf4b0e050"
+    }
+  ],
+  "lint": "ruff src tests examples scripts studies/unreadable-values passed",
+  "fullBrowserSuite": {
+    "workflows": 204,
+    "sourceCommit": "672f3c0c3b7eb11b7b0ffd2d96547aafe23b21c6",
+    "engines": [
+      "Chromium",
+      "Firefox"
+    ],
+    "widths": [
+      1440,
+      320
+    ],
+    "logSha256": "0efe9a10b502b0fd819b94d5ab65af60c9a3c7df264909c739f81c33bd704ef2"
+  },
+  "installedBrowserReplay": {
+    "beforeWorkflows": 8,
+    "afterWorkflows": 8,
+    "widths": [
+      1440,
+      375
+    ],
+    "mode": "Actual standalone CLI HTML opened as local files while offline"
+  },
+  "typeOnlyFollowup": {
+    "corpusSourceCommit": "672f3c0c3b7eb11b7b0ffd2d96547aafe23b21c6",
+    "packageSourceCommit": "89c6b50dd38e7d4aacdf771d8265667cf117a1e0",
+    "changedSourceFiles": [
+      {
+        "path": "detectors/_rolling_slope.py",
+        "beforeSha256": "1ed39d9ca2e6141dd196b4295f9631fe2343942aefa4ff40e96cc188b7da954f",
+        "afterSha256": "bb5d8c31ad43864cca26a9633a7d616a80ccc26fc1c5cd199152c8a84c59e892"
+      },
+      {
+        "path": "detectors/plateau.py",
+        "beforeSha256": "85f08045df397fe801772f4421d1c7e83dbd18cdee59f3b6d1cd00e2f187e6ca",
+        "afterSha256": "41f3aa5f785316de91cb3d6075ff57e18e3c231a25bbc7d4f39a02b94b39c1fa"
+      }
+    ],
+    "verification": "All package Python syntax trees equal after removing local variable type annotations; all other package source bytes identical."
+  },
+  "corpusManifests": {
+    "manifest.json": "b4f2abeb45c77f93f62c6f7b08ca92acb8a2b3951f327825c969e802fbcc2d55",
+    "manifest-heldout.json": "13a9d300f8c7131154723c8981d720f80277ee3e539d91d46030f36c0a0577a5"
+  },
+  "retainedScreenshots": [
+    {
+      "path": "docs/assets/unreadable-values/before/chromium-1440-captured-text-fault.png",
+      "sha256": "655251989982cd299e8bb486573d03e0a99460a0d7ca29baafa195abea612463",
+      "bytes": 137632
+    },
+    {
+      "path": "docs/assets/unreadable-values/before/chromium-375-captured-text-fault.png",
+      "sha256": "9707b581cbcb3a6e0ed22bf8df182c42a051122aa885f0bdd2f3ea39e7adf0ef",
+      "bytes": 133240
+    },
+    {
+      "path": "docs/assets/unreadable-values/before/firefox-1440-genuine-after-gap.png",
+      "sha256": "fc01b40e80959006b64de9f85743690d63692fa9377fbc85701937ba59e9439f",
+      "bytes": 223962
+    },
+    {
+      "path": "docs/assets/unreadable-values/before/firefox-375-genuine-after-gap.png",
+      "sha256": "a2a944efcf49824ca7ac9157325c3eca6ac8f6cb972c28d2d00628037ec4760c",
+      "bytes": 206481
+    },
+    {
+      "path": "docs/assets/unreadable-values/after/chromium-1440-captured-text-fault.png",
+      "sha256": "c333427c2a0af3d78ad30f28a0158d3bf023ca833fb80e2202dc836dec0c78f3",
+      "bytes": 129307
+    },
+    {
+      "path": "docs/assets/unreadable-values/after/chromium-375-captured-text-fault.png",
+      "sha256": "aca8abb556781ed1961d10db7b16018c9fcff40ea8f7b54f996b3c780ffca6ac",
+      "bytes": 125693
+    },
+    {
+      "path": "docs/assets/unreadable-values/after/firefox-1440-genuine-after-gap.png",
+      "sha256": "5471691f02466344b88ff4a4f813c23b6e238e56a305b7b3679021a38c7bb36b",
+      "bytes": 268497
+    },
+    {
+      "path": "docs/assets/unreadable-values/after/firefox-375-genuine-after-gap.png",
+      "sha256": "a77ecbe4fc9de60a79cd6516b92399e011f3a8d46eb67af288ccf8fcd762d013",
+      "bytes": 243384
+    }
+  ],
+  "artifacts": {
+    "after.json": "6c59a2783783a0a422eefd53ccf6353cfd4fbac5337eddc2dcc590c97b7a1c10",
+    "before.json": "87bcd9b3973bd0b82c828180052728004ae74bd37bcd32d9ecfd1c9f3fdb0e9a",
+    "browser-after.json": "283e78e9f11669c9d4d53ceb2881d1930234e2a8095b91ba28c558332c54a314",
+    "browser-before.json": "5737c07e66cc7cac342a1da4d0a4f4204673447ff38d30da9a98f878f145aa42",
+    "comparison.json": "38fe7bedbc8a4bd4fa54fe2bb8988981d8c0936cb5c955aa8b73ca9fc5b2e5fa",
+    "type-only-source-comparison.json": "3197390ef8d1b9cf40cb0a195314986b2d8457cfcc6dd23bcc674569b648f1d9"
+  }
+}

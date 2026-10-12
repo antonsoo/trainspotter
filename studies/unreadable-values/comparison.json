@@ -1,0 +1,185 @@
+{
+  "comparison": "Exact decoded JSON equality; no numeric tolerances or field exclusions.",
+  "cliCases": [
+    {
+      "name": "captured-text-fault",
+      "inputSha256": "1c77b64f3b59448c43646d7c6ad77dc6b3ce4dbf96b7caae5143127ffc8c3060",
+      "fullReportExactlyEqual": false,
+      "exitCodeUnchanged": 2,
+      "before": [
+        [
+          "Setback",
+          70,
+          100
+        ],
+        [
+          "Isolated loss spikes",
+          70,
+          71
+        ]
+      ],
+      "after": []
+    },
+    {
+      "name": "observed-nan-control",
+      "inputSha256": "c10e99a202079cd78540026fe73649c05d79c1564122eddca7d729ae8efa04b5",
+      "fullReportExactlyEqual": true,
+      "exitCodeUnchanged": 1,
+      "before": [
+        [
+          "Non-finite training loss",
+          60,
+          99
+        ]
+      ],
+      "after": [
+        [
+          "Non-finite training loss",
+          60,
+          99
+        ]
+      ]
+    },
+    {
+      "name": "first-after-gap",
+      "inputSha256": "ee36b66e09ccf5ffe08ca824fe8ddb5433810a9ede4e24335f4a2b1fd701807a",
+      "fullReportExactlyEqual": false,
+      "exitCodeUnchanged": 2,
+      "before": [
+        [
+          "Loss spike",
+          70,
+          70
+        ]
+      ],
+      "after": []
+    },
+    {
+      "name": "recovery-through-gap",
+      "inputSha256": "51de7f7987eee12a1d57f99ffcf3f20de0aa7adda6889f63783783d6fc63b8a9",
+      "fullReportExactlyEqual": false,
+      "exitCodeUnchanged": 2,
+      "before": [
+        [
+          "Setback",
+          70,
+          100
+        ]
+      ],
+      "after": [
+        [
+          "Possible plateau",
+          100,
+          139
+        ]
+      ]
+    },
+    {
+      "name": "level-change-across-gap",
+      "inputSha256": "f4884d1d836efc938a1fd259266af9fb928f03d6f6e66c03011529357e0dca4f",
+      "fullReportExactlyEqual": false,
+      "exitCodeUnchanged": 2,
+      "before": [
+        [
+          "Diverged (rose from the start)",
+          0,
+          109
+        ],
+        [
+          "Possible plateau",
+          0,
+          49
+        ],
+        [
+          "Possible plateau",
+          60,
+          109
+        ]
+      ],
+      "after": [
+        [
+          "Possible plateau",
+          0,
+          49
+        ],
+        [
+          "Possible plateau",
+          60,
+          109
+        ]
+      ]
+    },
+    {
+      "name": "genuine-after-gap",
+      "inputSha256": "0e07c84fcfdb847188dec6c3acb70b28db1f4ab214ddbca790db1993ff876f75",
+      "fullReportExactlyEqual": false,
+      "exitCodeUnchanged": 2,
+      "before": [
+        [
+          "Possible plateau",
+          0,
+          29
+        ],
+        [
+          "Possible plateau",
+          60,
+          99
+        ],
+        [
+          "Possible plateau",
+          120,
+          159
+        ]
+      ],
+      "after": [
+        [
+          "Setback",
+          100,
+          120
+        ],
+        [
+          "Possible plateau",
+          0,
+          29
+        ]
+      ]
+    },
+    {
+      "name": "finite-control",
+      "inputSha256": "ed8c51699f2325b10a87b4478994fe7a596d3a18458dc9a69cde170f05487c4b",
+      "fullReportExactlyEqual": true,
+      "exitCodeUnchanged": 0,
+      "before": [
+        [
+          "Setback",
+          60,
+          80
+        ]
+      ],
+      "after": [
+        [
+          "Setback",
+          60,
+          80
+        ]
+      ]
+    }
+  ],
+  "corpus": {
+    "compared": 4259,
+    "readable": 4177,
+    "unreadable": 82,
+    "unavailable": 0,
+    "exactlyEqual": 4259,
+    "changed": [],
+    "inputIdentitySha256Aggregate": "8b0c9db7931bb2c64fa9be62ed5dc9e1a0d586cd9b05ab5b92e30ae307f0b7da",
+    "beforeSha256": "cc3f7dfd4cc7d2e230ff6b3729ed0122d882a77b54616935cb0f9b232f11a24a",
+    "afterSha256": "cc3f7dfd4cc7d2e230ff6b3729ed0122d882a77b54616935cb0f9b232f11a24a",
+    "sourcePathConvention": "Existing worker replaces the cache directory with a basename.",
+    "scope": "Cached historical public logs; no new downloads or accuracy calibration."
+  },
+  "replaySha256": {
+    "before": "87bcd9b3973bd0b82c828180052728004ae74bd37bcd32d9ecfd1c9f3fdb0e9a",
+    "after": "6c59a2783783a0a422eefd53ccf6353cfd4fbac5337eddc2dcc590c97b7a1c10"
+  }
+}

@@ -1,0 +1,17 @@
+{
+  "corpusSourceCommit": "672f3c0c3b7eb11b7b0ffd2d96547aafe23b21c6",
+  "packageSourceCommit": "89c6b50dd38e7d4aacdf771d8265667cf117a1e0",
+  "changedSourceFiles": [
+    {
+      "path": "detectors/_rolling_slope.py",
+      "beforeSha256": "1ed39d9ca2e6141dd196b4295f9631fe2343942aefa4ff40e96cc188b7da954f",
+      "afterSha256": "bb5d8c31ad43864cca26a9633a7d616a80ccc26fc1c5cd199152c8a84c59e892"
+    },
+    {
+      "path": "detectors/plateau.py",
+      "beforeSha256": "85f08045df397fe801772f4421d1c7e83dbd18cdee59f3b6d1cd00e2f187e6ca",
+      "afterSha256": "41f3aa5f785316de91cb3d6075ff57e18e3c231a25bbc7d4f39a02b94b39c1fa"
+    }
+  ],
+  "verification": "All package Python syntax trees equal after removing local variable type annotations; all other package source bytes identical."
+}

@@ -25,8 +25,9 @@ alert and, for training loss in otherwise complete input, exits 1 under
 ## Evidence provenance
 
 [replay.py](replay.py) invokes the actual CLI to create JSON and standalone HTML
-reports. [before.json](before.json) records baseline inputs, output, source hashes,
-HTML hashes and exit codes. The first case changes exactly the 20 `nan` cells in
+reports. [before.json](before.json) and [after.json](after.json) record the baseline and
+separately installed wheel: input/output, imported source hashes, HTML hashes
+and exit codes. The first case changes exactly the 20 `nan` cells in
 `studies/finite-segments/captured/observed.csv` to `LOGGER_ERROR`; every other byte
 is unchanged and the pinned original capture hash is checked. This is a
 **synthetic text-export fault applied to a retained controlled CPU PyTorch
@@ -68,6 +69,58 @@ axis, detect unrecorded logging gaps, or prove training health. Existing integri
 counters still disclose those separate limitations. No numeric observations is
 still an input error. All calculations remain heuristics on the recorded series.
 
+## Inspect the reports
+
+| Case | Before | Installed package |
+| --- | --- | --- |
+| Text-export fault, desktop Chromium | [Connected curve and unsupported findings](../../docs/assets/unreadable-values/before/chromium-1440-captured-text-fault.png) | [Three segments and exact unreadable positions](../../docs/assets/unreadable-values/after/chromium-1440-captured-text-fault.png) |
+| Text-export fault, phone Chromium | [Before](../../docs/assets/unreadable-values/before/chromium-375-captured-text-fault.png) | [After](../../docs/assets/unreadable-values/after/chromium-375-captured-text-fault.png) |
+| Valid later setback, desktop Firefox | [Missed event](../../docs/assets/unreadable-values/before/firefox-1440-genuine-after-gap.png) | [20-step setback within the intact segment](../../docs/assets/unreadable-values/after/firefox-1440-genuine-after-gap.png) |
+| Valid later setback, phone Firefox | [Before](../../docs/assets/unreadable-values/before/firefox-375-genuine-after-gap.png) | [After](../../docs/assets/unreadable-values/after/firefox-375-genuine-after-gap.png) |
+
+[browser.mjs](browser.mjs) opens the actual generated standalone files with the
+browser already offline. The [baseline](browser-before.json) and
+[installed-package](browser-after.json) receipts each cover eight workflows:
+Chromium/Firefox, 1440/375 px, and the two cases shown above. HTML hashes match
+the CLI replay. The corrected reports support keyboard disclosure and a real
+JSON download with every recorded unreadable position, retain visible focus,
+and have no HTTP requests, script errors, CSP violations, axe violations or
+page overflow. All eight retained screenshots were visually reviewed. These
+are local-file checks, not hosted-site verification.
+
+## Clean package and compatibility checks
+
+The [artifact receipt](artifacts.json) records clean-archive installation,
+package hashes, imported source equality, checked inputs and screenshots.
+Python 3.10, 3.12 and 3.14 each pass 578 checks; the declared minimum direct
+dependencies on Python 3.10 pass the same 578. Ruff and strict mypy pass. The
+full report suite passes 204 Chromium/Firefox desktop/320px workflows, including
+keyboard table scrolling, evidence downloads, axe, CSP and network checks.
+The separately installed wheel reproduces all seven CLI cases and the eight
+specific offline browser workflows above. No environment uses the source
+checkout as a substitute for that wheel replay.
+
+## Compatibility replay
+
+The [exact comparison](comparison.json) retains all seven input identities and
+before/after findings. The complete NaN and finite-control reports are exactly
+equal, and all seven CLI exit codes are unchanged.
+
+The existing cached public-log corpus contains 4,259 revision-pinned inputs:
+4,177 yield reports, and 82 remain unreadable. Every complete report/error
+record is byte-identical before and after, including finding messages, numerical
+evidence, severities and integrity state. The aggregate input hash also matches
+the earlier finite-segments study. This reuses historical cached inputs; it is
+not a new crawl, calibration set or accuracy estimate.
+
+The corpus and full browser suite use implementation `672f3c0`; the separately
+installed wheel uses `89c6b50`. The latter changes only local array annotations
+in two Python files. Their syntax trees are equal after erasing local variable
+annotations, and all other package source files are byte-identical; the
+[comparison receipt](type-only-source-comparison.json) retains both versions.
+The annotations fix three baseline mypy errors with Python 3.10's NumPy 2.2
+stubs. No numerical operation changes in that follow-up.
+
 ## Reproduce
 
 ```sh
@@ -82,5 +135,22 @@ pinned revision with `git archive`, set `PYTHONPATH` to that archive's `src`, an
 omit `--verify`. The CLI runs in its artifact directory with the fixture basename as input,
 so its actual JSON already has a portable `source_path`; report fields are not rewritten. The HTML hashes cover the actual generated files,
 including their wall-clock generation timestamp.
+
+After creating the reports, install browser dependencies and run:
+
+```sh
+npm ci
+npx playwright install chromium firefox
+node studies/unreadable-values/browser.mjs /tmp/unreadable-reports /tmp/browser.json verify /tmp/unreadable-screens /tmp/unreadable.json
+```
+
+The corpus uses the existing two `studies/hub-census` manifests and local cache.
+Run `scripts/verify_loss_corpus.py --worker` once with `--source` pointing to
+each pinned archive's `src`, keeping the same `--cache`, and retain each
+`--out` JSONL file. Then compare those records and the seven CLI cases:
+
+```sh
+uv run python studies/unreadable-values/compare.py --before studies/unreadable-values/before.json --after studies/unreadable-values/after.json --corpus-before /tmp/corpus-before.jsonl --corpus-after /tmp/corpus-after.jsonl --out /tmp/comparison.json
+```
 
 This is source work. It does not publish a PyPI release, tag or hosted deployment.
