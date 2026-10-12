@@ -1,0 +1,79 @@
+============================= test session starts ==============================
+platform linux -- Python 3.12.12, pytest-9.1.1, pluggy-1.6.0
+rootdir: <study scratch>/clean
+configfile: pyproject.toml
+testpaths: tests
+plugins: cov-7.1.0
+collected 605 items
+
+tests/test_base.py ....                                                  [  0%]
+tests/test_cli.py .......                                                [  1%]
+tests/test_detector_divergence.py ....                                   [  2%]
+tests/test_detector_eval_noise.py .......                                [  3%]
+tests/test_detector_grad_norm.py ...............                         [  6%]
+tests/test_detector_loss_floor.py ..........................             [ 10%]
+tests/test_detector_lr_schedule.py ..................................... [ 16%]
+...................                                                      [ 19%]
+tests/test_detector_overfitting.py ............                          [ 21%]
+tests/test_detector_plateau.py .....                                     [ 22%]
+tests/test_detector_spikes.py ...                                        [ 22%]
+tests/test_detector_throughput.py ..                                     [ 23%]
+tests/test_examples_regression.py ...........                            [ 25%]
+tests/test_field_calibration.py ................................         [ 30%]
+tests/test_fuzz.py ......                                                [ 31%]
+tests/test_html_axes.py ..                                               [ 31%]
+tests/test_loss_gaps.py ...........                                      [ 33%]
+tests/test_numeric_evidence.py ..................                        [ 36%]
+tests/test_plateau_evidence.py .................                         [ 39%]
+tests/test_reader_integrity.py ......................................... [ 46%]
+.........................................................                [ 55%]
+tests/test_reader_tensorboard.py .                                       [ 55%]
+tests/test_readers.py ......................                             [ 59%]
+tests/test_real_layouts.py ............................................. [ 66%]
+........                                                                 [ 68%]
+tests/test_repeated_steps.py ..........                                  [ 69%]
+tests/test_report_details.py .......                                     [ 70%]
+tests/test_rolling_statistics.py ................................        [ 76%]
+tests/test_spreadsheet_inputs.py ........                                [ 77%]
+tests/test_tensorboard_evidence.py ............................          [ 82%]
+tests/test_timing_evidence.py .......................                    [ 85%]
+tests/test_unreadable_values.py ...........................              [ 90%]
+tests/test_wandb_axes.py .........................                       [ 94%]
+tests/test_watch_integrity.py .................................          [100%]
+
+================================ tests coverage ================================
+_______________ coverage: platform linux, python 3.12.12-final-0 _______________
+
+Name                                           Stmts   Miss  Cover   Missing
+----------------------------------------------------------------------------
+src/trainspotter/__init__.py                       6      0   100%
+src/trainspotter/cli.py                          190      7    96%   30, 157, 239, 241, 258-259, 263
+src/trainspotter/detectors/__init__.py            45      0   100%
+src/trainspotter/detectors/_rolling_slope.py      73      0   100%
+src/trainspotter/detectors/base.py               234      7    97%   81, 100, 212-213, 269, 294, 382
+src/trainspotter/detectors/divergence.py          70      1    99%   189
+src/trainspotter/detectors/eval_noise.py          37      0   100%
+src/trainspotter/detectors/grad_norm.py           74      1    99%   192
+src/trainspotter/detectors/loss_floor.py          33      0   100%
+src/trainspotter/detectors/lr_schedule.py        128      0   100%
+src/trainspotter/detectors/overfitting.py         91      2    98%   58, 111
+src/trainspotter/detectors/plateau.py            135      0   100%
+src/trainspotter/detectors/setbacks.py            65      3    95%   111, 143, 159
+src/trainspotter/detectors/spikes.py              68      0   100%
+src/trainspotter/detectors/throughput.py          23      0   100%
+src/trainspotter/model.py                        169      2    99%   143, 229
+src/trainspotter/readers/__init__.py              62      2    97%   65, 106
+src/trainspotter/readers/common.py               145      6    96%   165-169, 269
+src/trainspotter/readers/hf.py                    48      1    98%   52
+src/trainspotter/readers/lightning.py              8      0   100%
+src/trainspotter/readers/tabular.py              107      0   100%
+src/trainspotter/readers/tensorboard.py          179     11    94%   109-113, 116, 143-144, 177, 212, 239
+src/trainspotter/readers/wandb.py                135      6    96%   99, 102, 141-142, 180, 204
+src/trainspotter/report/__init__.py                5      0   100%
+src/trainspotter/report/html_report.py           374      7    98%   96, 102, 132, 281, 303, 429, 680
+src/trainspotter/report/json_report.py            38      0   100%
+src/trainspotter/report/terminal.py               95      5    95%   48-50, 60-61
+src/trainspotter/timing.py                       121      4    97%   95-96, 127, 129
+----------------------------------------------------------------------------
+TOTAL                                           2758     65    98%
+======================= 605 passed in 112.40s (0:01:52) ========================

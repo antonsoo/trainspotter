@@ -1,0 +1,313 @@
+{
+  "expectation": "after",
+  "results": [
+    {
+      "engine": "chromium",
+      "browserVersion": "153.0.8010.12",
+      "width": 1440,
+      "name": "unreadable",
+      "htmlBytes": 24854,
+      "htmlSha256": "a6e0238d95795c8fb439e1f011f17249e47d5a95156f2a6233653768914b1a0f",
+      "openedFromFileWhileOffline": true,
+      "lrDiscontinuities": [
+        [
+          39,
+          40
+        ],
+        [
+          79,
+          80
+        ]
+      ],
+      "download": {
+        "data": {
+          "schema_version": 1,
+          "source_path": "unreadable.csv",
+          "step_axis": "step",
+          "step_column": "step",
+          "unreadable_steps": {
+            "lr": [
+              10
+            ]
+          }
+        },
+        "sha256": "216684631753790f8bea5e21b7418c53eb580fef890f4e8db6e91c087038a6bb"
+      },
+      "errors": [],
+      "httpRequests": [],
+      "policyViolations": [],
+      "axeViolations": 0,
+      "horizontalOverflow": false,
+      "screenshot": {
+        "filename": "chromium-1440.png",
+        "sha256": "4e1ce79c0729842cc050b0a5dcc99646e5c6f073af11fdba6dd68bcecb371951"
+      }
+    },
+    {
+      "engine": "chromium",
+      "browserVersion": "153.0.8010.12",
+      "width": 1440,
+      "name": "unknown-rise-phase",
+      "htmlBytes": 19209,
+      "htmlSha256": "4e2b1e3868ff5e9069b054cc9da270b47bb65ab21ffef378b218ddd3408f9091",
+      "openedFromFileWhileOffline": true,
+      "lrDiscontinuities": [
+        [
+          19,
+          20
+        ]
+      ],
+      "download": {
+        "data": {
+          "schema_version": 1,
+          "source_path": "unknown-rise-phase.csv",
+          "step_axis": "step",
+          "step_column": "step",
+          "unreadable_steps": {
+            "lr": [
+              40
+            ]
+          }
+        },
+        "sha256": "c2525af96cf311682280952eb4b19e6255b56d345132af317726cd8882acc792"
+      },
+      "errors": [],
+      "httpRequests": [],
+      "policyViolations": [],
+      "axeViolations": 0,
+      "horizontalOverflow": false,
+      "screenshot": null
+    },
+    {
+      "engine": "chromium",
+      "browserVersion": "153.0.8010.12",
+      "width": 375,
+      "name": "unreadable",
+      "htmlBytes": 24854,
+      "htmlSha256": "a6e0238d95795c8fb439e1f011f17249e47d5a95156f2a6233653768914b1a0f",
+      "openedFromFileWhileOffline": true,
+      "lrDiscontinuities": [
+        [
+          39,
+          40
+        ],
+        [
+          79,
+          80
+        ]
+      ],
+      "download": {
+        "data": {
+          "schema_version": 1,
+          "source_path": "unreadable.csv",
+          "step_axis": "step",
+          "step_column": "step",
+          "unreadable_steps": {
+            "lr": [
+              10
+            ]
+          }
+        },
+        "sha256": "216684631753790f8bea5e21b7418c53eb580fef890f4e8db6e91c087038a6bb"
+      },
+      "errors": [],
+      "httpRequests": [],
+      "policyViolations": [],
+      "axeViolations": 0,
+      "horizontalOverflow": false,
+      "screenshot": {
+        "filename": "chromium-375.png",
+        "sha256": "a15b4e830d7dc63e1ea0195fff55520378858873034e5fea9c0d13fa450b3623"
+      }
+    },
+    {
+      "engine": "chromium",
+      "browserVersion": "153.0.8010.12",
+      "width": 375,
+      "name": "unknown-rise-phase",
+      "htmlBytes": 19209,
+      "htmlSha256": "4e2b1e3868ff5e9069b054cc9da270b47bb65ab21ffef378b218ddd3408f9091",
+      "openedFromFileWhileOffline": true,
+      "lrDiscontinuities": [
+        [
+          19,
+          20
+        ]
+      ],
+      "download": {
+        "data": {
+          "schema_version": 1,
+          "source_path": "unknown-rise-phase.csv",
+          "step_axis": "step",
+          "step_column": "step",
+          "unreadable_steps": {
+            "lr": [
+              40
+            ]
+          }
+        },
+        "sha256": "c2525af96cf311682280952eb4b19e6255b56d345132af317726cd8882acc792"
+      },
+      "errors": [],
+      "httpRequests": [],
+      "policyViolations": [],
+      "axeViolations": 0,
+      "horizontalOverflow": false,
+      "screenshot": null
+    },
+    {
+      "engine": "firefox",
+      "browserVersion": "155.0",
+      "width": 1440,
+      "name": "unreadable",
+      "htmlBytes": 24854,
+      "htmlSha256": "a6e0238d95795c8fb439e1f011f17249e47d5a95156f2a6233653768914b1a0f",
+      "openedFromFileWhileOffline": true,
+      "lrDiscontinuities": [
+        [
+          39,
+          40
+        ],
+        [
+          79,
+          80
+        ]
+      ],
+      "download": {
+        "data": {
+          "schema_version": 1,
+          "source_path": "unreadable.csv",
+          "step_axis": "step",
+          "step_column": "step",
+          "unreadable_steps": {
+            "lr": [
+              10
+            ]
+          }
+        },
+        "sha256": "216684631753790f8bea5e21b7418c53eb580fef890f4e8db6e91c087038a6bb"
+      },
+      "errors": [],
+      "httpRequests": [],
+      "policyViolations": [],
+      "axeViolations": 0,
+      "horizontalOverflow": false,
+      "screenshot": {
+        "filename": "firefox-1440.png",
+        "sha256": "9f71a4f7c6164b726fcde6321c10b0edf85514db779be2321a86beec8fd6ee8d"
+      }
+    },
+    {
+      "engine": "firefox",
+      "browserVersion": "155.0",
+      "width": 1440,
+      "name": "unknown-rise-phase",
+      "htmlBytes": 19209,
+      "htmlSha256": "4e2b1e3868ff5e9069b054cc9da270b47bb65ab21ffef378b218ddd3408f9091",
+      "openedFromFileWhileOffline": true,
+      "lrDiscontinuities": [
+        [
+          19,
+          20
+        ]
+      ],
+      "download": {
+        "data": {
+          "schema_version": 1,
+          "source_path": "unknown-rise-phase.csv",
+          "step_axis": "step",
+          "step_column": "step",
+          "unreadable_steps": {
+            "lr": [
+              40
+            ]
+          }
+        },
+        "sha256": "c2525af96cf311682280952eb4b19e6255b56d345132af317726cd8882acc792"
+      },
+      "errors": [],
+      "httpRequests": [],
+      "policyViolations": [],
+      "axeViolations": 0,
+      "horizontalOverflow": false,
+      "screenshot": null
+    },
+    {
+      "engine": "firefox",
+      "browserVersion": "155.0",
+      "width": 375,
+      "name": "unreadable",
+      "htmlBytes": 24854,
+      "htmlSha256": "a6e0238d95795c8fb439e1f011f17249e47d5a95156f2a6233653768914b1a0f",
+      "openedFromFileWhileOffline": true,
+      "lrDiscontinuities": [
+        [
+          39,
+          40
+        ],
+        [
+          79,
+          80
+        ]
+      ],
+      "download": {
+        "data": {
+          "schema_version": 1,
+          "source_path": "unreadable.csv",
+          "step_axis": "step",
+          "step_column": "step",
+          "unreadable_steps": {
+            "lr": [
+              10
+            ]
+          }
+        },
+        "sha256": "216684631753790f8bea5e21b7418c53eb580fef890f4e8db6e91c087038a6bb"
+      },
+      "errors": [],
+      "httpRequests": [],
+      "policyViolations": [],
+      "axeViolations": 0,
+      "horizontalOverflow": false,
+      "screenshot": {
+        "filename": "firefox-375.png",
+        "sha256": "3f45016345c5197b3537fdfc766b41cdfdc271963e0801722cfebef859a3f270"
+      }
+    },
+    {
+      "engine": "firefox",
+      "browserVersion": "155.0",
+      "width": 375,
+      "name": "unknown-rise-phase",
+      "htmlBytes": 19209,
+      "htmlSha256": "4e2b1e3868ff5e9069b054cc9da270b47bb65ab21ffef378b218ddd3408f9091",
+      "openedFromFileWhileOffline": true,
+      "lrDiscontinuities": [
+        [
+          19,
+          20
+        ]
+      ],
+      "download": {
+        "data": {
+          "schema_version": 1,
+          "source_path": "unknown-rise-phase.csv",
+          "step_axis": "step",
+          "step_column": "step",
+          "unreadable_steps": {
+            "lr": [
+              40
+            ]
+          }
+        },
+        "sha256": "c2525af96cf311682280952eb4b19e6255b56d345132af317726cd8882acc792"
+      },
+      "errors": [],
+      "httpRequests": [],
+      "policyViolations": [],
+      "axeViolations": 0,
+      "horizontalOverflow": false,
+      "screenshot": null
+    }
+  ]
+}

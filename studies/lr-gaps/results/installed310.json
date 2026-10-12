@@ -1,0 +1,1314 @@
+{
+  "expectation": "after",
+  "runtime": {
+    "python": "3.10.21",
+    "sourceHashes": {
+      "__init__.py": "f902908eabb455be7238326cae68b500f401e4962b326bc7696dbc748be6437b",
+      "cli.py": "2991d2a3d0f0cbd9ac078bba1e8e200b546b3b864f5cdaf3ac51998cb8c4e163",
+      "detectors/__init__.py": "38482b71273ec74fdf748c447e35c1132451b5f9a74a581a8e72067d91624e09",
+      "detectors/_rolling_slope.py": "bb5d8c31ad43864cca26a9633a7d616a80ccc26fc1c5cd199152c8a84c59e892",
+      "detectors/base.py": "a1b8ff3e7163f7b6aaa476b42565a8fccc46bfefd4e07270fbe3c69691c11bd8",
+      "detectors/divergence.py": "70721e99da4edbf8a5a67308d4222baeb1d951d8f076c745c698fe680fc557ac",
+      "detectors/eval_noise.py": "1fa2258d2d3247fa0486fda30867e1b769bf5d06ffd864402c91fd1610b350ca",
+      "detectors/grad_norm.py": "1a6e37d4b37324a089721f759999f4f8fd53d0d8bae06dde3a9cf016f6919089",
+      "detectors/loss_floor.py": "e50fed8be010eaa3fcd813f1d73b49871f3627d1035b0547d8bccdbd99bc3131",
+      "detectors/lr_schedule.py": "1ad15a455347020f3e89628032158bd1598669f3109a8cbf0e79f9e54bc22ed7",
+      "detectors/overfitting.py": "b581df9ad6223916f03aa4341ba3168518d3dd7820559a5102e14b7e175f88db",
+      "detectors/plateau.py": "41f3aa5f785316de91cb3d6075ff57e18e3c231a25bbc7d4f39a02b94b39c1fa",
+      "detectors/setbacks.py": "acabd69fdb7da9bc2bfd29004c43b8174a631fc7c35dc63a2bd3cd28ad2b65e0",
+      "detectors/spikes.py": "53a976289535bb047f135f88bfd04745d2d22992eb90ee723e89f9a5c70a626b",
+      "detectors/throughput.py": "b6a506b973629696564601546992b051700bdece9bbc67b2bd05e402d4a68a54",
+      "model.py": "a1d613d48df2ba758712eca69d837bff49f244fe16c609695fa44eae30064355",
+      "readers/__init__.py": "301d4e5a6f396632e297eb68cf69d9c968c8fd6a55d31c24ba2b274343d178f9",
+      "readers/common.py": "4626215e2730109b5161a438c5839ccf773125f3b7030a17659d71b0049b0e4b",
+      "readers/hf.py": "96044ace7ad474a21d937c4cd8e2a587991e2a658596cb06c31208a3570b3cef",
+      "readers/lightning.py": "36cf68c7dc9e90f99de4e3007647c9308323154cb6aa96b0b09d9b40af0929f4",
+      "readers/tabular.py": "273467122767e1c117d96173df41df38821575f89100eaad93b433efd7b25ede",
+      "readers/tensorboard.py": "0a38835c840b3d2a05b217c981bc483b250054bae7433bd2243829b185a50f4d",
+      "readers/wandb.py": "a5ef4cc5c43dc3a0c70b873439588b084c86d27874388a7db7a96aa1ff2a2ab1",
+      "report/__init__.py": "317d8be1f917cf65f0312a083c62f7bf268d37b5c9d7232c3a0bf37ae18b9a0a",
+      "report/html_report.py": "5f5407ccef4c41dcae35670ad63e2629acd7a1e87beec71fb3aea1938ffd7f33",
+      "report/json_report.py": "cdc432143cf1a7d65b14109f8ec7a15c4165fe27ee8901c7ed9f6a809b9239c7",
+      "report/terminal.py": "6beacecc76a8134eacf1929792bf5747b30d06426bfcd3c43855e854903d16ca",
+      "timing.py": "16f3de6a150563d62dee5f7b3b2edcaacfa8d21b3a4407bf902c84e779e52c3b"
+    }
+  },
+  "captureOracle": {
+    "observations": 120,
+    "decimalPrecision": 70,
+    "maxAbsoluteWeightOrLossDifference": 8.881784197001252e-16,
+    "faultedExportsChangeOnlyStep10LearningRate": true,
+    "manifest": {
+      "kind": "controlled CPU optimizer capture with deliberately damaged LR export cells",
+      "python": "3.12.12",
+      "torch": "2.8.0+cpu",
+      "objective": "1 + w**2/2, float64 SGD, initial w=3, initial lr=0.1",
+      "scheduler": "MultiStepLR, milestones [40,80], gamma=0.5; called after optimizer updates",
+      "observation": "120 observations of loss, current LR and weight before optimizer updates",
+      "fault": "Replace only the step-10 learning_rate cell; optimizer and loss unchanged",
+      "files": {
+        "complete.csv": "d24f931dd347bb257722fcac4ee33e96bd66da342e0c290603cd4ea074c6cd51",
+        "nan.csv": "6358c0d91f2869e41237bc3513f630018c7ddd799381f2074a9ceb9be30b9864",
+        "negative-inf.csv": "0e403bec8208028bb3141842e96cb2e0a5bea3690c6616dfc5de6b6178f132f9",
+        "negative.csv": "17709dc3ed8ce7a0a2722d0993527bf3d05b3f5b203c23e173ee5d69ce44e67b",
+        "optimizer.csv": "0dd4abf73a8fa7321f5ddf42cddff846b8de9f04bc55a80eb72adc3e870d4919",
+        "positive-inf.csv": "ebbf6c1b6468b26c0d92f7188c1ab7b8f0944ede1f0c87803d59fc4256b06f91",
+        "unreadable.csv": "84deb12be81d8a2b674ea7dd4f8c014e22ebff1dfc1286607a479c39293e415c"
+      }
+    }
+  },
+  "records": [
+    {
+      "name": "complete",
+      "inputSha256": "d24f931dd347bb257722fcac4ee33e96bd66da342e0c290603cd4ea074c6cd51",
+      "inputBytes": 3232,
+      "controlledCapture": true,
+      "exitCode": 0,
+      "stderr": "",
+      "report": {
+        "schema_version": 1,
+        "run": {
+          "source_format": "csv",
+          "source_path": "complete.csv",
+          "skipped_rows": 0,
+          "skipped_values": 0,
+          "input_complete": true,
+          "input_notes": [],
+          "unread_event_bytes": 0,
+          "event_directories": [],
+          "overwritten_points": 0,
+          "restart_markers": 0,
+          "step_column": "step",
+          "step_axis": "step",
+          "step_selection": "automatic",
+          "metric_sources": {
+            "train/loss": "loss",
+            "lr": "learning_rate"
+          },
+          "ambiguous_metric_sources": [],
+          "repeated_steps": [],
+          "metrics": {
+            "lr": {
+              "count": 120,
+              "analysis_count": 120,
+              "distinct_steps": 120,
+              "analysis_excluded": false,
+              "first_step": 0,
+              "last_step": 119
+            },
+            "train/loss": {
+              "count": 120,
+              "analysis_count": 120,
+              "distinct_steps": 120,
+              "analysis_excluded": false,
+              "first_step": 0,
+              "last_step": 119
+            }
+          }
+        },
+        "summary": {
+          "input_complete": true,
+          "total_findings": 3,
+          "by_severity": {
+            "error": 0,
+            "warning": 0,
+            "info": 3
+          }
+        },
+        "timing": {
+          "status": "unavailable",
+          "axis": "step",
+          "source": null,
+          "source_metric": null,
+          "unit": null,
+          "observations": 0,
+          "invalid_observations": 0,
+          "baseline": null,
+          "recent": null,
+          "ratio": null,
+          "reason": "No eligible timing source. The comparison needs enough step_time or throughput readings, or loss observations with timestamps and explicit training steps. Conflicting repeated-step values are excluded from this check.",
+          "notes": [
+            "wall_time(train/loss): 120 of 120 points have no timestamp. No intervals were bridged across missing timestamps."
+          ],
+          "min_window": 5,
+          "baseline_fraction": 0.2
+        },
+        "findings": [
+          {
+            "detector": "lr_schedule",
+            "title": "No LR warmup detected",
+            "severity": "info",
+            "metric": "lr",
+            "step_start": 0,
+            "step_end": 0,
+            "message": "lr starts at 0.1, already 100% of the run's peak (0.1) -- no ramp-up phase visible in the log.",
+            "evidence": {
+              "initial_lr": 0.1,
+              "peak_lr": 0.1
+            },
+            "fixes": [
+              "If the first steps are unstable (see any spike or setback findings near the start), add LR warmup over the first 1-10% of steps.",
+              "If warmup is configured but not logged until after it finishes, this may be a logging artifact -- check the logging interval."
+            ]
+          },
+          {
+            "detector": "lr_schedule",
+            "title": "LR discontinuity",
+            "severity": "info",
+            "metric": "lr",
+            "step_start": 39,
+            "step_end": 40,
+            "message": "lr jumped from 0.1 to 0.05 between step 39 and 40 -- 67% of the run's whole LR range (0.075) in a single step, out of line with the logged intervals around it.",
+            "evidence": {
+              "before": 0.1,
+              "after": 0.05,
+              "jump_fraction_of_range": 0.6666666666666666
+            },
+            "fixes": [
+              "Check for a checkpoint resume where the scheduler's step counter didn't match the optimizer's.",
+              "Check for a manual LR override mid-run."
+            ]
+          },
+          {
+            "detector": "lr_schedule",
+            "title": "LR discontinuity",
+            "severity": "info",
+            "metric": "lr",
+            "step_start": 79,
+            "step_end": 80,
+            "message": "lr jumped from 0.05 to 0.025 between step 79 and 80 -- 33% of the run's whole LR range (0.075) in a single step, out of line with the logged intervals around it.",
+            "evidence": {
+              "before": 0.05,
+              "after": 0.025,
+              "jump_fraction_of_range": 0.3333333333333333
+            },
+            "fixes": [
+              "Check for a checkpoint resume where the scheduler's step counter didn't match the optimizer's.",
+              "Check for a manual LR override mid-run."
+            ]
+          }
+        ]
+      },
+      "lrDiscontinuities": [
+        [
+          39,
+          40
+        ],
+        [
+          79,
+          80
+        ]
+      ],
+      "htmlSha256": "a2f3bf3d5b829e6666adc3a07400370a47aca376994de21c6481c688634dee4f"
+    },
+    {
+      "name": "unreadable",
+      "inputSha256": "84deb12be81d8a2b674ea7dd4f8c014e22ebff1dfc1286607a479c39293e415c",
+      "inputBytes": 3241,
+      "controlledCapture": true,
+      "exitCode": 2,
+      "stderr": "trainspotter: input is incomplete; CI gate could not be evaluated\n",
+      "report": {
+        "schema_version": 1,
+        "run": {
+          "source_format": "csv",
+          "source_path": "unreadable.csv",
+          "skipped_rows": 0,
+          "skipped_values": 1,
+          "input_complete": false,
+          "input_notes": [
+            "lr: 1 unreadable values at recorded steps; trajectory checks stop at these gaps. These are not observed NaN/Inf values.",
+            "1 nonblank metric values were not numeric.",
+            "Input is incomplete; findings describe only the readable data."
+          ],
+          "unread_event_bytes": 0,
+          "event_directories": [],
+          "overwritten_points": 0,
+          "restart_markers": 0,
+          "step_column": "step",
+          "step_axis": "step",
+          "step_selection": "automatic",
+          "metric_sources": {
+            "train/loss": "loss",
+            "lr": "learning_rate"
+          },
+          "ambiguous_metric_sources": [],
+          "repeated_steps": [],
+          "metrics": {
+            "lr": {
+              "count": 119,
+              "analysis_count": 119,
+              "distinct_steps": 120,
+              "analysis_excluded": false,
+              "first_step": 0,
+              "last_step": 119,
+              "unreadable_steps": [
+                10
+              ]
+            },
+            "train/loss": {
+              "count": 120,
+              "analysis_count": 120,
+              "distinct_steps": 120,
+              "analysis_excluded": false,
+              "first_step": 0,
+              "last_step": 119
+            }
+          }
+        },
+        "summary": {
+          "input_complete": false,
+          "total_findings": 3,
+          "by_severity": {
+            "error": 0,
+            "warning": 0,
+            "info": 3
+          }
+        },
+        "timing": {
+          "status": "unavailable",
+          "axis": "step",
+          "source": null,
+          "source_metric": null,
+          "unit": null,
+          "observations": 0,
+          "invalid_observations": 0,
+          "baseline": null,
+          "recent": null,
+          "ratio": null,
+          "reason": "No eligible timing source. The comparison needs enough step_time or throughput readings, or loss observations with timestamps and explicit training steps. Conflicting repeated-step values are excluded from this check.",
+          "notes": [
+            "wall_time(train/loss): 120 of 120 points have no timestamp. No intervals were bridged across missing timestamps."
+          ],
+          "min_window": 5,
+          "baseline_fraction": 0.2
+        },
+        "findings": [
+          {
+            "detector": "lr_schedule",
+            "title": "No LR warmup detected",
+            "severity": "info",
+            "metric": "lr",
+            "step_start": 0,
+            "step_end": 0,
+            "message": "lr starts at 0.1, already 100% of the run's peak (0.1) -- no ramp-up phase visible in the log. Peak assessed from 119 usable readings; 1 unusable reading was excluded.",
+            "evidence": {
+              "initial_lr": 0.1,
+              "peak_lr": 0.1,
+              "usable_lr_readings": 119,
+              "unusable_lr_readings": 1
+            },
+            "fixes": [
+              "If the first steps are unstable (see any spike or setback findings near the start), add LR warmup over the first 1-10% of steps.",
+              "If warmup is configured but not logged until after it finishes, this may be a logging artifact -- check the logging interval."
+            ]
+          },
+          {
+            "detector": "lr_schedule",
+            "title": "LR discontinuity",
+            "severity": "info",
+            "metric": "lr",
+            "step_start": 39,
+            "step_end": 40,
+            "message": "lr jumped from 0.1 to 0.05 between step 39 and 40 -- 67% of the run's usable LR range (0.075) in a single step, out of line with the logged intervals around it. Adjacency assessed within steps 11-119 (109 usable readings); no schedule is inferred across unreadable, non-finite or negative readings.",
+            "evidence": {
+              "before": 0.1,
+              "after": 0.05,
+              "jump_fraction_of_range": 0.6666666666666666,
+              "segment_start_step": 11,
+              "segment_end_step": 119,
+              "segment_observations": 109,
+              "usable_lr_readings": 119,
+              "unusable_lr_readings": 1,
+              "usable_lr_range": 0.07500000000000001
+            },
+            "fixes": [
+              "Check for a checkpoint resume where the scheduler's step counter didn't match the optimizer's.",
+              "Check for a manual LR override mid-run."
+            ]
+          },
+          {
+            "detector": "lr_schedule",
+            "title": "LR discontinuity",
+            "severity": "info",
+            "metric": "lr",
+            "step_start": 79,
+            "step_end": 80,
+            "message": "lr jumped from 0.05 to 0.025 between step 79 and 80 -- 33% of the run's usable LR range (0.075) in a single step, out of line with the logged intervals around it. Adjacency assessed within steps 11-119 (109 usable readings); no schedule is inferred across unreadable, non-finite or negative readings.",
+            "evidence": {
+              "before": 0.05,
+              "after": 0.025,
+              "jump_fraction_of_range": 0.3333333333333333,
+              "segment_start_step": 11,
+              "segment_end_step": 119,
+              "segment_observations": 109,
+              "usable_lr_readings": 119,
+              "unusable_lr_readings": 1,
+              "usable_lr_range": 0.07500000000000001
+            },
+            "fixes": [
+              "Check for a checkpoint resume where the scheduler's step counter didn't match the optimizer's.",
+              "Check for a manual LR override mid-run."
+            ]
+          }
+        ]
+      },
+      "lrDiscontinuities": [
+        [
+          39,
+          40
+        ],
+        [
+          79,
+          80
+        ]
+      ],
+      "htmlSha256": "a6e0238d95795c8fb439e1f011f17249e47d5a95156f2a6233653768914b1a0f"
+    },
+    {
+      "name": "nan",
+      "inputSha256": "6358c0d91f2869e41237bc3513f630018c7ddd799381f2074a9ceb9be30b9864",
+      "inputBytes": 3232,
+      "controlledCapture": true,
+      "exitCode": 0,
+      "stderr": "",
+      "report": {
+        "schema_version": 1,
+        "run": {
+          "source_format": "csv",
+          "source_path": "nan.csv",
+          "skipped_rows": 0,
+          "skipped_values": 0,
+          "input_complete": true,
+          "input_notes": [],
+          "unread_event_bytes": 0,
+          "event_directories": [],
+          "overwritten_points": 0,
+          "restart_markers": 0,
+          "step_column": "step",
+          "step_axis": "step",
+          "step_selection": "automatic",
+          "metric_sources": {
+            "train/loss": "loss",
+            "lr": "learning_rate"
+          },
+          "ambiguous_metric_sources": [],
+          "repeated_steps": [],
+          "metrics": {
+            "lr": {
+              "count": 120,
+              "analysis_count": 120,
+              "distinct_steps": 120,
+              "analysis_excluded": false,
+              "first_step": 0,
+              "last_step": 119
+            },
+            "train/loss": {
+              "count": 120,
+              "analysis_count": 120,
+              "distinct_steps": 120,
+              "analysis_excluded": false,
+              "first_step": 0,
+              "last_step": 119
+            }
+          }
+        },
+        "summary": {
+          "input_complete": true,
+          "total_findings": 3,
+          "by_severity": {
+            "error": 0,
+            "warning": 0,
+            "info": 3
+          }
+        },
+        "timing": {
+          "status": "unavailable",
+          "axis": "step",
+          "source": null,
+          "source_metric": null,
+          "unit": null,
+          "observations": 0,
+          "invalid_observations": 0,
+          "baseline": null,
+          "recent": null,
+          "ratio": null,
+          "reason": "No eligible timing source. The comparison needs enough step_time or throughput readings, or loss observations with timestamps and explicit training steps. Conflicting repeated-step values are excluded from this check.",
+          "notes": [
+            "wall_time(train/loss): 120 of 120 points have no timestamp. No intervals were bridged across missing timestamps."
+          ],
+          "min_window": 5,
+          "baseline_fraction": 0.2
+        },
+        "findings": [
+          {
+            "detector": "lr_schedule",
+            "title": "No LR warmup detected",
+            "severity": "info",
+            "metric": "lr",
+            "step_start": 0,
+            "step_end": 0,
+            "message": "lr starts at 0.1, already 100% of the run's peak (0.1) -- no ramp-up phase visible in the log. Peak assessed from 119 usable readings; 1 unusable reading was excluded.",
+            "evidence": {
+              "initial_lr": 0.1,
+              "peak_lr": 0.1,
+              "usable_lr_readings": 119,
+              "unusable_lr_readings": 1
+            },
+            "fixes": [
+              "If the first steps are unstable (see any spike or setback findings near the start), add LR warmup over the first 1-10% of steps.",
+              "If warmup is configured but not logged until after it finishes, this may be a logging artifact -- check the logging interval."
+            ]
+          },
+          {
+            "detector": "lr_schedule",
+            "title": "LR discontinuity",
+            "severity": "info",
+            "metric": "lr",
+            "step_start": 39,
+            "step_end": 40,
+            "message": "lr jumped from 0.1 to 0.05 between step 39 and 40 -- 67% of the run's usable LR range (0.075) in a single step, out of line with the logged intervals around it. Adjacency assessed within steps 11-119 (109 usable readings); no schedule is inferred across unreadable, non-finite or negative readings.",
+            "evidence": {
+              "before": 0.1,
+              "after": 0.05,
+              "jump_fraction_of_range": 0.6666666666666666,
+              "segment_start_step": 11,
+              "segment_end_step": 119,
+              "segment_observations": 109,
+              "usable_lr_readings": 119,
+              "unusable_lr_readings": 1,
+              "usable_lr_range": 0.07500000000000001
+            },
+            "fixes": [
+              "Check for a checkpoint resume where the scheduler's step counter didn't match the optimizer's.",
+              "Check for a manual LR override mid-run."
+            ]
+          },
+          {
+            "detector": "lr_schedule",
+            "title": "LR discontinuity",
+            "severity": "info",
+            "metric": "lr",
+            "step_start": 79,
+            "step_end": 80,
+            "message": "lr jumped from 0.05 to 0.025 between step 79 and 80 -- 33% of the run's usable LR range (0.075) in a single step, out of line with the logged intervals around it. Adjacency assessed within steps 11-119 (109 usable readings); no schedule is inferred across unreadable, non-finite or negative readings.",
+            "evidence": {
+              "before": 0.05,
+              "after": 0.025,
+              "jump_fraction_of_range": 0.3333333333333333,
+              "segment_start_step": 11,
+              "segment_end_step": 119,
+              "segment_observations": 109,
+              "usable_lr_readings": 119,
+              "unusable_lr_readings": 1,
+              "usable_lr_range": 0.07500000000000001
+            },
+            "fixes": [
+              "Check for a checkpoint resume where the scheduler's step counter didn't match the optimizer's.",
+              "Check for a manual LR override mid-run."
+            ]
+          }
+        ]
+      },
+      "lrDiscontinuities": [
+        [
+          39,
+          40
+        ],
+        [
+          79,
+          80
+        ]
+      ],
+      "htmlSha256": "0be3d4234aa7f0927d5799fa070348cbc40494864a052fd06e68ffde7ff4781a"
+    },
+    {
+      "name": "positive-inf",
+      "inputSha256": "ebbf6c1b6468b26c0d92f7188c1ab7b8f0944ede1f0c87803d59fc4256b06f91",
+      "inputBytes": 3232,
+      "controlledCapture": true,
+      "exitCode": 0,
+      "stderr": "",
+      "report": {
+        "schema_version": 1,
+        "run": {
+          "source_format": "csv",
+          "source_path": "positive-inf.csv",
+          "skipped_rows": 0,
+          "skipped_values": 0,
+          "input_complete": true,
+          "input_notes": [],
+          "unread_event_bytes": 0,
+          "event_directories": [],
+          "overwritten_points": 0,
+          "restart_markers": 0,
+          "step_column": "step",
+          "step_axis": "step",
+          "step_selection": "automatic",
+          "metric_sources": {
+            "train/loss": "loss",
+            "lr": "learning_rate"
+          },
+          "ambiguous_metric_sources": [],
+          "repeated_steps": [],
+          "metrics": {
+            "lr": {
+              "count": 120,
+              "analysis_count": 120,
+              "distinct_steps": 120,
+              "analysis_excluded": false,
+              "first_step": 0,
+              "last_step": 119
+            },
+            "train/loss": {
+              "count": 120,
+              "analysis_count": 120,
+              "distinct_steps": 120,
+              "analysis_excluded": false,
+              "first_step": 0,
+              "last_step": 119
+            }
+          }
+        },
+        "summary": {
+          "input_complete": true,
+          "total_findings": 3,
+          "by_severity": {
+            "error": 0,
+            "warning": 0,
+            "info": 3
+          }
+        },
+        "timing": {
+          "status": "unavailable",
+          "axis": "step",
+          "source": null,
+          "source_metric": null,
+          "unit": null,
+          "observations": 0,
+          "invalid_observations": 0,
+          "baseline": null,
+          "recent": null,
+          "ratio": null,
+          "reason": "No eligible timing source. The comparison needs enough step_time or throughput readings, or loss observations with timestamps and explicit training steps. Conflicting repeated-step values are excluded from this check.",
+          "notes": [
+            "wall_time(train/loss): 120 of 120 points have no timestamp. No intervals were bridged across missing timestamps."
+          ],
+          "min_window": 5,
+          "baseline_fraction": 0.2
+        },
+        "findings": [
+          {
+            "detector": "lr_schedule",
+            "title": "No LR warmup detected",
+            "severity": "info",
+            "metric": "lr",
+            "step_start": 0,
+            "step_end": 0,
+            "message": "lr starts at 0.1, already 100% of the run's peak (0.1) -- no ramp-up phase visible in the log. Peak assessed from 119 usable readings; 1 unusable reading was excluded.",
+            "evidence": {
+              "initial_lr": 0.1,
+              "peak_lr": 0.1,
+              "usable_lr_readings": 119,
+              "unusable_lr_readings": 1
+            },
+            "fixes": [
+              "If the first steps are unstable (see any spike or setback findings near the start), add LR warmup over the first 1-10% of steps.",
+              "If warmup is configured but not logged until after it finishes, this may be a logging artifact -- check the logging interval."
+            ]
+          },
+          {
+            "detector": "lr_schedule",
+            "title": "LR discontinuity",
+            "severity": "info",
+            "metric": "lr",
+            "step_start": 39,
+            "step_end": 40,
+            "message": "lr jumped from 0.1 to 0.05 between step 39 and 40 -- 67% of the run's usable LR range (0.075) in a single step, out of line with the logged intervals around it. Adjacency assessed within steps 11-119 (109 usable readings); no schedule is inferred across unreadable, non-finite or negative readings.",
+            "evidence": {
+              "before": 0.1,
+              "after": 0.05,
+              "jump_fraction_of_range": 0.6666666666666666,
+              "segment_start_step": 11,
+              "segment_end_step": 119,
+              "segment_observations": 109,
+              "usable_lr_readings": 119,
+              "unusable_lr_readings": 1,
+              "usable_lr_range": 0.07500000000000001
+            },
+            "fixes": [
+              "Check for a checkpoint resume where the scheduler's step counter didn't match the optimizer's.",
+              "Check for a manual LR override mid-run."
+            ]
+          },
+          {
+            "detector": "lr_schedule",
+            "title": "LR discontinuity",
+            "severity": "info",
+            "metric": "lr",
+            "step_start": 79,
+            "step_end": 80,
+            "message": "lr jumped from 0.05 to 0.025 between step 79 and 80 -- 33% of the run's usable LR range (0.075) in a single step, out of line with the logged intervals around it. Adjacency assessed within steps 11-119 (109 usable readings); no schedule is inferred across unreadable, non-finite or negative readings.",
+            "evidence": {
+              "before": 0.05,
+              "after": 0.025,
+              "jump_fraction_of_range": 0.3333333333333333,
+              "segment_start_step": 11,
+              "segment_end_step": 119,
+              "segment_observations": 109,
+              "usable_lr_readings": 119,
+              "unusable_lr_readings": 1,
+              "usable_lr_range": 0.07500000000000001
+            },
+            "fixes": [
+              "Check for a checkpoint resume where the scheduler's step counter didn't match the optimizer's.",
+              "Check for a manual LR override mid-run."
+            ]
+          }
+        ]
+      },
+      "lrDiscontinuities": [
+        [
+          39,
+          40
+        ],
+        [
+          79,
+          80
+        ]
+      ],
+      "htmlSha256": "b8e538be7f8cc797f6cb73a878ecdce7cae73d65cde0ea357ad01f20788eb1a6"
+    },
+    {
+      "name": "negative-inf",
+      "inputSha256": "0e403bec8208028bb3141842e96cb2e0a5bea3690c6616dfc5de6b6178f132f9",
+      "inputBytes": 3233,
+      "controlledCapture": true,
+      "exitCode": 0,
+      "stderr": "",
+      "report": {
+        "schema_version": 1,
+        "run": {
+          "source_format": "csv",
+          "source_path": "negative-inf.csv",
+          "skipped_rows": 0,
+          "skipped_values": 0,
+          "input_complete": true,
+          "input_notes": [],
+          "unread_event_bytes": 0,
+          "event_directories": [],
+          "overwritten_points": 0,
+          "restart_markers": 0,
+          "step_column": "step",
+          "step_axis": "step",
+          "step_selection": "automatic",
+          "metric_sources": {
+            "train/loss": "loss",
+            "lr": "learning_rate"
+          },
+          "ambiguous_metric_sources": [],
+          "repeated_steps": [],
+          "metrics": {
+            "lr": {
+              "count": 120,
+              "analysis_count": 120,
+              "distinct_steps": 120,
+              "analysis_excluded": false,
+              "first_step": 0,
+              "last_step": 119
+            },
+            "train/loss": {
+              "count": 120,
+              "analysis_count": 120,
+              "distinct_steps": 120,
+              "analysis_excluded": false,
+              "first_step": 0,
+              "last_step": 119
+            }
+          }
+        },
+        "summary": {
+          "input_complete": true,
+          "total_findings": 3,
+          "by_severity": {
+            "error": 0,
+            "warning": 0,
+            "info": 3
+          }
+        },
+        "timing": {
+          "status": "unavailable",
+          "axis": "step",
+          "source": null,
+          "source_metric": null,
+          "unit": null,
+          "observations": 0,
+          "invalid_observations": 0,
+          "baseline": null,
+          "recent": null,
+          "ratio": null,
+          "reason": "No eligible timing source. The comparison needs enough step_time or throughput readings, or loss observations with timestamps and explicit training steps. Conflicting repeated-step values are excluded from this check.",
+          "notes": [
+            "wall_time(train/loss): 120 of 120 points have no timestamp. No intervals were bridged across missing timestamps."
+          ],
+          "min_window": 5,
+          "baseline_fraction": 0.2
+        },
+        "findings": [
+          {
+            "detector": "lr_schedule",
+            "title": "No LR warmup detected",
+            "severity": "info",
+            "metric": "lr",
+            "step_start": 0,
+            "step_end": 0,
+            "message": "lr starts at 0.1, already 100% of the run's peak (0.1) -- no ramp-up phase visible in the log. Peak assessed from 119 usable readings; 1 unusable reading was excluded.",
+            "evidence": {
+              "initial_lr": 0.1,
+              "peak_lr": 0.1,
+              "usable_lr_readings": 119,
+              "unusable_lr_readings": 1
+            },
+            "fixes": [
+              "If the first steps are unstable (see any spike or setback findings near the start), add LR warmup over the first 1-10% of steps.",
+              "If warmup is configured but not logged until after it finishes, this may be a logging artifact -- check the logging interval."
+            ]
+          },
+          {
+            "detector": "lr_schedule",
+            "title": "LR discontinuity",
+            "severity": "info",
+            "metric": "lr",
+            "step_start": 39,
+            "step_end": 40,
+            "message": "lr jumped from 0.1 to 0.05 between step 39 and 40 -- 67% of the run's usable LR range (0.075) in a single step, out of line with the logged intervals around it. Adjacency assessed within steps 11-119 (109 usable readings); no schedule is inferred across unreadable, non-finite or negative readings.",
+            "evidence": {
+              "before": 0.1,
+              "after": 0.05,
+              "jump_fraction_of_range": 0.6666666666666666,
+              "segment_start_step": 11,
+              "segment_end_step": 119,
+              "segment_observations": 109,
+              "usable_lr_readings": 119,
+              "unusable_lr_readings": 1,
+              "usable_lr_range": 0.07500000000000001
+            },
+            "fixes": [
+              "Check for a checkpoint resume where the scheduler's step counter didn't match the optimizer's.",
+              "Check for a manual LR override mid-run."
+            ]
+          },
+          {
+            "detector": "lr_schedule",
+            "title": "LR discontinuity",
+            "severity": "info",
+            "metric": "lr",
+            "step_start": 79,
+            "step_end": 80,
+            "message": "lr jumped from 0.05 to 0.025 between step 79 and 80 -- 33% of the run's usable LR range (0.075) in a single step, out of line with the logged intervals around it. Adjacency assessed within steps 11-119 (109 usable readings); no schedule is inferred across unreadable, non-finite or negative readings.",
+            "evidence": {
+              "before": 0.05,
+              "after": 0.025,
+              "jump_fraction_of_range": 0.3333333333333333,
+              "segment_start_step": 11,
+              "segment_end_step": 119,
+              "segment_observations": 109,
+              "usable_lr_readings": 119,
+              "unusable_lr_readings": 1,
+              "usable_lr_range": 0.07500000000000001
+            },
+            "fixes": [
+              "Check for a checkpoint resume where the scheduler's step counter didn't match the optimizer's.",
+              "Check for a manual LR override mid-run."
+            ]
+          }
+        ]
+      },
+      "lrDiscontinuities": [
+        [
+          39,
+          40
+        ],
+        [
+          79,
+          80
+        ]
+      ],
+      "htmlSha256": "5ae8f69828d6f7d2d6d0d28e8b806407dd4d29cc2d944055304a6154c2103c24"
+    },
+    {
+      "name": "negative",
+      "inputSha256": "17709dc3ed8ce7a0a2722d0993527bf3d05b3f5b203c23e173ee5d69ce44e67b",
+      "inputBytes": 3231,
+      "controlledCapture": true,
+      "exitCode": 0,
+      "stderr": "",
+      "report": {
+        "schema_version": 1,
+        "run": {
+          "source_format": "csv",
+          "source_path": "negative.csv",
+          "skipped_rows": 0,
+          "skipped_values": 0,
+          "input_complete": true,
+          "input_notes": [],
+          "unread_event_bytes": 0,
+          "event_directories": [],
+          "overwritten_points": 0,
+          "restart_markers": 0,
+          "step_column": "step",
+          "step_axis": "step",
+          "step_selection": "automatic",
+          "metric_sources": {
+            "train/loss": "loss",
+            "lr": "learning_rate"
+          },
+          "ambiguous_metric_sources": [],
+          "repeated_steps": [],
+          "metrics": {
+            "lr": {
+              "count": 120,
+              "analysis_count": 120,
+              "distinct_steps": 120,
+              "analysis_excluded": false,
+              "first_step": 0,
+              "last_step": 119
+            },
+            "train/loss": {
+              "count": 120,
+              "analysis_count": 120,
+              "distinct_steps": 120,
+              "analysis_excluded": false,
+              "first_step": 0,
+              "last_step": 119
+            }
+          }
+        },
+        "summary": {
+          "input_complete": true,
+          "total_findings": 3,
+          "by_severity": {
+            "error": 0,
+            "warning": 0,
+            "info": 3
+          }
+        },
+        "timing": {
+          "status": "unavailable",
+          "axis": "step",
+          "source": null,
+          "source_metric": null,
+          "unit": null,
+          "observations": 0,
+          "invalid_observations": 0,
+          "baseline": null,
+          "recent": null,
+          "ratio": null,
+          "reason": "No eligible timing source. The comparison needs enough step_time or throughput readings, or loss observations with timestamps and explicit training steps. Conflicting repeated-step values are excluded from this check.",
+          "notes": [
+            "wall_time(train/loss): 120 of 120 points have no timestamp. No intervals were bridged across missing timestamps."
+          ],
+          "min_window": 5,
+          "baseline_fraction": 0.2
+        },
+        "findings": [
+          {
+            "detector": "lr_schedule",
+            "title": "No LR warmup detected",
+            "severity": "info",
+            "metric": "lr",
+            "step_start": 0,
+            "step_end": 0,
+            "message": "lr starts at 0.1, already 100% of the run's peak (0.1) -- no ramp-up phase visible in the log. Peak assessed from 119 usable readings; 1 unusable reading was excluded.",
+            "evidence": {
+              "initial_lr": 0.1,
+              "peak_lr": 0.1,
+              "usable_lr_readings": 119,
+              "unusable_lr_readings": 1
+            },
+            "fixes": [
+              "If the first steps are unstable (see any spike or setback findings near the start), add LR warmup over the first 1-10% of steps.",
+              "If warmup is configured but not logged until after it finishes, this may be a logging artifact -- check the logging interval."
+            ]
+          },
+          {
+            "detector": "lr_schedule",
+            "title": "LR discontinuity",
+            "severity": "info",
+            "metric": "lr",
+            "step_start": 39,
+            "step_end": 40,
+            "message": "lr jumped from 0.1 to 0.05 between step 39 and 40 -- 67% of the run's usable LR range (0.075) in a single step, out of line with the logged intervals around it. Adjacency assessed within steps 11-119 (109 usable readings); no schedule is inferred across unreadable, non-finite or negative readings.",
+            "evidence": {
+              "before": 0.1,
+              "after": 0.05,
+              "jump_fraction_of_range": 0.6666666666666666,
+              "segment_start_step": 11,
+              "segment_end_step": 119,
+              "segment_observations": 109,
+              "usable_lr_readings": 119,
+              "unusable_lr_readings": 1,
+              "usable_lr_range": 0.07500000000000001
+            },
+            "fixes": [
+              "Check for a checkpoint resume where the scheduler's step counter didn't match the optimizer's.",
+              "Check for a manual LR override mid-run."
+            ]
+          },
+          {
+            "detector": "lr_schedule",
+            "title": "LR discontinuity",
+            "severity": "info",
+            "metric": "lr",
+            "step_start": 79,
+            "step_end": 80,
+            "message": "lr jumped from 0.05 to 0.025 between step 79 and 80 -- 33% of the run's usable LR range (0.075) in a single step, out of line with the logged intervals around it. Adjacency assessed within steps 11-119 (109 usable readings); no schedule is inferred across unreadable, non-finite or negative readings.",
+            "evidence": {
+              "before": 0.05,
+              "after": 0.025,
+              "jump_fraction_of_range": 0.3333333333333333,
+              "segment_start_step": 11,
+              "segment_end_step": 119,
+              "segment_observations": 109,
+              "usable_lr_readings": 119,
+              "unusable_lr_readings": 1,
+              "usable_lr_range": 0.07500000000000001
+            },
+            "fixes": [
+              "Check for a checkpoint resume where the scheduler's step counter didn't match the optimizer's.",
+              "Check for a manual LR override mid-run."
+            ]
+          }
+        ]
+      },
+      "lrDiscontinuities": [
+        [
+          39,
+          40
+        ],
+        [
+          79,
+          80
+        ]
+      ],
+      "htmlSha256": "30bf5face42d44b2028e32bd6c266f7d071f0b07a656909b34174385643503ce"
+    },
+    {
+      "name": "unknown-transition",
+      "inputSha256": "a3fd3c2a1d1fce6ff34a485c69723832f110c42e8cb0b33fc5fc1e2cbe07e158",
+      "inputBytes": 325,
+      "controlledCapture": false,
+      "exitCode": 2,
+      "stderr": "trainspotter: input is incomplete; CI gate could not be evaluated\n",
+      "report": {
+        "schema_version": 1,
+        "run": {
+          "source_format": "csv",
+          "source_path": "unknown-transition.csv",
+          "skipped_rows": 0,
+          "skipped_values": 1,
+          "input_complete": false,
+          "input_notes": [
+            "lr: 1 unreadable values at recorded steps; trajectory checks stop at these gaps. These are not observed NaN/Inf values.",
+            "1 nonblank metric values were not numeric.",
+            "Input is incomplete; findings describe only the readable data."
+          ],
+          "unread_event_bytes": 0,
+          "event_directories": [],
+          "overwritten_points": 0,
+          "restart_markers": 0,
+          "step_column": "step",
+          "step_axis": "step",
+          "step_selection": "automatic",
+          "metric_sources": {
+            "lr": "learning_rate"
+          },
+          "ambiguous_metric_sources": [],
+          "repeated_steps": [],
+          "metrics": {
+            "lr": {
+              "count": 40,
+              "analysis_count": 40,
+              "distinct_steps": 41,
+              "analysis_excluded": false,
+              "first_step": 0,
+              "last_step": 40,
+              "unreadable_steps": [
+                20
+              ]
+            }
+          }
+        },
+        "summary": {
+          "input_complete": false,
+          "total_findings": 1,
+          "by_severity": {
+            "error": 0,
+            "warning": 0,
+            "info": 1
+          }
+        },
+        "timing": {
+          "status": "unavailable",
+          "axis": "step",
+          "source": null,
+          "source_metric": null,
+          "unit": null,
+          "observations": 0,
+          "invalid_observations": 0,
+          "baseline": null,
+          "recent": null,
+          "ratio": null,
+          "reason": "No eligible timing source. The comparison needs enough step_time or throughput readings, or loss observations with timestamps and explicit training steps. Conflicting repeated-step values are excluded from this check.",
+          "notes": [],
+          "min_window": 5,
+          "baseline_fraction": 0.2
+        },
+        "findings": [
+          {
+            "detector": "lr_schedule",
+            "title": "No LR warmup detected",
+            "severity": "info",
+            "metric": "lr",
+            "step_start": 0,
+            "step_end": 0,
+            "message": "lr starts at 0.1, already 100% of the run's peak (0.1) -- no ramp-up phase visible in the log. Peak assessed from 40 usable readings; 1 unusable reading was excluded.",
+            "evidence": {
+              "initial_lr": 0.1,
+              "peak_lr": 0.1,
+              "usable_lr_readings": 40,
+              "unusable_lr_readings": 1
+            },
+            "fixes": [
+              "If the first steps are unstable (see any spike or setback findings near the start), add LR warmup over the first 1-10% of steps.",
+              "If warmup is configured but not logged until after it finishes, this may be a logging artifact -- check the logging interval."
+            ]
+          }
+        ]
+      },
+      "lrDiscontinuities": [],
+      "htmlSha256": "f72b729e71576cc8fdef1736fba333a2bf7496d1e86bf62f73e30484f8e8606a"
+    },
+    {
+      "name": "unknown-rise-phase",
+      "inputSha256": "2014232d52a067fa5043000aab0bafccd8d5ac8abedfa5af9e58158173640cbf",
+      "inputBytes": 555,
+      "controlledCapture": false,
+      "exitCode": 2,
+      "stderr": "trainspotter: input is incomplete; CI gate could not be evaluated\n",
+      "report": {
+        "schema_version": 1,
+        "run": {
+          "source_format": "csv",
+          "source_path": "unknown-rise-phase.csv",
+          "skipped_rows": 0,
+          "skipped_values": 1,
+          "input_complete": false,
+          "input_notes": [
+            "lr: 1 unreadable values at recorded steps; trajectory checks stop at these gaps. These are not observed NaN/Inf values.",
+            "1 nonblank metric values were not numeric.",
+            "Input is incomplete; findings describe only the readable data."
+          ],
+          "unread_event_bytes": 0,
+          "event_directories": [],
+          "overwritten_points": 0,
+          "restart_markers": 0,
+          "step_column": "step",
+          "step_axis": "step",
+          "step_selection": "automatic",
+          "metric_sources": {
+            "lr": "learning_rate"
+          },
+          "ambiguous_metric_sources": [],
+          "repeated_steps": [],
+          "metrics": {
+            "lr": {
+              "count": 70,
+              "analysis_count": 70,
+              "distinct_steps": 71,
+              "analysis_excluded": false,
+              "first_step": 0,
+              "last_step": 70,
+              "unreadable_steps": [
+                40
+              ]
+            }
+          }
+        },
+        "summary": {
+          "input_complete": false,
+          "total_findings": 2,
+          "by_severity": {
+            "error": 0,
+            "warning": 0,
+            "info": 2
+          }
+        },
+        "timing": {
+          "status": "unavailable",
+          "axis": "step",
+          "source": null,
+          "source_metric": null,
+          "unit": null,
+          "observations": 0,
+          "invalid_observations": 0,
+          "baseline": null,
+          "recent": null,
+          "ratio": null,
+          "reason": "No eligible timing source. The comparison needs enough step_time or throughput readings, or loss observations with timestamps and explicit training steps. Conflicting repeated-step values are excluded from this check.",
+          "notes": [],
+          "min_window": 5,
+          "baseline_fraction": 0.2
+        },
+        "findings": [
+          {
+            "detector": "lr_schedule",
+            "title": "No LR warmup detected",
+            "severity": "info",
+            "metric": "lr",
+            "step_start": 0,
+            "step_end": 0,
+            "message": "lr starts at 0.1, already 100% of the run's peak (0.1) -- no ramp-up phase visible in the log. Peak assessed from 70 usable readings; 1 unusable reading was excluded.",
+            "evidence": {
+              "initial_lr": 0.1,
+              "peak_lr": 0.1,
+              "usable_lr_readings": 70,
+              "unusable_lr_readings": 1
+            },
+            "fixes": [
+              "If the first steps are unstable (see any spike or setback findings near the start), add LR warmup over the first 1-10% of steps.",
+              "If warmup is configured but not logged until after it finishes, this may be a logging artifact -- check the logging interval."
+            ]
+          },
+          {
+            "detector": "lr_schedule",
+            "title": "LR discontinuity",
+            "severity": "info",
+            "metric": "lr",
+            "step_start": 19,
+            "step_end": 20,
+            "message": "lr jumped from 0.1 to 0.05 between step 19 and 20 -- 51% of the run's usable LR range (0.099) in a single step, out of line with the logged intervals around it. Adjacency assessed within steps 0-39 (40 usable readings); no schedule is inferred across unreadable, non-finite or negative readings.",
+            "evidence": {
+              "before": 0.1,
+              "after": 0.05,
+              "jump_fraction_of_range": 0.5050505050505051,
+              "segment_start_step": 0,
+              "segment_end_step": 39,
+              "segment_observations": 40,
+              "usable_lr_readings": 70,
+              "unusable_lr_readings": 1,
+              "usable_lr_range": 0.099
+            },
+            "fixes": [
+              "Check for a checkpoint resume where the scheduler's step counter didn't match the optimizer's.",
+              "Check for a manual LR override mid-run."
+            ]
+          }
+        ]
+      },
+      "lrDiscontinuities": [
+        [
+          19,
+          20
+        ]
+      ],
+      "htmlSha256": "4e2b1e3868ff5e9069b054cc9da270b47bb65ab21ffef378b218ddd3408f9091"
+    },
+    {
+      "name": "short-segment",
+      "inputSha256": "ad929d6e8fcc5522dab7ebb4f7075e49e8741be53a55475ecd311df0ab0aacb8",
+      "inputBytes": 203,
+      "controlledCapture": false,
+      "exitCode": 2,
+      "stderr": "trainspotter: input is incomplete; CI gate could not be evaluated\n",
+      "report": {
+        "schema_version": 1,
+        "run": {
+          "source_format": "csv",
+          "source_path": "short-segment.csv",
+          "skipped_rows": 0,
+          "skipped_values": 1,
+          "input_complete": false,
+          "input_notes": [
+            "lr: 1 unreadable values at recorded steps; trajectory checks stop at these gaps. These are not observed NaN/Inf values.",
+            "1 nonblank metric values were not numeric.",
+            "Input is incomplete; findings describe only the readable data."
+          ],
+          "unread_event_bytes": 0,
+          "event_directories": [],
+          "overwritten_points": 0,
+          "restart_markers": 0,
+          "step_column": "step",
+          "step_axis": "step",
+          "step_selection": "automatic",
+          "metric_sources": {
+            "lr": "learning_rate"
+          },
+          "ambiguous_metric_sources": [],
+          "repeated_steps": [],
+          "metrics": {
+            "lr": {
+              "count": 25,
+              "analysis_count": 25,
+              "distinct_steps": 26,
+              "analysis_excluded": false,
+              "first_step": 0,
+              "last_step": 25,
+              "unreadable_steps": [
+                20
+              ]
+            }
+          }
+        },
+        "summary": {
+          "input_complete": false,
+          "total_findings": 1,
+          "by_severity": {
+            "error": 0,
+            "warning": 0,
+            "info": 1
+          }
+        },
+        "timing": {
+          "status": "unavailable",
+          "axis": "step",
+          "source": null,
+          "source_metric": null,
+          "unit": null,
+          "observations": 0,
+          "invalid_observations": 0,
+          "baseline": null,
+          "recent": null,
+          "ratio": null,
+          "reason": "No eligible timing source. The comparison needs enough step_time or throughput readings, or loss observations with timestamps and explicit training steps. Conflicting repeated-step values are excluded from this check.",
+          "notes": [],
+          "min_window": 5,
+          "baseline_fraction": 0.2
+        },
+        "findings": [
+          {
+            "detector": "lr_schedule",
+            "title": "No LR warmup detected",
+            "severity": "info",
+            "metric": "lr",
+            "step_start": 0,
+            "step_end": 0,
+            "message": "lr starts at 0.1, already 100% of the run's peak (0.1) -- no ramp-up phase visible in the log. Peak assessed from 25 usable readings; 1 unusable reading was excluded.",
+            "evidence": {
+              "initial_lr": 0.1,
+              "peak_lr": 0.1,
+              "usable_lr_readings": 25,
+              "unusable_lr_readings": 1
+            },
+            "fixes": [
+              "If the first steps are unstable (see any spike or setback findings near the start), add LR warmup over the first 1-10% of steps.",
+              "If warmup is configured but not logged until after it finishes, this may be a logging artifact -- check the logging interval."
+            ]
+          }
+        ]
+      },
+      "lrDiscontinuities": [],
+      "htmlSha256": "e3a5ccc7a9417bb0d0d7dd0deed0c3538e04862f158ea2b6ac93abd0e8097cb2"
+    }
+  ]
+}

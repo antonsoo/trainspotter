@@ -1,0 +1,3 @@
+npm notice run test:browser
+npm notice run node tests/browser.mjs
+204 report workflows passed: Chromium + Firefox, desktop + 320px mobile, keyboard, axe, CSP, no network.

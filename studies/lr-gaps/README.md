@@ -90,3 +90,16 @@ estimate or proof about future logs.
 Sources: [PyTorch MultiStepLR](https://docs.pytorch.org/docs/2.8/generated/torch.optim.lr_scheduler.MultiStepLR.html)
 and [NumPy's NaN-propagating maximum](https://numpy.org/doc/2.0/reference/generated/numpy.max.html).
 PyTorch is a capture-only dependency, not a new Trainspotter dependency.
+
+## Retained results
+
+- [Baseline CLI reports](results/before.json), [minimum-dependency installed reports](results/minimum.json),
+  and [Python 3.14 installed reports](results/installed314.json).
+- [Public-log comparison](results/corpus.json), including unavailable inputs.
+- [Baseline offline browser checks](results/browser-before.json) and
+  [installed offline browser checks](results/browser-installed.json).
+- Standalone unreadable-LR report [before](reports/before/unreadable.html) and
+  [after](reports/after/unreadable.html); download either file to open it offline.
+- [Clean archive, installed artifact and runtime verification](../../docs/verification-lr-gaps-2026-10-12.md).
+
+![Installed report keeps the two observed drops and the incomplete-input warning](../../docs/assets/lr-gaps/after/chromium-1440.png)

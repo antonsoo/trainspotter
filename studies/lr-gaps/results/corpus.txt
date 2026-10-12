@@ -1,0 +1,2 @@
+manifest.json {'listed': 3208, 'read': 3145, 'with_lr': 3039, 'lr_observations': 3999405, 'before_findings': 654, 'after_findings': 654, 'rebound_episodes': 119, 'runs_with_rebounds': 60, 'no_usable_lr': 106, 'unavailable': 63}
+manifest-heldout.json {'listed': 1051, 'read': 1032, 'with_lr': 1013, 'lr_observations': 1048940, 'before_findings': 218, 'after_findings': 218, 'rebound_episodes': 55, 'runs_with_rebounds': 22, 'no_usable_lr': 19, 'unavailable': 19}

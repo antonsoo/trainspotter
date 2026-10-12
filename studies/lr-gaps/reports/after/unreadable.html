@@ -1,0 +1,249 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; style-src 'unsafe-inline'; img-src data:; base-uri 'none'; form-action 'none'">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>trainspotter · unreadable.csv</title>
+<style>
+
+:root {
+  --bg: #0a0d10;
+  --panel: #10151a;
+  --panel-2: #0d1216;
+  --line: #1f2830;
+  --line-strong: #2c3944;
+  --text: #d9e2e8;
+  --text-muted: #8b97a1;
+  --text-dim: #6e7c87;
+  --err: #ff5d5d;
+  --warn: #f2b84b;
+  --info: #5fb3ff;
+  --mono: ui-monospace, "SFMono-Regular", "Cascadia Mono", Consolas, "Liberation Mono", monospace;
+  --sans: -apple-system, "Segoe UI", "Helvetica Neue", Arial, sans-serif;
+}
+* { box-sizing: border-box; }
+a { color: var(--info); }
+a:focus-visible, .repeated-evidence summary:focus-visible, .unreadable-evidence summary:focus-visible, .table-scroll:focus-visible {
+  outline: 2px solid var(--info); outline-offset: 3px;
+}
+html, body { margin: 0; padding: 0; background: var(--bg); color: var(--text); }
+body {
+  font-family: var(--sans);
+  font-size: 14px;
+  line-height: 1.5;
+  padding: 0 0 48px;
+}
+.bezel { max-width: 980px; margin: 0 auto; padding: 28px 20px 0; }
+
+.masthead {
+  display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between;
+  gap: 12px 24px; padding-bottom: 16px; border-bottom: 1px solid var(--line-strong);
+}
+.brand { display: flex; align-items: baseline; gap: 10px; }
+.brand-mark { color: var(--info); font-size: 11px; }
+.brand-name { margin: 0; line-height: inherit; font-family: var(--mono); font-weight: 700; font-size: 17px; letter-spacing: 0.12em; }
+.brand-sub { font-family: var(--mono); color: var(--text-dim); font-size: 12px; letter-spacing: 0.06em; text-transform: uppercase; }
+.readouts { display: flex; flex-wrap: wrap; gap: 18px 28px; margin: 0; font-family: var(--mono); font-size: 12px; }
+.readouts > div { display: flex; flex-direction: column; gap: 2px; max-width: 260px; }
+.readouts dt { color: var(--text-dim); text-transform: uppercase; letter-spacing: 0.08em; font-size: 10px; }
+.readouts dd { margin: 0; color: var(--text-muted); overflow-wrap: anywhere; }
+.readouts dd.warn { color: var(--warn); }
+.input-notes { border-left: 3px solid var(--warn); padding: 10px 14px; margin: 18px 0 4px; background: var(--panel); }
+.input-notes h2 { margin: 0 0 4px; color: var(--warn); font-size: 14px; }
+.input-notes ul { margin: 0; padding-left: 18px; overflow-wrap: anywhere; }
+.input-evidence { margin: 12px 0; font-family: var(--mono); color: var(--text-muted); font-size: 12px; }
+.input-evidence summary { cursor: pointer; padding: 6px 0; }
+.input-evidence summary:focus-visible { outline: 2px solid var(--info); outline-offset: 4px; }
+.table-scroll { overflow-x: auto; }
+.input-evidence table { width: 100%; min-width: 560px; border-collapse: collapse; table-layout: fixed; }
+.input-evidence caption { text-align: left; padding: 8px 0; }
+.input-evidence th, .input-evidence td { text-align: left; padding: 7px 8px; border-bottom: 1px solid var(--line); overflow-wrap: anywhere; }
+.input-evidence th:nth-child(n+3), .input-evidence td:nth-child(n+3) { width: 110px; text-align: right; }
+.input-evidence tbody th { font-weight: normal; }
+.timing-evidence { margin: 16px 0 20px; padding: 12px 16px; background: var(--panel); border: 1px solid var(--line-strong); border-left: 3px solid var(--info); overflow-wrap: anywhere; }
+.timing-evidence h2 { margin: 0 0 6px; font: 13px var(--mono); color: var(--text-muted); text-transform: uppercase; letter-spacing: .06em; }
+.timing-evidence p { margin: 8px 0; }
+.timing-ratio { font-family: var(--mono); }
+.timing-ratio strong { font-size: 22px; color: var(--info); font-weight: normal; }
+.timing-evidence details { color: var(--text-muted); font-size: 12px; }
+.timing-evidence summary { cursor: pointer; padding: 4px 0; }
+.timing-evidence summary:focus-visible { outline: 2px solid var(--info); outline-offset: 3px; }
+.timing-evidence table { width: 100%; min-width: 580px; border-collapse: collapse; font-family: var(--mono); }
+.timing-evidence caption { text-align: left; padding: 10px 0; }
+.timing-evidence th, .timing-evidence td { text-align: right; padding: 8px; border-bottom: 1px solid var(--line); }
+.timing-evidence th:first-child { text-align: left; }
+.timing-evidence ul { padding-left: 20px; }
+.repeated-evidence summary { cursor: pointer; padding: 5px 0; }
+.repeated-evidence h2 { margin-top: 10px; }
+.repeated-evidence table { width: 100%; min-width: 800px; table-layout: fixed; border-collapse: collapse; font-family: var(--mono); font-size: 12px; }
+.repeated-evidence th, .repeated-evidence td { text-align: left; padding: 8px; border-bottom: 1px solid var(--line); overflow-wrap: anywhere; }
+.repeated-evidence th:nth-child(1) { width: 140px; }
+.repeated-evidence th:nth-child(2) { width: 70px; }
+.repeated-evidence th:nth-child(3) { width: 210px; }
+.repeated-evidence caption { text-align: left; padding: 10px 0; }
+.unreadable-evidence summary { cursor: pointer; padding: 5px 0; }
+.unreadable-evidence h2 { margin-top: 10px; }
+.unreadable-evidence table { width: 100%; min-width: 600px; table-layout: fixed; border-collapse: collapse; font-family: var(--mono); font-size: 12px; }
+.unreadable-evidence th, .unreadable-evidence td { text-align: left; padding: 8px; border-bottom: 1px solid var(--line); overflow-wrap: anywhere; }
+.unreadable-evidence th:nth-child(1) { width: 140px; }
+.unreadable-evidence th:nth-child(2) { width: 100px; }
+.unreadable-evidence caption { text-align: left; padding: 10px 0; }
+.table-hint { color: var(--text-muted); font-size: 12px; margin: 8px 0; }
+@media (min-width: 900px) { .table-hint { display: none; } }
+
+.summary { padding: 18px 0 8px; }
+.summary { display: grid; grid-template-columns: repeat(3, auto) 1fr; align-items: center; gap: 20px; }
+.count { display: flex; align-items: baseline; gap: 8px; font-family: var(--mono); }
+.count .n { font-size: 22px; font-weight: 700; }
+.count .l { font-size: 11px; text-transform: uppercase; letter-spacing: 0.08em; color: var(--text-dim); }
+.count.sev-error .n { color: var(--err); }
+.count.sev-warning .n { color: var(--warn); }
+.count.sev-info .n { color: var(--info); }
+.strip-wrap { min-width: 220px; }
+.strip { width: 100%; height: 34px; display: block; }
+.strip-bg { fill: var(--panel-2); }
+.strip-base { stroke: var(--line-strong); stroke-width: 1; }
+
+.charts { display: flex; flex-direction: column; gap: 6px; margin-top: 10px; }
+.chart-block { background: var(--panel); border: 1px solid var(--line); border-radius: 2px; padding: 10px 14px 4px; }
+.chart-block h2 {
+  font-family: var(--mono); font-size: 12px; font-weight: 600; letter-spacing: 0.08em;
+  text-transform: uppercase; color: var(--text-muted); margin: 0 0 4px; overflow-wrap: anywhere;
+}
+.chart { width: 100%; height: auto; display: block; }
+.uncharted { font-family: var(--mono); font-size: 12px; color: var(--text-muted); margin: 8px 2px; overflow-wrap: anywhere; }
+.chart-scroll { overflow-x: auto; }
+.chart-scroll:focus-visible { outline: 2px solid var(--info); outline-offset: 2px; }
+.chart-hint { display: none; }
+.grid { stroke: var(--line); stroke-width: 1; }
+.frame { stroke: var(--line-strong); stroke-width: 1; }
+.axis-y, .axis-x { font-family: var(--mono); font-size: 9px; fill: var(--text-dim); }
+.legend { font-family: var(--mono); font-size: 10px; fill: var(--text-muted); }
+.marker-bad { font-family: var(--mono); font-size: 13px; fill: var(--err); font-weight: 700; }
+.off-scale-label { font-family: var(--mono); font-size: 9px; font-weight: 600; }
+
+.findings-log { margin-top: 28px; }
+.log-title {
+  font-family: var(--mono); font-size: 12px; letter-spacing: 0.1em; text-transform: uppercase;
+  color: var(--text-muted); border-bottom: 1px solid var(--line-strong); padding-bottom: 8px;
+}
+.clean { color: var(--text-muted); font-family: var(--mono); font-size: 13px; }
+.finding { border-bottom: 1px solid var(--line); padding: 14px 0; }
+.finding:last-child { border-bottom: none; }
+.finding-head { display: flex; flex-wrap: wrap; align-items: baseline; gap: 10px; }
+.finding-head h3 { font-size: 14.5px; margin: 0; color: var(--text); font-weight: 600; }
+.chip {
+  font-family: var(--mono); font-size: 10px; font-weight: 700; letter-spacing: 0.06em;
+  padding: 2px 6px; border-radius: 2px; border: 1px solid currentColor;
+}
+.chip.sev-error { color: var(--err); }
+.chip.sev-warning { color: var(--warn); }
+.chip.sev-info { color: var(--info); }
+.steps, .detector { font-family: var(--mono); font-size: 11px; color: var(--text-dim); }
+.detector::before { content: "\00b7 "; }
+.message { margin: 6px 0 4px; color: var(--text); }
+.finding, .brand { overflow-wrap: anywhere; min-width: 0; }
+.evidence { font-family: var(--mono); font-size: 11.5px; color: var(--text-muted); margin: 0 0 6px; }
+.evidence .k { color: var(--text-dim); }
+.fixes { margin: 0; padding-left: 18px; color: var(--text-muted); font-size: 13px; }
+.fixes li { margin: 2px 0; }
+
+.masthead-foot {
+  margin-top: 32px; padding-top: 14px; border-top: 1px solid var(--line);
+  color: var(--text-dim); font-family: var(--mono); font-size: 11px;
+}
+
+@media (max-width: 600px) {
+  .chart { width: 760px; max-width: none; }
+  .axis-y, .axis-x, .legend, .off-scale-label { font-size: 12px; }
+  .chart-hint { display: block; margin: 2px 0 8px; color: var(--text-muted); font-size: 12px; }
+  .brand { flex-wrap: wrap; }
+  .summary { grid-template-columns: repeat(3, auto); }
+  .strip-wrap { grid-column: 1 / -1; order: 10; }
+}
+
+</style>
+</head>
+<body>
+<div class="bezel">
+  <header class="masthead">
+    <div class="brand">
+      <span class="brand-mark" aria-hidden="true">&#9679;</span>
+      <h1 class="brand-name">TRAINSPOTTER</h1>
+      <span class="brand-sub">run diagnostic</span>
+    </div>
+    <dl class="readouts">
+      <div><dt>source</dt><dd>unreadable.csv</dd></div>
+      <div><dt>format</dt><dd>csv</dd></div>
+      
+      <div><dt>steps</dt><dd>0&ndash;119</dd></div>
+      <div><dt>axis source</dt><dd>step</dd></div>
+      
+      
+      <div><dt>generated</dt><dd>2026-10-12 11:00 UTC</dd></div>
+    </dl>
+  </header>
+
+  <main>
+  <section class="input-notes" aria-labelledby="input-heading"><h2 id="input-heading">Input incomplete</h2><ul><li>lr: 1 unreadable values at recorded steps; trajectory checks stop at these gaps. These are not observed NaN/Inf values.</li><li>1 nonblank metric values were not numeric.</li><li>Input is incomplete; findings describe only the readable data.</li></ul></section><details class="unreadable-evidence input-notes"><summary>Unreadable metric values (1 recorded positions)</summary><h2>Known positions, unknown values</h2><p>These positions break the plotted line and trajectory checks. A ? marks an unreadable region; it does not mean NaN or infinity was observed. Ordinary sparse logging cells are not listed.</p><p>Showing 1 of 1 metrics, at most 20 positions each. Repeated positions remain repeated in this evidence.</p><a download="trainspotter-unreadable-values.json" href="data:application/json;base64,eyJzY2hlbWFfdmVyc2lvbiI6IDEsICJzb3VyY2VfcGF0aCI6ICJ1bnJlYWRhYmxlLmNzdiIsICJzdGVwX2F4aXMiOiAic3RlcCIsICJzdGVwX2NvbHVtbiI6ICJzdGVwIiwgInVucmVhZGFibGVfc3RlcHMiOiB7ImxyIjogWzEwXX19">Download all unreadable positions</a><p class="table-hint">Scroll the table horizontally to inspect every column.</p><div class="table-scroll" tabindex="0" role="region" aria-label="Unreadable metric positions"><table><caption>Metric cells whose numeric value could not be read</caption><thead><tr><th scope="col">Metric</th><th scope="col">Unreadable values</th><th scope="col">Steps</th></tr></thead><tbody><tr><th scope="row">lr</th><td>1</td><td>10</td></tr></tbody></table></div></details>
+  <section class="summary">
+    <div class="count sev-error"><span class="n">0</span><span class="l">error</span></div>
+    <div class="count sev-warning"><span class="n">0</span><span class="l">warning</span></div>
+    <div class="count sev-info"><span class="n">3</span><span class="l">info</span></div>
+    <div class="strip-wrap"><svg class="strip" viewBox="0 0 920 34" role="img" aria-label="Finding timeline for the whole run"><rect x="0" y="0" width="920" height="34" class="strip-bg"/><line x1="0" y1="33" x2="920" y2="33" class="strip-base"/><rect x="54.0" y="2" width="4.0" height="28" fill="#5fb3ff" fill-opacity="0.85"/><rect x="331.9" y="2" width="7.1" height="28" fill="#5fb3ff" fill-opacity="0.85"/><rect x="617.0" y="2" width="7.1" height="28" fill="#5fb3ff" fill-opacity="0.85"/></svg></div>
+  </section>
+
+  <details class="input-evidence"><summary>Metric sources and point counts</summary><p class="table-hint">Scroll the table horizontally to inspect every column.</p><div class="table-scroll" tabindex="0" role="region" aria-label="Metric sources and point counts"><table><caption>Names used by the report and their original source</caption><thead><tr><th scope="col">Report metric</th><th scope="col">Source metric</th><th scope="col">Readings</th><th scope="col">Analysis points</th></tr></thead><tbody><tr><th scope="row">lr</th><td>learning_rate</td><td>119</td><td>119</td></tr><tr><th scope="row">train/loss</th><td>loss</td><td>120</td><td>120</td></tr></tbody></table></div></details>
+  
+  <section class="timing-evidence" aria-labelledby="timing-heading"><h2 id="timing-heading">Timing unavailable</h2><p>No eligible timing source. The comparison needs enough step_time or throughput readings, or loss observations with timestamps and explicit training steps. Conflicting repeated-step values are excluded from this check.</p><details><summary>Timing sources and windows</summary><ul><li>wall_time(train/loss): 120 of 120 points have no timestamp. No intervals were bridged across missing timestamps.</li></ul><p>Coordinates: <code>step</code> (steps).</p><p>Default timing check: first and last 20% of observations, at least five each, without overlap. This describes those windows, not every step of the run. Direct throughput is time per reported unit (such as a sample or token). Unavailable timing does not establish stable speed.</p></details></section>
+
+  <div class="charts">
+    <p class="chart-hint">Scroll charts horizontally to inspect the full range of steps.</p>
+    <section class="chart-block"><h2>train/loss</h2><div class="chart-scroll" tabindex="0" role="region" aria-label="train/loss chart"><svg class="chart" viewBox="0 0 920 180" role="img" aria-label="train/loss over steps 0 to 119"><line class="grid" x1="54" y1="154.0" x2="902" y2="154.0"/><text class="axis-y" x="46" y="157.0" text-anchor="end">0</text><line class="grid" x1="54" y1="106.9" x2="902" y2="106.9"/><text class="axis-y" x="46" y="109.9" text-anchor="end">2</text><line class="grid" x1="54" y1="59.7" x2="902" y2="59.7"/><text class="axis-y" x="46" y="62.7" text-anchor="end">4</text><line class="grid" x1="54.0" y1="14" x2="54.0" y2="154"/><text class="axis-x" x="54.0" y="170" text-anchor="middle">0</text><line class="grid" x1="196.5" y1="14" x2="196.5" y2="154"/><text class="axis-x" x="196.5" y="170" text-anchor="middle">20</text><line class="grid" x1="339.0" y1="14" x2="339.0" y2="154"/><text class="axis-x" x="339.0" y="170" text-anchor="middle">40</text><line class="grid" x1="481.6" y1="14" x2="481.6" y2="154"/><text class="axis-x" x="481.6" y="170" text-anchor="middle">60</text><line class="grid" x1="624.1" y1="14" x2="624.1" y2="154"/><text class="axis-x" x="624.1" y="170" text-anchor="middle">80</text><line class="grid" x1="766.6" y1="14" x2="766.6" y2="154"/><text class="axis-x" x="766.6" y="170" text-anchor="middle">100</text><path d="M54.0 24.4 L61.1 44.5 L68.3 60.8 L75.4 74.1 L82.5 84.8 L89.6 93.4 L96.8 100.5 L103.9 106.2 L111.0 110.8 L118.1 114.5 L125.3 117.5 L132.4 120.0 L139.5 122.0 L146.6 123.6 L153.8 124.9 L160.9 125.9 L168.0 126.8 L175.1 127.5 L182.3 128.0 L189.4 128.5 L196.5 128.9 L203.6 129.2 L210.8 129.4 L217.9 129.6 L225.0 129.8 L232.2 129.9 L239.3 130.0 L246.4 130.1 L253.5 130.1 L260.7 130.2 L267.8 130.2 L274.9 130.3 L282.0 130.3 L289.2 130.3 L296.3 130.3 L303.4 130.4 L310.5 130.4 L317.7 130.4 L324.8 130.4 L331.9 130.4 L339.0 130.4 L346.2 130.4 L353.3 130.4 L360.4 130.4 L367.5 130.4 L374.7 130.4 L381.8 130.4 L388.9 130.4 L396.1 130.4 L403.2 130.4 L410.3 130.4 L417.4 130.4 L424.6 130.4 L431.7 130.4 L438.8 130.4 L445.9 130.4 L453.1 130.4 L460.2 130.4 L467.3 130.4 L474.4 130.4 L481.6 130.4 L488.7 130.4 L495.8 130.4 L502.9 130.4 L510.1 130.4 L517.2 130.4 L524.3 130.4 L531.4 130.4 L538.6 130.4 L545.7 130.4 L552.8 130.4 L559.9 130.4 L567.1 130.4 L574.2 130.4 L581.3 130.4 L588.5 130.4 L595.6 130.4 L602.7 130.4 L609.8 130.4 L617.0 130.4 L624.1 130.4 L631.2 130.4 L638.3 130.4 L645.5 130.4 L652.6 130.4 L659.7 130.4 L666.8 130.4 L674.0 130.4 L681.1 130.4 L688.2 130.4 L695.3 130.4 L702.5 130.4 L709.6 130.4 L716.7 130.4 L723.8 130.4 L731.0 130.4 L738.1 130.4 L745.2 130.4 L752.4 130.4 L759.5 130.4 L766.6 130.4 L773.7 130.4 L780.9 130.4 L788.0 130.4 L795.1 130.4 L802.2 130.4 L809.4 130.4 L816.5 130.4 L823.6 130.4 L830.7 130.4 L837.9 130.4 L845.0 130.4 L852.1 130.4 L859.2 130.4 L866.4 130.4 L873.5 130.4 L880.6 130.4 L887.7 130.4 L894.9 130.4 L902.0 130.4" fill="none" stroke="#4fd1e8" stroke-width="1.75"/><rect class="frame" x="54" y="14" width="848" height="140" fill="none"/></svg></div></section><section class="chart-block"><h2>lr</h2><div class="chart-scroll" tabindex="0" role="region" aria-label="lr chart"><svg class="chart" viewBox="0 0 920 180" role="img" aria-label="lr over steps 0 to 119"><line class="grid" x1="54" y1="154.0" x2="902" y2="154.0"/><text class="axis-y" x="46" y="157.0" text-anchor="end">0</text><line class="grid" x1="54" y1="89.2" x2="902" y2="89.2"/><text class="axis-y" x="46" y="92.2" text-anchor="end">0.05</text><line class="grid" x1="54" y1="24.4" x2="902" y2="24.4"/><text class="axis-y" x="46" y="27.4" text-anchor="end">0.1</text><line class="grid" x1="54.0" y1="14" x2="54.0" y2="154"/><text class="axis-x" x="54.0" y="170" text-anchor="middle">0</text><line class="grid" x1="196.5" y1="14" x2="196.5" y2="154"/><text class="axis-x" x="196.5" y="170" text-anchor="middle">20</text><line class="grid" x1="339.0" y1="14" x2="339.0" y2="154"/><text class="axis-x" x="339.0" y="170" text-anchor="middle">40</text><line class="grid" x1="481.6" y1="14" x2="481.6" y2="154"/><text class="axis-x" x="481.6" y="170" text-anchor="middle">60</text><line class="grid" x1="624.1" y1="14" x2="624.1" y2="154"/><text class="axis-x" x="624.1" y="170" text-anchor="middle">80</text><line class="grid" x1="766.6" y1="14" x2="766.6" y2="154"/><text class="axis-x" x="766.6" y="170" text-anchor="middle">100</text><rect class="finding-band" x="54.0" y="14" width="3.0" height="140" fill="#5fb3ff" fill-opacity="0.16"/><line x1="54.0" y1="14" x2="54.0" y2="154" stroke="#5fb3ff" stroke-opacity="0.55" stroke-width="1"/><rect class="finding-band" x="331.9" y="14" width="7.1" height="140" fill="#5fb3ff" fill-opacity="0.16"/><line x1="331.9" y1="14" x2="331.9" y2="154" stroke="#5fb3ff" stroke-opacity="0.55" stroke-width="1"/><rect class="finding-band" x="617.0" y="14" width="7.1" height="140" fill="#5fb3ff" fill-opacity="0.16"/><line x1="617.0" y1="14" x2="617.0" y2="154" stroke="#5fb3ff" stroke-opacity="0.55" stroke-width="1"/><path d="M54.0 24.4 L61.1 24.4 L68.3 24.4 L75.4 24.4 L82.5 24.4 L89.6 24.4 L96.8 24.4 L103.9 24.4 L111.0 24.4 L118.1 24.4" fill="none" stroke="#b39dff" stroke-width="1.75"/><path d="M132.4 24.4 L139.5 24.4 L146.6 24.4 L153.8 24.4 L160.9 24.4 L168.0 24.4 L175.1 24.4 L182.3 24.4 L189.4 24.4 L196.5 24.4 L203.6 24.4 L210.8 24.4 L217.9 24.4 L225.0 24.4 L232.2 24.4 L239.3 24.4 L246.4 24.4 L253.5 24.4 L260.7 24.4 L267.8 24.4 L274.9 24.4 L282.0 24.4 L289.2 24.4 L296.3 24.4 L303.4 24.4 L310.5 24.4 L317.7 24.4 L324.8 24.4 L331.9 24.4 L339.0 89.2 L346.2 89.2 L353.3 89.2 L360.4 89.2 L367.5 89.2 L374.7 89.2 L381.8 89.2 L388.9 89.2 L396.1 89.2 L403.2 89.2 L410.3 89.2 L417.4 89.2 L424.6 89.2 L431.7 89.2 L438.8 89.2 L445.9 89.2 L453.1 89.2 L460.2 89.2 L467.3 89.2 L474.4 89.2 L481.6 89.2 L488.7 89.2 L495.8 89.2 L502.9 89.2 L510.1 89.2 L517.2 89.2 L524.3 89.2 L531.4 89.2 L538.6 89.2 L545.7 89.2 L552.8 89.2 L559.9 89.2 L567.1 89.2 L574.2 89.2 L581.3 89.2 L588.5 89.2 L595.6 89.2 L602.7 89.2 L609.8 89.2 L617.0 89.2 L624.1 121.6 L631.2 121.6 L638.3 121.6 L645.5 121.6 L652.6 121.6 L659.7 121.6 L666.8 121.6 L674.0 121.6 L681.1 121.6 L688.2 121.6 L695.3 121.6 L702.5 121.6 L709.6 121.6 L716.7 121.6 L723.8 121.6 L731.0 121.6 L738.1 121.6 L745.2 121.6 L752.4 121.6 L759.5 121.6 L766.6 121.6 L773.7 121.6 L780.9 121.6 L788.0 121.6 L795.1 121.6 L802.2 121.6 L809.4 121.6 L816.5 121.6 L823.6 121.6 L830.7 121.6 L837.9 121.6 L845.0 121.6 L852.1 121.6 L859.2 121.6 L866.4 121.6 L873.5 121.6 L880.6 121.6 L887.7 121.6 L894.9 121.6 L902.0 121.6" fill="none" stroke="#b39dff" stroke-width="1.75"/><text class="marker-unreadable" data-count="1" x="125.3" y="24.0" text-anchor="middle" fill="#b39dff"><title>1 unreadable values (steps 10-10)</title>?</text><rect class="frame" x="54" y="14" width="848" height="140" fill="none"/></svg></div></section>
+  </div>
+
+  <section class="findings-log">
+    <h2 class="log-title">Findings log</h2>
+    <article class="finding sev-info">
+  <div class="finding-head">
+    <span class="chip sev-info">INFO</span>
+    <span class="steps">steps 0</span>
+    <span class="detector">lr_schedule</span>
+    <h3>No LR warmup detected</h3>
+  </div>
+  <p class="message">lr starts at 0.1, already 100% of the run's peak (0.1) -- no ramp-up phase visible in the log. Peak assessed from 119 usable readings; 1 unusable reading was excluded.</p>
+  <p class="evidence"><span class='k'>initial_lr</span>=0.1 &nbsp; <span class='k'>peak_lr</span>=0.1 &nbsp; <span class='k'>usable_lr_readings</span>=119 &nbsp; <span class='k'>unusable_lr_readings</span>=1</p>
+  <ul class="fixes"><li>If the first steps are unstable (see any spike or setback findings near the start), add LR warmup over the first 1-10% of steps.</li><li>If warmup is configured but not logged until after it finishes, this may be a logging artifact -- check the logging interval.</li></ul>
+</article>
+<article class="finding sev-info">
+  <div class="finding-head">
+    <span class="chip sev-info">INFO</span>
+    <span class="steps">steps 39&ndash;40</span>
+    <span class="detector">lr_schedule</span>
+    <h3>LR discontinuity</h3>
+  </div>
+  <p class="message">lr jumped from 0.1 to 0.05 between step 39 and 40 -- 67% of the run's usable LR range (0.075) in a single step, out of line with the logged intervals around it. Adjacency assessed within steps 11-119 (109 usable readings); no schedule is inferred across unreadable, non-finite or negative readings.</p>
+  <p class="evidence"><span class='k'>before</span>=0.1 &nbsp; <span class='k'>after</span>=0.05 &nbsp; <span class='k'>jump_fraction_of_range</span>=0.6667 &nbsp; <span class='k'>segment_start_step</span>=11 &nbsp; <span class='k'>segment_end_step</span>=119 &nbsp; <span class='k'>segment_observations</span>=109 &nbsp; <span class='k'>usable_lr_readings</span>=119 &nbsp; <span class='k'>unusable_lr_readings</span>=1 &nbsp; <span class='k'>usable_lr_range</span>=0.075</p>
+  <ul class="fixes"><li>Check for a checkpoint resume where the scheduler's step counter didn't match the optimizer's.</li><li>Check for a manual LR override mid-run.</li></ul>
+</article>
+<article class="finding sev-info">
+  <div class="finding-head">
+    <span class="chip sev-info">INFO</span>
+    <span class="steps">steps 79&ndash;80</span>
+    <span class="detector">lr_schedule</span>
+    <h3>LR discontinuity</h3>
+  </div>
+  <p class="message">lr jumped from 0.05 to 0.025 between step 79 and 80 -- 33% of the run's usable LR range (0.075) in a single step, out of line with the logged intervals around it. Adjacency assessed within steps 11-119 (109 usable readings); no schedule is inferred across unreadable, non-finite or negative readings.</p>
+  <p class="evidence"><span class='k'>before</span>=0.05 &nbsp; <span class='k'>after</span>=0.025 &nbsp; <span class='k'>jump_fraction_of_range</span>=0.3333 &nbsp; <span class='k'>segment_start_step</span>=11 &nbsp; <span class='k'>segment_end_step</span>=119 &nbsp; <span class='k'>segment_observations</span>=109 &nbsp; <span class='k'>usable_lr_readings</span>=119 &nbsp; <span class='k'>unusable_lr_readings</span>=1 &nbsp; <span class='k'>usable_lr_range</span>=0.075</p>
+  <ul class="fixes"><li>Check for a checkpoint resume where the scheduler's step counter didn't match the optimizer's.</li><li>Check for a manual LR override mid-run.</li></ul>
+</article>
+  </section>
+  </main>
+
+  <footer class="masthead-foot">
+    <span>trainspotter &mdash; heuristic diagnostics, not ground truth. Read each finding's false-positive modes before acting on it.</span>
+  </footer>
+</div>
+</body>
+</html>
