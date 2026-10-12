@@ -211,6 +211,8 @@ class PlateauDetector(Detector):
         # across the union of windows; each condition measures a different fact.
         smoothing_window = min(MAX_LEVEL_WINDOW, max(3, (window // 2) | 1))
         constant = bool(np.all(values == values[0]))
+        minima: FloatArray
+        maxima: FloatArray
         if constant:
             # Preserve the exact window result without sorting millions of
             # identical observations or grouping every identical window.
@@ -223,6 +225,7 @@ class PlateauDetector(Detector):
         # of loss levels: isolated level jumps must not inflate the allowance.
         # Cap this window too, so long logs do not restore quadratic work.
         noise_window = min(MAX_LEVEL_WINDOW, max(1, window - 1))
+        noise_allowance: FloatArray
         if constant:
             noise_allowance = np.zeros(n - window + 1)
         else:

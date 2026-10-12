@@ -87,7 +87,7 @@ continue to exclude the metric's trajectory.
 JSON keeps original reading counts in `run.metrics[name].count` and
 `analysis_count` (unreadable positions are not counted as numeric readings).
 A metric with unreadable positions adds `unreadable_steps`, retaining repetitions.
-Its first/last step bounds include those recorded positions. An unreadable value
+Its first/last step bounds and `distinct_steps` include those recorded positions. An unreadable value
 in repeated-step evidence is JSON `null`; observed NaN remains the string `"nan"`.
 The standalone HTML marks unreadable positions with `?`, breaks its plotted line,
 and provides a complete offline JSON download of their coordinates. Its table

@@ -87,7 +87,7 @@ def flat_slope_windows(
             dy -= dy[0]
         sx_scale, sy_scale = np.max(np.abs(dx)), np.max(np.abs(dy))
         safe = bool(np.isfinite(sx_scale) and np.isfinite(sy_scale) and sx_scale > 0 and sy_scale > 0)
-        trusted = np.zeros(hi - lo, dtype=bool)
+        trusted: BoolArray = np.zeros(hi - lo, dtype=bool)
         if safe:
             dx, dy = dx / sx_scale, dy / sy_scale
             dx -= dx.mean()
