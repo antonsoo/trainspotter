@@ -312,6 +312,15 @@ class Run:
                 f"Training-step column {axis!r} was selected explicitly (--step-key); "
                 "its values are interpreted as training-step counts."
             )
+        chart_identity = self.meta.get("chart_identity")
+        if (isinstance(chart_identity, dict)
+                and chart_identity.get("interpretation") == "declared_single_run"):
+            notes.append(
+                f"All chart value columns were declared to belong to run "
+                f"{chart_identity['selected_run']!r} (--chart-single-run); "
+                "metric names retain the remaining label, including separators. "
+                "The CSV alone cannot verify this declaration."
+            )
         if not self.input_complete():
             notes.append("Input is incomplete; findings describe only the readable data.")
         return notes

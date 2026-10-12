@@ -268,6 +268,13 @@ This behavior is unreleased and is not in the published 0.2.6 package.
 
 A source with several runs is analysed one run at a time: the run with the
 most points, unless `--run` names another (its name, or the start of it).
+W&B chart labels containing multiple ` - ` separators are ambiguous and are
+rejected. For a chart exported from **one run**, `--chart-single-run 'exact name'`
+declares that every value column belongs to that run and preserves the remaining
+metric name. This is an assertion about the file, recorded in reports; a shared
+prefix does not prove ownership. [Examples and recovery](docs/wandb-chart-identity.md).
+This option is unreleased and is not in the published 0.2.6 package.
+
 Real output, for two of the bundled example runs written as one TensorBoard
 logdir:
 

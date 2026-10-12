@@ -1,0 +1,558 @@
+{
+  "expectation": "before",
+  "provenance": "synthetic; not hosted W&B exports",
+  "inputSha256": {
+    "ambiguous.csv": "c0e87f4835fb7ac4d25b02fb551e451733e736da9db48005fc8481ee4cdc8c98",
+    "history.csv": "138c239289a4ae700679714f5207222d061d28580e5f39fea5077ab8f7617869",
+    "literal.csv": "52017b6be9561336ff98913b9faa2615b3d22ff2b287d978b0ad6ec45193737f",
+    "ordinary.csv": "fbee85f8fea018da1ec490ff15b884fd7dfc53a16fe5186b6b709d2fb5e33ce0",
+    "resumed.csv": "f511d1a9251c063d563f4f0302be9f755edc6c8c37cc1f693939143cf680e4c9"
+  },
+  "historyControl": {
+    "schema_version": 1,
+    "run": {
+      "source_format": "wandb",
+      "source_path": "history.csv",
+      "skipped_rows": 0,
+      "skipped_values": 0,
+      "input_complete": true,
+      "input_notes": [],
+      "unread_event_bytes": 0,
+      "event_directories": [],
+      "overwritten_points": 0,
+      "restart_markers": 0,
+      "step_column": "trainer/global_step",
+      "step_axis": "step",
+      "step_selection": "automatic",
+      "metric_sources": {
+        "train/loss": "train/loss",
+        "eval/loss": "eval/loss"
+      },
+      "ambiguous_metric_sources": [],
+      "repeated_steps": [],
+      "metrics": {
+        "eval/loss": {
+          "count": 50,
+          "analysis_count": 50,
+          "distinct_steps": 50,
+          "analysis_excluded": false,
+          "first_step": 0,
+          "last_step": 49
+        },
+        "train/loss": {
+          "count": 50,
+          "analysis_count": 50,
+          "distinct_steps": 50,
+          "analysis_excluded": false,
+          "first_step": 0,
+          "last_step": 49
+        }
+      }
+    },
+    "summary": {
+      "input_complete": true,
+      "total_findings": 1,
+      "by_severity": {
+        "error": 1,
+        "warning": 0,
+        "info": 0
+      }
+    },
+    "timing": {
+      "status": "unavailable",
+      "axis": "step",
+      "source": null,
+      "source_metric": null,
+      "unit": null,
+      "observations": 0,
+      "invalid_observations": 0,
+      "baseline": null,
+      "recent": null,
+      "ratio": null,
+      "reason": "No eligible timing source. The comparison needs enough step_time or throughput readings, or loss observations with timestamps and explicit training steps. Conflicting repeated-step values are excluded from this check.",
+      "notes": [
+        "wall_time(train/loss): 50 of 50 points have no timestamp. No intervals were bridged across missing timestamps.",
+        "wall_time(eval/loss): 50 of 50 points have no timestamp. No intervals were bridged across missing timestamps."
+      ],
+      "min_window": 5,
+      "baseline_fraction": 0.2
+    },
+    "findings": [
+      {
+        "detector": "overfitting",
+        "title": "Possible overfitting",
+        "severity": "error",
+        "metric": "eval/loss",
+        "step_start": 0,
+        "step_end": 49,
+        "message": "Lowest logged eval/loss in this finite segment was 0.5 at step 0; the last value is 1.48 (196.0%, slope diagnostic p<0.0001). Within their shared interval, train/loss trends down (50 readings, steps 0-49) while eval/loss trends up (50 readings, steps 0-49). This is consistent with overfitting, but does not establish its cause.",
+        "evidence": {
+          "segment_start": 0,
+          "segment_observations": 50,
+          "best_step": 0,
+          "best_value": 0.5,
+          "current_value": 1.48,
+          "relative_rise": 1.96,
+          "slope_p_value": 0.0,
+          "slope_status": "assessed",
+          "training_status": "opposing_trends",
+          "training_observations": 50,
+          "overlap_eval_observations": 50,
+          "training_step_start": 0,
+          "training_step_end": 49,
+          "overlap_eval_step_start": 0,
+          "overlap_eval_step_end": 49,
+          "training_scaled_slope": -0.01,
+          "training_slope_p_value": 0.0,
+          "overlap_eval_scaled_slope": 0.013513513513513514,
+          "overlap_eval_slope_p_value": 0.0
+        },
+        "fixes": [
+          "If a checkpoint was saved near step 0, compare it with the last saved checkpoint on the same evaluation examples.",
+          "Check evaluation-data and metric-definition changes before attributing the rise to training.",
+          "If the regression persists on a comparable evaluation set, consider early stopping, regularization, or more training data."
+        ]
+      }
+    ]
+  },
+  "records": [
+    {
+      "name": "ambiguous",
+      "options": [],
+      "automatic": {
+        "status": 0,
+        "stdout": "{\n  \"schema_version\": 1,\n  \"run\": {\n    \"source_format\": \"wandb\",\n    \"source_path\": \"ambiguous.csv\",\n    \"skipped_rows\": 0,\n    \"skipped_values\": 0,\n    \"input_complete\": true,\n    \"input_notes\": [],\n    \"unread_event_bytes\": 0,\n    \"event_directories\": [],\n    \"overwritten_points\": 0,\n    \"restart_markers\": 0,\n    \"step_column\": \"trainer/global_step\",\n    \"step_axis\": \"step\",\n    \"step_selection\": \"automatic\",\n    \"metric_sources\": {\n      \"train/loss\": \"loss\"\n    },\n    \"ambiguous_metric_sources\": [],\n    \"repeated_steps\": [],\n    \"selected_run\": \"runA - train\",\n    \"runs\": [\n      {\n        \"name\": \"runA - train\",\n        \"points\": 50\n      },\n      {\n        \"name\": \"runA - eval\",\n        \"points\": 50\n      }\n    ],\n    \"metrics\": {\n      \"train/loss\": {\n        \"count\": 50,\n        \"analysis_count\": 50,\n        \"distinct_steps\": 50,\n        \"analysis_excluded\": false,\n        \"first_step\": 0,\n        \"last_step\": 49\n      }\n    }\n  },\n  \"summary\": {\n    \"input_complete\": true,\n    \"total_findings\": 0,\n    \"by_severity\": {\n      \"error\": 0,\n      \"warning\": 0,\n      \"info\": 0\n    }\n  },\n  \"timing\": {\n    \"status\": \"unavailable\",\n    \"axis\": \"step\",\n    \"source\": null,\n    \"source_metric\": null,\n    \"unit\": null,\n    \"observations\": 0,\n    \"invalid_observations\": 0,\n    \"baseline\": null,\n    \"recent\": null,\n    \"ratio\": null,\n    \"reason\": \"No eligible timing source. The comparison needs enough step_time or throughput readings, or loss observations with timestamps and explicit training steps. Conflicting repeated-step values are excluded from this check.\",\n    \"notes\": [\n      \"wall_time(train/loss): 50 of 50 points have no timestamp. No intervals were bridged across missing timestamps.\"\n    ],\n    \"min_window\": 5,\n    \"baseline_fraction\": 0.2\n  },\n  \"findings\": []\n}\n",
+        "stderr": ""
+      },
+      "report": {
+        "schema_version": 1,
+        "run": {
+          "source_format": "wandb",
+          "source_path": "ambiguous.csv",
+          "skipped_rows": 0,
+          "skipped_values": 0,
+          "input_complete": true,
+          "input_notes": [],
+          "unread_event_bytes": 0,
+          "event_directories": [],
+          "overwritten_points": 0,
+          "restart_markers": 0,
+          "step_column": "trainer/global_step",
+          "step_axis": "step",
+          "step_selection": "automatic",
+          "metric_sources": {
+            "train/loss": "loss"
+          },
+          "ambiguous_metric_sources": [],
+          "repeated_steps": [],
+          "selected_run": "runA - train",
+          "runs": [
+            {
+              "name": "runA - train",
+              "points": 50
+            },
+            {
+              "name": "runA - eval",
+              "points": 50
+            }
+          ],
+          "metrics": {
+            "train/loss": {
+              "count": 50,
+              "analysis_count": 50,
+              "distinct_steps": 50,
+              "analysis_excluded": false,
+              "first_step": 0,
+              "last_step": 49
+            }
+          }
+        },
+        "summary": {
+          "input_complete": true,
+          "total_findings": 0,
+          "by_severity": {
+            "error": 0,
+            "warning": 0,
+            "info": 0
+          }
+        },
+        "timing": {
+          "status": "unavailable",
+          "axis": "step",
+          "source": null,
+          "source_metric": null,
+          "unit": null,
+          "observations": 0,
+          "invalid_observations": 0,
+          "baseline": null,
+          "recent": null,
+          "ratio": null,
+          "reason": "No eligible timing source. The comparison needs enough step_time or throughput readings, or loss observations with timestamps and explicit training steps. Conflicting repeated-step values are excluded from this check.",
+          "notes": [
+            "wall_time(train/loss): 50 of 50 points have no timestamp. No intervals were bridged across missing timestamps."
+          ],
+          "min_window": 5,
+          "baseline_fraction": 0.2
+        },
+        "findings": []
+      },
+      "watch": {
+        "status": 0,
+        "stdout": "watching ambiguous.csv (Ctrl-C to stop)\nrun      runA - train (selection held while watching)\n",
+        "stderr": ""
+      },
+      "htmlSha256": "4fb4e612b4df2767257e32ba00de2ecba1b8f934b8d12be2b81d55b9c7a92a92"
+    },
+    {
+      "name": "resumed",
+      "options": [],
+      "automatic": {
+        "status": 0,
+        "stdout": "{\n  \"schema_version\": 1,\n  \"run\": {\n    \"source_format\": \"wandb\",\n    \"source_path\": \"resumed.csv\",\n    \"skipped_rows\": 0,\n    \"skipped_values\": 0,\n    \"input_complete\": true,\n    \"input_notes\": [],\n    \"unread_event_bytes\": 0,\n    \"event_directories\": [],\n    \"overwritten_points\": 0,\n    \"restart_markers\": 0,\n    \"step_column\": \"trainer/global_step\",\n    \"step_axis\": \"step\",\n    \"step_selection\": \"automatic\",\n    \"metric_sources\": {\n      \"train/loss\": \"train/loss\",\n      \"eval/loss\": \"eval/loss\"\n    },\n    \"ambiguous_metric_sources\": [],\n    \"repeated_steps\": [],\n    \"metrics\": {\n      \"eval/loss\": {\n        \"count\": 50,\n        \"analysis_count\": 50,\n        \"distinct_steps\": 50,\n        \"analysis_excluded\": false,\n        \"first_step\": 0,\n        \"last_step\": 49\n      },\n      \"train/loss\": {\n        \"count\": 50,\n        \"analysis_count\": 50,\n        \"distinct_steps\": 50,\n        \"analysis_excluded\": false,\n        \"first_step\": 0,\n        \"last_step\": 49\n      }\n    }\n  },\n  \"summary\": {\n    \"input_complete\": true,\n    \"total_findings\": 1,\n    \"by_severity\": {\n      \"error\": 1,\n      \"warning\": 0,\n      \"info\": 0\n    }\n  },\n  \"timing\": {\n    \"status\": \"unavailable\",\n    \"axis\": \"step\",\n    \"source\": null,\n    \"source_metric\": null,\n    \"unit\": null,\n    \"observations\": 0,\n    \"invalid_observations\": 0,\n    \"baseline\": null,\n    \"recent\": null,\n    \"ratio\": null,\n    \"reason\": \"No eligible timing source. The comparison needs enough step_time or throughput readings, or loss observations with timestamps and explicit training steps. Conflicting repeated-step values are excluded from this check.\",\n    \"notes\": [\n      \"wall_time(train/loss): 50 of 50 points have no timestamp. No intervals were bridged across missing timestamps.\",\n      \"wall_time(eval/loss): 50 of 50 points have no timestamp. No intervals were bridged across missing timestamps.\"\n    ],\n    \"min_window\": 5,\n    \"baseline_fraction\": 0.2\n  },\n  \"findings\": [\n    {\n      \"detector\": \"overfitting\",\n      \"title\": \"Possible overfitting\",\n      \"severity\": \"error\",\n      \"metric\": \"eval/loss\",\n      \"step_start\": 0,\n      \"step_end\": 49,\n      \"message\": \"Lowest logged eval/loss in this finite segment was 0.5 at step 0; the last value is 1.48 (196.0%, slope diagnostic p<0.0001). Within their shared interval, train/loss trends down (50 readings, steps 0-49) while eval/loss trends up (50 readings, steps 0-49). This is consistent with overfitting, but does not establish its cause.\",\n      \"evidence\": {\n        \"segment_start\": 0,\n        \"segment_observations\": 50,\n        \"best_step\": 0,\n        \"best_value\": 0.5,\n        \"current_value\": 1.48,\n        \"relative_rise\": 1.96,\n        \"slope_p_value\": 0.0,\n        \"slope_status\": \"assessed\",\n        \"training_status\": \"opposing_trends\",\n        \"training_observations\": 50,\n        \"overlap_eval_observations\": 50,\n        \"training_step_start\": 0,\n        \"training_step_end\": 49,\n        \"overlap_eval_step_start\": 0,\n        \"overlap_eval_step_end\": 49,\n        \"training_scaled_slope\": -0.01,\n        \"training_slope_p_value\": 0.0,\n        \"overlap_eval_scaled_slope\": 0.013513513513513514,\n        \"overlap_eval_slope_p_value\": 0.0\n      },\n      \"fixes\": [\n        \"If a checkpoint was saved near step 0, compare it with the last saved checkpoint on the same evaluation examples.\",\n        \"Check evaluation-data and metric-definition changes before attributing the rise to training.\",\n        \"If the regression persists on a comparable evaluation set, consider early stopping, regularization, or more training data.\"\n      ]\n    }\n  ]\n}\n",
+        "stderr": ""
+      },
+      "report": {
+        "schema_version": 1,
+        "run": {
+          "source_format": "wandb",
+          "source_path": "resumed.csv",
+          "skipped_rows": 0,
+          "skipped_values": 0,
+          "input_complete": true,
+          "input_notes": [],
+          "unread_event_bytes": 0,
+          "event_directories": [],
+          "overwritten_points": 0,
+          "restart_markers": 0,
+          "step_column": "trainer/global_step",
+          "step_axis": "step",
+          "step_selection": "automatic",
+          "metric_sources": {
+            "train/loss": "train/loss",
+            "eval/loss": "eval/loss"
+          },
+          "ambiguous_metric_sources": [],
+          "repeated_steps": [],
+          "metrics": {
+            "eval/loss": {
+              "count": 50,
+              "analysis_count": 50,
+              "distinct_steps": 50,
+              "analysis_excluded": false,
+              "first_step": 0,
+              "last_step": 49
+            },
+            "train/loss": {
+              "count": 50,
+              "analysis_count": 50,
+              "distinct_steps": 50,
+              "analysis_excluded": false,
+              "first_step": 0,
+              "last_step": 49
+            }
+          }
+        },
+        "summary": {
+          "input_complete": true,
+          "total_findings": 1,
+          "by_severity": {
+            "error": 1,
+            "warning": 0,
+            "info": 0
+          }
+        },
+        "timing": {
+          "status": "unavailable",
+          "axis": "step",
+          "source": null,
+          "source_metric": null,
+          "unit": null,
+          "observations": 0,
+          "invalid_observations": 0,
+          "baseline": null,
+          "recent": null,
+          "ratio": null,
+          "reason": "No eligible timing source. The comparison needs enough step_time or throughput readings, or loss observations with timestamps and explicit training steps. Conflicting repeated-step values are excluded from this check.",
+          "notes": [
+            "wall_time(train/loss): 50 of 50 points have no timestamp. No intervals were bridged across missing timestamps.",
+            "wall_time(eval/loss): 50 of 50 points have no timestamp. No intervals were bridged across missing timestamps."
+          ],
+          "min_window": 5,
+          "baseline_fraction": 0.2
+        },
+        "findings": [
+          {
+            "detector": "overfitting",
+            "title": "Possible overfitting",
+            "severity": "error",
+            "metric": "eval/loss",
+            "step_start": 0,
+            "step_end": 49,
+            "message": "Lowest logged eval/loss in this finite segment was 0.5 at step 0; the last value is 1.48 (196.0%, slope diagnostic p<0.0001). Within their shared interval, train/loss trends down (50 readings, steps 0-49) while eval/loss trends up (50 readings, steps 0-49). This is consistent with overfitting, but does not establish its cause.",
+            "evidence": {
+              "segment_start": 0,
+              "segment_observations": 50,
+              "best_step": 0,
+              "best_value": 0.5,
+              "current_value": 1.48,
+              "relative_rise": 1.96,
+              "slope_p_value": 0.0,
+              "slope_status": "assessed",
+              "training_status": "opposing_trends",
+              "training_observations": 50,
+              "overlap_eval_observations": 50,
+              "training_step_start": 0,
+              "training_step_end": 49,
+              "overlap_eval_step_start": 0,
+              "overlap_eval_step_end": 49,
+              "training_scaled_slope": -0.01,
+              "training_slope_p_value": 0.0,
+              "overlap_eval_scaled_slope": 0.013513513513513514,
+              "overlap_eval_slope_p_value": 0.0
+            },
+            "fixes": [
+              "If a checkpoint was saved near step 0, compare it with the last saved checkpoint on the same evaluation examples.",
+              "Check evaluation-data and metric-definition changes before attributing the rise to training.",
+              "If the regression persists on a comparable evaluation set, consider early stopping, regularization, or more training data."
+            ]
+          }
+        ]
+      },
+      "watch": {
+        "status": 0,
+        "stdout": "watching resumed.csv (Ctrl-C to stop)\nrun      experiment - resumed (selection held while watching)\n[ERROR  ] steps 0-49          overfitting  Possible overfitting: Lowest logged eval/loss in this finite segment was 0.5 at step 0; the last value is 1.48 (196.0%, slope diagnostic p<0.0001). Within their shared interval, train/loss trends down (50 readings, steps 0-49) while eval/loss trends up (50 readings, steps 0-49). This is consistent with overfitting, but does not establish its cause.\n",
+        "stderr": ""
+      },
+      "htmlSha256": "69a153a037021dbb15b88607a6a25184459105e5887f0fee40115cc2bf1bed34"
+    },
+    {
+      "name": "literal",
+      "options": [],
+      "automatic": {
+        "status": 0,
+        "stdout": "{\n  \"schema_version\": 1,\n  \"run\": {\n    \"source_format\": \"wandb\",\n    \"source_path\": \"literal.csv\",\n    \"skipped_rows\": 0,\n    \"skipped_values\": 0,\n    \"input_complete\": true,\n    \"input_notes\": [],\n    \"unread_event_bytes\": 0,\n    \"event_directories\": [],\n    \"overwritten_points\": 0,\n    \"restart_markers\": 0,\n    \"step_column\": \"trainer/global_step\",\n    \"step_axis\": \"step\",\n    \"step_selection\": \"automatic\",\n    \"metric_sources\": {\n      \"train/loss\": \"loss\"\n    },\n    \"ambiguous_metric_sources\": [],\n    \"repeated_steps\": [],\n    \"selected_run\": \"<run & \\\"name\\\"> - train\",\n    \"runs\": [\n      {\n        \"name\": \"<run & \\\"name\\\"> - train\",\n        \"points\": 50\n      },\n      {\n        \"name\": \"<run & \\\"name\\\"> - eval\",\n        \"points\": 50\n      }\n    ],\n    \"metrics\": {\n      \"train/loss\": {\n        \"count\": 50,\n        \"analysis_count\": 50,\n        \"distinct_steps\": 50,\n        \"analysis_excluded\": false,\n        \"first_step\": 0,\n        \"last_step\": 49\n      }\n    }\n  },\n  \"summary\": {\n    \"input_complete\": true,\n    \"total_findings\": 0,\n    \"by_severity\": {\n      \"error\": 0,\n      \"warning\": 0,\n      \"info\": 0\n    }\n  },\n  \"timing\": {\n    \"status\": \"unavailable\",\n    \"axis\": \"step\",\n    \"source\": null,\n    \"source_metric\": null,\n    \"unit\": null,\n    \"observations\": 0,\n    \"invalid_observations\": 0,\n    \"baseline\": null,\n    \"recent\": null,\n    \"ratio\": null,\n    \"reason\": \"No eligible timing source. The comparison needs enough step_time or throughput readings, or loss observations with timestamps and explicit training steps. Conflicting repeated-step values are excluded from this check.\",\n    \"notes\": [\n      \"wall_time(train/loss): 50 of 50 points have no timestamp. No intervals were bridged across missing timestamps.\"\n    ],\n    \"min_window\": 5,\n    \"baseline_fraction\": 0.2\n  },\n  \"findings\": []\n}\n",
+        "stderr": ""
+      },
+      "report": {
+        "schema_version": 1,
+        "run": {
+          "source_format": "wandb",
+          "source_path": "literal.csv",
+          "skipped_rows": 0,
+          "skipped_values": 0,
+          "input_complete": true,
+          "input_notes": [],
+          "unread_event_bytes": 0,
+          "event_directories": [],
+          "overwritten_points": 0,
+          "restart_markers": 0,
+          "step_column": "trainer/global_step",
+          "step_axis": "step",
+          "step_selection": "automatic",
+          "metric_sources": {
+            "train/loss": "loss"
+          },
+          "ambiguous_metric_sources": [],
+          "repeated_steps": [],
+          "selected_run": "<run & \"name\"> - train",
+          "runs": [
+            {
+              "name": "<run & \"name\"> - train",
+              "points": 50
+            },
+            {
+              "name": "<run & \"name\"> - eval",
+              "points": 50
+            }
+          ],
+          "metrics": {
+            "train/loss": {
+              "count": 50,
+              "analysis_count": 50,
+              "distinct_steps": 50,
+              "analysis_excluded": false,
+              "first_step": 0,
+              "last_step": 49
+            }
+          }
+        },
+        "summary": {
+          "input_complete": true,
+          "total_findings": 0,
+          "by_severity": {
+            "error": 0,
+            "warning": 0,
+            "info": 0
+          }
+        },
+        "timing": {
+          "status": "unavailable",
+          "axis": "step",
+          "source": null,
+          "source_metric": null,
+          "unit": null,
+          "observations": 0,
+          "invalid_observations": 0,
+          "baseline": null,
+          "recent": null,
+          "ratio": null,
+          "reason": "No eligible timing source. The comparison needs enough step_time or throughput readings, or loss observations with timestamps and explicit training steps. Conflicting repeated-step values are excluded from this check.",
+          "notes": [
+            "wall_time(train/loss): 50 of 50 points have no timestamp. No intervals were bridged across missing timestamps."
+          ],
+          "min_window": 5,
+          "baseline_fraction": 0.2
+        },
+        "findings": []
+      },
+      "watch": {
+        "status": 0,
+        "stdout": "watching literal.csv (Ctrl-C to stop)\nrun      <run & \"name\"> - train (selection held while watching)\n",
+        "stderr": ""
+      },
+      "htmlSha256": "3ca1db77b65678455c9b011c5fa9b40de1c1b36732a25c13ff916b39d73bb4ce"
+    },
+    {
+      "name": "ordinary",
+      "options": [
+        "--run",
+        "runA"
+      ],
+      "automatic": {
+        "status": 0,
+        "stdout": "{\n  \"schema_version\": 1,\n  \"run\": {\n    \"source_format\": \"wandb\",\n    \"source_path\": \"ordinary.csv\",\n    \"skipped_rows\": 0,\n    \"skipped_values\": 0,\n    \"input_complete\": true,\n    \"input_notes\": [],\n    \"unread_event_bytes\": 0,\n    \"event_directories\": [],\n    \"overwritten_points\": 0,\n    \"restart_markers\": 0,\n    \"step_column\": \"trainer/global_step\",\n    \"step_axis\": \"step\",\n    \"step_selection\": \"automatic\",\n    \"metric_sources\": {\n      \"train/loss\": \"train/loss\",\n      \"eval/loss\": \"eval/loss\"\n    },\n    \"ambiguous_metric_sources\": [],\n    \"repeated_steps\": [],\n    \"selected_run\": \"runA\",\n    \"runs\": [\n      {\n        \"name\": \"runA\",\n        \"points\": 100\n      },\n      {\n        \"name\": \"other\",\n        \"points\": 50\n      }\n    ],\n    \"metrics\": {\n      \"eval/loss\": {\n        \"count\": 50,\n        \"analysis_count\": 50,\n        \"distinct_steps\": 50,\n        \"analysis_excluded\": false,\n        \"first_step\": 0,\n        \"last_step\": 49\n      },\n      \"train/loss\": {\n        \"count\": 50,\n        \"analysis_count\": 50,\n        \"distinct_steps\": 50,\n        \"analysis_excluded\": false,\n        \"first_step\": 0,\n        \"last_step\": 49\n      }\n    }\n  },\n  \"summary\": {\n    \"input_complete\": true,\n    \"total_findings\": 1,\n    \"by_severity\": {\n      \"error\": 1,\n      \"warning\": 0,\n      \"info\": 0\n    }\n  },\n  \"timing\": {\n    \"status\": \"unavailable\",\n    \"axis\": \"step\",\n    \"source\": null,\n    \"source_metric\": null,\n    \"unit\": null,\n    \"observations\": 0,\n    \"invalid_observations\": 0,\n    \"baseline\": null,\n    \"recent\": null,\n    \"ratio\": null,\n    \"reason\": \"No eligible timing source. The comparison needs enough step_time or throughput readings, or loss observations with timestamps and explicit training steps. Conflicting repeated-step values are excluded from this check.\",\n    \"notes\": [\n      \"wall_time(train/loss): 50 of 50 points have no timestamp. No intervals were bridged across missing timestamps.\",\n      \"wall_time(eval/loss): 50 of 50 points have no timestamp. No intervals were bridged across missing timestamps.\"\n    ],\n    \"min_window\": 5,\n    \"baseline_fraction\": 0.2\n  },\n  \"findings\": [\n    {\n      \"detector\": \"overfitting\",\n      \"title\": \"Possible overfitting\",\n      \"severity\": \"error\",\n      \"metric\": \"eval/loss\",\n      \"step_start\": 0,\n      \"step_end\": 49,\n      \"message\": \"Lowest logged eval/loss in this finite segment was 0.5 at step 0; the last value is 1.48 (196.0%, slope diagnostic p<0.0001). Within their shared interval, train/loss trends down (50 readings, steps 0-49) while eval/loss trends up (50 readings, steps 0-49). This is consistent with overfitting, but does not establish its cause.\",\n      \"evidence\": {\n        \"segment_start\": 0,\n        \"segment_observations\": 50,\n        \"best_step\": 0,\n        \"best_value\": 0.5,\n        \"current_value\": 1.48,\n        \"relative_rise\": 1.96,\n        \"slope_p_value\": 0.0,\n        \"slope_status\": \"assessed\",\n        \"training_status\": \"opposing_trends\",\n        \"training_observations\": 50,\n        \"overlap_eval_observations\": 50,\n        \"training_step_start\": 0,\n        \"training_step_end\": 49,\n        \"overlap_eval_step_start\": 0,\n        \"overlap_eval_step_end\": 49,\n        \"training_scaled_slope\": -0.01,\n        \"training_slope_p_value\": 0.0,\n        \"overlap_eval_scaled_slope\": 0.013513513513513514,\n        \"overlap_eval_slope_p_value\": 0.0\n      },\n      \"fixes\": [\n        \"If a checkpoint was saved near step 0, compare it with the last saved checkpoint on the same evaluation examples.\",\n        \"Check evaluation-data and metric-definition changes before attributing the rise to training.\",\n        \"If the regression persists on a comparable evaluation set, consider early stopping, regularization, or more training data.\"\n      ]\n    }\n  ]\n}\n",
+        "stderr": ""
+      },
+      "report": {
+        "schema_version": 1,
+        "run": {
+          "source_format": "wandb",
+          "source_path": "ordinary.csv",
+          "skipped_rows": 0,
+          "skipped_values": 0,
+          "input_complete": true,
+          "input_notes": [],
+          "unread_event_bytes": 0,
+          "event_directories": [],
+          "overwritten_points": 0,
+          "restart_markers": 0,
+          "step_column": "trainer/global_step",
+          "step_axis": "step",
+          "step_selection": "automatic",
+          "metric_sources": {
+            "train/loss": "train/loss",
+            "eval/loss": "eval/loss"
+          },
+          "ambiguous_metric_sources": [],
+          "repeated_steps": [],
+          "selected_run": "runA",
+          "runs": [
+            {
+              "name": "runA",
+              "points": 100
+            },
+            {
+              "name": "other",
+              "points": 50
+            }
+          ],
+          "metrics": {
+            "eval/loss": {
+              "count": 50,
+              "analysis_count": 50,
+              "distinct_steps": 50,
+              "analysis_excluded": false,
+              "first_step": 0,
+              "last_step": 49
+            },
+            "train/loss": {
+              "count": 50,
+              "analysis_count": 50,
+              "distinct_steps": 50,
+              "analysis_excluded": false,
+              "first_step": 0,
+              "last_step": 49
+            }
+          }
+        },
+        "summary": {
+          "input_complete": true,
+          "total_findings": 1,
+          "by_severity": {
+            "error": 1,
+            "warning": 0,
+            "info": 0
+          }
+        },
+        "timing": {
+          "status": "unavailable",
+          "axis": "step",
+          "source": null,
+          "source_metric": null,
+          "unit": null,
+          "observations": 0,
+          "invalid_observations": 0,
+          "baseline": null,
+          "recent": null,
+          "ratio": null,
+          "reason": "No eligible timing source. The comparison needs enough step_time or throughput readings, or loss observations with timestamps and explicit training steps. Conflicting repeated-step values are excluded from this check.",
+          "notes": [
+            "wall_time(train/loss): 50 of 50 points have no timestamp. No intervals were bridged across missing timestamps.",
+            "wall_time(eval/loss): 50 of 50 points have no timestamp. No intervals were bridged across missing timestamps."
+          ],
+          "min_window": 5,
+          "baseline_fraction": 0.2
+        },
+        "findings": [
+          {
+            "detector": "overfitting",
+            "title": "Possible overfitting",
+            "severity": "error",
+            "metric": "eval/loss",
+            "step_start": 0,
+            "step_end": 49,
+            "message": "Lowest logged eval/loss in this finite segment was 0.5 at step 0; the last value is 1.48 (196.0%, slope diagnostic p<0.0001). Within their shared interval, train/loss trends down (50 readings, steps 0-49) while eval/loss trends up (50 readings, steps 0-49). This is consistent with overfitting, but does not establish its cause.",
+            "evidence": {
+              "segment_start": 0,
+              "segment_observations": 50,
+              "best_step": 0,
+              "best_value": 0.5,
+              "current_value": 1.48,
+              "relative_rise": 1.96,
+              "slope_p_value": 0.0,
+              "slope_status": "assessed",
+              "training_status": "opposing_trends",
+              "training_observations": 50,
+              "overlap_eval_observations": 50,
+              "training_step_start": 0,
+              "training_step_end": 49,
+              "overlap_eval_step_start": 0,
+              "overlap_eval_step_end": 49,
+              "training_scaled_slope": -0.01,
+              "training_slope_p_value": 0.0,
+              "overlap_eval_scaled_slope": 0.013513513513513514,
+              "overlap_eval_slope_p_value": 0.0
+            },
+            "fixes": [
+              "If a checkpoint was saved near step 0, compare it with the last saved checkpoint on the same evaluation examples.",
+              "Check evaluation-data and metric-definition changes before attributing the rise to training.",
+              "If the regression persists on a comparable evaluation set, consider early stopping, regularization, or more training data."
+            ]
+          }
+        ]
+      },
+      "watch": {
+        "status": 0,
+        "stdout": "watching ordinary.csv (Ctrl-C to stop)\n[ERROR  ] steps 0-49          overfitting  Possible overfitting: Lowest logged eval/loss in this finite segment was 0.5 at step 0; the last value is 1.48 (196.0%, slope diagnostic p<0.0001). Within their shared interval, train/loss trends down (50 readings, steps 0-49) while eval/loss trends up (50 readings, steps 0-49). This is consistent with overfitting, but does not establish its cause.\n",
+        "stderr": ""
+      },
+      "htmlSha256": "c5e6cdcfd22331d82d53e320186317c45bbf21f1121a5d14ad076fdb830acafa"
+    }
+  ],
+  "incorrectSingleRunDeclaration": null,
+  "selectApparentEvaluationRun": {
+    "status": 0,
+    "stdout": "{\n  \"schema_version\": 1,\n  \"run\": {\n    \"source_format\": \"wandb\",\n    \"source_path\": \"ambiguous.csv\",\n    \"skipped_rows\": 0,\n    \"skipped_values\": 0,\n    \"input_complete\": true,\n    \"input_notes\": [],\n    \"unread_event_bytes\": 0,\n    \"event_directories\": [],\n    \"overwritten_points\": 0,\n    \"restart_markers\": 0,\n    \"step_column\": \"trainer/global_step\",\n    \"step_axis\": \"step\",\n    \"step_selection\": \"automatic\",\n    \"metric_sources\": {\n      \"train/loss\": \"loss\"\n    },\n    \"ambiguous_metric_sources\": [],\n    \"repeated_steps\": [],\n    \"selected_run\": \"runA - eval\",\n    \"runs\": [\n      {\n        \"name\": \"runA - train\",\n        \"points\": 50\n      },\n      {\n        \"name\": \"runA - eval\",\n        \"points\": 50\n      }\n    ],\n    \"metrics\": {\n      \"train/loss\": {\n        \"count\": 50,\n        \"analysis_count\": 50,\n        \"distinct_steps\": 50,\n        \"analysis_excluded\": false,\n        \"first_step\": 0,\n        \"last_step\": 49\n      }\n    }\n  },\n  \"summary\": {\n    \"input_complete\": true,\n    \"total_findings\": 1,\n    \"by_severity\": {\n      \"error\": 1,\n      \"warning\": 0,\n      \"info\": 0\n    }\n  },\n  \"timing\": {\n    \"status\": \"unavailable\",\n    \"axis\": \"step\",\n    \"source\": null,\n    \"source_metric\": null,\n    \"unit\": null,\n    \"observations\": 0,\n    \"invalid_observations\": 0,\n    \"baseline\": null,\n    \"recent\": null,\n    \"ratio\": null,\n    \"reason\": \"No eligible timing source. The comparison needs enough step_time or throughput readings, or loss observations with timestamps and explicit training steps. Conflicting repeated-step values are excluded from this check.\",\n    \"notes\": [\n      \"wall_time(train/loss): 50 of 50 points have no timestamp. No intervals were bridged across missing timestamps.\"\n    ],\n    \"min_window\": 5,\n    \"baseline_fraction\": 0.2\n  },\n  \"findings\": [\n    {\n      \"detector\": \"divergence\",\n      \"title\": \"Diverged (rose from the start)\",\n      \"severity\": \"error\",\n      \"metric\": \"train/loss\",\n      \"step_start\": 0,\n      \"step_end\": 49,\n      \"message\": \"train/loss started around 0.52 and ended at 1.46, 2.8x higher, without ever settling below its first level.\",\n      \"evidence\": {\n        \"start_level\": 0.52,\n        \"final_level\": 1.46,\n        \"ratio\": 2.8076923076923075\n      },\n      \"fixes\": [\n        \"Lower the learning rate; a loss that climbs from the first step is usually an LR an order of magnitude too high.\",\n        \"Add LR warmup and gradient clipping.\",\n        \"Check the loss is the quantity being minimized (sign, reduction, label alignment).\"\n      ]\n    }\n  ]\n}\n",
+    "stderr": ""
+  }
+}

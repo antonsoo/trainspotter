@@ -717,8 +717,15 @@ def render_html(run: Run, findings: list[Finding], title: str = "trainspotter re
         + "</ul></section>" if notes else ""
     )
     sources = run.meta.get("metric_sources", {})
+    chart_identity = run.meta.get("chart_identity", {})
+    chart_columns = chart_identity.get("columns", {}) if isinstance(chart_identity, dict) else {}
+
+    def source_label(name: str) -> str:
+        source = str(sources.get(name, name)) if isinstance(sources, dict) else name
+        return str(chart_columns.get(source, source)) if isinstance(chart_columns, dict) else source
+
     source_rows = "".join(
-        f'<tr><th scope="row">{_esc(name)}</th><td>{_esc(str(sources.get(name, name)))}</td>'
+        f'<tr><th scope="row">{_esc(name)}</th><td>{_esc(source_label(name))}</td>'
         f'<td>{series.readable_count()}</td><td>{analysis.metrics[name].readable_count() if name in analysis.metrics else "Excluded"}</td></tr>'
         for name, series in sorted(run.metrics.items())
     ) if isinstance(sources, dict) else ""

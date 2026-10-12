@@ -70,7 +70,7 @@ def detect_format(path: str | Path) -> str:
 
 def load_run(
     path: str | Path, fmt: str | None = None, run_name: str | None = None,
-    *, step_key: str | None = None,
+    *, step_key: str | None = None, chart_single_run: str | None = None,
 ) -> Run:
     """Load a Run from `path`, auto-detecting the format unless `fmt` is given.
 
@@ -78,9 +78,13 @@ def load_run(
     TensorBoard logdir); see `readers.common.select_run`.
     `step_key` selects an exact integer training-step column in tabular inputs;
     the caller asserts this column measures training progress, not logger calls.
+    `chart_single_run` asserts that every W&B chart value column belongs to this
+    exact display name; it preserves separators within metric names.
     """
     p = Path(path)
     fmt = fmt or detect_format(p)
+    if chart_single_run is not None and fmt != "wandb":
+        raise ValueError("--chart-single-run applies only to W&B chart CSV exports")
     if step_key is not None and fmt not in ("csv", "jsonl", "wandb", "lightning"):
         raise ValueError("--step-key selects a column in CSV, JSONL, W&B or Lightning input")
     if run_name is not None and fmt not in ("wandb", "tensorboard"):
@@ -95,7 +99,7 @@ def load_run(
     elif fmt == "jsonl":
         run = read_jsonl(p, step_key=step_key)
     elif fmt == "wandb":
-        run = read_wandb_csv(p, run_name, step_key=step_key)
+        run = read_wandb_csv(p, run_name, step_key=step_key, chart_single_run=chart_single_run)
     elif fmt == "lightning":
         run = read_lightning_csv(p, step_key=step_key)
     elif fmt == "tensorboard":

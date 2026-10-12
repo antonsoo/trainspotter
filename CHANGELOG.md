@@ -6,6 +6,13 @@ and this project uses [Semantic Versioning](https://semver.org/).
 
 ## Unreleased
 
+- Reject ambiguous W&B chart run/metric labels instead of silently splitting at
+  the last separator. Add `--chart-single-run NAME` for a declared single-run
+  chart, preserving complete metric names, report provenance and watch reloads.
+  Ordinary chart run selection is unchanged. Separator-containing run names also
+  require an explicit declaration or a run-history export.
+  [Behavior and limits](docs/wandb-chart-identity.md).
+
 - Keep supported LR discontinuities visible when other readings are unreadable,
   non-finite or negative. Peak/range calculations use finite nonnegative values;
   ramp comparisons and phase detection stay within contiguous usable segments.

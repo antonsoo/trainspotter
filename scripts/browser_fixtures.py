@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import csv
 import json
 import sys
 from pathlib import Path
@@ -43,6 +44,17 @@ sources.append(unreadable)
 partial = destination / "synthetic-partial.jsonl"
 partial.write_text('{"step":100,"loss":2}\n{broken\n{"step":200,"loss":1}\n')
 sources.append(partial)
+chart = destination / "synthetic-chart-identity.csv"
+chart_run = '<run & "name">'
+with chart.open("w", newline="") as stream:
+    writer = csv.writer(stream)
+    writer.writerow(["trainer/global_step", *[
+        chart_run + " - " + key + suffix
+        for key in ("train - loss", "eval - loss") for suffix in ("", "__MIN", "__MAX")
+    ]])
+    writer.writerows([step, *[value for value in (2 - step * .02, .5 + step * .02)
+                             for _ in range(3)]] for step in range(50))
+sources.append(chart)
 hostile = destination / "synthetic-names.jsonl"
 hostile.write_text(
     "\n".join(
@@ -78,7 +90,7 @@ repeated_large.write_text(
 sources.append(repeated_large)
 manifest = []
 for source in sources:
-    run = load_run(source)
+    run = load_run(source, chart_single_run=chart_run if source == chart else None)
     run.source_path = source.name
     findings = run_all(run)
     path = destination / (source.stem + ".html")

@@ -23,6 +23,9 @@ of a run with each other, and a run's train loss says nothing about another
 run's eval loss.
 The default `Step` axis is also a logging counter. An explicit `step_key` must
 name the first column: each chart export has only one shared coordinate axis.
+Multiple ` - ` separators do not identify the run/metric boundary. Such labels
+require `chart_single_run`, an explicit assertion that the entire chart belongs
+to one exact display name. See docs/wandb-chart-identity.md for the limitations.
 
 A third export, the runs table (one row per run: `Name`, `State`,
 `Runtime`, the config and summary columns), is not a training log at all;
@@ -78,15 +81,42 @@ def looks_like_runs_table(fieldnames: Sequence[str]) -> bool:
     return bool(_RUNS_TABLE_COLUMNS & set(fieldnames)) and not has_step
 
 
-def _split_run(column: str) -> tuple[str, str]:
-    """`<run name> - <metric>`, cut at the last separator: a run's display name may hold one."""
-    run, sep, metric = column.rpartition(" - ")
-    return (run, metric) if sep else ("", column)
+def _split_run(column: str, single_run: str | None) -> tuple[str, str]:
+    """A label has no escaping that distinguishes a separator inside either name."""
+    if single_run is not None:
+        prefix = single_run + " - "
+        if not column.startswith(prefix):
+            raise ValueError(
+                f"chart column {column!r} does not start with {prefix!r}; "
+                "--chart-single-run asserts that every value column belongs to that exact run. "
+                "Export a single-run chart or a run's history CSV."
+            )
+        name, metric = single_run, column[len(prefix):]
+    else:
+        if column.count(" - ") > 1:
+            raise ValueError(
+                f"ambiguous W&B chart label {column!r}: ' - ' may occur in a run or metric name. "
+                "For a chart containing only one run, use --chart-single-run with its exact "
+                "display name. Otherwise export a run's history CSV. --run cannot resolve "
+                "this boundary."
+            )
+        name, sep, metric = column.partition(" - ")
+        if not sep:
+            return "", column
+    if not metric.strip():
+        raise ValueError(f"chart column {column!r} has an empty metric name")
+    return name, metric
 
 
 def read_wandb_chart_csv(
     path: str | Path, run_name: str | None = None, *, step_key: str | None = None,
+    chart_single_run: str | None = None,
 ) -> Run:
+    if chart_single_run is not None:
+        if run_name is not None:
+            raise ValueError("--chart-single-run and --run cannot be combined")
+        if not chart_single_run.strip():
+            raise ValueError("--chart-single-run requires a nonblank exact run display name")
     p = Path(path)
     run = Run(source_format="wandb", source_path=str(p))
     with p.open(encoding="utf-8-sig", newline="") as fh:
@@ -116,8 +146,11 @@ def read_wandb_chart_csv(
     for index, column in enumerate(header[1:], start=1):
         if column.endswith(_BAND_SUFFIXES):
             continue
-        name, metric = _split_run(column)
-        by_run.setdefault(name, {})[metric] = index
+        name, metric = _split_run(column, chart_single_run)
+        run_columns = by_run.setdefault(name, {})
+        if metric in run_columns:
+            raise ValueError(f"multiple chart columns identify metric {metric!r} in run {name!r}")
+        run_columns[metric] = index
 
     def points(columns: dict[str, int]) -> int:
         cells = (
@@ -131,6 +164,12 @@ def read_wandb_chart_csv(
     chosen = select_run(run, counts, run_name, what=f"{p}: W&B chart export")
     columns = by_run[chosen]
     names = metric_names(run, columns)
+    run.meta["chart_identity"] = {
+        "interpretation": "declared_single_run" if chart_single_run is not None
+        else "unambiguous_labels",
+        "selected_run": chosen,
+        "columns": {metric: header[index] for metric, index in columns.items()},
+    }
 
     run.meta["step_column"] = axis if integer_axis else f"(row index; the x-axis is {axis!r})"
     if logging_axis:
@@ -161,6 +200,7 @@ def read_wandb_chart_csv(
 
 def read_wandb_csv(
     path: str | Path, run_name: str | None = None, *, step_key: str | None = None,
+    chart_single_run: str | None = None,
 ) -> Run:
     p = Path(path)
     with p.open(encoding="utf-8-sig", newline="") as fh:
@@ -169,7 +209,13 @@ def read_wandb_csv(
         header = next(csv.reader(fh, delimiter=delimiter), [])
     validate_columns(header)
     if is_chart_export(header):
-        return read_wandb_chart_csv(p, run_name, step_key=step_key)
+        return read_wandb_chart_csv(
+            p, run_name, step_key=step_key, chart_single_run=chart_single_run,
+        )
+    if chart_single_run is not None:
+        raise ValueError(
+            "--chart-single-run applies only to W&B chart CSV exports with band columns"
+        )
 
     run = Run(source_format="wandb", source_path=str(p))
     with p.open(encoding="utf-8-sig", newline="") as fh:

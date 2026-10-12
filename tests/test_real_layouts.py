@@ -283,31 +283,31 @@ def test_wandb_chart_export_holds_one_run_per_column_group(
     _chart_export(
         path,
         {
-            "sweep - lr 3e-4": _wandb_series("divergence"),
-            "sweep - lr 1e-4": _wandb_series("overfitting"),
+            "sweep lr 3e-4": _wandb_series("divergence"),
+            "sweep lr 1e-4": _wandb_series("overfitting"),
         },
     )
     assert detect_format(path) == "wandb"
 
     kept = {"train/loss", "eval/loss", "lr"}
-    first = load_run(path, run_name="sweep - lr 3e-4")
-    assert first.other_runs() == ("sweep - lr 3e-4", ["sweep - lr 1e-4"])
+    first = load_run(path, run_name="sweep lr 3e-4")
+    assert first.other_runs() == ("sweep lr 3e-4", ["sweep lr 1e-4"])
     # The bands are not metrics, and one run's curves are not mixed with the other's.
     assert first.metric_names() == ["eval/loss", "lr", "train/loss"]
     assert _shape(run_all(first)) == [f for f in _reference("divergence") if f[2] in kept]
 
-    second = load_run(path, run_name="sweep - lr 1e-4")
-    assert second.other_runs() == ("sweep - lr 1e-4", ["sweep - lr 3e-4"])
+    second = load_run(path, run_name="sweep lr 1e-4")
+    assert second.other_runs() == ("sweep lr 1e-4", ["sweep lr 3e-4"])
     assert _shape(run_all(second)) == [f for f in _reference("overfitting") if f[2] in kept]
-    assert load_run(path, run_name="sweep - lr 1").meta["selected_run"] == "sweep - lr 1e-4"
+    assert load_run(path, run_name="sweep lr 1").meta["selected_run"] == "sweep lr 1e-4"
     # Unasked, the run with more points in the file.
     sizes = {r["name"]: r["points"] for r in first.meta["runs"]}  # type: ignore[union-attr]
-    assert sizes["sweep - lr 3e-4"] != sizes["sweep - lr 1e-4"]
+    assert sizes["sweep lr 3e-4"] != sizes["sweep lr 1e-4"]
     default = max(sizes, key=lambda name: sizes[name])
     assert load_run(path).meta["selected_run"] == default
     other = next(name for name in sizes if name != default)
 
-    holds = r"It holds: 'sweep - lr 3e-4', 'sweep - lr 1e-4'"
+    holds = r"It holds: 'sweep lr 3e-4', 'sweep lr 1e-4'"
     with pytest.raises(ValueError, match=rf"--run 'sweep' is the start of 2 runs\. {holds}"):
         load_run(path, run_name="sweep")
     with pytest.raises(ValueError, match="--run 'baseline' matches no run"):
@@ -320,7 +320,7 @@ def test_wandb_chart_export_holds_one_run_per_column_group(
     assert main(["analyze", str(path), "--output", "json"]) == 0
     report = json.loads(capsys.readouterr().out)
     assert report["run"]["selected_run"] == default
-    assert [r["name"] for r in report["run"]["runs"]] == ["sweep - lr 3e-4", "sweep - lr 1e-4"]
+    assert [r["name"] for r in report["run"]["runs"]] == ["sweep lr 3e-4", "sweep lr 1e-4"]
     html = tmp_path / "report.html"
     assert main(["analyze", str(path), "--output", "html", "--out", str(html)]) == 0
     assert f"{default} (1 of 2 in this source)" in html.read_text()

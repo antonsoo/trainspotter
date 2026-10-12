@@ -38,7 +38,9 @@ def _build_parser() -> argparse.ArgumentParser:
     analyze = sub.add_parser("analyze", help="Analyze a training log and report findings.")
     analyze.add_argument("path", help="Path to a log file (or a TensorBoard logdir).")
     analyze.add_argument("--format", choices=_FORMAT_CHOICES, default=None, help="Force a reader instead of auto-detecting from the path.")
-    analyze.add_argument("--run", default=None, metavar="NAME", help="Which run to analyse when the source holds several (a W&B chart export, a TensorBoard logdir): its name, or the start of it. Default: the run with the most points.")
+    analyze_run = analyze.add_mutually_exclusive_group()
+    analyze_run.add_argument("--run", default=None, metavar="NAME", help="Which run to analyse when the source holds several (a W&B chart export, a TensorBoard logdir): its name, or the start of it. Default: the run with the most points.")
+    analyze_run.add_argument("--chart-single-run", metavar="NAME", help="Assert that every W&B chart value column belongs to this exact run display name. Required when chart labels contain ambiguous ' - ' separators; cannot be combined with --run.")
     analyze.add_argument("--step-key", default=None, metavar="COLUMN", help="Exact training-step column in CSV/JSONL/W&B/Lightning input. Values must be integers. Selecting a column asserts it counts training steps, including when selecting W&B _step.")
     analyze.add_argument("--output", choices=("terminal", "json", "html"), default="terminal")
     analyze.add_argument("--out", default=None, help="Write the report to this file (HTML defaults to a .trainspotter.html file beside the source).")
@@ -50,7 +52,9 @@ def _build_parser() -> argparse.ArgumentParser:
     watch = sub.add_parser("watch", help="Tail a growing log file and print findings as they first appear.")
     watch.add_argument("path", help="Path to a log file being actively written.")
     watch.add_argument("--format", choices=_FORMAT_CHOICES, default=None)
-    watch.add_argument("--run", default=None, metavar="NAME", help="Which run to watch when the source holds several.")
+    watch_run = watch.add_mutually_exclusive_group()
+    watch_run.add_argument("--run", default=None, metavar="NAME", help="Which run to watch when the source holds several.")
+    watch_run.add_argument("--chart-single-run", metavar="NAME", help="Assert a single-run W&B chart layout (same as analyze); held across every read.")
     watch.add_argument("--step-key", default=None, metavar="COLUMN", help="Exact training-step column in CSV/JSONL/W&B/Lightning input (same as analyze).")
     watch.add_argument("--interval", type=_interval, default=2.0, help="Positive seconds between re-reads (default: 2.0).")
     watch.add_argument("--fail-on", choices=("warning", "error"), default=None, help="Stop with exit 1 on a matching finding, or 2 when a loaded run has incomplete input.")
@@ -141,7 +145,8 @@ def _gate(run: Run, findings: list[Finding], fail_on: Severity | None, require_t
 
 
 def cmd_analyze(args: argparse.Namespace) -> int:
-    run = load_run(args.path, fmt=args.format, run_name=args.run, step_key=args.step_key)
+    run = load_run(args.path, fmt=args.format, run_name=args.run, step_key=args.step_key,
+                   chart_single_run=args.chart_single_run)
     _require_metrics(run)
     findings = run_all(run)
     _emit(run, findings, args)
@@ -153,6 +158,7 @@ def _extends(previous: Run, current: Run) -> bool:
     if (
         previous.axis_kind() != current.axis_kind()
         or previous.meta.get("step_column") != current.meta.get("step_column")
+        or previous.meta.get("chart_identity") != current.meta.get("chart_identity")
     ):
         return False
     for name, old in previous.metrics.items():
@@ -180,7 +186,9 @@ def cmd_watch(args: argparse.Namespace) -> int:
     try:
         while True:
             try:
-                run = load_run(path, fmt=args.format, run_name=selected, step_key=args.step_key)
+                run = load_run(path, fmt=args.format,
+                               run_name=selected if args.chart_single_run is None else None,
+                               step_key=args.step_key, chart_single_run=args.chart_single_run)
                 _require_metrics(run)
             except (ValueError, OSError, csv.Error) as exc:
                 # A file being written mid-flush can be transiently unparsable;

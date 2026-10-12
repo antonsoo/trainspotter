@@ -71,6 +71,13 @@ try {
               await page.goto(pathToFileURL(join(scratch, report.file)).href);
               assert.equal(await page.locator('h1').innerText(), 'TRAINSPOTTER');
               assert.equal(await page.locator('script').count(), 0);
+              if (report.file === 'synthetic-chart-identity.html') {
+                assert.match(await page.locator('.input-notes').innerText(), /CSV alone cannot verify this declaration/);
+                const cells = await page.locator('.input-evidence tbody td').allTextContents();
+                assert.ok(cells.includes('<run & "name"> - train - loss'));
+                assert.ok(cells.includes('<run & "name"> - eval - loss'));
+                assert.deepEqual(await page.locator('.finding h3').allTextContents(), ['Possible overfitting']);
+              }
               assert.equal(await page.locator('main').count(), 1);
               assert.equal(await page.evaluate(() => Boolean(window.injected)), false);
               if (!report.complete) {
