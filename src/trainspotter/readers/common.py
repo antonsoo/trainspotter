@@ -202,8 +202,9 @@ def normalize_key(raw: str) -> str:
 
 
 def try_float(value: object) -> float | None:
-    """Best-effort numeric coercion. Returns None only for genuinely missing
-    values (blank cells, JSON null, non-numeric strings) -- NOT for NaN/Inf,
+    """Best-effort numeric coercion. Returns None for absent or unreadable values.
+    metric_value distinguishes sparse cells from explicit nonnumeric values.
+    Never returns None for NaN/Inf,
     which are real, meaningful readings (a diverged run legitimately logs
     them) and must reach the divergence detector, not be swallowed here."""
     if value is None:
@@ -226,11 +227,14 @@ def try_float(value: object) -> float | None:
     return None
 
 
-def metric_value(run: Run, name: str, raw: object) -> float | None:
+def metric_value(
+    run: Run, name: str, raw: object, *, step: int, wall_time: float | None = None,
+) -> float | None:
     """Record invalid cells in known/numeric metrics; sparse cells remain ordinary gaps."""
     value = try_float(raw)
     missing = raw is None or (isinstance(raw, str) and raw.strip().lower() in {"", "null", "none"})
     if value is None and not missing:
+        run.add_unreadable(name, step, wall_time, known_metric=_claim(name) is not None)
         invalid = run.meta.setdefault("invalid_metric_values", {})
         if isinstance(invalid, dict):
             invalid[name] = invalid.get(name, 0) + 1

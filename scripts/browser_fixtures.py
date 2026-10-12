@@ -36,6 +36,10 @@ after_gap.write_text("step,loss\n" + "".join(
     )
 ))
 sources.append(after_gap)
+unreadable = destination / "synthetic-unreadable.csv"
+unreadable.write_bytes((root / "studies/finite-segments/captured/observed.csv").read_bytes()
+                       .replace(b",nan", b",LOGGER_ERROR"))
+sources.append(unreadable)
 partial = destination / "synthetic-partial.jsonl"
 partial.write_text('{"step":100,"loss":2}\n{broken\n{"step":200,"loss":1}\n')
 sources.append(partial)

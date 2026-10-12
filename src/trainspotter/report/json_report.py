@@ -15,7 +15,7 @@ from trainspotter.timing import assess_timing
 SCHEMA_VERSION = 1
 
 
-def _json_safe(value: float | int | str) -> float | int | str:
+def _json_safe(value: float | int | str | None) -> float | int | str | None:
     """A diverged run legitimately produces NaN/Inf evidence values (e.g. a
     spike's z-score against an infinite metric reading). Python's `json`
     module emits those as bare `Infinity`/`NaN` tokens, which is valid for
@@ -54,7 +54,8 @@ def repeated_step_evidence(run: Run) -> list[dict[str, Any]]:
         for group in groups:
             readings: dict[tuple[str, str, str], dict[str, Any]] = {}
             for point in group.readings:
-                key = (float(point.value).hex(), str(point.wall_time), str(point.epoch))
+                key = (float(point.value).hex() if point.value is not None else "unreadable",
+                       str(point.wall_time), str(point.epoch))
                 if key not in readings:
                     readings[key] = {
                         "value": _json_safe(point.value),
@@ -105,14 +106,16 @@ def to_json_dict(run: Run, findings: list[Finding]) -> dict[str, Any]:
             **_several_runs(run),
             "metrics": {
                 name: {
-                    "count": len(series),
-                    "analysis_count": len(analysis.metrics[name])
+                    "count": series.readable_count(),
+                    "analysis_count": analysis.metrics[name].readable_count()
                     if name in analysis.metrics
                     else 0,
                     "distinct_steps": len({point.step for point in series.points}),
                     "analysis_excluded": bool(series.points) and name not in analysis.metrics,
                     "first_step": series.steps()[0] if not series.is_empty() else None,
                     "last_step": series.steps()[-1] if not series.is_empty() else None,
+                    **({"unreadable_steps": [p.step for p in series.points if p.value is None]}
+                       if series.readable_count() != len(series) else {}),
                 }
                 for name, series in sorted(run.metrics.items())
             },

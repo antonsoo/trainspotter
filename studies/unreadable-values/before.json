@@ -1,0 +1,904 @@
+{
+  "runtime": {
+    "python": "3.12.12",
+    "sourceHashes": {
+      "__init__.py": "f902908eabb455be7238326cae68b500f401e4962b326bc7696dbc748be6437b",
+      "cli.py": "e25bf55b6036bac0b53599647bf27ec255834aa8030b016117858f077de139ae",
+      "detectors/__init__.py": "38482b71273ec74fdf748c447e35c1132451b5f9a74a581a8e72067d91624e09",
+      "detectors/_rolling_slope.py": "1ed39d9ca2e6141dd196b4295f9631fe2343942aefa4ff40e96cc188b7da954f",
+      "detectors/base.py": "edc2cb5fcfc0587ae1edac64605166a7ca4358d4f1b3c4f40fcb3b342953e107",
+      "detectors/divergence.py": "60e8b29e2c4706f2101c0c5f8c6d21b9a2a500e45a469d1e2b343062d4285cb7",
+      "detectors/eval_noise.py": "1fa2258d2d3247fa0486fda30867e1b769bf5d06ffd864402c91fd1610b350ca",
+      "detectors/grad_norm.py": "353bd6e6670d9578a78bcadd9d6def20c003f59be18a211e129177dfb79d9ae8",
+      "detectors/loss_floor.py": "1ccd776c28f23097827633022125fa420c274e9e04a59c41bbf86d7d3e776b75",
+      "detectors/lr_schedule.py": "6cc240b8afaca7ed71cabd247babedb99a53f3811b5d6a08bdf635599143f07b",
+      "detectors/overfitting.py": "bb3e0de68e033caa75e6290708fce67d967dc929db78c5bc687c99476897b38f",
+      "detectors/plateau.py": "87586934f30918134f89b3237922d2c957ade1d116730b60f3785d936896399f",
+      "detectors/setbacks.py": "7d0e653f878d3f1787ab444563d026271c262aeb8828478243c6155a51fdcf85",
+      "detectors/spikes.py": "a884d3349b0b73c8d44c95b6d13a6cfefb41d413be3a7fe4d75d4641b01ddd30",
+      "detectors/throughput.py": "b6a506b973629696564601546992b051700bdece9bbc67b2bd05e402d4a68a54",
+      "model.py": "527371ee1812cd857cb807e8422d14fa002938f282e7ac21064d391a59630b58",
+      "readers/__init__.py": "301d4e5a6f396632e297eb68cf69d9c968c8fd6a55d31c24ba2b274343d178f9",
+      "readers/common.py": "4501e803a4b1dce1c2206ef711e25da290b50719120ad8e773a65f2ada7a0dd1",
+      "readers/hf.py": "bee46a5a8d0ead8718ce51ef98124ef1690f89d93cd81da0da70995a3d755aa6",
+      "readers/lightning.py": "36cf68c7dc9e90f99de4e3007647c9308323154cb6aa96b0b09d9b40af0929f4",
+      "readers/tabular.py": "4921cca04fafa1ea59a3f5f7e233bb156cab1b2dd593ed5dd00993169259d2bc",
+      "readers/tensorboard.py": "7c832a4dd80fcce9744b8b78236b308cf50ac40204d8d89335f6d10c9ce6ffc2",
+      "readers/wandb.py": "6819770281c5dc292928544b8a78e1b3294b3b40130935a3bd29c9ddb8e80a7a",
+      "report/__init__.py": "317d8be1f917cf65f0312a083c62f7bf268d37b5c9d7232c3a0bf37ae18b9a0a",
+      "report/html_report.py": "51408fac53e32854a6e0c51bd94df75fe98884470725eb152a0c0bfd2d971d66",
+      "report/json_report.py": "360d387651fb2f210dedd461eab283973f82c6758c7a77168f46df2d856286e7",
+      "report/terminal.py": "6beacecc76a8134eacf1929792bf5747b30d06426bfcd3c43855e854903d16ca",
+      "timing.py": "16f3de6a150563d62dee5f7b3b2edcaacfa8d21b3a4407bf902c84e779e52c3b"
+    }
+  },
+  "captureInputSha256": "c10e99a202079cd78540026fe73649c05d79c1564122eddca7d729ae8efa04b5",
+  "captureFault": "Replace exactly the 20 recorded nan cells with LOGGER_ERROR; every other byte unchanged.",
+  "inputPathConvention": "CLI receives the fixture basename while running in its artifact directory.",
+  "records": [
+    {
+      "name": "captured-text-fault",
+      "inputSha256": "1c77b64f3b59448c43646d7c6ad77dc6b3ce4dbf96b7caae5143127ffc8c3060",
+      "inputBytes": 3799,
+      "expectedUnreadableSteps": [
+        60,
+        61,
+        62,
+        63,
+        64,
+        65,
+        66,
+        67,
+        68,
+        69,
+        90,
+        91,
+        92,
+        93,
+        94,
+        95,
+        96,
+        97,
+        98,
+        99
+      ],
+      "exitCode": 2,
+      "stderr": "trainspotter: input is incomplete; CI gate could not be evaluated\n",
+      "report": {
+        "schema_version": 1,
+        "run": {
+          "source_format": "csv",
+          "source_path": "captured-text-fault.csv",
+          "skipped_rows": 0,
+          "skipped_values": 20,
+          "input_complete": false,
+          "input_notes": [
+            "20 nonblank metric values were not numeric.",
+            "Input is incomplete; findings describe only the readable data."
+          ],
+          "unread_event_bytes": 0,
+          "event_directories": [],
+          "overwritten_points": 0,
+          "restart_markers": 0,
+          "step_column": "step",
+          "step_axis": "step",
+          "step_selection": "automatic",
+          "metric_sources": {
+            "train/loss": "loss"
+          },
+          "ambiguous_metric_sources": [],
+          "repeated_steps": [],
+          "metrics": {
+            "train/loss": {
+              "count": 160,
+              "analysis_count": 160,
+              "distinct_steps": 160,
+              "analysis_excluded": false,
+              "first_step": 0,
+              "last_step": 179
+            }
+          }
+        },
+        "summary": {
+          "input_complete": false,
+          "total_findings": 2,
+          "by_severity": {
+            "error": 0,
+            "warning": 1,
+            "info": 1
+          }
+        },
+        "timing": {
+          "status": "unavailable",
+          "axis": "step",
+          "source": null,
+          "source_metric": null,
+          "unit": null,
+          "observations": 0,
+          "invalid_observations": 0,
+          "baseline": null,
+          "recent": null,
+          "ratio": null,
+          "reason": "No eligible timing source. The comparison needs enough step_time or throughput readings, or loss observations with timestamps and explicit training steps. Conflicting repeated-step values are excluded from this check.",
+          "notes": [
+            "wall_time(train/loss): 160 of 160 points have no timestamp. No intervals were bridged across missing timestamps."
+          ],
+          "min_window": 5,
+          "baseline_fraction": 0.2
+        },
+        "findings": [
+          {
+            "detector": "setbacks",
+            "title": "Setback",
+            "severity": "warning",
+            "metric": "train/loss",
+            "step_start": 70,
+            "step_end": 100,
+            "message": "train/loss left a level of 1.014 at step 70, rose to 4.308, and was back by step 100: 30 steps (17% of the run) above a level it had already reached, with 81% of the run's progress given back at the worst point.",
+            "evidence": {
+              "level_before": 1.01439647959829,
+              "peak_level": 4.307913507812501,
+              "steps_lost": 30,
+              "share_of_run": 0.16759776536312848,
+              "share_of_progress": 0.8109618570414054
+            },
+            "fixes": [
+              "Look at what changed at the first step: the learning rate, a new data shard, an epoch boundary.",
+              "Lower the peak learning rate or clip gradients if the rise follows a large update.",
+              "If this was a planned restart or curriculum stage, it is expected."
+            ]
+          },
+          {
+            "detector": "spikes",
+            "title": "Isolated loss spikes",
+            "severity": "info",
+            "metric": "train/loss",
+            "step_start": 70,
+            "step_end": 71,
+            "message": "train/loss had 1 isolated point well above the level around it; the largest was 5.5 at step 70 against a level of 4.308, 29% of the run's progress.",
+            "evidence": {
+              "count": 1,
+              "peak_step": 70,
+              "peak_value": 5.5,
+              "share_of_progress": 0.29352715263856616
+            },
+            "fixes": [
+              "Usually one hard or malformed batch. Look at the data at that step if it recurs."
+            ]
+          }
+        ]
+      },
+      "htmlSha256": "0388c3ac2e5c2f48a5ad53b728908377b5092350e348405f9032c930d3c2a303"
+    },
+    {
+      "name": "observed-nan-control",
+      "inputSha256": "c10e99a202079cd78540026fe73649c05d79c1564122eddca7d729ae8efa04b5",
+      "inputBytes": 3619,
+      "expectedUnreadableSteps": [],
+      "exitCode": 1,
+      "stderr": "",
+      "report": {
+        "schema_version": 1,
+        "run": {
+          "source_format": "csv",
+          "source_path": "observed-nan-control.csv",
+          "skipped_rows": 0,
+          "skipped_values": 0,
+          "input_complete": true,
+          "input_notes": [],
+          "unread_event_bytes": 0,
+          "event_directories": [],
+          "overwritten_points": 0,
+          "restart_markers": 0,
+          "step_column": "step",
+          "step_axis": "step",
+          "step_selection": "automatic",
+          "metric_sources": {
+            "train/loss": "loss"
+          },
+          "ambiguous_metric_sources": [],
+          "repeated_steps": [],
+          "metrics": {
+            "train/loss": {
+              "count": 180,
+              "analysis_count": 180,
+              "distinct_steps": 180,
+              "analysis_excluded": false,
+              "first_step": 0,
+              "last_step": 179
+            }
+          }
+        },
+        "summary": {
+          "input_complete": true,
+          "total_findings": 1,
+          "by_severity": {
+            "error": 1,
+            "warning": 0,
+            "info": 0
+          }
+        },
+        "timing": {
+          "status": "unavailable",
+          "axis": "step",
+          "source": null,
+          "source_metric": null,
+          "unit": null,
+          "observations": 0,
+          "invalid_observations": 0,
+          "baseline": null,
+          "recent": null,
+          "ratio": null,
+          "reason": "No eligible timing source. The comparison needs enough step_time or throughput readings, or loss observations with timestamps and explicit training steps. Conflicting repeated-step values are excluded from this check.",
+          "notes": [
+            "wall_time(train/loss): 180 of 180 points have no timestamp. No intervals were bridged across missing timestamps."
+          ],
+          "min_window": 5,
+          "baseline_fraction": 0.2
+        },
+        "findings": [
+          {
+            "detector": "divergence",
+            "title": "Non-finite training loss",
+            "severity": "error",
+            "metric": "train/loss",
+            "step_start": 60,
+            "step_end": 99,
+            "message": "train/loss became NaN at step 60 (20 non-finite point(s) in this run).",
+            "evidence": {
+              "first_bad_step": 60,
+              "count": 20
+            },
+            "fixes": [
+              "Inspect the objective and logging reduction separately: an empty batch or empty logging window can produce NaN even while optimizer updates remain finite.",
+              "Check for a divide-by-zero or log(0) in the loss calculation.",
+              "If the optimizer's loss or gradients also become non-finite, inspect the learning rate, gradient clipping and mixed-precision loss scaling."
+            ]
+          }
+        ]
+      },
+      "htmlSha256": "15281f0eda61ba38a4d809a8f0506ce8246b6c17c7fa61f5dfb17182bf9c4537"
+    },
+    {
+      "name": "first-after-gap",
+      "inputSha256": "ee36b66e09ccf5ffe08ca824fe8ddb5433810a9ede4e24335f4a2b1fd701807a",
+      "inputBytes": 858,
+      "expectedUnreadableSteps": [
+        60,
+        61,
+        62,
+        63,
+        64,
+        65,
+        66,
+        67,
+        68,
+        69
+      ],
+      "exitCode": 2,
+      "stderr": "trainspotter: input is incomplete; CI gate could not be evaluated\n",
+      "report": {
+        "schema_version": 1,
+        "run": {
+          "source_format": "csv",
+          "source_path": "first-after-gap.csv",
+          "skipped_rows": 0,
+          "skipped_values": 10,
+          "input_complete": false,
+          "input_notes": [
+            "10 nonblank metric values were not numeric.",
+            "Input is incomplete; findings describe only the readable data."
+          ],
+          "unread_event_bytes": 0,
+          "event_directories": [],
+          "overwritten_points": 0,
+          "restart_markers": 0,
+          "step_column": "step",
+          "step_axis": "step",
+          "step_selection": "automatic",
+          "metric_sources": {
+            "train/loss": "loss"
+          },
+          "ambiguous_metric_sources": [],
+          "repeated_steps": [],
+          "metrics": {
+            "train/loss": {
+              "count": 101,
+              "analysis_count": 101,
+              "distinct_steps": 101,
+              "analysis_excluded": false,
+              "first_step": 0,
+              "last_step": 110
+            }
+          }
+        },
+        "summary": {
+          "input_complete": false,
+          "total_findings": 1,
+          "by_severity": {
+            "error": 0,
+            "warning": 1,
+            "info": 0
+          }
+        },
+        "timing": {
+          "status": "unavailable",
+          "axis": "step",
+          "source": null,
+          "source_metric": null,
+          "unit": null,
+          "observations": 0,
+          "invalid_observations": 0,
+          "baseline": null,
+          "recent": null,
+          "ratio": null,
+          "reason": "No eligible timing source. The comparison needs enough step_time or throughput readings, or loss observations with timestamps and explicit training steps. Conflicting repeated-step values are excluded from this check.",
+          "notes": [
+            "wall_time(train/loss): 101 of 101 points have no timestamp. No intervals were bridged across missing timestamps."
+          ],
+          "min_window": 5,
+          "baseline_fraction": 0.2
+        },
+        "findings": [
+          {
+            "detector": "spikes",
+            "title": "Loss spike",
+            "severity": "warning",
+            "metric": "train/loss",
+            "step_start": 70,
+            "step_end": 70,
+            "message": "train/loss jumped to 4 at step 70 from a level of 1, 75% of the run's progress, for 1 logged point.",
+            "evidence": {
+              "peak_step": 70,
+              "peak_value": 4.0,
+              "level": 1.0,
+              "share_of_progress": 0.75,
+              "robust_z": 1386.2943611198905,
+              "window": 21,
+              "threshold": 6.0
+            },
+            "fixes": [
+              "Lower the learning rate or add/extend LR warmup.",
+              "Clip gradients (or lower the existing max-norm).",
+              "Check the batch at this step for a data or tokenization bug (e.g. an unmasked pad token, a corrupted shard).",
+              "If the level came straight back and it doesn't recur, it may be one bad batch."
+            ]
+          }
+        ]
+      },
+      "htmlSha256": "c7ac919ddeba1b6cfa6f70c3b4895941f88515113713b9595251c4bd9bcee56b"
+    },
+    {
+      "name": "recovery-through-gap",
+      "inputSha256": "51de7f7987eee12a1d57f99ffcf3f20de0aa7adda6889f63783783d6fc63b8a9",
+      "inputBytes": 1160,
+      "expectedUnreadableSteps": [
+        60,
+        61,
+        62,
+        63,
+        64,
+        65,
+        66,
+        67,
+        68,
+        69,
+        90,
+        91,
+        92,
+        93,
+        94,
+        95,
+        96,
+        97,
+        98,
+        99
+      ],
+      "exitCode": 2,
+      "stderr": "trainspotter: input is incomplete; CI gate could not be evaluated\n",
+      "report": {
+        "schema_version": 1,
+        "run": {
+          "source_format": "csv",
+          "source_path": "recovery-through-gap.csv",
+          "skipped_rows": 0,
+          "skipped_values": 20,
+          "input_complete": false,
+          "input_notes": [
+            "20 nonblank metric values were not numeric.",
+            "Input is incomplete; findings describe only the readable data."
+          ],
+          "unread_event_bytes": 0,
+          "event_directories": [],
+          "overwritten_points": 0,
+          "restart_markers": 0,
+          "step_column": "step",
+          "step_axis": "step",
+          "step_selection": "automatic",
+          "metric_sources": {
+            "train/loss": "loss"
+          },
+          "ambiguous_metric_sources": [],
+          "repeated_steps": [],
+          "metrics": {
+            "train/loss": {
+              "count": 120,
+              "analysis_count": 120,
+              "distinct_steps": 120,
+              "analysis_excluded": false,
+              "first_step": 0,
+              "last_step": 139
+            }
+          }
+        },
+        "summary": {
+          "input_complete": false,
+          "total_findings": 1,
+          "by_severity": {
+            "error": 0,
+            "warning": 1,
+            "info": 0
+          }
+        },
+        "timing": {
+          "status": "unavailable",
+          "axis": "step",
+          "source": null,
+          "source_metric": null,
+          "unit": null,
+          "observations": 0,
+          "invalid_observations": 0,
+          "baseline": null,
+          "recent": null,
+          "ratio": null,
+          "reason": "No eligible timing source. The comparison needs enough step_time or throughput readings, or loss observations with timestamps and explicit training steps. Conflicting repeated-step values are excluded from this check.",
+          "notes": [
+            "wall_time(train/loss): 120 of 120 points have no timestamp. No intervals were bridged across missing timestamps."
+          ],
+          "min_window": 5,
+          "baseline_fraction": 0.2
+        },
+        "findings": [
+          {
+            "detector": "setbacks",
+            "title": "Setback",
+            "severity": "warning",
+            "metric": "train/loss",
+            "step_start": 70,
+            "step_end": 100,
+            "message": "train/loss left a level of 1 at step 70, rose to 4, and was back by step 100: 30 steps (22% of the run) above a level it had already reached, with 75% of the run's progress given back at the worst point.",
+            "evidence": {
+              "level_before": 1.0,
+              "peak_level": 4.0,
+              "steps_lost": 30,
+              "share_of_run": 0.2158273381294964,
+              "share_of_progress": 0.75
+            },
+            "fixes": [
+              "Look at what changed at the first step: the learning rate, a new data shard, an epoch boundary.",
+              "Lower the peak learning rate or clip gradients if the rise follows a large update.",
+              "If this was a planned restart or curriculum stage, it is expected."
+            ]
+          }
+        ]
+      },
+      "htmlSha256": "ae4a161109949a2bcaec7a7fe4d1a8fec0910752f7ab590616a14b2d75936d7c"
+    },
+    {
+      "name": "level-change-across-gap",
+      "inputSha256": "f4884d1d836efc938a1fd259266af9fb928f03d6f6e66c03011529357e0dca4f",
+      "inputBytes": 850,
+      "expectedUnreadableSteps": [
+        50,
+        51,
+        52,
+        53,
+        54,
+        55,
+        56,
+        57,
+        58,
+        59
+      ],
+      "exitCode": 2,
+      "stderr": "trainspotter: input is incomplete; CI gate could not be evaluated\n",
+      "report": {
+        "schema_version": 1,
+        "run": {
+          "source_format": "csv",
+          "source_path": "level-change-across-gap.csv",
+          "skipped_rows": 0,
+          "skipped_values": 10,
+          "input_complete": false,
+          "input_notes": [
+            "10 nonblank metric values were not numeric.",
+            "Input is incomplete; findings describe only the readable data."
+          ],
+          "unread_event_bytes": 0,
+          "event_directories": [],
+          "overwritten_points": 0,
+          "restart_markers": 0,
+          "step_column": "step",
+          "step_axis": "step",
+          "step_selection": "automatic",
+          "metric_sources": {
+            "train/loss": "loss"
+          },
+          "ambiguous_metric_sources": [],
+          "repeated_steps": [],
+          "metrics": {
+            "train/loss": {
+              "count": 100,
+              "analysis_count": 100,
+              "distinct_steps": 100,
+              "analysis_excluded": false,
+              "first_step": 0,
+              "last_step": 109
+            }
+          }
+        },
+        "summary": {
+          "input_complete": false,
+          "total_findings": 3,
+          "by_severity": {
+            "error": 1,
+            "warning": 0,
+            "info": 2
+          }
+        },
+        "timing": {
+          "status": "unavailable",
+          "axis": "step",
+          "source": null,
+          "source_metric": null,
+          "unit": null,
+          "observations": 0,
+          "invalid_observations": 0,
+          "baseline": null,
+          "recent": null,
+          "ratio": null,
+          "reason": "No eligible timing source. The comparison needs enough step_time or throughput readings, or loss observations with timestamps and explicit training steps. Conflicting repeated-step values are excluded from this check.",
+          "notes": [
+            "wall_time(train/loss): 100 of 100 points have no timestamp. No intervals were bridged across missing timestamps."
+          ],
+          "min_window": 5,
+          "baseline_fraction": 0.2
+        },
+        "findings": [
+          {
+            "detector": "divergence",
+            "title": "Diverged (rose from the start)",
+            "severity": "error",
+            "metric": "train/loss",
+            "step_start": 0,
+            "step_end": 109,
+            "message": "train/loss started around 1 and ended at 3, 3.0x higher, without ever settling below its first level.",
+            "evidence": {
+              "start_level": 1.0,
+              "final_level": 3.0,
+              "ratio": 3.0
+            },
+            "fixes": [
+              "Lower the learning rate; a loss that climbs from the first step is usually an LR an order of magnitude too high.",
+              "Add LR warmup and gradient clipping.",
+              "Check the loss is the quantity being minimized (sign, reduction, label alignment)."
+            ]
+          },
+          {
+            "detector": "plateau",
+            "title": "Possible plateau",
+            "severity": "info",
+            "metric": "train/loss",
+            "step_start": 0,
+            "step_end": 49,
+            "message": "The median-smoothed train/loss level stayed between 1 and 1 from step 0 to 49 (50 points; raw readings range 1-1).",
+            "evidence": {
+              "window": 30,
+              "alpha": 0.2,
+              "rel_change_threshold": 0.02,
+              "value_range": 0.0,
+              "smoothing_window": 15,
+              "level_min": 1.0,
+              "level_max": 1.0,
+              "relative_level_range": 0.0,
+              "noise_allowance": 0.0,
+              "noise_window": 29,
+              "qualifying_windows": 21
+            },
+            "fixes": [
+              "If this is early training, check warmup finished and LR reached its target.",
+              "Try a higher LR, an LR-range test, or a different schedule (cosine/one-cycle) if the plateau is unexpected.",
+              "Check for a frozen/detached parameter group if the plateau starts abruptly."
+            ]
+          },
+          {
+            "detector": "plateau",
+            "title": "Possible plateau",
+            "severity": "info",
+            "metric": "train/loss",
+            "step_start": 60,
+            "step_end": 109,
+            "message": "The median-smoothed train/loss level stayed between 3 and 3 from step 60 to 109 (50 points; raw readings range 3-3).",
+            "evidence": {
+              "window": 30,
+              "alpha": 0.2,
+              "rel_change_threshold": 0.02,
+              "value_range": 0.0,
+              "smoothing_window": 15,
+              "level_min": 3.0,
+              "level_max": 3.0,
+              "relative_level_range": 0.0,
+              "noise_allowance": 0.0,
+              "noise_window": 29,
+              "qualifying_windows": 21
+            },
+            "fixes": [
+              "If this is early training, check warmup finished and LR reached its target.",
+              "Try a higher LR, an LR-range test, or a different schedule (cosine/one-cycle) if the plateau is unexpected.",
+              "Check for a frozen/detached parameter group if the plateau starts abruptly."
+            ]
+          }
+        ]
+      },
+      "htmlSha256": "303eb375e1a22c47c586bd6d2341cc5b2f34c1a0f2652bc073f58a14e3b7ae75"
+    },
+    {
+      "name": "genuine-after-gap",
+      "inputSha256": "0e07c84fcfdb847188dec6c3acb70b28db1f4ab214ddbca790db1993ff876f75",
+      "inputBytes": 1250,
+      "expectedUnreadableSteps": [
+        30,
+        31,
+        32,
+        33,
+        34,
+        35,
+        36,
+        37,
+        38,
+        39
+      ],
+      "exitCode": 2,
+      "stderr": "trainspotter: input is incomplete; CI gate could not be evaluated\n",
+      "report": {
+        "schema_version": 1,
+        "run": {
+          "source_format": "csv",
+          "source_path": "genuine-after-gap.csv",
+          "skipped_rows": 0,
+          "skipped_values": 10,
+          "input_complete": false,
+          "input_notes": [
+            "10 nonblank metric values were not numeric.",
+            "Input is incomplete; findings describe only the readable data."
+          ],
+          "unread_event_bytes": 0,
+          "event_directories": [],
+          "overwritten_points": 0,
+          "restart_markers": 0,
+          "step_column": "step",
+          "step_axis": "step",
+          "step_selection": "automatic",
+          "metric_sources": {
+            "train/loss": "loss"
+          },
+          "ambiguous_metric_sources": [],
+          "repeated_steps": [],
+          "metrics": {
+            "train/loss": {
+              "count": 150,
+              "analysis_count": 150,
+              "distinct_steps": 150,
+              "analysis_excluded": false,
+              "first_step": 0,
+              "last_step": 159
+            }
+          }
+        },
+        "summary": {
+          "input_complete": false,
+          "total_findings": 3,
+          "by_severity": {
+            "error": 0,
+            "warning": 0,
+            "info": 3
+          }
+        },
+        "timing": {
+          "status": "unavailable",
+          "axis": "step",
+          "source": null,
+          "source_metric": null,
+          "unit": null,
+          "observations": 0,
+          "invalid_observations": 0,
+          "baseline": null,
+          "recent": null,
+          "ratio": null,
+          "reason": "No eligible timing source. The comparison needs enough step_time or throughput readings, or loss observations with timestamps and explicit training steps. Conflicting repeated-step values are excluded from this check.",
+          "notes": [
+            "wall_time(train/loss): 150 of 150 points have no timestamp. No intervals were bridged across missing timestamps."
+          ],
+          "min_window": 5,
+          "baseline_fraction": 0.2
+        },
+        "findings": [
+          {
+            "detector": "plateau",
+            "title": "Possible plateau",
+            "severity": "info",
+            "metric": "train/loss",
+            "step_start": 0,
+            "step_end": 29,
+            "message": "The median-smoothed train/loss level stayed between 1 and 1 from step 0 to 29 (30 points; raw readings range 1-1).",
+            "evidence": {
+              "window": 30,
+              "alpha": 0.2,
+              "rel_change_threshold": 0.02,
+              "value_range": 0.0,
+              "smoothing_window": 15,
+              "level_min": 1.0,
+              "level_max": 1.0,
+              "relative_level_range": 0.0,
+              "noise_allowance": 0.0,
+              "noise_window": 29,
+              "qualifying_windows": 1
+            },
+            "fixes": [
+              "If this is early training, check warmup finished and LR reached its target.",
+              "Try a higher LR, an LR-range test, or a different schedule (cosine/one-cycle) if the plateau is unexpected.",
+              "Check for a frozen/detached parameter group if the plateau starts abruptly."
+            ]
+          },
+          {
+            "detector": "plateau",
+            "title": "Possible plateau",
+            "severity": "info",
+            "metric": "train/loss",
+            "step_start": 60,
+            "step_end": 99,
+            "message": "The median-smoothed train/loss level stayed between 1 and 1 from step 60 to 99 (40 points; raw readings range 1-1).",
+            "evidence": {
+              "window": 30,
+              "alpha": 0.2,
+              "rel_change_threshold": 0.02,
+              "value_range": 0.0,
+              "smoothing_window": 15,
+              "level_min": 1.0,
+              "level_max": 1.0,
+              "relative_level_range": 0.0,
+              "noise_allowance": 0.0,
+              "noise_window": 29,
+              "qualifying_windows": 11
+            },
+            "fixes": [
+              "If this is early training, check warmup finished and LR reached its target.",
+              "Try a higher LR, an LR-range test, or a different schedule (cosine/one-cycle) if the plateau is unexpected.",
+              "Check for a frozen/detached parameter group if the plateau starts abruptly."
+            ]
+          },
+          {
+            "detector": "plateau",
+            "title": "Possible plateau",
+            "severity": "info",
+            "metric": "train/loss",
+            "step_start": 120,
+            "step_end": 159,
+            "message": "The median-smoothed train/loss level stayed between 1 and 1 from step 120 to 159 (40 points; raw readings range 1-1).",
+            "evidence": {
+              "window": 30,
+              "alpha": 0.2,
+              "rel_change_threshold": 0.02,
+              "value_range": 0.0,
+              "smoothing_window": 15,
+              "level_min": 1.0,
+              "level_max": 1.0,
+              "relative_level_range": 0.0,
+              "noise_allowance": 0.0,
+              "noise_window": 29,
+              "qualifying_windows": 11
+            },
+            "fixes": [
+              "If this is early training, check warmup finished and LR reached its target.",
+              "Try a higher LR, an LR-range test, or a different schedule (cosine/one-cycle) if the plateau is unexpected.",
+              "Check for a frozen/detached parameter group if the plateau starts abruptly."
+            ]
+          }
+        ]
+      },
+      "htmlSha256": "50c28c62c427bd28464df5ea6781e3b33d07c2f32a8241ed067e7e51f874f211"
+    },
+    {
+      "name": "finite-control",
+      "inputSha256": "ed8c51699f2325b10a87b4478994fe7a596d3a18458dc9a69cde170f05487c4b",
+      "inputBytes": 860,
+      "expectedUnreadableSteps": [],
+      "exitCode": 0,
+      "stderr": "",
+      "report": {
+        "schema_version": 1,
+        "run": {
+          "source_format": "csv",
+          "source_path": "finite-control.csv",
+          "skipped_rows": 0,
+          "skipped_values": 0,
+          "input_complete": true,
+          "input_notes": [],
+          "unread_event_bytes": 0,
+          "event_directories": [],
+          "overwritten_points": 0,
+          "restart_markers": 0,
+          "step_column": "step",
+          "step_axis": "step",
+          "step_selection": "automatic",
+          "metric_sources": {
+            "train/loss": "loss"
+          },
+          "ambiguous_metric_sources": [],
+          "repeated_steps": [],
+          "metrics": {
+            "train/loss": {
+              "count": 120,
+              "analysis_count": 120,
+              "distinct_steps": 120,
+              "analysis_excluded": false,
+              "first_step": 0,
+              "last_step": 119
+            }
+          }
+        },
+        "summary": {
+          "input_complete": true,
+          "total_findings": 1,
+          "by_severity": {
+            "error": 0,
+            "warning": 1,
+            "info": 0
+          }
+        },
+        "timing": {
+          "status": "unavailable",
+          "axis": "step",
+          "source": null,
+          "source_metric": null,
+          "unit": null,
+          "observations": 0,
+          "invalid_observations": 0,
+          "baseline": null,
+          "recent": null,
+          "ratio": null,
+          "reason": "No eligible timing source. The comparison needs enough step_time or throughput readings, or loss observations with timestamps and explicit training steps. Conflicting repeated-step values are excluded from this check.",
+          "notes": [
+            "wall_time(train/loss): 120 of 120 points have no timestamp. No intervals were bridged across missing timestamps."
+          ],
+          "min_window": 5,
+          "baseline_fraction": 0.2
+        },
+        "findings": [
+          {
+            "detector": "setbacks",
+            "title": "Setback",
+            "severity": "warning",
+            "metric": "train/loss",
+            "step_start": 60,
+            "step_end": 80,
+            "message": "train/loss left a level of 1 at step 60, rose to 4, and was back by step 80: 20 steps (17% of the run) above a level it had already reached, with 75% of the run's progress given back at the worst point.",
+            "evidence": {
+              "level_before": 1.0,
+              "peak_level": 4.0,
+              "steps_lost": 20,
+              "share_of_run": 0.16806722689075632,
+              "share_of_progress": 0.75
+            },
+            "fixes": [
+              "Look at what changed at the first step: the learning rate, a new data shard, an epoch boundary.",
+              "Lower the peak learning rate or clip gradients if the rise follows a large update.",
+              "If this was a planned restart or curriculum stage, it is expected."
+            ]
+          }
+        ]
+      },
+      "htmlSha256": "5631c8d290cba992eb4347287d0fb2e4b312956099761d42638ca37555bf0a99"
+    }
+  ]
+}

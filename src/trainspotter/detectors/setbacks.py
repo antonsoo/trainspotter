@@ -117,6 +117,7 @@ class SetbackDetector(Detector):
             return []
         steps, values = series_arrays(series)
         spans = finite_spans(values)
+        has_unreadable = series.readable_count() != len(series)
         partial = len(spans) != 1 or spans[0] != (0, len(values))
         findings = []
         for start, stop in spans:
@@ -126,7 +127,8 @@ class SetbackDetector(Detector):
                 initial=start == 0,
             )
             if partial:
-                add_segment_evidence(segment, segment_steps)
+                add_segment_evidence(segment, segment_steps,
+                                     unreadable=has_unreadable)
             findings.extend(segment)
         return findings
 

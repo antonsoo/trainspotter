@@ -85,7 +85,13 @@ class GradNormDetector(Detector):
         if series is None or series.is_empty():
             return []
         steps, values = series_arrays(series)
-        findings = self._non_finite(steps, values, ambiguous=ambiguous)
+        observed = run.observed_series(self.metric)
+        findings = []
+        if observed is not None:
+            observed_steps, observed_values = (
+                (steps, values) if observed is series else series_arrays(observed)
+            )
+            findings = self._non_finite(observed_steps, observed_values, ambiguous=ambiguous)
         if ambiguous:
             return findings
         findings.extend(self._explosions(steps, values))

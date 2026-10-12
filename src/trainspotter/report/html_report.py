@@ -365,14 +365,23 @@ def _render_chart(
         segments: list[list[tuple[float, float]]] = []
         off_scale: list[tuple[float, float]] = []  # (x, real value)
         unplottable: list[tuple[float, float]] = []
-        for s, v in zip(steps, values, strict=True):
+        unreadable: list[list[tuple[float, int]]] = []
+        previous_unreadable = False
+        for s, v, point in zip(steps, values, series.points, strict=True):
             x = _plot_x(s, step_min, step_max)
             if not _plottable(v):
-                unplottable.append((x, 0.0))
+                if point.value is None:
+                    if not previous_unreadable:
+                        unreadable.append([])
+                    unreadable[-1].append((x, s))
+                else:
+                    unplottable.append((x, 0.0))
+                previous_unreadable = point.value is None
                 if segment:
                     segments.append(segment)
                     segment = []
                 continue
+            previous_unreadable = False
             plotted = min(v, cap) if cap is not None else v
             if cap is not None and v > cap:
                 off_scale.append((x, v))
@@ -398,6 +407,14 @@ def _render_chart(
         for x, _ in _thin_markers(unplottable, 6.0):
             y = plot_top + 10
             parts.append(f'<text class="marker-bad" x="{x:.1f}" y="{y:.1f}" text-anchor="middle">&#10005;</text>')
+        # One marker per consecutive unreadable region; individual coordinates
+        # remain in the evidence download. Thin dense regions like other markers.
+        gap_markers = [((group[0][0] + group[-1][0]) / 2, float(i))
+                       for i, group in enumerate(unreadable)]
+        for x, group_index in _thin_markers(gap_markers, 12.0):
+            group = unreadable[int(group_index)]
+            y = plot_top + 10
+            parts.append(f'<text class="marker-unreadable" data-count="{len(group)}" x="{x:.1f}" y="{y:.1f}" text-anchor="middle" fill="{color}"><title>{len(group)} unreadable values ({_esc(axis_label)} {group[0][1]}-{group[-1][1]})</title>?</text>')
 
     parts.append(_render_off_scale_labels(label_candidates, plot_top))
 
@@ -506,10 +523,11 @@ def _repeated_evidence(run: Run) -> str:
     rows = []
     for record in records[:100]:
         status = "Conflicting values: trajectory excluded" if record["conflicting_values"] else (
+            "Contains unreadable values: trajectory gap" if any(r["value"] is None for r in record["readings"]) else
             "Equal value: wall time unknown" if record["conflicting_times"] else "Equal readings: counted once"
         )
         values = "; ".join(
-            f'{reading["value"]} at wall time {reading["wall_time"] if reading["wall_time"] is not None else "unknown"} ({reading["count"]} {"reading" if reading["count"] == 1 else "readings"})'
+            f'{reading["value"] if reading["value"] is not None else "unreadable"} at wall time {reading["wall_time"] if reading["wall_time"] is not None else "unknown"} ({reading["count"]} {"reading" if reading["count"] == 1 else "readings"})'
             for reading in record["readings"][:20]
         )
         if len(record["readings"]) > 20:
@@ -532,6 +550,45 @@ def _repeated_evidence(run: Run) -> str:
         f'<thead><tr><th scope="col">Metric</th><th scope="col">{_esc(run.axis_label().capitalize())}</th>'
         '<th scope="col">Analysis</th><th scope="col">Value, wall time and count</th></tr></thead>'
         '<tbody>' + ''.join(rows) + '</tbody></table></div></details>'
+    )
+
+
+def _unreadable_evidence(run: Run) -> str:
+    positions = {
+        name: steps for name, series in sorted(run.metrics.items())
+        if (steps := [p.step for p in series.points if p.value is None])
+    }
+    if not positions:
+        return ""
+    count = sum(len(steps) for steps in positions.values())
+    encoded = base64.b64encode(json.dumps({
+        "schema_version": 1, "source_path": run.source_path,
+        "step_axis": run.axis_kind(), "step_column": run.meta.get("step_column", "step"),
+        "unreadable_steps": positions,
+    }, allow_nan=False).encode()).decode("ascii")
+    rows = []
+    for name, steps in list(positions.items())[:100]:
+        shown = ", ".join(map(str, steps[:20]))
+        if len(steps) > 20:
+            shown += f"; {len(steps) - 20} more in the JSON download"
+        rows.append(f'<tr><th scope="row">{_esc(name)}</th><td>{len(steps)}</td>'
+                    f'<td>{_esc(shown)}</td></tr>')
+    return (
+        '<details class="unreadable-evidence input-notes">'
+        f'<summary>Unreadable metric values ({count} recorded positions)</summary>'
+        '<h2>Known positions, unknown values</h2>'
+        '<p>These positions break the plotted line and trajectory checks. A ? marks an unreadable region; '
+        'it does not mean NaN or infinity was observed. Ordinary sparse logging cells are not listed.</p>'
+        f'<p>Showing {min(len(positions), 100)} of {len(positions)} metrics, at most 20 positions each. '
+        'Repeated positions remain repeated in this evidence.</p>'
+        f'<a download="trainspotter-unreadable-values.json" href="data:application/json;base64,{encoded}">'
+        'Download all unreadable positions</a>'
+        '<p class="table-hint">Scroll the table horizontally to inspect every column.</p>'
+        '<div class="table-scroll" tabindex="0" role="region" aria-label="Unreadable metric positions">'
+        '<table><caption>Metric cells whose numeric value could not be read</caption>'
+        '<thead><tr><th scope="col">Metric</th><th scope="col">Unreadable values</th>'
+        f'<th scope="col">{_esc(run.axis_label().capitalize())}</th></tr></thead><tbody>'
+        + ''.join(rows) + '</tbody></table></div></details>'
     )
 
 
@@ -662,7 +719,7 @@ def render_html(run: Run, findings: list[Finding], title: str = "trainspotter re
     sources = run.meta.get("metric_sources", {})
     source_rows = "".join(
         f'<tr><th scope="row">{_esc(name)}</th><td>{_esc(str(sources.get(name, name)))}</td>'
-        f'<td>{len(series)}</td><td>{len(analysis.metrics[name]) if name in analysis.metrics else "Excluded"}</td></tr>'
+        f'<td>{series.readable_count()}</td><td>{analysis.metrics[name].readable_count() if name in analysis.metrics else "Excluded"}</td></tr>'
         for name, series in sorted(run.metrics.items())
     ) if isinstance(sources, dict) else ""
     evidence_html = (
@@ -710,7 +767,7 @@ def render_html(run: Run, findings: list[Finding], title: str = "trainspotter re
   </header>
 
   <main>
-  {input_html}
+  {input_html}{_unreadable_evidence(run)}
   <section class="summary">
     <div class="count sev-error"><span class="n">{counts['error']}</span><span class="l">error</span></div>
     <div class="count sev-warning"><span class="n">{counts['warning']}</span><span class="l">warning</span></div>
@@ -760,7 +817,7 @@ _CSS = """
 }
 * { box-sizing: border-box; }
 a { color: var(--info); }
-a:focus-visible, .repeated-evidence summary:focus-visible, .table-scroll:focus-visible {
+a:focus-visible, .repeated-evidence summary:focus-visible, .unreadable-evidence summary:focus-visible, .table-scroll:focus-visible {
   outline: 2px solid var(--info); outline-offset: 3px;
 }
 html, body { margin: 0; padding: 0; background: var(--bg); color: var(--text); }
@@ -818,6 +875,13 @@ body {
 .repeated-evidence th:nth-child(2) { width: 70px; }
 .repeated-evidence th:nth-child(3) { width: 210px; }
 .repeated-evidence caption { text-align: left; padding: 10px 0; }
+.unreadable-evidence summary { cursor: pointer; padding: 5px 0; }
+.unreadable-evidence h2 { margin-top: 10px; }
+.unreadable-evidence table { width: 100%; min-width: 600px; table-layout: fixed; border-collapse: collapse; font-family: var(--mono); font-size: 12px; }
+.unreadable-evidence th, .unreadable-evidence td { text-align: left; padding: 8px; border-bottom: 1px solid var(--line); overflow-wrap: anywhere; }
+.unreadable-evidence th:nth-child(1) { width: 140px; }
+.unreadable-evidence th:nth-child(2) { width: 100px; }
+.unreadable-evidence caption { text-align: left; padding: 10px 0; }
 .table-hint { color: var(--text-muted); font-size: 12px; margin: 8px 0; }
 @media (min-width: 900px) { .table-hint { display: none; } }
 

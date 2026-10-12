@@ -14,7 +14,7 @@ detector set. A report with no findings is not proof that training is healthy.
 | Non-step W&B chart axis | Use disclosed row indices; preserve a time axis as wall time |
 | Sparse blank/null metric cell | No observation at that step |
 | NaN/Inf metric reading | Retain for diagnostics, including a run with just one loss reading |
-| Nonnumeric nonblank cell in a recognized or otherwise numeric metric | Count as an invalid metric value |
+| Nonnumeric nonblank cell in a recognized or otherwise numeric metric | Count as invalid; retain its known coordinate as an unreadable boundary |
 | Text-only metadata column | Ignore as a metric |
 | Two names normalize to the same spelling | Keep distinct series; literal names have priority |
 | Duplicate CSV header or competing step columns | Reject the source |
@@ -65,14 +65,52 @@ An LR-based suppression uses only readings at or before the finding's start,
 with NaN/Inf/negative LR observations breaking its peak history.
 [Examples, sensitivity and limitations](../studies/plateau-evidence/README.md).
 
+## Unreadable values at known coordinates
+
+A nonblank value such as `LOGGER_ERROR` is neither a numeric measurement nor an
+ordinary sparse cell. Readers retain its coordinate, and trajectory windows stop
+at that position. A level change cannot become a continuous rise across it, and
+recovery after it cannot establish a setback duration across the unreadable region.
+Independent events inside a later intact segment are still assessed. Direct timing
+windows containing unreadable values remain unavailable rather than moving to a
+more convenient window.
+
+The Python model represents an unreadable position as `Point.value = None`.
+`MetricSeries.values()` maps it to a NaN sentinel for numerical segmentation;
+that projection is **not** an observed NaN. Pointwise non-finite diagnostics use
+the separately retained actual readings. Equal repeated observed values still
+count once. If an unreadable and an observed value share a step, that step breaks
+the trajectory without asserting that their unknown values disagree; any actual
+NaN/Inf observation at the same step remains reportable. Unequal observed values
+continue to exclude the metric's trajectory.
+
+JSON keeps original reading counts in `run.metrics[name].count` and
+`analysis_count` (unreadable positions are not counted as numeric readings).
+A metric with unreadable positions adds `unreadable_steps`, retaining repetitions.
+Its first/last step bounds include those recorded positions. An unreadable value
+in repeated-step evidence is JSON `null`; observed NaN remains the string `"nan"`.
+The standalone HTML marks unreadable positions with `?`, breaks its plotted line,
+and provides a complete offline JSON download of their coordinates. Its table
+shows at most 100 metrics and 20 positions per metric; the download is not truncated.
+
+Blank/null sparse cells remain absent observations. These boundaries require a
+known metric and usable coordinate. They cannot locate a wholly undecodable row,
+a missing step, an unrecorded batch or a hidden phase change. Existing skipped-row
+and unread-byte counts still make such inputs incomplete; this repair does not
+invent positions for them. With no numeric metrics, the CLI still exits 2.
+
+[Reproduced CLI failures, controls and limitations](../studies/unreadable-values/README.md).
+
 ## TensorBoard event order
 
 The optional reader uses TensorBoard's TFRecord decoder and protobuf definitions,
 without a DataFrame or reservoir sampling. It accepts legacy `simple_value` and
 rank-zero numeric tensors with scalar or absent plugin metadata. Text, images,
 histograms and non-scalar tensors are outside this reader's scope. A malformed value
-explicitly marked as a scalar is counted as skipped; tensor shapes are checked before
-decoding to avoid allocating a non-scalar shape.
+explicitly marked as a scalar is counted as skipped, with its known position retained
+as an unreadable boundary. Tensor shapes are checked before decoding to avoid
+allocating a non-scalar shape. Restart purging removes these boundary positions too;
+run selection and overwritten-point counts continue to count only numeric readings.
 
 Files within a writer directory are read in lexicographic filename order and records
 in file order. Wall time is preserved as timing evidence, never used to reorder events.
@@ -177,6 +215,7 @@ The existing JSON schema version 1 has additive fields:
 | `run.step_axis` | `step`, `logging_step` or `row_index`; W&B logging positions do not establish training progress |
 | `run.step_selection` | `automatic` or `explicit`; `--step-key` asserts a training counter |
 | `run.input_notes` | Human-readable limits on the imported observations |
+| `run.metrics[name].unreadable_steps` | Optional list of known coordinates whose metric value was unreadable; repeated positions stay repeated |
 
 `input_complete` does not describe training completion, logging coverage, or statistical
 power. Deliberately unsupported summaries and sparse metric cells do not make it false.

@@ -6,6 +6,16 @@ and this project uses [Semantic Versioning](https://semver.org/).
 
 ## Unreleased
 
+- Preserve known-coordinate unreadable metric values as trajectory boundaries in
+  CSV, JSONL, Hugging Face, W&B, Lightning and TensorBoard scalar inputs. Invalid
+  cells no longer invent rises, spikes or recovery durations across gaps, or hide
+  a valid local event after one. Keep sparse cells absent and actual NaN/Inf
+  observations distinct, including repeated steps and watch rewrites.
+- Expose unreadable coordinates in JSON and standalone HTML, with broken chart
+  lines, separate markers and a complete offline evidence download. Reading counts
+  still count numeric observations; all-unreadable input remains an input error.
+  [Reproduction, controls and limits](studies/unreadable-values/README.md).
+
 - Bound possible plateaus by their median loss level and observed local noise,
   including the full union of merged windows. Equal endpoints and a weak linear
   slope no longer make a recovered rise into a flat interval. Loss gaps split

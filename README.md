@@ -45,6 +45,11 @@ The source also [bounds possible plateaus by the observed loss level](studies/pl
 a recovered fourfold rise cannot be folded into one "barely moved" interval.
 The report distinguishes the smoothed level from raw fluctuations, retains
 noise estimates, and cannot use a future learning rate to hide an earlier stall.
+Known-step nonnumeric cells now preserve those boundaries too: dropping
+`LOGGER_ERROR` from a loss column could invent a 30-step setback and hide a real
+later event. The [unreadable-value repair](studies/unreadable-values/README.md)
+keeps the gaps visible in CLI/JSON/HTML, preserves actual NaN/Inf alerts, and adds
+an offline download of unreadable coordinates.
 These corrections are available from source; no PyPI release was made for them.
 
 ## Calibration study on 3,145 real runs

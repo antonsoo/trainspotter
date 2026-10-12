@@ -147,7 +147,8 @@ class OverfittingDetector(Detector):
             else "info"
         )
         segment_note = (
-            f" Assessment starts at step {int(eval_steps[0])}, after the last non-finite evaluation."
+            f" Assessment starts at step {int(eval_steps[0])}, after the last "
+            f"{'unreadable' if eval_series.points[start - 1].value is None else 'non-finite'} evaluation."
             if start
             else ""
         )
@@ -221,7 +222,11 @@ class OverfittingDetector(Detector):
             }
         )
         if not np.all(np.isfinite(tv)):
-            evidence["training_status"] = "nonfinite_overlap"
+            evidence["training_status"] = (
+                "unreadable_overlap"
+                if any(p.value is None and lo <= p.step <= hi for p in series.points)
+                else "nonfinite_overlap"
+            )
             return "", evidence
         t_slope, _t_se, t_p = _scaled_slope(ts, tv)
         e_slope, _e_se, e_p = _scaled_slope(es, ev)

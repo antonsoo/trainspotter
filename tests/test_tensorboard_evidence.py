@@ -264,7 +264,9 @@ def test_skipped_scalar_stays_with_its_run_even_without_accepted_points(tmp_path
     assert ('broken' in selected.other_runs()[1])
     broken = load_run(tmp_path, run_name='broken')
     assert broken.skipped_rows() == 1
-    assert not broken.metrics and not broken.input_complete()
+    assert not broken.input_complete()
+    assert broken.get("train/loss").readable_count() == 0
+    assert [(p.step, p.value) for p in broken.get("train/loss").points] == [(1, None)]
 
 
 def test_unread_writer_without_tags_is_retained_and_scoped_conservatively(tmp_path: Path) -> None:
@@ -317,3 +319,30 @@ def test_overflowing_record_length_is_unread_evidence_not_a_crash(tmp_path: Path
     assert _actual(run, 'train/loss') == [(1, 2)]
     assert run.unread_event_bytes() == 12
     assert not run.input_complete()
+
+
+@pytest.mark.parametrize("bad", [[1., 2.], "unreadable"])
+def test_unreadable_scalar_at_known_step_breaks_loss_evidence(tmp_path: Path, bad) -> None:
+    from trainspotter.detectors.divergence import DivergenceDetector
+    from trainspotter.detectors.spikes import SpikeDetector
+
+    values = [5.] * 20 + [1.] * 40 + [bad] * 10 + [4.] + [1.] * 40
+    _write(tmp_path, [_point(i, value, tensor=True) for i, value in enumerate(values)])
+    run = load_run(tmp_path)
+    series = run.get("train/loss")
+    assert [p.step for p in series.points if p.value is None] == list(range(60, 70))
+    assert run.skipped_rows() == 10
+    assert SpikeDetector().run(run) == []
+    assert DivergenceDetector().run(run) == []
+
+
+def test_unreadable_scalar_positions_follow_restart_purging_and_do_not_select_largest_run(tmp_path):
+    _write(tmp_path / "broken", [_point(i, [1., 2.], tensor=True) for i in range(20)])
+    _write(tmp_path / "selected", [_point(0, 2.), _point(1, 1.)])
+    assert load_run(tmp_path).meta["selected_run"] == "selected"
+    _write(tmp_path / "restarted", [_point(0, 2.), _point(1, [1., 2.], tensor=True),
+                                      _restart(1), _point(1, 1.)])
+    run = load_run(tmp_path, run_name="restarted")
+    assert [(p.step, p.value) for p in run.get("train/loss").points] == [(0, 2.), (1, 1.)]
+    assert run.overwritten_points() == 0  # Purged unreadable positions are not decoded readings.
+    assert run.skipped_rows() == 1  # The original decoding failure remains disclosed.

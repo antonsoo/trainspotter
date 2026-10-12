@@ -61,7 +61,7 @@ def _ingest_row(
             continue
         if key in ("wall_time", "timestamp"):
             continue
-        value = metric_value(run, names[key], raw_value)
+        value = metric_value(run, names[key], raw_value, step=step, wall_time=wall_time)
         if value is None:
             continue
         run.add_point(names[key], step, value, wall_time=wall_time)

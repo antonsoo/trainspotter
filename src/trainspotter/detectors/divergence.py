@@ -90,7 +90,8 @@ class DivergenceDetector(Detector):
                 # was recorded. Keep this pointwise fact without guessing a curve.
                 excluded = run._excluded_metrics.get(metric_name)
                 if excluded is not None:
-                    bad = [point for point in excluded.points if not math.isfinite(point.value)]
+                    bad = [point for point in excluded.points
+                           if point.value is not None and not math.isfinite(point.value)]
                     if bad:
                         bad_steps = {point.step for point in bad}
                         findings.append(
@@ -118,7 +119,12 @@ class DivergenceDetector(Detector):
                         )
                 continue
             steps, values = series_arrays(series)
-            findings.extend(self._non_finite(metric_name, steps, values))
+            observed = run.observed_series(metric_name)
+            if observed is not None:
+                observed_steps, observed_values = (
+                    (steps, values) if observed is series else series_arrays(observed)
+                )
+                findings.extend(self._non_finite(metric_name, observed_steps, observed_values))
             if metric_name == self.level_metric:
                 spans = finite_spans(values)
                 # Terminal-level claims require a finite final observation. An
@@ -131,7 +137,8 @@ class DivergenceDetector(Detector):
                         scope="final finite segment" if start else "run",
                     )
                     if start:
-                        add_segment_evidence(segment, segment_steps)
+                        add_segment_evidence(segment, segment_steps,
+                                             unreadable=series.readable_count() != len(series))
                     findings.extend(segment)
         return findings
 

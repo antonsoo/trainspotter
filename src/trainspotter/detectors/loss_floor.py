@@ -75,15 +75,16 @@ class LossFloorDetector(Detector):
             return []
         first, last = series.points[0], series.points[-1]
         span = last.step - first.step
-        if span <= 0 or not math.isfinite(first.value) or first.value <= 0:
+        if span <= 0 or first.value is None or not math.isfinite(first.value) or first.value <= 0:
             return []
         early = [p for p in series.points if p.step - first.step <= span * self.early_frac]
         # Validate the whole window before claiming an early drop: no nonfinite
         # gaps, or a negative objective whose floor is not zero.
-        if any(not math.isfinite(p.value) or p.value < 0 for p in early):
+        if any(p.value is None or not math.isfinite(p.value) or p.value < 0 for p in early):
             return []
         for point in early:
             v = point.value
+            assert v is not None  # The complete early window was checked above.
             if v <= self.abs_floor and v <= first.value * self.rel_floor:
                 position = (point.step - first.step) / span
                 return [

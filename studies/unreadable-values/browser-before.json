@@ -1,0 +1,193 @@
+{
+  "mode": "baseline",
+  "results": [
+    {
+      "engine": "chromium",
+      "browserVersion": "153.0.8010.12",
+      "width": 1440,
+      "name": "captured-text-fault",
+      "htmlBytes": 17977,
+      "htmlSha256": "0388c3ac2e5c2f48a5ad53b728908377b5092350e348405f9032c930d3c2a303",
+      "openedFromFileWhileOffline": true,
+      "plottedSegments": 1,
+      "titles": [
+        "Setback",
+        "Isolated loss spikes"
+      ],
+      "unreadablePositions": [],
+      "download": null,
+      "errors": [],
+      "httpRequests": [],
+      "policyViolations": [],
+      "axeViolations": 0,
+      "horizontalOverflow": false,
+      "screenshot": "chromium-1440-captured-text-fault.png",
+      "screenshotSha256": "655251989982cd299e8bb486573d03e0a99460a0d7ca29baafa195abea612463"
+    },
+    {
+      "engine": "chromium",
+      "browserVersion": "153.0.8010.12",
+      "width": 1440,
+      "name": "genuine-after-gap",
+      "htmlBytes": 20036,
+      "htmlSha256": "50c28c62c427bd28464df5ea6781e3b33d07c2f32a8241ed067e7e51f874f211",
+      "openedFromFileWhileOffline": true,
+      "plottedSegments": 1,
+      "titles": [
+        "Possible plateau",
+        "Possible plateau",
+        "Possible plateau"
+      ],
+      "unreadablePositions": [],
+      "download": null,
+      "errors": [],
+      "httpRequests": [],
+      "policyViolations": [],
+      "axeViolations": 0,
+      "horizontalOverflow": false,
+      "screenshot": "chromium-1440-genuine-after-gap.png",
+      "screenshotSha256": "1bac9ea3001646fcbab8b71ce402bd2461810f13faeb05d87fb2cca7ba04f310"
+    },
+    {
+      "engine": "chromium",
+      "browserVersion": "153.0.8010.12",
+      "width": 375,
+      "name": "captured-text-fault",
+      "htmlBytes": 17977,
+      "htmlSha256": "0388c3ac2e5c2f48a5ad53b728908377b5092350e348405f9032c930d3c2a303",
+      "openedFromFileWhileOffline": true,
+      "plottedSegments": 1,
+      "titles": [
+        "Setback",
+        "Isolated loss spikes"
+      ],
+      "unreadablePositions": [],
+      "download": null,
+      "errors": [],
+      "httpRequests": [],
+      "policyViolations": [],
+      "axeViolations": 0,
+      "horizontalOverflow": false,
+      "screenshot": "chromium-375-captured-text-fault.png",
+      "screenshotSha256": "9707b581cbcb3a6e0ed22bf8df182c42a051122aa885f0bdd2f3ea39e7adf0ef"
+    },
+    {
+      "engine": "chromium",
+      "browserVersion": "153.0.8010.12",
+      "width": 375,
+      "name": "genuine-after-gap",
+      "htmlBytes": 20036,
+      "htmlSha256": "50c28c62c427bd28464df5ea6781e3b33d07c2f32a8241ed067e7e51f874f211",
+      "openedFromFileWhileOffline": true,
+      "plottedSegments": 1,
+      "titles": [
+        "Possible plateau",
+        "Possible plateau",
+        "Possible plateau"
+      ],
+      "unreadablePositions": [],
+      "download": null,
+      "errors": [],
+      "httpRequests": [],
+      "policyViolations": [],
+      "axeViolations": 0,
+      "horizontalOverflow": false,
+      "screenshot": "chromium-375-genuine-after-gap.png",
+      "screenshotSha256": "3b8eced2c465c58110a3cf8b0ee6518a29f0705960059ea365d68d2dc22c8abf"
+    },
+    {
+      "engine": "firefox",
+      "browserVersion": "155.0",
+      "width": 1440,
+      "name": "captured-text-fault",
+      "htmlBytes": 17977,
+      "htmlSha256": "0388c3ac2e5c2f48a5ad53b728908377b5092350e348405f9032c930d3c2a303",
+      "openedFromFileWhileOffline": true,
+      "plottedSegments": 1,
+      "titles": [
+        "Setback",
+        "Isolated loss spikes"
+      ],
+      "unreadablePositions": [],
+      "download": null,
+      "errors": [],
+      "httpRequests": [],
+      "policyViolations": [],
+      "axeViolations": 0,
+      "horizontalOverflow": false,
+      "screenshot": "firefox-1440-captured-text-fault.png",
+      "screenshotSha256": "dfb09e330cfe605603338bbea9bda138a7efe3075fb14601492fc614b8978b2e"
+    },
+    {
+      "engine": "firefox",
+      "browserVersion": "155.0",
+      "width": 1440,
+      "name": "genuine-after-gap",
+      "htmlBytes": 20036,
+      "htmlSha256": "50c28c62c427bd28464df5ea6781e3b33d07c2f32a8241ed067e7e51f874f211",
+      "openedFromFileWhileOffline": true,
+      "plottedSegments": 1,
+      "titles": [
+        "Possible plateau",
+        "Possible plateau",
+        "Possible plateau"
+      ],
+      "unreadablePositions": [],
+      "download": null,
+      "errors": [],
+      "httpRequests": [],
+      "policyViolations": [],
+      "axeViolations": 0,
+      "horizontalOverflow": false,
+      "screenshot": "firefox-1440-genuine-after-gap.png",
+      "screenshotSha256": "fc01b40e80959006b64de9f85743690d63692fa9377fbc85701937ba59e9439f"
+    },
+    {
+      "engine": "firefox",
+      "browserVersion": "155.0",
+      "width": 375,
+      "name": "captured-text-fault",
+      "htmlBytes": 17977,
+      "htmlSha256": "0388c3ac2e5c2f48a5ad53b728908377b5092350e348405f9032c930d3c2a303",
+      "openedFromFileWhileOffline": true,
+      "plottedSegments": 1,
+      "titles": [
+        "Setback",
+        "Isolated loss spikes"
+      ],
+      "unreadablePositions": [],
+      "download": null,
+      "errors": [],
+      "httpRequests": [],
+      "policyViolations": [],
+      "axeViolations": 0,
+      "horizontalOverflow": false,
+      "screenshot": "firefox-375-captured-text-fault.png",
+      "screenshotSha256": "0e942ef2797ead386028a6cfb5d6daf61e57d876c64afa587a407580db8a5d7a"
+    },
+    {
+      "engine": "firefox",
+      "browserVersion": "155.0",
+      "width": 375,
+      "name": "genuine-after-gap",
+      "htmlBytes": 20036,
+      "htmlSha256": "50c28c62c427bd28464df5ea6781e3b33d07c2f32a8241ed067e7e51f874f211",
+      "openedFromFileWhileOffline": true,
+      "plottedSegments": 1,
+      "titles": [
+        "Possible plateau",
+        "Possible plateau",
+        "Possible plateau"
+      ],
+      "unreadablePositions": [],
+      "download": null,
+      "errors": [],
+      "httpRequests": [],
+      "policyViolations": [],
+      "axeViolations": 0,
+      "horizontalOverflow": false,
+      "screenshot": "firefox-375-genuine-after-gap.png",
+      "screenshotSha256": "a2a944efcf49824ca7ac9157325c3eca6ac8f6cb972c28d2d00628037ec4760c"
+    }
+  ]
+}

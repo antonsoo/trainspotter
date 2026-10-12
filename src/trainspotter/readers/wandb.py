@@ -152,7 +152,7 @@ def read_wandb_chart_csv(
         elif "time" in axis.lower():
             wall_time = x
         for metric, i in columns.items():
-            value = metric_value(run, names[metric], row[i])
+            value = metric_value(run, names[metric], row[i], step=step, wall_time=wall_time)
             if value is not None:
                 run.add_point(names[metric], step, value, wall_time=wall_time)
     run.meta["skipped_rows"] = skipped
@@ -218,7 +218,7 @@ def read_wandb_csv(
                 # csv.DictReader files the cells beyond the header under the key None.
                 if key is None or key == step_key or key.strip().startswith(_SKIP_PREFIXES):
                     continue
-                value = metric_value(run, names[key], raw_value)
+                value = metric_value(run, names[key], raw_value, step=step, wall_time=wall_time)
                 if value is None:
                     continue
                 run.add_point(names[key], step, value, wall_time=wall_time)

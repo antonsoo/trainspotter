@@ -16,10 +16,10 @@ AxisKind = Literal["step", "logging_step", "row_index"]
 
 @dataclass(frozen=True, slots=True)
 class Point:
-    """One logged value of one metric."""
+    """One recorded position; None means an unreadable value, not an observed NaN."""
 
     step: int
-    value: float
+    value: float | None
     wall_time: float | None = None
     epoch: float | None = None
 
@@ -45,7 +45,15 @@ class MetricSeries:
         return [p.step for p in self.points]
 
     def values(self) -> list[float]:
-        return [p.value for p in self.points]
+        """Numerical projection: unreadable positions break finite segments.
+
+        Inspect points for original values. A projected NaN at an unreadable
+        position is a gap sentinel, never evidence that NaN was logged.
+        """
+        return [p.value if p.value is not None else math.nan for p in self.points]
+
+    def readable_count(self) -> int:
+        return sum(p.value is not None for p in self.points)
 
     def __len__(self) -> int:
         return len(self.points)
@@ -69,15 +77,19 @@ class MetricSeries:
         repeated: list[RepeatedStep] = []
         for step, readings in sorted(groups.items()):
             first = readings[0]
+            observed = [p for p in readings if p.value is not None]
             same_values = all(
-                p.value == first.value or (math.isnan(p.value) and math.isnan(first.value))
-                for p in readings
+                p.value == observed[0].value
+                or (p.value is not None and observed[0].value is not None
+                    and math.isnan(p.value) and math.isnan(observed[0].value))
+                for p in observed
             )
             same_times = all(p.wall_time == first.wall_time for p in readings)
             if len(readings) > 1:
                 repeated.append(RepeatedStep(step, readings, not same_values, not same_times))
             points.append(
-                Point(step, first.value, first.wall_time if same_times else None, first.epoch)
+                Point(step, first.value if len(observed) == len(readings) else None,
+                      first.wall_time if same_times else None, first.epoch)
             )
         return ([] if any(group.conflicting_values for group in repeated) else points), repeated
 
@@ -92,13 +104,46 @@ class Run:
     meta: dict[str, object] = field(default_factory=dict)
     _analysis_ready: bool = field(default=False, repr=False)
     _excluded_metrics: dict[str, MetricSeries] = field(default_factory=dict, repr=False)
+    _original_metrics: dict[str, MetricSeries] = field(default_factory=dict, repr=False)
+    _pending_unreadable: dict[str, list[Point]] = field(default_factory=dict, repr=False)
 
     def add_point(
-        self, metric: str, step: int, value: float, wall_time: float | None = None
+        self, metric: str, step: int, value: float | None, wall_time: float | None = None
     ) -> None:
         series = self.metrics.setdefault(metric, MetricSeries(name=metric))
+        series.points.extend(self._pending_unreadable.pop(metric, []))
         series.points.append(Point(step=step, value=value, wall_time=wall_time))
         self._analysis_ready = False
+
+    def add_unreadable(
+        self, metric: str, step: int, wall_time: float | None = None, *, known_metric: bool = False,
+    ) -> None:
+        """Keep a known coordinate without inventing a measurement.
+
+        Text-only columns remain metadata. If a later numeric reading establishes
+        that this is a metric, its earlier unreadable positions are retained too.
+        """
+        if known_metric or metric in self.metrics:
+            self.add_point(metric, step, None, wall_time)
+        else:
+            self._pending_unreadable.setdefault(metric, []).append(Point(step, None, wall_time))
+            self._analysis_ready = False
+
+    def observed_series(self, name: str) -> MetricSeries | None:
+        """Actual numeric readings, including NaN/Inf, before gap projection.
+
+        Equal repeats count once; conflicting observations stay available for
+        pointwise evidence even though they cannot establish a trajectory.
+        """
+        current = self.metrics.get(name)
+        if current is not None and all(p.value is not None for p in current.points):
+            return current
+        series = self._original_metrics.get(name, current)
+        if series is None:
+            return None
+        observed = MetricSeries(name, [p for p in series.points if p.value is not None])
+        points, _repeated = observed.analysis()
+        return MetricSeries(name, points) if points else observed
 
     def get(self, name: str) -> MetricSeries | None:
         return self.metrics.get(name)
@@ -146,6 +191,7 @@ class Run:
             meta=self.meta,
             _analysis_ready=True,
             _excluded_metrics=excluded,
+            _original_metrics=self.metrics,
         )
 
     def skipped_rows(self) -> int:
@@ -195,6 +241,7 @@ class Run:
             and self.skipped_values() == 0
             and self.unread_event_bytes() == 0
             and not self.meta.get("ambiguous_metric_sources")
+            and all(p.value is not None for series in self.metrics.values() for p in series.points)
             and not any(
                 group.conflicting_values or group.conflicting_times
                 for groups in self.repeated_steps().values()
@@ -204,6 +251,13 @@ class Run:
 
     def input_notes(self) -> list[str]:
         notes = []
+        for name, series in sorted(self.metrics.items()):
+            unreadable = len(series) - series.readable_count()
+            if unreadable:
+                notes.append(
+                    f"{name}: {unreadable} unreadable values at recorded steps; "
+                    "trajectory checks stop at these gaps. These are not observed NaN/Inf values."
+                )
         for name, groups in sorted(self.repeated_steps().items()):
             extra = sum(len(group.readings) - 1 for group in groups)
             conflicts = sum(group.conflicting_values for group in groups)
@@ -267,3 +321,4 @@ class Run:
         call this once after loading before anything reads the series."""
         for series in self.metrics.values():
             series.points.sort(key=lambda p: p.step)
+        self._pending_unreadable.clear()  # Columns with no numeric/known metric are text metadata.

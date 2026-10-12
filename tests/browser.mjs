@@ -105,6 +105,24 @@ try {
                 assert.deepEqual(downloaded.repeated_steps, original.run.repeated_steps);
                 assert.equal(downloaded.repeated_steps.length, report.repeatedGroups);
               }
+              if (report.file === 'synthetic-unreadable.html') {
+                const invalid = page.locator('.unreadable-evidence');
+                await invalid.locator('summary').focus();
+                await page.keyboard.press('Enter');
+                assert.equal(await invalid.getAttribute('open'), '');
+                assert.equal(await page.locator('svg.chart path[stroke-width="1.75"]').count(), 3);
+                assert.ok(await page.locator('.marker-unreadable').count() > 0);
+                const original = JSON.parse(await readFile(join(scratch, report.file.replace(/\.html$/, '.json')), 'utf8'));
+                assert.equal(original.run.skipped_values, 20);
+                assert.equal(original.findings.some(f => ['spikes', 'setbacks', 'divergence'].includes(f.detector)), false);
+                const link = invalid.getByRole('link', { name: 'Download all unreadable positions' });
+                await link.focus();
+                const pending = page.waitForEvent('download');
+                await page.keyboard.press('Enter');
+                const downloaded = JSON.parse(await readFile(await (await pending).path(), 'utf8'));
+                assert.deepEqual(downloaded.unreadable_steps, { 'train/loss': original.run.metrics['train/loss'].unreadable_steps });
+                assert.equal(downloaded.source_path, 'synthetic-unreadable.csv');
+              }
               if (layout === 'mobile') {
                 for (const table of await page.locator('.table-scroll').all()) {
                   await checkKeyboardScroll(page, table);

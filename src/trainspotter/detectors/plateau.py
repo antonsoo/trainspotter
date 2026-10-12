@@ -167,6 +167,7 @@ class PlateauDetector(Detector):
                 continue
             steps, values = series_arrays(series)
             spans = finite_spans(values)
+            has_unreadable = series.readable_count() != len(series)
             partial = len(spans) != 1 or spans[0] != (0, len(values))
             for start, stop in spans:
                 segment = self._segment(
@@ -178,7 +179,8 @@ class PlateauDetector(Detector):
                     lr_peaks,
                 )
                 if partial:
-                    add_segment_evidence(segment, steps[start:stop])
+                    add_segment_evidence(segment, steps[start:stop],
+                                         unreadable=has_unreadable)
                 findings.extend(segment)
         return findings
 

@@ -119,6 +119,7 @@ class SpikeDetector(Detector):
                 continue
             steps, values = series_arrays(series)
             spans = finite_spans(values)
+            has_unreadable = series.readable_count() != len(series)
             partial = len(spans) != 1 or spans[0] != (0, len(values))
             for start, stop in spans:
                 segment_steps = steps[start:stop]
@@ -127,7 +128,8 @@ class SpikeDetector(Detector):
                     scope="finite segment" if partial else "run",
                 )
                 if partial:
-                    add_segment_evidence(segment, segment_steps)
+                    add_segment_evidence(segment, segment_steps,
+                                         unreadable=has_unreadable)
                 findings.extend(segment)
         return findings
 

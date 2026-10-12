@@ -51,7 +51,7 @@ class _Directory:
         for tag in dict.fromkeys(tags):
             old = self.points.get(tag, [])
             kept = [point for point in old if point.step < step]
-            self.overwritten[tag] += len(old) - len(kept)
+            self.overwritten[tag] += sum(p.value is not None and p.step >= step for p in old)
             if tag in self.points:
                 self.points[tag] = kept
 
@@ -95,6 +95,7 @@ class _Directory:
                     if self.plugins.get(tag) == "scalars":
                         self.scalar_tags.add(tag)
                         self.skipped += 1
+                        self.points[tag].append(Point(step, None, wall_time))
                     continue
                 try:
                     array = make_ndarray(tensor)
@@ -102,11 +103,13 @@ class _Directory:
                         if self.plugins.get(tag) == "scalars":
                             self.scalar_tags.add(tag)
                             self.skipped += 1
+                            self.points[tag].append(Point(step, None, wall_time))
                         continue
                     number = float(array.item())
                 except (ValueError, TypeError, OverflowError, KeyError):
                     self.scalar_tags.add(tag)
                     self.skipped += 1
+                    self.points[tag].append(Point(step, None, wall_time))
                     continue
                 self.scalar_tags.add(tag)
             else:
@@ -207,7 +210,8 @@ def read_tensorboard(path: str | Path, run_name: str | None = None) -> Run:
     run.meta["event_directories"] = directories
     if not by_run and run_name is None:
         return run
-    counts = {name: sum(len(points) for _, _, points in series) for name, series in by_run.items()}
+    counts = {name: sum(p.value is not None for _, _, points in series for p in points)
+              for name, series in by_run.items()}
     chosen = select_run(run, counts, run_name, what=f"{p}: TensorBoard logdir")
     for record in directories:
         record["selected"] = chosen in record["possible_runs"]

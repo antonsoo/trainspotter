@@ -112,7 +112,7 @@ def _fail_code(findings: list[Finding], fail_on: Severity | None) -> int:
 
 
 def _require_metrics(run: Run) -> None:
-    if not run.metric_names():
+    if not any(series.readable_count() for series in run.metrics.values()):
         # Not "no pathologies detected": nothing was looked at. With --fail-on in CI, a log
         # that could not be read would otherwise pass.
         columns = run.meta.get("columns")
@@ -160,8 +160,10 @@ def _extends(previous: Run, current: Run) -> bool:
         if new is None or len(new) < len(old):
             return False
         for before, after in zip(old.points, new.points, strict=False):
-            if (before.step, float(before.value).hex(), str(before.wall_time)) != (
-                after.step, float(after.value).hex(), str(after.wall_time),
+            if (before.step, float(before.value).hex() if before.value is not None else None,
+                str(before.wall_time)) != (
+                after.step, float(after.value).hex() if after.value is not None else None,
+                str(after.wall_time),
             ):
                 return False
     return True

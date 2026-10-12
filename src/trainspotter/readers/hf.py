@@ -99,7 +99,7 @@ def read_hf_trainer_state(path: str | Path) -> Run:
         for key, raw_value in entry.items():
             if key in _NON_METRIC_KEYS:
                 continue
-            value = metric_value(run, names[key], raw_value)
+            value = metric_value(run, names[key], raw_value, step=step)
             if value is None:
                 continue
             run.add_point(names[key], step, value)

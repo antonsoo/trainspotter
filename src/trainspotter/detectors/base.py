@@ -412,7 +412,9 @@ def progress_text(share: float, scope: str = "run") -> str:
     )
 
 
-def add_segment_evidence(findings: list[Finding], steps: FloatArray) -> None:
+def add_segment_evidence(
+    findings: list[Finding], steps: FloatArray, *, unreadable: bool = False,
+) -> None:
     """Name the finite observations behind a finding in a history with gaps."""
     for finding in findings:
         finding.evidence.update({
@@ -422,7 +424,8 @@ def add_segment_evidence(findings: list[Finding], steps: FloatArray) -> None:
         })
         finding.message += (
             f" Assessed within the finite segment at steps {int(steps[0])}-{int(steps[-1])} "
-            f"({len(steps)} observations); no loss trajectory is inferred across NaN/Inf readings."
+            f"({len(steps)} observations); no loss trajectory is inferred across "
+            f"{'non-finite or unreadable values' if unreadable else 'NaN/Inf readings'}."
         )
 
 
