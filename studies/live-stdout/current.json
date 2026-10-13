@@ -1,0 +1,256 @@
+{
+  "platform": "Linux-6.18.54.1-microsoft-standard-WSL2-x86_64-with-glibc2.39",
+  "python": "3.14.7 (main, Sep  1 2026, 14:18:09) [Clang 22.1.3 ]",
+  "numpy": "2.5.4",
+  "mode": "isolated installed wheel",
+  "synthetic": true,
+  "unbuffering_overrides": false,
+  "stage_timeout_seconds": 120,
+  "complete": true,
+  "initial_finding": {
+    "arguments": [
+      "watch",
+      "train-λ.jsonl",
+      "--interval",
+      "0.05"
+    ],
+    "alive_before_interrupt": true,
+    "stdout_before_interrupt": "watching train-λ.jsonl (Ctrl-C to stop)\n[ERROR  ] steps 2             divergence   Non-finite training loss: train/loss became NaN at step 2 (1 non-finite point(s) in this run).\n",
+    "stdout": "watching train-λ.jsonl (Ctrl-C to stop)\n[ERROR  ] steps 2             divergence   Non-finite training loss: train/loss became NaN at step 2 (1 non-finite point(s) in this run).\n\nstopped.\n",
+    "stderr": "",
+    "exit": 0,
+    "milestones": [
+      {
+        "phrase": "Non-finite training loss",
+        "count": 1,
+        "alive": true,
+        "seconds_since_start": 18.560701
+      }
+    ],
+    "finding_visible_while_alive": true,
+    "observation_limit_seconds": 60.0
+  },
+  "recovery_deduplication_and_rewrite": {
+    "arguments": [
+      "watch",
+      "train-λ.jsonl",
+      "--interval",
+      "0.05"
+    ],
+    "alive_before_interrupt": true,
+    "stdout_before_interrupt": "watching train-λ.jsonl (Ctrl-C to stop)\n  (skipped this read: [Errno 2] No such file or directory: 'train-λ.jsonl')\n  (skipped this read: no numeric metrics found in train-λ.jsonl (read as jsonl). If that is the wrong format, name it with --format.)\ninput    Read recovered; all supported input was read.\n[ERROR  ] steps 2             divergence   Non-finite training loss: train/loss became NaN at step 2 (1 non-finite point(s) in this run).\ninput    1 rows or events could not be read. Input is incomplete; findings describe only the readable data.\ninput    Read recovered; all supported input was read.\nhistory  Previously read data changed; findings are evaluated again.\n[ERROR  ] steps 2-5           divergence   Non-finite training loss: train/loss became NaN at step 2 (2 non-finite point(s) in this run).\n  (skipped this read: [Errno 2] No such file or directory: 'train-λ.jsonl')\n",
+    "stdout": "watching train-λ.jsonl (Ctrl-C to stop)\n  (skipped this read: [Errno 2] No such file or directory: 'train-λ.jsonl')\n  (skipped this read: no numeric metrics found in train-λ.jsonl (read as jsonl). If that is the wrong format, name it with --format.)\ninput    Read recovered; all supported input was read.\n[ERROR  ] steps 2             divergence   Non-finite training loss: train/loss became NaN at step 2 (1 non-finite point(s) in this run).\ninput    1 rows or events could not be read. Input is incomplete; findings describe only the readable data.\ninput    Read recovered; all supported input was read.\nhistory  Previously read data changed; findings are evaluated again.\n[ERROR  ] steps 2-5           divergence   Non-finite training loss: train/loss became NaN at step 2 (2 non-finite point(s) in this run).\n  (skipped this read: [Errno 2] No such file or directory: 'train-λ.jsonl')\n\nstopped.\n",
+    "stderr": "",
+    "exit": 2,
+    "milestones": [
+      {
+        "phrase": "skipped this read",
+        "count": 1,
+        "alive": true,
+        "seconds_since_start": 11.868939
+      },
+      {
+        "phrase": "skipped this read",
+        "count": 2,
+        "alive": true,
+        "seconds_since_start": 11.931641
+      },
+      {
+        "phrase": "Read recovered",
+        "count": 1,
+        "alive": true,
+        "seconds_since_start": 11.989632
+      },
+      {
+        "phrase": "Non-finite training loss",
+        "count": 1,
+        "alive": true,
+        "seconds_since_start": 12.524619
+      },
+      {
+        "phrase": "input    ",
+        "count": 2,
+        "alive": true,
+        "seconds_since_start": 13.055168
+      },
+      {
+        "phrase": "Read recovered",
+        "count": 2,
+        "alive": true,
+        "seconds_since_start": 13.112413
+      },
+      {
+        "phrase": "Previously read data changed",
+        "count": 1,
+        "alive": true,
+        "seconds_since_start": 13.164939
+      },
+      {
+        "phrase": "Non-finite training loss",
+        "count": 2,
+        "alive": true,
+        "seconds_since_start": 13.164958
+      },
+      {
+        "phrase": "skipped this read",
+        "count": 3,
+        "alive": true,
+        "seconds_since_start": 13.230436
+      }
+    ]
+  },
+  "selected_run": {
+    "arguments": [
+      "watch",
+      "chart.csv",
+      "--interval",
+      "0.05"
+    ],
+    "alive_before_interrupt": true,
+    "stdout_before_interrupt": "watching chart.csv (Ctrl-C to stop)\nrun      a (selection held while watching)\ninput    The horizontal axis uses W&B logging counter 'Step'; findings locate logging events, not training steps. Log a training counter or select one with --step-key to measure progress per training step.\n[ERROR  ] logging steps 0             divergence   Non-finite training loss: train/loss became NaN at step 0 (1 non-finite point(s) in this run).\n",
+    "stdout": "watching chart.csv (Ctrl-C to stop)\nrun      a (selection held while watching)\ninput    The horizontal axis uses W&B logging counter 'Step'; findings locate logging events, not training steps. Log a training counter or select one with --step-key to measure progress per training step.\n[ERROR  ] logging steps 0             divergence   Non-finite training loss: train/loss became NaN at step 0 (1 non-finite point(s) in this run).\n\nstopped.\n",
+    "stderr": "",
+    "exit": 0,
+    "milestones": [
+      {
+        "phrase": "a (selection held while watching)",
+        "count": 1,
+        "alive": true,
+        "seconds_since_start": 23.205351
+      },
+      {
+        "phrase": "Non-finite training loss",
+        "count": 1,
+        "alive": true,
+        "seconds_since_start": 23.457735
+      }
+    ]
+  },
+  "redirected_file": {
+    "alive_when_finding_read": true,
+    "stdout_before_interrupt": "watching train-λ.jsonl (Ctrl-C to stop)\n[ERROR  ] steps 2-5           divergence   Non-finite training loss: train/loss became NaN at step 2 (2 non-finite point(s) in this run).\n",
+    "stdout": "watching train-λ.jsonl (Ctrl-C to stop)\n[ERROR  ] steps 2-5           divergence   Non-finite training loss: train/loss became NaN at step 2 (2 non-finite point(s) in this run).\n\nstopped.\n",
+    "exit": 0
+  },
+  "completed_command_controls": [
+    {
+      "arguments": [
+        "watch",
+        "train-λ.jsonl",
+        "--once"
+      ],
+      "exit": 0,
+      "stdout_sha256": "c8b25ef1ee8c1d78e217fc56a555d5b6f90f8a57ce1352214213af2938ba31dd",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdout": "watching train-λ.jsonl (Ctrl-C to stop)\n[ERROR  ] steps 2             divergence   Non-finite training loss: train/loss became NaN at step 2 (1 non-finite point(s) in this run).\n",
+      "stderr": ""
+    },
+    {
+      "arguments": [
+        "watch",
+        "train-λ.jsonl",
+        "--once",
+        "--fail-on",
+        "error"
+      ],
+      "exit": 1,
+      "stdout_sha256": "c8b25ef1ee8c1d78e217fc56a555d5b6f90f8a57ce1352214213af2938ba31dd",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdout": "watching train-λ.jsonl (Ctrl-C to stop)\n[ERROR  ] steps 2             divergence   Non-finite training loss: train/loss became NaN at step 2 (1 non-finite point(s) in this run).\n",
+      "stderr": ""
+    },
+    {
+      "arguments": [
+        "watch",
+        "missing.jsonl",
+        "--once"
+      ],
+      "exit": 2,
+      "stdout_sha256": "380a7c51b849acb0b7ea1b9976fdf8da742c21ff6a2b89c04e5d9202aa4d1e3f",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdout": "watching missing.jsonl (Ctrl-C to stop)\n  (skipped this read: [Errno 2] No such file or directory: 'missing.jsonl')\n",
+      "stderr": ""
+    },
+    {
+      "arguments": [
+        "watch",
+        "partial.jsonl",
+        "--once",
+        "--fail-on",
+        "error"
+      ],
+      "exit": 2,
+      "stdout_sha256": "150b63cfbd05e67aa67ef2ac0c8ff4749f38b8b4dd70edb7f110717a16c91fc0",
+      "stderr_sha256": "54e79afafa24d02f804589cda015dac62067cef9ee74583c2b683d15457d76dd",
+      "stdout": "watching partial.jsonl (Ctrl-C to stop)\ninput    1 rows or events could not be read. Input is incomplete; findings describe only the readable data.\n",
+      "stderr": "trainspotter: input is incomplete; CI gate could not be evaluated\n"
+    },
+    {
+      "arguments": [
+        "watch",
+        "clean.jsonl",
+        "--once",
+        "--require-timing"
+      ],
+      "exit": 2,
+      "stdout_sha256": "1473f82c5526316b599f9f6c15e43f8012e2fde6e123a9098fe9df5253a6d08b",
+      "stderr_sha256": "459f63e5a5bd4b88a7e598d9820ced28ce19a8d4ae4e709506c57e2a66d5bd44",
+      "stdout": "watching clean.jsonl (Ctrl-C to stop)\n",
+      "stderr": "trainspotter: a usable timing comparison is required; No eligible timing source. The comparison needs enough step_time or throughput readings, or loss observations with timestamps and explicit training steps. Conflicting repeated-step values are excluded from this check.\n"
+    },
+    {
+      "arguments": [
+        "watch",
+        "clean.jsonl",
+        "--once"
+      ],
+      "exit": 0,
+      "stdout_sha256": "1473f82c5526316b599f9f6c15e43f8012e2fde6e123a9098fe9df5253a6d08b",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdout": "watching clean.jsonl (Ctrl-C to stop)\n",
+      "stderr": ""
+    },
+    {
+      "arguments": [
+        "analyze",
+        "train-λ.jsonl",
+        "--output",
+        "json"
+      ],
+      "exit": 0,
+      "stdout_sha256": "aaef385427fcb2dd485a0bebe0677fde04130b09afee3fe9054cfb9aab94122a",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdout": "{\n  \"schema_version\": 1,\n  \"run\": {\n    \"source_format\": \"jsonl\",\n    \"source_path\": \"train-\\u03bb.jsonl\",\n    \"skipped_rows\": 0,\n    \"skipped_values\": 0,\n    \"input_complete\": true,\n    \"input_notes\": [],\n    \"unread_event_bytes\": 0,\n    \"event_directories\": [],\n    \"overwritten_points\": 0,\n    \"restart_markers\": 0,\n    \"step_column\": \"step\",\n    \"step_axis\": \"step\",\n    \"step_selection\": \"automatic\",\n    \"metric_sources\": {\n      \"train/loss\": \"loss\"\n    },\n    \"ambiguous_metric_sources\": [],\n    \"repeated_steps\": [],\n    \"metrics\": {\n      \"train/loss\": {\n        \"count\": 5,\n        \"analysis_count\": 5,\n        \"distinct_steps\": 5,\n        \"analysis_excluded\": false,\n        \"first_step\": 0,\n        \"last_step\": 4\n      }\n    }\n  },\n  \"summary\": {\n    \"input_complete\": true,\n    \"total_findings\": 1,\n    \"by_severity\": {\n      \"error\": 1,\n      \"warning\": 0,\n      \"info\": 0\n    }\n  },\n  \"timing\": {\n    \"status\": \"unavailable\",\n    \"axis\": \"step\",\n    \"source\": null,\n    \"source_metric\": null,\n    \"unit\": null,\n    \"observations\": 0,\n    \"invalid_observations\": 0,\n    \"baseline\": null,\n    \"recent\": null,\n    \"ratio\": null,\n    \"reason\": \"No eligible timing source. The comparison needs enough step_time or throughput readings, or loss observations with timestamps and explicit training steps. Conflicting repeated-step values are excluded from this check.\",\n    \"notes\": [\n      \"wall_time(train/loss): 5 analysis points; at least 11 are required.\"\n    ],\n    \"min_window\": 5,\n    \"baseline_fraction\": 0.2\n  },\n  \"findings\": [\n    {\n      \"detector\": \"divergence\",\n      \"title\": \"Non-finite training loss\",\n      \"severity\": \"error\",\n      \"metric\": \"train/loss\",\n      \"step_start\": 2,\n      \"step_end\": 2,\n      \"message\": \"train/loss became NaN at step 2 (1 non-finite point(s) in this run).\",\n      \"evidence\": {\n        \"first_bad_step\": 2,\n        \"count\": 1\n      },\n      \"fixes\": [\n        \"Inspect the objective and logging reduction separately: an empty batch or empty logging window can produce NaN even while optimizer updates remain finite.\",\n        \"Check for a divide-by-zero or log(0) in the loss calculation.\",\n        \"If the optimizer's loss or gradients also become non-finite, inspect the learning rate, gradient clipping and mixed-precision loss scaling.\"\n      ]\n    }\n  ]\n}\n",
+      "stderr": ""
+    },
+    {
+      "arguments": [
+        "analyze",
+        "partial.jsonl",
+        "--output",
+        "json",
+        "--fail-on",
+        "error"
+      ],
+      "exit": 2,
+      "stdout_sha256": "266f9c37beb87bd7b7633e9c3c3d3367466acc3937cf0def70709399f83b24c4",
+      "stderr_sha256": "54e79afafa24d02f804589cda015dac62067cef9ee74583c2b683d15457d76dd",
+      "stdout": "{\n  \"schema_version\": 1,\n  \"run\": {\n    \"source_format\": \"jsonl\",\n    \"source_path\": \"partial.jsonl\",\n    \"skipped_rows\": 1,\n    \"skipped_values\": 0,\n    \"input_complete\": false,\n    \"input_notes\": [\n      \"1 rows or events could not be read.\",\n      \"Input is incomplete; findings describe only the readable data.\"\n    ],\n    \"unread_event_bytes\": 0,\n    \"event_directories\": [],\n    \"overwritten_points\": 0,\n    \"restart_markers\": 0,\n    \"step_column\": \"step\",\n    \"step_axis\": \"step\",\n    \"step_selection\": \"automatic\",\n    \"metric_sources\": {\n      \"train/loss\": \"loss\"\n    },\n    \"ambiguous_metric_sources\": [],\n    \"repeated_steps\": [],\n    \"metrics\": {\n      \"train/loss\": {\n        \"count\": 2,\n        \"analysis_count\": 2,\n        \"distinct_steps\": 2,\n        \"analysis_excluded\": false,\n        \"first_step\": 0,\n        \"last_step\": 1\n      }\n    }\n  },\n  \"summary\": {\n    \"input_complete\": false,\n    \"total_findings\": 0,\n    \"by_severity\": {\n      \"error\": 0,\n      \"warning\": 0,\n      \"info\": 0\n    }\n  },\n  \"timing\": {\n    \"status\": \"unavailable\",\n    \"axis\": \"step\",\n    \"source\": null,\n    \"source_metric\": null,\n    \"unit\": null,\n    \"observations\": 0,\n    \"invalid_observations\": 0,\n    \"baseline\": null,\n    \"recent\": null,\n    \"ratio\": null,\n    \"reason\": \"No eligible timing source. The comparison needs enough step_time or throughput readings, or loss observations with timestamps and explicit training steps. Conflicting repeated-step values are excluded from this check.\",\n    \"notes\": [\n      \"wall_time(train/loss): 2 analysis points; at least 11 are required.\"\n    ],\n    \"min_window\": 5,\n    \"baseline_fraction\": 0.2\n  },\n  \"findings\": []\n}\n",
+      "stderr": "trainspotter: input is incomplete; CI gate could not be evaluated\n"
+    },
+    {
+      "arguments": [
+        "analyze",
+        "clean.jsonl",
+        "--output",
+        "terminal",
+        "--no-color"
+      ],
+      "exit": 0,
+      "stdout_sha256": "3eda3d887d31204b4a1aa8ee2dbc7b4a733814ea8b6ca29fc855ace0c0c69e2e",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdout": "trainspotter  run diagnostic\n------------------------------------------------------------\nsource   clean.jsonl  [jsonl]\nmetrics  train/loss\naxis     steps from step\ntiming   Unavailable: No eligible timing source. The comparison needs enough step_time or\n         throughput readings, or loss observations with timestamps and explicit training steps.\n         Conflicting repeated-step values are excluded from this check.\nfindings 0 error  0 warning  0 info\n\nNo pathologies detected. Only the available metrics and detector checks were evaluated.\n",
+      "stderr": ""
+    }
+  ]
+}

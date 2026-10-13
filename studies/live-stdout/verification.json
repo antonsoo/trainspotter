@@ -1,0 +1,190 @@
+{
+  "checks": [
+    {
+      "name": "sync",
+      "exit": 0,
+      "seconds": 59.585,
+      "log_sha256": "f932e10db5ce904db90ee73572a5c9c0815a38b5fb2cef78c2ab99459657ef3c",
+      "log_bytes": 1034
+    },
+    {
+      "name": "ruff",
+      "exit": 0,
+      "seconds": 11.78,
+      "log_sha256": "82b3e6a6c090a57601d22943bd23fca9218d1031dbe5a7b754092f9a156b4f18",
+      "log_bytes": 19
+    },
+    {
+      "name": "mypy",
+      "exit": 0,
+      "seconds": 749.784,
+      "log_sha256": "44323f12010ebbb5daa4cefef4cc4308006fe3b26ad3ced614a993eb79a8b535",
+      "log_bytes": 44
+    },
+    {
+      "name": "pytest",
+      "exit": 0,
+      "seconds": 1121.676,
+      "log_sha256": "5021641f15bceefd493c773485a9570122c83ee4f1cc5efb73dc8524f1d7e1ed",
+      "log_bytes": 833,
+      "summary": "657 passed in 1013.24s (0:16:53)"
+    },
+    {
+      "name": "source-replay",
+      "exit": 0,
+      "seconds": 315.24,
+      "log_sha256": "6a6e53582dd36d0bbc38467de8d49b27922297410ab7bb1288b8efc48116d0fb",
+      "log_bytes": 38
+    },
+    {
+      "name": "build",
+      "exit": 0,
+      "seconds": 137.288,
+      "log_sha256": "10263611add99e9f512c754475d548f780ef1285d6691bb176079fd7c7bd930f",
+      "log_bytes": 185
+    },
+    {
+      "name": "rebuild-sdist",
+      "exit": 0,
+      "seconds": 42.758,
+      "log_sha256": "fb5cc25038eada0ab5921655c640e6d87d079e44dfc6dd10292699cc9f8d4ef9",
+      "log_bytes": 123
+    },
+    {
+      "name": "minimum-venv",
+      "exit": 0,
+      "seconds": 3.548,
+      "log_sha256": "fdcfced8a0eaa5c41f58ee01c33e7e9f200c745655bdf04a8aa9bf0619a49e9c",
+      "log_bytes": 200
+    },
+    {
+      "name": "minimum-install",
+      "exit": 0,
+      "seconds": 14.683,
+      "log_sha256": "9d2b22519f0714040e98bc8062c838addca6dc6496e01440a9f1d563e19081ae",
+      "log_bytes": 319
+    },
+    {
+      "name": "minimum-replay",
+      "exit": 0,
+      "seconds": 334.393,
+      "log_sha256": "6a6e53582dd36d0bbc38467de8d49b27922297410ab7bb1288b8efc48116d0fb",
+      "log_bytes": 38
+    },
+    {
+      "name": "current-venv",
+      "exit": 0,
+      "seconds": 5.305,
+      "log_sha256": "98009975ec78c9848680437073adb120b06f7f45a0fce21a315762223dddbb30",
+      "log_bytes": 199
+    },
+    {
+      "name": "current-install",
+      "exit": 0,
+      "seconds": 20.232,
+      "log_sha256": "a02b2043f44d0395aed4051f6310603bc848819dc7c4d660602d2404367ac75c",
+      "log_bytes": 289
+    },
+    {
+      "name": "current-replay",
+      "exit": 0,
+      "seconds": 468.165,
+      "log_sha256": "6a6e53582dd36d0bbc38467de8d49b27922297410ab7bb1288b8efc48116d0fb",
+      "log_bytes": 38
+    }
+  ],
+  "status": "passed",
+  "implementation_commit": "d11b1a167e02730ee75c12afbc2b40b42e3d6270",
+  "baseline_commit": "1965b988931eed10f5b8da9171a3b612424d4578",
+  "clean_archive_files_identical": 445,
+  "verification_notes": [
+    "The initial clean replay interrupted NumPy import at its ten-second probe deadline, before watch started. Its failed log is retained separately. Only the process replay was repeated with --probe-seconds 60; production code and completed lint/type/full-test checks were unchanged.",
+    "The first minimum-Python replay completed the live workflows, then exceeded the study 30-second deadline on a completed-command control. The study now accepts --timeout (120 seconds by default) and writes partial receipts marked incomplete. Only the installed replay is repeated; package and production source bytes are unchanged."
+  ],
+  "artifacts": [
+    {
+      "name": "trainspotter-0.2.6.tar.gz",
+      "bytes": 163229,
+      "sha256": "b177e557ca690635626c66edc850615eed0c0b44f552ca3f6e620e2d98bb4d7a"
+    },
+    {
+      "name": "trainspotter-0.2.6-py3-none-any.whl",
+      "bytes": 118221,
+      "sha256": "5ce7bdfcac72844e6de2bd96b39e141871d1b2bf015f41b704cbe397e92f5fcb"
+    }
+  ],
+  "wheel_rebuilt_from_sdist_identical": true,
+  "wheel_package_files": {
+    "trainspotter/__init__.py": "f902908eabb455be7238326cae68b500f401e4962b326bc7696dbc748be6437b",
+    "trainspotter/cli.py": "318ca66e3fa9529d3fa055c87a2c086f345a6753f8d5d23855ed4871cec79892",
+    "trainspotter/model.py": "29fe7f9c1d5f4c5469420581b8144b942459037f6ee948193ae0975368a2283f",
+    "trainspotter/py.typed": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "trainspotter/timing.py": "16f3de6a150563d62dee5f7b3b2edcaacfa8d21b3a4407bf902c84e779e52c3b",
+    "trainspotter/detectors/__init__.py": "38482b71273ec74fdf748c447e35c1132451b5f9a74a581a8e72067d91624e09",
+    "trainspotter/detectors/_rolling_slope.py": "bb5d8c31ad43864cca26a9633a7d616a80ccc26fc1c5cd199152c8a84c59e892",
+    "trainspotter/detectors/base.py": "a1b8ff3e7163f7b6aaa476b42565a8fccc46bfefd4e07270fbe3c69691c11bd8",
+    "trainspotter/detectors/divergence.py": "70721e99da4edbf8a5a67308d4222baeb1d951d8f076c745c698fe680fc557ac",
+    "trainspotter/detectors/eval_noise.py": "1fa2258d2d3247fa0486fda30867e1b769bf5d06ffd864402c91fd1610b350ca",
+    "trainspotter/detectors/grad_norm.py": "1a6e37d4b37324a089721f759999f4f8fd53d0d8bae06dde3a9cf016f6919089",
+    "trainspotter/detectors/loss_floor.py": "e50fed8be010eaa3fcd813f1d73b49871f3627d1035b0547d8bccdbd99bc3131",
+    "trainspotter/detectors/lr_schedule.py": "1ad15a455347020f3e89628032158bd1598669f3109a8cbf0e79f9e54bc22ed7",
+    "trainspotter/detectors/overfitting.py": "b581df9ad6223916f03aa4341ba3168518d3dd7820559a5102e14b7e175f88db",
+    "trainspotter/detectors/plateau.py": "41f3aa5f785316de91cb3d6075ff57e18e3c231a25bbc7d4f39a02b94b39c1fa",
+    "trainspotter/detectors/setbacks.py": "acabd69fdb7da9bc2bfd29004c43b8174a631fc7c35dc63a2bd3cd28ad2b65e0",
+    "trainspotter/detectors/spikes.py": "53a976289535bb047f135f88bfd04745d2d22992eb90ee723e89f9a5c70a626b",
+    "trainspotter/detectors/throughput.py": "b6a506b973629696564601546992b051700bdece9bbc67b2bd05e402d4a68a54",
+    "trainspotter/readers/__init__.py": "8de3d54b233d8a3f563e721841b3067fccfa9a30b0905563e4fae4de9d752398",
+    "trainspotter/readers/common.py": "4626215e2730109b5161a438c5839ccf773125f3b7030a17659d71b0049b0e4b",
+    "trainspotter/readers/hf.py": "96044ace7ad474a21d937c4cd8e2a587991e2a658596cb06c31208a3570b3cef",
+    "trainspotter/readers/lightning.py": "36cf68c7dc9e90f99de4e3007647c9308323154cb6aa96b0b09d9b40af0929f4",
+    "trainspotter/readers/tabular.py": "273467122767e1c117d96173df41df38821575f89100eaad93b433efd7b25ede",
+    "trainspotter/readers/tensorboard.py": "dd7bc4bc29cd41f84d2941cec42b47de1773c9e948d1b17948a5ebef951ca7d3",
+    "trainspotter/readers/wandb.py": "c4c7b1445dd102b2e2ef1ba9a97f1a7949d1b22ce04ee4fe23b8f35547a61229",
+    "trainspotter/report/__init__.py": "317d8be1f917cf65f0312a083c62f7bf268d37b5c9d7232c3a0bf37ae18b9a0a",
+    "trainspotter/report/html_report.py": "52443a7989585ffaa2aa627227f68cfe5c437f161ba0cbe9a1bc8adc7bce2e10",
+    "trainspotter/report/json_report.py": "76d6677dc7d74866296d6c75b6153f916d7a2d890f11b2ae7b4d974e453a0128",
+    "trainspotter/report/terminal.py": "6beacecc76a8134eacf1929792bf5747b30d06426bfcd3c43855e854903d16ca"
+  },
+  "baseline_completed_commands_identical": 9,
+  "replay_versions": {
+    "clean_source_sha256": "2055183559ea314a635607bb8b79f6abc0591449e3bbedf5f92ba5c2657710c8",
+    "installed_sha256": "30bfef2a784fc5730af86a876745296d0a00bb242d2ac6bcdb8d1ffb29fa49ed"
+  },
+  "installed": [
+    {
+      "label": "minimum",
+      "python": "3.10.21 (main, Sep  1 2026, 14:16:49) [Clang 22.1.3 ]",
+      "numpy": "1.24.0",
+      "package_files_identical": 29,
+      "completed_commands_identical": 9,
+      "console_entrypoint_identical": true
+    },
+    {
+      "label": "current",
+      "python": "3.14.7 (main, Sep  1 2026, 14:18:09) [Clang 22.1.3 ]",
+      "numpy": "2.5.4",
+      "package_files_identical": 29,
+      "completed_commands_identical": 9,
+      "console_entrypoint_identical": true
+    }
+  ],
+  "incomplete_harness_attempts": [
+    {
+      "name": "source-replay-startup-limit",
+      "exit": 1,
+      "seconds": 88.467,
+      "log_sha256": "bb9bbdf02e1584dff760dca2b0c41ac5db9d6a4eaee63edae3566bfea22c8e50",
+      "log_bytes": 1911
+    },
+    {
+      "name": "minimum-replay-command-limit",
+      "exit": 1,
+      "seconds": 200.188,
+      "log_sha256": "6f255d21a7d6152393a61d0bea2e7405eae67f05c747cc5262beffb85f28c4dd",
+      "log_bytes": 1167
+    }
+  ],
+  "changed_runtime_files": [
+    "trainspotter/cli.py"
+  ]
+}

@@ -24,7 +24,8 @@ From a checkout with its Python environment installed:
 ```bash
 uv sync --locked --all-extras --dev
 python3 studies/live-stdout/replay.py --python .venv/bin/python --source . \
-  --work-dir /tmp/trainspotter-live-after --output /tmp/trainspotter-live-after.json
+  --work-dir /tmp/trainspotter-live-after --output /tmp/trainspotter-live-after.json \
+  --probe-seconds 60
 ```
 
 Work directories must not already exist. To reproduce the old behavior, extract
@@ -67,6 +68,29 @@ the baseline, without normalizing paths or report fields.
 `after.json` retains the repaired source replay. `minimum.json` and `current.json`
 repeat the full replay from clean installed wheels. `verification.json` records
 the clean build, complete test suite, artifact hashes and equality checks.
+
+The clean archive of implementation `d11b1a1` matched all 445 tracked files.
+Locked installation, lint and type checking passed, followed by all 657 tests.
+An initial clean process probe hit its ten-second limit during NumPy import,
+before the CLI started; that attempt did not test alert delivery. The replay was
+repeated with `--probe-seconds 60`. Its actual observation budget is retained in
+each receipt. Production code and the completed full-suite checks were unchanged.
+The first minimum-Python replay then exceeded a separate thirty-second deadline
+on a batch control after completing its live workflows. The study's `--timeout`
+now defaults to 120 seconds per stage/command and saves partial results with
+`complete: false`; a successful full replay ends with `complete: true`. The
+installed replay was repeated with this harness change, using the same wheel.
+The baseline and clean-source receipts predate the completion flag; the installed
+receipts use it. `verification.json` records both replay-script hashes.
+
+The 118,221-byte wheel rebuilt from the source distribution is byte-identical to
+the first wheel. Its SHA-256 is
+`5ce7bdfcac72844e6de2bd96b39e141871d1b2bf015f41b704cbe397e92f5fcb`.
+Fresh Python 3.10.21 / NumPy 1.24.0 and Python 3.14.7 / NumPy 2.5.4 installs
+each match all 29 package files, pass every live workflow and preserve all nine
+completed-command outputs and exit codes. Their actual console entry points
+also match the isolated module commands. Only `trainspotter/cli.py` differs from
+the baseline among the package's runtime files.
 
 The script's elapsed observations include interpreter startup, NumPy imports,
 polling and host contention; they are not latency benchmarks or a delivery-time

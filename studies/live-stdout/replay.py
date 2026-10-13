@@ -32,7 +32,10 @@ def losses(values: list[float], *, partial: bool = False) -> str:
 
 
 class Watch:
-    def __init__(self, command: list[str], env: dict[str, str], cwd: Path, name: str):
+    def __init__(
+        self, command: list[str], env: dict[str, str], cwd: Path, name: str, timeout: float,
+    ):
+        self.timeout = timeout
         self.command = [*command, "watch", name, "--interval", "0.05"]
         self.started = time.monotonic()
         self.process = subprocess.Popen(
@@ -44,8 +47,8 @@ class Watch:
         self.output = b""
         self.milestones: list[dict[str, object]] = []
 
-    def wait(self, phrase: str, count: int = 1, timeout: float = 30) -> bool:
-        deadline = time.monotonic() + timeout
+    def wait(self, phrase: str, count: int = 1, timeout: float | None = None) -> bool:
+        deadline = time.monotonic() + (self.timeout if timeout is None else timeout)
         while self.output.count(phrase.encode("utf-8")) < count:
             remaining = deadline - time.monotonic()
             if remaining <= 0 or self.process.poll() is not None:
@@ -68,7 +71,7 @@ class Watch:
         if alive:
             self.process.send_signal(signal.SIGINT)
         try:
-            tail, stderr = self.process.communicate(timeout=30)
+            tail, stderr = self.process.communicate(timeout=self.timeout)
         except subprocess.TimeoutExpired:
             self.process.kill()
             self.process.communicate()
@@ -94,6 +97,8 @@ def main() -> None:
     parser.add_argument("--output", type=Path, required=True)
     parser.add_argument("--probe-only", action="store_true")
     parser.add_argument("--probe-seconds", type=float, default=10)
+    parser.add_argument("--timeout", type=float, default=120,
+                        help="Seconds allowed for each live stage or completed command")
     args = parser.parse_args()
     work = args.work_dir.absolute()
     work.mkdir(parents=True, exist_ok=False)
@@ -108,17 +113,24 @@ def main() -> None:
     command += ["-m", "trainspotter.cli"]
     metadata = subprocess.check_output(
         [*command[:-2], "-c", "import sys,numpy; print(sys.version); print(numpy.__version__)"],
-        env=env, cwd=work, text=True,
+        env=env, cwd=work, text=True, timeout=args.timeout,
     ).splitlines()
     report: dict[str, object] = {
         "platform": platform.platform(), "python": metadata[0], "numpy": metadata[1],
         "mode": "source" if args.source else "isolated installed wheel",
         "synthetic": True, "unbuffering_overrides": False,
+        "stage_timeout_seconds": args.timeout, "complete": False,
     }
+
+    def save() -> None:
+        args.output.parent.mkdir(parents=True, exist_ok=True)
+        args.output.write_text(json.dumps(report, indent=2, ensure_ascii=False) + "\n")
+
+    save()
     path = work / "train-λ.jsonl"
     values = [2.0, 1.8, float("nan"), 1.6, 1.4]
     replace(path, losses(values))
-    watcher = Watch(command, env, work, path.name)
+    watcher = Watch(command, env, work, path.name, args.timeout)
     try:
         visible = watcher.wait("Non-finite training loss", timeout=args.probe_seconds)
     finally:
@@ -128,11 +140,12 @@ def main() -> None:
     assert probe["exit"] == 0 and probe["stderr"] == "", probe
     assert "Non-finite training loss" in str(probe["stdout"]), probe
     report["initial_finding"] = probe
+    save()
 
     if not args.probe_only:
         assert visible, probe
         path.unlink()
-        watcher = Watch(command, env, work, path.name)
+        watcher = Watch(command, env, work, path.name, args.timeout)
         try:
             assert watcher.wait("skipped this read"), watcher.output
             replace(path, "{partial\n")
@@ -157,10 +170,11 @@ def main() -> None:
         assert lifecycle["exit"] == 2 and lifecycle["stderr"] == "", lifecycle
         assert str(lifecycle["stdout"]).count("Non-finite training loss") == 2, lifecycle
         report["recovery_deduplication_and_rewrite"] = lifecycle
+        save()
 
         chart = work / "chart.csv"
         replace(chart, "Step,a - loss,a - loss__MIN,a - loss__MAX\n0,nan,nan,nan\n")
-        watcher = Watch(command, env, work, chart.name)
+        watcher = Watch(command, env, work, chart.name, args.timeout)
         try:
             assert watcher.wait("a (selection held while watching)"), watcher.output
             assert watcher.wait("Non-finite training loss"), watcher.output
@@ -168,6 +182,7 @@ def main() -> None:
             selected = watcher.finish()
         assert selected["exit"] == 0 and selected["stderr"] == "", selected
         report["selected_run"] = selected
+        save()
 
         replace(path, losses(values))
         redirected = work / "redirected.txt"
@@ -179,7 +194,7 @@ def main() -> None:
             started = time.monotonic()
             before = b""
             try:
-                while time.monotonic() - started < 30 and process.poll() is None:
+                while time.monotonic() - started < args.timeout and process.poll() is None:
                     before = redirected.read_bytes()
                     if b"Non-finite training loss" in before:
                         break
@@ -190,7 +205,7 @@ def main() -> None:
                 if process.poll() is None:
                     process.send_signal(signal.SIGINT)
                 try:
-                    _, stderr = process.communicate(timeout=30)
+                    _, stderr = process.communicate(timeout=args.timeout)
                 except subprocess.TimeoutExpired:
                     process.kill()
                     process.communicate()
@@ -200,6 +215,7 @@ def main() -> None:
             "alive_when_finding_read": alive, "stdout_before_interrupt": before.decode(),
             "stdout": redirected.read_text(), "exit": process.returncode,
         }
+        save()
 
     # Same fixture bytes and relative filenames in both source revisions.
     replace(path, losses([2.0, 1.8, float("nan"), 1.6, 1.4]))
@@ -217,9 +233,10 @@ def main() -> None:
         (["analyze", "clean.jsonl", "--output", "terminal", "--no-color"], 0),
     ]
     controls = []
+    report["completed_command_controls"] = controls
     for arguments, expected in cases:
         result = subprocess.run(
-            [*command, *arguments], env=env, cwd=work, capture_output=True, timeout=30,
+            [*command, *arguments], env=env, cwd=work, capture_output=True, timeout=args.timeout,
         )
         assert result.returncode == expected, (arguments, result)
         controls.append({
@@ -228,9 +245,9 @@ def main() -> None:
             "stderr_sha256": hashlib.sha256(result.stderr).hexdigest(),
             "stdout": result.stdout.decode(), "stderr": result.stderr.decode(),
         })
-    report["completed_command_controls"] = controls
-    args.output.parent.mkdir(parents=True, exist_ok=True)
-    args.output.write_text(json.dumps(report, indent=2, ensure_ascii=False) + "\n")
+        save()
+    report["complete"] = True
+    save()
     print(json.dumps({"live_finding": visible, "controls": len(controls)}))
 
 
