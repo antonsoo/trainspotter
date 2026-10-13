@@ -68,6 +68,29 @@ same controlled readings; header times and hashes will differ.
 an installed package. The script removes inherited `PYTHONPATH` in that mode and
 records Python, TensorBoard and Trainspotter versions.
 
+## Installed wheel
+
+The 117,599-byte wheel built from implementation commit
+`ec50738` was separately installed in three new environments:
+
+| Installation | Python | TensorBoard | Observed result |
+| --- | --- | --- | --- |
+| Bare package | 3.12.12 | Absent | Single-file input protected; ordinary JSON report succeeds |
+| Minimum Python and SDK | 3.10.21 | 2.12.0 | All 21 destination checks, three ordinary reports and complete reread pass |
+| Fresh current SDK resolution | 3.12.12 | 2.21.0 | Same replay and complete reread pass |
+
+All 29 installed package files match the source. Installed HTML matches the
+source replay after replacing only its generation-minute field; raw and
+normalized hashes are retained in [the artifact receipt](verification.json).
+The wheel SHA-256 is
+`0d5b9e806d6dcd669d39324367f08562276739daeefd27acc146339571ce8235`.
+
+The fresh implementation archive passed dependency installation, lint, mypy
+(28 source files), 646 Python checks, package/site builds and 208 generated-report
+workflows in Chromium/Firefox at desktop and 320px. All 428 tracked archive files
+remained unchanged. Browser checks covered keyboard operation, accessibility,
+CSP and absence of external requests. The CLI screenshot above was inspected.
+
 The guard covers destinations managed by Trainspotter, including `--out` and
 default HTML output. Shell redirection opens its target before the program runs
 and cannot be protected here. File identities are checked before replacement;

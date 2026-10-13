@@ -28,22 +28,42 @@ def main():
     if args.source:
         env["PYTHONPATH"] = str(args.source.resolve())
     original = Path(__file__).with_name("events.out.tfevents.controlled").read_bytes()
-    digest = lambda data: hashlib.sha256(data).hexdigest()
+
+    def digest(data):
+        return hashlib.sha256(data).hexdigest()
+
     receipts = []
     transcript = []
 
     def invoke(directory, output, destination=None):
-        command = [python, "-m", "trainspotter.cli", "analyze", "logs", "--run", "a",
-                   "--output", output]
+        command = [
+            python,
+            "-m",
+            "trainspotter.cli",
+            "analyze",
+            "logs",
+            "--run",
+            "a",
+            "--output",
+            output,
+        ]
         if destination is not None:
             command += ["--out", str(destination)]
-        result = subprocess.run(command, cwd=directory, env=env, capture_output=True,
-                                text=True, timeout=30)
+        result = subprocess.run(
+            command, cwd=directory, env=env, capture_output=True, text=True, timeout=30
+        )
         return result
 
     for mode in ["terminal", "json", "html"]:
-        for alias in ["selected", "unselected", "symlink", "hardlink", "parent-symlink",
-                      "new-event", "broken-event-link"]:
+        for alias in [
+            "selected",
+            "unselected",
+            "symlink",
+            "hardlink",
+            "parent-symlink",
+            "new-event",
+            "broken-event-link",
+        ]:
             label = f"{mode}-{alias}"
             directory = artifacts / label
             for name in ["a", "b"]:
@@ -70,10 +90,14 @@ def main():
             was_link = (directory / target).is_symlink()
             previous = (directory / target).read_bytes() if existed else None
             result = invoke(directory, mode, target)
-            native_unchanged = all((directory / file).read_bytes() == original
-                                   for file in [selected, other])
-            target_unchanged = ((directory / target).read_bytes() == previous if existed
-                                else not (directory / target).exists())
+            native_unchanged = all(
+                (directory / file).read_bytes() == original for file in [selected, other]
+            )
+            target_unchanged = (
+                (directory / target).read_bytes() == previous
+                if existed
+                else not (directory / target).exists()
+            )
             link_unchanged = (directory / target).is_symlink() == was_link
             assert result.returncode == (0 if args.expect == "before" else 2), result.stderr
             if args.expect == "after":
@@ -81,13 +105,23 @@ def main():
                 assert not list(directory.rglob(".trainspotter-*")), label
             else:
                 assert not target_unchanged or not link_unchanged, label
-            receipts.append({"case": label, "exit": result.returncode,
-                             "nativeInputsUnchanged": native_unchanged,
-                             "destinationUnchanged": target_unchanged,
-                             "linkUnchanged": link_unchanged, "stderr": result.stderr.strip()})
+            receipts.append(
+                {
+                    "case": label,
+                    "exit": result.returncode,
+                    "nativeInputsUnchanged": native_unchanged,
+                    "destinationUnchanged": target_unchanged,
+                    "linkUnchanged": link_unchanged,
+                    "stderr": result.stderr.strip(),
+                }
+            )
             if mode == "json" and alias in ["selected", "unselected", "new-event"]:
-                transcript += [f"$ trainspotter analyze logs --run a --output json --out {target}",
-                               result.stderr.strip(), f"exit={result.returncode}; native files unchanged={native_unchanged}", ""]
+                transcript += [
+                    f"$ trainspotter analyze logs --run a --output json --out {target}",
+                    result.stderr.strip(),
+                    f"exit={result.returncode}; native files unchanged={native_unchanged}",
+                    "",
+                ]
 
     # Ordinary reports inside the tree still work, and a second read remains complete.
     directory = artifacts / "safe"
@@ -110,18 +144,47 @@ def main():
     report = json.loads(reread.stdout)
     assert report["run"]["input_complete"]
     assert report["run"]["metrics"]["train/loss"]["count"] == 20
-    info = subprocess.run([python, "-c", "import json,sys,tensorboard,trainspotter; "
-                           "print(json.dumps({'python':sys.version.split()[0], 'tensorboard':tensorboard.__version__, 'trainspotter':trainspotter.__version__}))"],
-                          cwd=artifacts, env=env, capture_output=True, text=True, check=True)
-    result = {"expectation": args.expect, "environment": json.loads(info.stdout),
-              "fixture": {"bytes": len(original), "sha256": digest(original),
-                          "provenance": "TensorBoard 2.21.0 EventFileWriter; 20 synthetic scalar loss readings. No model or private data."},
-              "guardCases": receipts, "safeReports": safe,
-              "safeReread": {"inputComplete": True, "lossReadings": 20}}
+    info = subprocess.run(
+        [
+            python,
+            "-c",
+            "import json,sys,tensorboard,trainspotter; "
+            "print(json.dumps({'python':sys.version.split()[0], "
+            "'tensorboard':tensorboard.__version__, "
+            "'trainspotter':trainspotter.__version__}))",
+        ],
+        cwd=artifacts,
+        env=env,
+        capture_output=True,
+        text=True,
+        check=True,
+    )
+    result = {
+        "expectation": args.expect,
+        "environment": json.loads(info.stdout),
+        "fixture": {
+            "bytes": len(original),
+            "sha256": digest(original),
+            "provenance": (
+                "TensorBoard 2.21.0 EventFileWriter; "
+                "20 synthetic scalar loss readings. No model or private data."
+            ),
+        },
+        "guardCases": receipts,
+        "safeReports": safe,
+        "safeReread": {"inputComplete": True, "lossReadings": 20},
+    }
     (artifacts / "replay.json").write_text(json.dumps(result, indent=2) + "\n", encoding="utf-8")
     (artifacts / "terminal.txt").write_text("\n".join(transcript), encoding="utf-8")
-    print(json.dumps({"guardCases": len(receipts), "safeReports": len(safe),
-                      "inputCompleteAfterWritingReports": True}))
+    print(
+        json.dumps(
+            {
+                "guardCases": len(receipts),
+                "safeReports": len(safe),
+                "inputCompleteAfterWritingReports": True,
+            }
+        )
+    )
 
 
 if __name__ == "__main__":

@@ -1,0 +1,144 @@
+{
+  "implementationCommit": "ec5073885557cb43849ef13a025829865bc5ae1c",
+  "cleanArchiveFilesUnchanged": 428,
+  "cleanChecks": {
+    "checks": [
+      {
+        "name": "install",
+        "exit": 0
+      },
+      {
+        "name": "lint",
+        "exit": 0
+      },
+      {
+        "name": "types",
+        "exit": 0
+      },
+      {
+        "name": "unit",
+        "exit": 0
+      },
+      {
+        "name": "package-build",
+        "exit": 0
+      },
+      {
+        "name": "site-build",
+        "exit": 0
+      },
+      {
+        "name": "web-install",
+        "exit": 0
+      },
+      {
+        "name": "browser",
+        "exit": 0
+      }
+    ],
+    "node": "24.21.0"
+  },
+  "pythonChecks": 646,
+  "generatedReportBrowserWorkflows": 208,
+  "installedArtifacts": {
+    "implementationCommit": "ec5073885557cb43849ef13a025829865bc5ae1c",
+    "wheel": {
+      "file": "trainspotter-0.2.6-py3-none-any.whl",
+      "bytes": 117599,
+      "sha256": "0d5b9e806d6dcd669d39324367f08562276739daeefd27acc146339571ce8235"
+    },
+    "environments": [
+      {
+        "name": "bare",
+        "python": "Python 3.12.12",
+        "packageFilesMatch": 29,
+        "singleFileGuardWithoutTensorBoard": true,
+        "safeJsonWritten": true,
+        "numpy": "2.5.4"
+      },
+      {
+        "name": "minimum",
+        "versions": {
+          "python": "3.10.21",
+          "tensorboard": "2.12.0",
+          "trainspotter": "0.2.6"
+        },
+        "packageFilesMatch": 29,
+        "guardCasesPassed": 21,
+        "safeReports": [
+          {
+            "output": "terminal",
+            "bytes": 468,
+            "sha256": "3bea9028b294df5f587ee64c3adf7ae612f8c4dd6af4ecfeae0aac341270c2a9"
+          },
+          {
+            "output": "json",
+            "bytes": 2037,
+            "sha256": "a0cc54283e89c3e527302e47e9042e2a8917782e0bf54d864ade887ca0c5c09b"
+          },
+          {
+            "output": "html",
+            "bytes": 14894,
+            "sha256": "176e03c923b81989a0e6b6bffcf865d976c94721cc8aec878dd2df5d4d30db01"
+          }
+        ],
+        "reread": {
+          "inputComplete": true,
+          "lossReadings": 20
+        },
+        "htmlComparison": {
+          "sourceSha256": "e820fec88d3fe9c882827beb9cd09b5339a07d6c733e7447bf75652a5d7871fe",
+          "installedSha256": "176e03c923b81989a0e6b6bffcf865d976c94721cc8aec878dd2df5d4d30db01",
+          "identicalExceptGenerationMinute": true,
+          "normalizedSha256": "ae3f3bd12d513832d8f159418cf02553635808dee6b6fe293c1a5dc62684360c"
+        },
+        "numpy": "1.24.0"
+      },
+      {
+        "name": "current",
+        "versions": {
+          "python": "3.12.12",
+          "tensorboard": "2.21.0",
+          "trainspotter": "0.2.6"
+        },
+        "packageFilesMatch": 29,
+        "guardCasesPassed": 21,
+        "safeReports": [
+          {
+            "output": "terminal",
+            "bytes": 468,
+            "sha256": "3bea9028b294df5f587ee64c3adf7ae612f8c4dd6af4ecfeae0aac341270c2a9"
+          },
+          {
+            "output": "json",
+            "bytes": 2037,
+            "sha256": "a0cc54283e89c3e527302e47e9042e2a8917782e0bf54d864ade887ca0c5c09b"
+          },
+          {
+            "output": "html",
+            "bytes": 14894,
+            "sha256": "853ef7d426aad727c51dd8a2a85d1f34bbfa3173e7a6696e0b22c7e2767dbb5b"
+          }
+        ],
+        "reread": {
+          "inputComplete": true,
+          "lossReadings": 20
+        },
+        "htmlComparison": {
+          "sourceSha256": "e820fec88d3fe9c882827beb9cd09b5339a07d6c733e7447bf75652a5d7871fe",
+          "installedSha256": "853ef7d426aad727c51dd8a2a85d1f34bbfa3173e7a6696e0b22c7e2767dbb5b",
+          "identicalExceptGenerationMinute": true,
+          "normalizedSha256": "ae3f3bd12d513832d8f159418cf02553635808dee6b6fe293c1a5dc62684360c"
+        },
+        "numpy": "2.5.4"
+      }
+    ]
+  },
+  "replay": {
+    "controlledSdkReadings": 20,
+    "refusedDestinationsPerSdk": 21,
+    "safeReportsPerSdk": 3,
+    "nativeFileBytesUnchanged": true
+  },
+  "scope": "Source and locally installed artifacts. No package release or hosted deployment. Path checks do not cover shell redirection or lock concurrent filesystem changes."
+}
