@@ -201,7 +201,9 @@ def cmd_watch(args: argparse.Namespace) -> int:
     previous: Run | None = None
     selected = args.run
     last_notice: str | None = None
-    print(f"watching {visible(str(path))} (Ctrl-C to stop)")
+    # A live monitor must deliver events through pipes/files before it exits.
+    # Keep flushing local to watch; batch reports retain their existing I/O.
+    print(f"watching {visible(str(path))} (Ctrl-C to stop)", flush=True)
     try:
         while True:
             try:
@@ -212,11 +214,11 @@ def cmd_watch(args: argparse.Namespace) -> int:
             except (ValueError, OSError, csv.Error) as exc:
                 # A file being written mid-flush can be transiently unparsable;
                 # skip this poll instead of crashing the watcher.
+                exit_code = 2
                 notice = f"  (skipped this read: {visible(str(exc))})"
                 if notice != last_notice:
-                    print(notice)
+                    print(notice, flush=True)
                 last_notice = notice
-                exit_code = 2
                 if args.once:
                     return 2
                 time.sleep(args.interval)
@@ -224,32 +226,34 @@ def cmd_watch(args: argparse.Namespace) -> int:
             chosen = run.meta.get("selected_run")
             if selected != chosen and isinstance(chosen, str):
                 selected = chosen
-                print(f"run      {visible(chosen) or '(top level)'} (selection held while watching)")
+                print(f"run      {visible(chosen) or '(top level)'} (selection held while watching)", flush=True)
             notice = " ".join(run.input_notes())
             if notice and notice != last_notice:
-                print(f"input    {visible(notice)}")
+                print(f"input    {visible(notice)}", flush=True)
             elif last_notice and not notice:
-                print("input    Read recovered; all supported input was read.")
+                print("input    Read recovered; all supported input was read.", flush=True)
             last_notice = notice
             if previous is not None and not _extends(previous, run):
                 seen.clear()
-                print("history  Previously read data changed; findings are evaluated again.")
+                print("history  Previously read data changed; findings are evaluated again.", flush=True)
             findings = run_all(run)
+            # A pipe consumer can interrupt as soon as a finding is delivered.
+            # Record this completed poll's status before publishing its findings.
+            exit_code = _gate(run, findings, args.fail_on, args.require_timing)
             def identity(f: Finding) -> tuple[str, str, str, int]:
                 return f.detector, f.metric, f.title, f.step_start
 
             new = [f for f in findings if seen.get(identity(f)) != f.severity]
             for f in new:
                 step_range = str(f.step_start) if f.step_start == f.step_end else f"{f.step_start}-{f.step_end}"
-                print(f"[{f.severity.upper():7}] {run.axis_label()} {step_range:<13} {f.detector:<12} {visible(f.title)}: {visible(f.message)}")
+                print(f"[{f.severity.upper():7}] {run.axis_label()} {step_range:<13} {f.detector:<12} {visible(f.title)}: {visible(f.message)}", flush=True)
             seen = {identity(f): f.severity for f in findings}
             previous = run
-            exit_code = _gate(run, findings, args.fail_on, args.require_timing)
             if args.once or exit_code:
                 break
             time.sleep(args.interval)
     except KeyboardInterrupt:
-        print("\nstopped.")
+        print("\nstopped.", flush=True)
     return exit_code
 
 

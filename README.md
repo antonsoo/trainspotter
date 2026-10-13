@@ -339,6 +339,10 @@ supported data; it does **not** mean training finished or every pathology was ch
 and returns `2` if it cannot read a run. Continuous watching retries transient read
 errors, holds its initial run selection, and re-evaluates findings when prior data
 changes. An extending finding is printed once; a severity change is printed again.
+The source checkout flushes watch events to pipes and redirected files as they
+are printed, so a `tee` pipeline can receive alerts while the watcher is running.
+This repair is not in the published 0.2.6 package.
+[Real process reproduction and limits](studies/live-stdout/README.md).
 Report files are replaced atomically, and `--out` cannot overwrite the source log.
 For TensorBoard directories, the source checkout also protects event files in
 unselected runs and rejects report filenames that would become event inputs on

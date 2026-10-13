@@ -2,7 +2,9 @@
 
 from __future__ import annotations
 
+import io
 import json
+import sys
 
 import pytest
 
@@ -70,6 +72,69 @@ def test_watch_recovers_after_missing_and_invalid_polls(tmp_path, monkeypatch, c
     out = capsys.readouterr().out
     assert out.count("skipped this read") == 2
     assert "Read recovered" in out
+
+
+@pytest.mark.parametrize("missing", [False, True])
+def test_watch_events_reach_a_buffered_stream_before_the_next_poll(tmp_path, monkeypatch, missing):
+    path = tmp_path / "run.jsonl"
+    if not missing:
+        _loss(path, [1.0, float("nan")])
+    raw = io.BytesIO()
+    # Like redirected stdout: writes are buffered until explicitly flushed.
+    output = io.TextIOWrapper(raw, encoding="utf-8", line_buffering=False)
+
+    def between_reads(_seconds):
+        visible = raw.getvalue().decode()
+        assert "watching " in visible
+        assert ("skipped this read" if missing else "Non-finite training loss") in visible
+        raise KeyboardInterrupt
+
+    with monkeypatch.context() as patch:
+        patch.setattr(sys, "stdout", output)
+        patch.setattr(cli.time, "sleep", between_reads)
+        assert cli.main(["watch", str(path)]) == (2 if missing else 0)
+        assert b"stopped." in raw.getvalue()
+    output.detach()
+
+
+@pytest.mark.parametrize("gate, expected", [([], 0), (["--fail-on", "error"], 1)])
+def test_interrupt_after_delivered_finding_returns_completed_poll_status(
+    tmp_path, monkeypatch, gate, expected,
+):
+    path = tmp_path / "run.jsonl"
+    _loss(path, [1.0, float("nan")])
+
+    class InterruptingStream(io.StringIO):
+        interrupted = False
+
+        def flush(self):
+            if not self.interrupted and "Non-finite training loss" in self.getvalue():
+                self.interrupted = True
+                raise KeyboardInterrupt
+
+    output = InterruptingStream()
+    monkeypatch.setattr(sys, "stdout", output)
+    assert cli.main(["watch", str(path), *gate]) == expected
+    assert output.interrupted and "stopped." in output.getvalue()
+
+
+def test_interrupt_after_read_failure_does_not_return_previous_success(tmp_path, monkeypatch):
+    path = tmp_path / "run.jsonl"
+    _loss(path, [1.0])
+    _polls(monkeypatch, [path.unlink])
+
+    class InterruptingStream(io.StringIO):
+        interrupted = False
+
+        def flush(self):
+            if not self.interrupted and "skipped this read" in self.getvalue():
+                self.interrupted = True
+                raise KeyboardInterrupt
+
+    output = InterruptingStream()
+    monkeypatch.setattr(sys, "stdout", output)
+    assert cli.main(["watch", str(path)]) == 2
+    assert output.interrupted and "stopped." in output.getvalue()
 
 
 def test_watch_does_not_repeat_an_extending_nonfinite_range(tmp_path, monkeypatch, capsys):
