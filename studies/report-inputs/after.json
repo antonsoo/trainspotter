@@ -1,0 +1,204 @@
+{
+  "expectation": "after",
+  "environment": {
+    "python": "3.12.12",
+    "tensorboard": "2.21.0",
+    "trainspotter": "0.2.6"
+  },
+  "fixture": {
+    "bytes": 926,
+    "sha256": "e826ea25fca865406ed2cff93c247328d0f77efb3c6f1fee1a540008c2249e2a",
+    "provenance": "TensorBoard 2.21.0 EventFileWriter; 20 synthetic scalar loss readings. No model or private data."
+  },
+  "guardCases": [
+    {
+      "case": "terminal-selected",
+      "exit": 2,
+      "nativeInputsUnchanged": true,
+      "destinationUnchanged": true,
+      "linkUnchanged": true,
+      "stderr": "trainspotter: report destination is a TensorBoard input file; choose a different --out path"
+    },
+    {
+      "case": "terminal-unselected",
+      "exit": 2,
+      "nativeInputsUnchanged": true,
+      "destinationUnchanged": true,
+      "linkUnchanged": true,
+      "stderr": "trainspotter: report destination is a TensorBoard input file; choose a different --out path"
+    },
+    {
+      "case": "terminal-symlink",
+      "exit": 2,
+      "nativeInputsUnchanged": true,
+      "destinationUnchanged": true,
+      "linkUnchanged": true,
+      "stderr": "trainspotter: report destination is a TensorBoard input file; choose a different --out path"
+    },
+    {
+      "case": "terminal-hardlink",
+      "exit": 2,
+      "nativeInputsUnchanged": true,
+      "destinationUnchanged": true,
+      "linkUnchanged": true,
+      "stderr": "trainspotter: report destination is a TensorBoard input file; choose a different --out path"
+    },
+    {
+      "case": "terminal-parent-symlink",
+      "exit": 2,
+      "nativeInputsUnchanged": true,
+      "destinationUnchanged": true,
+      "linkUnchanged": true,
+      "stderr": "trainspotter: report destination is a TensorBoard input file; choose a different --out path"
+    },
+    {
+      "case": "terminal-new-event",
+      "exit": 2,
+      "nativeInputsUnchanged": true,
+      "destinationUnchanged": true,
+      "linkUnchanged": true,
+      "stderr": "trainspotter: report destination would be read as a TensorBoard event file; choose a filename without 'tfevents.' or write outside the log directory"
+    },
+    {
+      "case": "terminal-broken-event-link",
+      "exit": 2,
+      "nativeInputsUnchanged": true,
+      "destinationUnchanged": true,
+      "linkUnchanged": true,
+      "stderr": "trainspotter: report destination would be read as a TensorBoard event file; choose a filename without 'tfevents.' or write outside the log directory"
+    },
+    {
+      "case": "json-selected",
+      "exit": 2,
+      "nativeInputsUnchanged": true,
+      "destinationUnchanged": true,
+      "linkUnchanged": true,
+      "stderr": "trainspotter: report destination is a TensorBoard input file; choose a different --out path"
+    },
+    {
+      "case": "json-unselected",
+      "exit": 2,
+      "nativeInputsUnchanged": true,
+      "destinationUnchanged": true,
+      "linkUnchanged": true,
+      "stderr": "trainspotter: report destination is a TensorBoard input file; choose a different --out path"
+    },
+    {
+      "case": "json-symlink",
+      "exit": 2,
+      "nativeInputsUnchanged": true,
+      "destinationUnchanged": true,
+      "linkUnchanged": true,
+      "stderr": "trainspotter: report destination is a TensorBoard input file; choose a different --out path"
+    },
+    {
+      "case": "json-hardlink",
+      "exit": 2,
+      "nativeInputsUnchanged": true,
+      "destinationUnchanged": true,
+      "linkUnchanged": true,
+      "stderr": "trainspotter: report destination is a TensorBoard input file; choose a different --out path"
+    },
+    {
+      "case": "json-parent-symlink",
+      "exit": 2,
+      "nativeInputsUnchanged": true,
+      "destinationUnchanged": true,
+      "linkUnchanged": true,
+      "stderr": "trainspotter: report destination is a TensorBoard input file; choose a different --out path"
+    },
+    {
+      "case": "json-new-event",
+      "exit": 2,
+      "nativeInputsUnchanged": true,
+      "destinationUnchanged": true,
+      "linkUnchanged": true,
+      "stderr": "trainspotter: report destination would be read as a TensorBoard event file; choose a filename without 'tfevents.' or write outside the log directory"
+    },
+    {
+      "case": "json-broken-event-link",
+      "exit": 2,
+      "nativeInputsUnchanged": true,
+      "destinationUnchanged": true,
+      "linkUnchanged": true,
+      "stderr": "trainspotter: report destination would be read as a TensorBoard event file; choose a filename without 'tfevents.' or write outside the log directory"
+    },
+    {
+      "case": "html-selected",
+      "exit": 2,
+      "nativeInputsUnchanged": true,
+      "destinationUnchanged": true,
+      "linkUnchanged": true,
+      "stderr": "trainspotter: report destination is a TensorBoard input file; choose a different --out path"
+    },
+    {
+      "case": "html-unselected",
+      "exit": 2,
+      "nativeInputsUnchanged": true,
+      "destinationUnchanged": true,
+      "linkUnchanged": true,
+      "stderr": "trainspotter: report destination is a TensorBoard input file; choose a different --out path"
+    },
+    {
+      "case": "html-symlink",
+      "exit": 2,
+      "nativeInputsUnchanged": true,
+      "destinationUnchanged": true,
+      "linkUnchanged": true,
+      "stderr": "trainspotter: report destination is a TensorBoard input file; choose a different --out path"
+    },
+    {
+      "case": "html-hardlink",
+      "exit": 2,
+      "nativeInputsUnchanged": true,
+      "destinationUnchanged": true,
+      "linkUnchanged": true,
+      "stderr": "trainspotter: report destination is a TensorBoard input file; choose a different --out path"
+    },
+    {
+      "case": "html-parent-symlink",
+      "exit": 2,
+      "nativeInputsUnchanged": true,
+      "destinationUnchanged": true,
+      "linkUnchanged": true,
+      "stderr": "trainspotter: report destination is a TensorBoard input file; choose a different --out path"
+    },
+    {
+      "case": "html-new-event",
+      "exit": 2,
+      "nativeInputsUnchanged": true,
+      "destinationUnchanged": true,
+      "linkUnchanged": true,
+      "stderr": "trainspotter: report destination would be read as a TensorBoard event file; choose a filename without 'tfevents.' or write outside the log directory"
+    },
+    {
+      "case": "html-broken-event-link",
+      "exit": 2,
+      "nativeInputsUnchanged": true,
+      "destinationUnchanged": true,
+      "linkUnchanged": true,
+      "stderr": "trainspotter: report destination would be read as a TensorBoard event file; choose a filename without 'tfevents.' or write outside the log directory"
+    }
+  ],
+  "safeReports": [
+    {
+      "output": "terminal",
+      "bytes": 468,
+      "sha256": "3bea9028b294df5f587ee64c3adf7ae612f8c4dd6af4ecfeae0aac341270c2a9"
+    },
+    {
+      "output": "json",
+      "bytes": 2037,
+      "sha256": "a0cc54283e89c3e527302e47e9042e2a8917782e0bf54d864ade887ca0c5c09b"
+    },
+    {
+      "output": "html",
+      "bytes": 14894,
+      "sha256": "e820fec88d3fe9c882827beb9cd09b5339a07d6c733e7447bf75652a5d7871fe"
+    }
+  ],
+  "safeReread": {
+    "inputComplete": true,
+    "lossReadings": 20
+  }
+}

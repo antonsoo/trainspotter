@@ -1,0 +1,13 @@
+{
+  "baselineCommit": "b91e658b6cc636d6a31e756e7e4fa9f94aac7c63",
+  "tensorboard": "2.21.0",
+  "scenario": "A real TensorBoard writer directory analyzed with report destination equal to its event file. Disposable controlled fixture.",
+  "exitCode": 0,
+  "stderr": "",
+  "originalBytes": 926,
+  "originalSha256": "e826ea25fca865406ed2cff93c247328d0f77efb3c6f1fee1a540008c2249e2a",
+  "afterBytes": 2075,
+  "afterSha256": "4887df54aef393146a425b6ab2c2fcc9c584fb3c6e11006061e91f34a98031f1",
+  "inputChanged": true,
+  "replacementParsesAsJson": true
+}

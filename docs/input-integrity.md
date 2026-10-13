@@ -226,6 +226,23 @@ finding which would otherwise return 1. The report is written first. Without a g
 a readable partial report returns 0. A source with no numeric metrics always returns 2.
 Invalid input cannot overwrite an earlier report; report replacement is atomic.
 
+Report destinations must also be distinct from their inputs. For a TensorBoard
+directory, this includes every discovered event file, even files belonging to
+unselected runs. Direct paths, symbolic links, hard links and aliases through
+parent directories are checked before replacement. A new report path inside the
+log directory cannot use a filename that this reader would consume as an event
+file (`*tfevents.*`, excluding the SDK's `.profile-empty` placeholders). Otherwise
+writing a report could corrupt the next directory read even without replacing
+an existing event file.
+
+An ordinary report such as `logs/report.html` remains supported and is replaced
+atomically. Output-path errors return 2 and leave the source/destination intact.
+The protection covers paths managed by `--out` and the default HTML destination;
+shell redirection (`> input-file`) opens the destination before Trainspotter runs
+and is outside this guard. Filesystem identities are checked at write time; this
+does not lock concurrent writers. [Native SDK reproduction and installed-artifact
+evidence](../studies/report-inputs/README.md).
+
 ## Watch and timing limits
 
 Continuous watch re-reads the source, holds its first selected run by exact name, and

@@ -71,6 +71,25 @@ def _write_report(path: Path, text: str, source: str) -> None:
         path.exists() and source_path.exists() and path.samefile(source_path)
     ):
         raise ValueError("report destination is the input file; choose a different --out path")
+    if source_path.is_dir():
+        from trainspotter.readers.tensorboard import event_files, is_event_name
+
+        destination = path.resolve()
+        for event_file in event_files(source_path):
+            if event_file.resolve() == destination or (path.exists() and path.samefile(event_file)):
+                raise ValueError(
+                    "report destination is a TensorBoard input file; choose a different --out path"
+                )
+        # A new report with an event filename would corrupt the next directory
+        # read even though there is no existing inode to protect yet. Check the
+        # lexical basename too: a symlink is replaced, not followed, by os.replace.
+        if (is_event_name(path) and path.parent.resolve().is_relative_to(source_path.resolve())) or (
+            is_event_name(destination) and destination.is_relative_to(source_path.resolve())
+        ):
+            raise ValueError(
+                "report destination would be read as a TensorBoard event file; "
+                "choose a filename without 'tfevents.' or write outside the log directory"
+            )
     temporary: Path | None = None
     try:
         with tempfile.NamedTemporaryFile(

@@ -20,6 +20,25 @@ from trainspotter.model import Point, Run
 from .common import metric_names, select_run, try_step
 
 _SPLIT_DIRS = {"train", "training", "validation", "val", "valid", "eval", "test"}
+_EVENT_PATTERN = "*tfevents.*"
+_PROFILE_PLACEHOLDER = ".profile-empty"
+
+
+def is_event_name(path: Path) -> bool:
+    """The directory-reader filename rule, also used to keep reports out of its inputs."""
+    return path.match(_EVENT_PATTERN) and not path.name.endswith(_PROFILE_PLACEHOLDER)
+
+
+def event_files(path: Path) -> list[Path]:
+    """Files the reader will inspect, across every run in a writer directory.
+
+    Explicit single files do not need a conventional TensorBoard filename.
+    Keep discovery free of optional SDK imports so output protection can share it.
+    """
+    paths = sorted(path.rglob(_EVENT_PATTERN)) if path.is_dir() else [path]
+    return [
+        file for file in paths if file.is_file() and not file.name.endswith(_PROFILE_PLACEHOLDER)
+    ]
 
 
 def _place(dir_name: str, tag: str) -> tuple[str, str]:
@@ -175,11 +194,9 @@ def read_tensorboard(path: str | Path, run_name: str | None = None) -> Run:
     p = Path(path)
     if not p.exists():
         raise FileNotFoundError(f"TensorBoard source does not exist: {p}")
-    paths = sorted(p.rglob("*tfevents.*")) if p.is_dir() else [p]
     files_by_dir: dict[Path, list[Path]] = defaultdict(list)
-    for file in paths:
-        if file.is_file() and not file.name.endswith(".profile-empty"):
-            files_by_dir[file.parent].append(file)
+    for file in event_files(p):
+        files_by_dir[file.parent].append(file)
     root = p if p.is_dir() else p.parent
     by_run: dict[str, list[tuple[str, str, list[Point]]]] = defaultdict(list)
     overwritten: dict[str, int] = defaultdict(int)

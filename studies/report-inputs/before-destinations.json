@@ -1,0 +1,204 @@
+{
+  "expectation": "before",
+  "environment": {
+    "python": "3.12.12",
+    "tensorboard": "2.21.0",
+    "trainspotter": "0.2.6"
+  },
+  "fixture": {
+    "bytes": 926,
+    "sha256": "e826ea25fca865406ed2cff93c247328d0f77efb3c6f1fee1a540008c2249e2a",
+    "provenance": "TensorBoard 2.21.0 EventFileWriter; 20 synthetic scalar loss readings. No model or private data."
+  },
+  "guardCases": [
+    {
+      "case": "terminal-selected",
+      "exit": 0,
+      "nativeInputsUnchanged": false,
+      "destinationUnchanged": false,
+      "linkUnchanged": true,
+      "stderr": ""
+    },
+    {
+      "case": "terminal-unselected",
+      "exit": 0,
+      "nativeInputsUnchanged": false,
+      "destinationUnchanged": false,
+      "linkUnchanged": true,
+      "stderr": ""
+    },
+    {
+      "case": "terminal-symlink",
+      "exit": 0,
+      "nativeInputsUnchanged": true,
+      "destinationUnchanged": false,
+      "linkUnchanged": false,
+      "stderr": ""
+    },
+    {
+      "case": "terminal-hardlink",
+      "exit": 0,
+      "nativeInputsUnchanged": true,
+      "destinationUnchanged": false,
+      "linkUnchanged": true,
+      "stderr": ""
+    },
+    {
+      "case": "terminal-parent-symlink",
+      "exit": 0,
+      "nativeInputsUnchanged": false,
+      "destinationUnchanged": false,
+      "linkUnchanged": true,
+      "stderr": ""
+    },
+    {
+      "case": "terminal-new-event",
+      "exit": 0,
+      "nativeInputsUnchanged": true,
+      "destinationUnchanged": false,
+      "linkUnchanged": true,
+      "stderr": ""
+    },
+    {
+      "case": "terminal-broken-event-link",
+      "exit": 0,
+      "nativeInputsUnchanged": true,
+      "destinationUnchanged": false,
+      "linkUnchanged": false,
+      "stderr": ""
+    },
+    {
+      "case": "json-selected",
+      "exit": 0,
+      "nativeInputsUnchanged": false,
+      "destinationUnchanged": false,
+      "linkUnchanged": true,
+      "stderr": ""
+    },
+    {
+      "case": "json-unselected",
+      "exit": 0,
+      "nativeInputsUnchanged": false,
+      "destinationUnchanged": false,
+      "linkUnchanged": true,
+      "stderr": ""
+    },
+    {
+      "case": "json-symlink",
+      "exit": 0,
+      "nativeInputsUnchanged": true,
+      "destinationUnchanged": false,
+      "linkUnchanged": false,
+      "stderr": ""
+    },
+    {
+      "case": "json-hardlink",
+      "exit": 0,
+      "nativeInputsUnchanged": true,
+      "destinationUnchanged": false,
+      "linkUnchanged": true,
+      "stderr": ""
+    },
+    {
+      "case": "json-parent-symlink",
+      "exit": 0,
+      "nativeInputsUnchanged": false,
+      "destinationUnchanged": false,
+      "linkUnchanged": true,
+      "stderr": ""
+    },
+    {
+      "case": "json-new-event",
+      "exit": 0,
+      "nativeInputsUnchanged": true,
+      "destinationUnchanged": false,
+      "linkUnchanged": true,
+      "stderr": ""
+    },
+    {
+      "case": "json-broken-event-link",
+      "exit": 0,
+      "nativeInputsUnchanged": true,
+      "destinationUnchanged": false,
+      "linkUnchanged": false,
+      "stderr": ""
+    },
+    {
+      "case": "html-selected",
+      "exit": 0,
+      "nativeInputsUnchanged": false,
+      "destinationUnchanged": false,
+      "linkUnchanged": true,
+      "stderr": ""
+    },
+    {
+      "case": "html-unselected",
+      "exit": 0,
+      "nativeInputsUnchanged": false,
+      "destinationUnchanged": false,
+      "linkUnchanged": true,
+      "stderr": ""
+    },
+    {
+      "case": "html-symlink",
+      "exit": 0,
+      "nativeInputsUnchanged": true,
+      "destinationUnchanged": false,
+      "linkUnchanged": false,
+      "stderr": ""
+    },
+    {
+      "case": "html-hardlink",
+      "exit": 0,
+      "nativeInputsUnchanged": true,
+      "destinationUnchanged": false,
+      "linkUnchanged": true,
+      "stderr": ""
+    },
+    {
+      "case": "html-parent-symlink",
+      "exit": 0,
+      "nativeInputsUnchanged": false,
+      "destinationUnchanged": false,
+      "linkUnchanged": true,
+      "stderr": ""
+    },
+    {
+      "case": "html-new-event",
+      "exit": 0,
+      "nativeInputsUnchanged": true,
+      "destinationUnchanged": false,
+      "linkUnchanged": true,
+      "stderr": ""
+    },
+    {
+      "case": "html-broken-event-link",
+      "exit": 0,
+      "nativeInputsUnchanged": true,
+      "destinationUnchanged": false,
+      "linkUnchanged": false,
+      "stderr": ""
+    }
+  ],
+  "safeReports": [
+    {
+      "output": "terminal",
+      "bytes": 468,
+      "sha256": "3bea9028b294df5f587ee64c3adf7ae612f8c4dd6af4ecfeae0aac341270c2a9"
+    },
+    {
+      "output": "json",
+      "bytes": 2037,
+      "sha256": "a0cc54283e89c3e527302e47e9042e2a8917782e0bf54d864ade887ca0c5c09b"
+    },
+    {
+      "output": "html",
+      "bytes": 14894,
+      "sha256": "d45d0205a56b2dbed7080188349a9ee075b6638b7b4e117e4956efa7893f45f4"
+    }
+  ],
+  "safeReread": {
+    "inputComplete": true,
+    "lossReadings": 20
+  }
+}

@@ -6,6 +6,11 @@ and this project uses [Semantic Versioning](https://semver.org/).
 
 ## Unreleased
 
+- Protect every discovered TensorBoard event file from report output, including
+  unselected runs and path aliases. Reject new event-like report filenames inside
+  log directories so later reads remain valid. Ordinary in-directory reports
+  still replace atomically. [Reproduction and limits](studies/report-inputs/README.md).
+
 - Reject ambiguous W&B chart run/metric labels instead of silently splitting at
   the last separator. Add `--chart-single-run NAME` for a declared single-run
   chart, preserving complete metric names, report provenance and watch reloads.

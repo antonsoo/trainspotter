@@ -340,6 +340,9 @@ and returns `2` if it cannot read a run. Continuous watching retries transient r
 errors, holds its initial run selection, and re-evaluates findings when prior data
 changes. An extending finding is printed once; a severity change is printed again.
 Report files are replaced atomically, and `--out` cannot overwrite the source log.
+For TensorBoard directories, the source checkout also protects event files in
+unselected runs and rejects report filenames that would become event inputs on
+the next read. [Native SDK reproduction and retained byte checks](studies/report-inputs/README.md).
 
 The [input integrity contract](docs/input-integrity.md) documents restart semantics,
 the supported step range, provenance fields, and the verification limits.
