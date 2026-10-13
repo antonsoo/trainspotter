@@ -1,0 +1,32 @@
+{
+  "phase": "before",
+  "child_address_limit_mib": 512,
+  "files": {
+    "healthy/events.out.tfevents.fixture": {
+      "bytes": 926,
+      "sha256": "ca62089e150d225870e77ae01fbdb2ad2044e6024f857fa3ddc52f661b69fef5"
+    },
+    "damaged/events.out.tfevents.fixture": {
+      "bytes": 938,
+      "sha256": "66bf3d363070bf60065296712a051725c28a64159854c432c6b72251161eadcb"
+    }
+  },
+  "cases": [
+    {
+      "selected": "healthy",
+      "exit": 1,
+      "report_generated": false,
+      "input_complete": null,
+      "event_directories": null,
+      "failure": "MemoryError"
+    },
+    {
+      "selected": "damaged",
+      "exit": 1,
+      "report_generated": false,
+      "input_complete": null,
+      "event_directories": null,
+      "failure": "MemoryError"
+    }
+  ]
+}

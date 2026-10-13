@@ -1,0 +1,191 @@
+{
+  "implementation": "b84230ff893cab3d192f7d8c21b7874b8e063e70",
+  "checks": [
+    {
+      "check": "install",
+      "exit": 0,
+      "seconds": 0.68
+    },
+    {
+      "check": "lint",
+      "exit": 0,
+      "seconds": 0.07
+    },
+    {
+      "check": "types",
+      "exit": 0,
+      "seconds": 3.56
+    },
+    {
+      "check": "unit",
+      "exit": 0,
+      "seconds": 20.43
+    },
+    {
+      "check": "build",
+      "exit": 0,
+      "seconds": 0.6
+    },
+    {
+      "check": "web-install",
+      "exit": 0,
+      "seconds": 0.87
+    },
+    {
+      "check": "browser",
+      "exit": 0,
+      "seconds": 293.08
+    },
+    {
+      "check": "replay",
+      "exit": 0,
+      "seconds": 3.44
+    },
+    {
+      "check": "partial-browser",
+      "exit": 0,
+      "seconds": 3.85
+    },
+    {
+      "check": "bare-venv",
+      "exit": 0,
+      "seconds": 0.03
+    },
+    {
+      "check": "bare-install",
+      "exit": 0,
+      "seconds": 0.34
+    },
+    {
+      "check": "bare-cli",
+      "exit": 0,
+      "seconds": 0.15
+    },
+    {
+      "check": "minimum-venv",
+      "exit": 0,
+      "seconds": 0.02
+    },
+    {
+      "check": "minimum-install",
+      "exit": 0,
+      "seconds": 0.68
+    },
+    {
+      "check": "minimum-replay",
+      "exit": 0,
+      "seconds": 3.59
+    },
+    {
+      "check": "current-venv",
+      "exit": 0,
+      "seconds": 0.01
+    },
+    {
+      "check": "current-install",
+      "exit": 0,
+      "seconds": 0.37
+    },
+    {
+      "check": "current-replay",
+      "exit": 0,
+      "seconds": 3.33
+    }
+  ],
+  "unchanged_archive_files": 439,
+  "installed": [
+    {
+      "python": "3.12.12",
+      "numpy": "2.5.4",
+      "identical_library_files": 29,
+      "environment": "bare",
+      "tensorboard_installed": false,
+      "tensorflow_installed": false
+    },
+    {
+      "python": "3.10.21",
+      "numpy": "1.24.0",
+      "identical_library_files": 29,
+      "environment": "minimum",
+      "tensorboard": "2.12.0",
+      "cases": 10,
+      "watch_exit": 2,
+      "html_exit": 2,
+      "html_generated": true,
+      "tensorflow_installed": false,
+      "selection_cases": 2,
+      "healthy_selection_exit": 0,
+      "damaged_selection_exit": 2
+    },
+    {
+      "python": "3.12.12",
+      "numpy": "2.5.4",
+      "identical_library_files": 29,
+      "environment": "current",
+      "tensorboard": "2.21.0",
+      "cases": 10,
+      "watch_exit": 2,
+      "html_exit": 2,
+      "html_generated": true,
+      "tensorflow_installed": false,
+      "selection_cases": 2,
+      "healthy_selection_exit": 0,
+      "damaged_selection_exit": 2
+    }
+  ],
+  "wheel": {
+    "filename": "trainspotter-0.2.6-py3-none-any.whl",
+    "bytes": 117952,
+    "sha256": "095ab4ba22a7b9c406309f00718a854b45a1668b6de426b974e573511e0fcef9"
+  },
+  "unit_tests": 652,
+  "browser_workflows": 208,
+  "partial_input_browser_workflows": 4,
+  "unchanged_control_scenarios": 9,
+  "record_tail_scenarios": 10,
+  "selected_run_scenarios": 2,
+  "screenshots_created_and_inspected": 4,
+  "html_reports": {
+    "working": {
+      "bytes": 15200,
+      "sha256": "d8c34bf73caa8fa637db3ab3bb0b2076e30c4412ad2b4464d85dbbbef897f45a",
+      "normalized_sha256": "e7e94908c9ef4517ccfc477aa703b1acc3d8252e7f4e28c6630dd558fd58f02b"
+    },
+    "clean": {
+      "bytes": 15200,
+      "sha256": "955a3c311d53aff22c0fa3e7bdbd73db14fc354e0f950000f3116f513b5d3cd0",
+      "normalized_sha256": "e7e94908c9ef4517ccfc477aa703b1acc3d8252e7f4e28c6630dd558fd58f02b"
+    },
+    "minimum": {
+      "bytes": 15200,
+      "sha256": "955a3c311d53aff22c0fa3e7bdbd73db14fc354e0f950000f3116f513b5d3cd0",
+      "normalized_sha256": "e7e94908c9ef4517ccfc477aa703b1acc3d8252e7f4e28c6630dd558fd58f02b"
+    },
+    "current": {
+      "bytes": 15200,
+      "sha256": "134f74c009d5d713ceb43835ec438003de111c6b347cd26ce425a96d4e869298",
+      "normalized_sha256": "e7e94908c9ef4517ccfc477aa703b1acc3d8252e7f4e28c6630dd558fd58f02b"
+    }
+  },
+  "html_normalization": "Only the one generation-minute field; normalized report contents are identical.",
+  "baseline": "ab7831d43f41c7bb1aa1eeb6f7f59d6b84e48737",
+  "scope": "Clean implementation archive and fresh installed wheel. No package release or hosted deployment; no installed TensorFlow runtime validation.",
+  "screenshots": {
+    "chromium-1440.png": {
+      "bytes": 78293,
+      "sha256": "2e489b4f23544bbf37750fecfdabc8f844303416124011ece9af7de50fab3007"
+    },
+    "chromium-375.png": {
+      "bytes": 76203,
+      "sha256": "58c18c522ab021139890f291c29f5e3a5d0b3f7951b83bb6fd65f7291f6e40f3"
+    },
+    "firefox-1440.png": {
+      "bytes": 91989,
+      "sha256": "c9df41f028bbdbbd276e26a000ba2edda80acb2fbcdc068d91015bb8fa359a35"
+    },
+    "firefox-375.png": {
+      "bytes": 83108,
+      "sha256": "2ec2a39401661df15e5a359d34456107aeae8edf1c315bfcc9a2b71436f404b3"
+    }
+  }
+}

@@ -55,6 +55,16 @@ before the correction. Both now retain the partial report and exit 2.
 the phone's horizontally scrollable table/chart. Four screenshots were
 inspected; the desktop view above is retained.
 
+A damaged sibling also prevented selecting a healthy run: the reader loads
+the directory tree before applying `--run`. The supplementary
+[`selection.py`](selection.py) replay uses two directories with the same
+20-reading prefix, adding the bad header to only one. The
+[previous capture](selection-before.json) fails with `MemoryError` for both
+selections. The [corrected capture](selection-after.json) exits 0 for
+`--run healthy` and 2 for `--run damaged`. Both reports retain the damaged
+directory's 12 unread bytes and show whether it was selected. Both source
+files remain byte-identical.
+
 ## What is checked before decoding
 
 The [TFRecord format](https://www.tensorflow.org/tutorials/load_data/tfrecord#tfrecords_format_details)
@@ -93,6 +103,32 @@ On this 14-vCPU WSL2 machine, Python 3.12.12 and TensorBoard 2.21.0, the
 The median time changed from **0.563 s to 0.653 s**. The extra check has a
 cost; these three local trials are not a production benchmark or a speed
 guarantee.
+
+## Clean and installed verification
+
+The [verification receipt](verification.json) identifies the implementation
+commit, tested artifact, environments and report hashes. A fresh archive
+passed locked installation, lint, type checks, 652 tests, wheel/sdist build,
+208 existing browser workflows and the four dedicated partial-input browser
+workflows. All 439 archived files remained unchanged through these checks.
+
+The wheel was installed into three empty environments. All 29 installed
+library files matched the clean source in each environment.
+
+| Environment | Python | NumPy | TensorBoard | Installed workflow |
+|---|---|---|---|---|
+| Base package | 3.12.12 | 2.5.4 | Absent | CLI reads 20 CSV observations without TensorBoard |
+| Minimum supported extra | 3.10.21 | 1.24.0 | 2.12.0 | All ten record cases, watch, HTML and both run selections |
+| Current extra | 3.12.12 | 2.5.4 | 2.21.0 | All ten record cases, watch, HTML and both run selections |
+
+None of these environments had TensorFlow installed. The working-checkout,
+clean-checkout and two installed-wheel HTML reports were identical after
+normalizing only their single generation-minute field. The receipt retains
+both raw and normalized hashes.
+
+The tested `trainspotter-0.2.6-py3-none-any.whl` contains 117,952 bytes,
+with SHA-256
+`095ab4ba22a7b9c406309f00718a854b45a1668b6de426b974e573511e0fcef9`.
 
 This correction is source-only. It does not publish a PyPI release or deploy
 the hosted examples.
