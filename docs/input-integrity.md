@@ -185,8 +185,18 @@ Trainspotter accounts for decoded record bytes and framing; remaining bytes are 
 as unread rather than silently treating the report as complete. Corrupt records can
 also cause unread bytes. These counts concern the selected run's writer directories;
 a damaged sibling run does not invalidate the selection. Re-reading after the writer
-completes can recover. A record length too large for the standalone decoder is retained
-as unread evidence, without losing preceding scalar observations.
+completes can recover. Before asking the SDK to decode each record, the reader checks
+its advertised length against the bytes available in that local file, including the
+16 framing bytes. This prevents a short, damaged tail from asking the standalone
+decoder to allocate an enormous buffer. The SDK still validates both checksums;
+preceding observations survive, and the unavailable tail remains unread evidence.
+
+Each file read uses its size at the start of that pass. Bytes appended during the
+pass remain unread until the next load; `watch` rereads the file. This is not a
+memory cap for fully present large records, nor a guarantee against concurrent
+in-place rewriting or replacement of the file. The
+[controlled replay](../studies/record-lengths/README.md) retains the former
+`MemoryError`, partial-write recovery, checksum controls and installed-package checks.
 
 JSON retains `run.event_directories` for every discovered writer, including unrelated
 damage: relative directory, observed run names, possible run names, skipped events,

@@ -10,6 +10,7 @@ See docs/input-integrity.md for the contract and independent oracle tests.
 from __future__ import annotations
 
 import math
+import os
 from collections import defaultdict
 from dataclasses import dataclass, field
 from pathlib import Path, PurePosixPath
@@ -144,24 +145,33 @@ def _read_directory(files: list[Path]) -> _Directory:
     data = _Directory()
     for path in files:
         read_bytes = 0
-        records = iter(RawEventFileLoader(str(path)).Load())
-        while True:
-            try:
-                record = next(records)
-            except StopIteration:
-                break
-            except OverflowError:
-                # A damaged uint64 length can exceed Python's read() index range
-                # in TensorBoard's standalone decoder. Retain preceding readings
-                # and count the whole remaining tail as unread below.
-                break
-            # TFRecord framing: 8-byte length + 4-byte length CRC + 4-byte data CRC.
-            read_bytes += len(record) + 16
-            try:
-                data.consume(Event.FromString(record))
-            except DecodeError:
-                data.skipped += 1
-        data.unread_bytes += max(0, path.stat().st_size - read_bytes)
+        with path.open("rb") as framing:
+            # A decoder may allocate the advertised uint64 length before it
+            # notices a truncated record. Check physical availability first.
+            # Snapshot the size so a growing writer cannot extend this pass
+            # indefinitely; its new bytes remain unread until the next load.
+            available = os.fstat(framing.fileno()).st_size
+            records = iter(RawEventFileLoader(str(path)).Load())
+            while available - read_bytes >= 16:
+                framing.seek(read_bytes)
+                header = framing.read(8)
+                if (
+                    len(header) != 8
+                    or int.from_bytes(header, "little") > available - read_bytes - 16
+                ):
+                    break
+                try:
+                    record = next(records)
+                except (StopIteration, OverflowError):
+                    break
+                # The SDK still validates both CRCs; this check only establishes
+                # that length + 8-byte header + two 4-byte CRCs fit the file.
+                read_bytes += len(record) + 16
+                try:
+                    data.consume(Event.FromString(record))
+                except DecodeError:
+                    data.skipped += 1
+            data.unread_bytes += max(0, os.fstat(framing.fileno()).st_size - read_bytes)
     return data
 
 

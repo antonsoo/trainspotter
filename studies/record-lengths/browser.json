@@ -1,0 +1,50 @@
+[
+  {
+    "engine": "chromium",
+    "version": "153.0.8010.12",
+    "width": 1440,
+    "offline": true,
+    "recorded": 20,
+    "analyzed": 20,
+    "unreadBytes": 12,
+    "inputComplete": false,
+    "pageErrors": [],
+    "externalRequests": []
+  },
+  {
+    "engine": "chromium",
+    "version": "153.0.8010.12",
+    "width": 375,
+    "offline": true,
+    "recorded": 20,
+    "analyzed": 20,
+    "unreadBytes": 12,
+    "inputComplete": false,
+    "pageErrors": [],
+    "externalRequests": []
+  },
+  {
+    "engine": "firefox",
+    "version": "155.0",
+    "width": 1440,
+    "offline": true,
+    "recorded": 20,
+    "analyzed": 20,
+    "unreadBytes": 12,
+    "inputComplete": false,
+    "pageErrors": [],
+    "externalRequests": []
+  },
+  {
+    "engine": "firefox",
+    "version": "155.0",
+    "width": 375,
+    "offline": true,
+    "recorded": 20,
+    "analyzed": 20,
+    "unreadBytes": 12,
+    "inputComplete": false,
+    "pageErrors": [],
+    "externalRequests": []
+  }
+]

@@ -1,0 +1,32 @@
+{
+  "python": "3.12.12",
+  "tensorboard": "2.21.0",
+  "platform": "Linux-6.18.54.1-microsoft-standard-WSL2-x86_64-with-glibc2.39",
+  "available_cpus": 14,
+  "file_bytes": 2023574,
+  "method": "One warm-up, then three loads per reader; same interpreter and SDK. Controlled scalar workload, not a production benchmark or a speed guarantee.",
+  "before": {
+    "seconds": [
+      0.5334452689858153,
+      0.562770962016657,
+      0.5650059799954761
+    ],
+    "metrics": 4,
+    "readings": 80000,
+    "complete": true,
+    "readings_sha256": "3d6d36a4074415d7e3d502a0aa6a85e812f075b0f10fb1eb4baf929ca239f83d",
+    "reader_sha256": "88704790467bcfb803b48f98b875d31c82f00a88e2e2a1e3cccca630f4792c38"
+  },
+  "after": {
+    "seconds": [
+      0.6618397910206113,
+      0.6531570669903886,
+      0.6085701690171845
+    ],
+    "metrics": 4,
+    "readings": 80000,
+    "complete": true,
+    "readings_sha256": "3d6d36a4074415d7e3d502a0aa6a85e812f075b0f10fb1eb4baf929ca239f83d",
+    "reader_sha256": "dd7bc4bc29cd41f84d2941cec42b47de1773c9e948d1b17948a5ebef951ca7d3"
+  }
+}

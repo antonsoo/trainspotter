@@ -6,6 +6,12 @@ and this project uses [Semantic Versioning](https://semver.org/).
 
 ## Unreleased
 
+- Check TensorBoard record lengths against available local file bytes before
+  decoding. Damaged length headers no longer cause an enormous allocation and
+  lose the preceding scalar report. Retain unread bytes and incomplete-input
+  gates; the SDK still checks both CRCs. Files growing during a pass are reread
+  on the next load. [Reproduction and limits](studies/record-lengths/README.md).
+
 - Protect every discovered TensorBoard event file from report output, including
   unselected runs and path aliases. Reject new event-like report filenames inside
   log directories so later reads remain valid. Ordinary in-directory reports

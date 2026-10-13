@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import random
 import tempfile
+from io import BytesIO
 from pathlib import Path
 
 import pytest
@@ -304,21 +305,73 @@ def test_invalid_step_scalar_is_scoped_to_its_run(tmp_path: Path) -> None:
     assert not other.input_complete() and other.skipped_rows() == 1
 
 
-def test_overflowing_record_length_is_unread_evidence_not_a_crash(tmp_path: Path) -> None:
+@pytest.mark.parametrize("length", [2**26, 2**60, 2**63, 2**64 - 1])
+def test_unavailable_record_length_is_unread_evidence_not_an_allocation(
+    tmp_path: Path, length: int,
+) -> None:
     import struct
 
     from tensorboard.compat.tensorflow_stub.pywrap_tensorflow import masked_crc32c
 
     _write(tmp_path, [_point(1, 2)])
     path = next(tmp_path.glob('*tfevents*'))
-    # Correct checksum on an impossible length: this reaches the decoder's read().
-    header = struct.pack('<Q', 2**63)
+    # A valid checksum used to let the SDK allocate this length before EOF.
+    header = struct.pack('<Q', length)
     with path.open('ab') as handle:
         handle.write(header + struct.pack('<I', masked_crc32c(header)))
     run = load_run(tmp_path)
     assert _actual(run, 'train/loss') == [(1, 2)]
     assert run.unread_event_bytes() == 12
     assert not run.input_complete()
+
+
+@pytest.mark.parametrize("corrupt", ["header_crc", "payload_crc"])
+def test_length_preflight_does_not_replace_checksum_validation(tmp_path, corrupt):
+    from tensorboard.summary.writer.record_writer import RecordWriter
+
+    _write(tmp_path, [_point(1, 2)])
+    stream = BytesIO()
+    RecordWriter(stream).write(_point(2, 99).SerializeToString())
+    damaged = bytearray(stream.getvalue())
+    damaged[8 if corrupt == "header_crc" else -1] ^= 1
+    path = next(tmp_path.glob("*tfevents*"))
+    with path.open("ab") as handle:
+        handle.write(damaged)
+    run = load_run(tmp_path)
+    assert _actual(run, "train/loss") == _oracle(tmp_path, "loss") == [(1, 2)]
+    assert run.unread_event_bytes() == len(damaged)
+    assert not run.input_complete()
+
+
+def test_bytes_appended_during_read_are_incomplete_until_the_next_load(tmp_path, monkeypatch):
+    from tensorboard.backend.event_processing.event_file_loader import RawEventFileLoader
+    from tensorboard.summary.writer.record_writer import RecordWriter
+
+    _write(tmp_path, [_point(1, 2)])
+    path = next(tmp_path.glob("*tfevents*"))
+    stream = BytesIO()
+    RecordWriter(stream).write(_point(2, 3).SerializeToString())
+    tail = stream.getvalue()
+    original = RawEventFileLoader.Load
+    appended = False
+
+    def append_during_load(loader):
+        nonlocal appended
+        for record in original(loader):
+            if not appended:
+                with path.open("ab") as handle:
+                    handle.write(tail)
+                appended = True
+            yield record
+
+    monkeypatch.setattr(RawEventFileLoader, "Load", append_during_load)
+    first = load_run(tmp_path)
+    assert _actual(first, "train/loss") == [(1, 2)]
+    assert first.unread_event_bytes() == len(tail)
+    assert not first.input_complete()
+    second = load_run(tmp_path)
+    assert _actual(second, "train/loss") == [(1, 2), (2, 3)]
+    assert second.input_complete()
 
 
 @pytest.mark.parametrize("bad", [[1., 2.], "unreadable"])

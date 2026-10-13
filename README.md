@@ -536,6 +536,11 @@ pins.
   selection; damaged sibling runs remain in JSON directory evidence. Unread
   content with ambiguous directory ownership still makes the possible owner
   incomplete. [Controlled gate replay](studies/tensorboard-scope/README.md).
+- **Damaged TensorBoard lengths preserve the readable prefix.** The source
+  checks advertised record lengths against available file bytes before decoding.
+  A [938-byte controlled file](studies/record-lengths/README.md) formerly raised
+  `MemoryError` and lost its report; it now retains 20 readings, identifies 12
+  unread bytes and exits 2 under `--fail-on`. Both checksums remain validated.
 - **Restart evidence is explicit in modern TensorBoard streams.** Every
   `SessionLog.START`, including the first observed marker, invalidates prior
   points at or beyond that step in the same writer directory. This follows
