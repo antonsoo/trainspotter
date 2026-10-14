@@ -11,6 +11,7 @@ from __future__ import annotations
 
 import math
 import os
+import re
 import struct
 from collections import defaultdict
 from dataclasses import dataclass, field
@@ -24,6 +25,78 @@ from .common import metric_names, select_run, try_step
 _SPLIT_DIRS = {"train", "training", "validation", "val", "valid", "eval", "test"}
 _EVENT_PATTERN = "*tfevents.*"
 _PROFILE_PLACEHOLDER = ".profile-empty"
+_WRITER_NAME = "tensorboard.summary.writer.event_file_writer"
+# A suffix beginning with a digit cannot be distinguished from the counter.
+# Match the SDK convention, including conventional nonnumeric suffixes. The
+# writer header is checked too; other exporters can use a similar filename.
+_WRITER_PREFIX = re.compile(r"^(events\.out\.tfevents\.[0-9]{10,}\.)(.+)$")
+_WRITER_COUNTER = re.compile(r"\.[0-9]+\.(0|[1-9][0-9]*)(?=$|\.[^0-9]|[^0-9.])")
+
+
+def _native_writer_header(path: Path) -> bool:
+    """Inspect only a bounded, CRC-valid SDK header, never an arbitrary tensor."""
+    from google.protobuf.message import DecodeError
+    from tensorboard.compat.proto.event_pb2 import Event
+    from tensorboard.compat.tensorflow_stub.pywrap_tensorflow import masked_crc32c
+
+    with path.open("rb") as handle:
+        header = handle.read(12)
+        if len(header) != 12:
+            return False
+        length = int.from_bytes(header[:8], "little")
+        # This is a metadata probe, not a limit on events the scalar reader accepts.
+        if length > 64 * 1024 or masked_crc32c(header[:8]) != int.from_bytes(header[8:], "little"):
+            return False
+        payload = handle.read(length)
+        checksum = handle.read(4)
+    if len(payload) != length or len(checksum) != 4:
+        return False
+    if masked_crc32c(payload) != int.from_bytes(checksum, "little"):
+        return False
+    try:
+        event = Event.FromString(payload)
+    except DecodeError:
+        return False
+    return bool(
+        event.file_version == "brain.Event:2" and event.source_metadata.writer == _WRITER_NAME
+    )
+
+
+def _writer_order(files: list[Path]) -> list[Path]:
+    """Order same-second, same-host/PID SDK siblings by their monotonic counter.
+
+    Keep every other family's existing positions. Wall times, filesystem times
+    and counters from unrelated processes do not establish a shared chronology.
+    """
+    families: dict[str, list[tuple[int, int, Path]]] = defaultdict(list)
+    for index, path in enumerate(files):
+        prefix = _WRITER_PREFIX.fullmatch(path.name)
+        if prefix:
+            # Hostnames and suffixes can contain numeric components. Retain
+            # candidate boundaries, then require a unique varying counter family.
+            for match in _WRITER_COUNTER.finditer(prefix[2]):
+                family = prefix[1] + prefix[2][:match.start(1)]
+                families[family].append((index, int(match[1]), path))
+    candidates = [
+        family for family in families.values()
+        if len(family) > 1 and len({counter for _, counter, _ in family}) == len(family)
+    ]
+    memberships: dict[int, int] = defaultdict(int)
+    for family in candidates:
+        for index, _, _ in family:
+            memberships[index] += 1
+    ordered = files.copy()
+    for family in candidates:
+        counters = [counter for _, counter, _ in family]
+        if counters == sorted(counters) or any(memberships[index] != 1 for index, _, _ in family):
+            continue
+        if not all(_native_writer_header(path) for _, _, path in family):
+            continue
+        for (index, _, _), (_, _, path) in zip(
+            family, sorted(family, key=lambda item: item[1]), strict=True
+        ):
+            ordered[index] = path
+    return ordered
 
 
 def _bfloat16_scalar(tensor: Any) -> float:
@@ -84,6 +157,7 @@ class _Directory:
     restarts: int = 0
     skipped: int = 0
     unread_bytes: int = 0
+    counter_ordered_files: list[str] = field(default_factory=list)
 
     def purge(self, step: int, tags: list[str]) -> None:
         for tag in dict.fromkeys(tags):
@@ -165,7 +239,10 @@ def _read_directory(files: list[Path]) -> _Directory:
     from tensorboard.compat.proto.event_pb2 import Event
 
     data = _Directory()
-    for path in files:
+    ordered_files = _writer_order(files)
+    if ordered_files != files:
+        data.counter_ordered_files = [path.name for path in ordered_files]
+    for path in ordered_files:
         read_bytes = 0
         with path.open("rb") as framing:
             # A decoder may allocate the advertised uint64 length before it
@@ -258,6 +335,8 @@ def read_tensorboard(path: str | Path, run_name: str | None = None) -> Run:
                 "possible_runs": sorted(candidates),
                 "skipped_events": data.skipped,
                 "unread_event_bytes": data.unread_bytes,
+                **({"counter_ordered_files": data.counter_ordered_files}
+                   if data.counter_ordered_files else {}),
             }
         )
     run.meta["event_directories"] = directories

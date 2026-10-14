@@ -6,6 +6,13 @@ and this project uses [Semantic Versioning](https://semver.org/).
 
 ## Unreleased
 
+- Replay same-second native TensorBoard writer files in their numeric counter
+  order. Lexical `.10`/`.11` before `.9` could erase the latest session's NaN or
+  resurrect an obsolete NaN after a restart. Validate bounded, CRC-checked writer
+  headers before ordering; disclose changed file order in JSON directory evidence.
+  Retain other exporters' order, framing protection and optional dependency limits.
+  [Native writer capture and gate replay](studies/writer-order/README.md).
+
 - Decode scalar TensorBoard `DT_BFLOAT16` readings without a TensorFlow runtime
   dependency. Native TensorFlow binary payloads and repeated-half-value bit
   encodings retain their numeric values; malformed/missing data and non-scalar

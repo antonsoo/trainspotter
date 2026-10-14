@@ -112,8 +112,16 @@ as an unreadable boundary. Tensor shapes are checked before decoding to avoid
 allocating a non-scalar shape. Restart purging removes these boundary positions too;
 run selection and overwritten-point counts continue to count only numeric readings.
 
-Files within a writer directory are read in lexicographic filename order and records
-in file order. Wall time is preserved as timing evidence, never used to reorder events.
+Files within a writer directory normally use lexicographic filename order, and
+records keep their file order. For same-second, same-host/PID TensorBoard
+`EventFileWriter` siblings, an unpadded counter can put `.10` before `.9`. A
+unique counter family with CRC-valid native writer headers is instead read in
+numeric counter order. Other families keep their positions. JSON directory
+evidence records `counter_ordered_files` only when the order changes. Wall time
+and filesystem times never decide this ordering. Unknown writer headers,
+duplicate counters and ambiguous filename families retain the existing order;
+this cannot infer creation order for arbitrary renamed or merged exports.
+[Native capture, CI gate reproduction and scope](../studies/writer-order/README.md).
 For version-2 event streams, every `SessionLog.START` at step T invalidates earlier
 observations with step >= T in that same writer directory, including tags which are
 never logged again after the restart. For example:

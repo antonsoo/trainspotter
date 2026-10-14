@@ -1,0 +1,142 @@
+{
+  "tensorboard": "2.21.0",
+  "population": "Actual EventFileWriter frames with controlled same-second clock, reset initial counter, synthetic loss readings and explicit session restarts; no training run.",
+  "captures": {
+    "latest-nonfinite": {
+      "created_order": [
+        "events.out.tfevents.1790000000.omnia.1945302.0",
+        "events.out.tfevents.1790000000.omnia.1945302.1",
+        "events.out.tfevents.1790000000.omnia.1945302.2",
+        "events.out.tfevents.1790000000.omnia.1945302.3",
+        "events.out.tfevents.1790000000.omnia.1945302.4",
+        "events.out.tfevents.1790000000.omnia.1945302.5",
+        "events.out.tfevents.1790000000.omnia.1945302.6",
+        "events.out.tfevents.1790000000.omnia.1945302.7",
+        "events.out.tfevents.1790000000.omnia.1945302.8",
+        "events.out.tfevents.1790000000.omnia.1945302.9",
+        "events.out.tfevents.1790000000.omnia.1945302.10",
+        "events.out.tfevents.1790000000.omnia.1945302.11"
+      ],
+      "files": {
+        "events.out.tfevents.1790000000.omnia.1945302.0": {
+          "bytes": 1786,
+          "sha256": "945d409871d3fab34eb2875447496a083c8909c9aa8870eab2afbce1639834cb"
+        },
+        "events.out.tfevents.1790000000.omnia.1945302.1": {
+          "bytes": 1786,
+          "sha256": "a5ec7362ce1d348ff84dd9a8e705203650382342c8fa5d5bac1798d2b41fc7f8"
+        },
+        "events.out.tfevents.1790000000.omnia.1945302.2": {
+          "bytes": 1786,
+          "sha256": "f027fede04ab0518730628a7325d12fb0e4d92eec03af41db798ed8a7cb2362b"
+        },
+        "events.out.tfevents.1790000000.omnia.1945302.3": {
+          "bytes": 1786,
+          "sha256": "2b187cc80c07e8f5b230a458b26c7e5688a838b5f85f958f6d184684ae22cc27"
+        },
+        "events.out.tfevents.1790000000.omnia.1945302.4": {
+          "bytes": 1786,
+          "sha256": "a30d981a2b8a550824c1ad1242372e9060fb2539b2b698498d3410b57389b9ff"
+        },
+        "events.out.tfevents.1790000000.omnia.1945302.5": {
+          "bytes": 1786,
+          "sha256": "e4ec04b2681ca54f2330fb04bb1da506cfe331536b97a72c5525ef501783f616"
+        },
+        "events.out.tfevents.1790000000.omnia.1945302.6": {
+          "bytes": 1786,
+          "sha256": "2f4ef01503990ebb8c0a35e61c176997d1fad8eb3b3f02451f23ecbb46679581"
+        },
+        "events.out.tfevents.1790000000.omnia.1945302.7": {
+          "bytes": 1786,
+          "sha256": "2d84b4230f2cfa3ac6558efa7dec8a6f86de347495f4ca351550c5107a35a427"
+        },
+        "events.out.tfevents.1790000000.omnia.1945302.8": {
+          "bytes": 1786,
+          "sha256": "dbfa28071bc1bf4c173b80c4381df2454148af05c0c15ba2843c987cc5d29bbf"
+        },
+        "events.out.tfevents.1790000000.omnia.1945302.9": {
+          "bytes": 1786,
+          "sha256": "5014666fe54ea3d00d5c6b7179b2d037087f21f8120fe27eb84ffb9a464972da"
+        },
+        "events.out.tfevents.1790000000.omnia.1945302.10": {
+          "bytes": 1786,
+          "sha256": "5b3337b0085ca4f7f06e9740b38072653159960e08d9c840f91e056571c5fdcc"
+        },
+        "events.out.tfevents.1790000000.omnia.1945302.11": {
+          "bytes": 1786,
+          "sha256": "cb00d2e0afa1ef4d90d884dfcb94eaaf491c69b80b909c2cc2e4772d22769196"
+        }
+      },
+      "latest_nonfinite": true,
+      "stale_nonfinite": false
+    },
+    "stale-nonfinite": {
+      "created_order": [
+        "events.out.tfevents.1790000000.omnia.1945302.0",
+        "events.out.tfevents.1790000000.omnia.1945302.1",
+        "events.out.tfevents.1790000000.omnia.1945302.2",
+        "events.out.tfevents.1790000000.omnia.1945302.3",
+        "events.out.tfevents.1790000000.omnia.1945302.4",
+        "events.out.tfevents.1790000000.omnia.1945302.5",
+        "events.out.tfevents.1790000000.omnia.1945302.6",
+        "events.out.tfevents.1790000000.omnia.1945302.7",
+        "events.out.tfevents.1790000000.omnia.1945302.8",
+        "events.out.tfevents.1790000000.omnia.1945302.9",
+        "events.out.tfevents.1790000000.omnia.1945302.10",
+        "events.out.tfevents.1790000000.omnia.1945302.11"
+      ],
+      "files": {
+        "events.out.tfevents.1790000000.omnia.1945302.0": {
+          "bytes": 1786,
+          "sha256": "945d409871d3fab34eb2875447496a083c8909c9aa8870eab2afbce1639834cb"
+        },
+        "events.out.tfevents.1790000000.omnia.1945302.1": {
+          "bytes": 1786,
+          "sha256": "a5ec7362ce1d348ff84dd9a8e705203650382342c8fa5d5bac1798d2b41fc7f8"
+        },
+        "events.out.tfevents.1790000000.omnia.1945302.2": {
+          "bytes": 1786,
+          "sha256": "f027fede04ab0518730628a7325d12fb0e4d92eec03af41db798ed8a7cb2362b"
+        },
+        "events.out.tfevents.1790000000.omnia.1945302.3": {
+          "bytes": 1786,
+          "sha256": "2b187cc80c07e8f5b230a458b26c7e5688a838b5f85f958f6d184684ae22cc27"
+        },
+        "events.out.tfevents.1790000000.omnia.1945302.4": {
+          "bytes": 1786,
+          "sha256": "a30d981a2b8a550824c1ad1242372e9060fb2539b2b698498d3410b57389b9ff"
+        },
+        "events.out.tfevents.1790000000.omnia.1945302.5": {
+          "bytes": 1786,
+          "sha256": "e4ec04b2681ca54f2330fb04bb1da506cfe331536b97a72c5525ef501783f616"
+        },
+        "events.out.tfevents.1790000000.omnia.1945302.6": {
+          "bytes": 1786,
+          "sha256": "2f4ef01503990ebb8c0a35e61c176997d1fad8eb3b3f02451f23ecbb46679581"
+        },
+        "events.out.tfevents.1790000000.omnia.1945302.7": {
+          "bytes": 1786,
+          "sha256": "2d84b4230f2cfa3ac6558efa7dec8a6f86de347495f4ca351550c5107a35a427"
+        },
+        "events.out.tfevents.1790000000.omnia.1945302.8": {
+          "bytes": 1786,
+          "sha256": "dbfa28071bc1bf4c173b80c4381df2454148af05c0c15ba2843c987cc5d29bbf"
+        },
+        "events.out.tfevents.1790000000.omnia.1945302.9": {
+          "bytes": 1786,
+          "sha256": "d3044c064d01141c45401067376efdd920ec92e0f5ca21bfd440d2be19124b65"
+        },
+        "events.out.tfevents.1790000000.omnia.1945302.10": {
+          "bytes": 1786,
+          "sha256": "5b3337b0085ca4f7f06e9740b38072653159960e08d9c840f91e056571c5fdcc"
+        },
+        "events.out.tfevents.1790000000.omnia.1945302.11": {
+          "bytes": 1786,
+          "sha256": "b495a48fc91d88d38b2a9abaa74794bdf0e22199b4f3aa10d6bd9517bc67b521"
+        }
+      },
+      "latest_nonfinite": false,
+      "stale_nonfinite": true
+    }
+  }
+}
