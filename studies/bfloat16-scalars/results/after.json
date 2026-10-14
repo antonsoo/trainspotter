@@ -1,0 +1,305 @@
+{
+  "python": "3.12.12",
+  "source_sha256": "8c598169c11f9ec51bb359278334c4ca18f2b4bba32c0ce404822f265e376b1e",
+  "population": "Unmodified native TensorFlow 2.20 summary bytes; synthetic constants, no model training.",
+  "event_sha256": "702db370bb51cf132a66b774d1e7987a660daebd4ea8383e5b2f2825ba7d1e54",
+  "count": 6,
+  "disagreements": 0,
+  "observations": [
+    {
+      "case": "native-file",
+      "values": [
+        {
+          "step": 0,
+          "value": 1.0
+        },
+        {
+          "step": 1,
+          "value": 0.5
+        },
+        {
+          "step": 2,
+          "value": 0.25
+        },
+        {
+          "step": 3,
+          "value": 0.125
+        },
+        {
+          "step": 4,
+          "value": 0.10009765625
+        }
+      ],
+      "controls": [
+        {
+          "step": 0,
+          "value": 1.0
+        },
+        {
+          "step": 1,
+          "value": 0.5
+        },
+        {
+          "step": 2,
+          "value": 0.25
+        },
+        {
+          "step": 3,
+          "value": 0.125
+        },
+        {
+          "step": 4,
+          "value": 0.10009765625
+        }
+      ],
+      "skipped_events": 0,
+      "input_complete": true,
+      "agrees": true
+    },
+    {
+      "case": "native-directory",
+      "values": [
+        {
+          "step": 0,
+          "value": 1.0
+        },
+        {
+          "step": 1,
+          "value": 0.5
+        },
+        {
+          "step": 2,
+          "value": 0.25
+        },
+        {
+          "step": 3,
+          "value": 0.125
+        },
+        {
+          "step": 4,
+          "value": 0.10009765625
+        }
+      ],
+      "controls": [
+        {
+          "step": 0,
+          "value": 1.0
+        },
+        {
+          "step": 1,
+          "value": 0.5
+        },
+        {
+          "step": 2,
+          "value": 0.25
+        },
+        {
+          "step": 3,
+          "value": 0.125
+        },
+        {
+          "step": 4,
+          "value": 0.10009765625
+        }
+      ],
+      "skipped_events": 0,
+      "input_complete": true,
+      "agrees": true
+    },
+    {
+      "case": "library-html",
+      "bytes": 15856,
+      "sha256": "9b365c70f0c01b362c9997efd73297de2d319b0c70ef9265296f94165b143eb2",
+      "agrees": true
+    },
+    {
+      "case": "cli-json",
+      "exit": 0,
+      "stdout": "{\n  \"schema_version\": 1,\n  \"run\": {\n    \"source_format\": \"tensorboard\",\n    \"source_path\": \"<native-event-file>\",\n    \"skipped_rows\": 0,\n    \"skipped_values\": 0,\n    \"input_complete\": true,\n    \"input_notes\": [],\n    \"unread_event_bytes\": 0,\n    \"event_directories\": [\n      {\n        \"directory\": \".\",\n        \"observed_runs\": [\n          \"\"\n        ],\n        \"possible_runs\": [\n          \"\"\n        ],\n        \"skipped_events\": 0,\n        \"unread_event_bytes\": 0,\n        \"selected\": true\n      }\n    ],\n    \"overwritten_points\": 0,\n    \"restart_markers\": 0,\n    \"step_column\": \"step\",\n    \"step_axis\": \"step\",\n    \"step_selection\": \"automatic\",\n    \"metric_sources\": {\n      \"train/loss\": \".: train/loss\",\n      \"control/loss\": \".: control/loss\"\n    },\n    \"ambiguous_metric_sources\": [],\n    \"repeated_steps\": [],\n    \"metrics\": {\n      \"control/loss\": {\n        \"count\": 5,\n        \"analysis_count\": 5,\n        \"distinct_steps\": 5,\n        \"analysis_excluded\": false,\n        \"first_step\": 0,\n        \"last_step\": 4\n      },\n      \"train/loss\": {\n        \"count\": 5,\n        \"analysis_count\": 5,\n        \"distinct_steps\": 5,\n        \"analysis_excluded\": false,\n        \"first_step\": 0,\n        \"last_step\": 4\n      }\n    }\n  },\n  \"summary\": {\n    \"input_complete\": true,\n    \"total_findings\": 0,\n    \"by_severity\": {\n      \"error\": 0,\n      \"warning\": 0,\n      \"info\": 0\n    }\n  },\n  \"timing\": {\n    \"status\": \"unavailable\",\n    \"axis\": \"step\",\n    \"source\": null,\n    \"source_metric\": null,\n    \"unit\": null,\n    \"observations\": 0,\n    \"invalid_observations\": 0,\n    \"baseline\": null,\n    \"recent\": null,\n    \"ratio\": null,\n    \"reason\": \"No eligible timing source. The comparison needs enough step_time or throughput readings, or loss observations with timestamps and explicit training steps. Conflicting repeated-step values are excluded from this check.\",\n    \"notes\": [\n      \"wall_time(train/loss): 5 analysis points; at least 11 are required.\"\n    ],\n    \"min_window\": 5,\n    \"baseline_fraction\": 0.2\n  },\n  \"findings\": []\n}\n",
+      "stderr": "",
+      "agrees": true
+    },
+    {
+      "case": "cli-gate",
+      "exit": 0,
+      "stdout": "{\n  \"schema_version\": 1,\n  \"run\": {\n    \"source_format\": \"tensorboard\",\n    \"source_path\": \"<native-event-file>\",\n    \"skipped_rows\": 0,\n    \"skipped_values\": 0,\n    \"input_complete\": true,\n    \"input_notes\": [],\n    \"unread_event_bytes\": 0,\n    \"event_directories\": [\n      {\n        \"directory\": \".\",\n        \"observed_runs\": [\n          \"\"\n        ],\n        \"possible_runs\": [\n          \"\"\n        ],\n        \"skipped_events\": 0,\n        \"unread_event_bytes\": 0,\n        \"selected\": true\n      }\n    ],\n    \"overwritten_points\": 0,\n    \"restart_markers\": 0,\n    \"step_column\": \"step\",\n    \"step_axis\": \"step\",\n    \"step_selection\": \"automatic\",\n    \"metric_sources\": {\n      \"train/loss\": \".: train/loss\",\n      \"control/loss\": \".: control/loss\"\n    },\n    \"ambiguous_metric_sources\": [],\n    \"repeated_steps\": [],\n    \"metrics\": {\n      \"control/loss\": {\n        \"count\": 5,\n        \"analysis_count\": 5,\n        \"distinct_steps\": 5,\n        \"analysis_excluded\": false,\n        \"first_step\": 0,\n        \"last_step\": 4\n      },\n      \"train/loss\": {\n        \"count\": 5,\n        \"analysis_count\": 5,\n        \"distinct_steps\": 5,\n        \"analysis_excluded\": false,\n        \"first_step\": 0,\n        \"last_step\": 4\n      }\n    }\n  },\n  \"summary\": {\n    \"input_complete\": true,\n    \"total_findings\": 0,\n    \"by_severity\": {\n      \"error\": 0,\n      \"warning\": 0,\n      \"info\": 0\n    }\n  },\n  \"timing\": {\n    \"status\": \"unavailable\",\n    \"axis\": \"step\",\n    \"source\": null,\n    \"source_metric\": null,\n    \"unit\": null,\n    \"observations\": 0,\n    \"invalid_observations\": 0,\n    \"baseline\": null,\n    \"recent\": null,\n    \"ratio\": null,\n    \"reason\": \"No eligible timing source. The comparison needs enough step_time or throughput readings, or loss observations with timestamps and explicit training steps. Conflicting repeated-step values are excluded from this check.\",\n    \"notes\": [\n      \"wall_time(train/loss): 5 analysis points; at least 11 are required.\"\n    ],\n    \"min_window\": 5,\n    \"baseline_fraction\": 0.2\n  },\n  \"findings\": []\n}\n",
+      "stderr": "",
+      "agrees": true
+    },
+    {
+      "case": "watch-gate",
+      "exit": 0,
+      "stdout": "watching <native-event-file> (Ctrl-C to stop)\nrun      (top level) (selection held while watching)\n",
+      "stderr": "",
+      "agrees": true
+    }
+  ],
+  "reports": [
+    {
+      "schema_version": 1,
+      "run": {
+        "source_format": "tensorboard",
+        "source_path": "<fixture:native-file>",
+        "skipped_rows": 0,
+        "skipped_values": 0,
+        "input_complete": true,
+        "input_notes": [],
+        "unread_event_bytes": 0,
+        "event_directories": [
+          {
+            "directory": ".",
+            "observed_runs": [
+              ""
+            ],
+            "possible_runs": [
+              ""
+            ],
+            "skipped_events": 0,
+            "unread_event_bytes": 0,
+            "selected": true
+          }
+        ],
+        "overwritten_points": 0,
+        "restart_markers": 0,
+        "step_column": "step",
+        "step_axis": "step",
+        "step_selection": "automatic",
+        "metric_sources": {
+          "train/loss": ".: train/loss",
+          "control/loss": ".: control/loss"
+        },
+        "ambiguous_metric_sources": [],
+        "repeated_steps": [],
+        "metrics": {
+          "control/loss": {
+            "count": 5,
+            "analysis_count": 5,
+            "distinct_steps": 5,
+            "analysis_excluded": false,
+            "first_step": 0,
+            "last_step": 4
+          },
+          "train/loss": {
+            "count": 5,
+            "analysis_count": 5,
+            "distinct_steps": 5,
+            "analysis_excluded": false,
+            "first_step": 0,
+            "last_step": 4
+          }
+        }
+      },
+      "summary": {
+        "input_complete": true,
+        "total_findings": 0,
+        "by_severity": {
+          "error": 0,
+          "warning": 0,
+          "info": 0
+        }
+      },
+      "timing": {
+        "status": "unavailable",
+        "axis": "step",
+        "source": null,
+        "source_metric": null,
+        "unit": null,
+        "observations": 0,
+        "invalid_observations": 0,
+        "baseline": null,
+        "recent": null,
+        "ratio": null,
+        "reason": "No eligible timing source. The comparison needs enough step_time or throughput readings, or loss observations with timestamps and explicit training steps. Conflicting repeated-step values are excluded from this check.",
+        "notes": [
+          "wall_time(train/loss): 5 analysis points; at least 11 are required."
+        ],
+        "min_window": 5,
+        "baseline_fraction": 0.2
+      },
+      "findings": []
+    },
+    {
+      "schema_version": 1,
+      "run": {
+        "source_format": "tensorboard",
+        "source_path": "<fixture:native-directory>",
+        "skipped_rows": 0,
+        "skipped_values": 0,
+        "input_complete": true,
+        "input_notes": [],
+        "unread_event_bytes": 0,
+        "event_directories": [
+          {
+            "directory": ".",
+            "observed_runs": [
+              ""
+            ],
+            "possible_runs": [
+              ""
+            ],
+            "skipped_events": 0,
+            "unread_event_bytes": 0,
+            "selected": true
+          }
+        ],
+        "overwritten_points": 0,
+        "restart_markers": 0,
+        "step_column": "step",
+        "step_axis": "step",
+        "step_selection": "automatic",
+        "metric_sources": {
+          "train/loss": ".: train/loss",
+          "control/loss": ".: control/loss"
+        },
+        "ambiguous_metric_sources": [],
+        "repeated_steps": [],
+        "metrics": {
+          "control/loss": {
+            "count": 5,
+            "analysis_count": 5,
+            "distinct_steps": 5,
+            "analysis_excluded": false,
+            "first_step": 0,
+            "last_step": 4
+          },
+          "train/loss": {
+            "count": 5,
+            "analysis_count": 5,
+            "distinct_steps": 5,
+            "analysis_excluded": false,
+            "first_step": 0,
+            "last_step": 4
+          }
+        }
+      },
+      "summary": {
+        "input_complete": true,
+        "total_findings": 0,
+        "by_severity": {
+          "error": 0,
+          "warning": 0,
+          "info": 0
+        }
+      },
+      "timing": {
+        "status": "unavailable",
+        "axis": "step",
+        "source": null,
+        "source_metric": null,
+        "unit": null,
+        "observations": 0,
+        "invalid_observations": 0,
+        "baseline": null,
+        "recent": null,
+        "ratio": null,
+        "reason": "No eligible timing source. The comparison needs enough step_time or throughput readings, or loss observations with timestamps and explicit training steps. Conflicting repeated-step values are excluded from this check.",
+        "notes": [
+          "wall_time(train/loss): 5 analysis points; at least 11 are required."
+        ],
+        "min_window": 5,
+        "baseline_fraction": 0.2
+      },
+      "findings": []
+    }
+  ]
+}

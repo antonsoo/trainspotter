@@ -11,6 +11,7 @@ from __future__ import annotations
 
 import math
 import os
+import struct
 from collections import defaultdict
 from dataclasses import dataclass, field
 from pathlib import Path, PurePosixPath
@@ -23,6 +24,23 @@ from .common import metric_names, select_run, try_step
 _SPLIT_DIRS = {"train", "training", "validation", "val", "valid", "eval", "test"}
 _EVENT_PATTERN = "*tfevents.*"
 _PROFILE_PLACEHOLDER = ".profile-empty"
+
+
+def _bfloat16_scalar(tensor: Any) -> float:
+    """Widen the recorded 16 bits; TensorBoard's NumPy stub lacks this dtype.
+
+    The caller checks scalar shape before decoding. Missing data is not a
+    recorded zero, and malformed payloads must not acquire a numeric value.
+    """
+    if tensor.tensor_content:
+        if len(tensor.tensor_content) != 2:
+            raise ValueError("bfloat16 scalar requires exactly two payload bytes")
+        bits = int.from_bytes(tensor.tensor_content, "little")
+    else:
+        if len(tensor.half_val) != 1 or not 0 <= tensor.half_val[0] <= 0xFFFF:
+            raise ValueError("bfloat16 scalar requires one 16-bit value")
+        bits = tensor.half_val[0]
+    return float(struct.unpack("<f", (bits << 16).to_bytes(4, "little"))[0])
 
 
 def is_event_name(path: Path) -> bool:
@@ -51,7 +69,7 @@ def _place(dir_name: str, tag: str) -> tuple[str, str]:
             return "/".join(parts[:-1]), f"{last}/{tag}"
         prefix = tag.replace("/", "_") + "_"
         if last.startswith(prefix) and len(last) > len(prefix):
-            return "/".join(parts[:-1]), f"{tag}/{last[len(prefix):]}"
+            return "/".join(parts[:-1]), f"{tag}/{last[len(prefix) :]}"
     return "/".join(parts), tag
 
 
@@ -78,6 +96,7 @@ class _Directory:
     def consume(self, event: Any) -> None:
         from tensorboard.backend.event_processing.event_util import ParseFileVersion
         from tensorboard.compat.proto.event_pb2 import SessionLog
+        from tensorboard.compat.proto.types_pb2 import DT_BFLOAT16
         from tensorboard.util.tensor_util import make_ndarray
 
         if event.HasField("file_version"):
@@ -118,14 +137,17 @@ class _Directory:
                         self.points[tag].append(Point(step, None, wall_time))
                     continue
                 try:
-                    array = make_ndarray(tensor)
-                    if array.dtype.kind not in "iuf":
-                        if self.plugins.get(tag) == "scalars":
-                            self.scalar_tags.add(tag)
-                            self.skipped += 1
-                            self.points[tag].append(Point(step, None, wall_time))
-                        continue
-                    number = float(array.item())
+                    if tensor.dtype == DT_BFLOAT16:
+                        number = _bfloat16_scalar(tensor)
+                    else:
+                        array = make_ndarray(tensor)
+                        if array.dtype.kind not in "iuf":
+                            if self.plugins.get(tag) == "scalars":
+                                self.scalar_tags.add(tag)
+                                self.skipped += 1
+                                self.points[tag].append(Point(step, None, wall_time))
+                            continue
+                        number = float(array.item())
                 except (ValueError, TypeError, OverflowError, KeyError):
                     self.scalar_tags.add(tag)
                     self.skipped += 1
@@ -229,16 +251,22 @@ def read_tensorboard(path: str | Path, run_name: str | None = None) -> Run:
         for name in owners:
             restarts[name] += data.restarts
         candidates = owners | _possible_runs(relative) if damaged else owners
-        directories.append({
-            "directory": relative, "observed_runs": sorted(owners),
-            "possible_runs": sorted(candidates), "skipped_events": data.skipped,
-            "unread_event_bytes": data.unread_bytes,
-        })
+        directories.append(
+            {
+                "directory": relative,
+                "observed_runs": sorted(owners),
+                "possible_runs": sorted(candidates),
+                "skipped_events": data.skipped,
+                "unread_event_bytes": data.unread_bytes,
+            }
+        )
     run.meta["event_directories"] = directories
     if not by_run and run_name is None:
         return run
-    counts = {name: sum(p.value is not None for _, _, points in series for p in points)
-              for name, series in by_run.items()}
+    counts = {
+        name: sum(p.value is not None for _, _, points in series for p in points)
+        for name, series in by_run.items()
+    }
     chosen = select_run(run, counts, run_name, what=f"{p}: TensorBoard logdir")
     for record in directories:
         record["selected"] = chosen in record["possible_runs"]

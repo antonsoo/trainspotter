@@ -233,6 +233,14 @@ finding shown):
 | TensorBoard logdir | Legacy scalar summaries and tensor-valued scalars, in one directory or a tree | Split directories (`train/`, `validation/`) and `add_scalars` directories (`Loss_train/`) are parts of one run; other subdirectories are runs. Modern event streams use explicit restart markers, never wall-clock sorting or an inferred restart from an out-of-order reading |
 | Any CSV / JSONL | A `step` column and numeric columns | An explicit step must be an exact integer. With no step column anywhere in the source, row indices are used and identified in the report |
 
+The source checkout also reads native bfloat16 tensor scalars without a
+TensorFlow dependency. A TensorFlow-written capture previously left all five
+loss readings unreadable while its float32 controls loaded; both now retain
+the same numeric values, including the recorded `0.10009765625` after bfloat16
+quantization. Missing/malformed payloads stay unavailable. The
+[native capture, codec oracle and CLI replay](studies/bfloat16-scalars/README.md)
+retain this unreleased correction; it does not recover values before quantization.
+
 Names are mapped onto the vocabulary the detectors look for (`train/loss`,
 `eval/loss`, `lr`, `grad_norm`, `step_time`, `throughput`, `epoch`), one
 logged metric per name: of `lr-AdamW/pg1` and `lr-AdamW/pg2`, the first is

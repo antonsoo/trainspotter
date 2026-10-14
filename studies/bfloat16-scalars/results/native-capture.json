@@ -1,0 +1,100 @@
+{
+  "tensorflow": "2.20.0",
+  "population": "Synthetic scalar constants written by native TensorFlow summary API; no model training.",
+  "expected": [
+    {
+      "step": 0,
+      "value": 1.0
+    },
+    {
+      "step": 1,
+      "value": 0.5
+    },
+    {
+      "step": 2,
+      "value": 0.25
+    },
+    {
+      "step": 3,
+      "value": 0.125
+    },
+    {
+      "step": 4,
+      "value": 0.10009765625
+    }
+  ],
+  "records": [
+    {
+      "tag": "train/loss",
+      "step": 0,
+      "dtype": 14,
+      "tensor_content_hex": "803f",
+      "tensorflow_value": 1.0
+    },
+    {
+      "tag": "control/loss",
+      "step": 0,
+      "dtype": 1,
+      "tensor_content_hex": "0000803f",
+      "tensorflow_value": 1.0
+    },
+    {
+      "tag": "train/loss",
+      "step": 1,
+      "dtype": 14,
+      "tensor_content_hex": "003f",
+      "tensorflow_value": 0.5
+    },
+    {
+      "tag": "control/loss",
+      "step": 1,
+      "dtype": 1,
+      "tensor_content_hex": "0000003f",
+      "tensorflow_value": 0.5
+    },
+    {
+      "tag": "train/loss",
+      "step": 2,
+      "dtype": 14,
+      "tensor_content_hex": "803e",
+      "tensorflow_value": 0.25
+    },
+    {
+      "tag": "control/loss",
+      "step": 2,
+      "dtype": 1,
+      "tensor_content_hex": "0000803e",
+      "tensorflow_value": 0.25
+    },
+    {
+      "tag": "train/loss",
+      "step": 3,
+      "dtype": 14,
+      "tensor_content_hex": "003e",
+      "tensorflow_value": 0.125
+    },
+    {
+      "tag": "control/loss",
+      "step": 3,
+      "dtype": 1,
+      "tensor_content_hex": "0000003e",
+      "tensorflow_value": 0.125
+    },
+    {
+      "tag": "train/loss",
+      "step": 4,
+      "dtype": 14,
+      "tensor_content_hex": "cd3d",
+      "tensorflow_value": 0.10009765625
+    },
+    {
+      "tag": "control/loss",
+      "step": 4,
+      "dtype": 1,
+      "tensor_content_hex": "0000cd3d",
+      "tensorflow_value": 0.10009765625
+    }
+  ],
+  "event_bytes": 754,
+  "event_sha256": "702db370bb51cf132a66b774d1e7987a660daebd4ea8383e5b2f2825ba7d1e54"
+}

@@ -1,0 +1,10 @@
+{
+  "tensorflow": "2.20.0",
+  "numpy": "2.5.4",
+  "population": "All 65536 bfloat16 bit patterns decoded by native TensorFlow make_ndarray and widened to float32. Numeric NaNs, infinities and signed zero included; no model training.",
+  "words": 65536,
+  "uncompressed_bytes": 262144,
+  "uncompressed_sha256": "9207d7eb28680a098c73dbe536d1ff7b94311dc417b9a385e0af6660683e93ca",
+  "compressed_bytes": 90676,
+  "compressed_sha256": "0f5cac1b8d9f45ec1bb43201ddbd5302458f86356661a0d15e13aad4b0b751e0"
+}

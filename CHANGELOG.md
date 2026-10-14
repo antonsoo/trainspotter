@@ -6,6 +6,13 @@ and this project uses [Semantic Versioning](https://semver.org/).
 
 ## Unreleased
 
+- Decode scalar TensorBoard `DT_BFLOAT16` readings without a TensorFlow runtime
+  dependency. Native TensorFlow binary payloads and repeated-half-value bit
+  encodings retain their numeric values; malformed/missing data and non-scalar
+  shapes stay unreadable. Preserve nonfinite and signed-zero observations.
+  Retain the actual native producer, before/after CLI gates and an independent
+  TensorFlow oracle across all 65,536 bit patterns in `studies/bfloat16-scalars`.
+
 - Flush live watch events to pipes and redirected files. A successfully analyzed
   poll records its exit status before delivering findings, so an immediate
   interrupt does not report the initial unreadable-input status.

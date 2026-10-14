@@ -1,0 +1,327 @@
+{
+  "python": "3.12.12",
+  "source_sha256": "dd7bc4bc29cd41f84d2941cec42b47de1773c9e948d1b17948a5ebef951ca7d3",
+  "population": "Unmodified native TensorFlow 2.20 summary bytes; synthetic constants, no model training.",
+  "event_sha256": "702db370bb51cf132a66b774d1e7987a660daebd4ea8383e5b2f2825ba7d1e54",
+  "count": 6,
+  "disagreements": 6,
+  "observations": [
+    {
+      "case": "native-file",
+      "values": [
+        {
+          "step": 0,
+          "value": null
+        },
+        {
+          "step": 1,
+          "value": null
+        },
+        {
+          "step": 2,
+          "value": null
+        },
+        {
+          "step": 3,
+          "value": null
+        },
+        {
+          "step": 4,
+          "value": null
+        }
+      ],
+      "controls": [
+        {
+          "step": 0,
+          "value": 1.0
+        },
+        {
+          "step": 1,
+          "value": 0.5
+        },
+        {
+          "step": 2,
+          "value": 0.25
+        },
+        {
+          "step": 3,
+          "value": 0.125
+        },
+        {
+          "step": 4,
+          "value": 0.10009765625
+        }
+      ],
+      "skipped_events": 5,
+      "input_complete": false,
+      "agrees": false
+    },
+    {
+      "case": "native-directory",
+      "values": [
+        {
+          "step": 0,
+          "value": null
+        },
+        {
+          "step": 1,
+          "value": null
+        },
+        {
+          "step": 2,
+          "value": null
+        },
+        {
+          "step": 3,
+          "value": null
+        },
+        {
+          "step": 4,
+          "value": null
+        }
+      ],
+      "controls": [
+        {
+          "step": 0,
+          "value": 1.0
+        },
+        {
+          "step": 1,
+          "value": 0.5
+        },
+        {
+          "step": 2,
+          "value": 0.25
+        },
+        {
+          "step": 3,
+          "value": 0.125
+        },
+        {
+          "step": 4,
+          "value": 0.10009765625
+        }
+      ],
+      "skipped_events": 5,
+      "input_complete": false,
+      "agrees": false
+    },
+    {
+      "case": "library-html",
+      "bytes": 17726,
+      "sha256": "70c8924d42371e9e493775efac44280ec7d567cfb5744609c24a39182d501ed3",
+      "agrees": false
+    },
+    {
+      "case": "cli-json",
+      "exit": 0,
+      "stdout": "{\n  \"schema_version\": 1,\n  \"run\": {\n    \"source_format\": \"tensorboard\",\n    \"source_path\": \"<native-event-file>\",\n    \"skipped_rows\": 5,\n    \"skipped_values\": 0,\n    \"input_complete\": false,\n    \"input_notes\": [\n      \"train/loss: 5 unreadable values at recorded steps; trajectory checks stop at these gaps. These are not observed NaN/Inf values.\",\n      \"5 rows or events could not be read.\",\n      \"Input is incomplete; findings describe only the readable data.\"\n    ],\n    \"unread_event_bytes\": 0,\n    \"event_directories\": [\n      {\n        \"directory\": \".\",\n        \"observed_runs\": [\n          \"\"\n        ],\n        \"possible_runs\": [\n          \"\"\n        ],\n        \"skipped_events\": 5,\n        \"unread_event_bytes\": 0,\n        \"selected\": true\n      }\n    ],\n    \"overwritten_points\": 0,\n    \"restart_markers\": 0,\n    \"step_column\": \"step\",\n    \"step_axis\": \"step\",\n    \"step_selection\": \"automatic\",\n    \"metric_sources\": {\n      \"train/loss\": \".: train/loss\",\n      \"control/loss\": \".: control/loss\"\n    },\n    \"ambiguous_metric_sources\": [],\n    \"repeated_steps\": [],\n    \"metrics\": {\n      \"control/loss\": {\n        \"count\": 5,\n        \"analysis_count\": 5,\n        \"distinct_steps\": 5,\n        \"analysis_excluded\": false,\n        \"first_step\": 0,\n        \"last_step\": 4\n      },\n      \"train/loss\": {\n        \"count\": 0,\n        \"analysis_count\": 0,\n        \"distinct_steps\": 5,\n        \"analysis_excluded\": false,\n        \"first_step\": 0,\n        \"last_step\": 4,\n        \"unreadable_steps\": [\n          0,\n          1,\n          2,\n          3,\n          4\n        ]\n      }\n    }\n  },\n  \"summary\": {\n    \"input_complete\": false,\n    \"total_findings\": 0,\n    \"by_severity\": {\n      \"error\": 0,\n      \"warning\": 0,\n      \"info\": 0\n    }\n  },\n  \"timing\": {\n    \"status\": \"unavailable\",\n    \"axis\": \"step\",\n    \"source\": null,\n    \"source_metric\": null,\n    \"unit\": null,\n    \"observations\": 0,\n    \"invalid_observations\": 0,\n    \"baseline\": null,\n    \"recent\": null,\n    \"ratio\": null,\n    \"reason\": \"No eligible timing source. The comparison needs enough step_time or throughput readings, or loss observations with timestamps and explicit training steps. Conflicting repeated-step values are excluded from this check.\",\n    \"notes\": [\n      \"wall_time(train/loss): 5 analysis points; at least 11 are required.\"\n    ],\n    \"min_window\": 5,\n    \"baseline_fraction\": 0.2\n  },\n  \"findings\": []\n}\n",
+      "stderr": "",
+      "agrees": false
+    },
+    {
+      "case": "cli-gate",
+      "exit": 2,
+      "stdout": "{\n  \"schema_version\": 1,\n  \"run\": {\n    \"source_format\": \"tensorboard\",\n    \"source_path\": \"<native-event-file>\",\n    \"skipped_rows\": 5,\n    \"skipped_values\": 0,\n    \"input_complete\": false,\n    \"input_notes\": [\n      \"train/loss: 5 unreadable values at recorded steps; trajectory checks stop at these gaps. These are not observed NaN/Inf values.\",\n      \"5 rows or events could not be read.\",\n      \"Input is incomplete; findings describe only the readable data.\"\n    ],\n    \"unread_event_bytes\": 0,\n    \"event_directories\": [\n      {\n        \"directory\": \".\",\n        \"observed_runs\": [\n          \"\"\n        ],\n        \"possible_runs\": [\n          \"\"\n        ],\n        \"skipped_events\": 5,\n        \"unread_event_bytes\": 0,\n        \"selected\": true\n      }\n    ],\n    \"overwritten_points\": 0,\n    \"restart_markers\": 0,\n    \"step_column\": \"step\",\n    \"step_axis\": \"step\",\n    \"step_selection\": \"automatic\",\n    \"metric_sources\": {\n      \"train/loss\": \".: train/loss\",\n      \"control/loss\": \".: control/loss\"\n    },\n    \"ambiguous_metric_sources\": [],\n    \"repeated_steps\": [],\n    \"metrics\": {\n      \"control/loss\": {\n        \"count\": 5,\n        \"analysis_count\": 5,\n        \"distinct_steps\": 5,\n        \"analysis_excluded\": false,\n        \"first_step\": 0,\n        \"last_step\": 4\n      },\n      \"train/loss\": {\n        \"count\": 0,\n        \"analysis_count\": 0,\n        \"distinct_steps\": 5,\n        \"analysis_excluded\": false,\n        \"first_step\": 0,\n        \"last_step\": 4,\n        \"unreadable_steps\": [\n          0,\n          1,\n          2,\n          3,\n          4\n        ]\n      }\n    }\n  },\n  \"summary\": {\n    \"input_complete\": false,\n    \"total_findings\": 0,\n    \"by_severity\": {\n      \"error\": 0,\n      \"warning\": 0,\n      \"info\": 0\n    }\n  },\n  \"timing\": {\n    \"status\": \"unavailable\",\n    \"axis\": \"step\",\n    \"source\": null,\n    \"source_metric\": null,\n    \"unit\": null,\n    \"observations\": 0,\n    \"invalid_observations\": 0,\n    \"baseline\": null,\n    \"recent\": null,\n    \"ratio\": null,\n    \"reason\": \"No eligible timing source. The comparison needs enough step_time or throughput readings, or loss observations with timestamps and explicit training steps. Conflicting repeated-step values are excluded from this check.\",\n    \"notes\": [\n      \"wall_time(train/loss): 5 analysis points; at least 11 are required.\"\n    ],\n    \"min_window\": 5,\n    \"baseline_fraction\": 0.2\n  },\n  \"findings\": []\n}\n",
+      "stderr": "trainspotter: input is incomplete; CI gate could not be evaluated\n",
+      "agrees": false
+    },
+    {
+      "case": "watch-gate",
+      "exit": 2,
+      "stdout": "watching <native-event-file> (Ctrl-C to stop)\nrun      (top level) (selection held while watching)\ninput    train/loss: 5 unreadable values at recorded steps; trajectory checks stop at these gaps. These are not observed NaN/Inf values. 5 rows or events could not be read. Input is incomplete; findings describe only the readable data.\n",
+      "stderr": "trainspotter: input is incomplete; CI gate could not be evaluated\n",
+      "agrees": false
+    }
+  ],
+  "reports": [
+    {
+      "schema_version": 1,
+      "run": {
+        "source_format": "tensorboard",
+        "source_path": "<fixture:native-file>",
+        "skipped_rows": 5,
+        "skipped_values": 0,
+        "input_complete": false,
+        "input_notes": [
+          "train/loss: 5 unreadable values at recorded steps; trajectory checks stop at these gaps. These are not observed NaN/Inf values.",
+          "5 rows or events could not be read.",
+          "Input is incomplete; findings describe only the readable data."
+        ],
+        "unread_event_bytes": 0,
+        "event_directories": [
+          {
+            "directory": ".",
+            "observed_runs": [
+              ""
+            ],
+            "possible_runs": [
+              ""
+            ],
+            "skipped_events": 5,
+            "unread_event_bytes": 0,
+            "selected": true
+          }
+        ],
+        "overwritten_points": 0,
+        "restart_markers": 0,
+        "step_column": "step",
+        "step_axis": "step",
+        "step_selection": "automatic",
+        "metric_sources": {
+          "train/loss": ".: train/loss",
+          "control/loss": ".: control/loss"
+        },
+        "ambiguous_metric_sources": [],
+        "repeated_steps": [],
+        "metrics": {
+          "control/loss": {
+            "count": 5,
+            "analysis_count": 5,
+            "distinct_steps": 5,
+            "analysis_excluded": false,
+            "first_step": 0,
+            "last_step": 4
+          },
+          "train/loss": {
+            "count": 0,
+            "analysis_count": 0,
+            "distinct_steps": 5,
+            "analysis_excluded": false,
+            "first_step": 0,
+            "last_step": 4,
+            "unreadable_steps": [
+              0,
+              1,
+              2,
+              3,
+              4
+            ]
+          }
+        }
+      },
+      "summary": {
+        "input_complete": false,
+        "total_findings": 0,
+        "by_severity": {
+          "error": 0,
+          "warning": 0,
+          "info": 0
+        }
+      },
+      "timing": {
+        "status": "unavailable",
+        "axis": "step",
+        "source": null,
+        "source_metric": null,
+        "unit": null,
+        "observations": 0,
+        "invalid_observations": 0,
+        "baseline": null,
+        "recent": null,
+        "ratio": null,
+        "reason": "No eligible timing source. The comparison needs enough step_time or throughput readings, or loss observations with timestamps and explicit training steps. Conflicting repeated-step values are excluded from this check.",
+        "notes": [
+          "wall_time(train/loss): 5 analysis points; at least 11 are required."
+        ],
+        "min_window": 5,
+        "baseline_fraction": 0.2
+      },
+      "findings": []
+    },
+    {
+      "schema_version": 1,
+      "run": {
+        "source_format": "tensorboard",
+        "source_path": "<fixture:native-directory>",
+        "skipped_rows": 5,
+        "skipped_values": 0,
+        "input_complete": false,
+        "input_notes": [
+          "train/loss: 5 unreadable values at recorded steps; trajectory checks stop at these gaps. These are not observed NaN/Inf values.",
+          "5 rows or events could not be read.",
+          "Input is incomplete; findings describe only the readable data."
+        ],
+        "unread_event_bytes": 0,
+        "event_directories": [
+          {
+            "directory": ".",
+            "observed_runs": [
+              ""
+            ],
+            "possible_runs": [
+              ""
+            ],
+            "skipped_events": 5,
+            "unread_event_bytes": 0,
+            "selected": true
+          }
+        ],
+        "overwritten_points": 0,
+        "restart_markers": 0,
+        "step_column": "step",
+        "step_axis": "step",
+        "step_selection": "automatic",
+        "metric_sources": {
+          "train/loss": ".: train/loss",
+          "control/loss": ".: control/loss"
+        },
+        "ambiguous_metric_sources": [],
+        "repeated_steps": [],
+        "metrics": {
+          "control/loss": {
+            "count": 5,
+            "analysis_count": 5,
+            "distinct_steps": 5,
+            "analysis_excluded": false,
+            "first_step": 0,
+            "last_step": 4
+          },
+          "train/loss": {
+            "count": 0,
+            "analysis_count": 0,
+            "distinct_steps": 5,
+            "analysis_excluded": false,
+            "first_step": 0,
+            "last_step": 4,
+            "unreadable_steps": [
+              0,
+              1,
+              2,
+              3,
+              4
+            ]
+          }
+        }
+      },
+      "summary": {
+        "input_complete": false,
+        "total_findings": 0,
+        "by_severity": {
+          "error": 0,
+          "warning": 0,
+          "info": 0
+        }
+      },
+      "timing": {
+        "status": "unavailable",
+        "axis": "step",
+        "source": null,
+        "source_metric": null,
+        "unit": null,
+        "observations": 0,
+        "invalid_observations": 0,
+        "baseline": null,
+        "recent": null,
+        "ratio": null,
+        "reason": "No eligible timing source. The comparison needs enough step_time or throughput readings, or loss observations with timestamps and explicit training steps. Conflicting repeated-step values are excluded from this check.",
+        "notes": [
+          "wall_time(train/loss): 5 analysis points; at least 11 are required."
+        ],
+        "min_window": 5,
+        "baseline_fraction": 0.2
+      },
+      "findings": []
+    }
+  ]
+}
