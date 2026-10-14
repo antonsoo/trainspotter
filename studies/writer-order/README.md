@@ -90,3 +90,52 @@ regions.
 
 This is a source correction. Verification of a local wheel does not constitute a
 PyPI release, a version tag or a hosted demo update.
+
+## Measured verification
+
+Baseline `07426bec2f9e5ce5ba0efed76726094aab1f24bc` was replayed against
+implementation `ca931aa6293f9241c317ff5bc18e286995667520` on 2026-10-14, on
+14 vCPU WSL2 Linux with 48 GB RAM.
+
+| Workflow | Population | Before mismatches | After mismatches |
+| --- | --- | ---: | ---: |
+| Native API and actual CLI outputs/gates | 25 cases, 125 workflows | 62 | 0 |
+| Installed wheel, Python 3.14.7 / TensorBoard 2.21 | 125 workflows | - | 0 |
+| Installed wheel, Python 3.10.21 / NumPy 1.24 / TensorBoard 2.12 | 125 workflows | - | 0 |
+| Offline native HTML, both browsers and widths | 16 report views | Both erroneous gate states reproduced | Correct findings in every view |
+
+All 60 captures from the 12 unaffected control cases remain identical. Both
+installed replays match source observations; HTML content differs only in the
+recorded generation minute. Actual HTML byte hashes are retained separately.
+The installed console entrypoint also detects the latest-session NaN.
+
+Fresh locked Python 3.12 checks passed install, ruff, strict mypy, 682 tests,
+wheel/sdist build, Node 24 report-check install, 208 report browser workflows and
+static-site build. Python 3.14 and Python 3.10 with lowest direct dependencies
+also passed all 682 tests each. All 552 implementation archive files remained
+unchanged after checks; all 498 baseline archive files match pinned source.
+
+All 34 wheel files match the clean build and installed bytes, except the
+installer-generated RECORD file. The local 0.2.6 wheel is 120,042 bytes, SHA-256
+`0cd33aad9ab8dd90b5cb307114183b2aa7ef72b1ee97f18268b12024ddf3fbbe`;
+the local sdist is 166,056 bytes. File digests, commands, log hashes, installed
+versions, control equality and harness corrections are retained in
+`results/verification.json`. The installed receipts refer to the source capture
+and retain distinct generated-HTML hashes instead of copying all observations.
+
+The static sample build is `uv run python scripts/build_site.py`, output `site/`.
+These checks and source changes do not publish that build or the local package.
+
+## Real captures
+
+Each image is an unedited CLI-written report for the latest-NaN controlled
+capture. The earlier report displayed no finding because it retained an older
+session. The corrected report shows the recorded NaN at step 39. Synthetic
+readings illustrate import/restart correctness, not actual training health.
+
+| Browser / width | Before | After |
+| --- | --- | --- |
+| Chromium / 1440 | [before](../../docs/assets/writer-order/chromium-1440-before.png) | [after](../../docs/assets/writer-order/chromium-1440-after.png) |
+| Chromium / 375 | [before](../../docs/assets/writer-order/chromium-375-before.png) | [after](../../docs/assets/writer-order/chromium-375-after.png) |
+| Firefox / 1440 | [before](../../docs/assets/writer-order/firefox-1440-before.png) | [after](../../docs/assets/writer-order/firefox-1440-after.png) |
+| Firefox / 375 | [before](../../docs/assets/writer-order/firefox-375-before.png) | [after](../../docs/assets/writer-order/firefox-375-after.png) |
