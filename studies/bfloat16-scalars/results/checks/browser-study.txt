@@ -1,0 +1,1 @@
+Eight offline report controls passed in Chromium/Firefox at 1440/375px.

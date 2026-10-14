@@ -68,6 +68,43 @@ out-of-range half values and a non-scalar shape. They keep these readings
 unavailable and counted as skipped. This does not expand support to arbitrary
 tensor shapes or reconstruct pre-quantization values.
 
+## Installed artifact verification
+
+The [verification receipt](results/verification.json) records code commit
+`522fcba`, wheel/source-archive hashes, all matched runtime files and check logs.
+A fresh archive passed the repository's configured lint/type checks plus the
+new study lint, 671 Python tests with no skips, package and sample-site builds,
+and 208 Chromium/Firefox offline report workflows, including keyboard,
+accessibility and 320px checks. The site build produced 17 sample reports.
+
+| Installed environment | Native library/CLI workflows | Decoder regressions |
+| --- | --- | --- |
+| Python 3.14.7 / NumPy 2.5.4 / TensorBoard 2.21.0 | [Six; zero disagreements](results/installed-current.json) | 14 passed |
+| Python 3.10.21 / NumPy 1.24.0 / TensorBoard 2.12.0 | [Six; zero disagreements](results/installed-floor.json) | 14 passed |
+| Python 3.12.12 / core wheel only | Baseline HF example passed; TensorBoard and TensorFlow absent | Not a TensorBoard run |
+
+The older SDK installation uses `setuptools<81` for its `pkg_resources`
+dependency. Both TensorBoard installations have no TensorFlow installed.
+All 29 runtime files, including `py.typed`, match the clean source, wheel,
+source archive and all three installations.
+
+The [offline browser replay](results/browser/browser.json) checks actual
+exported reports in both engines at 1440 and 375px. Loss readings change from
+zero to five and the unreadable curve becomes a plotted trajectory; float32
+controls remain visible. All eight before/after screenshots were inspected.
+The phone layout keeps its existing horizontal table/chart scrolling hints.
+The [terminal capture](../../docs/assets/bfloat16-scalars.ansi) comes from the
+installed current CLI analyzing the native fixture directory.
+
+![Installed CLI reads both bfloat16 and float32 controls](../../docs/assets/bfloat16-scalars.png)
+
+Two verification-harness adjustments are retained. The first all-pattern
+prototype tried `make_tensor_proto` on an eager bfloat16 scalar and hit a NumPy
+conversion error; the oracle now uses an explicit TensorFlow protobuf and its
+decoder. The first browser selector matched both incompleteness and unreadable
+evidence headings; it now selects the existing `input-heading` id. Neither
+adjustment is a product renderer or upstream TensorFlow compatibility fix.
+
 The source correction has no corresponding PyPI release or verified hosted
 deployment. Package build: `uv build`. Existing sample-site build:
 `uv run python scripts/build_site.py`, producing `site/`.

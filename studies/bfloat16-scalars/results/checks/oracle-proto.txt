@@ -1,0 +1,14 @@
+2026-10-14 01:33:36.856690: I tensorflow/core/util/port.cc:153] oneDNN custom operations are on. You may see slightly different numerical results due to floating-point round-off errors from different computation orders. To turn them off, set the environment variable `TF_ENABLE_ONEDNN_OPTS=0`.
+2026-10-14 01:33:36.903806: I tensorflow/core/platform/cpu_feature_guard.cc:210] This TensorFlow binary is optimized to use available CPU instructions in performance-critical operations.
+To enable the following instructions: AVX2 AVX512F AVX512_VNNI AVX512_BF16 FMA, in other operations, rebuild TensorFlow with the appropriate compiler flags.
+2026-10-14 01:33:38.124062: I tensorflow/core/util/port.cc:153] oneDNN custom operations are on. You may see slightly different numerical results due to floating-point round-off errors from different computation orders. To turn them off, set the environment variable `TF_ENABLE_ONEDNN_OPTS=0`.
+{
+  "tensorflow": "2.20.0",
+  "numpy": "2.5.4",
+  "population": "All 65536 bfloat16 bit patterns decoded by native TensorFlow make_ndarray and widened to float32. Numeric NaNs, infinities and signed zero included; no model training.",
+  "words": 65536,
+  "uncompressed_bytes": 262144,
+  "uncompressed_sha256": "9207d7eb28680a098c73dbe536d1ff7b94311dc417b9a385e0af6660683e93ca",
+  "compressed_bytes": 90676,
+  "compressed_sha256": "0f5cac1b8d9f45ec1bb43201ddbd5302458f86356661a0d15e13aad4b0b751e0"
+}

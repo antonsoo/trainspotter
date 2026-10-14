@@ -1,5 +1,7 @@
 {
   "python": "3.12.12",
+  "numpy": "2.5.3",
+  "tensorboard": "2.21.0",
   "source_sha256": "dd7bc4bc29cd41f84d2941cec42b47de1773c9e948d1b17948a5ebef951ca7d3",
   "population": "Unmodified native TensorFlow 2.20 summary bytes; synthetic constants, no model training.",
   "event_sha256": "702db370bb51cf132a66b774d1e7987a660daebd4ea8383e5b2f2825ba7d1e54",
@@ -109,7 +111,7 @@
     {
       "case": "library-html",
       "bytes": 17726,
-      "sha256": "70c8924d42371e9e493775efac44280ec7d567cfb5744609c24a39182d501ed3",
+      "sha256": "e515c63993eddb932e65c0f35c75a90dc694bf557c1aba797d35d780dfb48fcc",
       "agrees": false
     },
     {

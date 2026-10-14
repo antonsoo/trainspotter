@@ -1,0 +1,41 @@
+Using CPython 3.12.12
+Creating virtual environment at: .venv
+Resolved 40 packages in 22ms
+   Building trainspotter @ file://<verification-workdir>/clean
+Downloading tensorboard (5.3MiB)
+      Built trainspotter @ file://<verification-workdir>/clean
+ Downloaded tensorboard
+Prepared 5 packages in 995ms
+Installed 32 packages in 297ms
+ + absl-py==2.5.0
+ + ast-serialize==0.11.2
+ + cloudpickle==3.1.2
+ + coverage==7.16.1
+ + grpcio==1.84.0
+ + iniconfig==2.3.0
+ + joblib==1.6.0
+ + librt==0.15.0
+ + markdown==3.10.3
+ + markupsafe==3.0.3
+ + mypy==2.3.1
+ + mypy-extensions==1.1.0
+ + narwhals==2.26.0
+ + numpy==2.5.3
+ + packaging==26.3
+ + pathspec==1.1.1
+ + pillow==12.3.0
+ + pluggy==1.6.0
+ + protobuf==7.36.2
+ + pygments==2.21.0
+ + pytest==9.1.1
+ + pytest-cov==7.1.0
+ + ruff==0.16.8
+ + scikit-learn==1.9.1
+ + scipy==1.18.1
+ + setuptools==84.0.0
+ + tensorboard==2.21.0
+ + tensorboard-data-server==0.7.2
+ + threadpoolctl==3.7.0
+ + trainspotter==0.2.6 (from file://<verification-workdir>/clean)
+ + typing-extensions==4.16.0
+ + werkzeug==3.1.8

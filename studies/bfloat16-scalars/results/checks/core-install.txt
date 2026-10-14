@@ -1,0 +1,8 @@
+Using CPython 3.12.12
+Creating virtual environment at: core
+Activate with: source core/bin/activate
+Using Python 3.12.12 environment at: core
+Resolved 2 packages in 260ms
+Installed 2 packages in 259ms
+ + numpy==2.5.4
+ + trainspotter==0.2.6 (from file://<verification-workdir>/clean/dist/trainspotter-0.2.6-py3-none-any.whl)

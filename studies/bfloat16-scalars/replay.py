@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import argparse
 import hashlib
+import importlib.metadata
 import json
 import os
 import subprocess
@@ -108,6 +109,8 @@ def main() -> None:
             )
     result = {
         "python": sys.version.split()[0],
+        "numpy": importlib.metadata.version("numpy"),
+        "tensorboard": importlib.metadata.version("tensorboard"),
         "source_sha256": hashlib.sha256(
             (origin.parent / "readers/tensorboard.py").read_bytes()
         ).hexdigest(),

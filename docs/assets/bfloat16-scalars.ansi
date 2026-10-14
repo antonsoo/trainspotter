@@ -1,0 +1,11 @@
+trainspotter  run diagnostic
+------------------------------------------------------------
+source   studies/bfloat16-scalars/fixtures  [tensorboard]
+metrics  control/loss, train/loss
+axis     steps from step
+timing   Unavailable: No eligible timing source. The comparison needs enough step_time or
+         throughput readings, or loss observations with timestamps and explicit training steps.
+         Conflicting repeated-step values are excluded from this check.
+findings 0 error  0 warning  0 info
+
+No pathologies detected. Only the available metrics and detector checks were evaluated.

@@ -1,0 +1,18 @@
+  loss-cadence: {'error': 0, 'warning': 0, 'info': 0}
+  gradient-concentration: {'error': 0, 'warning': 0, 'info': 1}
+  wandb-cadence: {'error': 0, 'warning': 0, 'info': 0}
+  wandb-logging-only: {'error': 0, 'warning': 0, 'info': 0}
+  wandb-slowdown: {'error': 0, 'warning': 1, 'info': 0}
+  scheduler-resume: {'error': 0, 'warning': 0, 'info': 1}
+  evaluation-overlap: {'error': 0, 'warning': 1, 'info': 0}
+  evaluation-cohorts: {'error': 1, 'warning': 0, 'info': 1}
+  baseline: {'error': 0, 'warning': 0, 'info': 0}
+  divergence: {'error': 1, 'warning': 2, 'info': 4}
+  overfitting: {'error': 0, 'warning': 1, 'info': 0}
+  missing_warmup: {'error': 0, 'warning': 1, 'info': 1}
+  throughput_drop: {'error': 0, 'warning': 1, 'info': 0}
+  transformers_tinygpt2: {'error': 0, 'warning': 0, 'info': 0}
+  timing-cadence: {'error': 0, 'warning': 0, 'info': 0}
+  timing-slowdown: {'error': 0, 'warning': 1, 'info': 0}
+  timing-broken-clock: {'error': 0, 'warning': 0, 'info': 0}
+wrote <verification-workdir>/clean/site/index.html and 17 report(s)

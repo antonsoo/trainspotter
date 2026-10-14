@@ -1,0 +1,108 @@
+2026-10-14 01:42:18.383968: I tensorflow/core/util/port.cc:153] oneDNN custom operations are on. You may see slightly different numerical results due to floating-point round-off errors from different computation orders. To turn them off, set the environment variable `TF_ENABLE_ONEDNN_OPTS=0`.
+2026-10-14 01:42:18.522201: I tensorflow/core/platform/cpu_feature_guard.cc:210] This TensorFlow binary is optimized to use available CPU instructions in performance-critical operations.
+To enable the following instructions: AVX2 AVX512F AVX512_VNNI AVX512_BF16 FMA, in other operations, rebuild TensorFlow with the appropriate compiler flags.
+2026-10-14 01:42:20.445093: I tensorflow/core/util/port.cc:153] oneDNN custom operations are on. You may see slightly different numerical results due to floating-point round-off errors from different computation orders. To turn them off, set the environment variable `TF_ENABLE_ONEDNN_OPTS=0`.
+WARNING:tensorflow:From <verification-workdir>/native/lib/python3.12/site-packages/tensorflow/python/summary/summary_iterator.py:27: tf_record_iterator (from tensorflow.python.lib.io.tf_record) is deprecated and will be removed in a future version.
+Instructions for updating:
+Use eager execution and: 
+`tf.data.TFRecordDataset(path)`
+{
+  "tensorflow": "2.20.0",
+  "population": "Synthetic scalar constants written by native TensorFlow summary API; no model training.",
+  "event_bytes": 754,
+  "event_sha256": "aef1c71a42d0b349fa83d5b30c5a63e4e6c4dd3d978086ecf69bb792a0848580",
+  "expected": [
+    {
+      "step": 0,
+      "value": 1.0
+    },
+    {
+      "step": 1,
+      "value": 0.5
+    },
+    {
+      "step": 2,
+      "value": 0.25
+    },
+    {
+      "step": 3,
+      "value": 0.125
+    },
+    {
+      "step": 4,
+      "value": 0.10009765625
+    }
+  ],
+  "records": [
+    {
+      "tag": "train/loss",
+      "step": 0,
+      "dtype": 14,
+      "tensor_content_hex": "803f",
+      "tensorflow_value": 1.0
+    },
+    {
+      "tag": "control/loss",
+      "step": 0,
+      "dtype": 1,
+      "tensor_content_hex": "0000803f",
+      "tensorflow_value": 1.0
+    },
+    {
+      "tag": "train/loss",
+      "step": 1,
+      "dtype": 14,
+      "tensor_content_hex": "003f",
+      "tensorflow_value": 0.5
+    },
+    {
+      "tag": "control/loss",
+      "step": 1,
+      "dtype": 1,
+      "tensor_content_hex": "0000003f",
+      "tensorflow_value": 0.5
+    },
+    {
+      "tag": "train/loss",
+      "step": 2,
+      "dtype": 14,
+      "tensor_content_hex": "803e",
+      "tensorflow_value": 0.25
+    },
+    {
+      "tag": "control/loss",
+      "step": 2,
+      "dtype": 1,
+      "tensor_content_hex": "0000803e",
+      "tensorflow_value": 0.25
+    },
+    {
+      "tag": "train/loss",
+      "step": 3,
+      "dtype": 14,
+      "tensor_content_hex": "003e",
+      "tensorflow_value": 0.125
+    },
+    {
+      "tag": "control/loss",
+      "step": 3,
+      "dtype": 1,
+      "tensor_content_hex": "0000003e",
+      "tensorflow_value": 0.125
+    },
+    {
+      "tag": "train/loss",
+      "step": 4,
+      "dtype": 14,
+      "tensor_content_hex": "cd3d",
+      "tensorflow_value": 0.10009765625
+    },
+    {
+      "tag": "control/loss",
+      "step": 4,
+      "dtype": 1,
+      "tensor_content_hex": "0000cd3d",
+      "tensorflow_value": 0.10009765625
+    }
+  ]
+}

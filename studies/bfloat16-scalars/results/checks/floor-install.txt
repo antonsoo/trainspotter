@@ -1,0 +1,50 @@
+Using CPython 3.10.21
+Creating virtual environment at: floor
+Activate with: source floor/bin/activate
+Using Python 3.10.21 environment at: floor
+Resolved 35 packages in 853ms
+Downloading cryptography (4.6MiB)
+Downloading grpcio (6.9MiB)
+Downloading setuptools (1.0MiB)
+Downloading tensorboard (5.4MiB)
+ Downloaded setuptools
+ Downloaded cryptography
+ Downloaded grpcio
+ Downloaded tensorboard
+Prepared 11 packages in 1.42s
+Installed 35 packages in 326ms
+ + absl-py==2.5.1
+ + certifi==2026.7.22
+ + cffi==2.1.1
+ + charset-normalizer==3.5.2
+ + cryptography==50.0.2
+ + exceptiongroup==1.3.1
+ + google-auth==2.62.0
+ + google-auth-oauthlib==0.4.6
+ + grpcio==1.84.0
+ + idna==3.20
+ + iniconfig==2.3.1
+ + markdown==3.10.3
+ + markupsafe==3.0.4
+ + numpy==1.24.0
+ + oauthlib==4.0.0
+ + packaging==26.3
+ + pluggy==1.6.0
+ + protobuf==7.36.2
+ + pyasn1==0.6.4
+ + pyasn1-modules==0.4.2
+ + pycparser==3.11
+ + pygments==2.21.0
+ + pytest==9.1.1
+ + requests==2.34.2
+ + requests-oauthlib==2.0.0
+ + setuptools==80.10.2
+ + tensorboard==2.12.0
+ + tensorboard-data-server==0.7.2
+ + tensorboard-plugin-wit==1.8.1
+ + tomli==2.5.0
+ + trainspotter==0.2.6 (from file://<verification-workdir>/clean/dist/trainspotter-0.2.6-py3-none-any.whl)
+ + typing-extensions==4.16.0
+ + urllib3==2.8.0
+ + werkzeug==3.1.9
+ + wheel==0.48.0
