@@ -1,0 +1,44 @@
+{
+  "python": "3.12.12",
+  "platform": "Linux-6.18.54.1-microsoft-standard-WSL2-x86_64-with-glibc2.39",
+  "machine": "14 vCPU WSL2 Linux, 48 GB RAM",
+  "scope": "load_run only; three samples per size",
+  "records": [
+    {
+      "rows": 1000,
+      "bytes": 10208,
+      "rejectedRows": 100,
+      "unreadablePositions": 100,
+      "seconds": [
+        0.03339265700196847,
+        0.04466161201708019,
+        0.03306113797589205
+      ],
+      "medianSeconds": 0.03339265700196847
+    },
+    {
+      "rows": 10000,
+      "bytes": 111908,
+      "rejectedRows": 1000,
+      "unreadablePositions": 1000,
+      "seconds": [
+        0.5935504950175527,
+        0.55893092599581,
+        0.5044142669939902
+      ],
+      "medianSeconds": 0.55893092599581
+    },
+    {
+      "rows": 100000,
+      "bytes": 1218908,
+      "rejectedRows": 10000,
+      "unreadablePositions": 10000,
+      "seconds": [
+        4.540785066987155,
+        2.925331284001004,
+        2.107112222001888
+      ],
+      "medianSeconds": 2.925331284001004
+    }
+  ]
+}

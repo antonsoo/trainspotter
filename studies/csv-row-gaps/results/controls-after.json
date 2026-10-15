@@ -1,0 +1,2466 @@
+{
+  "python": "3.12.12",
+  "records": [
+    {
+      "file": "examples/baseline.csv",
+      "bytes": 41814,
+      "sha256": "90def5b935a38a1652eb603099a41a61c0c9ae80205f705e7572576b23d2007f",
+      "reportSha256": "5d49bb3681a6824114383ccc425f6c583c7f1e3841d8ea0b6450f0cac2135134",
+      "inputComplete": true,
+      "findings": []
+    },
+    {
+      "file": "examples/diagnostic-evidence/clipped-after.csv",
+      "bytes": 4173,
+      "sha256": "4636842174e57e187693bf9de60441eeb651272e081cbf7c131b39cca869e9fc",
+      "reportSha256": "db8558360425b17b81d5cc5883b3e49305a4135c5460f10699d38ec04d8dea1b",
+      "inputComplete": true,
+      "findings": [
+        {
+          "detector": "grad_norm",
+          "title": "Gradient norms concentrated near their maximum",
+          "severity": "info",
+          "metric": "grad_norm",
+          "step_start": 50,
+          "step_end": 99,
+          "message": "100% of the last 50 grad_norm readings sit within 0.5% of their observed maximum (0.25). Constant gradients and post-clip logging can both produce this pattern. The norm history alone cannot establish whether clipping was used, its threshold, or how often it changed updates.",
+          "evidence": {
+            "ceiling": 0.24999975000025002,
+            "fraction_at_ceiling": 1.0,
+            "window": 50,
+            "clipping_status": "unknown"
+          },
+          "fixes": [
+            "Check whether the norm is measured before or after clipping.",
+            "To measure clipping frequency, log the configured threshold and whether each update was clipped, or its before/after norms.",
+            "Compare clipping with the loss and parameter updates before changing its threshold."
+          ]
+        }
+      ]
+    },
+    {
+      "file": "examples/diagnostic-evidence/clipped-before.csv",
+      "bytes": 2573,
+      "sha256": "5d604137a7f5bcbeb085247f908c5ca52d27d7d2ca6b06fc8f1b37fe1f9130fe",
+      "reportSha256": "4fa705c6c3f5816eeb35b886a4d835407d7a67ad177ad6e755cf205fec78952c",
+      "inputComplete": true,
+      "findings": [
+        {
+          "detector": "grad_norm",
+          "title": "Gradient norms concentrated near their maximum",
+          "severity": "info",
+          "metric": "grad_norm",
+          "step_start": 50,
+          "step_end": 99,
+          "message": "100% of the last 50 grad_norm readings sit within 0.5% of their observed maximum (1). Constant gradients and post-clip logging can both produce this pattern. The norm history alone cannot establish whether clipping was used, its threshold, or how often it changed updates.",
+          "evidence": {
+            "ceiling": 1.0,
+            "fraction_at_ceiling": 1.0,
+            "window": 50,
+            "clipping_status": "unknown"
+          },
+          "fixes": [
+            "Check whether the norm is measured before or after clipping.",
+            "To measure clipping frequency, log the configured threshold and whether each update was clipped, or its before/after norms.",
+            "Compare clipping with the loss and parameter updates before changing its threshold."
+          ]
+        }
+      ]
+    },
+    {
+      "file": "examples/diagnostic-evidence/fast-dense.csv",
+      "bytes": 27187,
+      "sha256": "a73bca4e1470724a6799cded5bc7ddc866e63695eb967acf0c5e0b5f886b0ded",
+      "reportSha256": "13dee8de6fc17144c6809554bdbefffd29b3c03cdc7dfa323776f483cc9fec5f",
+      "inputComplete": true,
+      "findings": [
+        {
+          "detector": "loss_floor",
+          "title": "Suspiciously low loss early (heuristic)",
+          "severity": "info",
+          "metric": "train/loss",
+          "step_start": 0,
+          "step_end": 18,
+          "message": "train/loss dropped to 0.04506 by step 18 -- only 2.3% of its first logged value (2), at 1.8% of the logged step span (0-1000). Possibly just an easy task; possibly train/eval overlap or label leakage. This heuristic does not establish leakage or describe training outside the logged interval.",
+          "evidence": {
+            "step": 18,
+            "value": 0.04505679908987835,
+            "first_value": 2.0,
+            "fraction_of_start": 0.022528399544939175,
+            "first_logged_step": 0,
+            "last_logged_step": 1000,
+            "early_span_fraction": 0.1,
+            "fraction_of_logged_span": 0.018
+          },
+          "fixes": [
+            "Check for train/eval overlap (duplicate or near-duplicate examples).",
+            "Check the label isn't leaking into the input features (e.g. a column that encodes the target).",
+            "If the task is genuinely easy (small/simple dataset), this may be entirely normal."
+          ]
+        }
+      ]
+    },
+    {
+      "file": "examples/diagnostic-evidence/infinite-gradient-tail.csv",
+      "bytes": 406,
+      "sha256": "73c28ccca34150e403a596784384a77d519a862d2f876aad0c54ed200743057a",
+      "reportSha256": "190b4f04d6ab26b2b97e29d62a0b60d78a0da5ba7a0d4aaf5cc5369f70d38468",
+      "inputComplete": true,
+      "findings": [
+        {
+          "detector": "grad_norm",
+          "title": "Non-finite gradient norm",
+          "severity": "info",
+          "metric": "grad_norm",
+          "step_start": 49,
+          "step_end": 49,
+          "message": "grad_norm has 1 NaN or infinite reading, first at step 49.",
+          "evidence": {
+            "first_bad_step": 49,
+            "count": 1,
+            "distinct_bad_steps": 1,
+            "trajectory_status": "available"
+          },
+          "fixes": [
+            "Inspect gradient computation and norm measurement at these steps; a logged non-finite norm alone does not establish its cause.",
+            "If using mixed precision, inspect the gradient scaler and whether the optimizer skipped these updates.",
+            "If the loss went non-finite too, see the divergence finding."
+          ]
+        }
+      ]
+    },
+    {
+      "file": "examples/diagnostic-evidence/infinite-start-loss.csv",
+      "bytes": 900,
+      "sha256": "a33b9870b0a0f82473acc70298edd06389fe20130497cd0caecbd1464f2aacd7",
+      "reportSha256": "412b4e35f7a1a6dfee5f493b62750b3d41ef7ac2b722f4e5b74375a2b6c7f2a3",
+      "inputComplete": true,
+      "findings": [
+        {
+          "detector": "divergence",
+          "title": "Non-finite training loss",
+          "severity": "error",
+          "metric": "train/loss",
+          "step_start": 0,
+          "step_end": 0,
+          "message": "train/loss became Inf at step 0 (1 non-finite point(s) in this run).",
+          "evidence": {
+            "first_bad_step": 0,
+            "count": 1
+          },
+          "fixes": [
+            "Inspect the objective and logging reduction separately: an empty batch or empty logging window can produce NaN even while optimizer updates remain finite.",
+            "Check for a divide-by-zero or log(0) in the loss calculation.",
+            "If the optimizer's loss or gradients also become non-finite, inspect the learning rate, gradient clipping and mixed-precision loss scaling."
+          ]
+        },
+        {
+          "detector": "plateau",
+          "title": "Possible plateau",
+          "severity": "info",
+          "metric": "train/loss",
+          "step_start": 1,
+          "step_end": 99,
+          "message": "The median-smoothed train/loss level stayed between 0.04 and 0.04 from step 1 to 99 (99 points; raw readings range 0.04-0.04). Assessed within the finite segment at steps 1-99 (99 observations); no loss trajectory is inferred across NaN/Inf readings.",
+          "evidence": {
+            "window": 30,
+            "alpha": 0.2,
+            "rel_change_threshold": 0.02,
+            "value_range": 0.0,
+            "smoothing_window": 15,
+            "level_min": 0.04,
+            "level_max": 0.04,
+            "relative_level_range": 0.0,
+            "noise_allowance": 0.0,
+            "noise_window": 29,
+            "qualifying_windows": 70,
+            "segment_start_step": 1,
+            "segment_end_step": 99,
+            "segment_observations": 99
+          },
+          "fixes": [
+            "If this is early training, check warmup finished and LR reached its target.",
+            "Try a higher LR, an LR-range test, or a different schedule (cosine/one-cycle) if the plateau is unexpected.",
+            "Check for a frozen/detached parameter group if the plateau starts abruptly."
+          ]
+        }
+      ]
+    },
+    {
+      "file": "examples/diagnostic-evidence/overflow-one-step.csv",
+      "bytes": 32,
+      "sha256": "84616ae2c29f83b0ae1aa875a44e0a002f9066c769590eb328cf6c6291a65a38",
+      "reportSha256": "be458cdf594d3dbea0931a5862e7f39c8ceb9bc89f660b9c641c42ecfb177b9e",
+      "inputComplete": true,
+      "findings": [
+        {
+          "detector": "divergence",
+          "title": "Non-finite training loss",
+          "severity": "error",
+          "metric": "train/loss",
+          "step_start": 0,
+          "step_end": 0,
+          "message": "train/loss became Inf at step 0 (1 non-finite point(s) in this run).",
+          "evidence": {
+            "first_bad_step": 0,
+            "count": 1
+          },
+          "fixes": [
+            "Inspect the objective and logging reduction separately: an empty batch or empty logging window can produce NaN even while optimizer updates remain finite.",
+            "Check for a divide-by-zero or log(0) in the loss calculation.",
+            "If the optimizer's loss or gradients also become non-finite, inspect the learning rate, gradient clipping and mixed-precision loss scaling."
+          ]
+        },
+        {
+          "detector": "grad_norm",
+          "title": "Non-finite gradient norm",
+          "severity": "info",
+          "metric": "grad_norm",
+          "step_start": 0,
+          "step_end": 0,
+          "message": "grad_norm has 1 NaN or infinite reading, first at step 0.",
+          "evidence": {
+            "first_bad_step": 0,
+            "count": 1,
+            "distinct_bad_steps": 1,
+            "trajectory_status": "available"
+          },
+          "fixes": [
+            "Inspect gradient computation and norm measurement at these steps; a logged non-finite norm alone does not establish its cause.",
+            "If using mixed precision, inspect the gradient scaler and whether the optimizer skipped these updates.",
+            "If the loss went non-finite too, see the divergence finding."
+          ]
+        }
+      ]
+    },
+    {
+      "file": "examples/diagnostic-evidence/slow-dense.csv",
+      "bytes": 25635,
+      "sha256": "0e4b599e57cd40f2d16ca9e7dc0ca25b1b3937c5e4d6d8ee7abb732a1828623c",
+      "reportSha256": "17f22b4a4660c3ca94a6285e67a446322cff46c05657741cd35fad2368f0f9d9",
+      "inputComplete": true,
+      "findings": []
+    },
+    {
+      "file": "examples/diagnostic-evidence/slow-sparse-no-step.csv",
+      "bytes": 2400,
+      "sha256": "9729cd7fa2e94de584fb1d720a2e844b1b47f7ccf8c3bba463fb3ba96b62fb44",
+      "reportSha256": "ed668444674e2153bfe724b6e4e93f98ce7f91f2db03306e4fa5588f18744e96",
+      "inputComplete": true,
+      "findings": []
+    },
+    {
+      "file": "examples/diagnostic-evidence/slow-sparse.csv",
+      "bytes": 2812,
+      "sha256": "398498b225bc376551561f120f766dfae85579cf8d06aa123bee9314461f926b",
+      "reportSha256": "171aec65aae53addf094fb9d06631fee36341ea95c0b76498bbe2d16f6953eb7",
+      "inputComplete": true,
+      "findings": []
+    },
+    {
+      "file": "examples/diagnostic-evidence/unclipped-after.csv",
+      "bytes": 1498,
+      "sha256": "d7a4191752fd37b8a0940d890bd78ae656ea32318168fd156fa77ca4cad90b82",
+      "reportSha256": "52e341ea74ef06113da31192d23786502800717ae86715b2c67fb5e3c40df96b",
+      "inputComplete": true,
+      "findings": [
+        {
+          "detector": "grad_norm",
+          "title": "Gradient norms concentrated near their maximum",
+          "severity": "info",
+          "metric": "grad_norm",
+          "step_start": 50,
+          "step_end": 99,
+          "message": "100% of the last 50 grad_norm readings sit within 0.5% of their observed maximum (1). Constant gradients and post-clip logging can both produce this pattern. The norm history alone cannot establish whether clipping was used, its threshold, or how often it changed updates.",
+          "evidence": {
+            "ceiling": 1.0,
+            "fraction_at_ceiling": 1.0,
+            "window": 50,
+            "clipping_status": "unknown"
+          },
+          "fixes": [
+            "Check whether the norm is measured before or after clipping.",
+            "To measure clipping frequency, log the configured threshold and whether each update was clipped, or its before/after norms.",
+            "Compare clipping with the loss and parameter updates before changing its threshold."
+          ]
+        }
+      ]
+    },
+    {
+      "file": "examples/diagnostic-evidence/unclipped-before.csv",
+      "bytes": 1498,
+      "sha256": "d7a4191752fd37b8a0940d890bd78ae656ea32318168fd156fa77ca4cad90b82",
+      "reportSha256": "939274961bbb41ac31352ae7db155bd6dea3a6cdfc0af31bec81372e3f9be5b7",
+      "inputComplete": true,
+      "findings": [
+        {
+          "detector": "grad_norm",
+          "title": "Gradient norms concentrated near their maximum",
+          "severity": "info",
+          "metric": "grad_norm",
+          "step_start": 50,
+          "step_end": 99,
+          "message": "100% of the last 50 grad_norm readings sit within 0.5% of their observed maximum (1). Constant gradients and post-clip logging can both produce this pattern. The norm history alone cannot establish whether clipping was used, its threshold, or how often it changed updates.",
+          "evidence": {
+            "ceiling": 1.0,
+            "fraction_at_ceiling": 1.0,
+            "window": 50,
+            "clipping_status": "unknown"
+          },
+          "fixes": [
+            "Check whether the norm is measured before or after clipping.",
+            "To measure clipping frequency, log the configured threshold and whether each update was clipped, or its before/after norms.",
+            "Compare clipping with the loss and parameter updates before changing its threshold."
+          ]
+        }
+      ]
+    },
+    {
+      "file": "examples/divergence.csv",
+      "bytes": 31828,
+      "sha256": "9b7231f92761488af1a62bfa0e69b3a22688b2a93912ed4185534bdb9778de16",
+      "reportSha256": "dc79fd937bbe0e7f7fdf60e0186b3845b56cad911910686a7f4831975db06b60",
+      "inputComplete": true,
+      "findings": [
+        {
+          "detector": "divergence",
+          "title": "Non-finite training loss",
+          "severity": "error",
+          "metric": "train/loss",
+          "step_start": 322,
+          "step_end": 322,
+          "message": "train/loss became Inf at step 322 (1 non-finite point(s) in this run).",
+          "evidence": {
+            "first_bad_step": 322,
+            "count": 1
+          },
+          "fixes": [
+            "Inspect the objective and logging reduction separately: an empty batch or empty logging window can produce NaN even while optimizer updates remain finite.",
+            "Check for a divide-by-zero or log(0) in the loss calculation.",
+            "If the optimizer's loss or gradients also become non-finite, inspect the learning rate, gradient clipping and mixed-precision loss scaling."
+          ]
+        },
+        {
+          "detector": "spikes",
+          "title": "Loss spike",
+          "severity": "warning",
+          "metric": "eval/loss",
+          "step_start": 320,
+          "step_end": 320,
+          "message": "eval/loss jumped to 54.88 at step 320 from a level of 0.1838, 29 times the run's progress, for 1 logged point.",
+          "evidence": {
+            "peak_step": 320,
+            "peak_value": 54.879071152792534,
+            "level": 0.18380520075447826,
+            "share_of_progress": 29.2103096990222,
+            "robust_z": 83.72016735609087,
+            "window": 21,
+            "threshold": 6.0
+          },
+          "fixes": [
+            "Lower the learning rate or add/extend LR warmup.",
+            "Clip gradients (or lower the existing max-norm).",
+            "Check the batch at this step for a data or tokenization bug (e.g. an unmasked pad token, a corrupted shard).",
+            "If the level came straight back and it doesn't recur, it may be one bad batch."
+          ]
+        },
+        {
+          "detector": "spikes",
+          "title": "Loss spike",
+          "severity": "warning",
+          "metric": "train/loss",
+          "step_start": 321,
+          "step_end": 321,
+          "message": "train/loss jumped to 55.49 at step 321 from a level of 0.1953, 22 times the finite segment's progress, for 1 logged point. Assessed within the finite segment at steps 0-321 (322 observations); no loss trajectory is inferred across NaN/Inf readings.",
+          "evidence": {
+            "peak_step": 321,
+            "peak_value": 55.48785726812561,
+            "level": 0.19525849698248648,
+            "share_of_progress": 21.884086878387556,
+            "robust_z": 18.702618748104218,
+            "window": 21,
+            "threshold": 6.0,
+            "segment_start_step": 0,
+            "segment_end_step": 321,
+            "segment_observations": 322
+          },
+          "fixes": [
+            "Lower the learning rate or add/extend LR warmup.",
+            "Clip gradients (or lower the existing max-norm).",
+            "Check the batch at this step for a data or tokenization bug (e.g. an unmasked pad token, a corrupted shard).",
+            "If the level came straight back and it doesn't recur, it may be one bad batch."
+          ]
+        },
+        {
+          "detector": "overfitting",
+          "title": "Evaluation loss rising",
+          "severity": "info",
+          "metric": "eval/loss",
+          "step_start": 290,
+          "step_end": 320,
+          "message": "Lowest logged eval/loss in this finite segment was 0.183 at step 290; the last value is 54.88 (299.9x its minimum, slope diagnostic p=0.0833). (Downgraded: a spikes finding at step 321 explains this rise better than ordinary overfitting does.)",
+          "evidence": {
+            "segment_start": 0,
+            "segment_observations": 33,
+            "best_step": 290,
+            "best_value": 0.18298490886283636,
+            "current_value": 54.879071152792534,
+            "relative_rise": 298.91036689221914,
+            "slope_p_value": 0.08325787746607749,
+            "slope_status": "assessed",
+            "training_status": "opposing_trends_not_established",
+            "training_observations": 31,
+            "overlap_eval_observations": 4,
+            "training_step_start": 290,
+            "training_step_end": 320,
+            "overlap_eval_step_start": 290,
+            "overlap_eval_step_end": 320,
+            "training_scaled_slope": -0.002497209827505516,
+            "training_slope_p_value": 0.4069364107317077,
+            "overlap_eval_scaled_slope": 0.029899949395526457,
+            "overlap_eval_slope_p_value": 0.08325787746607749
+          },
+          "fixes": [
+            "If a checkpoint was saved near step 290, compare it with the last saved checkpoint on the same evaluation examples.",
+            "Check evaluation-data and metric-definition changes before attributing the rise to training.",
+            "If the regression persists on a comparable evaluation set, consider early stopping, regularization, or more training data."
+          ]
+        },
+        {
+          "detector": "lr_schedule",
+          "title": "LR rose after decay",
+          "severity": "info",
+          "metric": "lr",
+          "step_start": 319,
+          "step_end": 322,
+          "message": "lr fell from 0.4 at step 20 to 1.097e-05 at step 319, then rose to 30 at step 322. This can be an intended cycle or restart; the log alone does not establish a scheduler fault.",
+          "evidence": {
+            "earlier_peak": 0.4,
+            "peak_step": 20,
+            "low_value": 1.0966126897571372e-05,
+            "low_step": 319,
+            "high_value": 30.0,
+            "high_step": 322,
+            "confirmed_step": 320,
+            "rise_fraction_of_peak": 0.9999996344624368,
+            "bump_tolerance": 0.01
+          },
+          "fixes": [
+            "If this matches an intended cycle or warm restart, no correction is needed.",
+            "Otherwise, check that scheduler state was restored with the optimizer after a checkpoint resume.",
+            "Check the scheduler's configured horizon and how often scheduler.step() is called."
+          ]
+        },
+        {
+          "detector": "grad_norm",
+          "title": "Gradient-norm explosion",
+          "severity": "info",
+          "metric": "grad_norm",
+          "step_start": 321,
+          "step_end": 321,
+          "message": "grad_norm exceeded 10x its rolling median 1 time; the largest was 23.02 at step 321, 57x the median around it. Compare the logged loss and optimizer updates; the norm alone does not establish clipping or an effect on training.",
+          "evidence": {
+            "count": 1,
+            "peak_step": 321,
+            "peak_value": 23.020477464577784,
+            "ratio_to_median": 57.015633316699635
+          },
+          "fixes": [
+            "Enable or lower gradient clipping (e.g. max-norm 1.0).",
+            "Lower the learning rate.",
+            "Check the batch at this step for an outlier example (e.g. a corrupted/extreme-length sample)."
+          ]
+        },
+        {
+          "detector": "grad_norm",
+          "title": "Non-finite gradient norm",
+          "severity": "info",
+          "metric": "grad_norm",
+          "step_start": 322,
+          "step_end": 322,
+          "message": "grad_norm has 1 NaN or infinite reading, first at step 322.",
+          "evidence": {
+            "first_bad_step": 322,
+            "count": 1,
+            "distinct_bad_steps": 1,
+            "trajectory_status": "available"
+          },
+          "fixes": [
+            "Inspect gradient computation and norm measurement at these steps; a logged non-finite norm alone does not establish its cause.",
+            "If using mixed precision, inspect the gradient scaler and whether the optimizer skipped these updates.",
+            "If the loss went non-finite too, see the divergence finding."
+          ]
+        }
+      ]
+    },
+    {
+      "file": "examples/evaluation/captured/fixed-cohort-switch.csv",
+      "bytes": 425,
+      "sha256": "b0fe69af2334496222ab7a954b55982a5ec6b1d223a4d9845e609fe55edfdf4a",
+      "reportSha256": "bc1d871ba293980e11c11cd29eae809705c903bc78b0a69dde3577811e1fd352",
+      "inputComplete": true,
+      "findings": [
+        {
+          "detector": "overfitting",
+          "title": "Evaluation loss rising",
+          "severity": "error",
+          "metric": "eval/loss",
+          "step_start": 0,
+          "step_end": 19,
+          "message": "Lowest logged eval/loss in this finite segment was 2.198 at step 0; the last value is 6.443 (193.1%, rise threshold met; slope criterion not met).",
+          "evidence": {
+            "segment_start": 0,
+            "segment_observations": 20,
+            "best_step": 0,
+            "best_value": 2.198391922777203,
+            "current_value": 6.442896035968593,
+            "relative_rise": 1.930731308287085,
+            "slope_p_value": 0.7119231506921899,
+            "slope_status": "assessed",
+            "training_status": "missing"
+          },
+          "fixes": [
+            "If a checkpoint was saved near step 0, compare it with the last saved checkpoint on the same evaluation examples.",
+            "Check evaluation-data and metric-definition changes before attributing the rise to training.",
+            "If the regression persists on a comparable evaluation set, consider early stopping, regularization, or more training data."
+          ]
+        },
+        {
+          "detector": "eval_noise",
+          "title": "Evaluation values fluctuate",
+          "severity": "info",
+          "metric": "eval/loss",
+          "step_start": 0,
+          "step_end": 19,
+          "message": "eval/loss changes direction 18 times across 20 finite observations. Its median absolute adjacent change is 100% of the observed range. This describes the logged curve; it does not measure evaluation uncertainty or establish whether checkpoints differ.",
+          "evidence": {
+            "observations": 20,
+            "direction_changes": 18,
+            "upward_intervals": 10,
+            "downward_intervals": 9,
+            "scale": 6.442896035968593,
+            "scaled_median_absolute_change": 0.6587882358330328,
+            "scaled_value_range": 0.6587882358330328,
+            "ratio": 1.0
+          },
+          "fixes": [
+            "Check whether evaluation data, sampling, or metric definitions changed between logged values.",
+            "To compare saved checkpoints, evaluate them on the same examples and retain paired per-example scores; account for dependent examples.",
+            "Repeated evaluation only measures randomness present in that procedure; repeating a deterministic pass does not measure uncertainty across examples."
+          ]
+        }
+      ]
+    },
+    {
+      "file": "examples/evaluation/captured/fixed-repeat.csv",
+      "bytes": 425,
+      "sha256": "51b45ce045a88dbaf919d93e47ce18f8f05ff3c11656fa8bfd983ef96fb9342a",
+      "reportSha256": "3c34685acbb4f8196b016497581689a9a92138172e3a6f335c50fac90a7c80f7",
+      "inputComplete": true,
+      "findings": []
+    },
+    {
+      "file": "examples/evaluation/captured/late-training.csv",
+      "bytes": 6591,
+      "sha256": "236fb0e9407ad6fa22bfbe64591aab17620aedfba3a3d77d68d06d9ca58500d3",
+      "reportSha256": "37b4cd02dcbee1daa5dff8d9a41c58d6d9483f67f190bb83dd23a88b201a4cca",
+      "inputComplete": true,
+      "findings": [
+        {
+          "detector": "overfitting",
+          "title": "Evaluation loss rising",
+          "severity": "warning",
+          "metric": "eval/loss",
+          "step_start": 7,
+          "step_end": 60,
+          "message": "Lowest logged eval/loss in this finite segment was 1.271 at step 7; the last value is 1.81 (42.4%, slope diagnostic p<0.0001).",
+          "evidence": {
+            "segment_start": 0,
+            "segment_observations": 61,
+            "best_step": 7,
+            "best_value": 1.2713647989634222,
+            "current_value": 1.810329915217713,
+            "relative_rise": 0.4239264109669574,
+            "slope_p_value": 0.0,
+            "slope_status": "assessed",
+            "training_status": "insufficient_overlap",
+            "training_observations": 0,
+            "overlap_eval_observations": 0
+          },
+          "fixes": [
+            "If a checkpoint was saved near step 7, compare it with the last saved checkpoint on the same evaluation examples.",
+            "Check evaluation-data and metric-definition changes before attributing the rise to training.",
+            "If the regression persists on a comparable evaluation set, consider early stopping, regularization, or more training data."
+          ]
+        }
+      ]
+    },
+    {
+      "file": "examples/evaluation/captured/nan-final.csv",
+      "bytes": 12640,
+      "sha256": "c8ab2f74c2bc0842200ef4d363b4aa18f0a4d3f912f1d63552d7c1a2f337d448",
+      "reportSha256": "5da7364b0f92ba2d76cf240fc73a64bcb4e530222e2479ae2b81be7d4ce22a2c",
+      "inputComplete": true,
+      "findings": [
+        {
+          "detector": "divergence",
+          "title": "Non-finite evaluation values",
+          "severity": "warning",
+          "metric": "eval/loss",
+          "step_start": 300,
+          "step_end": 300,
+          "message": "eval/loss became NaN at step 300 (1 non-finite point(s) in this run).",
+          "evidence": {
+            "first_bad_step": 300,
+            "count": 1
+          },
+          "fixes": [
+            "Inspect the objective and logging reduction separately: an empty batch or empty logging window can produce NaN even while optimizer updates remain finite.",
+            "Check for a divide-by-zero or log(0) in the loss calculation.",
+            "If the optimizer's loss or gradients also become non-finite, inspect the learning rate, gradient clipping and mixed-precision loss scaling."
+          ]
+        }
+      ]
+    },
+    {
+      "file": "examples/evaluation/captured/nan-gap.csv",
+      "bytes": 12640,
+      "sha256": "2ee1b5f4e7596bd63d007aaf2f798ca7c91cc3c6f3ad2e424ee4f2ad19d4c3a0",
+      "reportSha256": "ca5ce70c8e9fd8412c40ca432551ca53698472a789e55a3a0f0cf14d95809eb8",
+      "inputComplete": true,
+      "findings": [
+        {
+          "detector": "divergence",
+          "title": "Non-finite evaluation values",
+          "severity": "warning",
+          "metric": "eval/loss",
+          "step_start": 100,
+          "step_end": 100,
+          "message": "eval/loss became NaN at step 100 (1 non-finite point(s) in this run).",
+          "evidence": {
+            "first_bad_step": 100,
+            "count": 1
+          },
+          "fixes": [
+            "Inspect the objective and logging reduction separately: an empty batch or empty logging window can produce NaN even while optimizer updates remain finite.",
+            "Check for a divide-by-zero or log(0) in the loss calculation.",
+            "If the optimizer's loss or gradients also become non-finite, inspect the learning rate, gradient clipping and mixed-precision loss scaling."
+          ]
+        },
+        {
+          "detector": "overfitting",
+          "title": "Possible overfitting",
+          "severity": "warning",
+          "metric": "eval/loss",
+          "step_start": 101,
+          "step_end": 300,
+          "message": "Lowest logged eval/loss in this finite segment was 1.96 at step 101; the last value is 2.198 (12.2%, slope diagnostic p<0.0001). Assessment starts at step 101, after the last non-finite evaluation. Within their shared interval, train/loss trends down (200 readings, steps 101-300) while eval/loss trends up (200 readings, steps 101-300). This is consistent with overfitting, but does not establish its cause.",
+          "evidence": {
+            "segment_start": 101,
+            "segment_observations": 200,
+            "best_step": 101,
+            "best_value": 1.9598488753596373,
+            "current_value": 2.198391922777203,
+            "relative_rise": 0.12171502120223043,
+            "slope_p_value": 0.0,
+            "slope_status": "assessed",
+            "training_status": "opposing_trends",
+            "training_observations": 200,
+            "overlap_eval_observations": 200,
+            "training_step_start": 101,
+            "training_step_end": 300,
+            "overlap_eval_step_start": 101,
+            "overlap_eval_step_end": 300,
+            "training_scaled_slope": -0.001006934924280825,
+            "training_slope_p_value": 0.0,
+            "overlap_eval_scaled_slope": 0.0005168657842926342,
+            "overlap_eval_slope_p_value": 0.0
+          },
+          "fixes": [
+            "If a checkpoint was saved near step 101, compare it with the last saved checkpoint on the same evaluation examples.",
+            "Check evaluation-data and metric-definition changes before attributing the rise to training.",
+            "If the regression persists on a comparable evaluation set, consider early stopping, regularization, or more training data."
+          ]
+        }
+      ]
+    },
+    {
+      "file": "examples/evaluation/captured/predictions.csv",
+      "bytes": 58880,
+      "sha256": "2a5a2301f611739cee6720b7a33b23b3528b3fad776e5f2fb0ddcae02c3be5a8",
+      "reportSha256": "7272cd5fa64cdede0e36563700bf7454824a34159238e647b0ee89bb76cbe6a0",
+      "inputComplete": false,
+      "findings": []
+    },
+    {
+      "file": "examples/evaluation/captured/regression-full.csv",
+      "bytes": 12654,
+      "sha256": "d59ec7206eeeafc06c142980bbf047de8cb69fe2cecb13737929b96a0af40bf5",
+      "reportSha256": "4597e3f2b618ff6c064f254d4704e854b170cefd1c4bb378bd6b2fa3dc5b9b1c",
+      "inputComplete": true,
+      "findings": [
+        {
+          "detector": "overfitting",
+          "title": "Possible overfitting",
+          "severity": "error",
+          "metric": "eval/loss",
+          "step_start": 7,
+          "step_end": 300,
+          "message": "Lowest logged eval/loss in this finite segment was 1.271 at step 7; the last value is 2.198 (72.9%, slope diagnostic p<0.0001). Within their shared interval, train/loss trends down (294 readings, steps 7-300) while eval/loss trends up (294 readings, steps 7-300). This is consistent with overfitting, but does not establish its cause.",
+          "evidence": {
+            "segment_start": 0,
+            "segment_observations": 301,
+            "best_step": 7,
+            "best_value": 1.2713647989634222,
+            "current_value": 2.198391922777203,
+            "relative_rise": 0.7291590301773423,
+            "slope_p_value": 0.0,
+            "slope_status": "assessed",
+            "training_status": "opposing_trends",
+            "training_observations": 294,
+            "overlap_eval_observations": 294,
+            "training_step_start": 7,
+            "training_step_end": 300,
+            "overlap_eval_step_start": 7,
+            "overlap_eval_step_end": 300,
+            "training_scaled_slope": -0.0008063580742431764,
+            "training_slope_p_value": 0.0,
+            "overlap_eval_scaled_slope": 0.00106208552195668,
+            "overlap_eval_slope_p_value": 0.0
+          },
+          "fixes": [
+            "If a checkpoint was saved near step 7, compare it with the last saved checkpoint on the same evaluation examples.",
+            "Check evaluation-data and metric-definition changes before attributing the rise to training.",
+            "If the regression persists on a comparable evaluation set, consider early stopping, regularization, or more training data."
+          ]
+        }
+      ]
+    },
+    {
+      "file": "examples/evaluation/captured/smooth-six.csv",
+      "bytes": 254,
+      "sha256": "fa921200fbd63f3f1ab039074195fce3f14eb306c3ac2c60827faec92927eb64",
+      "reportSha256": "bc625915a53d2e4b0007b33171d09005d48676c3c0af6d5ca49d494f61e66f0b",
+      "inputComplete": true,
+      "findings": []
+    },
+    {
+      "file": "examples/missing_warmup.csv",
+      "bytes": 22281,
+      "sha256": "18c8f073c509d683cafb6508c1f633176180348fedb89a31258b3cfc4defa7d0",
+      "reportSha256": "4b85872174d627f816855af813f63b7917d9adb027e666cd394fda3f318b4b19",
+      "inputComplete": true,
+      "findings": [
+        {
+          "detector": "overfitting",
+          "title": "Evaluation loss rising",
+          "severity": "warning",
+          "metric": "eval/loss",
+          "step_start": 230,
+          "step_end": 249,
+          "message": "Lowest logged eval/loss in this finite segment was 0.146 at step 230; the last value is 0.1941 (32.9%, slope diagnostic p=0.0245).",
+          "evidence": {
+            "segment_start": 0,
+            "segment_observations": 51,
+            "best_step": 230,
+            "best_value": 0.14603807264300722,
+            "current_value": 0.19412444824211547,
+            "relative_rise": 0.3292728719904179,
+            "slope_p_value": 0.024464625908663162,
+            "slope_status": "assessed",
+            "training_status": "opposing_trends_not_established",
+            "training_observations": 20,
+            "overlap_eval_observations": 5,
+            "training_step_start": 230,
+            "training_step_end": 249,
+            "overlap_eval_step_start": 230,
+            "overlap_eval_step_end": 249,
+            "training_scaled_slope": 0.005042725653037048,
+            "training_slope_p_value": 0.4189846601204885,
+            "overlap_eval_scaled_slope": 0.00995012690337565,
+            "overlap_eval_slope_p_value": 0.024464625908663162
+          },
+          "fixes": [
+            "If a checkpoint was saved near step 230, compare it with the last saved checkpoint on the same evaluation examples.",
+            "Check evaluation-data and metric-definition changes before attributing the rise to training.",
+            "If the regression persists on a comparable evaluation set, consider early stopping, regularization, or more training data."
+          ]
+        },
+        {
+          "detector": "lr_schedule",
+          "title": "No LR warmup detected",
+          "severity": "info",
+          "metric": "lr",
+          "step_start": 0,
+          "step_end": 0,
+          "message": "lr starts at 0.5, already 100% of the run's peak (0.5) -- no ramp-up phase visible in the log.",
+          "evidence": {
+            "initial_lr": 0.5,
+            "peak_lr": 0.5
+          },
+          "fixes": [
+            "If the first steps are unstable (see any spike or setback findings near the start), add LR warmup over the first 1-10% of steps.",
+            "If warmup is configured but not logged until after it finishes, this may be a logging artifact -- check the logging interval."
+          ]
+        }
+      ]
+    },
+    {
+      "file": "examples/overfitting.csv",
+      "bytes": 83245,
+      "sha256": "2624fe8bc78d4042ca2ff6cb7b0178cbf1ccf7adff18614d2537a6d585993680",
+      "reportSha256": "c1971cfabc72ffb33cd207e8c2f20117b9b1522c6fc3cb05c60c49a968403d55",
+      "inputComplete": true,
+      "findings": [
+        {
+          "detector": "overfitting",
+          "title": "Possible overfitting",
+          "severity": "warning",
+          "metric": "eval/loss",
+          "step_start": 125,
+          "step_end": 799,
+          "message": "Lowest logged eval/loss in this finite segment was 0.526 at step 125; the last value is 0.5554 (5.6%, slope diagnostic p<0.0001). Within their shared interval, train/loss trends down (675 readings, steps 125-799) while eval/loss trends up (136 readings, steps 125-799). This is consistent with overfitting, but does not establish its cause.",
+          "evidence": {
+            "segment_start": 0,
+            "segment_observations": 161,
+            "best_step": 125,
+            "best_value": 0.5260246337508696,
+            "current_value": 0.5554344653737626,
+            "relative_rise": 0.05590960904850295,
+            "slope_p_value": 0.0,
+            "slope_status": "assessed",
+            "training_status": "opposing_trends",
+            "training_observations": 675,
+            "overlap_eval_observations": 136,
+            "training_step_start": 125,
+            "training_step_end": 799,
+            "overlap_eval_step_start": 125,
+            "overlap_eval_step_end": 799,
+            "training_scaled_slope": -0.00045615611516370994,
+            "training_slope_p_value": 0.0,
+            "overlap_eval_scaled_slope": 5.928077968638853e-05,
+            "overlap_eval_slope_p_value": 0.0
+          },
+          "fixes": [
+            "If a checkpoint was saved near step 125, compare it with the last saved checkpoint on the same evaluation examples.",
+            "Check evaluation-data and metric-definition changes before attributing the rise to training.",
+            "If the regression persists on a comparable evaluation set, consider early stopping, regularization, or more training data."
+          ]
+        }
+      ]
+    },
+    {
+      "file": "examples/repeated_steps/single-step.csv",
+      "bytes": 510,
+      "sha256": "4f81964faa7916ae6916711d2744ce4a618b63d4996897510f13118348a406fa",
+      "reportSha256": "1c6c707ed0b62443163c8ec2e667237265fa525061331d38098055a1c685aaf4",
+      "inputComplete": true,
+      "findings": []
+    },
+    {
+      "file": "examples/schedulers/captured/cosine-control.csv",
+      "bytes": 11619,
+      "sha256": "bdb6cd80cade444ea14b263a95d6ce426b06a5c0f8eb4420ef8af5d32d2d5dfc",
+      "reportSha256": "138da3892fde25b93a90c2227081835f3d6701065e801b026348541603155066",
+      "inputComplete": true,
+      "findings": [
+        {
+          "detector": "lr_schedule",
+          "title": "No LR warmup detected",
+          "severity": "info",
+          "metric": "lr",
+          "step_start": 0,
+          "step_end": 0,
+          "message": "lr starts at 0.1, already 100% of the run's peak (0.1) -- no ramp-up phase visible in the log.",
+          "evidence": {
+            "initial_lr": 0.1,
+            "peak_lr": 0.1
+          },
+          "fixes": [
+            "If the first steps are unstable (see any spike or setback findings near the start), add LR warmup over the first 1-10% of steps.",
+            "If warmup is configured but not logged until after it finishes, this may be a logging artifact -- check the logging interval."
+          ]
+        }
+      ]
+    },
+    {
+      "file": "examples/schedulers/captured/cosine-overrun-sparse.csv",
+      "bytes": 1167,
+      "sha256": "237d53bcfefaa09876aacd0e7d0f3831fed420cca0b67db546552ccf1b83bd52",
+      "reportSha256": "ade725bf792b9140fff366041991a4c351ff5ae13b5597ac93d6affabbf476f0",
+      "inputComplete": true,
+      "findings": [
+        {
+          "detector": "lr_schedule",
+          "title": "No LR warmup detected",
+          "severity": "info",
+          "metric": "lr",
+          "step_start": 0,
+          "step_end": 0,
+          "message": "lr starts at 0.1, already 100% of the run's peak (0.1) -- no ramp-up phase visible in the log.",
+          "evidence": {
+            "initial_lr": 0.1,
+            "peak_lr": 0.1
+          },
+          "fixes": [
+            "If the first steps are unstable (see any spike or setback findings near the start), add LR warmup over the first 1-10% of steps.",
+            "If warmup is configured but not logged until after it finishes, this may be a logging artifact -- check the logging interval."
+          ]
+        },
+        {
+          "detector": "lr_schedule",
+          "title": "LR rose after decay",
+          "severity": "info",
+          "metric": "lr",
+          "step_start": 120,
+          "step_end": 230,
+          "message": "lr fell from 0.1 at step 0 to 0 at step 120, then rose to 0.0983 at step 230. This can be an intended cycle or restart; the log alone does not establish a scheduler fault.",
+          "evidence": {
+            "earlier_peak": 0.1,
+            "peak_step": 0,
+            "low_value": 0.0,
+            "low_step": 120,
+            "high_value": 0.09829629131445336,
+            "high_step": 230,
+            "confirmed_step": 130,
+            "rise_fraction_of_peak": 0.9829629131445335,
+            "bump_tolerance": 0.01
+          },
+          "fixes": [
+            "If this matches an intended cycle or warm restart, no correction is needed.",
+            "Otherwise, check that scheduler state was restored with the optimizer after a checkpoint resume.",
+            "Check the scheduler's configured horizon and how often scheduler.step() is called."
+          ]
+        }
+      ]
+    },
+    {
+      "file": "examples/schedulers/captured/cosine-overrun.csv",
+      "bytes": 11593,
+      "sha256": "ed66b2f53db87ce756301a1d2a5fb4b46286f0e196c69469b2b62289ef5dbf87",
+      "reportSha256": "d3480bb3355d2d49d3465ea702f696fa37b0be5c8d1725246487ad5114068bc3",
+      "inputComplete": true,
+      "findings": [
+        {
+          "detector": "lr_schedule",
+          "title": "No LR warmup detected",
+          "severity": "info",
+          "metric": "lr",
+          "step_start": 0,
+          "step_end": 0,
+          "message": "lr starts at 0.1, already 100% of the run's peak (0.1) -- no ramp-up phase visible in the log.",
+          "evidence": {
+            "initial_lr": 0.1,
+            "peak_lr": 0.1
+          },
+          "fixes": [
+            "If the first steps are unstable (see any spike or setback findings near the start), add LR warmup over the first 1-10% of steps.",
+            "If warmup is configured but not logged until after it finishes, this may be a logging artifact -- check the logging interval."
+          ]
+        },
+        {
+          "detector": "lr_schedule",
+          "title": "LR rose after decay",
+          "severity": "info",
+          "metric": "lr",
+          "step_start": 120,
+          "step_end": 239,
+          "message": "lr fell from 0.1 at step 0 to 0 at step 120, then rose to 0.09998 at step 239. This can be an intended cycle or restart; the log alone does not establish a scheduler fault.",
+          "evidence": {
+            "earlier_peak": 0.1,
+            "peak_step": 0,
+            "low_value": 0.0,
+            "low_step": 120,
+            "high_value": 0.09998286624877781,
+            "high_step": 239,
+            "confirmed_step": 128,
+            "rise_fraction_of_peak": 0.999828662487778,
+            "bump_tolerance": 0.01
+          },
+          "fixes": [
+            "If this matches an intended cycle or warm restart, no correction is needed.",
+            "Otherwise, check that scheduler state was restored with the optimizer after a checkpoint resume.",
+            "Check the scheduler's configured horizon and how often scheduler.step() is called."
+          ]
+        }
+      ]
+    },
+    {
+      "file": "examples/schedulers/captured/cosine-restarts.csv",
+      "bytes": 11526,
+      "sha256": "cad456233d479915b31437265f6a644fff93e725c3d3435bb1326fdc816649ad",
+      "reportSha256": "c800eac80824ac78b417ec03492e57bf5032e191ce34b5f4e7183343e66743df",
+      "inputComplete": true,
+      "findings": [
+        {
+          "detector": "lr_schedule",
+          "title": "No LR warmup detected",
+          "severity": "info",
+          "metric": "lr",
+          "step_start": 0,
+          "step_end": 0,
+          "message": "lr starts at 0.1, already 100% of the run's peak (0.1) -- no ramp-up phase visible in the log.",
+          "evidence": {
+            "initial_lr": 0.1,
+            "peak_lr": 0.1
+          },
+          "fixes": [
+            "If the first steps are unstable (see any spike or setback findings near the start), add LR warmup over the first 1-10% of steps.",
+            "If warmup is configured but not logged until after it finishes, this may be a logging artifact -- check the logging interval."
+          ]
+        },
+        {
+          "detector": "lr_schedule",
+          "title": "LR rose after decay",
+          "severity": "info",
+          "metric": "lr",
+          "step_start": 79,
+          "step_end": 80,
+          "message": "lr fell from 0.1 at step 0 to 3.855e-05 at step 79, then rose to 0.1 at step 80. This can be an intended cycle or restart; the log alone does not establish a scheduler fault.",
+          "evidence": {
+            "earlier_peak": 0.1,
+            "peak_step": 0,
+            "low_value": 3.8548187963854955e-05,
+            "low_step": 79,
+            "high_value": 0.1,
+            "high_step": 80,
+            "confirmed_step": 80,
+            "rise_fraction_of_peak": 0.9996145181203615,
+            "bump_tolerance": 0.01
+          },
+          "fixes": [
+            "If this matches an intended cycle or warm restart, no correction is needed.",
+            "Otherwise, check that scheduler state was restored with the optimizer after a checkpoint resume.",
+            "Check the scheduler's configured horizon and how often scheduler.step() is called."
+          ]
+        },
+        {
+          "detector": "lr_schedule",
+          "title": "LR rose after decay",
+          "severity": "info",
+          "metric": "lr",
+          "step_start": 159,
+          "step_end": 160,
+          "message": "lr fell from 0.1 at step 80 to 3.855e-05 at step 159, then rose to 0.1 at step 160. This can be an intended cycle or restart; the log alone does not establish a scheduler fault.",
+          "evidence": {
+            "earlier_peak": 0.1,
+            "peak_step": 80,
+            "low_value": 3.8548187963854955e-05,
+            "low_step": 159,
+            "high_value": 0.1,
+            "high_step": 160,
+            "confirmed_step": 160,
+            "rise_fraction_of_peak": 0.9996145181203615,
+            "bump_tolerance": 0.01
+          },
+          "fixes": [
+            "If this matches an intended cycle or warm restart, no correction is needed.",
+            "Otherwise, check that scheduler state was restored with the optimizer after a checkpoint resume.",
+            "Check the scheduler's configured horizon and how often scheduler.step() is called."
+          ]
+        }
+      ]
+    },
+    {
+      "file": "examples/schedulers/captured/linear-control-sparse.csv",
+      "bytes": 1017,
+      "sha256": "4b9d7d7d1304572d5b974d524a56bbb665c1464f6296b54733c5c9e94f4e442f",
+      "reportSha256": "25435e99e221cb7cab2e4d19b0dcf6f0bb658a1448c9f6735b68474de0a81c21",
+      "inputComplete": true,
+      "findings": []
+    },
+    {
+      "file": "examples/schedulers/captured/linear-control.csv",
+      "bytes": 9909,
+      "sha256": "6777aeea9e9ab04c05fe03fbb5ad79bcfb637bf842ddbe38ffad4391d8da9bee",
+      "reportSha256": "c7aff0ac27c1c1e0b4ef28869e3c387695cdf64aa4ffe33c91b9469cb0e99f98",
+      "inputComplete": true,
+      "findings": []
+    },
+    {
+      "file": "examples/schedulers/captured/linear-resume-reset-sparse.csv",
+      "bytes": 995,
+      "sha256": "ac08b5a7085877a2ddd89b444f39640ed86cb4dabdf0ddceae7c2006815fbee9",
+      "reportSha256": "7ec2fa3ebbdb587756fb4ced4ce2d12b64de3ac520d73972e6f66d6e35ddd560",
+      "inputComplete": true,
+      "findings": [
+        {
+          "detector": "lr_schedule",
+          "title": "LR rose after decay",
+          "severity": "info",
+          "metric": "lr",
+          "step_start": 200,
+          "step_end": 230,
+          "message": "lr fell from 0.1 at step 40 to 0.02 at step 200, then rose to 0.075 at step 230. This can be an intended cycle or restart; the log alone does not establish a scheduler fault.",
+          "evidence": {
+            "earlier_peak": 0.1,
+            "peak_step": 40,
+            "low_value": 0.020000000000000004,
+            "low_step": 200,
+            "high_value": 0.07500000000000001,
+            "high_step": 230,
+            "confirmed_step": 210,
+            "rise_fraction_of_peak": 0.55,
+            "bump_tolerance": 0.01
+          },
+          "fixes": [
+            "If this matches an intended cycle or warm restart, no correction is needed.",
+            "Otherwise, check that scheduler state was restored with the optimizer after a checkpoint resume.",
+            "Check the scheduler's configured horizon and how often scheduler.step() is called."
+          ]
+        }
+      ]
+    },
+    {
+      "file": "examples/schedulers/captured/linear-resume-reset.csv",
+      "bytes": 9899,
+      "sha256": "9380038a615a2087b6ea19829932c8fbcf94e037e4f8e547d0bc85c049dc7596",
+      "reportSha256": "78abe1a7142f5298a18b1dc9a78290a6811984e127d5398d72ac5cb1a0320435",
+      "inputComplete": true,
+      "findings": [
+        {
+          "detector": "lr_schedule",
+          "title": "LR rose after decay",
+          "severity": "info",
+          "metric": "lr",
+          "step_start": 201,
+          "step_end": 239,
+          "message": "lr fell from 0.1 at step 40 to 0.0025 at step 201, then rose to 0.0975 at step 239. This can be an intended cycle or restart; the log alone does not establish a scheduler fault.",
+          "evidence": {
+            "earlier_peak": 0.1,
+            "peak_step": 40,
+            "low_value": 0.0025000000000000005,
+            "low_step": 201,
+            "high_value": 0.0975,
+            "high_step": 239,
+            "confirmed_step": 202,
+            "rise_fraction_of_peak": 0.95,
+            "bump_tolerance": 0.01
+          },
+          "fixes": [
+            "If this matches an intended cycle or warm restart, no correction is needed.",
+            "Otherwise, check that scheduler state was restored with the optimizer after a checkpoint resume.",
+            "Check the scheduler's configured horizon and how often scheduler.step() is called."
+          ]
+        }
+      ]
+    },
+    {
+      "file": "examples/schedulers/captured/linear-resume-restored.csv",
+      "bytes": 9909,
+      "sha256": "6777aeea9e9ab04c05fe03fbb5ad79bcfb637bf842ddbe38ffad4391d8da9bee",
+      "reportSha256": "e1bf47a1f7d1fd246e498ba29c98b2df44e2cbfe614e4d8950657cfc1a75764b",
+      "inputComplete": true,
+      "findings": []
+    },
+    {
+      "file": "examples/schedulers/captured/one-cycle-control.csv",
+      "bytes": 11552,
+      "sha256": "8dc938ed84894107002a60c36b11adde98b82ac49180a4e5f59fc4a59e66b897",
+      "reportSha256": "7276a38def6dde8dd884cb7dc2e334681e2c675c69cde2f572fbc42310c5126f",
+      "inputComplete": true,
+      "findings": []
+    },
+    {
+      "file": "examples/schedulers/captured/step-decay-control.csv",
+      "bytes": 10484,
+      "sha256": "98fea97b397df2e0f3febf9d7e307892031898b5a7aaf67138358815b4fd6374",
+      "reportSha256": "3abac517e568140830f7df825d573d8dea1ea58ae5690a80654de186d35d4c26",
+      "inputComplete": true,
+      "findings": [
+        {
+          "detector": "lr_schedule",
+          "title": "No LR warmup detected",
+          "severity": "info",
+          "metric": "lr",
+          "step_start": 0,
+          "step_end": 0,
+          "message": "lr starts at 0.1, already 100% of the run's peak (0.1) -- no ramp-up phase visible in the log.",
+          "evidence": {
+            "initial_lr": 0.1,
+            "peak_lr": 0.1
+          },
+          "fixes": [
+            "If the first steps are unstable (see any spike or setback findings near the start), add LR warmup over the first 1-10% of steps.",
+            "If warmup is configured but not logged until after it finishes, this may be a logging artifact -- check the logging interval."
+          ]
+        },
+        {
+          "detector": "lr_schedule",
+          "title": "LR discontinuity",
+          "severity": "info",
+          "metric": "lr",
+          "step_start": 79,
+          "step_end": 80,
+          "message": "lr jumped from 0.1 to 0.01 between step 79 and 80 -- 91% of the run's whole LR range (0.099) in a single step, out of line with the logged intervals around it.",
+          "evidence": {
+            "before": 0.1,
+            "after": 0.010000000000000002,
+            "jump_fraction_of_range": 0.9090909090909091
+          },
+          "fixes": [
+            "Check for a checkpoint resume where the scheduler's step counter didn't match the optimizer's.",
+            "Check for a manual LR override mid-run."
+          ]
+        }
+      ]
+    },
+    {
+      "file": "examples/throughput_drop.csv",
+      "bytes": 29395,
+      "sha256": "33f9c7a5acd0b926ddbeab3658d93b535969a9a4d7b967d5b0a50a016a974029",
+      "reportSha256": "fe3d62b4996407be175db9116bb6b4016e161e7bd1ddf8d0411efe400887c194",
+      "inputComplete": true,
+      "findings": [
+        {
+          "detector": "throughput",
+          "title": "Throughput regression",
+          "severity": "warning",
+          "metric": "step_time",
+          "step_start": 240,
+          "step_end": 299,
+          "message": "Median step time over the last 60 points (8.841e-05 s/step) is 1.40x the early-run baseline (6.31e-05 s/step, first 60 points), derived from step_time.",
+          "evidence": {
+            "baseline_median_s": 6.310299977485556e-05,
+            "recent_median_s": 8.840749978844542e-05,
+            "ratio": 1.401003123526195,
+            "window": 60,
+            "source": "step_time",
+            "unit": "s/step"
+          },
+          "fixes": [
+            "Check for a dataloader/IO bottleneck (e.g. a slow shard, network storage stall, growing prefetch queue).",
+            "Check for memory pressure/fragmentation causing more frequent allocator work or CPU-GPU sync.",
+            "Check other processes on the same GPU/host, or a thermal/power throttling event.",
+            "If a sequence-length or batch-size curriculum increases work per step by design, this may be expected -- not a regression."
+          ]
+        }
+      ]
+    },
+    {
+      "file": "examples/timing/slow-broken-clock.csv",
+      "bytes": 2792,
+      "sha256": "0ebce7b12ba50ed70ec7bfa5b71c4aaeb59a2c0da31adc9a4ff5fe4c4a2ad2cc",
+      "reportSha256": "e4289fbd24c05073593df242b80a3728174688de09655829e81a2021901b58ec",
+      "inputComplete": true,
+      "findings": []
+    },
+    {
+      "file": "examples/timing/slow-direct.csv",
+      "bytes": 16753,
+      "sha256": "e27da779df40b14ee2355cc3457919ea005a15cf1eee2b7b8db0050081a87f43",
+      "reportSha256": "818a0767deee5cb78154709ff36700774cb9441643296023f03dcf963f177a81",
+      "inputComplete": true,
+      "findings": [
+        {
+          "detector": "throughput",
+          "title": "Throughput regression",
+          "severity": "warning",
+          "metric": "step_time",
+          "step_start": 320,
+          "step_end": 399,
+          "message": "Median step time over the last 80 points (0.00909 s/step) is 2.94x the early-run baseline (0.003088 s/step, first 80 points), derived from step_time.",
+          "evidence": {
+            "baseline_median_s": 0.0030878630000188423,
+            "recent_median_s": 0.009090460000152234,
+            "ratio": 2.94393242190368,
+            "window": 80,
+            "source": "step_time",
+            "unit": "s/step"
+          },
+          "fixes": [
+            "Check for a dataloader/IO bottleneck (e.g. a slow shard, network storage stall, growing prefetch queue).",
+            "Check for memory pressure/fragmentation causing more frequent allocator work or CPU-GPU sync.",
+            "Check other processes on the same GPU/host, or a thermal/power throttling event.",
+            "If a sequence-length or batch-size curriculum increases work per step by design, this may be expected -- not a regression."
+          ]
+        }
+      ]
+    },
+    {
+      "file": "examples/timing/slow-missing-time.csv",
+      "bytes": 2778,
+      "sha256": "d14aaa6297f9ac2c7eb2a639e6a1c95bde69440d914d996608a9dca66c00d54d",
+      "reportSha256": "15d0a8eacb74565a8ec805c41d679e84b3c15035b62267b5fa1a4b4dda003a1f",
+      "inputComplete": true,
+      "findings": []
+    },
+    {
+      "file": "examples/timing/slow-throughput.csv",
+      "bytes": 15681,
+      "sha256": "77e8d4f693969697ce76d49d99f589777832383fb693fb321b489294c9733818",
+      "reportSha256": "237513942ce49363f2df5e4f5c36623d0468bf2b240ec8a7d062e08a6b80d902",
+      "inputComplete": true,
+      "findings": [
+        {
+          "detector": "throughput",
+          "title": "Throughput regression",
+          "severity": "warning",
+          "metric": "1/throughput",
+          "step_start": 320,
+          "step_end": 399,
+          "message": "Median time per reported unit over the last 80 points (7.102e-05 s/unit) is 2.94x the early-run baseline (2.412e-05 s/unit, first 80 points), derived from 1/throughput.",
+          "evidence": {
+            "baseline_median_s": 2.4123929687647205e-05,
+            "recent_median_s": 7.101921875118933e-05,
+            "ratio": 2.94393242190368,
+            "window": 80,
+            "source": "1/throughput",
+            "unit": "s/unit"
+          },
+          "fixes": [
+            "Check for a dataloader/IO bottleneck (e.g. a slow shard, network storage stall, growing prefetch queue).",
+            "Check for memory pressure/fragmentation causing more frequent allocator work or CPU-GPU sync.",
+            "Check other processes on the same GPU/host, or a thermal/power throttling event.",
+            "If a sequence-length or batch-size curriculum increases work per step by design, this may be expected -- not a regression."
+          ]
+        }
+      ]
+    },
+    {
+      "file": "examples/timing/slow-with-steps.csv",
+      "bytes": 2792,
+      "sha256": "3f2a12ab42f4a8a9abc7ad95a7e9213b6e3d04a955386be2a709da5e9f4b9921",
+      "reportSha256": "99ad02184ff0b3a00aa63933db36efce603cad4e6542e24eb349a087a4c3deb0",
+      "inputComplete": true,
+      "findings": [
+        {
+          "detector": "throughput",
+          "title": "Throughput regression",
+          "severity": "warning",
+          "metric": "wall_time(train/loss)",
+          "step_start": 270,
+          "step_end": 400,
+          "message": "Median step time over the last 14 points (0.009093 s/step) is 2.94x the early-run baseline (0.003089 s/step, first 14 points), derived from wall_time(train/loss).",
+          "evidence": {
+            "baseline_median_s": 0.003088526749934317,
+            "recent_median_s": 0.00909325370002989,
+            "ratio": 2.944204287763826,
+            "window": 14,
+            "source": "wall_time(train/loss)",
+            "unit": "s/step"
+          },
+          "fixes": [
+            "Check for a dataloader/IO bottleneck (e.g. a slow shard, network storage stall, growing prefetch queue).",
+            "Check for memory pressure/fragmentation causing more frequent allocator work or CPU-GPU sync.",
+            "Check other processes on the same GPU/host, or a thermal/power throttling event.",
+            "If a sequence-length or batch-size curriculum increases work per step by design, this may be expected -- not a regression."
+          ]
+        }
+      ]
+    },
+    {
+      "file": "examples/timing/stable-with-steps.csv",
+      "bytes": 2792,
+      "sha256": "d1ccaa58c8b258db707b1e259d17640855b922f90eaa1ff990014a2a1c70b3bf",
+      "reportSha256": "8f07cf423fd4a8a3b1e301184d1f12c3a474e29f14727c25119d211c149982a7",
+      "inputComplete": true,
+      "findings": []
+    },
+    {
+      "file": "examples/timing/stable-without-steps.csv",
+      "bytes": 2531,
+      "sha256": "768adbb209c8bd59cc4ef6a49e335aeb5daac295eccf3bf4c28ff735a621d6d1",
+      "reportSha256": "0676979afba82ae800763d5d57912df600cee71cbe07be53e1fb6510df3dada8",
+      "inputComplete": true,
+      "findings": []
+    },
+    {
+      "file": "examples/wandb-axes/slow-custom.csv",
+      "bytes": 7824,
+      "sha256": "9bcb1c666f73531975817332ab41b7b611693bce304cca721aec2fafa06e2f31",
+      "reportSha256": "5ff74a309adc68199a56c6b698f02e3d23e989e6e8f7ae481e2c0f1362e24648",
+      "inputComplete": true,
+      "findings": []
+    },
+    {
+      "file": "examples/wandb-axes/slow-logging.csv",
+      "bytes": 7419,
+      "sha256": "b127f8c8545a89a0202bec91b0edb6c7749bbb088460c36aae1ba440cb61abf5",
+      "reportSha256": "ebdf32b5d57c7355eb21c3d316482157cd92300ae75e917fd07ad7841906a43f",
+      "inputComplete": true,
+      "findings": []
+    },
+    {
+      "file": "examples/wandb-axes/slow-training.csv",
+      "bytes": 7826,
+      "sha256": "71abe85c765e8e3b8b16615096369e67549886ed75320911bc43bae3e3a524fd",
+      "reportSha256": "5f4eb4c051c3c9a87ae9e03c0a20c44559edb41d16b12c597fa0070dfb1f8067",
+      "inputComplete": true,
+      "findings": [
+        {
+          "detector": "throughput",
+          "title": "Throughput regression",
+          "severity": "warning",
+          "metric": "wall_time(train/loss)",
+          "step_start": 820,
+          "step_end": 1200,
+          "message": "Median step time over the last 20 points (0.01215 s/step) is 2.90x the early-run baseline (0.004192 s/step, first 20 points), derived from wall_time(train/loss).",
+          "evidence": {
+            "baseline_median_s": 0.004192037500000003,
+            "recent_median_s": 0.012152918099999965,
+            "ratio": 2.899048040481498,
+            "window": 20,
+            "source": "wall_time(train/loss)",
+            "unit": "s/step"
+          },
+          "fixes": [
+            "Check for a dataloader/IO bottleneck (e.g. a slow shard, network storage stall, growing prefetch queue).",
+            "Check for memory pressure/fragmentation causing more frequent allocator work or CPU-GPU sync.",
+            "Check other processes on the same GPU/host, or a thermal/power throttling event.",
+            "If a sequence-length or batch-size curriculum increases work per step by design, this may be expected -- not a regression."
+          ]
+        }
+      ]
+    },
+    {
+      "file": "examples/wandb-axes/stable-custom.csv",
+      "bytes": 7833,
+      "sha256": "2ae912ca78dc34c34300214fcc0c6edf8add5597ac9d1a0c4495aa34248e688c",
+      "reportSha256": "bf5457a19debf9f0580e2de52baba0d49b1c0b079e2626bfc39870f53e576661",
+      "inputComplete": true,
+      "findings": []
+    },
+    {
+      "file": "examples/wandb-axes/stable-logging.csv",
+      "bytes": 7428,
+      "sha256": "3af4f9d55d796c14fae7ef29ff58b9eb41fcf0219c00115f498aeefe9ff0d8bf",
+      "reportSha256": "0757f84325cd39c5474d7422234c39b309dc1321f43b32d30d234e187ead347d",
+      "inputComplete": true,
+      "findings": []
+    },
+    {
+      "file": "examples/wandb-axes/stable-training.csv",
+      "bytes": 7835,
+      "sha256": "100508c128b4d857dcf441747b01625a0bd879321c7d4cb91c8b76ba1207cc6a",
+      "reportSha256": "52ee44bc39b1ff64dde024e5a4b474715c844bd1e19708b2085014a93a7719c8",
+      "inputComplete": true,
+      "findings": []
+    },
+    {
+      "file": "studies/chart-identity/fixtures/ambiguous.csv",
+      "bytes": 2550,
+      "sha256": "c0e87f4835fb7ac4d25b02fb551e451733e736da9db48005fc8481ee4cdc8c98",
+      "rejection": "ambiguous W&B chart label 'runA - train - loss': ' - ' may occur in a run or metric name. For a chart containing only one run, use --chart-single-run with its exact display name. Otherwise export a run's history CSV. --run cannot resolve this boundary."
+    },
+    {
+      "file": "studies/chart-identity/fixtures/history.csv",
+      "bytes": 1112,
+      "sha256": "138c239289a4ae700679714f5207222d061d28580e5f39fea5077ab8f7617869",
+      "reportSha256": "298215611146b43ad1c79f56f9eaf45bdec0ce4ead62254678deb80577a667cb",
+      "inputComplete": true,
+      "findings": [
+        {
+          "detector": "overfitting",
+          "title": "Possible overfitting",
+          "severity": "error",
+          "metric": "eval/loss",
+          "step_start": 0,
+          "step_end": 49,
+          "message": "Lowest logged eval/loss in this finite segment was 0.5 at step 0; the last value is 1.48 (196.0%, slope diagnostic p<0.0001). Within their shared interval, train/loss trends down (50 readings, steps 0-49) while eval/loss trends up (50 readings, steps 0-49). This is consistent with overfitting, but does not establish its cause.",
+          "evidence": {
+            "segment_start": 0,
+            "segment_observations": 50,
+            "best_step": 0,
+            "best_value": 0.5,
+            "current_value": 1.48,
+            "relative_rise": 1.96,
+            "slope_p_value": 0.0,
+            "slope_status": "assessed",
+            "training_status": "opposing_trends",
+            "training_observations": 50,
+            "overlap_eval_observations": 50,
+            "training_step_start": 0,
+            "training_step_end": 49,
+            "overlap_eval_step_start": 0,
+            "overlap_eval_step_end": 49,
+            "training_scaled_slope": -0.01,
+            "training_slope_p_value": 0.0,
+            "overlap_eval_scaled_slope": 0.013513513513513514,
+            "overlap_eval_slope_p_value": 0.0
+          },
+          "fixes": [
+            "If a checkpoint was saved near step 0, compare it with the last saved checkpoint on the same evaluation examples.",
+            "Check evaluation-data and metric-definition changes before attributing the rise to training.",
+            "If the regression persists on a comparable evaluation set, consider early stopping, regularization, or more training data."
+          ]
+        }
+      ]
+    },
+    {
+      "file": "studies/finite-segments/captured/objective.csv",
+      "bytes": 7383,
+      "sha256": "9646ccf4904c21d3cfbeed793bf4ae0eedcce5917654a02a15160080a3c39de0",
+      "reportSha256": "81ab6200b16cf7d709f1439a770fa133e39cc0b906b6b708994c99177e3b56b7",
+      "inputComplete": true,
+      "findings": []
+    },
+    {
+      "file": "studies/finite-segments/captured/observed.csv",
+      "bytes": 3619,
+      "sha256": "c10e99a202079cd78540026fe73649c05d79c1564122eddca7d729ae8efa04b5",
+      "reportSha256": "6d2824b9cbad5bf2a26be56d8ff2c8d861e47a58f60795970296162aa1ec9ec2",
+      "inputComplete": true,
+      "findings": [
+        {
+          "detector": "divergence",
+          "title": "Non-finite training loss",
+          "severity": "error",
+          "metric": "train/loss",
+          "step_start": 60,
+          "step_end": 99,
+          "message": "train/loss became NaN at step 60 (20 non-finite point(s) in this run).",
+          "evidence": {
+            "first_bad_step": 60,
+            "count": 20
+          },
+          "fixes": [
+            "Inspect the objective and logging reduction separately: an empty batch or empty logging window can produce NaN even while optimizer updates remain finite.",
+            "Check for a divide-by-zero or log(0) in the loss calculation.",
+            "If the optimizer's loss or gradients also become non-finite, inspect the learning rate, gradient clipping and mixed-precision loss scaling."
+          ]
+        }
+      ]
+    },
+    {
+      "file": "studies/lr-gaps/captured/complete.csv",
+      "bytes": 3232,
+      "sha256": "d24f931dd347bb257722fcac4ee33e96bd66da342e0c290603cd4ea074c6cd51",
+      "reportSha256": "df4d86edb663aad528bda334f8d3006b3d6aace0865f31d3bc21b83f44f0299a",
+      "inputComplete": true,
+      "findings": [
+        {
+          "detector": "lr_schedule",
+          "title": "No LR warmup detected",
+          "severity": "info",
+          "metric": "lr",
+          "step_start": 0,
+          "step_end": 0,
+          "message": "lr starts at 0.1, already 100% of the run's peak (0.1) -- no ramp-up phase visible in the log.",
+          "evidence": {
+            "initial_lr": 0.1,
+            "peak_lr": 0.1
+          },
+          "fixes": [
+            "If the first steps are unstable (see any spike or setback findings near the start), add LR warmup over the first 1-10% of steps.",
+            "If warmup is configured but not logged until after it finishes, this may be a logging artifact -- check the logging interval."
+          ]
+        },
+        {
+          "detector": "lr_schedule",
+          "title": "LR discontinuity",
+          "severity": "info",
+          "metric": "lr",
+          "step_start": 39,
+          "step_end": 40,
+          "message": "lr jumped from 0.1 to 0.05 between step 39 and 40 -- 67% of the run's whole LR range (0.075) in a single step, out of line with the logged intervals around it.",
+          "evidence": {
+            "before": 0.1,
+            "after": 0.05,
+            "jump_fraction_of_range": 0.6666666666666666
+          },
+          "fixes": [
+            "Check for a checkpoint resume where the scheduler's step counter didn't match the optimizer's.",
+            "Check for a manual LR override mid-run."
+          ]
+        },
+        {
+          "detector": "lr_schedule",
+          "title": "LR discontinuity",
+          "severity": "info",
+          "metric": "lr",
+          "step_start": 79,
+          "step_end": 80,
+          "message": "lr jumped from 0.05 to 0.025 between step 79 and 80 -- 33% of the run's whole LR range (0.075) in a single step, out of line with the logged intervals around it.",
+          "evidence": {
+            "before": 0.05,
+            "after": 0.025,
+            "jump_fraction_of_range": 0.3333333333333333
+          },
+          "fixes": [
+            "Check for a checkpoint resume where the scheduler's step counter didn't match the optimizer's.",
+            "Check for a manual LR override mid-run."
+          ]
+        }
+      ]
+    },
+    {
+      "file": "studies/lr-gaps/captured/nan.csv",
+      "bytes": 3232,
+      "sha256": "6358c0d91f2869e41237bc3513f630018c7ddd799381f2074a9ceb9be30b9864",
+      "reportSha256": "4db697011144e44757d0185a80fd505e8eb472f81be80671da818f77a3dab303",
+      "inputComplete": true,
+      "findings": [
+        {
+          "detector": "lr_schedule",
+          "title": "No LR warmup detected",
+          "severity": "info",
+          "metric": "lr",
+          "step_start": 0,
+          "step_end": 0,
+          "message": "lr starts at 0.1, already 100% of the run's peak (0.1) -- no ramp-up phase visible in the log. Peak assessed from 119 usable readings; 1 unusable reading was excluded.",
+          "evidence": {
+            "initial_lr": 0.1,
+            "peak_lr": 0.1,
+            "usable_lr_readings": 119,
+            "unusable_lr_readings": 1
+          },
+          "fixes": [
+            "If the first steps are unstable (see any spike or setback findings near the start), add LR warmup over the first 1-10% of steps.",
+            "If warmup is configured but not logged until after it finishes, this may be a logging artifact -- check the logging interval."
+          ]
+        },
+        {
+          "detector": "lr_schedule",
+          "title": "LR discontinuity",
+          "severity": "info",
+          "metric": "lr",
+          "step_start": 39,
+          "step_end": 40,
+          "message": "lr jumped from 0.1 to 0.05 between step 39 and 40 -- 67% of the run's usable LR range (0.075) in a single step, out of line with the logged intervals around it. Adjacency assessed within steps 11-119 (109 usable readings); no schedule is inferred across unreadable, non-finite or negative readings.",
+          "evidence": {
+            "before": 0.1,
+            "after": 0.05,
+            "jump_fraction_of_range": 0.6666666666666666,
+            "segment_start_step": 11,
+            "segment_end_step": 119,
+            "segment_observations": 109,
+            "usable_lr_readings": 119,
+            "unusable_lr_readings": 1,
+            "usable_lr_range": 0.07500000000000001
+          },
+          "fixes": [
+            "Check for a checkpoint resume where the scheduler's step counter didn't match the optimizer's.",
+            "Check for a manual LR override mid-run."
+          ]
+        },
+        {
+          "detector": "lr_schedule",
+          "title": "LR discontinuity",
+          "severity": "info",
+          "metric": "lr",
+          "step_start": 79,
+          "step_end": 80,
+          "message": "lr jumped from 0.05 to 0.025 between step 79 and 80 -- 33% of the run's usable LR range (0.075) in a single step, out of line with the logged intervals around it. Adjacency assessed within steps 11-119 (109 usable readings); no schedule is inferred across unreadable, non-finite or negative readings.",
+          "evidence": {
+            "before": 0.05,
+            "after": 0.025,
+            "jump_fraction_of_range": 0.3333333333333333,
+            "segment_start_step": 11,
+            "segment_end_step": 119,
+            "segment_observations": 109,
+            "usable_lr_readings": 119,
+            "unusable_lr_readings": 1,
+            "usable_lr_range": 0.07500000000000001
+          },
+          "fixes": [
+            "Check for a checkpoint resume where the scheduler's step counter didn't match the optimizer's.",
+            "Check for a manual LR override mid-run."
+          ]
+        }
+      ]
+    },
+    {
+      "file": "studies/lr-gaps/captured/negative-inf.csv",
+      "bytes": 3233,
+      "sha256": "0e403bec8208028bb3141842e96cb2e0a5bea3690c6616dfc5de6b6178f132f9",
+      "reportSha256": "73de8003c58f99a977b8bbea872f6ef6e3d85ed0d1af274fb3965d7eee0dde32",
+      "inputComplete": true,
+      "findings": [
+        {
+          "detector": "lr_schedule",
+          "title": "No LR warmup detected",
+          "severity": "info",
+          "metric": "lr",
+          "step_start": 0,
+          "step_end": 0,
+          "message": "lr starts at 0.1, already 100% of the run's peak (0.1) -- no ramp-up phase visible in the log. Peak assessed from 119 usable readings; 1 unusable reading was excluded.",
+          "evidence": {
+            "initial_lr": 0.1,
+            "peak_lr": 0.1,
+            "usable_lr_readings": 119,
+            "unusable_lr_readings": 1
+          },
+          "fixes": [
+            "If the first steps are unstable (see any spike or setback findings near the start), add LR warmup over the first 1-10% of steps.",
+            "If warmup is configured but not logged until after it finishes, this may be a logging artifact -- check the logging interval."
+          ]
+        },
+        {
+          "detector": "lr_schedule",
+          "title": "LR discontinuity",
+          "severity": "info",
+          "metric": "lr",
+          "step_start": 39,
+          "step_end": 40,
+          "message": "lr jumped from 0.1 to 0.05 between step 39 and 40 -- 67% of the run's usable LR range (0.075) in a single step, out of line with the logged intervals around it. Adjacency assessed within steps 11-119 (109 usable readings); no schedule is inferred across unreadable, non-finite or negative readings.",
+          "evidence": {
+            "before": 0.1,
+            "after": 0.05,
+            "jump_fraction_of_range": 0.6666666666666666,
+            "segment_start_step": 11,
+            "segment_end_step": 119,
+            "segment_observations": 109,
+            "usable_lr_readings": 119,
+            "unusable_lr_readings": 1,
+            "usable_lr_range": 0.07500000000000001
+          },
+          "fixes": [
+            "Check for a checkpoint resume where the scheduler's step counter didn't match the optimizer's.",
+            "Check for a manual LR override mid-run."
+          ]
+        },
+        {
+          "detector": "lr_schedule",
+          "title": "LR discontinuity",
+          "severity": "info",
+          "metric": "lr",
+          "step_start": 79,
+          "step_end": 80,
+          "message": "lr jumped from 0.05 to 0.025 between step 79 and 80 -- 33% of the run's usable LR range (0.075) in a single step, out of line with the logged intervals around it. Adjacency assessed within steps 11-119 (109 usable readings); no schedule is inferred across unreadable, non-finite or negative readings.",
+          "evidence": {
+            "before": 0.05,
+            "after": 0.025,
+            "jump_fraction_of_range": 0.3333333333333333,
+            "segment_start_step": 11,
+            "segment_end_step": 119,
+            "segment_observations": 109,
+            "usable_lr_readings": 119,
+            "unusable_lr_readings": 1,
+            "usable_lr_range": 0.07500000000000001
+          },
+          "fixes": [
+            "Check for a checkpoint resume where the scheduler's step counter didn't match the optimizer's.",
+            "Check for a manual LR override mid-run."
+          ]
+        }
+      ]
+    },
+    {
+      "file": "studies/lr-gaps/captured/negative.csv",
+      "bytes": 3231,
+      "sha256": "17709dc3ed8ce7a0a2722d0993527bf3d05b3f5b203c23e173ee5d69ce44e67b",
+      "reportSha256": "2cf8efbd6f530fd8e559efc0cf0d75c08d4d3d2e40c8e6e2fdf52f6fb3d35651",
+      "inputComplete": true,
+      "findings": [
+        {
+          "detector": "lr_schedule",
+          "title": "No LR warmup detected",
+          "severity": "info",
+          "metric": "lr",
+          "step_start": 0,
+          "step_end": 0,
+          "message": "lr starts at 0.1, already 100% of the run's peak (0.1) -- no ramp-up phase visible in the log. Peak assessed from 119 usable readings; 1 unusable reading was excluded.",
+          "evidence": {
+            "initial_lr": 0.1,
+            "peak_lr": 0.1,
+            "usable_lr_readings": 119,
+            "unusable_lr_readings": 1
+          },
+          "fixes": [
+            "If the first steps are unstable (see any spike or setback findings near the start), add LR warmup over the first 1-10% of steps.",
+            "If warmup is configured but not logged until after it finishes, this may be a logging artifact -- check the logging interval."
+          ]
+        },
+        {
+          "detector": "lr_schedule",
+          "title": "LR discontinuity",
+          "severity": "info",
+          "metric": "lr",
+          "step_start": 39,
+          "step_end": 40,
+          "message": "lr jumped from 0.1 to 0.05 between step 39 and 40 -- 67% of the run's usable LR range (0.075) in a single step, out of line with the logged intervals around it. Adjacency assessed within steps 11-119 (109 usable readings); no schedule is inferred across unreadable, non-finite or negative readings.",
+          "evidence": {
+            "before": 0.1,
+            "after": 0.05,
+            "jump_fraction_of_range": 0.6666666666666666,
+            "segment_start_step": 11,
+            "segment_end_step": 119,
+            "segment_observations": 109,
+            "usable_lr_readings": 119,
+            "unusable_lr_readings": 1,
+            "usable_lr_range": 0.07500000000000001
+          },
+          "fixes": [
+            "Check for a checkpoint resume where the scheduler's step counter didn't match the optimizer's.",
+            "Check for a manual LR override mid-run."
+          ]
+        },
+        {
+          "detector": "lr_schedule",
+          "title": "LR discontinuity",
+          "severity": "info",
+          "metric": "lr",
+          "step_start": 79,
+          "step_end": 80,
+          "message": "lr jumped from 0.05 to 0.025 between step 79 and 80 -- 33% of the run's usable LR range (0.075) in a single step, out of line with the logged intervals around it. Adjacency assessed within steps 11-119 (109 usable readings); no schedule is inferred across unreadable, non-finite or negative readings.",
+          "evidence": {
+            "before": 0.05,
+            "after": 0.025,
+            "jump_fraction_of_range": 0.3333333333333333,
+            "segment_start_step": 11,
+            "segment_end_step": 119,
+            "segment_observations": 109,
+            "usable_lr_readings": 119,
+            "unusable_lr_readings": 1,
+            "usable_lr_range": 0.07500000000000001
+          },
+          "fixes": [
+            "Check for a checkpoint resume where the scheduler's step counter didn't match the optimizer's.",
+            "Check for a manual LR override mid-run."
+          ]
+        }
+      ]
+    },
+    {
+      "file": "studies/lr-gaps/captured/optimizer.csv",
+      "bytes": 5638,
+      "sha256": "0dd4abf73a8fa7321f5ddf42cddff846b8de9f04bc55a80eb72adc3e870d4919",
+      "reportSha256": "999657d799d7e871e0887ddde94ad65d6d4ac1456cea4fcf7ec32106cae9fb29",
+      "inputComplete": true,
+      "findings": [
+        {
+          "detector": "lr_schedule",
+          "title": "No LR warmup detected",
+          "severity": "info",
+          "metric": "lr",
+          "step_start": 0,
+          "step_end": 0,
+          "message": "lr starts at 0.1, already 100% of the run's peak (0.1) -- no ramp-up phase visible in the log.",
+          "evidence": {
+            "initial_lr": 0.1,
+            "peak_lr": 0.1
+          },
+          "fixes": [
+            "If the first steps are unstable (see any spike or setback findings near the start), add LR warmup over the first 1-10% of steps.",
+            "If warmup is configured but not logged until after it finishes, this may be a logging artifact -- check the logging interval."
+          ]
+        },
+        {
+          "detector": "lr_schedule",
+          "title": "LR discontinuity",
+          "severity": "info",
+          "metric": "lr",
+          "step_start": 39,
+          "step_end": 40,
+          "message": "lr jumped from 0.1 to 0.05 between step 39 and 40 -- 67% of the run's whole LR range (0.075) in a single step, out of line with the logged intervals around it.",
+          "evidence": {
+            "before": 0.1,
+            "after": 0.05,
+            "jump_fraction_of_range": 0.6666666666666666
+          },
+          "fixes": [
+            "Check for a checkpoint resume where the scheduler's step counter didn't match the optimizer's.",
+            "Check for a manual LR override mid-run."
+          ]
+        },
+        {
+          "detector": "lr_schedule",
+          "title": "LR discontinuity",
+          "severity": "info",
+          "metric": "lr",
+          "step_start": 79,
+          "step_end": 80,
+          "message": "lr jumped from 0.05 to 0.025 between step 79 and 80 -- 33% of the run's whole LR range (0.075) in a single step, out of line with the logged intervals around it.",
+          "evidence": {
+            "before": 0.05,
+            "after": 0.025,
+            "jump_fraction_of_range": 0.3333333333333333
+          },
+          "fixes": [
+            "Check for a checkpoint resume where the scheduler's step counter didn't match the optimizer's.",
+            "Check for a manual LR override mid-run."
+          ]
+        }
+      ]
+    },
+    {
+      "file": "studies/lr-gaps/captured/positive-inf.csv",
+      "bytes": 3232,
+      "sha256": "ebbf6c1b6468b26c0d92f7188c1ab7b8f0944ede1f0c87803d59fc4256b06f91",
+      "reportSha256": "96bb91c200196fe58cbd205ce73d832fee32e22d068325455f9305bf100c0037",
+      "inputComplete": true,
+      "findings": [
+        {
+          "detector": "lr_schedule",
+          "title": "No LR warmup detected",
+          "severity": "info",
+          "metric": "lr",
+          "step_start": 0,
+          "step_end": 0,
+          "message": "lr starts at 0.1, already 100% of the run's peak (0.1) -- no ramp-up phase visible in the log. Peak assessed from 119 usable readings; 1 unusable reading was excluded.",
+          "evidence": {
+            "initial_lr": 0.1,
+            "peak_lr": 0.1,
+            "usable_lr_readings": 119,
+            "unusable_lr_readings": 1
+          },
+          "fixes": [
+            "If the first steps are unstable (see any spike or setback findings near the start), add LR warmup over the first 1-10% of steps.",
+            "If warmup is configured but not logged until after it finishes, this may be a logging artifact -- check the logging interval."
+          ]
+        },
+        {
+          "detector": "lr_schedule",
+          "title": "LR discontinuity",
+          "severity": "info",
+          "metric": "lr",
+          "step_start": 39,
+          "step_end": 40,
+          "message": "lr jumped from 0.1 to 0.05 between step 39 and 40 -- 67% of the run's usable LR range (0.075) in a single step, out of line with the logged intervals around it. Adjacency assessed within steps 11-119 (109 usable readings); no schedule is inferred across unreadable, non-finite or negative readings.",
+          "evidence": {
+            "before": 0.1,
+            "after": 0.05,
+            "jump_fraction_of_range": 0.6666666666666666,
+            "segment_start_step": 11,
+            "segment_end_step": 119,
+            "segment_observations": 109,
+            "usable_lr_readings": 119,
+            "unusable_lr_readings": 1,
+            "usable_lr_range": 0.07500000000000001
+          },
+          "fixes": [
+            "Check for a checkpoint resume where the scheduler's step counter didn't match the optimizer's.",
+            "Check for a manual LR override mid-run."
+          ]
+        },
+        {
+          "detector": "lr_schedule",
+          "title": "LR discontinuity",
+          "severity": "info",
+          "metric": "lr",
+          "step_start": 79,
+          "step_end": 80,
+          "message": "lr jumped from 0.05 to 0.025 between step 79 and 80 -- 33% of the run's usable LR range (0.075) in a single step, out of line with the logged intervals around it. Adjacency assessed within steps 11-119 (109 usable readings); no schedule is inferred across unreadable, non-finite or negative readings.",
+          "evidence": {
+            "before": 0.05,
+            "after": 0.025,
+            "jump_fraction_of_range": 0.3333333333333333,
+            "segment_start_step": 11,
+            "segment_end_step": 119,
+            "segment_observations": 109,
+            "usable_lr_readings": 119,
+            "unusable_lr_readings": 1,
+            "usable_lr_range": 0.07500000000000001
+          },
+          "fixes": [
+            "Check for a checkpoint resume where the scheduler's step counter didn't match the optimizer's.",
+            "Check for a manual LR override mid-run."
+          ]
+        }
+      ]
+    },
+    {
+      "file": "studies/lr-gaps/captured/unreadable.csv",
+      "bytes": 3241,
+      "sha256": "84deb12be81d8a2b674ea7dd4f8c014e22ebff1dfc1286607a479c39293e415c",
+      "reportSha256": "aa360d1ee54a636301d49bc940ca9a21d2425124ffd043d0a01c628956abc12c",
+      "inputComplete": false,
+      "findings": [
+        {
+          "detector": "lr_schedule",
+          "title": "No LR warmup detected",
+          "severity": "info",
+          "metric": "lr",
+          "step_start": 0,
+          "step_end": 0,
+          "message": "lr starts at 0.1, already 100% of the run's peak (0.1) -- no ramp-up phase visible in the log. Peak assessed from 119 usable readings; 1 unusable reading was excluded.",
+          "evidence": {
+            "initial_lr": 0.1,
+            "peak_lr": 0.1,
+            "usable_lr_readings": 119,
+            "unusable_lr_readings": 1
+          },
+          "fixes": [
+            "If the first steps are unstable (see any spike or setback findings near the start), add LR warmup over the first 1-10% of steps.",
+            "If warmup is configured but not logged until after it finishes, this may be a logging artifact -- check the logging interval."
+          ]
+        },
+        {
+          "detector": "lr_schedule",
+          "title": "LR discontinuity",
+          "severity": "info",
+          "metric": "lr",
+          "step_start": 39,
+          "step_end": 40,
+          "message": "lr jumped from 0.1 to 0.05 between step 39 and 40 -- 67% of the run's usable LR range (0.075) in a single step, out of line with the logged intervals around it. Adjacency assessed within steps 11-119 (109 usable readings); no schedule is inferred across unreadable, non-finite or negative readings.",
+          "evidence": {
+            "before": 0.1,
+            "after": 0.05,
+            "jump_fraction_of_range": 0.6666666666666666,
+            "segment_start_step": 11,
+            "segment_end_step": 119,
+            "segment_observations": 109,
+            "usable_lr_readings": 119,
+            "unusable_lr_readings": 1,
+            "usable_lr_range": 0.07500000000000001
+          },
+          "fixes": [
+            "Check for a checkpoint resume where the scheduler's step counter didn't match the optimizer's.",
+            "Check for a manual LR override mid-run."
+          ]
+        },
+        {
+          "detector": "lr_schedule",
+          "title": "LR discontinuity",
+          "severity": "info",
+          "metric": "lr",
+          "step_start": 79,
+          "step_end": 80,
+          "message": "lr jumped from 0.05 to 0.025 between step 79 and 80 -- 33% of the run's usable LR range (0.075) in a single step, out of line with the logged intervals around it. Adjacency assessed within steps 11-119 (109 usable readings); no schedule is inferred across unreadable, non-finite or negative readings.",
+          "evidence": {
+            "before": 0.05,
+            "after": 0.025,
+            "jump_fraction_of_range": 0.3333333333333333,
+            "segment_start_step": 11,
+            "segment_end_step": 119,
+            "segment_observations": 109,
+            "usable_lr_readings": 119,
+            "unusable_lr_readings": 1,
+            "usable_lr_range": 0.07500000000000001
+          },
+          "fixes": [
+            "Check for a checkpoint resume where the scheduler's step counter didn't match the optimizer's.",
+            "Check for a manual LR override mid-run."
+          ]
+        }
+      ]
+    },
+    {
+      "file": "studies/plateau-evidence/fixtures/after-gap.csv",
+      "bytes": 1343,
+      "sha256": "e41582497348d01ac5fbd15cacbb9dca239a00855d8f567936d9452258ef89f4",
+      "reportSha256": "2b6383c8827fb7a300c26e23e178f6716304daecfcaa7b3d4881acb0594d965f",
+      "inputComplete": true,
+      "findings": [
+        {
+          "detector": "divergence",
+          "title": "Non-finite training loss",
+          "severity": "error",
+          "metric": "train/loss",
+          "step_start": 30,
+          "step_end": 39,
+          "message": "train/loss became NaN at step 30 (10 non-finite point(s) in this run).",
+          "evidence": {
+            "first_bad_step": 30,
+            "count": 10
+          },
+          "fixes": [
+            "Inspect the objective and logging reduction separately: an empty batch or empty logging window can produce NaN even while optimizer updates remain finite.",
+            "Check for a divide-by-zero or log(0) in the loss calculation.",
+            "If the optimizer's loss or gradients also become non-finite, inspect the learning rate, gradient clipping and mixed-precision loss scaling."
+          ]
+        },
+        {
+          "detector": "setbacks",
+          "title": "Setback",
+          "severity": "warning",
+          "metric": "train/loss",
+          "step_start": 100,
+          "step_end": 120,
+          "message": "train/loss left a level of 1 at step 100, rose to 4, and was back by step 120: 20 steps (17% of the finite segment) above a level it had already reached, with 75% of the finite segment's progress given back at the worst point. Assessed within the finite segment at steps 40-159 (120 observations); no loss trajectory is inferred across NaN/Inf readings.",
+          "evidence": {
+            "level_before": 1.0,
+            "peak_level": 4.0,
+            "steps_lost": 20,
+            "share_of_segment": 0.16806722689075632,
+            "share_of_progress": 0.75,
+            "segment_start_step": 40,
+            "segment_end_step": 159,
+            "segment_observations": 120
+          },
+          "fixes": [
+            "Look at what changed at the first step: the learning rate, a new data shard, an epoch boundary.",
+            "Lower the peak learning rate or clip gradients if the rise follows a large update.",
+            "If this was a planned restart or curriculum stage, it is expected."
+          ]
+        },
+        {
+          "detector": "plateau",
+          "title": "Possible plateau",
+          "severity": "info",
+          "metric": "train/loss",
+          "step_start": 0,
+          "step_end": 29,
+          "message": "The median-smoothed train/loss level stayed between 1 and 1 from step 0 to 29 (30 points; raw readings range 1-1). Assessed within the finite segment at steps 0-29 (30 observations); no loss trajectory is inferred across NaN/Inf readings.",
+          "evidence": {
+            "window": 30,
+            "alpha": 0.2,
+            "rel_change_threshold": 0.02,
+            "value_range": 0.0,
+            "smoothing_window": 15,
+            "level_min": 1.0,
+            "level_max": 1.0,
+            "relative_level_range": 0.0,
+            "noise_allowance": 0.0,
+            "noise_window": 29,
+            "qualifying_windows": 1,
+            "segment_start_step": 0,
+            "segment_end_step": 29,
+            "segment_observations": 30
+          },
+          "fixes": [
+            "If this is early training, check warmup finished and LR reached its target.",
+            "Try a higher LR, an LR-range test, or a different schedule (cosine/one-cycle) if the plateau is unexpected.",
+            "Check for a frozen/detached parameter group if the plateau starts abruptly."
+          ]
+        }
+      ]
+    },
+    {
+      "file": "studies/plateau-evidence/fixtures/brief-blip.csv",
+      "bytes": 2322,
+      "sha256": "f6a725b19e8e233e46770d0ae2821a26dd3d255ae419988f020645a7c97ef384",
+      "reportSha256": "10a34163ad8cca94b8416788832d6877729a29e546f62bb4486cb5a38e7d2d9d",
+      "inputComplete": true,
+      "findings": [
+        {
+          "detector": "plateau",
+          "title": "Possible plateau",
+          "severity": "info",
+          "metric": "train/loss",
+          "step_start": 51,
+          "step_end": 100,
+          "message": "The median-smoothed train/loss level stayed between 4.999 and 5.001 from step 51 to 100 (50 points; raw readings range 4.999-5.501).",
+          "evidence": {
+            "window": 30,
+            "alpha": 0.2,
+            "rel_change_threshold": 0.02,
+            "value_range": 0.5020000000000007,
+            "smoothing_window": 15,
+            "level_min": 4.999,
+            "level_max": 5.001,
+            "relative_level_range": 0.00039992001599697957,
+            "noise_allowance": 0.0081419728490175,
+            "noise_window": 29,
+            "qualifying_windows": 11
+          },
+          "fixes": [
+            "If this is early training, check warmup finished and LR reached its target.",
+            "Try a higher LR, an LR-range test, or a different schedule (cosine/one-cycle) if the plateau is unexpected.",
+            "Check for a frozen/detached parameter group if the plateau starts abruptly."
+          ]
+        }
+      ]
+    },
+    {
+      "file": "studies/plateau-evidence/fixtures/future-lr.csv",
+      "bytes": 808,
+      "sha256": "eac85182deb111acb46eee7216edf4529389363b43eb301c4d180f19e9047d19",
+      "reportSha256": "2e3c9672f93d57523f1f378d48819f231ea57f6fcbd26ec3a3bde7191c7e5f74",
+      "inputComplete": true,
+      "findings": [
+        {
+          "detector": "plateau",
+          "title": "Possible plateau",
+          "severity": "info",
+          "metric": "train/loss",
+          "step_start": 0,
+          "step_end": 99,
+          "message": "The median-smoothed train/loss level stayed between 5 and 5 from step 0 to 99 (100 points; raw readings range 5-5).",
+          "evidence": {
+            "window": 30,
+            "alpha": 0.2,
+            "rel_change_threshold": 0.02,
+            "value_range": 0.0,
+            "smoothing_window": 15,
+            "level_min": 5.0,
+            "level_max": 5.0,
+            "relative_level_range": 0.0,
+            "noise_allowance": 0.0,
+            "noise_window": 29,
+            "qualifying_windows": 71
+          },
+          "fixes": [
+            "If this is early training, check warmup finished and LR reached its target.",
+            "Try a higher LR, an LR-range test, or a different schedule (cosine/one-cycle) if the plateau is unexpected.",
+            "Check for a frozen/detached parameter group if the plateau starts abruptly."
+          ]
+        }
+      ]
+    },
+    {
+      "file": "studies/plateau-evidence/fixtures/returning-rise.csv",
+      "bytes": 1343,
+      "sha256": "f321ac0bea8430a6e4e610abd5372d707659b81996828e4b69bb19c29aa8d13a",
+      "reportSha256": "d3061eaa33d715a1f93147cffb3b139109ec4ed2d8e19b5b527a39bc2b0693b3",
+      "inputComplete": true,
+      "findings": [
+        {
+          "detector": "setbacks",
+          "title": "Setback",
+          "severity": "warning",
+          "metric": "train/loss",
+          "step_start": 50,
+          "step_end": 70,
+          "message": "train/loss left a level of 1 at step 50, rose to 4, and was back by step 70: 20 steps (13% of the run) above a level it had already reached, with 333% of the run's progress given back at the worst point.",
+          "evidence": {
+            "level_before": 1.0,
+            "peak_level": 4.0,
+            "steps_lost": 20,
+            "share_of_run": 0.12578616352201258,
+            "share_of_progress": 3.333333333333333
+          },
+          "fixes": [
+            "Look at what changed at the first step: the learning rate, a new data shard, an epoch boundary.",
+            "Lower the peak learning rate or clip gradients if the rise follows a large update.",
+            "If this was a planned restart or curriculum stage, it is expected."
+          ]
+        },
+        {
+          "detector": "plateau",
+          "title": "Possible plateau",
+          "severity": "info",
+          "metric": "train/loss",
+          "step_start": 0,
+          "step_end": 49,
+          "message": "The median-smoothed train/loss level stayed between 1 and 1 from step 0 to 49 (50 points; raw readings range 1-1).",
+          "evidence": {
+            "window": 30,
+            "alpha": 0.2,
+            "rel_change_threshold": 0.02,
+            "value_range": 0.0,
+            "smoothing_window": 15,
+            "level_min": 1.0,
+            "level_max": 1.0,
+            "relative_level_range": 0.0,
+            "noise_allowance": 0.0,
+            "noise_window": 29,
+            "qualifying_windows": 21
+          },
+          "fixes": [
+            "If this is early training, check warmup finished and LR reached its target.",
+            "Try a higher LR, an LR-range test, or a different schedule (cosine/one-cycle) if the plateau is unexpected.",
+            "Check for a frozen/detached parameter group if the plateau starts abruptly."
+          ]
+        },
+        {
+          "detector": "plateau",
+          "title": "Possible plateau",
+          "severity": "info",
+          "metric": "train/loss",
+          "step_start": 70,
+          "step_end": 119,
+          "message": "The median-smoothed train/loss level stayed between 1 and 1 from step 70 to 119 (50 points; raw readings range 1-1).",
+          "evidence": {
+            "window": 30,
+            "alpha": 0.2,
+            "rel_change_threshold": 0.02,
+            "value_range": 0.0,
+            "smoothing_window": 15,
+            "level_min": 1.0,
+            "level_max": 1.0,
+            "relative_level_range": 0.0,
+            "noise_allowance": 0.0,
+            "noise_window": 29,
+            "qualifying_windows": 21
+          },
+          "fixes": [
+            "If this is early training, check warmup finished and LR reached its target.",
+            "Try a higher LR, an LR-range test, or a different schedule (cosine/one-cycle) if the plateau is unexpected.",
+            "Check for a frozen/detached parameter group if the plateau starts abruptly."
+          ]
+        }
+      ]
+    },
+    {
+      "file": "studies/plateau-evidence/public/public-omni.csv",
+      "bytes": 993,
+      "sha256": "00b7e83ee6ecbcc254be1e6a9124ed05bb7d20d6cee5577bbe6532152c59f372",
+      "reportSha256": "606accc70ee774d79ea8516939b084c46d47b1eb436f3106d62a6217df03dd6d",
+      "inputComplete": true,
+      "findings": [
+        {
+          "detector": "plateau",
+          "title": "Possible plateau",
+          "severity": "info",
+          "metric": "train/loss",
+          "step_start": 23,
+          "step_end": 82,
+          "message": "The median-smoothed train/loss level stayed between 0.0029 and 0.0071 from step 23 to 82 (60 points; raw readings range 0.0006-1.2).",
+          "evidence": {
+            "window": 30,
+            "alpha": 0.2,
+            "rel_change_threshold": 0.02,
+            "value_range": 1.1992,
+            "smoothing_window": 15,
+            "level_min": 0.0029,
+            "level_max": 0.0071,
+            "relative_level_range": 0.591549295774648,
+            "noise_allowance": 0.0065135782792118254,
+            "noise_window": 29,
+            "qualifying_windows": 2
+          },
+          "fixes": [
+            "If this is early training, check warmup finished and LR reached its target.",
+            "Try a higher LR, an LR-range test, or a different schedule (cosine/one-cycle) if the plateau is unexpected.",
+            "Check for a frozen/detached parameter group if the plateau starts abruptly."
+          ]
+        }
+      ]
+    },
+    {
+      "file": "studies/plateau-evidence/public/public-rca.csv",
+      "bytes": 13031,
+      "sha256": "706c8ad96f224e652fa34ca97df4fe74fdb77f104705307623436adc2085cea8",
+      "reportSha256": "ebcab1dcb7f4fe9d55ed601c097434e9d6462e280bce200b7bd54ead82559afe",
+      "inputComplete": true,
+      "findings": [
+        {
+          "detector": "divergence",
+          "title": "Diverged (rose from the start)",
+          "severity": "error",
+          "metric": "train/loss",
+          "step_start": 1,
+          "step_end": 500,
+          "message": "train/loss started around 4.212e-06 and ended at 9.531e-05, 22.6x higher, without ever settling below its first level.",
+          "evidence": {
+            "start_level": 4.212372004985809e-06,
+            "final_level": 9.530782699584961e-05,
+            "ratio": 22.625690913110766
+          },
+          "fixes": [
+            "Lower the learning rate; a loss that climbs from the first step is usually an LR an order of magnitude too high.",
+            "Add LR warmup and gradient clipping.",
+            "Check the loss is the quantity being minimized (sign, reduction, label alignment)."
+          ]
+        },
+        {
+          "detector": "plateau",
+          "title": "Possible plateau",
+          "severity": "info",
+          "metric": "train/loss",
+          "step_start": 40,
+          "step_end": 89,
+          "message": "The median-smoothed train/loss level stayed between 4.5e-06 and 5.663e-06 from step 40 to 89 (50 points; raw readings range 2.712e-06-0.05611).",
+          "evidence": {
+            "window": 50,
+            "alpha": 0.2,
+            "rel_change_threshold": 0.02,
+            "value_range": 0.05610375851392746,
+            "smoothing_window": 25,
+            "level_min": 4.500150680541992e-06,
+            "level_max": 5.662906914949417e-06,
+            "relative_level_range": 0.20532850916865386,
+            "noise_allowance": 2.838423983533747e-06,
+            "noise_window": 49,
+            "qualifying_windows": 1
+          },
+          "fixes": [
+            "If this is early training, check warmup finished and LR reached its target.",
+            "Try a higher LR, an LR-range test, or a different schedule (cosine/one-cycle) if the plateau is unexpected.",
+            "Check for a frozen/detached parameter group if the plateau starts abruptly."
+          ]
+        },
+        {
+          "detector": "plateau",
+          "title": "Possible plateau",
+          "severity": "info",
+          "metric": "train/loss",
+          "step_start": 165,
+          "step_end": 216,
+          "message": "The median-smoothed train/loss level stayed between 1.603e-05 and 2.599e-05 from step 165 to 216 (52 points; raw readings range 1.127e-05-0.0004597).",
+          "evidence": {
+            "window": 50,
+            "alpha": 0.2,
+            "rel_change_threshold": 0.02,
+            "value_range": 0.00044838711619377136,
+            "smoothing_window": 25,
+            "level_min": 1.6026198863983154e-05,
+            "level_max": 2.599041908979416e-05,
+            "relative_level_range": 0.38338051384957184,
+            "noise_allowance": 1.0120236986298283e-05,
+            "noise_window": 49,
+            "qualifying_windows": 2
+          },
+          "fixes": [
+            "If this is early training, check warmup finished and LR reached its target.",
+            "Try a higher LR, an LR-range test, or a different schedule (cosine/one-cycle) if the plateau is unexpected.",
+            "Check for a frozen/detached parameter group if the plateau starts abruptly."
+          ]
+        },
+        {
+          "detector": "plateau",
+          "title": "Possible plateau",
+          "severity": "info",
+          "metric": "train/loss",
+          "step_start": 280,
+          "step_end": 329,
+          "message": "The median-smoothed train/loss level stayed between 6.248e-05 and 8.243e-05 from step 280 to 329 (50 points; raw readings range 4.771e-05-0.0005635).",
+          "evidence": {
+            "window": 50,
+            "alpha": 0.2,
+            "rel_change_threshold": 0.02,
+            "value_range": 0.0005157454870641232,
+            "smoothing_window": 25,
+            "level_min": 6.247591227293015e-05,
+            "level_max": 8.242577314376831e-05,
+            "relative_level_range": 0.24203425833860615,
+            "noise_allowance": 2.5244265424880026e-05,
+            "noise_window": 49,
+            "qualifying_windows": 1
+          },
+          "fixes": [
+            "If this is early training, check warmup finished and LR reached its target.",
+            "Try a higher LR, an LR-range test, or a different schedule (cosine/one-cycle) if the plateau is unexpected.",
+            "Check for a frozen/detached parameter group if the plateau starts abruptly."
+          ]
+        },
+        {
+          "detector": "plateau",
+          "title": "Possible plateau",
+          "severity": "info",
+          "metric": "train/loss",
+          "step_start": 333,
+          "step_end": 382,
+          "message": "The median-smoothed train/loss level stayed between 8.351e-05 and 0.0001149 from step 333 to 382 (50 points; raw readings range 7.042e-05-0.7956).",
+          "evidence": {
+            "window": 50,
+            "alpha": 0.2,
+            "rel_change_threshold": 0.02,
+            "value_range": 0.7954940535128117,
+            "smoothing_window": 25,
+            "level_min": 8.350610733032227e-05,
+            "level_max": 0.00011491682380437851,
+            "relative_level_range": 0.27333435988038024,
+            "noise_allowance": 4.2101480352469554e-05,
+            "noise_window": 49,
+            "qualifying_windows": 1
+          },
+          "fixes": [
+            "If this is early training, check warmup finished and LR reached its target.",
+            "Try a higher LR, an LR-range test, or a different schedule (cosine/one-cycle) if the plateau is unexpected.",
+            "Check for a frozen/detached parameter group if the plateau starts abruptly."
+          ]
+        },
+        {
+          "detector": "plateau",
+          "title": "Possible plateau",
+          "severity": "info",
+          "metric": "train/loss",
+          "step_start": 379,
+          "step_end": 443,
+          "message": "The median-smoothed train/loss level stayed between 9.439e-05 and 0.0001149 from step 379 to 443 (65 points; raw readings range 7.24e-05-0.0004054).",
+          "evidence": {
+            "window": 50,
+            "alpha": 0.2,
+            "rel_change_threshold": 0.02,
+            "value_range": 0.0003330050967633724,
+            "smoothing_window": 25,
+            "level_min": 9.439326822757721e-05,
+            "level_max": 0.00011491682380437851,
+            "relative_level_range": 0.17859487320793255,
+            "noise_allowance": 2.6277080799449765e-05,
+            "noise_window": 49,
+            "qualifying_windows": 4
+          },
+          "fixes": [
+            "If this is early training, check warmup finished and LR reached its target.",
+            "Try a higher LR, an LR-range test, or a different schedule (cosine/one-cycle) if the plateau is unexpected.",
+            "Check for a frozen/detached parameter group if the plateau starts abruptly."
+          ]
+        }
+      ]
+    }
+  ]
+}

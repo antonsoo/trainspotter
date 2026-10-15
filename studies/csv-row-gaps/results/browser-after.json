@@ -1,0 +1,529 @@
+{
+  "mode": "verify",
+  "results": [
+    {
+      "engine": "chromium",
+      "browserVersion": "153.0.8010.12",
+      "width": 1440,
+      "name": "captured-short",
+      "htmlBytes": 18377,
+      "htmlSha256": "edfa0c08491b53c80ad9d43da9933892028d4bba21397a299e99929dd78f3cb9",
+      "openedFromFileWhileOffline": true,
+      "plottedSegments": 3,
+      "titles": [],
+      "unreadablePositions": [
+        60,
+        61,
+        62,
+        63,
+        64,
+        65,
+        66,
+        67,
+        68,
+        69,
+        90,
+        91,
+        92,
+        93,
+        94,
+        95,
+        96,
+        97,
+        98,
+        99
+      ],
+      "download": {
+        "bytes": 220,
+        "sha256": "026f64e7d502a6e0161dd1b4f92d5f2d70980522e20e19b9cedc6413ec59108b",
+        "data": {
+          "schema_version": 1,
+          "source_path": "captured-short.csv",
+          "step_axis": "step",
+          "step_column": "step",
+          "unreadable_steps": {
+            "train/loss": [
+              60,
+              61,
+              62,
+              63,
+              64,
+              65,
+              66,
+              67,
+              68,
+              69,
+              90,
+              91,
+              92,
+              93,
+              94,
+              95,
+              96,
+              97,
+              98,
+              99
+            ]
+          }
+        }
+      },
+      "errors": [],
+      "httpRequests": [],
+      "policyViolations": [],
+      "axeViolations": 0,
+      "horizontalOverflow": false,
+      "screenshot": "chromium-1440-captured-short.png",
+      "screenshotSha256": "52d405aff438a85669b6015840054bffe500d52ce17a3fbd28ace3a17bcdb191"
+    },
+    {
+      "engine": "chromium",
+      "browserVersion": "153.0.8010.12",
+      "width": 1440,
+      "name": "csv-extra-local",
+      "htmlBytes": 21308,
+      "htmlSha256": "83f7583b6c1613cd8e496b048c295a10f481642c7a38516584688ab6917461af",
+      "openedFromFileWhileOffline": true,
+      "plottedSegments": 2,
+      "titles": [
+        "Setback",
+        "Possible plateau"
+      ],
+      "unreadablePositions": [
+        30,
+        31,
+        32,
+        33,
+        34,
+        35,
+        36,
+        37,
+        38,
+        39
+      ],
+      "download": {
+        "bytes": 181,
+        "sha256": "814a53eaaac661f1ad423e2c854aae554d71c4840f97f0bd95ab72b6e7d0951d",
+        "data": {
+          "schema_version": 1,
+          "source_path": "csv-extra-local.csv",
+          "step_axis": "step",
+          "step_column": "step",
+          "unreadable_steps": {
+            "train/loss": [
+              30,
+              31,
+              32,
+              33,
+              34,
+              35,
+              36,
+              37,
+              38,
+              39
+            ]
+          }
+        }
+      },
+      "errors": [],
+      "httpRequests": [],
+      "policyViolations": [],
+      "axeViolations": 0,
+      "horizontalOverflow": false,
+      "screenshot": "chromium-1440-csv-extra-local.png",
+      "screenshotSha256": "729eda7bab2f5dfd50ab2af25ce29d3385874e66e2b15a3d3cb12c8567ae1faf"
+    },
+    {
+      "engine": "chromium",
+      "browserVersion": "153.0.8010.12",
+      "width": 375,
+      "name": "captured-short",
+      "htmlBytes": 18377,
+      "htmlSha256": "edfa0c08491b53c80ad9d43da9933892028d4bba21397a299e99929dd78f3cb9",
+      "openedFromFileWhileOffline": true,
+      "plottedSegments": 3,
+      "titles": [],
+      "unreadablePositions": [
+        60,
+        61,
+        62,
+        63,
+        64,
+        65,
+        66,
+        67,
+        68,
+        69,
+        90,
+        91,
+        92,
+        93,
+        94,
+        95,
+        96,
+        97,
+        98,
+        99
+      ],
+      "download": {
+        "bytes": 220,
+        "sha256": "026f64e7d502a6e0161dd1b4f92d5f2d70980522e20e19b9cedc6413ec59108b",
+        "data": {
+          "schema_version": 1,
+          "source_path": "captured-short.csv",
+          "step_axis": "step",
+          "step_column": "step",
+          "unreadable_steps": {
+            "train/loss": [
+              60,
+              61,
+              62,
+              63,
+              64,
+              65,
+              66,
+              67,
+              68,
+              69,
+              90,
+              91,
+              92,
+              93,
+              94,
+              95,
+              96,
+              97,
+              98,
+              99
+            ]
+          }
+        }
+      },
+      "errors": [],
+      "httpRequests": [],
+      "policyViolations": [],
+      "axeViolations": 0,
+      "horizontalOverflow": false,
+      "screenshot": "chromium-375-captured-short.png",
+      "screenshotSha256": "a6d1ee3e374490b8228497df72a17f618afd2408d61b0c8379a7e9c0cc5f4da2"
+    },
+    {
+      "engine": "chromium",
+      "browserVersion": "153.0.8010.12",
+      "width": 375,
+      "name": "csv-extra-local",
+      "htmlBytes": 21308,
+      "htmlSha256": "83f7583b6c1613cd8e496b048c295a10f481642c7a38516584688ab6917461af",
+      "openedFromFileWhileOffline": true,
+      "plottedSegments": 2,
+      "titles": [
+        "Setback",
+        "Possible plateau"
+      ],
+      "unreadablePositions": [
+        30,
+        31,
+        32,
+        33,
+        34,
+        35,
+        36,
+        37,
+        38,
+        39
+      ],
+      "download": {
+        "bytes": 181,
+        "sha256": "814a53eaaac661f1ad423e2c854aae554d71c4840f97f0bd95ab72b6e7d0951d",
+        "data": {
+          "schema_version": 1,
+          "source_path": "csv-extra-local.csv",
+          "step_axis": "step",
+          "step_column": "step",
+          "unreadable_steps": {
+            "train/loss": [
+              30,
+              31,
+              32,
+              33,
+              34,
+              35,
+              36,
+              37,
+              38,
+              39
+            ]
+          }
+        }
+      },
+      "errors": [],
+      "httpRequests": [],
+      "policyViolations": [],
+      "axeViolations": 0,
+      "horizontalOverflow": false,
+      "screenshot": "chromium-375-csv-extra-local.png",
+      "screenshotSha256": "a1286fbe76e4b468b8a77f1db6201210f8dd3410b5c200180a6eee18707bcf4d"
+    },
+    {
+      "engine": "firefox",
+      "browserVersion": "155.0",
+      "width": 1440,
+      "name": "captured-short",
+      "htmlBytes": 18377,
+      "htmlSha256": "edfa0c08491b53c80ad9d43da9933892028d4bba21397a299e99929dd78f3cb9",
+      "openedFromFileWhileOffline": true,
+      "plottedSegments": 3,
+      "titles": [],
+      "unreadablePositions": [
+        60,
+        61,
+        62,
+        63,
+        64,
+        65,
+        66,
+        67,
+        68,
+        69,
+        90,
+        91,
+        92,
+        93,
+        94,
+        95,
+        96,
+        97,
+        98,
+        99
+      ],
+      "download": {
+        "bytes": 220,
+        "sha256": "026f64e7d502a6e0161dd1b4f92d5f2d70980522e20e19b9cedc6413ec59108b",
+        "data": {
+          "schema_version": 1,
+          "source_path": "captured-short.csv",
+          "step_axis": "step",
+          "step_column": "step",
+          "unreadable_steps": {
+            "train/loss": [
+              60,
+              61,
+              62,
+              63,
+              64,
+              65,
+              66,
+              67,
+              68,
+              69,
+              90,
+              91,
+              92,
+              93,
+              94,
+              95,
+              96,
+              97,
+              98,
+              99
+            ]
+          }
+        }
+      },
+      "errors": [],
+      "httpRequests": [],
+      "policyViolations": [],
+      "axeViolations": 0,
+      "horizontalOverflow": false,
+      "screenshot": "firefox-1440-captured-short.png",
+      "screenshotSha256": "a44b0d3795cff97f3a0b813bb4c9148e2c41c08550638bd22ca5ef5eedb42d4a"
+    },
+    {
+      "engine": "firefox",
+      "browserVersion": "155.0",
+      "width": 1440,
+      "name": "csv-extra-local",
+      "htmlBytes": 21308,
+      "htmlSha256": "83f7583b6c1613cd8e496b048c295a10f481642c7a38516584688ab6917461af",
+      "openedFromFileWhileOffline": true,
+      "plottedSegments": 2,
+      "titles": [
+        "Setback",
+        "Possible plateau"
+      ],
+      "unreadablePositions": [
+        30,
+        31,
+        32,
+        33,
+        34,
+        35,
+        36,
+        37,
+        38,
+        39
+      ],
+      "download": {
+        "bytes": 181,
+        "sha256": "814a53eaaac661f1ad423e2c854aae554d71c4840f97f0bd95ab72b6e7d0951d",
+        "data": {
+          "schema_version": 1,
+          "source_path": "csv-extra-local.csv",
+          "step_axis": "step",
+          "step_column": "step",
+          "unreadable_steps": {
+            "train/loss": [
+              30,
+              31,
+              32,
+              33,
+              34,
+              35,
+              36,
+              37,
+              38,
+              39
+            ]
+          }
+        }
+      },
+      "errors": [],
+      "httpRequests": [],
+      "policyViolations": [],
+      "axeViolations": 0,
+      "horizontalOverflow": false,
+      "screenshot": "firefox-1440-csv-extra-local.png",
+      "screenshotSha256": "d0a7090473e8166a13a11aeb9ce6e107546f5f6af58f7b7ab68e915e674376c0"
+    },
+    {
+      "engine": "firefox",
+      "browserVersion": "155.0",
+      "width": 375,
+      "name": "captured-short",
+      "htmlBytes": 18377,
+      "htmlSha256": "edfa0c08491b53c80ad9d43da9933892028d4bba21397a299e99929dd78f3cb9",
+      "openedFromFileWhileOffline": true,
+      "plottedSegments": 3,
+      "titles": [],
+      "unreadablePositions": [
+        60,
+        61,
+        62,
+        63,
+        64,
+        65,
+        66,
+        67,
+        68,
+        69,
+        90,
+        91,
+        92,
+        93,
+        94,
+        95,
+        96,
+        97,
+        98,
+        99
+      ],
+      "download": {
+        "bytes": 220,
+        "sha256": "026f64e7d502a6e0161dd1b4f92d5f2d70980522e20e19b9cedc6413ec59108b",
+        "data": {
+          "schema_version": 1,
+          "source_path": "captured-short.csv",
+          "step_axis": "step",
+          "step_column": "step",
+          "unreadable_steps": {
+            "train/loss": [
+              60,
+              61,
+              62,
+              63,
+              64,
+              65,
+              66,
+              67,
+              68,
+              69,
+              90,
+              91,
+              92,
+              93,
+              94,
+              95,
+              96,
+              97,
+              98,
+              99
+            ]
+          }
+        }
+      },
+      "errors": [],
+      "httpRequests": [],
+      "policyViolations": [],
+      "axeViolations": 0,
+      "horizontalOverflow": false,
+      "screenshot": "firefox-375-captured-short.png",
+      "screenshotSha256": "0eec3677c748384e5858015d00f08e08769f54724760b7456d31359ef7478e6e"
+    },
+    {
+      "engine": "firefox",
+      "browserVersion": "155.0",
+      "width": 375,
+      "name": "csv-extra-local",
+      "htmlBytes": 21308,
+      "htmlSha256": "83f7583b6c1613cd8e496b048c295a10f481642c7a38516584688ab6917461af",
+      "openedFromFileWhileOffline": true,
+      "plottedSegments": 2,
+      "titles": [
+        "Setback",
+        "Possible plateau"
+      ],
+      "unreadablePositions": [
+        30,
+        31,
+        32,
+        33,
+        34,
+        35,
+        36,
+        37,
+        38,
+        39
+      ],
+      "download": {
+        "bytes": 181,
+        "sha256": "814a53eaaac661f1ad423e2c854aae554d71c4840f97f0bd95ab72b6e7d0951d",
+        "data": {
+          "schema_version": 1,
+          "source_path": "csv-extra-local.csv",
+          "step_axis": "step",
+          "step_column": "step",
+          "unreadable_steps": {
+            "train/loss": [
+              30,
+              31,
+              32,
+              33,
+              34,
+              35,
+              36,
+              37,
+              38,
+              39
+            ]
+          }
+        }
+      },
+      "errors": [],
+      "httpRequests": [],
+      "policyViolations": [],
+      "axeViolations": 0,
+      "horizontalOverflow": false,
+      "screenshot": "firefox-375-csv-extra-local.png",
+      "screenshotSha256": "f3b6050c67026315b3bfa0f9f504bcd6760209d31a9458e771a0e1e20fc77078"
+    }
+  ]
+}

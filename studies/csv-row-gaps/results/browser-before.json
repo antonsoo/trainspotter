@@ -1,0 +1,193 @@
+{
+  "mode": "baseline",
+  "results": [
+    {
+      "engine": "chromium",
+      "browserVersion": "153.0.8010.12",
+      "width": 1440,
+      "name": "captured-short",
+      "htmlBytes": 18669,
+      "htmlSha256": "a4a4b81996e6eb98d8a427e84466e6fc64d951900623f0a23bc284c1abff68f6",
+      "openedFromFileWhileOffline": true,
+      "plottedSegments": 1,
+      "titles": [
+        "Setback",
+        "Isolated loss spikes"
+      ],
+      "unreadablePositions": [],
+      "download": null,
+      "errors": [],
+      "httpRequests": [],
+      "policyViolations": [],
+      "axeViolations": 0,
+      "horizontalOverflow": false,
+      "screenshot": "chromium-1440-captured-short.png",
+      "screenshotSha256": "793f87824c51db75c1f0585a13260dae1c2b5b50a1a4dc4a886154847525c471"
+    },
+    {
+      "engine": "chromium",
+      "browserVersion": "153.0.8010.12",
+      "width": 1440,
+      "name": "csv-extra-local",
+      "htmlBytes": 20734,
+      "htmlSha256": "313a4ebabab0907f7fe73d064928c7ef278bb801fca0170835ab49162575d31d",
+      "openedFromFileWhileOffline": true,
+      "plottedSegments": 1,
+      "titles": [
+        "Possible plateau",
+        "Possible plateau",
+        "Possible plateau"
+      ],
+      "unreadablePositions": [],
+      "download": null,
+      "errors": [],
+      "httpRequests": [],
+      "policyViolations": [],
+      "axeViolations": 0,
+      "horizontalOverflow": false,
+      "screenshot": "chromium-1440-csv-extra-local.png",
+      "screenshotSha256": "d68a6b384c81a2cf602bcfa4e45d3da617d1a1a1ab259900633b12e64fb9d279"
+    },
+    {
+      "engine": "chromium",
+      "browserVersion": "153.0.8010.12",
+      "width": 375,
+      "name": "captured-short",
+      "htmlBytes": 18669,
+      "htmlSha256": "a4a4b81996e6eb98d8a427e84466e6fc64d951900623f0a23bc284c1abff68f6",
+      "openedFromFileWhileOffline": true,
+      "plottedSegments": 1,
+      "titles": [
+        "Setback",
+        "Isolated loss spikes"
+      ],
+      "unreadablePositions": [],
+      "download": null,
+      "errors": [],
+      "httpRequests": [],
+      "policyViolations": [],
+      "axeViolations": 0,
+      "horizontalOverflow": false,
+      "screenshot": "chromium-375-captured-short.png",
+      "screenshotSha256": "253c1304b21b881749df7c252c24de9a4c7ed458d02bb43052eacbdba36806ad"
+    },
+    {
+      "engine": "chromium",
+      "browserVersion": "153.0.8010.12",
+      "width": 375,
+      "name": "csv-extra-local",
+      "htmlBytes": 20734,
+      "htmlSha256": "313a4ebabab0907f7fe73d064928c7ef278bb801fca0170835ab49162575d31d",
+      "openedFromFileWhileOffline": true,
+      "plottedSegments": 1,
+      "titles": [
+        "Possible plateau",
+        "Possible plateau",
+        "Possible plateau"
+      ],
+      "unreadablePositions": [],
+      "download": null,
+      "errors": [],
+      "httpRequests": [],
+      "policyViolations": [],
+      "axeViolations": 0,
+      "horizontalOverflow": false,
+      "screenshot": "chromium-375-csv-extra-local.png",
+      "screenshotSha256": "1461f3c96f4afbdfd8f6fde743c28f30576226002f1b4aa28116b55233af2562"
+    },
+    {
+      "engine": "firefox",
+      "browserVersion": "155.0",
+      "width": 1440,
+      "name": "captured-short",
+      "htmlBytes": 18669,
+      "htmlSha256": "a4a4b81996e6eb98d8a427e84466e6fc64d951900623f0a23bc284c1abff68f6",
+      "openedFromFileWhileOffline": true,
+      "plottedSegments": 1,
+      "titles": [
+        "Setback",
+        "Isolated loss spikes"
+      ],
+      "unreadablePositions": [],
+      "download": null,
+      "errors": [],
+      "httpRequests": [],
+      "policyViolations": [],
+      "axeViolations": 0,
+      "horizontalOverflow": false,
+      "screenshot": "firefox-1440-captured-short.png",
+      "screenshotSha256": "dd7cad77b4236219d14170eac4db74bd83aae0e9b5e96acf1d6cb12cb3b32b96"
+    },
+    {
+      "engine": "firefox",
+      "browserVersion": "155.0",
+      "width": 1440,
+      "name": "csv-extra-local",
+      "htmlBytes": 20734,
+      "htmlSha256": "313a4ebabab0907f7fe73d064928c7ef278bb801fca0170835ab49162575d31d",
+      "openedFromFileWhileOffline": true,
+      "plottedSegments": 1,
+      "titles": [
+        "Possible plateau",
+        "Possible plateau",
+        "Possible plateau"
+      ],
+      "unreadablePositions": [],
+      "download": null,
+      "errors": [],
+      "httpRequests": [],
+      "policyViolations": [],
+      "axeViolations": 0,
+      "horizontalOverflow": false,
+      "screenshot": "firefox-1440-csv-extra-local.png",
+      "screenshotSha256": "8b3592776be1843073f875b07d95ed64ca06d08e5512b62f4d531d180085c136"
+    },
+    {
+      "engine": "firefox",
+      "browserVersion": "155.0",
+      "width": 375,
+      "name": "captured-short",
+      "htmlBytes": 18669,
+      "htmlSha256": "a4a4b81996e6eb98d8a427e84466e6fc64d951900623f0a23bc284c1abff68f6",
+      "openedFromFileWhileOffline": true,
+      "plottedSegments": 1,
+      "titles": [
+        "Setback",
+        "Isolated loss spikes"
+      ],
+      "unreadablePositions": [],
+      "download": null,
+      "errors": [],
+      "httpRequests": [],
+      "policyViolations": [],
+      "axeViolations": 0,
+      "horizontalOverflow": false,
+      "screenshot": "firefox-375-captured-short.png",
+      "screenshotSha256": "f160fd940419643eeafdf91e74d646fcd3bd800f30d550831d663e9de5e96088"
+    },
+    {
+      "engine": "firefox",
+      "browserVersion": "155.0",
+      "width": 375,
+      "name": "csv-extra-local",
+      "htmlBytes": 20734,
+      "htmlSha256": "313a4ebabab0907f7fe73d064928c7ef278bb801fca0170835ab49162575d31d",
+      "openedFromFileWhileOffline": true,
+      "plottedSegments": 1,
+      "titles": [
+        "Possible plateau",
+        "Possible plateau",
+        "Possible plateau"
+      ],
+      "unreadablePositions": [],
+      "download": null,
+      "errors": [],
+      "httpRequests": [],
+      "policyViolations": [],
+      "axeViolations": 0,
+      "horizontalOverflow": false,
+      "screenshot": "firefox-375-csv-extra-local.png",
+      "screenshotSha256": "c3c514410be4d1b5b77be3280255e77c30c0bf754a7c3765455df49dce2ca8e8"
+    }
+  ]
+}

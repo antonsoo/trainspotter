@@ -1,0 +1,50 @@
+{
+  "synthetic": true,
+  "unbufferingOverrides": false,
+  "initialStdout": "watching growing.csv (Ctrl-C to stop)\ninput    train/loss: 10 unreadable values at recorded steps; trajectory checks stop at these gaps. These are not observed NaN/Inf values. 10 rows or events could not be read. Input is incomplete; findings describe only the readable data.\n[INFO   ] steps 0-49          plateau      Possible plateau: The median-smoothed train/loss level stayed between 1 and 1 from step 0 to 49 (50 points; raw readings range 1-1). Assessed within the finite segment at steps 0-49 (50 observations); no loss trajectory is inferred across non-finite or unreadable values.\n[INFO   ] steps 60-109        plateau      Possible plateau: The median-smoothed train/loss level stayed between 3 and 3 from step 60 to 109 (50 points; raw readings range 3-3). Assessed within the finite segment at steps 60-109 (50 observations); no loss trajectory is inferred across non-finite or unreadable values.\n",
+  "watch": {
+    "arguments": [
+      "watch",
+      "growing.csv",
+      "--interval",
+      "0.05"
+    ],
+    "alive_before_interrupt": true,
+    "stdout_before_interrupt": "watching growing.csv (Ctrl-C to stop)\ninput    train/loss: 10 unreadable values at recorded steps; trajectory checks stop at these gaps. These are not observed NaN/Inf values. 10 rows or events could not be read. Input is incomplete; findings describe only the readable data.\n[INFO   ] steps 0-49          plateau      Possible plateau: The median-smoothed train/loss level stayed between 1 and 1 from step 0 to 49 (50 points; raw readings range 1-1). Assessed within the finite segment at steps 0-49 (50 observations); no loss trajectory is inferred across non-finite or unreadable values.\n[INFO   ] steps 60-109        plateau      Possible plateau: The median-smoothed train/loss level stayed between 3 and 3 from step 60 to 109 (50 points; raw readings range 3-3). Assessed within the finite segment at steps 60-109 (50 observations); no loss trajectory is inferred across non-finite or unreadable values.\ninput    Read recovered; all supported input was read.\nhistory  Previously read data changed; findings are evaluated again.\n[ERROR  ] steps 0-109         divergence   Diverged (rose from the start): train/loss started around 1 and ended at 3, 3.0x higher, without ever settling below its first level.\n[INFO   ] steps 0-49          plateau      Possible plateau: The median-smoothed train/loss level stayed between 1 and 1 from step 0 to 49 (50 points; raw readings range 1-1).\n[INFO   ] steps 50-109        plateau      Possible plateau: The median-smoothed train/loss level stayed between 3 and 3 from step 50 to 109 (60 points; raw readings range 3-3).\n",
+    "stdout": "watching growing.csv (Ctrl-C to stop)\ninput    train/loss: 10 unreadable values at recorded steps; trajectory checks stop at these gaps. These are not observed NaN/Inf values. 10 rows or events could not be read. Input is incomplete; findings describe only the readable data.\n[INFO   ] steps 0-49          plateau      Possible plateau: The median-smoothed train/loss level stayed between 1 and 1 from step 0 to 49 (50 points; raw readings range 1-1). Assessed within the finite segment at steps 0-49 (50 observations); no loss trajectory is inferred across non-finite or unreadable values.\n[INFO   ] steps 60-109        plateau      Possible plateau: The median-smoothed train/loss level stayed between 3 and 3 from step 60 to 109 (50 points; raw readings range 3-3). Assessed within the finite segment at steps 60-109 (50 observations); no loss trajectory is inferred across non-finite or unreadable values.\ninput    Read recovered; all supported input was read.\nhistory  Previously read data changed; findings are evaluated again.\n[ERROR  ] steps 0-109         divergence   Diverged (rose from the start): train/loss started around 1 and ended at 3, 3.0x higher, without ever settling below its first level.\n[INFO   ] steps 0-49          plateau      Possible plateau: The median-smoothed train/loss level stayed between 1 and 1 from step 0 to 49 (50 points; raw readings range 1-1).\n[INFO   ] steps 50-109        plateau      Possible plateau: The median-smoothed train/loss level stayed between 3 and 3 from step 50 to 109 (60 points; raw readings range 3-3).\n\nstopped.\n",
+    "stderr": "",
+    "exit": 0,
+    "milestones": [
+      {
+        "phrase": "unreadable",
+        "count": 1,
+        "alive": true,
+        "seconds_since_start": 0.783542
+      },
+      {
+        "phrase": "Possible plateau",
+        "count": 1,
+        "alive": true,
+        "seconds_since_start": 1.083748
+      },
+      {
+        "phrase": "Read recovered",
+        "count": 1,
+        "alive": true,
+        "seconds_since_start": 1.143515
+      },
+      {
+        "phrase": "Previously read data changed",
+        "count": 1,
+        "alive": true,
+        "seconds_since_start": 1.143661
+      },
+      {
+        "phrase": "Diverged (rose from the start)",
+        "count": 1,
+        "alive": true,
+        "seconds_since_start": 1.186961
+      }
+    ]
+  }
+}
