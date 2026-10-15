@@ -1,0 +1,220 @@
+{
+  "repository": "https://github.com/antonsoo/trainspotter",
+  "revision": "054012e1408161aab3e685bfd9319ac36f4722e1",
+  "remoteMain": "054012e1408161aab3e685bfd9319ac36f4722e1",
+  "localTreeCleanAtVerification": true,
+  "allChangedFilesMatchPublicPinnedBytes": true,
+  "files": [
+    {
+      "path": "CHANGELOG.md",
+      "url": "https://raw.githubusercontent.com/antonsoo/trainspotter/054012e1408161aab3e685bfd9319ac36f4722e1/CHANGELOG.md",
+      "bytes": 26826,
+      "sha256": "db8773c2c9ea7b32422bdbbff8acf718c80aa1af6cfabfb336d5e182f9c1483a"
+    },
+    {
+      "path": "README.md",
+      "url": "https://raw.githubusercontent.com/antonsoo/trainspotter/054012e1408161aab3e685bfd9319ac36f4722e1/README.md",
+      "bytes": 42310,
+      "sha256": "3ad2085905aba26b2e1f2a0c8c2b18f838142d3c47f3d406e2d03254d5628a60"
+    },
+    {
+      "path": "docs/input-integrity.md",
+      "url": "https://raw.githubusercontent.com/antonsoo/trainspotter/054012e1408161aab3e685bfd9319ac36f4722e1/docs/input-integrity.md",
+      "bytes": 19279,
+      "sha256": "c17589eea394fb5f202532a59e9f0f116a4c3e038766ca56766e8e8527a80f94"
+    },
+    {
+      "path": "scripts/browser_fixtures.py",
+      "url": "https://raw.githubusercontent.com/antonsoo/trainspotter/054012e1408161aab3e685bfd9319ac36f4722e1/scripts/browser_fixtures.py",
+      "bytes": 4815,
+      "sha256": "e0a609163b04e68cf176e3bcf1e0d7f2cb7983e2dcb5899f29e7849777c44c66"
+    },
+    {
+      "path": "src/trainspotter/readers/__init__.py",
+      "url": "https://raw.githubusercontent.com/antonsoo/trainspotter/054012e1408161aab3e685bfd9319ac36f4722e1/src/trainspotter/readers/__init__.py",
+      "bytes": 4406,
+      "sha256": "f126e7c6e3c1c24d5b595050f67f7b123af78f3d2bfd5755dc5920cb0d146bda"
+    },
+    {
+      "path": "src/trainspotter/readers/common.py",
+      "url": "https://raw.githubusercontent.com/antonsoo/trainspotter/054012e1408161aab3e685bfd9319ac36f4722e1/src/trainspotter/readers/common.py",
+      "bytes": 12108,
+      "sha256": "a745dc356474fc5251bd5d157796a1465383e982a2ab8578ab4aad5fbe2c0ea8"
+    },
+    {
+      "path": "src/trainspotter/readers/tabular.py",
+      "url": "https://raw.githubusercontent.com/antonsoo/trainspotter/054012e1408161aab3e685bfd9319ac36f4722e1/src/trainspotter/readers/tabular.py",
+      "bytes": 6668,
+      "sha256": "da62b0e9db7eee86927330ecb48a73627837ff49d3e7f7460d6f7595aca42e6e"
+    },
+    {
+      "path": "src/trainspotter/readers/wandb.py",
+      "url": "https://raw.githubusercontent.com/antonsoo/trainspotter/054012e1408161aab3e685bfd9319ac36f4722e1/src/trainspotter/readers/wandb.py",
+      "bytes": 12430,
+      "sha256": "b228e5d286b628762b00cad529fec0057682a0fa94d3cc0be6ab72f587091777"
+    },
+    {
+      "path": "studies/csv-row-gaps/README.md",
+      "url": "https://raw.githubusercontent.com/antonsoo/trainspotter/054012e1408161aab3e685bfd9319ac36f4722e1/studies/csv-row-gaps/README.md",
+      "bytes": 8226,
+      "sha256": "7d3d2133a671c802560a2465775fc00c6a00c8036abb474fcebc6dbc8c322719"
+    },
+    {
+      "path": "studies/csv-row-gaps/browser.mjs",
+      "url": "https://raw.githubusercontent.com/antonsoo/trainspotter/054012e1408161aab3e685bfd9319ac36f4722e1/studies/csv-row-gaps/browser.mjs",
+      "bytes": 5162,
+      "sha256": "c32f482634c7ab0208db88f2775757baac05b7450710ff55ae1af056519adf74"
+    },
+    {
+      "path": "studies/csv-row-gaps/controls.py",
+      "url": "https://raw.githubusercontent.com/antonsoo/trainspotter/054012e1408161aab3e685bfd9319ac36f4722e1/studies/csv-row-gaps/controls.py",
+      "bytes": 2304,
+      "sha256": "3ca177598757093d26d1de542d29e1510ee9cffc4ab0735dd0335a7a0510af13"
+    },
+    {
+      "path": "studies/csv-row-gaps/replay.py",
+      "url": "https://raw.githubusercontent.com/antonsoo/trainspotter/054012e1408161aab3e685bfd9319ac36f4722e1/studies/csv-row-gaps/replay.py",
+      "bytes": 8100,
+      "sha256": "1bec0ebc8db3e5a9396b3711cb7dc53444fc6c9171ab231c14daa49aa4a94119"
+    },
+    {
+      "path": "studies/csv-row-gaps/results/after.json",
+      "url": "https://raw.githubusercontent.com/antonsoo/trainspotter/054012e1408161aab3e685bfd9319ac36f4722e1/studies/csv-row-gaps/results/after.json",
+      "bytes": 214792,
+      "sha256": "524b7a53c0daf0cba778cff073d11fa4dba8cbf678fe7dc0034fa2a148d2e810"
+    },
+    {
+      "path": "studies/csv-row-gaps/results/artifacts.json",
+      "url": "https://raw.githubusercontent.com/antonsoo/trainspotter/054012e1408161aab3e685bfd9319ac36f4722e1/studies/csv-row-gaps/results/artifacts.json",
+      "bytes": 5305,
+      "sha256": "2c3357358492430ab82900281497ca858cae1d6ad909e50f43eaaaeb0f3724f0"
+    },
+    {
+      "path": "studies/csv-row-gaps/results/before.json",
+      "url": "https://raw.githubusercontent.com/antonsoo/trainspotter/054012e1408161aab3e685bfd9319ac36f4722e1/studies/csv-row-gaps/results/before.json",
+      "bytes": 216029,
+      "sha256": "73ba3ef1ca6bb57e8909b7bb5246abe3d9c02a0ccb2a8ff9037a4a32213f1453"
+    },
+    {
+      "path": "studies/csv-row-gaps/results/browser-after.json",
+      "url": "https://raw.githubusercontent.com/antonsoo/trainspotter/054012e1408161aab3e685bfd9319ac36f4722e1/studies/csv-row-gaps/results/browser-after.json",
+      "bytes": 12266,
+      "sha256": "b494de8531ae8f3838ef28f547a328965ae562bdc67d44bce9e27b51f906d73e"
+    },
+    {
+      "path": "studies/csv-row-gaps/results/browser-before.json",
+      "url": "https://raw.githubusercontent.com/antonsoo/trainspotter/054012e1408161aab3e685bfd9319ac36f4722e1/studies/csv-row-gaps/results/browser-before.json",
+      "bytes": 6048,
+      "sha256": "b844d21986444a97ded92a0d7d918e8726b294955bd50f1b866734105f77191a"
+    },
+    {
+      "path": "studies/csv-row-gaps/results/browser-full-limitation.json",
+      "url": "https://raw.githubusercontent.com/antonsoo/trainspotter/054012e1408161aab3e685bfd9319ac36f4722e1/studies/csv-row-gaps/results/browser-full-limitation.json",
+      "bytes": 682,
+      "sha256": "797b865678aa3af25bda947e6055d4a582e457265aa3cc7dad2405d16a407fd4"
+    },
+    {
+      "path": "studies/csv-row-gaps/results/controls-after.json",
+      "url": "https://raw.githubusercontent.com/antonsoo/trainspotter/054012e1408161aab3e685bfd9319ac36f4722e1/studies/csv-row-gaps/results/controls-after.json",
+      "bytes": 109865,
+      "sha256": "6179a5aa77d206cba077297b84ca4626754330a6fa6eadb32be956f016a20b29"
+    },
+    {
+      "path": "studies/csv-row-gaps/results/controls-before.json",
+      "url": "https://raw.githubusercontent.com/antonsoo/trainspotter/054012e1408161aab3e685bfd9319ac36f4722e1/studies/csv-row-gaps/results/controls-before.json",
+      "bytes": 109865,
+      "sha256": "6179a5aa77d206cba077297b84ca4626754330a6fa6eadb32be956f016a20b29"
+    },
+    {
+      "path": "studies/csv-row-gaps/results/controls-wheel-minimum.json",
+      "url": "https://raw.githubusercontent.com/antonsoo/trainspotter/054012e1408161aab3e685bfd9319ac36f4722e1/studies/csv-row-gaps/results/controls-wheel-minimum.json",
+      "bytes": 109865,
+      "sha256": "caf5d8040b2167d46ade25d13534eb45220a6c94892225d49cfccf811f44e968"
+    },
+    {
+      "path": "studies/csv-row-gaps/results/scaling-after.json",
+      "url": "https://raw.githubusercontent.com/antonsoo/trainspotter/054012e1408161aab3e685bfd9319ac36f4722e1/studies/csv-row-gaps/results/scaling-after.json",
+      "bytes": 1037,
+      "sha256": "929de8acb96a30460a770f09dd1bf1c9f56f4a5d3764b9a84d7bda1d47adcf2b"
+    },
+    {
+      "path": "studies/csv-row-gaps/results/scaling-before.json",
+      "url": "https://raw.githubusercontent.com/antonsoo/trainspotter/054012e1408161aab3e685bfd9319ac36f4722e1/studies/csv-row-gaps/results/scaling-before.json",
+      "bytes": 1036,
+      "sha256": "017778b558e867b43eeb1ead84225cf9ba2c5a5e88ee06040fa7ab4433c3a912"
+    },
+    {
+      "path": "studies/csv-row-gaps/results/watch-minimum.json",
+      "url": "https://raw.githubusercontent.com/antonsoo/trainspotter/054012e1408161aab3e685bfd9319ac36f4722e1/studies/csv-row-gaps/results/watch-minimum.json",
+      "bytes": 5122,
+      "sha256": "6e325fdbb4facf525089e646e994acd3b9661b8c7ef686fbdae40c6c3ed5a8dc"
+    },
+    {
+      "path": "studies/csv-row-gaps/results/watch-source.json",
+      "url": "https://raw.githubusercontent.com/antonsoo/trainspotter/054012e1408161aab3e685bfd9319ac36f4722e1/studies/csv-row-gaps/results/watch-source.json",
+      "bytes": 5122,
+      "sha256": "74812f8d311414606311cad8922fd87646e56c285823f629bca126183b76f9e4"
+    },
+    {
+      "path": "studies/csv-row-gaps/results/wheel-current.json",
+      "url": "https://raw.githubusercontent.com/antonsoo/trainspotter/054012e1408161aab3e685bfd9319ac36f4722e1/studies/csv-row-gaps/results/wheel-current.json",
+      "bytes": 214792,
+      "sha256": "1fe0c9229c411b96d383c55a5e8b2cd730021dac69e0bd4ef6ddf48404a0e6e8"
+    },
+    {
+      "path": "studies/csv-row-gaps/results/wheel-minimum.json",
+      "url": "https://raw.githubusercontent.com/antonsoo/trainspotter/054012e1408161aab3e685bfd9319ac36f4722e1/studies/csv-row-gaps/results/wheel-minimum.json",
+      "bytes": 214794,
+      "sha256": "00f90e6823eb593c05888f981d6615b870ea2e205b2d13d67da927f6b9c7c8d5"
+    },
+    {
+      "path": "studies/csv-row-gaps/scaling.py",
+      "url": "https://raw.githubusercontent.com/antonsoo/trainspotter/054012e1408161aab3e685bfd9319ac36f4722e1/studies/csv-row-gaps/scaling.py",
+      "bytes": 2260,
+      "sha256": "9d63e12e7d976eec3b5220ad89a96402007b147547ca652a3fc9ec64c749000a"
+    },
+    {
+      "path": "studies/csv-row-gaps/screenshots/after-desktop.png",
+      "url": "https://raw.githubusercontent.com/antonsoo/trainspotter/054012e1408161aab3e685bfd9319ac36f4722e1/studies/csv-row-gaps/screenshots/after-desktop.png",
+      "bytes": 131949,
+      "sha256": "52d405aff438a85669b6015840054bffe500d52ce17a3fbd28ace3a17bcdb191"
+    },
+    {
+      "path": "studies/csv-row-gaps/screenshots/after-mobile.png",
+      "url": "https://raw.githubusercontent.com/antonsoo/trainspotter/054012e1408161aab3e685bfd9319ac36f4722e1/studies/csv-row-gaps/screenshots/after-mobile.png",
+      "bytes": 246560,
+      "sha256": "f3b6050c67026315b3bfa0f9f504bcd6760209d31a9458e771a0e1e20fc77078"
+    },
+    {
+      "path": "studies/csv-row-gaps/screenshots/before-desktop.png",
+      "url": "https://raw.githubusercontent.com/antonsoo/trainspotter/054012e1408161aab3e685bfd9319ac36f4722e1/studies/csv-row-gaps/screenshots/before-desktop.png",
+      "bytes": 140184,
+      "sha256": "793f87824c51db75c1f0585a13260dae1c2b5b50a1a4dc4a886154847525c471"
+    },
+    {
+      "path": "studies/csv-row-gaps/watch.py",
+      "url": "https://raw.githubusercontent.com/antonsoo/trainspotter/054012e1408161aab3e685bfd9319ac36f4722e1/studies/csv-row-gaps/watch.py",
+      "bytes": 2856,
+      "sha256": "3dfe8f222ee618875ad3893e872e3b488d0314fb35c838e8030ac561f20e5d56"
+    },
+    {
+      "path": "tests/browser.mjs",
+      "url": "https://raw.githubusercontent.com/antonsoo/trainspotter/054012e1408161aab3e685bfd9319ac36f4722e1/tests/browser.mjs",
+      "bytes": 18584,
+      "sha256": "7564df522c3e13d25a667b82c922b7acaa975ec1da579de23b6a64e5b3262a58"
+    },
+    {
+      "path": "tests/test_csv_row_gaps.py",
+      "url": "https://raw.githubusercontent.com/antonsoo/trainspotter/054012e1408161aab3e685bfd9319ac36f4722e1/tests/test_csv_row_gaps.py",
+      "bytes": 6398,
+      "sha256": "e4c0419cc91a16bbd26f87ba65917e6be91eb1d86e10c3042978260317a80af0"
+    },
+    {
+      "path": "tests/test_readers.py",
+      "url": "https://raw.githubusercontent.com/antonsoo/trainspotter/054012e1408161aab3e685bfd9319ac36f4722e1/tests/test_readers.py",
+      "bytes": 9297,
+      "sha256": "8d0a1adb5712fa20ef1758e5fb586f1045c1445e5808699e162484fad96a3871"
+    }
+  ],
+  "scope": "Source synchronization only; no registry release or hosted deployment claimed"
+}

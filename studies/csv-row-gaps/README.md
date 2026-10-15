@@ -136,3 +136,7 @@ TensorBoard reader semantics change in this repair.
 
 These are source and local-artifact checks. No PyPI release or hosted-demo
 deployment was performed for this repair.
+
+[Public source receipt](results/public-source.json): all 35 changed files at
+`054012e1408161aab3e685bfd9319ac36f4722e1` matched the clean checkout and pinned
+GitHub raw-file bytes; the remote main head matched that revision at verification.
