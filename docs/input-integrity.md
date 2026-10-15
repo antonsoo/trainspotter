@@ -16,6 +16,7 @@ detector set. A report with no findings is not proof that training is healthy.
 | NaN/Inf metric reading | Retain for diagnostics, including a run with just one loss reading |
 | Nonnumeric nonblank cell in a recognized or otherwise numeric metric | Count as invalid; retain its known coordinate as an unreadable boundary |
 | CSV row with extra/missing fields and a readable coordinate | Count as a rejected row; retain unknown values for its numeric metrics at that position |
+| Rejected JSONL record with no step column anywhere in accepted objects | Count as a rejected record; retain its nonblank record index as an unreadable boundary |
 | Text-only metadata column | Ignore as a metric |
 | Two names normalize to the same spelling | Keep distinct series; literal names have priority |
 | Duplicate CSV header or competing step columns | Reject the source |
@@ -39,6 +40,19 @@ Explicit empty cells in complete-width rows are allowed and remain ordinary spar
 An unterminated quoted field is an input error. Comma, semicolon, and tab delimiters,
 UTF-8 BOMs, and decimal commas with non-comma delimiters are supported. All names in
 terminal diagnostics are shown with control characters escaped; HTML names are escaped.
+
+Counter-free JSONL uses zero-based positions among **all nonblank records**, including
+rejected records. Malformed JSON, repeated members and non-object values (`null`, arrays,
+strings or numbers) cannot supply metric measurements. Their known ordinal positions
+remain unreadable boundaries, so later readings keep their source positions and loss
+trajectories cannot bridge the rejected records. Blank physical lines remain ignored;
+valid sparse objects, including `{}` and `{"loss":null}`, keep their ordinary sparse
+semantics. A JSON `null` record is not a sparse metric cell inside an object.
+
+If an accepted object supplies a selected step column, the whole file uses that explicit
+axis. Rejected records cannot establish a step, even when part of their text resembles
+one; no ordinal is substituted. Completing a partial final record replaces its unknown
+position on the next read. [CLI, live-watch and offline report evidence](../studies/jsonl-record-gaps/README.md).
 
 ## Non-finite loss observations
 
@@ -104,10 +118,10 @@ and provides a complete offline JSON download of their coordinates. Its table
 shows at most 100 metrics and 20 positions per metric; the download is not truncated.
 
 Blank/null sparse cells remain absent observations. These boundaries require a
-known metric and usable coordinate. They cannot locate a wholly undecodable row,
-a missing step, an unrecorded batch or a hidden phase change. Existing skipped-row
-and unread-byte counts still make such inputs incomplete; this repair does not
-invent positions for them. With no numeric metrics, the CLI still exits 2.
+known metric and usable coordinate. They cannot locate a wholly undecodable row on
+an explicit step axis, a missing step, an unrecorded batch or a hidden phase change.
+Existing skipped-row and unread-byte counts still make such inputs incomplete;
+this repair does not invent positions for them. With no numeric metrics, the CLI still exits 2.
 
 [Reproduced CLI failures, controls and limitations](../studies/unreadable-values/README.md).
 

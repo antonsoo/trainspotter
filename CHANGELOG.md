@@ -6,6 +6,11 @@ and this project uses [Semantic Versioning](https://semver.org/).
 
 ## Unreleased
 
+- Preserve rejected JSONL records on fallback row-index axes. Malformed JSON,
+  repeated keys and non-object records no longer renumber later readings or join
+  loss trajectories across unknown observations. Keep blank lines, sparse objects
+  and explicit-step rejection rules distinct. [Reproduction and limits](studies/jsonl-record-gaps/README.md).
+
 - Retain readable coordinates from rejected short/extra-width CSV rows as unknown
   observations in generic, Lightning and W&B history/chart readers. Their values
   and timestamps remain rejected; trajectory checks and chart lines stop at the

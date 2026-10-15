@@ -53,6 +53,11 @@ an offline download of unreadable coordinates.
 Malformed CSV rows with a readable step now retain those boundaries as well:
 [short or extra-width records](studies/csv-row-gaps/README.md) cannot join separate
 loss segments or hide a valid later setback.
+Counter-free JSONL now retains rejected records' ordinal positions too. Removing
+ten unreadable records between flat loss sections previously produced a
+"Diverged" diagnosis and renumbered later observations. The
+[JSONL correction and actual reports](studies/jsonl-record-gaps/README.md) preserve
+those boundaries; explicit steps and sparse metric cells keep their existing rules.
 These corrections are available from source; no PyPI release was made for them.
 
 ## Calibration study on 3,145 real runs

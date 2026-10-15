@@ -1,0 +1,529 @@
+{
+  "mode": "verify",
+  "results": [
+    {
+      "engine": "chromium",
+      "browserVersion": "153.0.8010.12",
+      "width": 1440,
+      "name": "captured-truncated",
+      "htmlBytes": 18444,
+      "htmlSha256": "d1c1b08923e101933f78457d99eaba6f8233ce6dc53dc3b1509b5a098ab4dab2",
+      "openedFromFileWhileOffline": true,
+      "plottedSegments": 3,
+      "titles": [],
+      "unreadablePositions": [
+        60,
+        61,
+        62,
+        63,
+        64,
+        65,
+        66,
+        67,
+        68,
+        69,
+        90,
+        91,
+        92,
+        93,
+        94,
+        95,
+        96,
+        97,
+        98,
+        99
+      ],
+      "download": {
+        "bytes": 238,
+        "sha256": "254f74b43a17ea2d49bca8f758742b828d8dd9aacdce89056d4a399ae3f25149",
+        "data": {
+          "schema_version": 1,
+          "source_path": "captured-truncated.jsonl",
+          "step_axis": "row_index",
+          "step_column": "(row index)",
+          "unreadable_steps": {
+            "train/loss": [
+              60,
+              61,
+              62,
+              63,
+              64,
+              65,
+              66,
+              67,
+              68,
+              69,
+              90,
+              91,
+              92,
+              93,
+              94,
+              95,
+              96,
+              97,
+              98,
+              99
+            ]
+          }
+        }
+      },
+      "errors": [],
+      "httpRequests": [],
+      "policyViolations": [],
+      "axeViolations": 0,
+      "horizontalOverflow": false,
+      "screenshot": "chromium-1440-captured-truncated.png",
+      "screenshotSha256": "91cd1313f5673be595292ceefe6524ae7220a91f858d05937a6c3efd0c66107d"
+    },
+    {
+      "engine": "chromium",
+      "browserVersion": "153.0.8010.12",
+      "width": 1440,
+      "name": "local-duplicate",
+      "htmlBytes": 21365,
+      "htmlSha256": "bd1b33149100d09e743df8897d359380f6435a1360d13969554850694e145c13",
+      "openedFromFileWhileOffline": true,
+      "plottedSegments": 2,
+      "titles": [
+        "Setback",
+        "Possible plateau"
+      ],
+      "unreadablePositions": [
+        30,
+        31,
+        32,
+        33,
+        34,
+        35,
+        36,
+        37,
+        38,
+        39
+      ],
+      "download": {
+        "bytes": 195,
+        "sha256": "48a40fc5c473292201f40f095cac36af0fdc771a11e0e5ae6d337985ee40c241",
+        "data": {
+          "schema_version": 1,
+          "source_path": "local-duplicate.jsonl",
+          "step_axis": "row_index",
+          "step_column": "(row index)",
+          "unreadable_steps": {
+            "train/loss": [
+              30,
+              31,
+              32,
+              33,
+              34,
+              35,
+              36,
+              37,
+              38,
+              39
+            ]
+          }
+        }
+      },
+      "errors": [],
+      "httpRequests": [],
+      "policyViolations": [],
+      "axeViolations": 0,
+      "horizontalOverflow": false,
+      "screenshot": "chromium-1440-local-duplicate.png",
+      "screenshotSha256": "c2d0dafbaf86da383db28f7ec8eab951a47177e14ac3cb4c44b273052f54f422"
+    },
+    {
+      "engine": "chromium",
+      "browserVersion": "153.0.8010.12",
+      "width": 375,
+      "name": "captured-truncated",
+      "htmlBytes": 18444,
+      "htmlSha256": "d1c1b08923e101933f78457d99eaba6f8233ce6dc53dc3b1509b5a098ab4dab2",
+      "openedFromFileWhileOffline": true,
+      "plottedSegments": 3,
+      "titles": [],
+      "unreadablePositions": [
+        60,
+        61,
+        62,
+        63,
+        64,
+        65,
+        66,
+        67,
+        68,
+        69,
+        90,
+        91,
+        92,
+        93,
+        94,
+        95,
+        96,
+        97,
+        98,
+        99
+      ],
+      "download": {
+        "bytes": 238,
+        "sha256": "254f74b43a17ea2d49bca8f758742b828d8dd9aacdce89056d4a399ae3f25149",
+        "data": {
+          "schema_version": 1,
+          "source_path": "captured-truncated.jsonl",
+          "step_axis": "row_index",
+          "step_column": "(row index)",
+          "unreadable_steps": {
+            "train/loss": [
+              60,
+              61,
+              62,
+              63,
+              64,
+              65,
+              66,
+              67,
+              68,
+              69,
+              90,
+              91,
+              92,
+              93,
+              94,
+              95,
+              96,
+              97,
+              98,
+              99
+            ]
+          }
+        }
+      },
+      "errors": [],
+      "httpRequests": [],
+      "policyViolations": [],
+      "axeViolations": 0,
+      "horizontalOverflow": false,
+      "screenshot": "chromium-375-captured-truncated.png",
+      "screenshotSha256": "8a883df9876562e2afb7335551f2bdbcd278e4fd97af982e32a12e613a595832"
+    },
+    {
+      "engine": "chromium",
+      "browserVersion": "153.0.8010.12",
+      "width": 375,
+      "name": "local-duplicate",
+      "htmlBytes": 21365,
+      "htmlSha256": "bd1b33149100d09e743df8897d359380f6435a1360d13969554850694e145c13",
+      "openedFromFileWhileOffline": true,
+      "plottedSegments": 2,
+      "titles": [
+        "Setback",
+        "Possible plateau"
+      ],
+      "unreadablePositions": [
+        30,
+        31,
+        32,
+        33,
+        34,
+        35,
+        36,
+        37,
+        38,
+        39
+      ],
+      "download": {
+        "bytes": 195,
+        "sha256": "48a40fc5c473292201f40f095cac36af0fdc771a11e0e5ae6d337985ee40c241",
+        "data": {
+          "schema_version": 1,
+          "source_path": "local-duplicate.jsonl",
+          "step_axis": "row_index",
+          "step_column": "(row index)",
+          "unreadable_steps": {
+            "train/loss": [
+              30,
+              31,
+              32,
+              33,
+              34,
+              35,
+              36,
+              37,
+              38,
+              39
+            ]
+          }
+        }
+      },
+      "errors": [],
+      "httpRequests": [],
+      "policyViolations": [],
+      "axeViolations": 0,
+      "horizontalOverflow": false,
+      "screenshot": "chromium-375-local-duplicate.png",
+      "screenshotSha256": "dd6bf56f7b80b3a681df19fb0cf98329b3f0a08bf7f0ef610c6ecb78a3776147"
+    },
+    {
+      "engine": "firefox",
+      "browserVersion": "155.0",
+      "width": 1440,
+      "name": "captured-truncated",
+      "htmlBytes": 18444,
+      "htmlSha256": "d1c1b08923e101933f78457d99eaba6f8233ce6dc53dc3b1509b5a098ab4dab2",
+      "openedFromFileWhileOffline": true,
+      "plottedSegments": 3,
+      "titles": [],
+      "unreadablePositions": [
+        60,
+        61,
+        62,
+        63,
+        64,
+        65,
+        66,
+        67,
+        68,
+        69,
+        90,
+        91,
+        92,
+        93,
+        94,
+        95,
+        96,
+        97,
+        98,
+        99
+      ],
+      "download": {
+        "bytes": 238,
+        "sha256": "254f74b43a17ea2d49bca8f758742b828d8dd9aacdce89056d4a399ae3f25149",
+        "data": {
+          "schema_version": 1,
+          "source_path": "captured-truncated.jsonl",
+          "step_axis": "row_index",
+          "step_column": "(row index)",
+          "unreadable_steps": {
+            "train/loss": [
+              60,
+              61,
+              62,
+              63,
+              64,
+              65,
+              66,
+              67,
+              68,
+              69,
+              90,
+              91,
+              92,
+              93,
+              94,
+              95,
+              96,
+              97,
+              98,
+              99
+            ]
+          }
+        }
+      },
+      "errors": [],
+      "httpRequests": [],
+      "policyViolations": [],
+      "axeViolations": 0,
+      "horizontalOverflow": false,
+      "screenshot": "firefox-1440-captured-truncated.png",
+      "screenshotSha256": "d9f4d3983497d8156fc133f752150ffd3277e68caf6645c200bb9ab41488523f"
+    },
+    {
+      "engine": "firefox",
+      "browserVersion": "155.0",
+      "width": 1440,
+      "name": "local-duplicate",
+      "htmlBytes": 21365,
+      "htmlSha256": "bd1b33149100d09e743df8897d359380f6435a1360d13969554850694e145c13",
+      "openedFromFileWhileOffline": true,
+      "plottedSegments": 2,
+      "titles": [
+        "Setback",
+        "Possible plateau"
+      ],
+      "unreadablePositions": [
+        30,
+        31,
+        32,
+        33,
+        34,
+        35,
+        36,
+        37,
+        38,
+        39
+      ],
+      "download": {
+        "bytes": 195,
+        "sha256": "48a40fc5c473292201f40f095cac36af0fdc771a11e0e5ae6d337985ee40c241",
+        "data": {
+          "schema_version": 1,
+          "source_path": "local-duplicate.jsonl",
+          "step_axis": "row_index",
+          "step_column": "(row index)",
+          "unreadable_steps": {
+            "train/loss": [
+              30,
+              31,
+              32,
+              33,
+              34,
+              35,
+              36,
+              37,
+              38,
+              39
+            ]
+          }
+        }
+      },
+      "errors": [],
+      "httpRequests": [],
+      "policyViolations": [],
+      "axeViolations": 0,
+      "horizontalOverflow": false,
+      "screenshot": "firefox-1440-local-duplicate.png",
+      "screenshotSha256": "45a07878faeb505c668d6c480a98af7b48e97981ea600cdc0960e547f006340f"
+    },
+    {
+      "engine": "firefox",
+      "browserVersion": "155.0",
+      "width": 375,
+      "name": "captured-truncated",
+      "htmlBytes": 18444,
+      "htmlSha256": "d1c1b08923e101933f78457d99eaba6f8233ce6dc53dc3b1509b5a098ab4dab2",
+      "openedFromFileWhileOffline": true,
+      "plottedSegments": 3,
+      "titles": [],
+      "unreadablePositions": [
+        60,
+        61,
+        62,
+        63,
+        64,
+        65,
+        66,
+        67,
+        68,
+        69,
+        90,
+        91,
+        92,
+        93,
+        94,
+        95,
+        96,
+        97,
+        98,
+        99
+      ],
+      "download": {
+        "bytes": 238,
+        "sha256": "254f74b43a17ea2d49bca8f758742b828d8dd9aacdce89056d4a399ae3f25149",
+        "data": {
+          "schema_version": 1,
+          "source_path": "captured-truncated.jsonl",
+          "step_axis": "row_index",
+          "step_column": "(row index)",
+          "unreadable_steps": {
+            "train/loss": [
+              60,
+              61,
+              62,
+              63,
+              64,
+              65,
+              66,
+              67,
+              68,
+              69,
+              90,
+              91,
+              92,
+              93,
+              94,
+              95,
+              96,
+              97,
+              98,
+              99
+            ]
+          }
+        }
+      },
+      "errors": [],
+      "httpRequests": [],
+      "policyViolations": [],
+      "axeViolations": 0,
+      "horizontalOverflow": false,
+      "screenshot": "firefox-375-captured-truncated.png",
+      "screenshotSha256": "d0a3ccdadfb4c2dc9a6ed4e7195d677cca47a7823cba205bed5410161010bbc1"
+    },
+    {
+      "engine": "firefox",
+      "browserVersion": "155.0",
+      "width": 375,
+      "name": "local-duplicate",
+      "htmlBytes": 21365,
+      "htmlSha256": "bd1b33149100d09e743df8897d359380f6435a1360d13969554850694e145c13",
+      "openedFromFileWhileOffline": true,
+      "plottedSegments": 2,
+      "titles": [
+        "Setback",
+        "Possible plateau"
+      ],
+      "unreadablePositions": [
+        30,
+        31,
+        32,
+        33,
+        34,
+        35,
+        36,
+        37,
+        38,
+        39
+      ],
+      "download": {
+        "bytes": 195,
+        "sha256": "48a40fc5c473292201f40f095cac36af0fdc771a11e0e5ae6d337985ee40c241",
+        "data": {
+          "schema_version": 1,
+          "source_path": "local-duplicate.jsonl",
+          "step_axis": "row_index",
+          "step_column": "(row index)",
+          "unreadable_steps": {
+            "train/loss": [
+              30,
+              31,
+              32,
+              33,
+              34,
+              35,
+              36,
+              37,
+              38,
+              39
+            ]
+          }
+        }
+      },
+      "errors": [],
+      "httpRequests": [],
+      "policyViolations": [],
+      "axeViolations": 0,
+      "horizontalOverflow": false,
+      "screenshot": "firefox-375-local-duplicate.png",
+      "screenshotSha256": "d4f53ef96f9a8aa40ed324dc2eb9ef67da7f076ffd4b485eb2489e9ca7fd02f7"
+    }
+  ]
+}

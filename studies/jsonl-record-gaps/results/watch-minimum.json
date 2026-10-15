@@ -1,0 +1,132 @@
+{
+  "synthetic": true,
+  "unbufferingOverrides": false,
+  "initialStdout": "watching growing.jsonl (Ctrl-C to stop)\ninput    train/loss: 10 unreadable values at recorded steps; trajectory checks stop at these gaps. These are not observed NaN/Inf values. 10 rows or events could not be read. The horizontal axis uses (row index); these are not training-step counts. Input is incomplete; findings describe only the readable data.\n[INFO   ] row indices 0-49          plateau      Possible plateau: The median-smoothed train/loss level stayed between 1 and 1 from step 0 to 49 (50 points; raw readings range 1-1). Assessed within the finite segment at steps 0-49 (50 observations); no loss trajectory is inferred across non-finite or unreadable values.\n[INFO   ] row indices 60-109        plateau      Possible plateau: The median-smoothed train/loss level stayed between 3 and 3 from step 60 to 109 (50 points; raw readings range 3-3). Assessed within the finite segment at steps 60-109 (50 observations); no loss trajectory is inferred across non-finite or unreadable values.\n",
+  "rewrite": {
+    "arguments": [
+      "watch",
+      "growing.jsonl",
+      "--interval",
+      "0.05"
+    ],
+    "alive_before_interrupt": true,
+    "stdout_before_interrupt": "watching growing.jsonl (Ctrl-C to stop)\ninput    train/loss: 10 unreadable values at recorded steps; trajectory checks stop at these gaps. These are not observed NaN/Inf values. 10 rows or events could not be read. The horizontal axis uses (row index); these are not training-step counts. Input is incomplete; findings describe only the readable data.\n[INFO   ] row indices 0-49          plateau      Possible plateau: The median-smoothed train/loss level stayed between 1 and 1 from step 0 to 49 (50 points; raw readings range 1-1). Assessed within the finite segment at steps 0-49 (50 observations); no loss trajectory is inferred across non-finite or unreadable values.\n[INFO   ] row indices 60-109        plateau      Possible plateau: The median-smoothed train/loss level stayed between 3 and 3 from step 60 to 109 (50 points; raw readings range 3-3). Assessed within the finite segment at steps 60-109 (50 observations); no loss trajectory is inferred across non-finite or unreadable values.\ninput    The horizontal axis uses (row index); these are not training-step counts.\nhistory  Previously read data changed; findings are evaluated again.\n[ERROR  ] row indices 0-109         divergence   Diverged (rose from the start): train/loss started around 1 and ended at 3, 3.0x higher, without ever settling below its first level.\n[INFO   ] row indices 0-49          plateau      Possible plateau: The median-smoothed train/loss level stayed between 1 and 1 from step 0 to 49 (50 points; raw readings range 1-1).\n[INFO   ] row indices 50-109        plateau      Possible plateau: The median-smoothed train/loss level stayed between 3 and 3 from step 50 to 109 (60 points; raw readings range 3-3).\n",
+    "stdout": "watching growing.jsonl (Ctrl-C to stop)\ninput    train/loss: 10 unreadable values at recorded steps; trajectory checks stop at these gaps. These are not observed NaN/Inf values. 10 rows or events could not be read. The horizontal axis uses (row index); these are not training-step counts. Input is incomplete; findings describe only the readable data.\n[INFO   ] row indices 0-49          plateau      Possible plateau: The median-smoothed train/loss level stayed between 1 and 1 from step 0 to 49 (50 points; raw readings range 1-1). Assessed within the finite segment at steps 0-49 (50 observations); no loss trajectory is inferred across non-finite or unreadable values.\n[INFO   ] row indices 60-109        plateau      Possible plateau: The median-smoothed train/loss level stayed between 3 and 3 from step 60 to 109 (50 points; raw readings range 3-3). Assessed within the finite segment at steps 60-109 (50 observations); no loss trajectory is inferred across non-finite or unreadable values.\ninput    The horizontal axis uses (row index); these are not training-step counts.\nhistory  Previously read data changed; findings are evaluated again.\n[ERROR  ] row indices 0-109         divergence   Diverged (rose from the start): train/loss started around 1 and ended at 3, 3.0x higher, without ever settling below its first level.\n[INFO   ] row indices 0-49          plateau      Possible plateau: The median-smoothed train/loss level stayed between 1 and 1 from step 0 to 49 (50 points; raw readings range 1-1).\n[INFO   ] row indices 50-109        plateau      Possible plateau: The median-smoothed train/loss level stayed between 3 and 3 from step 50 to 109 (60 points; raw readings range 3-3).\n\nstopped.\n",
+    "stderr": "",
+    "exit": 0,
+    "milestones": [
+      {
+        "phrase": "unreadable",
+        "count": 1,
+        "alive": true,
+        "seconds_since_start": 0.099704
+      },
+      {
+        "phrase": "Possible plateau",
+        "count": 1,
+        "alive": true,
+        "seconds_since_start": 0.102928
+      },
+      {
+        "phrase": "Previously read data changed",
+        "count": 1,
+        "alive": true,
+        "seconds_since_start": 0.423124
+      },
+      {
+        "phrase": "Diverged (rose from the start)",
+        "count": 1,
+        "alive": true,
+        "seconds_since_start": 0.426469
+      }
+    ]
+  },
+  "append": {
+    "arguments": [
+      "watch",
+      "tail.jsonl",
+      "--interval",
+      "0.05"
+    ],
+    "alive_before_interrupt": true,
+    "stdout_before_interrupt": "watching tail.jsonl (Ctrl-C to stop)\ninput    train/loss: 1 unreadable values at recorded steps; trajectory checks stop at these gaps. These are not observed NaN/Inf values. 1 rows or events could not be read. The horizontal axis uses (row index); these are not training-step counts. Input is incomplete; findings describe only the readable data.\ninput    The horizontal axis uses (row index); these are not training-step counts.\nhistory  Previously read data changed; findings are evaluated again.\n",
+    "stdout": "watching tail.jsonl (Ctrl-C to stop)\ninput    train/loss: 1 unreadable values at recorded steps; trajectory checks stop at these gaps. These are not observed NaN/Inf values. 1 rows or events could not be read. The horizontal axis uses (row index); these are not training-step counts. Input is incomplete; findings describe only the readable data.\ninput    The horizontal axis uses (row index); these are not training-step counts.\nhistory  Previously read data changed; findings are evaluated again.\n\nstopped.\n",
+    "stderr": "",
+    "exit": 0,
+    "milestones": [
+      {
+        "phrase": "unreadable",
+        "count": 1,
+        "alive": true,
+        "seconds_since_start": 0.112043
+      },
+      {
+        "phrase": "Previously read data changed",
+        "count": 1,
+        "alive": true,
+        "seconds_since_start": 0.417451
+      }
+    ]
+  },
+  "completedTailReport": {
+    "schema_version": 1,
+    "run": {
+      "source_format": "jsonl",
+      "source_path": "tail.jsonl",
+      "skipped_rows": 0,
+      "skipped_values": 0,
+      "input_complete": true,
+      "input_notes": [
+        "The horizontal axis uses (row index); these are not training-step counts."
+      ],
+      "unread_event_bytes": 0,
+      "event_directories": [],
+      "overwritten_points": 0,
+      "restart_markers": 0,
+      "step_column": "(row index)",
+      "step_axis": "row_index",
+      "step_selection": "automatic",
+      "metric_sources": {
+        "train/loss": "loss"
+      },
+      "ambiguous_metric_sources": [],
+      "repeated_steps": [],
+      "metrics": {
+        "train/loss": {
+          "count": 2,
+          "analysis_count": 2,
+          "distinct_steps": 2,
+          "analysis_excluded": false,
+          "first_step": 0,
+          "last_step": 1
+        }
+      }
+    },
+    "summary": {
+      "input_complete": true,
+      "total_findings": 0,
+      "by_severity": {
+        "error": 0,
+        "warning": 0,
+        "info": 0
+      }
+    },
+    "timing": {
+      "status": "unavailable",
+      "axis": "row_index",
+      "source": null,
+      "source_metric": null,
+      "unit": null,
+      "observations": 0,
+      "invalid_observations": 0,
+      "baseline": null,
+      "recent": null,
+      "ratio": null,
+      "reason": "Wall-clock timing needs an explicit training-step column; this source uses row indices. Logging intervals cannot establish seconds per training step. Log step counts, step_time, or throughput, or select a training counter with --step-key.",
+      "notes": [],
+      "min_window": 5,
+      "baseline_fraction": 0.2
+    },
+    "findings": []
+  }
+}

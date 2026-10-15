@@ -1,0 +1,55 @@
+{
+  "archiveCommit": "9eece1f56f198dd18d0433d1e2c3271e2fec2f89",
+  "checks": [
+    {
+      "command": "uv sync --locked --all-extras --dev",
+      "exit": 0,
+      "logSha256": "9258fae5459846099fe0986b0d6a0b2671f755aef71bd80389b3d8c3c38e1313",
+      "logBytes": 1060,
+      "verifiedOutput": "Installed"
+    },
+    {
+      "command": "uv run --locked ruff check src tests examples scripts",
+      "exit": 0,
+      "logSha256": "82b3e6a6c090a57601d22943bd23fca9218d1031dbe5a7b754092f9a156b4f18",
+      "logBytes": 19,
+      "verifiedOutput": "All checks passed!"
+    },
+    {
+      "command": "uv run --locked mypy src",
+      "exit": 0,
+      "logSha256": "44323f12010ebbb5daa4cefef4cc4308006fe3b26ad3ced614a993eb79a8b535",
+      "logBytes": 44,
+      "verifiedOutput": "Success: no issues found in 28 source files"
+    },
+    {
+      "command": "uv run --locked pytest -q",
+      "exit": 0,
+      "logSha256": "87e351a7e7d7795a76f54df167421afb4e33aa3c6a6d303975bc6a37b1a2f9eb",
+      "logBytes": 901,
+      "verifiedOutput": "749 passed"
+    },
+    {
+      "command": "uv build",
+      "exit": 0,
+      "logSha256": "10263611add99e9f512c754475d548f780ef1285d6691bb176079fd7c7bd930f",
+      "logBytes": 185,
+      "verifiedOutput": "Successfully built dist/trainspotter-0.2.6-py3-none-any.whl"
+    },
+    {
+      "command": "npm ci",
+      "exit": 0,
+      "logSha256": "374130b13e23ac4d77ec5336d3f486af5893d4d653165191fa6b71319776f1e0",
+      "logBytes": 73,
+      "verifiedOutput": "added"
+    },
+    {
+      "command": "npm run test:browser",
+      "exit": 0,
+      "reportWorkflows": 216,
+      "logBytes": 171,
+      "logSha256": "f9f93c8518993a4450d7e4eb716a9f74b6fa449c013c89d5c6f6bf31dc36898a",
+      "verifiedOutput": "216 report workflows passed: Chromium + Firefox, desktop + 320px mobile, keyboard, axe, CSP, no network."
+    }
+  ]
+}

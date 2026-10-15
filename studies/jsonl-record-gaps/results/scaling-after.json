@@ -1,0 +1,45 @@
+{
+  "python": "3.14.7",
+  "platform": "Linux-6.18.54.1-microsoft-standard-WSL2-x86_64-with-glibc2.39",
+  "logicalCPUs": 14,
+  "memoryKiB": 49332548,
+  "scope": "load_run only; three samples per size; shared host, no CPU affinity",
+  "records": [
+    {
+      "rows": 1000,
+      "bytes": 26000,
+      "rejectedRows": 100,
+      "unreadablePositions": 100,
+      "seconds": [
+        0.0093680489808321,
+        0.009139053989201784,
+        0.0077877290023025125
+      ],
+      "medianSeconds": 0.009139053989201784
+    },
+    {
+      "rows": 10000,
+      "bytes": 260000,
+      "rejectedRows": 1000,
+      "unreadablePositions": 1000,
+      "seconds": [
+        0.08127054700162262,
+        0.09672623901860788,
+        0.07913266401737928
+      ],
+      "medianSeconds": 0.08127054700162262
+    },
+    {
+      "rows": 100000,
+      "bytes": 2600000,
+      "rejectedRows": 10000,
+      "unreadablePositions": 10000,
+      "seconds": [
+        0.9189676400274038,
+        0.8962911019916646,
+        0.930201183015015
+      ],
+      "medianSeconds": 0.9189676400274038
+    }
+  ]
+}

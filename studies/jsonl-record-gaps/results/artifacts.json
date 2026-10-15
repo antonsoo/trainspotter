@@ -1,0 +1,64 @@
+{
+  "runtimeFileCount": 29,
+  "runtimeFiles": {
+    "__init__.py": "f902908eabb455be7238326cae68b500f401e4962b326bc7696dbc748be6437b",
+    "cli.py": "318ca66e3fa9529d3fa055c87a2c086f345a6753f8d5d23855ed4871cec79892",
+    "detectors/__init__.py": "38482b71273ec74fdf748c447e35c1132451b5f9a74a581a8e72067d91624e09",
+    "detectors/_rolling_slope.py": "bb5d8c31ad43864cca26a9633a7d616a80ccc26fc1c5cd199152c8a84c59e892",
+    "detectors/base.py": "a1b8ff3e7163f7b6aaa476b42565a8fccc46bfefd4e07270fbe3c69691c11bd8",
+    "detectors/divergence.py": "70721e99da4edbf8a5a67308d4222baeb1d951d8f076c745c698fe680fc557ac",
+    "detectors/eval_noise.py": "1fa2258d2d3247fa0486fda30867e1b769bf5d06ffd864402c91fd1610b350ca",
+    "detectors/grad_norm.py": "1a6e37d4b37324a089721f759999f4f8fd53d0d8bae06dde3a9cf016f6919089",
+    "detectors/loss_floor.py": "e50fed8be010eaa3fcd813f1d73b49871f3627d1035b0547d8bccdbd99bc3131",
+    "detectors/lr_schedule.py": "1ad15a455347020f3e89628032158bd1598669f3109a8cbf0e79f9e54bc22ed7",
+    "detectors/overfitting.py": "b581df9ad6223916f03aa4341ba3168518d3dd7820559a5102e14b7e175f88db",
+    "detectors/plateau.py": "41f3aa5f785316de91cb3d6075ff57e18e3c231a25bbc7d4f39a02b94b39c1fa",
+    "detectors/setbacks.py": "acabd69fdb7da9bc2bfd29004c43b8174a631fc7c35dc63a2bd3cd28ad2b65e0",
+    "detectors/spikes.py": "53a976289535bb047f135f88bfd04745d2d22992eb90ee723e89f9a5c70a626b",
+    "detectors/throughput.py": "b6a506b973629696564601546992b051700bdece9bbc67b2bd05e402d4a68a54",
+    "model.py": "29fe7f9c1d5f4c5469420581b8144b942459037f6ee948193ae0975368a2283f",
+    "py.typed": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "readers/__init__.py": "8d263cd9a1c0d7ec291e7df2cd7f81c544e4f9c1c3dfab3d91c29eb225827772",
+    "readers/common.py": "a745dc356474fc5251bd5d157796a1465383e982a2ab8578ab4aad5fbe2c0ea8",
+    "readers/hf.py": "96044ace7ad474a21d937c4cd8e2a587991e2a658596cb06c31208a3570b3cef",
+    "readers/lightning.py": "36cf68c7dc9e90f99de4e3007647c9308323154cb6aa96b0b09d9b40af0929f4",
+    "readers/tabular.py": "64be9d3d6e4b1b26318d7bf5814132f26f417a34373df6bab853be2cd0ba7901",
+    "readers/tensorboard.py": "5b94496234ab00f6943965b556e1d9da1425d1cf6d462025b5f368d7e4e0153e",
+    "readers/wandb.py": "b228e5d286b628762b00cad529fec0057682a0fa94d3cc0be6ab72f587091777",
+    "report/__init__.py": "317d8be1f917cf65f0312a083c62f7bf268d37b5c9d7232c3a0bf37ae18b9a0a",
+    "report/html_report.py": "52443a7989585ffaa2aa627227f68cfe5c437f161ba0cbe9a1bc8adc7bce2e10",
+    "report/json_report.py": "76d6677dc7d74866296d6c75b6153f916d7a2d890f11b2ae7b4d974e453a0128",
+    "report/terminal.py": "6beacecc76a8134eacf1929792bf5747b30d06426bfcd3c43855e854903d16ca",
+    "timing.py": "16f3de6a150563d62dee5f7b3b2edcaacfa8d21b3a4407bf902c84e779e52c3b"
+  },
+  "artifacts": [
+    {
+      "filename": "trainspotter-0.2.6-py3-none-any.whl",
+      "bytes": 120598,
+      "sha256": "da328b68a7f5c13fbae5592e73d4c641ea2f85235fe8e6d8a27fcad154452987"
+    },
+    {
+      "filename": "trainspotter-0.2.6.tar.gz",
+      "bytes": 166942,
+      "sha256": "ef8a85ea854f8696cc970809cbadd3d513dd1657c729b14a75953403aebe16e9"
+    }
+  ],
+  "installations": [
+    {
+      "python": "3.10.21",
+      "numpy": "1.24.0",
+      "tensorboardInstalled": false,
+      "runtimeFilesMatched": 29,
+      "consoleExit": 2,
+      "consoleReportSha256": "d6e9e5d4a74cf47ac17367cf46109b99dde966d448d5ecb8b26272c448859e0b"
+    },
+    {
+      "python": "3.14.7",
+      "numpy": "2.5.4",
+      "tensorboardInstalled": false,
+      "runtimeFilesMatched": 29,
+      "consoleExit": 2,
+      "consoleReportSha256": "d6e9e5d4a74cf47ac17367cf46109b99dde966d448d5ecb8b26272c448859e0b"
+    }
+  ]
+}
