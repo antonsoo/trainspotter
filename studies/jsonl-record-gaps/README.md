@@ -144,3 +144,7 @@ the checkout. Browser dependencies come from `npm ci`, using installed browsers.
 
 These are source and local-artifact checks. No PyPI release, tag or manual
 hosted-demo deployment was performed.
+
+[Public source receipt](results/public-source.json): all 33 changed files at
+`f938cce0859d8753008ed1068d6f7465c55892eb` matched the clean checkout and pinned
+GitHub raw-file bytes; remote main matched that revision at verification.
