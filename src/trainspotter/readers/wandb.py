@@ -41,7 +41,15 @@ from pathlib import Path
 
 from trainspotter.model import Run
 
-from .common import metric_names, metric_value, select_run, try_float, try_step, validate_columns
+from .common import (
+    metric_names,
+    metric_value,
+    select_run,
+    try_float,
+    try_step,
+    unreadable_row,
+    validate_columns,
+)
 from .tabular import _decimal_point, _decimal_points, _delimiter, _find_step_key
 
 _STEP_COL = "_step"
@@ -178,6 +186,11 @@ def read_wandb_chart_csv(
     for index, row in enumerate(rows):
         if len(row) != len(header):
             skipped += 1
+            step: int | None = index
+            if integer_axis:
+                step = try_step(row[0]) if row else None
+            if step is not None:
+                unreadable_row(run, names.values(), step)
             continue
         step = index
         wall_time = None
@@ -256,8 +269,12 @@ def read_wandb_csv(
         for raw_row in reader:
             row = dict(raw_row) if delimiter == "," else _decimal_points(dict(raw_row))
             step = try_step(row.get(step_key))
-            if step is None or None in row or None in row.values():
+            if step is None:
                 skipped += 1
+                continue
+            if None in row or None in row.values():
+                skipped += 1
+                unreadable_row(run, names.values(), step)
                 continue
             wall_time = try_float(row.get(runtime_key))
             for key, raw_value in row.items():

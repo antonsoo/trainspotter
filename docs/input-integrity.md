@@ -15,6 +15,7 @@ detector set. A report with no findings is not proof that training is healthy.
 | Sparse blank/null metric cell | No observation at that step |
 | NaN/Inf metric reading | Retain for diagnostics, including a run with just one loss reading |
 | Nonnumeric nonblank cell in a recognized or otherwise numeric metric | Count as invalid; retain its known coordinate as an unreadable boundary |
+| CSV row with extra/missing fields and a readable coordinate | Count as a rejected row; retain unknown values for its numeric metrics at that position |
 | Text-only metadata column | Ignore as a metric |
 | Two names normalize to the same spelling | Keep distinct series; literal names have priority |
 | Duplicate CSV header or competing step columns | Reject the source |
@@ -25,7 +26,16 @@ close to the representable integer boundary cannot first round into a valid step
 Metric values then convert to floats. An integer metric too large for a float
 becomes nonfinite evidence, consistent with an overflowing scientific-notation value.
 
-CSV rows with extra or missing fields are skipped; explicit empty cells are allowed.
+CSV rows with extra or missing fields are rejected and counted in `skipped_rows`.
+When the selected step cell still parses, or the source uses disclosed row indices,
+that position remains an unreadable boundary for each recognized or otherwise numeric
+metric. None of the malformed row's measurements or timestamps are trusted, even if
+they look numeric. These are row rejections, not additional `skipped_values` cells.
+An invalid explicit step still locates nothing; no replacement coordinate is invented.
+This applies to generic, Lightning, W&B history and W&B chart CSVs.
+[Reproduction, native-capture controls and limits](../studies/csv-row-gaps/README.md).
+
+Explicit empty cells in complete-width rows are allowed and remain ordinary sparse cells.
 An unterminated quoted field is an input error. Comma, semicolon, and tab delimiters,
 UTF-8 BOMs, and decimal commas with non-comma delimiters are supported. All names in
 terminal diagnostics are shown with control characters escaped; HTML names are escaped.

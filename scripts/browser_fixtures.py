@@ -41,6 +41,12 @@ unreadable = destination / "synthetic-unreadable.csv"
 unreadable.write_bytes((root / "studies/finite-segments/captured/observed.csv").read_bytes()
                        .replace(b",nan", b",LOGGER_ERROR"))
 sources.append(unreadable)
+row_gap = destination / "synthetic-csv-row-gap.csv"
+row_gap.write_text("\n".join(
+    line + ",extra" if line.endswith(",nan") else line
+    for line in (root / "studies/finite-segments/captured/observed.csv").read_text().splitlines()
+) + "\n")
+sources.append(row_gap)
 partial = destination / "synthetic-partial.jsonl"
 partial.write_text('{"step":100,"loss":2}\n{broken\n{"step":200,"loss":1}\n')
 sources.append(partial)

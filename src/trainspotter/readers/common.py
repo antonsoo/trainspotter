@@ -245,6 +245,17 @@ def metric_value(
     return value
 
 
+def unreadable_row(run: Run, names: Iterable[str], step: int) -> None:
+    """Keep a rejected row's known position without trusting its cells or clock.
+
+    A malformed record is not an ordinary sparse row. Every numeric metric may
+    have lost an observation there, so trajectory checks must stop at that step.
+    Custom text columns stay pending and are discarded by Run.finalize().
+    """
+    for name in names:
+        run.add_unreadable(name, step, known_metric=_claim(name) is not None)
+
+
 # Beyond 2**53 a float no longer holds every integer, so a larger "step" is not a step count.
 _MAX_STEP = 2**53 - 1
 _NUMBER = re.compile(r"[+-]?(?:[0-9]+(?:\.[0-9]*)?|\.[0-9]+)(?:[eE][+-]?[0-9]+)?")

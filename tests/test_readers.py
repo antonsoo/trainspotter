@@ -218,7 +218,9 @@ def test_wandb_row_with_more_cells_than_the_header_does_not_crash(tmp_path: Path
     path = tmp_path / "wandb.csv"
     path.write_text("_step,_runtime,train/loss\n0,1,2.0\n1,2,1.5,stray,cells\n2,3,1.0\n")
     run = load_run(path)
-    assert run.get("train/loss").values() == [2.0, 1.0]  # type: ignore[union-attr]
+    assert [(p.step, p.value) for p in run.get("train/loss").points] == [  # type: ignore[union-attr]
+        (0, 2.0), (1, None), (2, 1.0),
+    ]
     assert run.skipped_rows() == 1
 
 

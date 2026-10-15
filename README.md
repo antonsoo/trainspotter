@@ -50,6 +50,9 @@ Known-step nonnumeric cells now preserve those boundaries too: dropping
 later event. The [unreadable-value repair](studies/unreadable-values/README.md)
 keeps the gaps visible in CLI/JSON/HTML, preserves actual NaN/Inf alerts, and adds
 an offline download of unreadable coordinates.
+Malformed CSV rows with a readable step now retain those boundaries as well:
+[short or extra-width records](studies/csv-row-gaps/README.md) cannot join separate
+loss segments or hide a valid later setback.
 These corrections are available from source; no PyPI release was made for them.
 
 ## Calibration study on 3,145 real runs

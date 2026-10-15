@@ -6,6 +6,12 @@ and this project uses [Semantic Versioning](https://semver.org/).
 
 ## Unreleased
 
+- Retain readable coordinates from rejected short/extra-width CSV rows as unknown
+  observations in generic, Lightning and W&B history/chart readers. Their values
+  and timestamps remain rejected; trajectory checks and chart lines stop at the
+  gaps. Keep row rejection counts, sparse cells, actual NaN/Inf alerts and invalid
+  explicit-step handling distinct. [CLI reproduction and controls](studies/csv-row-gaps/README.md).
+
 - Replay same-second native TensorBoard writer files in their numeric counter
   order. Lexical `.10`/`.11` before `.9` could erase the latest session's NaN or
   resurrect an obsolete NaN after a restart. Validate bounded, CRC-checked writer

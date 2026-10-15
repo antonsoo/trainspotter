@@ -18,7 +18,15 @@ from pathlib import Path
 
 from trainspotter.model import Run
 
-from .common import metric_names, metric_value, try_float, try_step, unique_object, validate_columns
+from .common import (
+    metric_names,
+    metric_value,
+    try_float,
+    try_step,
+    unique_object,
+    unreadable_row,
+    validate_columns,
+)
 
 _STEP_KEYS = ("step", "global_step", "iteration", "iter")
 
@@ -121,10 +129,15 @@ def read_csv(path: str | Path, *, step_key: str | None = None) -> Run:
         run.meta["columns"] = fieldnames
         names = _metric_names(run, fieldnames, step_key)
         rows = (dict(row) if delimiter == "," else _decimal_points(dict(row)) for row in reader)
-        skipped = sum(
-            None in row or None in row.values() or not _ingest_row(run, row, step_key, i, names)
-            for i, row in enumerate(rows)
-        )
+        skipped = 0
+        for index, row in enumerate(rows):
+            if None in row or None in row.values():
+                skipped += 1
+                step = index if step_key is None else try_step(row.get(step_key))
+                if step is not None:
+                    unreadable_row(run, names.values(), step)
+            elif not _ingest_row(run, row, step_key, index, names):
+                skipped += 1
     run.meta["skipped_rows"] = skipped
     return run
 
