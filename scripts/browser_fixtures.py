@@ -47,6 +47,14 @@ row_gap.write_text("\n".join(
     for line in (root / "studies/finite-segments/captured/observed.csv").read_text().splitlines()
 ) + "\n")
 sources.append(row_gap)
+jsonl_gap = destination / "synthetic-jsonl-record-gap.jsonl"
+jsonl_gap.write_text("\n".join(
+    '{"loss":' if row["loss"] == "nan" else json.dumps({"loss": float(row["loss"])})
+    for row in csv.DictReader(
+        (root / "studies/finite-segments/captured/observed.csv").read_text().splitlines()
+    )
+) + "\n")
+sources.append(jsonl_gap)
 partial = destination / "synthetic-partial.jsonl"
 partial.write_text('{"step":100,"loss":2}\n{broken\n{"step":200,"loss":1}\n')
 sources.append(partial)

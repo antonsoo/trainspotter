@@ -148,7 +148,9 @@ def read_jsonl(path: str | Path, *, step_key: str | None = None) -> Run:
     if step_key is not None:
         run.meta["step_selection"] = "explicit"
     skipped = 0
-    rows: list[dict[str, object]] = []
+    # Keep rejected nonblank records in place. Filtering before enumeration
+    # would compact an ordinal axis and connect trajectories across lost data.
+    rows: list[dict[str, object] | None] = []
     with p.open(encoding="utf-8-sig") as fh:
         for line in fh:
             line = line.strip()
@@ -158,17 +160,24 @@ def read_jsonl(path: str | Path, *, step_key: str | None = None) -> Run:
                 obj = json.loads(line, object_pairs_hook=unique_object, parse_float=Decimal)
             except (ValueError, RecursionError):
                 skipped += 1
+                rows.append(None)
                 continue
             if not isinstance(obj, dict):
                 skipped += 1
+                rows.append(None)
                 continue
             rows.append(obj)
     # In order of first appearance, so that which of two rival names wins does not depend on
     # how they sort.
-    all_keys = list(dict.fromkeys(k for row in rows for k in row))
+    all_keys = list(dict.fromkeys(k for row in rows if row is not None for k in row))
     step_key = _find_step_key(all_keys, step_key)
     run.meta["step_column"] = step_key or "(row index)"
     names = _metric_names(run, all_keys, step_key)
-    skipped += sum(not _ingest_row(run, row, step_key, i, names) for i, row in enumerate(rows))
+    for index, row in enumerate(rows):
+        if row is None:
+            if step_key is None:
+                unreadable_row(run, names.values(), index)
+        elif not _ingest_row(run, row, step_key, index, names):
+            skipped += 1
     run.meta["skipped_lines"] = skipped
     return run

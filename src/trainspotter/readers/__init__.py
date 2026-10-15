@@ -1,7 +1,8 @@
 """Readers turn a training log, in whatever format it was written, into a
 :class:`trainspotter.model.Run`. Every reader is honest about what it can
-and can't parse: malformed rows are counted. CSV rows with readable coordinates
-also retain unknown observations, so trajectory checks cannot bridge lost data.
+and can't parse: malformed rows are counted. Rejected CSV rows with readable
+coordinates and counter-free JSONL records also retain unknown observations, so
+trajectory checks cannot bridge those known positions of lost data.
 """
 
 from __future__ import annotations

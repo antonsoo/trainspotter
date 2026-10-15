@@ -112,7 +112,7 @@ try {
                 assert.deepEqual(downloaded.repeated_steps, original.run.repeated_steps);
                 assert.equal(downloaded.repeated_steps.length, report.repeatedGroups);
               }
-              if (['synthetic-unreadable.html', 'synthetic-csv-row-gap.html'].includes(report.file)) {
+              if (['synthetic-unreadable.html', 'synthetic-csv-row-gap.html', 'synthetic-jsonl-record-gap.html'].includes(report.file)) {
                 const invalid = page.locator('.unreadable-evidence');
                 await invalid.locator('summary').focus();
                 await page.keyboard.press('Enter');
@@ -120,7 +120,7 @@ try {
                 assert.equal(await page.locator('svg.chart path[stroke-width="1.75"]').count(), 3);
                 assert.ok(await page.locator('.marker-unreadable').count() > 0);
                 const original = JSON.parse(await readFile(join(scratch, report.file.replace(/\.html$/, '.json')), 'utf8'));
-                const badRows = report.file === 'synthetic-csv-row-gap.html';
+                const badRows = report.file !== 'synthetic-unreadable.html';
                 assert.equal(original.run.skipped_values, badRows ? 0 : 20);
                 assert.equal(original.run.skipped_rows, badRows ? 20 : 0);
                 assert.equal(original.findings.some(f => ['spikes', 'setbacks', 'divergence'].includes(f.detector)), false);
@@ -130,7 +130,7 @@ try {
                 await page.keyboard.press('Enter');
                 const downloaded = JSON.parse(await readFile(await (await pending).path(), 'utf8'));
                 assert.deepEqual(downloaded.unreadable_steps, { 'train/loss': original.run.metrics['train/loss'].unreadable_steps });
-                assert.equal(downloaded.source_path, report.file.replace(/\.html$/, '.csv'));
+                assert.equal(downloaded.source_path, report.file.replace(/\.html$/, report.file === 'synthetic-jsonl-record-gap.html' ? '.jsonl' : '.csv'));
               }
               if (layout === 'mobile') {
                 for (const table of await page.locator('.table-scroll').all()) {
