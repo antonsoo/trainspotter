@@ -1,0 +1,13 @@
+{
+  "command": "node tests/browser.mjs",
+  "cleanArchiveRevision": "af85879",
+  "node": "26.7.0",
+  "exitCode": 1,
+  "completed": false,
+  "failure": "locator.evaluate: Target page, context or browser has been closed",
+  "location": "checkKeyboardScroll, tests/browser.mjs:23; invoked at line 137",
+  "nativeBrowserDiagnostic": "NS_ERROR_FAILURE: nsIWebProgress.removeProgressListener, chrome://juggler/content/Helper.js:82",
+  "classification": "Unresolved browser process/runner failure; no full-suite pass claimed",
+  "earlierWorkingTreeAttemptExitCode": 143,
+  "focusedChecks": "browser-after.json records eight completed offline CLI-report workflows in Chromium and Firefox"
+}

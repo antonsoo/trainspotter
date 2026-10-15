@@ -83,6 +83,13 @@ findings and can still occur within individually supported flat segments.
   page errors, CSP violations, horizontal page overflow or axe violations.
   Screenshots were inspected; wide charts and evidence tables scroll internally.
 
+The broader `node tests/browser.mjs` run from the clean archive did **not**
+complete: Firefox closed during `checkKeyboardScroll`, after repeated native
+Juggler `NS_ERROR_FAILURE` messages. An earlier working-tree attempt terminated
+with status 143. Neither is counted as a passing full browser suite. The focused
+eight-report-workflow check above completed in both engines; broader browser
+runner stability remains unresolved. [Run limitation](results/browser-full-limitation.json).
+
 ![A supported later setback and an offline evidence download on a narrow viewport](screenshots/after-mobile.png)
 
 [`scaling.py`](scaling.py) measures loading 1,000, 10,000 and 100,000 rows with
