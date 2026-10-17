@@ -1,0 +1,339 @@
+{
+  "base": "https://antonsoo.github.io/trainspotter/",
+  "checkedAt": "2026-10-17T08:47:15.478Z",
+  "scope": "Two retained native reports in four browser contexts. Exact clean canonical HTML, real offline downloads, and independently reopened SVG files. No physical-print or detector-accuracy claim.",
+  "views": [
+    {
+      "engine": "chromium",
+      "width": 1440,
+      "rows": [
+        {
+          "report": "divergence.html",
+          "reportSha256": "e5c9530d093c36bfae1ab253413428e5b4b83d7861618673472f9c8d5e8d417e",
+          "availableDownloads": 5,
+          "offlineBeforeDownload": true,
+          "savedBytes": 10196,
+          "savedSha256": "3629ff436602809702085c5555ab27f617f536f4b076122cb917fb76575f3d61",
+          "byteEqualCleanBuild": true,
+          "metadata": {
+            "schemaVersion": 1,
+            "format": "trainspotter-chart",
+            "sourcePath": "examples/divergence.trainer_state.json",
+            "sourceFormat": "hf",
+            "selectedRun": null,
+            "axisKind": "step",
+            "axisLabel": "steps",
+            "axisSource": null,
+            "requestedMetrics": [
+              "train/loss",
+              "eval/loss"
+            ],
+            "plottedMetrics": [
+              "train/loss",
+              "eval/loss"
+            ],
+            "excludedMetrics": [],
+            "metricSources": {
+              "train/loss": "loss",
+              "eval/loss": "eval_loss"
+            },
+            "inputComplete": true,
+            "inputNotes": [],
+            "scope": "The report's displayed trajectory and heuristic finding bands. Display thinning and off-scale caps remain; this is not the original log or an independent diagnosis. Inspect the report and source log for evidence."
+          },
+          "axisFill": "rgb(110, 124, 135)",
+          "fitsViewport": true
+        },
+        {
+          "report": "wandb-logging-only.html",
+          "reportSha256": "7e47ae656514edd93e25b10257a57101da2e05bea5c871aa251db7568269cb01",
+          "availableDownloads": 2,
+          "offlineBeforeDownload": true,
+          "savedBytes": 5573,
+          "savedSha256": "ee1d9b90cea2ed1a4f382b67f00942cee393754d7a6b1e06dff5b5c802760581",
+          "byteEqualCleanBuild": true,
+          "metadata": {
+            "schemaVersion": 1,
+            "format": "trainspotter-chart",
+            "sourcePath": "examples/wandb-axes/stable-logging.csv",
+            "sourceFormat": "wandb",
+            "selectedRun": null,
+            "axisKind": "logging_step",
+            "axisLabel": "logging steps",
+            "axisSource": "_step",
+            "requestedMetrics": [
+              "train/loss"
+            ],
+            "plottedMetrics": [
+              "train/loss"
+            ],
+            "excludedMetrics": [],
+            "metricSources": {
+              "train/loss": "train/loss"
+            },
+            "inputComplete": true,
+            "inputNotes": [
+              "The horizontal axis uses W&B logging counter '_step'; findings locate logging events, not training steps. Log a training counter or select one with --step-key to measure progress per training step."
+            ],
+            "scope": "The report's displayed trajectory and heuristic finding bands. Display thinning and off-scale caps remain; this is not the original log or an independent diagnosis. Inspect the report and source log for evidence."
+          },
+          "axisFill": "rgb(110, 124, 135)",
+          "fitsViewport": true
+        }
+      ],
+      "errors": [],
+      "csp": [],
+      "external": [],
+      "axeViolations": []
+    },
+    {
+      "engine": "chromium",
+      "width": 375,
+      "rows": [
+        {
+          "report": "divergence.html",
+          "reportSha256": "e5c9530d093c36bfae1ab253413428e5b4b83d7861618673472f9c8d5e8d417e",
+          "availableDownloads": 5,
+          "offlineBeforeDownload": true,
+          "savedBytes": 10196,
+          "savedSha256": "3629ff436602809702085c5555ab27f617f536f4b076122cb917fb76575f3d61",
+          "byteEqualCleanBuild": true,
+          "metadata": {
+            "schemaVersion": 1,
+            "format": "trainspotter-chart",
+            "sourcePath": "examples/divergence.trainer_state.json",
+            "sourceFormat": "hf",
+            "selectedRun": null,
+            "axisKind": "step",
+            "axisLabel": "steps",
+            "axisSource": null,
+            "requestedMetrics": [
+              "train/loss",
+              "eval/loss"
+            ],
+            "plottedMetrics": [
+              "train/loss",
+              "eval/loss"
+            ],
+            "excludedMetrics": [],
+            "metricSources": {
+              "train/loss": "loss",
+              "eval/loss": "eval_loss"
+            },
+            "inputComplete": true,
+            "inputNotes": [],
+            "scope": "The report's displayed trajectory and heuristic finding bands. Display thinning and off-scale caps remain; this is not the original log or an independent diagnosis. Inspect the report and source log for evidence."
+          },
+          "axisFill": "rgb(110, 124, 135)",
+          "fitsViewport": true
+        },
+        {
+          "report": "wandb-logging-only.html",
+          "reportSha256": "7e47ae656514edd93e25b10257a57101da2e05bea5c871aa251db7568269cb01",
+          "availableDownloads": 2,
+          "offlineBeforeDownload": true,
+          "savedBytes": 5573,
+          "savedSha256": "ee1d9b90cea2ed1a4f382b67f00942cee393754d7a6b1e06dff5b5c802760581",
+          "byteEqualCleanBuild": true,
+          "metadata": {
+            "schemaVersion": 1,
+            "format": "trainspotter-chart",
+            "sourcePath": "examples/wandb-axes/stable-logging.csv",
+            "sourceFormat": "wandb",
+            "selectedRun": null,
+            "axisKind": "logging_step",
+            "axisLabel": "logging steps",
+            "axisSource": "_step",
+            "requestedMetrics": [
+              "train/loss"
+            ],
+            "plottedMetrics": [
+              "train/loss"
+            ],
+            "excludedMetrics": [],
+            "metricSources": {
+              "train/loss": "train/loss"
+            },
+            "inputComplete": true,
+            "inputNotes": [
+              "The horizontal axis uses W&B logging counter '_step'; findings locate logging events, not training steps. Log a training counter or select one with --step-key to measure progress per training step."
+            ],
+            "scope": "The report's displayed trajectory and heuristic finding bands. Display thinning and off-scale caps remain; this is not the original log or an independent diagnosis. Inspect the report and source log for evidence."
+          },
+          "axisFill": "rgb(110, 124, 135)",
+          "fitsViewport": true
+        }
+      ],
+      "errors": [],
+      "csp": [],
+      "external": [],
+      "axeViolations": []
+    },
+    {
+      "engine": "firefox",
+      "width": 1440,
+      "rows": [
+        {
+          "report": "divergence.html",
+          "reportSha256": "e5c9530d093c36bfae1ab253413428e5b4b83d7861618673472f9c8d5e8d417e",
+          "availableDownloads": 5,
+          "offlineBeforeDownload": true,
+          "savedBytes": 10196,
+          "savedSha256": "3629ff436602809702085c5555ab27f617f536f4b076122cb917fb76575f3d61",
+          "byteEqualCleanBuild": true,
+          "metadata": {
+            "schemaVersion": 1,
+            "format": "trainspotter-chart",
+            "sourcePath": "examples/divergence.trainer_state.json",
+            "sourceFormat": "hf",
+            "selectedRun": null,
+            "axisKind": "step",
+            "axisLabel": "steps",
+            "axisSource": null,
+            "requestedMetrics": [
+              "train/loss",
+              "eval/loss"
+            ],
+            "plottedMetrics": [
+              "train/loss",
+              "eval/loss"
+            ],
+            "excludedMetrics": [],
+            "metricSources": {
+              "train/loss": "loss",
+              "eval/loss": "eval_loss"
+            },
+            "inputComplete": true,
+            "inputNotes": [],
+            "scope": "The report's displayed trajectory and heuristic finding bands. Display thinning and off-scale caps remain; this is not the original log or an independent diagnosis. Inspect the report and source log for evidence."
+          },
+          "axisFill": "rgb(110, 124, 135)",
+          "fitsViewport": true
+        },
+        {
+          "report": "wandb-logging-only.html",
+          "reportSha256": "7e47ae656514edd93e25b10257a57101da2e05bea5c871aa251db7568269cb01",
+          "availableDownloads": 2,
+          "offlineBeforeDownload": true,
+          "savedBytes": 5573,
+          "savedSha256": "ee1d9b90cea2ed1a4f382b67f00942cee393754d7a6b1e06dff5b5c802760581",
+          "byteEqualCleanBuild": true,
+          "metadata": {
+            "schemaVersion": 1,
+            "format": "trainspotter-chart",
+            "sourcePath": "examples/wandb-axes/stable-logging.csv",
+            "sourceFormat": "wandb",
+            "selectedRun": null,
+            "axisKind": "logging_step",
+            "axisLabel": "logging steps",
+            "axisSource": "_step",
+            "requestedMetrics": [
+              "train/loss"
+            ],
+            "plottedMetrics": [
+              "train/loss"
+            ],
+            "excludedMetrics": [],
+            "metricSources": {
+              "train/loss": "train/loss"
+            },
+            "inputComplete": true,
+            "inputNotes": [
+              "The horizontal axis uses W&B logging counter '_step'; findings locate logging events, not training steps. Log a training counter or select one with --step-key to measure progress per training step."
+            ],
+            "scope": "The report's displayed trajectory and heuristic finding bands. Display thinning and off-scale caps remain; this is not the original log or an independent diagnosis. Inspect the report and source log for evidence."
+          },
+          "axisFill": "rgb(110, 124, 135)",
+          "fitsViewport": true
+        }
+      ],
+      "errors": [],
+      "csp": [],
+      "external": [],
+      "axeViolations": []
+    },
+    {
+      "engine": "firefox",
+      "width": 375,
+      "rows": [
+        {
+          "report": "divergence.html",
+          "reportSha256": "e5c9530d093c36bfae1ab253413428e5b4b83d7861618673472f9c8d5e8d417e",
+          "availableDownloads": 5,
+          "offlineBeforeDownload": true,
+          "savedBytes": 10196,
+          "savedSha256": "3629ff436602809702085c5555ab27f617f536f4b076122cb917fb76575f3d61",
+          "byteEqualCleanBuild": true,
+          "metadata": {
+            "schemaVersion": 1,
+            "format": "trainspotter-chart",
+            "sourcePath": "examples/divergence.trainer_state.json",
+            "sourceFormat": "hf",
+            "selectedRun": null,
+            "axisKind": "step",
+            "axisLabel": "steps",
+            "axisSource": null,
+            "requestedMetrics": [
+              "train/loss",
+              "eval/loss"
+            ],
+            "plottedMetrics": [
+              "train/loss",
+              "eval/loss"
+            ],
+            "excludedMetrics": [],
+            "metricSources": {
+              "train/loss": "loss",
+              "eval/loss": "eval_loss"
+            },
+            "inputComplete": true,
+            "inputNotes": [],
+            "scope": "The report's displayed trajectory and heuristic finding bands. Display thinning and off-scale caps remain; this is not the original log or an independent diagnosis. Inspect the report and source log for evidence."
+          },
+          "axisFill": "rgb(110, 124, 135)",
+          "fitsViewport": true
+        },
+        {
+          "report": "wandb-logging-only.html",
+          "reportSha256": "7e47ae656514edd93e25b10257a57101da2e05bea5c871aa251db7568269cb01",
+          "availableDownloads": 2,
+          "offlineBeforeDownload": true,
+          "savedBytes": 5573,
+          "savedSha256": "ee1d9b90cea2ed1a4f382b67f00942cee393754d7a6b1e06dff5b5c802760581",
+          "byteEqualCleanBuild": true,
+          "metadata": {
+            "schemaVersion": 1,
+            "format": "trainspotter-chart",
+            "sourcePath": "examples/wandb-axes/stable-logging.csv",
+            "sourceFormat": "wandb",
+            "selectedRun": null,
+            "axisKind": "logging_step",
+            "axisLabel": "logging steps",
+            "axisSource": "_step",
+            "requestedMetrics": [
+              "train/loss"
+            ],
+            "plottedMetrics": [
+              "train/loss"
+            ],
+            "excludedMetrics": [],
+            "metricSources": {
+              "train/loss": "train/loss"
+            },
+            "inputComplete": true,
+            "inputNotes": [
+              "The horizontal axis uses W&B logging counter '_step'; findings locate logging events, not training steps. Log a training counter or select one with --step-key to measure progress per training step."
+            ],
+            "scope": "The report's displayed trajectory and heuristic finding bands. Display thinning and off-scale caps remain; this is not the original log or an independent diagnosis. Inspect the report and source log for evidence."
+          },
+          "axisFill": "rgb(110, 124, 135)",
+          "fitsViewport": true
+        }
+      ],
+      "errors": [],
+      "csp": [],
+      "external": [],
+      "axeViolations": []
+    }
+  ]
+}

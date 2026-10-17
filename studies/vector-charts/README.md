@@ -141,3 +141,24 @@ on 3.14.7. All 31 installed runtime files match the clean archive. All seven
 selected cases retain identical geometry, metadata and 11 SVG payloads. The
 actual installed CLI produces five vector downloads in the divergence report.
 These are local built artifacts, not newly uploaded registry versions.
+
+## Public source and hosted downloads
+
+The [pinned public-source receipt](results/public-source.json) verifies clean
+local/remote main equality at `861bb22f65f12fea19de8103ad8a1af43f62b46f` and
+17 actual raw files. A [fresh public clone and documented installation](results/documented-install.json)
+uses Python 3.10.21 with NumPy 2.2.6, matches all 31 runtime source files and
+produces five actual CLI chart downloads.
+
+The sample site was fast-forwarded to `ca4d7f5` from the clean `0e6a0f7` build.
+The [canonical HTTP receipt](results/hosted-bytes.json) matches all 18 HTML
+files, root before/after and explicit index. This verifies captured public
+bytes; it does not assert that later rebuild timestamps would match.
+[`hosted.mjs`](hosted.mjs) visits two actual public reports in Chromium/Firefox
+at 1440 and 375 pixels, disconnects before downloading, and reopens each saved
+vector. All eight downloads match the exact deployed build. Logging steps
+remain logging steps. [Hosted results](results/hosted-browser.json) retain
+metadata, palette, viewport, axe/CSP and page-error checks. The four divergence
+previews match the clean offline captures byte for byte; the four logging-axis
+previews were also opened and inspected. [Comparison](results/hosted-screenshots.json).
+No PyPI release, tag, remote-CI result or Hugging Face update is claimed.

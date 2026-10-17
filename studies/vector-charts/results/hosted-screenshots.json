@@ -1,0 +1,33 @@
+{
+  "scope": "Hosted divergence vector compared with clean offline standalone preview; logging-axis vectors inspected separately.",
+  "comparisons": [
+    {
+      "engine": "chromium",
+      "width": 1440,
+      "hostedSha256": "5e7da828eefca7769a6fb533374ad28d3079624ab93b9dd5118e549e714a3e59",
+      "cleanSha256": "5e7da828eefca7769a6fb533374ad28d3079624ab93b9dd5118e549e714a3e59",
+      "byteIdentical": true
+    },
+    {
+      "engine": "chromium",
+      "width": 375,
+      "hostedSha256": "eae7ed4e75373985fd33aa217d1338794f55bd264279a5d94e1b240e9041f840",
+      "cleanSha256": "eae7ed4e75373985fd33aa217d1338794f55bd264279a5d94e1b240e9041f840",
+      "byteIdentical": true
+    },
+    {
+      "engine": "firefox",
+      "width": 1440,
+      "hostedSha256": "85a24ea44557b36e658a14cc474170551aef31ca3e7c6c31a5d1cef2dd9e9b8f",
+      "cleanSha256": "85a24ea44557b36e658a14cc474170551aef31ca3e7c6c31a5d1cef2dd9e9b8f",
+      "byteIdentical": true
+    },
+    {
+      "engine": "firefox",
+      "width": 375,
+      "hostedSha256": "225b3cd44f8fd800cb3f4527a266416463427a78aebb48595480e3f8c7c7f088",
+      "cleanSha256": "225b3cd44f8fd800cb3f4527a266416463427a78aebb48595480e3f8c7c7f088",
+      "byteIdentical": true
+    }
+  ]
+}

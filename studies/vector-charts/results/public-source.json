@@ -1,0 +1,145 @@
+{
+  "checkedAt": "2026-10-17T08:46:31.920896+00:00",
+  "localMain": "861bb22f65f12fea19de8103ad8a1af43f62b46f",
+  "remoteMain": "861bb22f65f12fea19de8103ad8a1af43f62b46f",
+  "cleanTreeAtCapture": true,
+  "files": [
+    {
+      "file": "src/trainspotter/report/html_report.py",
+      "url": "https://raw.githubusercontent.com/antonsoo/trainspotter/861bb22f65f12fea19de8103ad8a1af43f62b46f/src/trainspotter/report/html_report.py",
+      "httpStatus": 200,
+      "bytes": 46875,
+      "sha256": "b9db0a3498ce4a4b8f99b45ac7eb3199d365836c3f3d2fef3de754b9a23657b5",
+      "state": "verified"
+    },
+    {
+      "file": "src/trainspotter/report/chart_style.py",
+      "url": "https://raw.githubusercontent.com/antonsoo/trainspotter/861bb22f65f12fea19de8103ad8a1af43f62b46f/src/trainspotter/report/chart_style.py",
+      "httpStatus": 200,
+      "bytes": 983,
+      "sha256": "63f693a882ac05f82861db47e9553b12080aa16ed6166916ba8be44aaf9ecc6f",
+      "state": "verified"
+    },
+    {
+      "file": "src/trainspotter/report/svg_export.py",
+      "url": "https://raw.githubusercontent.com/antonsoo/trainspotter/861bb22f65f12fea19de8103ad8a1af43f62b46f/src/trainspotter/report/svg_export.py",
+      "httpStatus": 200,
+      "bytes": 7639,
+      "sha256": "a69dd63fb4a90bdf54a3ddc6aae1105c425fa1d880552849ea3a75acb2de1f52",
+      "state": "verified"
+    },
+    {
+      "file": "tests/test_svg_export.py",
+      "url": "https://raw.githubusercontent.com/antonsoo/trainspotter/861bb22f65f12fea19de8103ad8a1af43f62b46f/tests/test_svg_export.py",
+      "httpStatus": 200,
+      "bytes": 4366,
+      "sha256": "35ec14add987b7e7fe5150cc08c0994170b7872274ba68b67d403f9489fc9a2d",
+      "state": "verified"
+    },
+    {
+      "file": "docs/vector-charts.md",
+      "url": "https://raw.githubusercontent.com/antonsoo/trainspotter/861bb22f65f12fea19de8103ad8a1af43f62b46f/docs/vector-charts.md",
+      "httpStatus": 200,
+      "bytes": 3155,
+      "sha256": "2e07b7ac50d6da1d770882ed2fd50ac769ff1da33759638a81332eb55a566243",
+      "state": "verified"
+    },
+    {
+      "file": "docs/source-history.md",
+      "url": "https://raw.githubusercontent.com/antonsoo/trainspotter/861bb22f65f12fea19de8103ad8a1af43f62b46f/docs/source-history.md",
+      "httpStatus": 200,
+      "bytes": 3251,
+      "sha256": "829aa4b5cace289f72a32f94417de133c68659b4b94ba82de2dc74dd8b0c9b95",
+      "state": "verified"
+    },
+    {
+      "file": "docs/calibration-history.md",
+      "url": "https://raw.githubusercontent.com/antonsoo/trainspotter/861bb22f65f12fea19de8103ad8a1af43f62b46f/docs/calibration-history.md",
+      "httpStatus": 200,
+      "bytes": 3091,
+      "sha256": "896ed580a217b15d5ba8cee7bbb79f612d9a940dc05220e83d78747e435be1db",
+      "state": "verified"
+    },
+    {
+      "file": "studies/vector-charts/capture.py",
+      "url": "https://raw.githubusercontent.com/antonsoo/trainspotter/861bb22f65f12fea19de8103ad8a1af43f62b46f/studies/vector-charts/capture.py",
+      "httpStatus": 200,
+      "bytes": 4766,
+      "sha256": "20b492162d488cb9183b718fe14653c221abe1d6d74a8dd697bd88f4ff039334",
+      "state": "verified"
+    },
+    {
+      "file": "studies/vector-charts/browser.mjs",
+      "url": "https://raw.githubusercontent.com/antonsoo/trainspotter/861bb22f65f12fea19de8103ad8a1af43f62b46f/studies/vector-charts/browser.mjs",
+      "httpStatus": 200,
+      "bytes": 8165,
+      "sha256": "98fdc58e30a559f9ba905c897039701605f272583e38bb6b381a9a5cf8ed4093",
+      "state": "verified"
+    },
+    {
+      "file": "studies/vector-charts/hosted.mjs",
+      "url": "https://raw.githubusercontent.com/antonsoo/trainspotter/861bb22f65f12fea19de8103ad8a1af43f62b46f/studies/vector-charts/hosted.mjs",
+      "httpStatus": 200,
+      "bytes": 5618,
+      "sha256": "9ce32b63f128536fd3960950b0801e8692882762d2623333bb9d6892274028ed",
+      "state": "verified"
+    },
+    {
+      "file": "studies/vector-charts/cairo.py",
+      "url": "https://raw.githubusercontent.com/antonsoo/trainspotter/861bb22f65f12fea19de8103ad8a1af43f62b46f/studies/vector-charts/cairo.py",
+      "httpStatus": 200,
+      "bytes": 4867,
+      "sha256": "7b22afd91d97585b8368bea56440529933fc24c69d1bea55a30dc057d91118db",
+      "state": "verified"
+    },
+    {
+      "file": "studies/vector-charts/requirements-cairo.txt",
+      "url": "https://raw.githubusercontent.com/antonsoo/trainspotter/861bb22f65f12fea19de8103ad8a1af43f62b46f/studies/vector-charts/requirements-cairo.txt",
+      "httpStatus": 200,
+      "bytes": 149,
+      "sha256": "d98f35420c37c9d3bcf373ab8e925c54ac37421f801d64cd78a29cfd7d677931",
+      "state": "verified"
+    },
+    {
+      "file": "studies/vector-charts/results/after.json",
+      "url": "https://raw.githubusercontent.com/antonsoo/trainspotter/861bb22f65f12fea19de8103ad8a1af43f62b46f/studies/vector-charts/results/after.json",
+      "httpStatus": 200,
+      "bytes": 17903,
+      "sha256": "797d837f32856ea499e4d0f0172574fd0f3d1407508e8926b5515f07416f5f97",
+      "state": "verified"
+    },
+    {
+      "file": "studies/vector-charts/results/clean-checks.json",
+      "url": "https://raw.githubusercontent.com/antonsoo/trainspotter/861bb22f65f12fea19de8103ad8a1af43f62b46f/studies/vector-charts/results/clean-checks.json",
+      "httpStatus": 200,
+      "bytes": 9800,
+      "sha256": "52808cd730abc94d05d32a30624441ad0a969a9f0e31ee610c8606674aa86b19",
+      "state": "verified"
+    },
+    {
+      "file": "studies/vector-charts/results/installed.json",
+      "url": "https://raw.githubusercontent.com/antonsoo/trainspotter/861bb22f65f12fea19de8103ad8a1af43f62b46f/studies/vector-charts/results/installed.json",
+      "httpStatus": 200,
+      "bytes": 19563,
+      "sha256": "b8158a57def7a0afcc06c392a4aab950829268e85bce7e729adf74b73e57ad3d",
+      "state": "verified"
+    },
+    {
+      "file": "studies/vector-charts/results/cairo.json",
+      "url": "https://raw.githubusercontent.com/antonsoo/trainspotter/861bb22f65f12fea19de8103ad8a1af43f62b46f/studies/vector-charts/results/cairo.json",
+      "httpStatus": 200,
+      "bytes": 8164,
+      "sha256": "ef9e6b656fe12fca3b805c40f5f894c5949007a823f4142d63650962896e8bb5",
+      "state": "verified"
+    },
+    {
+      "file": "studies/vector-charts/README.md",
+      "url": "https://raw.githubusercontent.com/antonsoo/trainspotter/861bb22f65f12fea19de8103ad8a1af43f62b46f/studies/vector-charts/README.md",
+      "httpStatus": 200,
+      "bytes": 8082,
+      "sha256": "618e6a7eccdad3687191faeb98b1bae1407216001e9b968d6c621d7e5ca77ddc",
+      "state": "verified"
+    }
+  ],
+  "boundary": "Public pinned source bytes only. Does not establish a registry release, CI result or hosted browser revision."
+}

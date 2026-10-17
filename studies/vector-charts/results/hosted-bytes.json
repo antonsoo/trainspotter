@@ -1,0 +1,220 @@
+{
+  "schemaVersion": 1,
+  "node": "v26.7.0",
+  "requestTimeoutMs": 10000,
+  "retryWindowMs": 45000,
+  "pollIntervalMs": 5000,
+  "concurrency": 6,
+  "baseURL": "https://antonsoo.github.io/trainspotter/",
+  "state": "verified",
+  "attempts": 1,
+  "startedAtUtc": "2026-10-17T08:46:52.422Z",
+  "checkedAtUtc": "2026-10-17T08:46:53.247Z",
+  "buildManifestSha256": "dbfb243ecd466e0fe95d91f27ecde9f8ebefe97c2d673cc2b09fcbaacaaeb9eb",
+  "expectedFileCount": 18,
+  "checkedFileCount": 18,
+  "verifiedFileCount": 18,
+  "rootBefore": {
+    "path": "index.html",
+    "bytes": 11226,
+    "sha256": "2b84b4eb7f7d65aef9c10a3084a607385520fb1140a6e9d1d28cc2c2770f72ba",
+    "url": "https://antonsoo.github.io/trainspotter/",
+    "httpStatus": 200,
+    "observedBytes": 11226,
+    "observedSha256": "2b84b4eb7f7d65aef9c10a3084a607385520fb1140a6e9d1d28cc2c2770f72ba",
+    "state": "verified"
+  },
+  "rootAfter": {
+    "path": "index.html",
+    "bytes": 11226,
+    "sha256": "2b84b4eb7f7d65aef9c10a3084a607385520fb1140a6e9d1d28cc2c2770f72ba",
+    "url": "https://antonsoo.github.io/trainspotter/",
+    "httpStatus": 200,
+    "observedBytes": 11226,
+    "observedSha256": "2b84b4eb7f7d65aef9c10a3084a607385520fb1140a6e9d1d28cc2c2770f72ba",
+    "state": "verified"
+  },
+  "files": [
+    {
+      "path": "baseline.html",
+      "bytes": 227600,
+      "sha256": "62ad0eef634b892a736f0d62cfc9f985703d5fe549ff0e97b867df3f2840545f",
+      "url": "https://antonsoo.github.io/trainspotter/baseline.html",
+      "httpStatus": 200,
+      "observedBytes": 227600,
+      "observedSha256": "62ad0eef634b892a736f0d62cfc9f985703d5fe549ff0e97b867df3f2840545f",
+      "state": "verified"
+    },
+    {
+      "path": "divergence.html",
+      "bytes": 200518,
+      "sha256": "e5c9530d093c36bfae1ab253413428e5b4b83d7861618673472f9c8d5e8d417e",
+      "url": "https://antonsoo.github.io/trainspotter/divergence.html",
+      "httpStatus": 200,
+      "observedBytes": 200518,
+      "observedSha256": "e5c9530d093c36bfae1ab253413428e5b4b83d7861618673472f9c8d5e8d417e",
+      "state": "verified"
+    },
+    {
+      "path": "evaluation-cohorts.html",
+      "bytes": 25368,
+      "sha256": "85f8f47a8916dd2366278daa4452a5f34253fb79fa84e41a3d7522e3b6cfdb09",
+      "url": "https://antonsoo.github.io/trainspotter/evaluation-cohorts.html",
+      "httpStatus": 200,
+      "observedBytes": 25368,
+      "observedSha256": "85f8f47a8916dd2366278daa4452a5f34253fb79fa84e41a3d7522e3b6cfdb09",
+      "state": "verified"
+    },
+    {
+      "path": "evaluation-overlap.html",
+      "bytes": 40400,
+      "sha256": "ec8fda64cd83347f18a1bebab83ebc54d785ef5939f277b54e1a47611af70250",
+      "url": "https://antonsoo.github.io/trainspotter/evaluation-overlap.html",
+      "httpStatus": 200,
+      "observedBytes": 40400,
+      "observedSha256": "ec8fda64cd83347f18a1bebab83ebc54d785ef5939f277b54e1a47611af70250",
+      "state": "verified"
+    },
+    {
+      "path": "gradient-concentration.html",
+      "bytes": 36275,
+      "sha256": "bee360343218f52d24202291c041cbb32d12832e40af4b054d26b60a27244932",
+      "url": "https://antonsoo.github.io/trainspotter/gradient-concentration.html",
+      "httpStatus": 200,
+      "observedBytes": 36275,
+      "observedSha256": "bee360343218f52d24202291c041cbb32d12832e40af4b054d26b60a27244932",
+      "state": "verified"
+    },
+    {
+      "path": "index.html",
+      "bytes": 11226,
+      "sha256": "2b84b4eb7f7d65aef9c10a3084a607385520fb1140a6e9d1d28cc2c2770f72ba",
+      "url": "https://antonsoo.github.io/trainspotter/index.html",
+      "httpStatus": 200,
+      "observedBytes": 11226,
+      "observedSha256": "2b84b4eb7f7d65aef9c10a3084a607385520fb1140a6e9d1d28cc2c2770f72ba",
+      "state": "verified"
+    },
+    {
+      "path": "loss-cadence.html",
+      "bytes": 28357,
+      "sha256": "a4facaa02ae0b9f2fe58b1cff4ddb50b839fb16a5565271034d82e7e67163340",
+      "url": "https://antonsoo.github.io/trainspotter/loss-cadence.html",
+      "httpStatus": 200,
+      "observedBytes": 28357,
+      "observedSha256": "a4facaa02ae0b9f2fe58b1cff4ddb50b839fb16a5565271034d82e7e67163340",
+      "state": "verified"
+    },
+    {
+      "path": "missing_warmup.html",
+      "bytes": 160402,
+      "sha256": "9a749febac7c915d0d746d6ab81eb68a306469bf015066c0c2c8539f48a389b5",
+      "url": "https://antonsoo.github.io/trainspotter/missing_warmup.html",
+      "httpStatus": 200,
+      "observedBytes": 160402,
+      "observedSha256": "9a749febac7c915d0d746d6ab81eb68a306469bf015066c0c2c8539f48a389b5",
+      "state": "verified"
+    },
+    {
+      "path": "overfitting.html",
+      "bytes": 409755,
+      "sha256": "68911999a489edb56577e3581565e2a43455490f859c341e1ffb92ff28c9e155",
+      "url": "https://antonsoo.github.io/trainspotter/overfitting.html",
+      "httpStatus": 200,
+      "observedBytes": 409755,
+      "observedSha256": "68911999a489edb56577e3581565e2a43455490f859c341e1ffb92ff28c9e155",
+      "state": "verified"
+    },
+    {
+      "path": "scheduler-resume.html",
+      "bytes": 70008,
+      "sha256": "d84fd25e6e25dce789bfdf0f629a9a916fe6246c9fb5df936d54865bed1fac6e",
+      "url": "https://antonsoo.github.io/trainspotter/scheduler-resume.html",
+      "httpStatus": 200,
+      "observedBytes": 70008,
+      "observedSha256": "d84fd25e6e25dce789bfdf0f629a9a916fe6246c9fb5df936d54865bed1fac6e",
+      "state": "verified"
+    },
+    {
+      "path": "throughput_drop.html",
+      "bytes": 174260,
+      "sha256": "4ad6a0e532599a84ab05777a53987cb7543891e47377cc019b4e52e414968ee9",
+      "url": "https://antonsoo.github.io/trainspotter/throughput_drop.html",
+      "httpStatus": 200,
+      "observedBytes": 174260,
+      "observedSha256": "4ad6a0e532599a84ab05777a53987cb7543891e47377cc019b4e52e414968ee9",
+      "state": "verified"
+    },
+    {
+      "path": "timing-broken-clock.html",
+      "bytes": 27188,
+      "sha256": "e32562378c4b14dfe130e9dfba850f563037b9980e1ea0a8dc9a7783e4a44d24",
+      "url": "https://antonsoo.github.io/trainspotter/timing-broken-clock.html",
+      "httpStatus": 200,
+      "observedBytes": 27188,
+      "observedSha256": "e32562378c4b14dfe130e9dfba850f563037b9980e1ea0a8dc9a7783e4a44d24",
+      "state": "verified"
+    },
+    {
+      "path": "timing-cadence.html",
+      "bytes": 26293,
+      "sha256": "e02ded6b7296a1c09a5c558766097a5e2e2d23aba3141314df604d385c5b249d",
+      "url": "https://antonsoo.github.io/trainspotter/timing-cadence.html",
+      "httpStatus": 200,
+      "observedBytes": 26293,
+      "observedSha256": "e02ded6b7296a1c09a5c558766097a5e2e2d23aba3141314df604d385c5b249d",
+      "state": "verified"
+    },
+    {
+      "path": "timing-slowdown.html",
+      "bytes": 28336,
+      "sha256": "e9f220c1d25d2e6da0c747775c8432866bb7bfa96134782692264fd676768657",
+      "url": "https://antonsoo.github.io/trainspotter/timing-slowdown.html",
+      "httpStatus": 200,
+      "observedBytes": 28336,
+      "observedSha256": "e9f220c1d25d2e6da0c747775c8432866bb7bfa96134782692264fd676768657",
+      "state": "verified"
+    },
+    {
+      "path": "transformers_tinygpt2.html",
+      "bytes": 94612,
+      "sha256": "94a982eaa27c70830e90e423e0cbd38e136e82e75241cbed692981fba3b8736d",
+      "url": "https://antonsoo.github.io/trainspotter/transformers_tinygpt2.html",
+      "httpStatus": 200,
+      "observedBytes": 94612,
+      "observedSha256": "94a982eaa27c70830e90e423e0cbd38e136e82e75241cbed692981fba3b8736d",
+      "state": "verified"
+    },
+    {
+      "path": "wandb-cadence.html",
+      "bytes": 43231,
+      "sha256": "486b80a5e3048c5c7717d6e6bd645d65839dd79662e441eed7b5073bf83b5f6d",
+      "url": "https://antonsoo.github.io/trainspotter/wandb-cadence.html",
+      "httpStatus": 200,
+      "observedBytes": 43231,
+      "observedSha256": "486b80a5e3048c5c7717d6e6bd645d65839dd79662e441eed7b5073bf83b5f6d",
+      "state": "verified"
+    },
+    {
+      "path": "wandb-logging-only.html",
+      "bytes": 45063,
+      "sha256": "7e47ae656514edd93e25b10257a57101da2e05bea5c871aa251db7568269cb01",
+      "url": "https://antonsoo.github.io/trainspotter/wandb-logging-only.html",
+      "httpStatus": 200,
+      "observedBytes": 45063,
+      "observedSha256": "7e47ae656514edd93e25b10257a57101da2e05bea5c871aa251db7568269cb01",
+      "state": "verified"
+    },
+    {
+      "path": "wandb-slowdown.html",
+      "bytes": 44395,
+      "sha256": "b115ed932c0fdf5b11679684f0418d4d85a1db3a5ec643d00f87c1220fa947da",
+      "url": "https://antonsoo.github.io/trainspotter/wandb-slowdown.html",
+      "httpStatus": 200,
+      "observedBytes": 44395,
+      "observedSha256": "b115ed932c0fdf5b11679684f0418d4d85a1db3a5ec643d00f87c1220fa947da",
+      "state": "verified"
+    }
+  ],
+  "scope": "Compares canonical responses with this captured build inventory during the recorded pass. Extra hosted files, browser behavior, public source, registry releases and deployment provenance are not established."
+}

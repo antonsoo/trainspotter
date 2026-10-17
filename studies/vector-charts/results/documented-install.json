@@ -1,0 +1,12 @@
+{
+  "repository": "https://github.com/antonsoo/trainspotter",
+  "revision": "861bb22f65f12fea19de8103ad8a1af43f62b46f",
+  "install": "Documented fresh clone, python -m venv .venv, python -m pip install ., installed CLI. Commands use the new venv paths directly instead of shell activation.",
+  "numpy": "2.2.6",
+  "python": "3.10.21",
+  "runtimeFilesByteEqualCleanArchive": 31,
+  "actualCliSvgDownloads": 5,
+  "reportBytes": 102506,
+  "reportSha256": "6c0b28ad4786c4e1ae7343285dbc942df40952c2da66e27c3197aa9f7eff6369",
+  "logSha256": "a6c6300f139ea3b474e998c575a9a581e21bc72d8d9fdda22362e5142d350c24"
+}
