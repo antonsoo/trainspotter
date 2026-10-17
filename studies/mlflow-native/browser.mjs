@@ -72,7 +72,7 @@ for (const [engine, launch] of Object.entries({ chromium, firefox })) {
           assert.ok(metadata.inputNotes.some(note => note.includes('slow-training')));
           assert.ok(metadata.inputNotes.some(note => note.includes('cannot reconstruct infinities')));
           assert.ok(await standalone.locator('svg.chart path').count() > 0);
-          await standalone.screenshot({ path: resolve(output, `${stem}-standalone.png`), fullPage: true });
+          await standalone.locator('svg').first().screenshot({ path: resolve(output, `${stem}-standalone.png`) });
           results.push({ engine, width, nativeDatabaseSha256: inputSha, installedCliTiming: report.timing,
                          svgSha256: sha(await readFile(svgPath)), metadata, errors, requests });
         } finally { await standalone.close(); }

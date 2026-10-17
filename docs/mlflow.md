@@ -76,7 +76,7 @@ remain discoverable; their runs are not default candidates.
 
 Reports cannot replace the source database, its SQLite sidecars, or discovered
 FileStore metrics, tags, parameters and run/experiment metadata. This includes
-aliases and future files under metric/tag/parameter directories. A FileStore
+aliases and future files under metric/tag/parameter directories. An existing FileStore
 `artifacts/` directory can hold a report.
 
 ## What is preserved, and what is unavailable

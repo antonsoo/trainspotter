@@ -279,6 +279,8 @@ def test_file_store_artifacts_can_hold_a_report(tmp_path: Path) -> None:
     root = copied(tmp_path)
     folder = run_folder(root, "baseline")
     target = folder / "artifacts/diagnosis.html"
+    # A git archive retains files, not the SDK's initially empty artifacts directory.
+    target.parent.mkdir(exist_ok=True)
     assert (
         cli.main(
             [
