@@ -1,0 +1,85 @@
+{
+  "archiveSource": "a309f032288e00d086c399f00323642126a2e57f",
+  "python": "3.12.12",
+  "wheelSha256": "65b43b7bc29c4dd07abbc5d787c2a45e6ef9d5cff2aca62749b23c2b747bd4c7",
+  "installedDistributions": [
+    "numpy",
+    "trainspotter"
+  ],
+  "noMlflowSdk": true,
+  "noYamlForSQLite": true,
+  "installedSourceModulesMatch": [
+    "timing.py",
+    "model.py",
+    "__init__.py",
+    "cli.py",
+    "report/terminal.py",
+    "report/__init__.py",
+    "report/chart_style.py",
+    "report/html_report.py",
+    "report/svg_export.py",
+    "report/json_report.py",
+    "readers/__init__.py",
+    "readers/hf.py",
+    "readers/common.py",
+    "readers/tabular.py",
+    "readers/mlflow.py",
+    "readers/wandb.py",
+    "readers/lightning.py",
+    "readers/tensorboard.py",
+    "readers/mlflow_files.py",
+    "detectors/loss_floor.py",
+    "detectors/lr_schedule.py",
+    "detectors/divergence.py",
+    "detectors/__init__.py",
+    "detectors/base.py",
+    "detectors/spikes.py",
+    "detectors/eval_noise.py",
+    "detectors/plateau.py",
+    "detectors/throughput.py",
+    "detectors/overfitting.py",
+    "detectors/grad_norm.py",
+    "detectors/_rolling_slope.py",
+    "detectors/setbacks.py"
+  ],
+  "nativeSQLiteBaselinePoints": 2162,
+  "cleanChecks": {
+    "python": "3.12.12",
+    "lint": "passed",
+    "mypy": "32 source files",
+    "tests": 793,
+    "build": "sdist and wheel",
+    "sampleReports": 18
+  },
+  "minimumChecks": {
+    "python": "3.10.21",
+    "numpy": "1.24.0",
+    "tensorboard": "2.12.0",
+    "PyYAML": "6.0.3",
+    "tests": 793,
+    "scope": "Installed archive-built wheel with lowest direct dependencies; tests from archived checkout"
+  },
+  "browserEarlierArtifactSameWheel": true,
+  "pypiVersionAtCheck": "0.2.6",
+  "registrySource": "https://pypi.org/pypi/trainspotter/json",
+  "sourcePipCommands": {
+    "baseInstall": "passed",
+    "nativeSQLiteHtml": "passed",
+    "mlflowFilesExtraInstall": "passed",
+    "nativeFileStoreHtml": "passed"
+  },
+  "cleanBrowser": {
+    "node": "24.21.0",
+    "install": "npm ci",
+    "contexts": "Chromium and Firefox; desktop and 320px",
+    "reportWorkflows": 220,
+    "result": "passed"
+  },
+  "registryWheel": {
+    "file": "trainspotter-0.2.6-py3-none-any.whl",
+    "sha256": "3dfd57a87798c9f4a723f7caf2de00a23f0a21989f58e9e1618fe9b7bb272831",
+    "url": "https://files.pythonhosted.org/packages/8f/35/ce014b99f16d1189787cd469dbf2d1e6779eeee87937224d6b4a899adf8d/trainspotter-0.2.6-py3-none-any.whl",
+    "nativeMlflowReaderPresent": false,
+    "mlflowFilesExtraPresent": false
+  }
+}

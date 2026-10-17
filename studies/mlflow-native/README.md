@@ -76,3 +76,6 @@ normalization, generic step units, partial FileStore prefixes, dataset-qualified
 rows and unsupported remote/model histories. The native histories establish
 input fidelity, not general detector accuracy. Source, installed wheel and
 hosted report verification are separate checks; no PyPI release is implied.
+
+[Clean installation, wheel replay and offline downloads](verification.md)
+retain those separate checks and the actual report screenshots.
