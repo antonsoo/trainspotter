@@ -63,7 +63,11 @@ footer a { color: var(--text-dim); }
     at each build, not hand-typed.</p>
   </header>
   <main class="grid">
-    <a class="card" href="loss-cadence.html">
+    <a class="card" href="mlflow-slowdown.html">
+  <h2>One measured slowdown inside a native MLflow store</h2>
+  <p>The MLflow 3.17.1 SDK replayed retained training measurements into a local SQLite store with eight separate runs. This report selects slow-training; its logged step is explicitly declared to count training updates. Replay does not run training again.</p>
+  <div class="chips"><span class="chip sev-error">0 error</span><span class="chip sev-warning">1 warning</span><span class="chip sev-info">0 info</span></div>
+</a><a class="card" href="loss-cadence.html">
   <h2>A late loss drop is still late when logging is sparse</h2>
   <p>Controlled CPU PyTorch SGD on a scalar quadratic. This file retains step 0 and steps 900-1000 from one recorded run. Its first low reading is 90% through the logged training span, despite being the second CSV row.</p>
   <div class="chips"><span class="chip sev-error">0 error</span><span class="chip sev-warning">0 warning</span><span class="chip sev-info">0 info</span></div>
@@ -134,7 +138,7 @@ footer a { color: var(--text-dim); }
 </a>
   </main>
   <footer>
-    <span>Built 2026-10-17 08:45 UTC &middot;
+    <span>Built 2026-10-17 21:52 UTC &middot;
     <a href="https://github.com/antonsoo/trainspotter">source</a></span>
   </footer>
 </div>
