@@ -1,0 +1,34 @@
+{
+  "source": "fa02975f8b52ddb80ed530add1ae5ccb97e9b5a6",
+  "readerAndWheelSource": "a309f032288e00d086c399f00323642126a2e57f",
+  "deployment": "1021f17fab6269f3f13f9582297299fa6b0e0ba8",
+  "canonicalHtmlUrls": 20,
+  "allCanonicalBytesMatch": true,
+  "browserContexts": 4,
+  "offlineNativeDatabaseReplays": 4,
+  "standaloneVectorReopens": 4,
+  "publicStandaloneScreenshots": [
+    {
+      "file": "chromium-375-standalone.png",
+      "sha256": "d40e53a7e1cb0b011d76ab44afdde62323af5f6f408fb5e36030324e49bd5f1e",
+      "identicalToReviewedLocalScreenshot": true
+    },
+    {
+      "file": "chromium-1440-standalone.png",
+      "sha256": "72624bee5d2043efb288f8dad1b39101e8c501fcc494f2cc560fad802d1fd679",
+      "identicalToReviewedLocalScreenshot": true
+    },
+    {
+      "file": "firefox-1440-standalone.png",
+      "sha256": "17a4bee03693051b39fcf08499e0eafcfdf1e7c381a40ef4fa53dceeec91bf19",
+      "identicalToReviewedLocalScreenshot": true
+    },
+    {
+      "file": "firefox-375-standalone.png",
+      "sha256": "ddc4565ca9cdad28539e9721b4e8af664c48761155ccdf27b735ce2503611424",
+      "identicalToReviewedLocalScreenshot": true
+    }
+  ],
+  "registryReleaseMade": false,
+  "huggingFaceDeploymentVerified": false
+}

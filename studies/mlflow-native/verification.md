@@ -38,3 +38,25 @@ reported ratio is therefore the comparison from that native history; it is
 not a new timing run or a promise to reproduce unrounded clock arithmetic.
 All [17 existing sample reports](source/report-controls.json) remain identical
 after normalizing only the single generated-time field in each HTML document.
+
+## Public sample
+
+Source `fa02975` and Pages deployment `1021f17` publish the same reader behavior
+and clarify which gallery inputs are native replays. All 19 generated HTML
+files, plus the canonical root alias, match the deployed build's exact bytes:
+[HTTP receipt](hosted-bytes.json), [publication boundary](publication.json).
+The [public browser replay](hosted/browser.json) follows the gallery card, waits
+for the complete report to load, disconnects, downloads its original SQLite
+database and replays that download with the independently installed wheel.
+It also saves and reopens the SVG. Chromium/Firefox at 1440/375px pass with no
+page errors, accessibility violations, horizontal overflow or extra HTTP
+requests after loading. Downloaded vectors are byte-identical to the local
+ones; all four standalone screenshots match their reviewed local images.
+
+![Public native MLflow sample after loading and disconnecting](../../docs/assets/mlflow-native/hosted-chromium-1440-report.png)
+
+This establishes the source, local wheel and public static report. PyPI's
+0.2.6 wheel was downloaded and inspected separately: it has neither the native
+MLflow reader nor the `mlflow-files` extra. No registry release or tag was made.
+The separately hosted Hugging Face workbench was not redeployed or verified
+for this capability.

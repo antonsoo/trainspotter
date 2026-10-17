@@ -1,0 +1,286 @@
+{
+  "url": "https://antonsoo.github.io/trainspotter/",
+  "scope": "Actual sample, offline downloads and installed CLI replay; no new training or remote MLflow server.",
+  "results": [
+    {
+      "engine": "chromium",
+      "width": 1440,
+      "nativeDatabaseSha256": "4deb943a134452509468a50fe3afc06fe1f2ac9bfea102297a4695e263e7f37c",
+      "installedCliTiming": {
+        "status": "compared",
+        "axis": "step",
+        "source": "wall_time(train/loss)",
+        "source_metric": "train/loss",
+        "unit": "s/step",
+        "observations": 100,
+        "invalid_observations": 0,
+        "baseline": {
+          "first_position": 4,
+          "last_position": 80,
+          "interval_start_step": 0,
+          "observations": 20,
+          "invalid_observations": 0,
+          "median_seconds": 0.004249989986419678
+        },
+        "recent": {
+          "first_position": 820,
+          "last_position": 1200,
+          "interval_start_step": 800,
+          "observations": 20,
+          "invalid_observations": 0,
+          "median_seconds": 0.012150001525878907
+        },
+        "ratio": 2.8588306242374095,
+        "reason": null,
+        "notes": [
+          "Wall-clock intervals include evaluation, checkpointing, pauses and other work between observations. They are not isolated compute timings."
+        ],
+        "min_window": 5,
+        "baseline_fraction": 0.2
+      },
+      "svgSha256": "f4fe9c24597f10bc7bde49cc2ede003d5898405b58ed6ed58060b80775c1f213",
+      "metadata": {
+        "schemaVersion": 1,
+        "format": "trainspotter-chart",
+        "sourcePath": "studies/mlflow-native/fixtures/mlflow-3.17.1/mlflow.db",
+        "sourceFormat": "mlflow",
+        "selectedRun": "214bb67d331a4988b21e75b343876ee9",
+        "axisKind": "step",
+        "axisLabel": "steps",
+        "axisSource": "step",
+        "requestedMetrics": [
+          "train/loss"
+        ],
+        "plottedMetrics": [
+          "train/loss"
+        ],
+        "excludedMetrics": [],
+        "metricSources": {
+          "train/loss": "train/loss"
+        },
+        "inputComplete": true,
+        "inputNotes": [
+          "MLflow run 'slow-training' (214bb67d331a4988b21e75b343876ee9), experiment 1; recorded status FINISHED, lifecycle active.",
+          "MLflow SQL backends can normalize infinities to finite extremes. This reader restores native NaN flags but cannot reconstruct infinities already replaced by the backend.",
+          "Training-step column 'step' was selected explicitly (--step-key); its values are interpreted as training-step counts."
+        ],
+        "scope": "The report's displayed trajectory and heuristic finding bands. Display thinning and off-scale caps remain; this is not the original log or an independent diagnosis. Inspect the report and source log for evidence."
+      },
+      "errors": [],
+      "requests": [
+        "https://antonsoo.github.io/trainspotter/",
+        "https://antonsoo.github.io/trainspotter/mlflow-slowdown.html"
+      ]
+    },
+    {
+      "engine": "chromium",
+      "width": 375,
+      "nativeDatabaseSha256": "4deb943a134452509468a50fe3afc06fe1f2ac9bfea102297a4695e263e7f37c",
+      "installedCliTiming": {
+        "status": "compared",
+        "axis": "step",
+        "source": "wall_time(train/loss)",
+        "source_metric": "train/loss",
+        "unit": "s/step",
+        "observations": 100,
+        "invalid_observations": 0,
+        "baseline": {
+          "first_position": 4,
+          "last_position": 80,
+          "interval_start_step": 0,
+          "observations": 20,
+          "invalid_observations": 0,
+          "median_seconds": 0.004249989986419678
+        },
+        "recent": {
+          "first_position": 820,
+          "last_position": 1200,
+          "interval_start_step": 800,
+          "observations": 20,
+          "invalid_observations": 0,
+          "median_seconds": 0.012150001525878907
+        },
+        "ratio": 2.8588306242374095,
+        "reason": null,
+        "notes": [
+          "Wall-clock intervals include evaluation, checkpointing, pauses and other work between observations. They are not isolated compute timings."
+        ],
+        "min_window": 5,
+        "baseline_fraction": 0.2
+      },
+      "svgSha256": "f4fe9c24597f10bc7bde49cc2ede003d5898405b58ed6ed58060b80775c1f213",
+      "metadata": {
+        "schemaVersion": 1,
+        "format": "trainspotter-chart",
+        "sourcePath": "studies/mlflow-native/fixtures/mlflow-3.17.1/mlflow.db",
+        "sourceFormat": "mlflow",
+        "selectedRun": "214bb67d331a4988b21e75b343876ee9",
+        "axisKind": "step",
+        "axisLabel": "steps",
+        "axisSource": "step",
+        "requestedMetrics": [
+          "train/loss"
+        ],
+        "plottedMetrics": [
+          "train/loss"
+        ],
+        "excludedMetrics": [],
+        "metricSources": {
+          "train/loss": "train/loss"
+        },
+        "inputComplete": true,
+        "inputNotes": [
+          "MLflow run 'slow-training' (214bb67d331a4988b21e75b343876ee9), experiment 1; recorded status FINISHED, lifecycle active.",
+          "MLflow SQL backends can normalize infinities to finite extremes. This reader restores native NaN flags but cannot reconstruct infinities already replaced by the backend.",
+          "Training-step column 'step' was selected explicitly (--step-key); its values are interpreted as training-step counts."
+        ],
+        "scope": "The report's displayed trajectory and heuristic finding bands. Display thinning and off-scale caps remain; this is not the original log or an independent diagnosis. Inspect the report and source log for evidence."
+      },
+      "errors": [],
+      "requests": [
+        "https://antonsoo.github.io/trainspotter/",
+        "https://antonsoo.github.io/trainspotter/mlflow-slowdown.html"
+      ]
+    },
+    {
+      "engine": "firefox",
+      "width": 1440,
+      "nativeDatabaseSha256": "4deb943a134452509468a50fe3afc06fe1f2ac9bfea102297a4695e263e7f37c",
+      "installedCliTiming": {
+        "status": "compared",
+        "axis": "step",
+        "source": "wall_time(train/loss)",
+        "source_metric": "train/loss",
+        "unit": "s/step",
+        "observations": 100,
+        "invalid_observations": 0,
+        "baseline": {
+          "first_position": 4,
+          "last_position": 80,
+          "interval_start_step": 0,
+          "observations": 20,
+          "invalid_observations": 0,
+          "median_seconds": 0.004249989986419678
+        },
+        "recent": {
+          "first_position": 820,
+          "last_position": 1200,
+          "interval_start_step": 800,
+          "observations": 20,
+          "invalid_observations": 0,
+          "median_seconds": 0.012150001525878907
+        },
+        "ratio": 2.8588306242374095,
+        "reason": null,
+        "notes": [
+          "Wall-clock intervals include evaluation, checkpointing, pauses and other work between observations. They are not isolated compute timings."
+        ],
+        "min_window": 5,
+        "baseline_fraction": 0.2
+      },
+      "svgSha256": "f4fe9c24597f10bc7bde49cc2ede003d5898405b58ed6ed58060b80775c1f213",
+      "metadata": {
+        "schemaVersion": 1,
+        "format": "trainspotter-chart",
+        "sourcePath": "studies/mlflow-native/fixtures/mlflow-3.17.1/mlflow.db",
+        "sourceFormat": "mlflow",
+        "selectedRun": "214bb67d331a4988b21e75b343876ee9",
+        "axisKind": "step",
+        "axisLabel": "steps",
+        "axisSource": "step",
+        "requestedMetrics": [
+          "train/loss"
+        ],
+        "plottedMetrics": [
+          "train/loss"
+        ],
+        "excludedMetrics": [],
+        "metricSources": {
+          "train/loss": "train/loss"
+        },
+        "inputComplete": true,
+        "inputNotes": [
+          "MLflow run 'slow-training' (214bb67d331a4988b21e75b343876ee9), experiment 1; recorded status FINISHED, lifecycle active.",
+          "MLflow SQL backends can normalize infinities to finite extremes. This reader restores native NaN flags but cannot reconstruct infinities already replaced by the backend.",
+          "Training-step column 'step' was selected explicitly (--step-key); its values are interpreted as training-step counts."
+        ],
+        "scope": "The report's displayed trajectory and heuristic finding bands. Display thinning and off-scale caps remain; this is not the original log or an independent diagnosis. Inspect the report and source log for evidence."
+      },
+      "errors": [],
+      "requests": [
+        "https://antonsoo.github.io/trainspotter/",
+        "https://antonsoo.github.io/trainspotter/mlflow-slowdown.html"
+      ]
+    },
+    {
+      "engine": "firefox",
+      "width": 375,
+      "nativeDatabaseSha256": "4deb943a134452509468a50fe3afc06fe1f2ac9bfea102297a4695e263e7f37c",
+      "installedCliTiming": {
+        "status": "compared",
+        "axis": "step",
+        "source": "wall_time(train/loss)",
+        "source_metric": "train/loss",
+        "unit": "s/step",
+        "observations": 100,
+        "invalid_observations": 0,
+        "baseline": {
+          "first_position": 4,
+          "last_position": 80,
+          "interval_start_step": 0,
+          "observations": 20,
+          "invalid_observations": 0,
+          "median_seconds": 0.004249989986419678
+        },
+        "recent": {
+          "first_position": 820,
+          "last_position": 1200,
+          "interval_start_step": 800,
+          "observations": 20,
+          "invalid_observations": 0,
+          "median_seconds": 0.012150001525878907
+        },
+        "ratio": 2.8588306242374095,
+        "reason": null,
+        "notes": [
+          "Wall-clock intervals include evaluation, checkpointing, pauses and other work between observations. They are not isolated compute timings."
+        ],
+        "min_window": 5,
+        "baseline_fraction": 0.2
+      },
+      "svgSha256": "f4fe9c24597f10bc7bde49cc2ede003d5898405b58ed6ed58060b80775c1f213",
+      "metadata": {
+        "schemaVersion": 1,
+        "format": "trainspotter-chart",
+        "sourcePath": "studies/mlflow-native/fixtures/mlflow-3.17.1/mlflow.db",
+        "sourceFormat": "mlflow",
+        "selectedRun": "214bb67d331a4988b21e75b343876ee9",
+        "axisKind": "step",
+        "axisLabel": "steps",
+        "axisSource": "step",
+        "requestedMetrics": [
+          "train/loss"
+        ],
+        "plottedMetrics": [
+          "train/loss"
+        ],
+        "excludedMetrics": [],
+        "metricSources": {
+          "train/loss": "train/loss"
+        },
+        "inputComplete": true,
+        "inputNotes": [
+          "MLflow run 'slow-training' (214bb67d331a4988b21e75b343876ee9), experiment 1; recorded status FINISHED, lifecycle active.",
+          "MLflow SQL backends can normalize infinities to finite extremes. This reader restores native NaN flags but cannot reconstruct infinities already replaced by the backend.",
+          "Training-step column 'step' was selected explicitly (--step-key); its values are interpreted as training-step counts."
+        ],
+        "scope": "The report's displayed trajectory and heuristic finding bands. Display thinning and off-scale caps remain; this is not the original log or an independent diagnosis. Inspect the report and source log for evidence."
+      },
+      "errors": [],
+      "requests": [
+        "https://antonsoo.github.io/trainspotter/",
+        "https://antonsoo.github.io/trainspotter/mlflow-slowdown.html"
+      ]
+    }
+  ]
+}
