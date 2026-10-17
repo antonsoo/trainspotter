@@ -29,6 +29,12 @@ for (const [engine, launch] of Object.entries({ chromium, firefox })) {
       page.on('request', request => { if (/^https?:/.test(request.url())) requests.push(request.url()); });
       try {
         await page.goto(url);
+        if (url.endsWith('/')) {
+          await Promise.all([
+            page.waitForURL(new URL('mlflow-slowdown.html', url).href, { waitUntil: 'load' }),
+            page.getByRole('link', { name: /One measured slowdown inside a native MLflow store/ }).click(),
+          ]);
+        }
         await context.setOffline(true);
         assert.equal(await page.locator('script').count(), 0);
         assert.match(await page.locator('.input-notes').first().innerText(), /MLflow run 'slow-training'/);
@@ -77,7 +83,9 @@ for (const [engine, launch] of Object.entries({ chromium, firefox })) {
                          svgSha256: sha(await readFile(svgPath)), metadata, errors, requests });
         } finally { await standalone.close(); }
         assert.deepEqual(errors, []);
-        assert.deepEqual(requests, /^https?:/.test(url) ? [url] : []);
+        assert.deepEqual(requests, /^https?:/.test(url)
+          ? url.endsWith('/') ? [url, new URL('mlflow-slowdown.html', url).href] : [url]
+          : []);
       } finally { await context.close(); }
     }
   } finally { await browser.close(); }
