@@ -23,9 +23,10 @@
   --mono: ui-monospace, "SFMono-Regular", "Cascadia Mono", Consolas, "Liberation Mono", monospace;
   --sans: -apple-system, "Segoe UI", "Helvetica Neue", Arial, sans-serif;
 }
+
 * { box-sizing: border-box; }
 a { color: var(--info); }
-a:focus-visible, .repeated-evidence summary:focus-visible, .table-scroll:focus-visible {
+a:focus-visible, .repeated-evidence summary:focus-visible, .unreadable-evidence summary:focus-visible, .table-scroll:focus-visible {
   outline: 2px solid var(--info); outline-offset: 3px;
 }
 html, body { margin: 0; padding: 0; background: var(--bg); color: var(--text); }
@@ -83,6 +84,13 @@ body {
 .repeated-evidence th:nth-child(2) { width: 70px; }
 .repeated-evidence th:nth-child(3) { width: 210px; }
 .repeated-evidence caption { text-align: left; padding: 10px 0; }
+.unreadable-evidence summary { cursor: pointer; padding: 5px 0; }
+.unreadable-evidence h2 { margin-top: 10px; }
+.unreadable-evidence table { width: 100%; min-width: 600px; table-layout: fixed; border-collapse: collapse; font-family: var(--mono); font-size: 12px; }
+.unreadable-evidence th, .unreadable-evidence td { text-align: left; padding: 8px; border-bottom: 1px solid var(--line); overflow-wrap: anywhere; }
+.unreadable-evidence th:nth-child(1) { width: 140px; }
+.unreadable-evidence th:nth-child(2) { width: 100px; }
+.unreadable-evidence caption { text-align: left; padding: 10px 0; }
 .table-hint { color: var(--text-muted); font-size: 12px; margin: 8px 0; }
 @media (min-width: 900px) { .table-hint { display: none; } }
 
@@ -101,6 +109,8 @@ body {
 
 .charts { display: flex; flex-direction: column; gap: 6px; margin-top: 10px; }
 .chart-block { background: var(--panel); border: 1px solid var(--line); border-radius: 2px; padding: 10px 14px 4px; }
+.chart-heading { display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: 6px 16px; margin-bottom: 4px; }
+.chart-download { font-family: var(--mono); font-size: 11px; white-space: nowrap; }
 .chart-block h2 {
   font-family: var(--mono); font-size: 12px; font-weight: 600; letter-spacing: 0.08em;
   text-transform: uppercase; color: var(--text-muted); margin: 0 0 4px; overflow-wrap: anywhere;
@@ -110,12 +120,14 @@ body {
 .chart-scroll { overflow-x: auto; }
 .chart-scroll:focus-visible { outline: 2px solid var(--info); outline-offset: 2px; }
 .chart-hint { display: none; }
+
 .grid { stroke: var(--line); stroke-width: 1; }
 .frame { stroke: var(--line-strong); stroke-width: 1; }
 .axis-y, .axis-x { font-family: var(--mono); font-size: 9px; fill: var(--text-dim); }
 .legend { font-family: var(--mono); font-size: 10px; fill: var(--text-muted); }
 .marker-bad { font-family: var(--mono); font-size: 13px; fill: var(--err); font-weight: 700; }
 .off-scale-label { font-family: var(--mono); font-size: 9px; font-weight: 600; }
+
 
 .findings-log { margin-top: 28px; }
 .log-title {
@@ -175,7 +187,7 @@ body {
       <div><dt>axis source</dt><dd>step</dd></div>
       
       
-      <div><dt>generated</dt><dd>2026-10-11 00:47 UTC</dd></div>
+      <div><dt>generated</dt><dd>2026-10-17 08:45 UTC</dd></div>
     </dl>
   </header>
 
@@ -194,7 +206,7 @@ body {
 
   <div class="charts">
     <p class="chart-hint">Scroll charts horizontally to inspect the full range of steps.</p>
-    <section class="chart-block"><h2>eval/loss</h2><div class="chart-scroll" tabindex="0" role="region" aria-label="eval/loss chart"><svg class="chart" viewBox="0 0 920 180" role="img" aria-label="eval/loss over steps 0 to 19"><line class="grid" x1="54" y1="154.0" x2="902" y2="154.0"/><text class="axis-y" x="46" y="157.0" text-anchor="end">0</text><line class="grid" x1="54" y1="113.8" x2="902" y2="113.8"/><text class="axis-y" x="46" y="116.8" text-anchor="end">2</text><line class="grid" x1="54" y1="73.5" x2="902" y2="73.5"/><text class="axis-y" x="46" y="76.5" text-anchor="end">4</text><line class="grid" x1="54" y1="33.3" x2="902" y2="33.3"/><text class="axis-y" x="46" y="36.3" text-anchor="end">6</text><line class="grid" x1="54.0" y1="14" x2="54.0" y2="154"/><text class="axis-x" x="54.0" y="170" text-anchor="middle">0</text><line class="grid" x1="277.2" y1="14" x2="277.2" y2="154"/><text class="axis-x" x="277.2" y="170" text-anchor="middle">5</text><line class="grid" x1="500.3" y1="14" x2="500.3" y2="154"/><text class="axis-x" x="500.3" y="170" text-anchor="middle">10</text><line class="grid" x1="723.5" y1="14" x2="723.5" y2="154"/><text class="axis-x" x="723.5" y="170" text-anchor="middle">15</text><rect class="finding-band" x="54.0" y="14" width="848.0" height="140" fill="#ff5d5d" fill-opacity="0.16"/><line x1="54.0" y1="14" x2="54.0" y2="154" stroke="#ff5d5d" stroke-opacity="0.55" stroke-width="1"/><rect class="finding-band" x="54.0" y="14" width="848.0" height="140" fill="#5fb3ff" fill-opacity="0.16"/><line x1="54.0" y1="14" x2="54.0" y2="154" stroke="#5fb3ff" stroke-opacity="0.55" stroke-width="1"/><path d="M54.0 109.8 L98.6 24.4 L143.3 109.8 L187.9 24.4 L232.5 109.8 L277.2 24.4 L321.8 109.8 L366.4 24.4 L411.1 109.8 L455.7 24.4 L500.3 109.8 L544.9 24.4 L589.6 109.8 L634.2 24.4 L678.8 109.8 L723.5 24.4 L768.1 109.8 L812.7 24.4 L857.4 109.8 L902.0 24.4" fill="none" stroke="#ffb454" stroke-width="1.75"/><rect class="frame" x="54" y="14" width="848" height="140" fill="none"/></svg></div></section>
+    <section class="chart-block"><div class="chart-heading"><h2>eval/loss</h2><a class="chart-download" download="trainspotter-1-eval-loss.svg" aria-label="Download eval/loss chart as SVG" href="data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz48c3ZnIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgd2lkdGg9IjkyMCIgaGVpZ2h0PSIyODEiIHZpZXdCb3g9IjAgMCA5MjAgMjgxIiByb2xlPSJpbWciIGFyaWEtbGFiZWxsZWRieT0iZXhwb3J0LXRpdGxlIj48dGl0bGUgaWQ9ImV4cG9ydC10aXRsZSI+ZXZhbC9sb3NzIG92ZXIgc3RlcHM8L3RpdGxlPjxkZXNjPkFubm90YXRlZCBjaGFydCBmcm9tIGEgVHJhaW5zcG90dGVyIHJlcG9ydC4gU291cmNlIGFuZCBpbnRlcnByZXRhdGlvbiBjb250ZXh0IGFyZSByZXRhaW5lZCBpbiB0aGUgdmlzaWJsZSBjYXB0aW9uIGFuZCBtZXRhZGF0YS48L2Rlc2M+PG1ldGFkYXRhPnsmcXVvdDtzY2hlbWFWZXJzaW9uJnF1b3Q7OiAxLCAmcXVvdDtmb3JtYXQmcXVvdDs6ICZxdW90O3RyYWluc3BvdHRlci1jaGFydCZxdW90OywgJnF1b3Q7c291cmNlUGF0aCZxdW90OzogJnF1b3Q7ZXhhbXBsZXMvZXZhbHVhdGlvbi9jYXB0dXJlZC9maXhlZC1jb2hvcnQtc3dpdGNoLmNzdiZxdW90OywgJnF1b3Q7c291cmNlRm9ybWF0JnF1b3Q7OiAmcXVvdDtjc3YmcXVvdDssICZxdW90O3NlbGVjdGVkUnVuJnF1b3Q7OiBudWxsLCAmcXVvdDtheGlzS2luZCZxdW90OzogJnF1b3Q7c3RlcCZxdW90OywgJnF1b3Q7YXhpc0xhYmVsJnF1b3Q7OiAmcXVvdDtzdGVwcyZxdW90OywgJnF1b3Q7YXhpc1NvdXJjZSZxdW90OzogJnF1b3Q7c3RlcCZxdW90OywgJnF1b3Q7cmVxdWVzdGVkTWV0cmljcyZxdW90OzogWyZxdW90O2V2YWwvbG9zcyZxdW90O10sICZxdW90O3Bsb3R0ZWRNZXRyaWNzJnF1b3Q7OiBbJnF1b3Q7ZXZhbC9sb3NzJnF1b3Q7XSwgJnF1b3Q7ZXhjbHVkZWRNZXRyaWNzJnF1b3Q7OiBbXSwgJnF1b3Q7bWV0cmljU291cmNlcyZxdW90OzogeyZxdW90O2V2YWwvbG9zcyZxdW90OzogJnF1b3Q7ZXZhbF9sb3NzJnF1b3Q7fSwgJnF1b3Q7aW5wdXRDb21wbGV0ZSZxdW90OzogdHJ1ZSwgJnF1b3Q7aW5wdXROb3RlcyZxdW90OzogW10sICZxdW90O3Njb3BlJnF1b3Q7OiAmcXVvdDtUaGUgcmVwb3J0JiN4Mjc7cyBkaXNwbGF5ZWQgdHJhamVjdG9yeSBhbmQgaGV1cmlzdGljIGZpbmRpbmcgYmFuZHMuIERpc3BsYXkgdGhpbm5pbmcgYW5kIG9mZi1zY2FsZSBjYXBzIHJlbWFpbjsgdGhpcyBpcyBub3QgdGhlIG9yaWdpbmFsIGxvZyBvciBhbiBpbmRlcGVuZGVudCBkaWFnbm9zaXMuIEluc3BlY3QgdGhlIHJlcG9ydCBhbmQgc291cmNlIGxvZyBmb3IgZXZpZGVuY2UuJnF1b3Q7fTwvbWV0YWRhdGE+PHN0eWxlPgouZ3JpZCB7IHN0cm9rZTogIzFmMjgzMDsgc3Ryb2tlLXdpZHRoOiAxOyB9Ci5mcmFtZSB7IHN0cm9rZTogIzJjMzk0NDsgc3Ryb2tlLXdpZHRoOiAxOyB9Ci5heGlzLXksIC5heGlzLXggeyBmb250LWZhbWlseTogbW9ub3NwYWNlOyBmb250LXNpemU6IDlweDsgZmlsbDogIzZlN2M4NzsgfQoubGVnZW5kIHsgZm9udC1mYW1pbHk6IG1vbm9zcGFjZTsgZm9udC1zaXplOiAxMHB4OyBmaWxsOiAjOGI5N2ExOyB9Ci5tYXJrZXItYmFkIHsgZm9udC1mYW1pbHk6IG1vbm9zcGFjZTsgZm9udC1zaXplOiAxM3B4OyBmaWxsOiAjZmY1ZDVkOyBmb250LXdlaWdodDogNzAwOyB9Ci5vZmYtc2NhbGUtbGFiZWwgeyBmb250LWZhbWlseTogbW9ub3NwYWNlOyBmb250LXNpemU6IDlweDsgZm9udC13ZWlnaHQ6IDYwMDsgfQoKc3ZnIHsgZm9udC1mYW1pbHk6IHNhbnMtc2VyaWY7IGZvbnQtc2l6ZTogMTRweDsgY29sb3I6ICNkOWUyZTg7IH1AbWVkaWEgc2NyZWVuIHsgc3ZnOnJvb3QgeyBtYXgtd2lkdGg6IDEwMCU7IGhlaWdodDogYXV0bzsgfSB9LmV4cG9ydC1jYXB0aW9uIHsgZm9udC1mYW1pbHk6IG1vbm9zcGFjZTsgZm9udC1zaXplOiAxMXB4OyBmaWxsOiAjZDllMmU4OyB9LmV4cG9ydC1mb290ZXIgeyBmb250LWZhbWlseTogc2Fucy1zZXJpZjsgZm9udC1zaXplOiAxMHB4OyBmaWxsOiAjOGI5N2ExOyB9PC9zdHlsZT48cmVjdCB3aWR0aD0iOTIwIiBoZWlnaHQ9IjI4MSIgZmlsbD0iIzEwMTUxYSIvPjx0ZXh0IGNsYXNzPSJleHBvcnQtY2FwdGlvbiIgeD0iMTgiIHk9IjIwIj5UUkFJTlNQT1RURVIgLyBldmFsL2xvc3M8L3RleHQ+PHRleHQgY2xhc3M9ImV4cG9ydC1jYXB0aW9uIiB4PSIxOCIgeT0iMzciPlNvdXJjZTogZXhhbXBsZXMvZXZhbHVhdGlvbi9jYXB0dXJlZC9maXhlZC1jb2hvcnQtc3dpdGNoLmNzdjwvdGV4dD48dGV4dCBjbGFzcz0iZXhwb3J0LWNhcHRpb24iIHg9IjE4IiB5PSI1NCI+SG9yaXpvbnRhbCBheGlzOiBzdGVwczwvdGV4dD48c3ZnIGNsYXNzPSJjaGFydCIgdmlld0JveD0iMCAwIDkyMCAxODAiIHJvbGU9ImltZyIgYXJpYS1sYWJlbD0iZXZhbC9sb3NzIG92ZXIgc3RlcHMgMCB0byAxOSIgeD0iMCIgeT0iNzEiIHdpZHRoPSI5MjAiIGhlaWdodD0iMTgwIj48bGluZSBjbGFzcz0iZ3JpZCIgeDE9IjU0IiB5MT0iMTU0LjAiIHgyPSI5MDIiIHkyPSIxNTQuMCIgLz48dGV4dCBjbGFzcz0iYXhpcy15IiB4PSI0NiIgeT0iMTU3LjAiIHRleHQtYW5jaG9yPSJlbmQiPjA8L3RleHQ+PGxpbmUgY2xhc3M9ImdyaWQiIHgxPSI1NCIgeTE9IjExMy44IiB4Mj0iOTAyIiB5Mj0iMTEzLjgiIC8+PHRleHQgY2xhc3M9ImF4aXMteSIgeD0iNDYiIHk9IjExNi44IiB0ZXh0LWFuY2hvcj0iZW5kIj4yPC90ZXh0PjxsaW5lIGNsYXNzPSJncmlkIiB4MT0iNTQiIHkxPSI3My41IiB4Mj0iOTAyIiB5Mj0iNzMuNSIgLz48dGV4dCBjbGFzcz0iYXhpcy15IiB4PSI0NiIgeT0iNzYuNSIgdGV4dC1hbmNob3I9ImVuZCI+NDwvdGV4dD48bGluZSBjbGFzcz0iZ3JpZCIgeDE9IjU0IiB5MT0iMzMuMyIgeDI9IjkwMiIgeTI9IjMzLjMiIC8+PHRleHQgY2xhc3M9ImF4aXMteSIgeD0iNDYiIHk9IjM2LjMiIHRleHQtYW5jaG9yPSJlbmQiPjY8L3RleHQ+PGxpbmUgY2xhc3M9ImdyaWQiIHgxPSI1NC4wIiB5MT0iMTQiIHgyPSI1NC4wIiB5Mj0iMTU0IiAvPjx0ZXh0IGNsYXNzPSJheGlzLXgiIHg9IjU0LjAiIHk9IjE3MCIgdGV4dC1hbmNob3I9Im1pZGRsZSI+MDwvdGV4dD48bGluZSBjbGFzcz0iZ3JpZCIgeDE9IjI3Ny4yIiB5MT0iMTQiIHgyPSIyNzcuMiIgeTI9IjE1NCIgLz48dGV4dCBjbGFzcz0iYXhpcy14IiB4PSIyNzcuMiIgeT0iMTcwIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIj41PC90ZXh0PjxsaW5lIGNsYXNzPSJncmlkIiB4MT0iNTAwLjMiIHkxPSIxNCIgeDI9IjUwMC4zIiB5Mj0iMTU0IiAvPjx0ZXh0IGNsYXNzPSJheGlzLXgiIHg9IjUwMC4zIiB5PSIxNzAiIHRleHQtYW5jaG9yPSJtaWRkbGUiPjEwPC90ZXh0PjxsaW5lIGNsYXNzPSJncmlkIiB4MT0iNzIzLjUiIHkxPSIxNCIgeDI9IjcyMy41IiB5Mj0iMTU0IiAvPjx0ZXh0IGNsYXNzPSJheGlzLXgiIHg9IjcyMy41IiB5PSIxNzAiIHRleHQtYW5jaG9yPSJtaWRkbGUiPjE1PC90ZXh0PjxyZWN0IGNsYXNzPSJmaW5kaW5nLWJhbmQiIHg9IjU0LjAiIHk9IjE0IiB3aWR0aD0iODQ4LjAiIGhlaWdodD0iMTQwIiBmaWxsPSIjZmY1ZDVkIiBmaWxsLW9wYWNpdHk9IjAuMTYiIC8+PGxpbmUgeDE9IjU0LjAiIHkxPSIxNCIgeDI9IjU0LjAiIHkyPSIxNTQiIHN0cm9rZT0iI2ZmNWQ1ZCIgc3Ryb2tlLW9wYWNpdHk9IjAuNTUiIHN0cm9rZS13aWR0aD0iMSIgLz48cmVjdCBjbGFzcz0iZmluZGluZy1iYW5kIiB4PSI1NC4wIiB5PSIxNCIgd2lkdGg9Ijg0OC4wIiBoZWlnaHQ9IjE0MCIgZmlsbD0iIzVmYjNmZiIgZmlsbC1vcGFjaXR5PSIwLjE2IiAvPjxsaW5lIHgxPSI1NC4wIiB5MT0iMTQiIHgyPSI1NC4wIiB5Mj0iMTU0IiBzdHJva2U9IiM1ZmIzZmYiIHN0cm9rZS1vcGFjaXR5PSIwLjU1IiBzdHJva2Utd2lkdGg9IjEiIC8+PHBhdGggZD0iTTU0LjAgMTA5LjggTDk4LjYgMjQuNCBMMTQzLjMgMTA5LjggTDE4Ny45IDI0LjQgTDIzMi41IDEwOS44IEwyNzcuMiAyNC40IEwzMjEuOCAxMDkuOCBMMzY2LjQgMjQuNCBMNDExLjEgMTA5LjggTDQ1NS43IDI0LjQgTDUwMC4zIDEwOS44IEw1NDQuOSAyNC40IEw1ODkuNiAxMDkuOCBMNjM0LjIgMjQuNCBMNjc4LjggMTA5LjggTDcyMy41IDI0LjQgTDc2OC4xIDEwOS44IEw4MTIuNyAyNC40IEw4NTcuNCAxMDkuOCBMOTAyLjAgMjQuNCIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjZmZiNDU0IiBzdHJva2Utd2lkdGg9IjEuNzUiIC8+PHJlY3QgY2xhc3M9ImZyYW1lIiB4PSI1NCIgeT0iMTQiIHdpZHRoPSI4NDgiIGhlaWdodD0iMTQwIiBmaWxsPSJub25lIiAvPjwvc3ZnPjx0ZXh0IGNsYXNzPSJleHBvcnQtZm9vdGVyIiB4PSIxOCIgeT0iMjcxIj5SZWFkIHRoZSBvcmlnaW5hbCByZXBvcnQgYW5kIGxvZyBmb3IgZnVsbCBkaWFnbm9zdGljIGV2aWRlbmNlLiBTaGFkZWQgZmluZGluZ3MgYXJlIGhldXJpc3RpY3MuPC90ZXh0Pjwvc3ZnPg==">Download SVG</a></div><div class="chart-scroll" tabindex="0" role="region" aria-label="eval/loss chart"><svg class="chart" viewBox="0 0 920 180" role="img" aria-label="eval/loss over steps 0 to 19"><line class="grid" x1="54" y1="154.0" x2="902" y2="154.0"/><text class="axis-y" x="46" y="157.0" text-anchor="end">0</text><line class="grid" x1="54" y1="113.8" x2="902" y2="113.8"/><text class="axis-y" x="46" y="116.8" text-anchor="end">2</text><line class="grid" x1="54" y1="73.5" x2="902" y2="73.5"/><text class="axis-y" x="46" y="76.5" text-anchor="end">4</text><line class="grid" x1="54" y1="33.3" x2="902" y2="33.3"/><text class="axis-y" x="46" y="36.3" text-anchor="end">6</text><line class="grid" x1="54.0" y1="14" x2="54.0" y2="154"/><text class="axis-x" x="54.0" y="170" text-anchor="middle">0</text><line class="grid" x1="277.2" y1="14" x2="277.2" y2="154"/><text class="axis-x" x="277.2" y="170" text-anchor="middle">5</text><line class="grid" x1="500.3" y1="14" x2="500.3" y2="154"/><text class="axis-x" x="500.3" y="170" text-anchor="middle">10</text><line class="grid" x1="723.5" y1="14" x2="723.5" y2="154"/><text class="axis-x" x="723.5" y="170" text-anchor="middle">15</text><rect class="finding-band" x="54.0" y="14" width="848.0" height="140" fill="#ff5d5d" fill-opacity="0.16"/><line x1="54.0" y1="14" x2="54.0" y2="154" stroke="#ff5d5d" stroke-opacity="0.55" stroke-width="1"/><rect class="finding-band" x="54.0" y="14" width="848.0" height="140" fill="#5fb3ff" fill-opacity="0.16"/><line x1="54.0" y1="14" x2="54.0" y2="154" stroke="#5fb3ff" stroke-opacity="0.55" stroke-width="1"/><path d="M54.0 109.8 L98.6 24.4 L143.3 109.8 L187.9 24.4 L232.5 109.8 L277.2 24.4 L321.8 109.8 L366.4 24.4 L411.1 109.8 L455.7 24.4 L500.3 109.8 L544.9 24.4 L589.6 109.8 L634.2 24.4 L678.8 109.8 L723.5 24.4 L768.1 109.8 L812.7 24.4 L857.4 109.8 L902.0 24.4" fill="none" stroke="#ffb454" stroke-width="1.75"/><rect class="frame" x="54" y="14" width="848" height="140" fill="none"/></svg></div></section>
   </div>
 
   <section class="findings-log">
