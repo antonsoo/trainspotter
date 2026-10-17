@@ -118,3 +118,26 @@ For the independent conversion check, create a separate Python 3.14 environment,
 install `requirements-cairo.txt`, then run `cairo.py /tmp/vector-browser /tmp/vector-cairo`.
 PDF inspection reports `unavailable` if Poppler tools are absent; it is not
 counted as a successful inspection in that case.
+
+## Clean artifacts
+
+The [clean source-archive receipt](results/clean-checks.json) identifies
+`0e6a0f7c8f1ce29ccf438fb157aefa29d9e833b3`, Python 3.14.7 and Node 24.21.0.
+Locked installation, lint, strict types, 752 tests, wheel/source builds,
+216 broader report workflows, 44 actual vector downloads and all 11 independent
+Cairo conversions passed. The build generated 17 sample reports and an index.
+All 21 detector, reader and model files match the original `9d0c62a` baseline.
+The [clean browser receipt](results/clean-browser.json),
+[conversion receipt](results/clean-cairo.json) and
+[screenshot comparison](results/clean-screenshots.json) retain the boundaries.
+All four standalone screenshots match the inspected working captures byte for
+byte. Full-report differences occupy the generated-time digits; the HTML is
+identical after removing only that timestamp.
+
+[Three separate package installations](results/installed.json) check the
+fresh wheel on Python 3.10.21 with NumPy 1.24.0 (the declared minimum), the
+wheel on Python 3.14.7 with NumPy 2.5.4, and a new source-archive installation
+on 3.14.7. All 31 installed runtime files match the clean archive. All seven
+selected cases retain identical geometry, metadata and 11 SVG payloads. The
+actual installed CLI produces five vector downloads in the divergence report.
+These are local built artifacts, not newly uploaded registry versions.

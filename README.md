@@ -28,6 +28,8 @@ Build a report with the current source behavior:
 
 ```bash
 git clone --depth 1 https://github.com/antonsoo/trainspotter && cd trainspotter
+python -m venv .venv
+. .venv/bin/activate
 python -m pip install .
 trainspotter analyze examples/divergence.trainer_state.json --output html --out report.html
 ```

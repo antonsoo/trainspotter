@@ -1,0 +1,82 @@
+{
+  "scope": "Four standalone chart captures are byte-identical. Full-report captures differ only in the generated timestamp area; their pixel bounds are recorded separately. Working full-report previews are retained.",
+  "comparisons": [
+    {
+      "file": "chromium-1440-report.png",
+      "workingSha256": "a8af575bc5ce4b67f2f5b552cbbdb6f70e199b0c8ccfbc638f85da0c37fe0905",
+      "cleanSha256": "a1b1eb30785cc9ef7dc99bef82e6bec7bbb6253151ff264c1d50a2c5e92a759c",
+      "byteIdentical": false,
+      "pixelDifferenceBounds": [
+        874,
+        86,
+        890,
+        95
+      ]
+    },
+    {
+      "file": "chromium-1440-standalone.png",
+      "workingSha256": "5e7da828eefca7769a6fb533374ad28d3079624ab93b9dd5118e549e714a3e59",
+      "cleanSha256": "5e7da828eefca7769a6fb533374ad28d3079624ab93b9dd5118e549e714a3e59",
+      "byteIdentical": true,
+      "pixelDifferenceBounds": null
+    },
+    {
+      "file": "chromium-375-report.png",
+      "workingSha256": "e60479e0f097833df9fed1bdc2635a744f57a8564776f6e743e0ea9c4437d80f",
+      "cleanSha256": "603d3eb13f2efa05309a019b3bf54007313763a12a7ffd3cdb42e06e5f74b002",
+      "byteIdentical": false,
+      "pixelDifferenceBounds": [
+        287,
+        157,
+        303,
+        166
+      ]
+    },
+    {
+      "file": "chromium-375-standalone.png",
+      "workingSha256": "eae7ed4e75373985fd33aa217d1338794f55bd264279a5d94e1b240e9041f840",
+      "cleanSha256": "eae7ed4e75373985fd33aa217d1338794f55bd264279a5d94e1b240e9041f840",
+      "byteIdentical": true,
+      "pixelDifferenceBounds": null
+    },
+    {
+      "file": "firefox-1440-report.png",
+      "workingSha256": "4285ca14899ec7009459a97595e3aa0e44a770010ede2824a7a220ca75a3df7b",
+      "cleanSha256": "6ce6bb8570d8cdaa25dc4c8f4e8bd32241fa0c76d1193168548c525df42d429c",
+      "byteIdentical": false,
+      "pixelDifferenceBounds": [
+        875,
+        86,
+        889,
+        95
+      ]
+    },
+    {
+      "file": "firefox-1440-standalone.png",
+      "workingSha256": "85a24ea44557b36e658a14cc474170551aef31ca3e7c6c31a5d1cef2dd9e9b8f",
+      "cleanSha256": "85a24ea44557b36e658a14cc474170551aef31ca3e7c6c31a5d1cef2dd9e9b8f",
+      "byteIdentical": true,
+      "pixelDifferenceBounds": null
+    },
+    {
+      "file": "firefox-375-report.png",
+      "workingSha256": "6aeea9f4eaf4f2533c2e3b87711db6cb3b2bd5fe4ee26f0bfd54437aeb9c5092",
+      "cleanSha256": "1a7f473a6686f6873433280fa0b447382b368f6e59277f869166e04fe4b0c31e",
+      "byteIdentical": false,
+      "pixelDifferenceBounds": [
+        288,
+        157,
+        302,
+        166
+      ]
+    },
+    {
+      "file": "firefox-375-standalone.png",
+      "workingSha256": "225b3cd44f8fd800cb3f4527a266416463427a78aebb48595480e3f8c7c7f088",
+      "cleanSha256": "225b3cd44f8fd800cb3f4527a266416463427a78aebb48595480e3f8c7c7f088",
+      "byteIdentical": true,
+      "pixelDifferenceBounds": null
+    }
+  ],
+  "fullReportHtmlEqualAfterRemovingOnlyGeneratedTimestamp": true
+}

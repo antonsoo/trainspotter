@@ -1,0 +1,4225 @@
+{
+  "scope": "Actual file:// report downloads, reopened as independent SVG files with the browser offline before navigation.",
+  "results": [
+    {
+      "engine": "chromium",
+      "width": 1440,
+      "offlineBeforeOpening": true,
+      "rows": [
+        {
+          "name": "recorded-divergence",
+          "downloads": [
+            {
+              "filename": "chromium-1440-recorded-divergence-0.svg",
+              "suggestedFilename": "trainspotter-1-train-loss-eval-loss.svg",
+              "bytes": 10196,
+              "sha256": "3629ff436602809702085c5555ab27f617f536f4b076122cb917fb76575f3d61",
+              "metadata": {
+                "schemaVersion": 1,
+                "format": "trainspotter-chart",
+                "sourcePath": "examples/divergence.trainer_state.json",
+                "sourceFormat": "hf",
+                "selectedRun": null,
+                "axisKind": "step",
+                "axisLabel": "steps",
+                "axisSource": null,
+                "requestedMetrics": [
+                  "train/loss",
+                  "eval/loss"
+                ],
+                "plottedMetrics": [
+                  "train/loss",
+                  "eval/loss"
+                ],
+                "excludedMetrics": [],
+                "metricSources": {
+                  "train/loss": "loss",
+                  "eval/loss": "eval_loss"
+                },
+                "inputComplete": true,
+                "inputNotes": [],
+                "scope": "The report's displayed trajectory and heuristic finding bands. Display thinning and off-scale caps remain; this is not the original log or an independent diagnosis. Inspect the report and source log for evidence."
+              },
+              "geometry": {
+                "rootWidth": 920,
+                "rootHeight": 299,
+                "innerWidth": 920,
+                "innerHeight": 198,
+                "footerTop": 280,
+                "axesBottom": 261,
+                "viewportWidth": 1440
+              },
+              "valueLabels": [
+                {
+                  "text": "54.88 / 55.49",
+                  "left": 817.2000122070312,
+                  "right": 888.2937622070312,
+                  "frameLeft": 0,
+                  "frameRight": 920,
+                  "separators": [
+                    "rgb(110, 124, 135)"
+                  ]
+                }
+              ],
+              "axes": [
+                {
+                  "text": "0",
+                  "fill": "rgb(110, 124, 135)"
+                },
+                {
+                  "text": "1",
+                  "fill": "rgb(110, 124, 135)"
+                },
+                {
+                  "text": "2",
+                  "fill": "rgb(110, 124, 135)"
+                },
+                {
+                  "text": "3",
+                  "fill": "rgb(110, 124, 135)"
+                },
+                {
+                  "text": "4",
+                  "fill": "rgb(110, 124, 135)"
+                },
+                {
+                  "text": "0",
+                  "fill": "rgb(110, 124, 135)"
+                },
+                {
+                  "text": "100",
+                  "fill": "rgb(110, 124, 135)"
+                },
+                {
+                  "text": "200",
+                  "fill": "rgb(110, 124, 135)"
+                },
+                {
+                  "text": "300",
+                  "fill": "rgb(110, 124, 135)"
+                }
+              ],
+              "grids": [
+                "rgb(31, 40, 48)",
+                "rgb(31, 40, 48)",
+                "rgb(31, 40, 48)",
+                "rgb(31, 40, 48)",
+                "rgb(31, 40, 48)",
+                "rgb(31, 40, 48)",
+                "rgb(31, 40, 48)",
+                "rgb(31, 40, 48)",
+                "rgb(31, 40, 48)"
+              ],
+              "svgNamespace": "http://www.w3.org/2000/svg"
+            },
+            {
+              "filename": "chromium-1440-recorded-divergence-1.svg",
+              "suggestedFilename": "trainspotter-2-lr.svg",
+              "bytes": 8290,
+              "sha256": "2f23382ca26e021eaaf9d5f2004e6ee35b4e17e88244bec35507e2fe12d5b0f3",
+              "metadata": {
+                "schemaVersion": 1,
+                "format": "trainspotter-chart",
+                "sourcePath": "examples/divergence.trainer_state.json",
+                "sourceFormat": "hf",
+                "selectedRun": null,
+                "axisKind": "step",
+                "axisLabel": "steps",
+                "axisSource": null,
+                "requestedMetrics": [
+                  "lr"
+                ],
+                "plottedMetrics": [
+                  "lr"
+                ],
+                "excludedMetrics": [],
+                "metricSources": {
+                  "lr": "learning_rate"
+                },
+                "inputComplete": true,
+                "inputNotes": [],
+                "scope": "The report's displayed trajectory and heuristic finding bands. Display thinning and off-scale caps remain; this is not the original log or an independent diagnosis. Inspect the report and source log for evidence."
+              },
+              "geometry": {
+                "rootWidth": 920,
+                "rootHeight": 281,
+                "innerWidth": 920,
+                "innerHeight": 180,
+                "footerTop": 262,
+                "axesBottom": 243,
+                "viewportWidth": 1440
+              },
+              "valueLabels": [
+                {
+                  "text": "30",
+                  "left": 877.7000122070312,
+                  "right": 888.5437622070312,
+                  "frameLeft": 0,
+                  "frameRight": 920,
+                  "separators": []
+                }
+              ],
+              "axes": [
+                {
+                  "text": "0",
+                  "fill": "rgb(110, 124, 135)"
+                },
+                {
+                  "text": "0.2",
+                  "fill": "rgb(110, 124, 135)"
+                },
+                {
+                  "text": "0.4",
+                  "fill": "rgb(110, 124, 135)"
+                },
+                {
+                  "text": "0.6",
+                  "fill": "rgb(110, 124, 135)"
+                },
+                {
+                  "text": "0",
+                  "fill": "rgb(110, 124, 135)"
+                },
+                {
+                  "text": "100",
+                  "fill": "rgb(110, 124, 135)"
+                },
+                {
+                  "text": "200",
+                  "fill": "rgb(110, 124, 135)"
+                },
+                {
+                  "text": "300",
+                  "fill": "rgb(110, 124, 135)"
+                }
+              ],
+              "grids": [
+                "rgb(31, 40, 48)",
+                "rgb(31, 40, 48)",
+                "rgb(31, 40, 48)",
+                "rgb(31, 40, 48)",
+                "rgb(31, 40, 48)",
+                "rgb(31, 40, 48)",
+                "rgb(31, 40, 48)",
+                "rgb(31, 40, 48)"
+              ],
+              "svgNamespace": "http://www.w3.org/2000/svg"
+            },
+            {
+              "filename": "chromium-1440-recorded-divergence-2.svg",
+              "suggestedFilename": "trainspotter-3-grad-norm.svg",
+              "bytes": 8535,
+              "sha256": "c6342dd63fa6276e57c2528c04d7d7430cacf07878214cb3f69f6801efb02af0",
+              "metadata": {
+                "schemaVersion": 1,
+                "format": "trainspotter-chart",
+                "sourcePath": "examples/divergence.trainer_state.json",
+                "sourceFormat": "hf",
+                "selectedRun": null,
+                "axisKind": "step",
+                "axisLabel": "steps",
+                "axisSource": null,
+                "requestedMetrics": [
+                  "grad_norm"
+                ],
+                "plottedMetrics": [
+                  "grad_norm"
+                ],
+                "excludedMetrics": [],
+                "metricSources": {
+                  "grad_norm": "grad_norm"
+                },
+                "inputComplete": true,
+                "inputNotes": [],
+                "scope": "The report's displayed trajectory and heuristic finding bands. Display thinning and off-scale caps remain; this is not the original log or an independent diagnosis. Inspect the report and source log for evidence."
+              },
+              "geometry": {
+                "rootWidth": 920,
+                "rootHeight": 281,
+                "innerWidth": 920,
+                "innerHeight": 180,
+                "footerTop": 262,
+                "axesBottom": 243,
+                "viewportWidth": 1440
+              },
+              "valueLabels": [
+                {
+                  "text": "23.02",
+                  "left": 863.9000244140625,
+                  "right": 890.9937744140625,
+                  "frameLeft": 0,
+                  "frameRight": 920,
+                  "separators": []
+                }
+              ],
+              "axes": [
+                {
+                  "text": "0",
+                  "fill": "rgb(110, 124, 135)"
+                },
+                {
+                  "text": "1",
+                  "fill": "rgb(110, 124, 135)"
+                },
+                {
+                  "text": "2",
+                  "fill": "rgb(110, 124, 135)"
+                },
+                {
+                  "text": "3",
+                  "fill": "rgb(110, 124, 135)"
+                },
+                {
+                  "text": "0",
+                  "fill": "rgb(110, 124, 135)"
+                },
+                {
+                  "text": "100",
+                  "fill": "rgb(110, 124, 135)"
+                },
+                {
+                  "text": "200",
+                  "fill": "rgb(110, 124, 135)"
+                },
+                {
+                  "text": "300",
+                  "fill": "rgb(110, 124, 135)"
+                }
+              ],
+              "grids": [
+                "rgb(31, 40, 48)",
+                "rgb(31, 40, 48)",
+                "rgb(31, 40, 48)",
+                "rgb(31, 40, 48)",
+                "rgb(31, 40, 48)",
+                "rgb(31, 40, 48)",
+                "rgb(31, 40, 48)",
+                "rgb(31, 40, 48)"
+              ],
+              "svgNamespace": "http://www.w3.org/2000/svg"
+            },
+            {
+              "filename": "chromium-1440-recorded-divergence-3.svg",
+              "suggestedFilename": "trainspotter-4-eval-accuracy.svg",
+              "bytes": 3966,
+              "sha256": "b5fdc1ee02e23eeb350640b5daf813572341b50b95d02305b7712c0c3586db73",
+              "metadata": {
+                "schemaVersion": 1,
+                "format": "trainspotter-chart",
+                "sourcePath": "examples/divergence.trainer_state.json",
+                "sourceFormat": "hf",
+                "selectedRun": null,
+                "axisKind": "step",
+                "axisLabel": "steps",
+                "axisSource": null,
+                "requestedMetrics": [
+                  "eval/accuracy"
+                ],
+                "plottedMetrics": [
+                  "eval/accuracy"
+                ],
+                "excludedMetrics": [],
+                "metricSources": {
+                  "eval/accuracy": "eval_accuracy"
+                },
+                "inputComplete": true,
+                "inputNotes": [],
+                "scope": "The report's displayed trajectory and heuristic finding bands. Display thinning and off-scale caps remain; this is not the original log or an independent diagnosis. Inspect the report and source log for evidence."
+              },
+              "geometry": {
+                "rootWidth": 920,
+                "rootHeight": 281,
+                "innerWidth": 920,
+                "innerHeight": 180,
+                "footerTop": 262,
+                "axesBottom": 243,
+                "viewportWidth": 1440
+              },
+              "valueLabels": [],
+              "axes": [
+                {
+                  "text": "0",
+                  "fill": "rgb(110, 124, 135)"
+                },
+                {
+                  "text": "0.5",
+                  "fill": "rgb(110, 124, 135)"
+                },
+                {
+                  "text": "1",
+                  "fill": "rgb(110, 124, 135)"
+                },
+                {
+                  "text": "0",
+                  "fill": "rgb(110, 124, 135)"
+                },
+                {
+                  "text": "100",
+                  "fill": "rgb(110, 124, 135)"
+                },
+                {
+                  "text": "200",
+                  "fill": "rgb(110, 124, 135)"
+                },
+                {
+                  "text": "300",
+                  "fill": "rgb(110, 124, 135)"
+                }
+              ],
+              "grids": [
+                "rgb(31, 40, 48)",
+                "rgb(31, 40, 48)",
+                "rgb(31, 40, 48)",
+                "rgb(31, 40, 48)",
+                "rgb(31, 40, 48)",
+                "rgb(31, 40, 48)",
+                "rgb(31, 40, 48)"
+              ],
+              "svgNamespace": "http://www.w3.org/2000/svg"
+            },
+            {
+              "filename": "chromium-1440-recorded-divergence-4.svg",
+              "suggestedFilename": "trainspotter-5-step-time.svg",
+              "bytes": 7779,
+              "sha256": "b089ad83bdc38a023c9dab65b58bf5985d365dcf4d12ca7651a9365cb180c321",
+              "metadata": {
+                "schemaVersion": 1,
+                "format": "trainspotter-chart",
+                "sourcePath": "examples/divergence.trainer_state.json",
+                "sourceFormat": "hf",
+                "selectedRun": null,
+                "axisKind": "step",
+                "axisLabel": "steps",
+                "axisSource": null,
+                "requestedMetrics": [
+                  "step_time"
+                ],
+                "plottedMetrics": [
+                  "step_time"
+                ],
+                "excludedMetrics": [],
+                "metricSources": {
+                  "step_time": "step_time"
+                },
+                "inputComplete": true,
+                "inputNotes": [],
+                "scope": "The report's displayed trajectory and heuristic finding bands. Display thinning and off-scale caps remain; this is not the original log or an independent diagnosis. Inspect the report and source log for evidence."
+              },
+              "geometry": {
+                "rootWidth": 920,
+                "rootHeight": 281,
+                "innerWidth": 920,
+                "innerHeight": 180,
+                "footerTop": 262,
+                "axesBottom": 243,
+                "viewportWidth": 1440
+              },
+              "valueLabels": [],
+              "axes": [
+                {
+                  "text": "0",
+                  "fill": "rgb(110, 124, 135)"
+                },
+                {
+                  "text": "5e-05",
+                  "fill": "rgb(110, 124, 135)"
+                },
+                {
+                  "text": "0.0001",
+                  "fill": "rgb(110, 124, 135)"
+                },
+                {
+                  "text": "0.00015",
+                  "fill": "rgb(110, 124, 135)"
+                },
+                {
+                  "text": "0",
+                  "fill": "rgb(110, 124, 135)"
+                },
+                {
+                  "text": "100",
+                  "fill": "rgb(110, 124, 135)"
+                },
+                {
+                  "text": "200",
+                  "fill": "rgb(110, 124, 135)"
+                },
+                {
+                  "text": "300",
+                  "fill": "rgb(110, 124, 135)"
+                }
+              ],
+              "grids": [
+                "rgb(31, 40, 48)",
+                "rgb(31, 40, 48)",
+                "rgb(31, 40, 48)",
+                "rgb(31, 40, 48)",
+                "rgb(31, 40, 48)",
+                "rgb(31, 40, 48)",
+                "rgb(31, 40, 48)",
+                "rgb(31, 40, 48)"
+              ],
+              "svgNamespace": "http://www.w3.org/2000/svg"
+            }
+          ]
+        },
+        {
+          "name": "recorded-logging-axis",
+          "downloads": [
+            {
+              "filename": "chromium-1440-recorded-logging-axis-0.svg",
+              "suggestedFilename": "trainspotter-1-train-loss.svg",
+              "bytes": 5573,
+              "sha256": "ee1d9b90cea2ed1a4f382b67f00942cee393754d7a6b1e06dff5b5c802760581",
+              "metadata": {
+                "schemaVersion": 1,
+                "format": "trainspotter-chart",
+                "sourcePath": "examples/wandb-axes/stable-logging.csv",
+                "sourceFormat": "wandb",
+                "selectedRun": null,
+                "axisKind": "logging_step",
+                "axisLabel": "logging steps",
+                "axisSource": "_step",
+                "requestedMetrics": [
+                  "train/loss"
+                ],
+                "plottedMetrics": [
+                  "train/loss"
+                ],
+                "excludedMetrics": [],
+                "metricSources": {
+                  "train/loss": "train/loss"
+                },
+                "inputComplete": true,
+                "inputNotes": [
+                  "The horizontal axis uses W&B logging counter '_step'; findings locate logging events, not training steps. Log a training counter or select one with --step-key to measure progress per training step."
+                ],
+                "scope": "The report's displayed trajectory and heuristic finding bands. Display thinning and off-scale caps remain; this is not the original log or an independent diagnosis. Inspect the report and source log for evidence."
+              },
+              "geometry": {
+                "rootWidth": 920,
+                "rootHeight": 298,
+                "innerWidth": 920,
+                "innerHeight": 180,
+                "footerTop": 279,
+                "axesBottom": 260,
+                "viewportWidth": 1440
+              },
+              "valueLabels": [],
+              "axes": [
+                {
+                  "text": "0",
+                  "fill": "rgb(110, 124, 135)"
+                },
+                {
+                  "text": "0.2",
+                  "fill": "rgb(110, 124, 135)"
+                },
+                {
+                  "text": "0.4",
+                  "fill": "rgb(110, 124, 135)"
+                },
+                {
+                  "text": "0.6",
+                  "fill": "rgb(110, 124, 135)"
+                },
+                {
+                  "text": "0",
+                  "fill": "rgb(110, 124, 135)"
+                },
+                {
+                  "text": "20",
+                  "fill": "rgb(110, 124, 135)"
+                },
+                {
+                  "text": "40",
+                  "fill": "rgb(110, 124, 135)"
+                },
+                {
+                  "text": "60",
+                  "fill": "rgb(110, 124, 135)"
+                },
+                {
+                  "text": "80",
+                  "fill": "rgb(110, 124, 135)"
+                },
+                {
+                  "text": "100",
+                  "fill": "rgb(110, 124, 135)"
+                }
+              ],
+              "grids": [
+                "rgb(31, 40, 48)",
+                "rgb(31, 40, 48)",
+                "rgb(31, 40, 48)",
+                "rgb(31, 40, 48)",
+                "rgb(31, 40, 48)",
+                "rgb(31, 40, 48)",
+                "rgb(31, 40, 48)",
+                "rgb(31, 40, 48)",
+                "rgb(31, 40, 48)",
+                "rgb(31, 40, 48)"
+              ],
+              "svgNamespace": "http://www.w3.org/2000/svg"
+            },
+            {
+              "filename": "chromium-1440-recorded-logging-axis-1.svg",
+              "suggestedFilename": "trainspotter-2-capture-elapsed.svg",
+              "bytes": 5514,
+              "sha256": "3cb0f61a9394bc37c28f383e2cd8b10b7beb017d4897fc660437db57ec4517b8",
+              "metadata": {
+                "schemaVersion": 1,
+                "format": "trainspotter-chart",
+                "sourcePath": "examples/wandb-axes/stable-logging.csv",
+                "sourceFormat": "wandb",
+                "selectedRun": null,
+                "axisKind": "logging_step",
+                "axisLabel": "logging steps",
+                "axisSource": "_step",
+                "requestedMetrics": [
+                  "capture/elapsed"
+                ],
+                "plottedMetrics": [
+                  "capture/elapsed"
+                ],
+                "excludedMetrics": [],
+                "metricSources": {
+                  "capture/elapsed": "capture/elapsed"
+                },
+                "inputComplete": true,
+                "inputNotes": [
+                  "The horizontal axis uses W&B logging counter '_step'; findings locate logging events, not training steps. Log a training counter or select one with --step-key to measure progress per training step."
+                ],
+                "scope": "The report's displayed trajectory and heuristic finding bands. Display thinning and off-scale caps remain; this is not the original log or an independent diagnosis. Inspect the report and source log for evidence."
+              },
+              "geometry": {
+                "rootWidth": 920,
+                "rootHeight": 298,
+                "innerWidth": 920,
+                "innerHeight": 180,
+                "footerTop": 279,
+                "axesBottom": 260,
+                "viewportWidth": 1440
+              },
+              "valueLabels": [],
+              "axes": [
+                {
+                  "text": "0",
+                  "fill": "rgb(110, 124, 135)"
+                },
+                {
+                  "text": "2",
+                  "fill": "rgb(110, 124, 135)"
+                },
+                {
+                  "text": "4",
+                  "fill": "rgb(110, 124, 135)"
+                },
+                {
+                  "text": "0",
+                  "fill": "rgb(110, 124, 135)"
+                },
+                {
+                  "text": "20",
+                  "fill": "rgb(110, 124, 135)"
+                },
+                {
+                  "text": "40",
+                  "fill": "rgb(110, 124, 135)"
+                },
+                {
+                  "text": "60",
+                  "fill": "rgb(110, 124, 135)"
+                },
+                {
+                  "text": "80",
+                  "fill": "rgb(110, 124, 135)"
+                },
+                {
+                  "text": "100",
+                  "fill": "rgb(110, 124, 135)"
+                }
+              ],
+              "grids": [
+                "rgb(31, 40, 48)",
+                "rgb(31, 40, 48)",
+                "rgb(31, 40, 48)",
+                "rgb(31, 40, 48)",
+                "rgb(31, 40, 48)",
+                "rgb(31, 40, 48)",
+                "rgb(31, 40, 48)",
+                "rgb(31, 40, 48)",
+                "rgb(31, 40, 48)"
+              ],
+              "svgNamespace": "http://www.w3.org/2000/svg"
+            }
+          ]
+        },
+        {
+          "name": "unreadable-gap",
+          "downloads": [
+            {
+              "filename": "chromium-1440-unreadable-gap-0.svg",
+              "suggestedFilename": "trainspotter-1-train-loss.svg",
+              "bytes": 4828,
+              "sha256": "8e00771ca8629017a49f219a858518bd2f9b0f73e3687e9248719ab3ea92bcbc",
+              "metadata": {
+                "schemaVersion": 1,
+                "format": "trainspotter-chart",
+                "sourcePath": "controlled-gap.jsonl",
+                "sourceFormat": "controlled",
+                "selectedRun": null,
+                "axisKind": "step",
+                "axisLabel": "steps",
+                "axisSource": null,
+                "requestedMetrics": [
+                  "train/loss"
+                ],
+                "plottedMetrics": [
+                  "train/loss"
+                ],
+                "excludedMetrics": [],
+                "metricSources": {
+                  "train/loss": "train/loss"
+                },
+                "inputComplete": false,
+                "inputNotes": [
+                  "train/loss: 1 unreadable values at recorded steps; trajectory checks stop at these gaps. These are not observed NaN/Inf values.",
+                  "Input is incomplete; findings describe only the readable data."
+                ],
+                "scope": "The report's displayed trajectory and heuristic finding bands. Display thinning and off-scale caps remain; this is not the original log or an independent diagnosis. Inspect the report and source log for evidence."
+              },
+              "geometry": {
+                "rootWidth": 920,
+                "rootHeight": 298,
+                "innerWidth": 920,
+                "innerHeight": 180,
+                "footerTop": 279,
+                "axesBottom": 260,
+                "viewportWidth": 1440
+              },
+              "valueLabels": [],
+              "axes": [
+                {
+                  "text": "0",
+                  "fill": "rgb(110, 124, 135)"
+                },
+                {
+                  "text": "0.1",
+                  "fill": "rgb(110, 124, 135)"
+                },
+                {
+                  "text": "0.2",
+                  "fill": "rgb(110, 124, 135)"
+                },
+                {
+                  "text": "0.3",
+                  "fill": "rgb(110, 124, 135)"
+                },
+                {
+                  "text": "0.4",
+                  "fill": "rgb(110, 124, 135)"
+                },
+                {
+                  "text": "0",
+                  "fill": "rgb(110, 124, 135)"
+                },
+                {
+                  "text": "1",
+                  "fill": "rgb(110, 124, 135)"
+                },
+                {
+                  "text": "2",
+                  "fill": "rgb(110, 124, 135)"
+                },
+                {
+                  "text": "3",
+                  "fill": "rgb(110, 124, 135)"
+                },
+                {
+                  "text": "4",
+                  "fill": "rgb(110, 124, 135)"
+                }
+              ],
+              "grids": [
+                "rgb(31, 40, 48)",
+                "rgb(31, 40, 48)",
+                "rgb(31, 40, 48)",
+                "rgb(31, 40, 48)",
+                "rgb(31, 40, 48)",
+                "rgb(31, 40, 48)",
+                "rgb(31, 40, 48)",
+                "rgb(31, 40, 48)",
+                "rgb(31, 40, 48)",
+                "rgb(31, 40, 48)"
+              ],
+              "svgNamespace": "http://www.w3.org/2000/svg"
+            }
+          ]
+        },
+        {
+          "name": "partial-peer",
+          "downloads": [
+            {
+              "filename": "chromium-1440-partial-peer-0.svg",
+              "suggestedFilename": "trainspotter-1-train-loss-eval-loss.svg",
+              "bytes": 4467,
+              "sha256": "90faef7a0f9faae53cecbc4a9e9d2c147a88d7fd0ea8467d062ae21479387c0e",
+              "metadata": {
+                "schemaVersion": 1,
+                "format": "trainspotter-chart",
+                "sourcePath": "controlled-contradiction.jsonl",
+                "sourceFormat": "controlled",
+                "selectedRun": null,
+                "axisKind": "step",
+                "axisLabel": "steps",
+                "axisSource": null,
+                "requestedMetrics": [
+                  "train/loss",
+                  "eval/loss"
+                ],
+                "plottedMetrics": [
+                  "eval/loss"
+                ],
+                "excludedMetrics": [
+                  "train/loss"
+                ],
+                "metricSources": {
+                  "train/loss": "train/loss",
+                  "eval/loss": "eval/loss"
+                },
+                "inputComplete": false,
+                "inputNotes": [
+                  "train/loss: 1 repeated reading across 1 step; equal values count once in analysis, and all readings remain in evidence.",
+                  "train/loss: 1 step has conflicting values. This metric is excluded from trajectory checks; separate the runs or writers first.",
+                  "Input is incomplete; findings describe only the readable data."
+                ],
+                "scope": "The report's displayed trajectory and heuristic finding bands. Display thinning and off-scale caps remain; this is not the original log or an independent diagnosis. Inspect the report and source log for evidence."
+              },
+              "geometry": {
+                "rootWidth": 920,
+                "rootHeight": 315,
+                "innerWidth": 920,
+                "innerHeight": 180,
+                "footerTop": 296,
+                "axesBottom": 277,
+                "viewportWidth": 1440
+              },
+              "valueLabels": [],
+              "axes": [
+                {
+                  "text": "0",
+                  "fill": "rgb(110, 124, 135)"
+                },
+                {
+                  "text": "1",
+                  "fill": "rgb(110, 124, 135)"
+                },
+                {
+                  "text": "2",
+                  "fill": "rgb(110, 124, 135)"
+                },
+                {
+                  "text": "0",
+                  "fill": "rgb(110, 124, 135)"
+                },
+                {
+                  "text": "0",
+                  "fill": "rgb(110, 124, 135)"
+                },
+                {
+                  "text": "0",
+                  "fill": "rgb(110, 124, 135)"
+                },
+                {
+                  "text": "0",
+                  "fill": "rgb(110, 124, 135)"
+                },
+                {
+                  "text": "0",
+                  "fill": "rgb(110, 124, 135)"
+                },
+                {
+                  "text": "1",
+                  "fill": "rgb(110, 124, 135)"
+                }
+              ],
+              "grids": [
+                "rgb(31, 40, 48)",
+                "rgb(31, 40, 48)",
+                "rgb(31, 40, 48)",
+                "rgb(31, 40, 48)",
+                "rgb(31, 40, 48)",
+                "rgb(31, 40, 48)",
+                "rgb(31, 40, 48)",
+                "rgb(31, 40, 48)",
+                "rgb(31, 40, 48)"
+              ],
+              "svgNamespace": "http://www.w3.org/2000/svg"
+            }
+          ]
+        },
+        {
+          "name": "no-trajectory",
+          "downloads": []
+        },
+        {
+          "name": "unsafe-names",
+          "downloads": [
+            {
+              "filename": "chromium-1440-unsafe-names-0.svg",
+              "suggestedFilename": "trainspotter-1-script-onload-bad.svg",
+              "bytes": 4241,
+              "sha256": "9e674ddda069c85e2e4ecbf08c24e44ab7f3f77a93df60fff83df3e19b4d82f0",
+              "metadata": {
+                "schemaVersion": 1,
+                "format": "trainspotter-chart",
+                "sourcePath": "<script onload=\"bad()\"> & ]]> 雨\u0000\u0001",
+                "sourceFormat": "controlled",
+                "selectedRun": null,
+                "axisKind": "step",
+                "axisLabel": "steps",
+                "axisSource": null,
+                "requestedMetrics": [
+                  "<script onload=\"bad()\"> & ]]> 雨\u0000\u0001"
+                ],
+                "plottedMetrics": [
+                  "<script onload=\"bad()\"> & ]]> 雨\u0000\u0001"
+                ],
+                "excludedMetrics": [],
+                "metricSources": {
+                  "<script onload=\"bad()\"> & ]]> 雨\u0000\u0001": "original ' column"
+                },
+                "inputComplete": true,
+                "inputNotes": [],
+                "scope": "The report's displayed trajectory and heuristic finding bands. Display thinning and off-scale caps remain; this is not the original log or an independent diagnosis. Inspect the report and source log for evidence."
+              },
+              "geometry": {
+                "rootWidth": 920,
+                "rootHeight": 281,
+                "innerWidth": 920,
+                "innerHeight": 180,
+                "footerTop": 262,
+                "axesBottom": 243,
+                "viewportWidth": 1440
+              },
+              "valueLabels": [],
+              "axes": [
+                {
+                  "text": "0",
+                  "fill": "rgb(110, 124, 135)"
+                },
+                {
+                  "text": "1",
+                  "fill": "rgb(110, 124, 135)"
+                },
+                {
+                  "text": "2",
+                  "fill": "rgb(110, 124, 135)"
+                },
+                {
+                  "text": "0",
+                  "fill": "rgb(110, 124, 135)"
+                },
+                {
+                  "text": "0",
+                  "fill": "rgb(110, 124, 135)"
+                },
+                {
+                  "text": "0",
+                  "fill": "rgb(110, 124, 135)"
+                },
+                {
+                  "text": "0",
+                  "fill": "rgb(110, 124, 135)"
+                },
+                {
+                  "text": "0",
+                  "fill": "rgb(110, 124, 135)"
+                },
+                {
+                  "text": "1",
+                  "fill": "rgb(110, 124, 135)"
+                }
+              ],
+              "grids": [
+                "rgb(31, 40, 48)",
+                "rgb(31, 40, 48)",
+                "rgb(31, 40, 48)",
+                "rgb(31, 40, 48)",
+                "rgb(31, 40, 48)",
+                "rgb(31, 40, 48)",
+                "rgb(31, 40, 48)",
+                "rgb(31, 40, 48)",
+                "rgb(31, 40, 48)"
+              ],
+              "svgNamespace": "http://www.w3.org/2000/svg"
+            }
+          ]
+        },
+        {
+          "name": "long-curve",
+          "downloads": [
+            {
+              "filename": "chromium-1440-long-curve-0.svg",
+              "suggestedFilename": "trainspotter-1-train-loss.svg",
+              "bytes": 88758,
+              "sha256": "0a1931dee224d03f4ada0b1ce51d942445225ac5908a90d997211b4b234e0b50",
+              "metadata": {
+                "schemaVersion": 1,
+                "format": "trainspotter-chart",
+                "sourcePath": "controlled-200000-observations",
+                "sourceFormat": "controlled",
+                "selectedRun": null,
+                "axisKind": "step",
+                "axisLabel": "steps",
+                "axisSource": null,
+                "requestedMetrics": [
+                  "train/loss"
+                ],
+                "plottedMetrics": [
+                  "train/loss"
+                ],
+                "excludedMetrics": [],
+                "metricSources": {
+                  "train/loss": "train/loss"
+                },
+                "inputComplete": true,
+                "inputNotes": [],
+                "scope": "The report's displayed trajectory and heuristic finding bands. Display thinning and off-scale caps remain; this is not the original log or an independent diagnosis. Inspect the report and source log for evidence."
+              },
+              "geometry": {
+                "rootWidth": 920,
+                "rootHeight": 281,
+                "innerWidth": 920,
+                "innerHeight": 180,
+                "footerTop": 262,
+                "axesBottom": 243,
+                "viewportWidth": 1440
+              },
+              "valueLabels": [],
+              "axes": [
+                {
+                  "text": "0",
+                  "fill": "rgb(110, 124, 135)"
+                },
+                {
+                  "text": "1",
+                  "fill": "rgb(110, 124, 135)"
+                },
+                {
+                  "text": "2",
+                  "fill": "rgb(110, 124, 135)"
+                },
+                {
+                  "text": "3",
+                  "fill": "rgb(110, 124, 135)"
+                },
+                {
+                  "text": "4",
+                  "fill": "rgb(110, 124, 135)"
+                },
+                {
+                  "text": "0",
+                  "fill": "rgb(110, 124, 135)"
+                },
+                {
+                  "text": "50000",
+                  "fill": "rgb(110, 124, 135)"
+                },
+                {
+                  "text": "100000",
+                  "fill": "rgb(110, 124, 135)"
+                },
+                {
+                  "text": "150000",
+                  "fill": "rgb(110, 124, 135)"
+                }
+              ],
+              "grids": [
+                "rgb(31, 40, 48)",
+                "rgb(31, 40, 48)",
+                "rgb(31, 40, 48)",
+                "rgb(31, 40, 48)",
+                "rgb(31, 40, 48)",
+                "rgb(31, 40, 48)",
+                "rgb(31, 40, 48)",
+                "rgb(31, 40, 48)",
+                "rgb(31, 40, 48)"
+              ],
+              "svgNamespace": "http://www.w3.org/2000/svg"
+            }
+          ]
+        }
+      ],
+      "errors": [],
+      "requests": [],
+      "csp": []
+    },
+    {
+      "engine": "chromium",
+      "width": 375,
+      "offlineBeforeOpening": true,
+      "rows": [
+        {
+          "name": "recorded-divergence",
+          "downloads": [
+            {
+              "filename": "chromium-375-recorded-divergence-0.svg",
+              "suggestedFilename": "trainspotter-1-train-loss-eval-loss.svg",
+              "bytes": 10196,
+              "sha256": "3629ff436602809702085c5555ab27f617f536f4b076122cb917fb76575f3d61",
+              "metadata": {
+                "schemaVersion": 1,
+                "format": "trainspotter-chart",
+                "sourcePath": "examples/divergence.trainer_state.json",
+                "sourceFormat": "hf",
+                "selectedRun": null,
+                "axisKind": "step",
+                "axisLabel": "steps",
+                "axisSource": null,
+                "requestedMetrics": [
+                  "train/loss",
+                  "eval/loss"
+                ],
+                "plottedMetrics": [
+                  "train/loss",
+                  "eval/loss"
+                ],
+                "excludedMetrics": [],
+                "metricSources": {
+                  "train/loss": "loss",
+                  "eval/loss": "eval_loss"
+                },
+                "inputComplete": true,
+                "inputNotes": [],
+                "scope": "The report's displayed trajectory and heuristic finding bands. Display thinning and off-scale caps remain; this is not the original log or an independent diagnosis. Inspect the report and source log for evidence."
+              },
+              "geometry": {
+                "rootWidth": 375,
+                "rootHeight": 121.875,
+                "innerWidth": 920,
+                "innerHeight": 198,
+                "footerTop": 113.79891967773438,
+                "axesBottom": 106.5706558227539,
+                "viewportWidth": 375
+              },
+              "valueLabels": [
+                {
+                  "text": "54.88 / 55.49",
+                  "left": 333.0978698730469,
+                  "right": 362.0482177734375,
+                  "frameLeft": 0,
+                  "frameRight": 375,
+                  "separators": [
+                    "rgb(110, 124, 135)"
+                  ]
+                }
+              ],
+              "axes": [
+                {
+                  "text": "0",
+                  "fill": "rgb(110, 124, 135)"
+                },
+                {
+                  "text": "1",
+                  "fill": "rgb(110, 124, 135)"
+                },
+                {
+                  "text": "2",
+                  "fill": "rgb(110, 124, 135)"
+                },
+                {
+                  "text": "3",
+                  "fill": "rgb(110, 124, 135)"
+                },
+                {
+                  "text": "4",
+                  "fill": "rgb(110, 124, 135)"
+                },
+                {
+                  "text": "0",
+                  "fill": "rgb(110, 124, 135)"
+                },
+                {
+                  "text": "100",
+                  "fill": "rgb(110, 124, 135)"
+                },
+                {
+                  "text": "200",
+                  "fill": "rgb(110, 124, 135)"
+                },
+                {
+                  "text": "300",
+                  "fill": "rgb(110, 124, 135)"
+                }
+              ],
+              "grids": [
+                "rgb(31, 40, 48)",
+                "rgb(31, 40, 48)",
+                "rgb(31, 40, 48)",
+                "rgb(31, 40, 48)",
+                "rgb(31, 40, 48)",
+                "rgb(31, 40, 48)",
+                "rgb(31, 40, 48)",
+                "rgb(31, 40, 48)",
+                "rgb(31, 40, 48)"
+              ],
+              "svgNamespace": "http://www.w3.org/2000/svg"
+            },
+            {
+              "filename": "chromium-375-recorded-divergence-1.svg",
+              "suggestedFilename": "trainspotter-2-lr.svg",
+              "bytes": 8290,
+              "sha256": "2f23382ca26e021eaaf9d5f2004e6ee35b4e17e88244bec35507e2fe12d5b0f3",
+              "metadata": {
+                "schemaVersion": 1,
+                "format": "trainspotter-chart",
+                "sourcePath": "examples/divergence.trainer_state.json",
+                "sourceFormat": "hf",
+                "selectedRun": null,
+                "axisKind": "step",
+                "axisLabel": "steps",
+                "axisSource": null,
+                "requestedMetrics": [
+                  "lr"
+                ],
+                "plottedMetrics": [
+                  "lr"
+                ],
+                "excludedMetrics": [],
+                "metricSources": {
+                  "lr": "learning_rate"
+                },
+                "inputComplete": true,
+                "inputNotes": [],
+                "scope": "The report's displayed trajectory and heuristic finding bands. Display thinning and off-scale caps remain; this is not the original log or an independent diagnosis. Inspect the report and source log for evidence."
+              },
+              "geometry": {
+                "rootWidth": 375,
+                "rootHeight": 114.53125,
+                "innerWidth": 920,
+                "innerHeight": 180,
+                "footerTop": 106.45540618896484,
+                "axesBottom": 99.22786712646484,
+                "viewportWidth": 375
+              },
+              "valueLabels": [
+                {
+                  "text": "30",
+                  "left": 357.748046875,
+                  "right": 362.1543273925781,
+                  "frameLeft": 0,
+                  "frameRight": 375,
+                  "separators": []
+                }
+              ],
+              "axes": [
+                {
+                  "text": "0",
+                  "fill": "rgb(110, 124, 135)"
+                },
+                {
+                  "text": "0.2",
+                  "fill": "rgb(110, 124, 135)"
+                },
+                {
+                  "text": "0.4",
+                  "fill": "rgb(110, 124, 135)"
+                },
+                {
+                  "text": "0.6",
+                  "fill": "rgb(110, 124, 135)"
+                },
+                {
+                  "text": "0",
+                  "fill": "rgb(110, 124, 135)"
+                },
+                {
+                  "text": "100",
+                  "fill": "rgb(110, 124, 135)"
+                },
+                {
+                  "text": "200",
+                  "fill": "rgb(110, 124, 135)"
+                },
+                {
+                  "text": "300",
+                  "fill": "rgb(110, 124, 135)"
+                }
+              ],
+              "grids": [
+                "rgb(31, 40, 48)",
+                "rgb(31, 40, 48)",
+                "rgb(31, 40, 48)",
+                "rgb(31, 40, 48)",
+                "rgb(31, 40, 48)",
+                "rgb(31, 40, 48)",
+                "rgb(31, 40, 48)",
+                "rgb(31, 40, 48)"
+              ],
+              "svgNamespace": "http://www.w3.org/2000/svg"
+            },
+            {
+              "filename": "chromium-375-recorded-divergence-2.svg",
+              "suggestedFilename": "trainspotter-3-grad-norm.svg",
+              "bytes": 8535,
+              "sha256": "c6342dd63fa6276e57c2528c04d7d7430cacf07878214cb3f69f6801efb02af0",
+              "metadata": {
+                "schemaVersion": 1,
+                "format": "trainspotter-chart",
+                "sourcePath": "examples/divergence.trainer_state.json",
+                "sourceFormat": "hf",
+                "selectedRun": null,
+                "axisKind": "step",
+                "axisLabel": "steps",
+                "axisSource": null,
+                "requestedMetrics": [
+                  "grad_norm"
+                ],
+                "plottedMetrics": [
+                  "grad_norm"
+                ],
+                "excludedMetrics": [],
+                "metricSources": {
+                  "grad_norm": "grad_norm"
+                },
+                "inputComplete": true,
+                "inputNotes": [],
+                "scope": "The report's displayed trajectory and heuristic finding bands. Display thinning and off-scale caps remain; this is not the original log or an independent diagnosis. Inspect the report and source log for evidence."
+              },
+              "geometry": {
+                "rootWidth": 375,
+                "rootHeight": 114.53125,
+                "innerWidth": 920,
+                "innerHeight": 180,
+                "footerTop": 106.45540618896484,
+                "axesBottom": 99.22786712646484,
+                "viewportWidth": 375
+              },
+              "valueLabels": [
+                {
+                  "text": "23.02",
+                  "left": 352.1233825683594,
+                  "right": 363.1390380859375,
+                  "frameLeft": 0,
+                  "frameRight": 375,
+                  "separators": []
+                }
+              ],
+              "axes": [
+                {
+                  "text": "0",
+                  "fill": "rgb(110, 124, 135)"
+                },
+                {
+                  "text": "1",
+                  "fill": "rgb(110, 124, 135)"
+                },
+                {
+                  "text": "2",
+                  "fill": "rgb(110, 124, 135)"
+                },
+                {
+                  "text": "3",
+                  "fill": "rgb(110, 124, 135)"
+                },
+                {
+                  "text": "0",
+                  "fill": "rgb(110, 124, 135)"
+                },
+                {
+                  "text": "100",
+                  "fill": "rgb(110, 124, 135)"
+                },
+                {
+                  "text": "200",
+                  "fill": "rgb(110, 124, 135)"
+                },
+                {
+                  "text": "300",
+                  "fill": "rgb(110, 124, 135)"
+                }
+              ],
+              "grids": [
+                "rgb(31, 40, 48)",
+                "rgb(31, 40, 48)",
+                "rgb(31, 40, 48)",
+                "rgb(31, 40, 48)",
+                "rgb(31, 40, 48)",
+                "rgb(31, 40, 48)",
+                "rgb(31, 40, 48)",
+                "rgb(31, 40, 48)"
+              ],
+              "svgNamespace": "http://www.w3.org/2000/svg"
+            },
+            {
+              "filename": "chromium-375-recorded-divergence-3.svg",
+              "suggestedFilename": "trainspotter-4-eval-accuracy.svg",
+              "bytes": 3966,
+              "sha256": "b5fdc1ee02e23eeb350640b5daf813572341b50b95d02305b7712c0c3586db73",
+              "metadata": {
+                "schemaVersion": 1,
+                "format": "trainspotter-chart",
+                "sourcePath": "examples/divergence.trainer_state.json",
+                "sourceFormat": "hf",
+                "selectedRun": null,
+                "axisKind": "step",
+                "axisLabel": "steps",
+                "axisSource": null,
+                "requestedMetrics": [
+                  "eval/accuracy"
+                ],
+                "plottedMetrics": [
+                  "eval/accuracy"
+                ],
+                "excludedMetrics": [],
+                "metricSources": {
+                  "eval/accuracy": "eval_accuracy"
+                },
+                "inputComplete": true,
+                "inputNotes": [],
+                "scope": "The report's displayed trajectory and heuristic finding bands. Display thinning and off-scale caps remain; this is not the original log or an independent diagnosis. Inspect the report and source log for evidence."
+              },
+              "geometry": {
+                "rootWidth": 375,
+                "rootHeight": 114.53125,
+                "innerWidth": 920,
+                "innerHeight": 180,
+                "footerTop": 106.45540618896484,
+                "axesBottom": 99.22786712646484,
+                "viewportWidth": 375
+              },
+              "valueLabels": [],
+              "axes": [
+                {
+                  "text": "0",
+                  "fill": "rgb(110, 124, 135)"
+                },
+                {
+                  "text": "0.5",
+                  "fill": "rgb(110, 124, 135)"
+                },
+                {
+                  "text": "1",
+                  "fill": "rgb(110, 124, 135)"
+                },
+                {
+                  "text": "0",
+                  "fill": "rgb(110, 124, 135)"
+                },
+                {
+                  "text": "100",
+                  "fill": "rgb(110, 124, 135)"
+                },
+                {
+                  "text": "200",
+                  "fill": "rgb(110, 124, 135)"
+                },
+                {
+                  "text": "300",
+                  "fill": "rgb(110, 124, 135)"
+                }
+              ],
+              "grids": [
+                "rgb(31, 40, 48)",
+                "rgb(31, 40, 48)",
+                "rgb(31, 40, 48)",
+                "rgb(31, 40, 48)",
+                "rgb(31, 40, 48)",
+                "rgb(31, 40, 48)",
+                "rgb(31, 40, 48)"
+              ],
+              "svgNamespace": "http://www.w3.org/2000/svg"
+            },
+            {
+              "filename": "chromium-375-recorded-divergence-4.svg",
+              "suggestedFilename": "trainspotter-5-step-time.svg",
+              "bytes": 7779,
+              "sha256": "b089ad83bdc38a023c9dab65b58bf5985d365dcf4d12ca7651a9365cb180c321",
+              "metadata": {
+                "schemaVersion": 1,
+                "format": "trainspotter-chart",
+                "sourcePath": "examples/divergence.trainer_state.json",
+                "sourceFormat": "hf",
+                "selectedRun": null,
+                "axisKind": "step",
+                "axisLabel": "steps",
+                "axisSource": null,
+                "requestedMetrics": [
+                  "step_time"
+                ],
+                "plottedMetrics": [
+                  "step_time"
+                ],
+                "excludedMetrics": [],
+                "metricSources": {
+                  "step_time": "step_time"
+                },
+                "inputComplete": true,
+                "inputNotes": [],
+                "scope": "The report's displayed trajectory and heuristic finding bands. Display thinning and off-scale caps remain; this is not the original log or an independent diagnosis. Inspect the report and source log for evidence."
+              },
+              "geometry": {
+                "rootWidth": 375,
+                "rootHeight": 114.53125,
+                "innerWidth": 920,
+                "innerHeight": 180,
+                "footerTop": 106.45540618896484,
+                "axesBottom": 99.22786712646484,
+                "viewportWidth": 375
+              },
+              "valueLabels": [],
+              "axes": [
+                {
+                  "text": "0",
+                  "fill": "rgb(110, 124, 135)"
+                },
+                {
+                  "text": "5e-05",
+                  "fill": "rgb(110, 124, 135)"
+                },
+                {
+                  "text": "0.0001",
+                  "fill": "rgb(110, 124, 135)"
+                },
+                {
+                  "text": "0.00015",
+                  "fill": "rgb(110, 124, 135)"
+                },
+                {
+                  "text": "0",
+                  "fill": "rgb(110, 124, 135)"
+                },
+                {
+                  "text": "100",
+                  "fill": "rgb(110, 124, 135)"
+                },
+                {
+                  "text": "200",
+                  "fill": "rgb(110, 124, 135)"
+                },
+                {
+                  "text": "300",
+                  "fill": "rgb(110, 124, 135)"
+                }
+              ],
+              "grids": [
+                "rgb(31, 40, 48)",
+                "rgb(31, 40, 48)",
+                "rgb(31, 40, 48)",
+                "rgb(31, 40, 48)",
+                "rgb(31, 40, 48)",
+                "rgb(31, 40, 48)",
+                "rgb(31, 40, 48)",
+                "rgb(31, 40, 48)"
+              ],
+              "svgNamespace": "http://www.w3.org/2000/svg"
+            }
+          ]
+        },
+        {
+          "name": "recorded-logging-axis",
+          "downloads": [
+            {
+              "filename": "chromium-375-recorded-logging-axis-0.svg",
+              "suggestedFilename": "trainspotter-1-train-loss.svg",
+              "bytes": 5573,
+              "sha256": "ee1d9b90cea2ed1a4f382b67f00942cee393754d7a6b1e06dff5b5c802760581",
+              "metadata": {
+                "schemaVersion": 1,
+                "format": "trainspotter-chart",
+                "sourcePath": "examples/wandb-axes/stable-logging.csv",
+                "sourceFormat": "wandb",
+                "selectedRun": null,
+                "axisKind": "logging_step",
+                "axisLabel": "logging steps",
+                "axisSource": "_step",
+                "requestedMetrics": [
+                  "train/loss"
+                ],
+                "plottedMetrics": [
+                  "train/loss"
+                ],
+                "excludedMetrics": [],
+                "metricSources": {
+                  "train/loss": "train/loss"
+                },
+                "inputComplete": true,
+                "inputNotes": [
+                  "The horizontal axis uses W&B logging counter '_step'; findings locate logging events, not training steps. Log a training counter or select one with --step-key to measure progress per training step."
+                ],
+                "scope": "The report's displayed trajectory and heuristic finding bands. Display thinning and off-scale caps remain; this is not the original log or an independent diagnosis. Inspect the report and source log for evidence."
+              },
+              "geometry": {
+                "rootWidth": 375,
+                "rootHeight": 121.453125,
+                "innerWidth": 920,
+                "innerHeight": 180,
+                "footerTop": 113.37751770019531,
+                "axesBottom": 106.15068817138672,
+                "viewportWidth": 375
+              },
+              "valueLabels": [],
+              "axes": [
+                {
+                  "text": "0",
+                  "fill": "rgb(110, 124, 135)"
+                },
+                {
+                  "text": "0.2",
+                  "fill": "rgb(110, 124, 135)"
+                },
+                {
+                  "text": "0.4",
+                  "fill": "rgb(110, 124, 135)"
+                },
+                {
+                  "text": "0.6",
+                  "fill": "rgb(110, 124, 135)"
+                },
+                {
+                  "text": "0",
+                  "fill": "rgb(110, 124, 135)"
+                },
+                {
+                  "text": "20",
+                  "fill": "rgb(110, 124, 135)"
+                },
+                {
+                  "text": "40",
+                  "fill": "rgb(110, 124, 135)"
+                },
+                {
+                  "text": "60",
+                  "fill": "rgb(110, 124, 135)"
+                },
+                {
+                  "text": "80",
+                  "fill": "rgb(110, 124, 135)"
+                },
+                {
+                  "text": "100",
+                  "fill": "rgb(110, 124, 135)"
+                }
+              ],
+              "grids": [
+                "rgb(31, 40, 48)",
+                "rgb(31, 40, 48)",
+                "rgb(31, 40, 48)",
+                "rgb(31, 40, 48)",
+                "rgb(31, 40, 48)",
+                "rgb(31, 40, 48)",
+                "rgb(31, 40, 48)",
+                "rgb(31, 40, 48)",
+                "rgb(31, 40, 48)",
+                "rgb(31, 40, 48)"
+              ],
+              "svgNamespace": "http://www.w3.org/2000/svg"
+            },
+            {
+              "filename": "chromium-375-recorded-logging-axis-1.svg",
+              "suggestedFilename": "trainspotter-2-capture-elapsed.svg",
+              "bytes": 5514,
+              "sha256": "3cb0f61a9394bc37c28f383e2cd8b10b7beb017d4897fc660437db57ec4517b8",
+              "metadata": {
+                "schemaVersion": 1,
+                "format": "trainspotter-chart",
+                "sourcePath": "examples/wandb-axes/stable-logging.csv",
+                "sourceFormat": "wandb",
+                "selectedRun": null,
+                "axisKind": "logging_step",
+                "axisLabel": "logging steps",
+                "axisSource": "_step",
+                "requestedMetrics": [
+                  "capture/elapsed"
+                ],
+                "plottedMetrics": [
+                  "capture/elapsed"
+                ],
+                "excludedMetrics": [],
+                "metricSources": {
+                  "capture/elapsed": "capture/elapsed"
+                },
+                "inputComplete": true,
+                "inputNotes": [
+                  "The horizontal axis uses W&B logging counter '_step'; findings locate logging events, not training steps. Log a training counter or select one with --step-key to measure progress per training step."
+                ],
+                "scope": "The report's displayed trajectory and heuristic finding bands. Display thinning and off-scale caps remain; this is not the original log or an independent diagnosis. Inspect the report and source log for evidence."
+              },
+              "geometry": {
+                "rootWidth": 375,
+                "rootHeight": 121.453125,
+                "innerWidth": 920,
+                "innerHeight": 180,
+                "footerTop": 113.37751770019531,
+                "axesBottom": 106.15068817138672,
+                "viewportWidth": 375
+              },
+              "valueLabels": [],
+              "axes": [
+                {
+                  "text": "0",
+                  "fill": "rgb(110, 124, 135)"
+                },
+                {
+                  "text": "2",
+                  "fill": "rgb(110, 124, 135)"
+                },
+                {
+                  "text": "4",
+                  "fill": "rgb(110, 124, 135)"
+                },
+                {
+                  "text": "0",
+                  "fill": "rgb(110, 124, 135)"
+                },
+                {
+                  "text": "20",
+                  "fill": "rgb(110, 124, 135)"
+                },
+                {
+                  "text": "40",
+                  "fill": "rgb(110, 124, 135)"
+                },
+                {
+                  "text": "60",
+                  "fill": "rgb(110, 124, 135)"
+                },
+                {
+                  "text": "80",
+                  "fill": "rgb(110, 124, 135)"
+                },
+                {
+                  "text": "100",
+                  "fill": "rgb(110, 124, 135)"
+                }
+              ],
+              "grids": [
+                "rgb(31, 40, 48)",
+                "rgb(31, 40, 48)",
+                "rgb(31, 40, 48)",
+                "rgb(31, 40, 48)",
+                "rgb(31, 40, 48)",
+                "rgb(31, 40, 48)",
+                "rgb(31, 40, 48)",
+                "rgb(31, 40, 48)",
+                "rgb(31, 40, 48)"
+              ],
+              "svgNamespace": "http://www.w3.org/2000/svg"
+            }
+          ]
+        },
+        {
+          "name": "unreadable-gap",
+          "downloads": [
+            {
+              "filename": "chromium-375-unreadable-gap-0.svg",
+              "suggestedFilename": "trainspotter-1-train-loss.svg",
+              "bytes": 4828,
+              "sha256": "8e00771ca8629017a49f219a858518bd2f9b0f73e3687e9248719ab3ea92bcbc",
+              "metadata": {
+                "schemaVersion": 1,
+                "format": "trainspotter-chart",
+                "sourcePath": "controlled-gap.jsonl",
+                "sourceFormat": "controlled",
+                "selectedRun": null,
+                "axisKind": "step",
+                "axisLabel": "steps",
+                "axisSource": null,
+                "requestedMetrics": [
+                  "train/loss"
+                ],
+                "plottedMetrics": [
+                  "train/loss"
+                ],
+                "excludedMetrics": [],
+                "metricSources": {
+                  "train/loss": "train/loss"
+                },
+                "inputComplete": false,
+                "inputNotes": [
+                  "train/loss: 1 unreadable values at recorded steps; trajectory checks stop at these gaps. These are not observed NaN/Inf values.",
+                  "Input is incomplete; findings describe only the readable data."
+                ],
+                "scope": "The report's displayed trajectory and heuristic finding bands. Display thinning and off-scale caps remain; this is not the original log or an independent diagnosis. Inspect the report and source log for evidence."
+              },
+              "geometry": {
+                "rootWidth": 375,
+                "rootHeight": 121.453125,
+                "innerWidth": 920,
+                "innerHeight": 180,
+                "footerTop": 113.37751770019531,
+                "axesBottom": 106.15068817138672,
+                "viewportWidth": 375
+              },
+              "valueLabels": [],
+              "axes": [
+                {
+                  "text": "0",
+                  "fill": "rgb(110, 124, 135)"
+                },
+                {
+                  "text": "0.1",
+                  "fill": "rgb(110, 124, 135)"
+                },
+                {
+                  "text": "0.2",
+                  "fill": "rgb(110, 124, 135)"
+                },
+                {
+                  "text": "0.3",
+                  "fill": "rgb(110, 124, 135)"
+                },
+                {
+                  "text": "0.4",
+                  "fill": "rgb(110, 124, 135)"
+                },
+                {
+                  "text": "0",
+                  "fill": "rgb(110, 124, 135)"
+                },
+                {
+                  "text": "1",
+                  "fill": "rgb(110, 124, 135)"
+                },
+                {
+                  "text": "2",
+                  "fill": "rgb(110, 124, 135)"
+                },
+                {
+                  "text": "3",
+                  "fill": "rgb(110, 124, 135)"
+                },
+                {
+                  "text": "4",
+                  "fill": "rgb(110, 124, 135)"
+                }
+              ],
+              "grids": [
+                "rgb(31, 40, 48)",
+                "rgb(31, 40, 48)",
+                "rgb(31, 40, 48)",
+                "rgb(31, 40, 48)",
+                "rgb(31, 40, 48)",
+                "rgb(31, 40, 48)",
+                "rgb(31, 40, 48)",
+                "rgb(31, 40, 48)",
+                "rgb(31, 40, 48)",
+                "rgb(31, 40, 48)"
+              ],
+              "svgNamespace": "http://www.w3.org/2000/svg"
+            }
+          ]
+        },
+        {
+          "name": "partial-peer",
+          "downloads": [
+            {
+              "filename": "chromium-375-partial-peer-0.svg",
+              "suggestedFilename": "trainspotter-1-train-loss-eval-loss.svg",
+              "bytes": 4467,
+              "sha256": "90faef7a0f9faae53cecbc4a9e9d2c147a88d7fd0ea8467d062ae21479387c0e",
+              "metadata": {
+                "schemaVersion": 1,
+                "format": "trainspotter-chart",
+                "sourcePath": "controlled-contradiction.jsonl",
+                "sourceFormat": "controlled",
+                "selectedRun": null,
+                "axisKind": "step",
+                "axisLabel": "steps",
+                "axisSource": null,
+                "requestedMetrics": [
+                  "train/loss",
+                  "eval/loss"
+                ],
+                "plottedMetrics": [
+                  "eval/loss"
+                ],
+                "excludedMetrics": [
+                  "train/loss"
+                ],
+                "metricSources": {
+                  "train/loss": "train/loss",
+                  "eval/loss": "eval/loss"
+                },
+                "inputComplete": false,
+                "inputNotes": [
+                  "train/loss: 1 repeated reading across 1 step; equal values count once in analysis, and all readings remain in evidence.",
+                  "train/loss: 1 step has conflicting values. This metric is excluded from trajectory checks; separate the runs or writers first.",
+                  "Input is incomplete; findings describe only the readable data."
+                ],
+                "scope": "The report's displayed trajectory and heuristic finding bands. Display thinning and off-scale caps remain; this is not the original log or an independent diagnosis. Inspect the report and source log for evidence."
+              },
+              "geometry": {
+                "rootWidth": 375,
+                "rootHeight": 128.390625,
+                "innerWidth": 920,
+                "innerHeight": 180,
+                "footerTop": 120.31474304199219,
+                "axesBottom": 113.08704376220703,
+                "viewportWidth": 375
+              },
+              "valueLabels": [],
+              "axes": [
+                {
+                  "text": "0",
+                  "fill": "rgb(110, 124, 135)"
+                },
+                {
+                  "text": "1",
+                  "fill": "rgb(110, 124, 135)"
+                },
+                {
+                  "text": "2",
+                  "fill": "rgb(110, 124, 135)"
+                },
+                {
+                  "text": "0",
+                  "fill": "rgb(110, 124, 135)"
+                },
+                {
+                  "text": "0",
+                  "fill": "rgb(110, 124, 135)"
+                },
+                {
+                  "text": "0",
+                  "fill": "rgb(110, 124, 135)"
+                },
+                {
+                  "text": "0",
+                  "fill": "rgb(110, 124, 135)"
+                },
+                {
+                  "text": "0",
+                  "fill": "rgb(110, 124, 135)"
+                },
+                {
+                  "text": "1",
+                  "fill": "rgb(110, 124, 135)"
+                }
+              ],
+              "grids": [
+                "rgb(31, 40, 48)",
+                "rgb(31, 40, 48)",
+                "rgb(31, 40, 48)",
+                "rgb(31, 40, 48)",
+                "rgb(31, 40, 48)",
+                "rgb(31, 40, 48)",
+                "rgb(31, 40, 48)",
+                "rgb(31, 40, 48)",
+                "rgb(31, 40, 48)"
+              ],
+              "svgNamespace": "http://www.w3.org/2000/svg"
+            }
+          ]
+        },
+        {
+          "name": "no-trajectory",
+          "downloads": []
+        },
+        {
+          "name": "unsafe-names",
+          "downloads": [
+            {
+              "filename": "chromium-375-unsafe-names-0.svg",
+              "suggestedFilename": "trainspotter-1-script-onload-bad.svg",
+              "bytes": 4241,
+              "sha256": "9e674ddda069c85e2e4ecbf08c24e44ab7f3f77a93df60fff83df3e19b4d82f0",
+              "metadata": {
+                "schemaVersion": 1,
+                "format": "trainspotter-chart",
+                "sourcePath": "<script onload=\"bad()\"> & ]]> 雨\u0000\u0001",
+                "sourceFormat": "controlled",
+                "selectedRun": null,
+                "axisKind": "step",
+                "axisLabel": "steps",
+                "axisSource": null,
+                "requestedMetrics": [
+                  "<script onload=\"bad()\"> & ]]> 雨\u0000\u0001"
+                ],
+                "plottedMetrics": [
+                  "<script onload=\"bad()\"> & ]]> 雨\u0000\u0001"
+                ],
+                "excludedMetrics": [],
+                "metricSources": {
+                  "<script onload=\"bad()\"> & ]]> 雨\u0000\u0001": "original ' column"
+                },
+                "inputComplete": true,
+                "inputNotes": [],
+                "scope": "The report's displayed trajectory and heuristic finding bands. Display thinning and off-scale caps remain; this is not the original log or an independent diagnosis. Inspect the report and source log for evidence."
+              },
+              "geometry": {
+                "rootWidth": 375,
+                "rootHeight": 114.53125,
+                "innerWidth": 920,
+                "innerHeight": 180,
+                "footerTop": 106.45540618896484,
+                "axesBottom": 99.22786712646484,
+                "viewportWidth": 375
+              },
+              "valueLabels": [],
+              "axes": [
+                {
+                  "text": "0",
+                  "fill": "rgb(110, 124, 135)"
+                },
+                {
+                  "text": "1",
+                  "fill": "rgb(110, 124, 135)"
+                },
+                {
+                  "text": "2",
+                  "fill": "rgb(110, 124, 135)"
+                },
+                {
+                  "text": "0",
+                  "fill": "rgb(110, 124, 135)"
+                },
+                {
+                  "text": "0",
+                  "fill": "rgb(110, 124, 135)"
+                },
+                {
+                  "text": "0",
+                  "fill": "rgb(110, 124, 135)"
+                },
+                {
+                  "text": "0",
+                  "fill": "rgb(110, 124, 135)"
+                },
+                {
+                  "text": "0",
+                  "fill": "rgb(110, 124, 135)"
+                },
+                {
+                  "text": "1",
+                  "fill": "rgb(110, 124, 135)"
+                }
+              ],
+              "grids": [
+                "rgb(31, 40, 48)",
+                "rgb(31, 40, 48)",
+                "rgb(31, 40, 48)",
+                "rgb(31, 40, 48)",
+                "rgb(31, 40, 48)",
+                "rgb(31, 40, 48)",
+                "rgb(31, 40, 48)",
+                "rgb(31, 40, 48)",
+                "rgb(31, 40, 48)"
+              ],
+              "svgNamespace": "http://www.w3.org/2000/svg"
+            }
+          ]
+        },
+        {
+          "name": "long-curve",
+          "downloads": [
+            {
+              "filename": "chromium-375-long-curve-0.svg",
+              "suggestedFilename": "trainspotter-1-train-loss.svg",
+              "bytes": 88758,
+              "sha256": "0a1931dee224d03f4ada0b1ce51d942445225ac5908a90d997211b4b234e0b50",
+              "metadata": {
+                "schemaVersion": 1,
+                "format": "trainspotter-chart",
+                "sourcePath": "controlled-200000-observations",
+                "sourceFormat": "controlled",
+                "selectedRun": null,
+                "axisKind": "step",
+                "axisLabel": "steps",
+                "axisSource": null,
+                "requestedMetrics": [
+                  "train/loss"
+                ],
+                "plottedMetrics": [
+                  "train/loss"
+                ],
+                "excludedMetrics": [],
+                "metricSources": {
+                  "train/loss": "train/loss"
+                },
+                "inputComplete": true,
+                "inputNotes": [],
+                "scope": "The report's displayed trajectory and heuristic finding bands. Display thinning and off-scale caps remain; this is not the original log or an independent diagnosis. Inspect the report and source log for evidence."
+              },
+              "geometry": {
+                "rootWidth": 375,
+                "rootHeight": 114.53125,
+                "innerWidth": 920,
+                "innerHeight": 180,
+                "footerTop": 106.45540618896484,
+                "axesBottom": 99.22786712646484,
+                "viewportWidth": 375
+              },
+              "valueLabels": [],
+              "axes": [
+                {
+                  "text": "0",
+                  "fill": "rgb(110, 124, 135)"
+                },
+                {
+                  "text": "1",
+                  "fill": "rgb(110, 124, 135)"
+                },
+                {
+                  "text": "2",
+                  "fill": "rgb(110, 124, 135)"
+                },
+                {
+                  "text": "3",
+                  "fill": "rgb(110, 124, 135)"
+                },
+                {
+                  "text": "4",
+                  "fill": "rgb(110, 124, 135)"
+                },
+                {
+                  "text": "0",
+                  "fill": "rgb(110, 124, 135)"
+                },
+                {
+                  "text": "50000",
+                  "fill": "rgb(110, 124, 135)"
+                },
+                {
+                  "text": "100000",
+                  "fill": "rgb(110, 124, 135)"
+                },
+                {
+                  "text": "150000",
+                  "fill": "rgb(110, 124, 135)"
+                }
+              ],
+              "grids": [
+                "rgb(31, 40, 48)",
+                "rgb(31, 40, 48)",
+                "rgb(31, 40, 48)",
+                "rgb(31, 40, 48)",
+                "rgb(31, 40, 48)",
+                "rgb(31, 40, 48)",
+                "rgb(31, 40, 48)",
+                "rgb(31, 40, 48)",
+                "rgb(31, 40, 48)"
+              ],
+              "svgNamespace": "http://www.w3.org/2000/svg"
+            }
+          ]
+        }
+      ],
+      "errors": [],
+      "requests": [],
+      "csp": []
+    },
+    {
+      "engine": "firefox",
+      "width": 1440,
+      "offlineBeforeOpening": true,
+      "rows": [
+        {
+          "name": "recorded-divergence",
+          "downloads": [
+            {
+              "filename": "firefox-1440-recorded-divergence-0.svg",
+              "suggestedFilename": "trainspotter-1-train-loss-eval-loss.svg",
+              "bytes": 10196,
+              "sha256": "3629ff436602809702085c5555ab27f617f536f4b076122cb917fb76575f3d61",
+              "metadata": {
+                "schemaVersion": 1,
+                "format": "trainspotter-chart",
+                "sourcePath": "examples/divergence.trainer_state.json",
+                "sourceFormat": "hf",
+                "selectedRun": null,
+                "axisKind": "step",
+                "axisLabel": "steps",
+                "axisSource": null,
+                "requestedMetrics": [
+                  "train/loss",
+                  "eval/loss"
+                ],
+                "plottedMetrics": [
+                  "train/loss",
+                  "eval/loss"
+                ],
+                "excludedMetrics": [],
+                "metricSources": {
+                  "train/loss": "loss",
+                  "eval/loss": "eval_loss"
+                },
+                "inputComplete": true,
+                "inputNotes": [],
+                "scope": "The report's displayed trajectory and heuristic finding bands. Display thinning and off-scale caps remain; this is not the original log or an independent diagnosis. Inspect the report and source log for evidence."
+              },
+              "geometry": {
+                "rootWidth": 920,
+                "rootHeight": 299,
+                "innerWidth": 920,
+                "innerHeight": 198,
+                "footerTop": 278,
+                "axesBottom": 263,
+                "viewportWidth": 1440
+              },
+              "valueLabels": [
+                {
+                  "text": "54.88 / 55.49",
+                  "left": 816.2000122070312,
+                  "right": 889.2833557128906,
+                  "frameLeft": 0,
+                  "frameRight": 920,
+                  "separators": [
+                    "rgb(110, 124, 135)"
+                  ]
+                }
+              ],
+              "axes": [
+                {
+                  "text": "0",
+                  "fill": "rgb(110, 124, 135)"
+                },
+                {
+                  "text": "1",
+                  "fill": "rgb(110, 124, 135)"
+                },
+                {
+                  "text": "2",
+                  "fill": "rgb(110, 124, 135)"
+                },
+                {
+                  "text": "3",
+                  "fill": "rgb(110, 124, 135)"
+                },
+                {
+                  "text": "4",
+                  "fill": "rgb(110, 124, 135)"
+                },
+                {
+                  "text": "0",
+                  "fill": "rgb(110, 124, 135)"
+                },
+                {
+                  "text": "100",
+                  "fill": "rgb(110, 124, 135)"
+                },
+                {
+                  "text": "200",
+                  "fill": "rgb(110, 124, 135)"
+                },
+                {
+                  "text": "300",
+                  "fill": "rgb(110, 124, 135)"
+                }
+              ],
+              "grids": [
+                "rgb(31, 40, 48)",
+                "rgb(31, 40, 48)",
+                "rgb(31, 40, 48)",
+                "rgb(31, 40, 48)",
+                "rgb(31, 40, 48)",
+                "rgb(31, 40, 48)",
+                "rgb(31, 40, 48)",
+                "rgb(31, 40, 48)",
+                "rgb(31, 40, 48)"
+              ],
+              "svgNamespace": "http://www.w3.org/2000/svg"
+            },
+            {
+              "filename": "firefox-1440-recorded-divergence-1.svg",
+              "suggestedFilename": "trainspotter-2-lr.svg",
+              "bytes": 8290,
+              "sha256": "2f23382ca26e021eaaf9d5f2004e6ee35b4e17e88244bec35507e2fe12d5b0f3",
+              "metadata": {
+                "schemaVersion": 1,
+                "format": "trainspotter-chart",
+                "sourcePath": "examples/divergence.trainer_state.json",
+                "sourceFormat": "hf",
+                "selectedRun": null,
+                "axisKind": "step",
+                "axisLabel": "steps",
+                "axisSource": null,
+                "requestedMetrics": [
+                  "lr"
+                ],
+                "plottedMetrics": [
+                  "lr"
+                ],
+                "excludedMetrics": [],
+                "metricSources": {
+                  "lr": "learning_rate"
+                },
+                "inputComplete": true,
+                "inputNotes": [],
+                "scope": "The report's displayed trajectory and heuristic finding bands. Display thinning and off-scale caps remain; this is not the original log or an independent diagnosis. Inspect the report and source log for evidence."
+              },
+              "geometry": {
+                "rootWidth": 920,
+                "rootHeight": 281,
+                "innerWidth": 920,
+                "innerHeight": 180,
+                "footerTop": 260,
+                "axesBottom": 245,
+                "viewportWidth": 1440
+              },
+              "valueLabels": [
+                {
+                  "text": "30",
+                  "left": 876.7000122070312,
+                  "right": 889.5333557128906,
+                  "frameLeft": 0,
+                  "frameRight": 920,
+                  "separators": []
+                }
+              ],
+              "axes": [
+                {
+                  "text": "0",
+                  "fill": "rgb(110, 124, 135)"
+                },
+                {
+                  "text": "0.2",
+                  "fill": "rgb(110, 124, 135)"
+                },
+                {
+                  "text": "0.4",
+                  "fill": "rgb(110, 124, 135)"
+                },
+                {
+                  "text": "0.6",
+                  "fill": "rgb(110, 124, 135)"
+                },
+                {
+                  "text": "0",
+                  "fill": "rgb(110, 124, 135)"
+                },
+                {
+                  "text": "100",
+                  "fill": "rgb(110, 124, 135)"
+                },
+                {
+                  "text": "200",
+                  "fill": "rgb(110, 124, 135)"
+                },
+                {
+                  "text": "300",
+                  "fill": "rgb(110, 124, 135)"
+                }
+              ],
+              "grids": [
+                "rgb(31, 40, 48)",
+                "rgb(31, 40, 48)",
+                "rgb(31, 40, 48)",
+                "rgb(31, 40, 48)",
+                "rgb(31, 40, 48)",
+                "rgb(31, 40, 48)",
+                "rgb(31, 40, 48)",
+                "rgb(31, 40, 48)"
+              ],
+              "svgNamespace": "http://www.w3.org/2000/svg"
+            },
+            {
+              "filename": "firefox-1440-recorded-divergence-2.svg",
+              "suggestedFilename": "trainspotter-3-grad-norm.svg",
+              "bytes": 8535,
+              "sha256": "c6342dd63fa6276e57c2528c04d7d7430cacf07878214cb3f69f6801efb02af0",
+              "metadata": {
+                "schemaVersion": 1,
+                "format": "trainspotter-chart",
+                "sourcePath": "examples/divergence.trainer_state.json",
+                "sourceFormat": "hf",
+                "selectedRun": null,
+                "axisKind": "step",
+                "axisLabel": "steps",
+                "axisSource": null,
+                "requestedMetrics": [
+                  "grad_norm"
+                ],
+                "plottedMetrics": [
+                  "grad_norm"
+                ],
+                "excludedMetrics": [],
+                "metricSources": {
+                  "grad_norm": "grad_norm"
+                },
+                "inputComplete": true,
+                "inputNotes": [],
+                "scope": "The report's displayed trajectory and heuristic finding bands. Display thinning and off-scale caps remain; this is not the original log or an independent diagnosis. Inspect the report and source log for evidence."
+              },
+              "geometry": {
+                "rootWidth": 920,
+                "rootHeight": 281,
+                "innerWidth": 920,
+                "innerHeight": 180,
+                "footerTop": 260,
+                "axesBottom": 245,
+                "viewportWidth": 1440
+              },
+              "valueLabels": [
+                {
+                  "text": "23.02",
+                  "left": 862.9000244140625,
+                  "right": 892.0000305175781,
+                  "frameLeft": 0,
+                  "frameRight": 920,
+                  "separators": []
+                }
+              ],
+              "axes": [
+                {
+                  "text": "0",
+                  "fill": "rgb(110, 124, 135)"
+                },
+                {
+                  "text": "1",
+                  "fill": "rgb(110, 124, 135)"
+                },
+                {
+                  "text": "2",
+                  "fill": "rgb(110, 124, 135)"
+                },
+                {
+                  "text": "3",
+                  "fill": "rgb(110, 124, 135)"
+                },
+                {
+                  "text": "0",
+                  "fill": "rgb(110, 124, 135)"
+                },
+                {
+                  "text": "100",
+                  "fill": "rgb(110, 124, 135)"
+                },
+                {
+                  "text": "200",
+                  "fill": "rgb(110, 124, 135)"
+                },
+                {
+                  "text": "300",
+                  "fill": "rgb(110, 124, 135)"
+                }
+              ],
+              "grids": [
+                "rgb(31, 40, 48)",
+                "rgb(31, 40, 48)",
+                "rgb(31, 40, 48)",
+                "rgb(31, 40, 48)",
+                "rgb(31, 40, 48)",
+                "rgb(31, 40, 48)",
+                "rgb(31, 40, 48)",
+                "rgb(31, 40, 48)"
+              ],
+              "svgNamespace": "http://www.w3.org/2000/svg"
+            },
+            {
+              "filename": "firefox-1440-recorded-divergence-3.svg",
+              "suggestedFilename": "trainspotter-4-eval-accuracy.svg",
+              "bytes": 3966,
+              "sha256": "b5fdc1ee02e23eeb350640b5daf813572341b50b95d02305b7712c0c3586db73",
+              "metadata": {
+                "schemaVersion": 1,
+                "format": "trainspotter-chart",
+                "sourcePath": "examples/divergence.trainer_state.json",
+                "sourceFormat": "hf",
+                "selectedRun": null,
+                "axisKind": "step",
+                "axisLabel": "steps",
+                "axisSource": null,
+                "requestedMetrics": [
+                  "eval/accuracy"
+                ],
+                "plottedMetrics": [
+                  "eval/accuracy"
+                ],
+                "excludedMetrics": [],
+                "metricSources": {
+                  "eval/accuracy": "eval_accuracy"
+                },
+                "inputComplete": true,
+                "inputNotes": [],
+                "scope": "The report's displayed trajectory and heuristic finding bands. Display thinning and off-scale caps remain; this is not the original log or an independent diagnosis. Inspect the report and source log for evidence."
+              },
+              "geometry": {
+                "rootWidth": 920,
+                "rootHeight": 281,
+                "innerWidth": 920,
+                "innerHeight": 180,
+                "footerTop": 260,
+                "axesBottom": 245,
+                "viewportWidth": 1440
+              },
+              "valueLabels": [],
+              "axes": [
+                {
+                  "text": "0",
+                  "fill": "rgb(110, 124, 135)"
+                },
+                {
+                  "text": "0.5",
+                  "fill": "rgb(110, 124, 135)"
+                },
+                {
+                  "text": "1",
+                  "fill": "rgb(110, 124, 135)"
+                },
+                {
+                  "text": "0",
+                  "fill": "rgb(110, 124, 135)"
+                },
+                {
+                  "text": "100",
+                  "fill": "rgb(110, 124, 135)"
+                },
+                {
+                  "text": "200",
+                  "fill": "rgb(110, 124, 135)"
+                },
+                {
+                  "text": "300",
+                  "fill": "rgb(110, 124, 135)"
+                }
+              ],
+              "grids": [
+                "rgb(31, 40, 48)",
+                "rgb(31, 40, 48)",
+                "rgb(31, 40, 48)",
+                "rgb(31, 40, 48)",
+                "rgb(31, 40, 48)",
+                "rgb(31, 40, 48)",
+                "rgb(31, 40, 48)"
+              ],
+              "svgNamespace": "http://www.w3.org/2000/svg"
+            },
+            {
+              "filename": "firefox-1440-recorded-divergence-4.svg",
+              "suggestedFilename": "trainspotter-5-step-time.svg",
+              "bytes": 7779,
+              "sha256": "b089ad83bdc38a023c9dab65b58bf5985d365dcf4d12ca7651a9365cb180c321",
+              "metadata": {
+                "schemaVersion": 1,
+                "format": "trainspotter-chart",
+                "sourcePath": "examples/divergence.trainer_state.json",
+                "sourceFormat": "hf",
+                "selectedRun": null,
+                "axisKind": "step",
+                "axisLabel": "steps",
+                "axisSource": null,
+                "requestedMetrics": [
+                  "step_time"
+                ],
+                "plottedMetrics": [
+                  "step_time"
+                ],
+                "excludedMetrics": [],
+                "metricSources": {
+                  "step_time": "step_time"
+                },
+                "inputComplete": true,
+                "inputNotes": [],
+                "scope": "The report's displayed trajectory and heuristic finding bands. Display thinning and off-scale caps remain; this is not the original log or an independent diagnosis. Inspect the report and source log for evidence."
+              },
+              "geometry": {
+                "rootWidth": 920,
+                "rootHeight": 281,
+                "innerWidth": 920,
+                "innerHeight": 180,
+                "footerTop": 260,
+                "axesBottom": 245,
+                "viewportWidth": 1440
+              },
+              "valueLabels": [],
+              "axes": [
+                {
+                  "text": "0",
+                  "fill": "rgb(110, 124, 135)"
+                },
+                {
+                  "text": "5e-05",
+                  "fill": "rgb(110, 124, 135)"
+                },
+                {
+                  "text": "0.0001",
+                  "fill": "rgb(110, 124, 135)"
+                },
+                {
+                  "text": "0.00015",
+                  "fill": "rgb(110, 124, 135)"
+                },
+                {
+                  "text": "0",
+                  "fill": "rgb(110, 124, 135)"
+                },
+                {
+                  "text": "100",
+                  "fill": "rgb(110, 124, 135)"
+                },
+                {
+                  "text": "200",
+                  "fill": "rgb(110, 124, 135)"
+                },
+                {
+                  "text": "300",
+                  "fill": "rgb(110, 124, 135)"
+                }
+              ],
+              "grids": [
+                "rgb(31, 40, 48)",
+                "rgb(31, 40, 48)",
+                "rgb(31, 40, 48)",
+                "rgb(31, 40, 48)",
+                "rgb(31, 40, 48)",
+                "rgb(31, 40, 48)",
+                "rgb(31, 40, 48)",
+                "rgb(31, 40, 48)"
+              ],
+              "svgNamespace": "http://www.w3.org/2000/svg"
+            }
+          ]
+        },
+        {
+          "name": "recorded-logging-axis",
+          "downloads": [
+            {
+              "filename": "firefox-1440-recorded-logging-axis-0.svg",
+              "suggestedFilename": "trainspotter-1-train-loss.svg",
+              "bytes": 5573,
+              "sha256": "ee1d9b90cea2ed1a4f382b67f00942cee393754d7a6b1e06dff5b5c802760581",
+              "metadata": {
+                "schemaVersion": 1,
+                "format": "trainspotter-chart",
+                "sourcePath": "examples/wandb-axes/stable-logging.csv",
+                "sourceFormat": "wandb",
+                "selectedRun": null,
+                "axisKind": "logging_step",
+                "axisLabel": "logging steps",
+                "axisSource": "_step",
+                "requestedMetrics": [
+                  "train/loss"
+                ],
+                "plottedMetrics": [
+                  "train/loss"
+                ],
+                "excludedMetrics": [],
+                "metricSources": {
+                  "train/loss": "train/loss"
+                },
+                "inputComplete": true,
+                "inputNotes": [
+                  "The horizontal axis uses W&B logging counter '_step'; findings locate logging events, not training steps. Log a training counter or select one with --step-key to measure progress per training step."
+                ],
+                "scope": "The report's displayed trajectory and heuristic finding bands. Display thinning and off-scale caps remain; this is not the original log or an independent diagnosis. Inspect the report and source log for evidence."
+              },
+              "geometry": {
+                "rootWidth": 920,
+                "rootHeight": 298,
+                "innerWidth": 920,
+                "innerHeight": 180,
+                "footerTop": 277,
+                "axesBottom": 262,
+                "viewportWidth": 1440
+              },
+              "valueLabels": [],
+              "axes": [
+                {
+                  "text": "0",
+                  "fill": "rgb(110, 124, 135)"
+                },
+                {
+                  "text": "0.2",
+                  "fill": "rgb(110, 124, 135)"
+                },
+                {
+                  "text": "0.4",
+                  "fill": "rgb(110, 124, 135)"
+                },
+                {
+                  "text": "0.6",
+                  "fill": "rgb(110, 124, 135)"
+                },
+                {
+                  "text": "0",
+                  "fill": "rgb(110, 124, 135)"
+                },
+                {
+                  "text": "20",
+                  "fill": "rgb(110, 124, 135)"
+                },
+                {
+                  "text": "40",
+                  "fill": "rgb(110, 124, 135)"
+                },
+                {
+                  "text": "60",
+                  "fill": "rgb(110, 124, 135)"
+                },
+                {
+                  "text": "80",
+                  "fill": "rgb(110, 124, 135)"
+                },
+                {
+                  "text": "100",
+                  "fill": "rgb(110, 124, 135)"
+                }
+              ],
+              "grids": [
+                "rgb(31, 40, 48)",
+                "rgb(31, 40, 48)",
+                "rgb(31, 40, 48)",
+                "rgb(31, 40, 48)",
+                "rgb(31, 40, 48)",
+                "rgb(31, 40, 48)",
+                "rgb(31, 40, 48)",
+                "rgb(31, 40, 48)",
+                "rgb(31, 40, 48)",
+                "rgb(31, 40, 48)"
+              ],
+              "svgNamespace": "http://www.w3.org/2000/svg"
+            },
+            {
+              "filename": "firefox-1440-recorded-logging-axis-1.svg",
+              "suggestedFilename": "trainspotter-2-capture-elapsed.svg",
+              "bytes": 5514,
+              "sha256": "3cb0f61a9394bc37c28f383e2cd8b10b7beb017d4897fc660437db57ec4517b8",
+              "metadata": {
+                "schemaVersion": 1,
+                "format": "trainspotter-chart",
+                "sourcePath": "examples/wandb-axes/stable-logging.csv",
+                "sourceFormat": "wandb",
+                "selectedRun": null,
+                "axisKind": "logging_step",
+                "axisLabel": "logging steps",
+                "axisSource": "_step",
+                "requestedMetrics": [
+                  "capture/elapsed"
+                ],
+                "plottedMetrics": [
+                  "capture/elapsed"
+                ],
+                "excludedMetrics": [],
+                "metricSources": {
+                  "capture/elapsed": "capture/elapsed"
+                },
+                "inputComplete": true,
+                "inputNotes": [
+                  "The horizontal axis uses W&B logging counter '_step'; findings locate logging events, not training steps. Log a training counter or select one with --step-key to measure progress per training step."
+                ],
+                "scope": "The report's displayed trajectory and heuristic finding bands. Display thinning and off-scale caps remain; this is not the original log or an independent diagnosis. Inspect the report and source log for evidence."
+              },
+              "geometry": {
+                "rootWidth": 920,
+                "rootHeight": 298,
+                "innerWidth": 920,
+                "innerHeight": 180,
+                "footerTop": 277,
+                "axesBottom": 262,
+                "viewportWidth": 1440
+              },
+              "valueLabels": [],
+              "axes": [
+                {
+                  "text": "0",
+                  "fill": "rgb(110, 124, 135)"
+                },
+                {
+                  "text": "2",
+                  "fill": "rgb(110, 124, 135)"
+                },
+                {
+                  "text": "4",
+                  "fill": "rgb(110, 124, 135)"
+                },
+                {
+                  "text": "0",
+                  "fill": "rgb(110, 124, 135)"
+                },
+                {
+                  "text": "20",
+                  "fill": "rgb(110, 124, 135)"
+                },
+                {
+                  "text": "40",
+                  "fill": "rgb(110, 124, 135)"
+                },
+                {
+                  "text": "60",
+                  "fill": "rgb(110, 124, 135)"
+                },
+                {
+                  "text": "80",
+                  "fill": "rgb(110, 124, 135)"
+                },
+                {
+                  "text": "100",
+                  "fill": "rgb(110, 124, 135)"
+                }
+              ],
+              "grids": [
+                "rgb(31, 40, 48)",
+                "rgb(31, 40, 48)",
+                "rgb(31, 40, 48)",
+                "rgb(31, 40, 48)",
+                "rgb(31, 40, 48)",
+                "rgb(31, 40, 48)",
+                "rgb(31, 40, 48)",
+                "rgb(31, 40, 48)",
+                "rgb(31, 40, 48)"
+              ],
+              "svgNamespace": "http://www.w3.org/2000/svg"
+            }
+          ]
+        },
+        {
+          "name": "unreadable-gap",
+          "downloads": [
+            {
+              "filename": "firefox-1440-unreadable-gap-0.svg",
+              "suggestedFilename": "trainspotter-1-train-loss.svg",
+              "bytes": 4828,
+              "sha256": "8e00771ca8629017a49f219a858518bd2f9b0f73e3687e9248719ab3ea92bcbc",
+              "metadata": {
+                "schemaVersion": 1,
+                "format": "trainspotter-chart",
+                "sourcePath": "controlled-gap.jsonl",
+                "sourceFormat": "controlled",
+                "selectedRun": null,
+                "axisKind": "step",
+                "axisLabel": "steps",
+                "axisSource": null,
+                "requestedMetrics": [
+                  "train/loss"
+                ],
+                "plottedMetrics": [
+                  "train/loss"
+                ],
+                "excludedMetrics": [],
+                "metricSources": {
+                  "train/loss": "train/loss"
+                },
+                "inputComplete": false,
+                "inputNotes": [
+                  "train/loss: 1 unreadable values at recorded steps; trajectory checks stop at these gaps. These are not observed NaN/Inf values.",
+                  "Input is incomplete; findings describe only the readable data."
+                ],
+                "scope": "The report's displayed trajectory and heuristic finding bands. Display thinning and off-scale caps remain; this is not the original log or an independent diagnosis. Inspect the report and source log for evidence."
+              },
+              "geometry": {
+                "rootWidth": 920,
+                "rootHeight": 298,
+                "innerWidth": 920,
+                "innerHeight": 180,
+                "footerTop": 277,
+                "axesBottom": 262,
+                "viewportWidth": 1440
+              },
+              "valueLabels": [],
+              "axes": [
+                {
+                  "text": "0",
+                  "fill": "rgb(110, 124, 135)"
+                },
+                {
+                  "text": "0.1",
+                  "fill": "rgb(110, 124, 135)"
+                },
+                {
+                  "text": "0.2",
+                  "fill": "rgb(110, 124, 135)"
+                },
+                {
+                  "text": "0.3",
+                  "fill": "rgb(110, 124, 135)"
+                },
+                {
+                  "text": "0.4",
+                  "fill": "rgb(110, 124, 135)"
+                },
+                {
+                  "text": "0",
+                  "fill": "rgb(110, 124, 135)"
+                },
+                {
+                  "text": "1",
+                  "fill": "rgb(110, 124, 135)"
+                },
+                {
+                  "text": "2",
+                  "fill": "rgb(110, 124, 135)"
+                },
+                {
+                  "text": "3",
+                  "fill": "rgb(110, 124, 135)"
+                },
+                {
+                  "text": "4",
+                  "fill": "rgb(110, 124, 135)"
+                }
+              ],
+              "grids": [
+                "rgb(31, 40, 48)",
+                "rgb(31, 40, 48)",
+                "rgb(31, 40, 48)",
+                "rgb(31, 40, 48)",
+                "rgb(31, 40, 48)",
+                "rgb(31, 40, 48)",
+                "rgb(31, 40, 48)",
+                "rgb(31, 40, 48)",
+                "rgb(31, 40, 48)",
+                "rgb(31, 40, 48)"
+              ],
+              "svgNamespace": "http://www.w3.org/2000/svg"
+            }
+          ]
+        },
+        {
+          "name": "partial-peer",
+          "downloads": [
+            {
+              "filename": "firefox-1440-partial-peer-0.svg",
+              "suggestedFilename": "trainspotter-1-train-loss-eval-loss.svg",
+              "bytes": 4467,
+              "sha256": "90faef7a0f9faae53cecbc4a9e9d2c147a88d7fd0ea8467d062ae21479387c0e",
+              "metadata": {
+                "schemaVersion": 1,
+                "format": "trainspotter-chart",
+                "sourcePath": "controlled-contradiction.jsonl",
+                "sourceFormat": "controlled",
+                "selectedRun": null,
+                "axisKind": "step",
+                "axisLabel": "steps",
+                "axisSource": null,
+                "requestedMetrics": [
+                  "train/loss",
+                  "eval/loss"
+                ],
+                "plottedMetrics": [
+                  "eval/loss"
+                ],
+                "excludedMetrics": [
+                  "train/loss"
+                ],
+                "metricSources": {
+                  "train/loss": "train/loss",
+                  "eval/loss": "eval/loss"
+                },
+                "inputComplete": false,
+                "inputNotes": [
+                  "train/loss: 1 repeated reading across 1 step; equal values count once in analysis, and all readings remain in evidence.",
+                  "train/loss: 1 step has conflicting values. This metric is excluded from trajectory checks; separate the runs or writers first.",
+                  "Input is incomplete; findings describe only the readable data."
+                ],
+                "scope": "The report's displayed trajectory and heuristic finding bands. Display thinning and off-scale caps remain; this is not the original log or an independent diagnosis. Inspect the report and source log for evidence."
+              },
+              "geometry": {
+                "rootWidth": 920,
+                "rootHeight": 315,
+                "innerWidth": 920,
+                "innerHeight": 180,
+                "footerTop": 294,
+                "axesBottom": 279,
+                "viewportWidth": 1440
+              },
+              "valueLabels": [],
+              "axes": [
+                {
+                  "text": "0",
+                  "fill": "rgb(110, 124, 135)"
+                },
+                {
+                  "text": "1",
+                  "fill": "rgb(110, 124, 135)"
+                },
+                {
+                  "text": "2",
+                  "fill": "rgb(110, 124, 135)"
+                },
+                {
+                  "text": "0",
+                  "fill": "rgb(110, 124, 135)"
+                },
+                {
+                  "text": "0",
+                  "fill": "rgb(110, 124, 135)"
+                },
+                {
+                  "text": "0",
+                  "fill": "rgb(110, 124, 135)"
+                },
+                {
+                  "text": "0",
+                  "fill": "rgb(110, 124, 135)"
+                },
+                {
+                  "text": "0",
+                  "fill": "rgb(110, 124, 135)"
+                },
+                {
+                  "text": "1",
+                  "fill": "rgb(110, 124, 135)"
+                }
+              ],
+              "grids": [
+                "rgb(31, 40, 48)",
+                "rgb(31, 40, 48)",
+                "rgb(31, 40, 48)",
+                "rgb(31, 40, 48)",
+                "rgb(31, 40, 48)",
+                "rgb(31, 40, 48)",
+                "rgb(31, 40, 48)",
+                "rgb(31, 40, 48)",
+                "rgb(31, 40, 48)"
+              ],
+              "svgNamespace": "http://www.w3.org/2000/svg"
+            }
+          ]
+        },
+        {
+          "name": "no-trajectory",
+          "downloads": []
+        },
+        {
+          "name": "unsafe-names",
+          "downloads": [
+            {
+              "filename": "firefox-1440-unsafe-names-0.svg",
+              "suggestedFilename": "trainspotter-1-script-onload-bad.svg",
+              "bytes": 4241,
+              "sha256": "9e674ddda069c85e2e4ecbf08c24e44ab7f3f77a93df60fff83df3e19b4d82f0",
+              "metadata": {
+                "schemaVersion": 1,
+                "format": "trainspotter-chart",
+                "sourcePath": "<script onload=\"bad()\"> & ]]> 雨\u0000\u0001",
+                "sourceFormat": "controlled",
+                "selectedRun": null,
+                "axisKind": "step",
+                "axisLabel": "steps",
+                "axisSource": null,
+                "requestedMetrics": [
+                  "<script onload=\"bad()\"> & ]]> 雨\u0000\u0001"
+                ],
+                "plottedMetrics": [
+                  "<script onload=\"bad()\"> & ]]> 雨\u0000\u0001"
+                ],
+                "excludedMetrics": [],
+                "metricSources": {
+                  "<script onload=\"bad()\"> & ]]> 雨\u0000\u0001": "original ' column"
+                },
+                "inputComplete": true,
+                "inputNotes": [],
+                "scope": "The report's displayed trajectory and heuristic finding bands. Display thinning and off-scale caps remain; this is not the original log or an independent diagnosis. Inspect the report and source log for evidence."
+              },
+              "geometry": {
+                "rootWidth": 920,
+                "rootHeight": 281,
+                "innerWidth": 920,
+                "innerHeight": 180,
+                "footerTop": 260,
+                "axesBottom": 245,
+                "viewportWidth": 1440
+              },
+              "valueLabels": [],
+              "axes": [
+                {
+                  "text": "0",
+                  "fill": "rgb(110, 124, 135)"
+                },
+                {
+                  "text": "1",
+                  "fill": "rgb(110, 124, 135)"
+                },
+                {
+                  "text": "2",
+                  "fill": "rgb(110, 124, 135)"
+                },
+                {
+                  "text": "0",
+                  "fill": "rgb(110, 124, 135)"
+                },
+                {
+                  "text": "0",
+                  "fill": "rgb(110, 124, 135)"
+                },
+                {
+                  "text": "0",
+                  "fill": "rgb(110, 124, 135)"
+                },
+                {
+                  "text": "0",
+                  "fill": "rgb(110, 124, 135)"
+                },
+                {
+                  "text": "0",
+                  "fill": "rgb(110, 124, 135)"
+                },
+                {
+                  "text": "1",
+                  "fill": "rgb(110, 124, 135)"
+                }
+              ],
+              "grids": [
+                "rgb(31, 40, 48)",
+                "rgb(31, 40, 48)",
+                "rgb(31, 40, 48)",
+                "rgb(31, 40, 48)",
+                "rgb(31, 40, 48)",
+                "rgb(31, 40, 48)",
+                "rgb(31, 40, 48)",
+                "rgb(31, 40, 48)",
+                "rgb(31, 40, 48)"
+              ],
+              "svgNamespace": "http://www.w3.org/2000/svg"
+            }
+          ]
+        },
+        {
+          "name": "long-curve",
+          "downloads": [
+            {
+              "filename": "firefox-1440-long-curve-0.svg",
+              "suggestedFilename": "trainspotter-1-train-loss.svg",
+              "bytes": 88758,
+              "sha256": "0a1931dee224d03f4ada0b1ce51d942445225ac5908a90d997211b4b234e0b50",
+              "metadata": {
+                "schemaVersion": 1,
+                "format": "trainspotter-chart",
+                "sourcePath": "controlled-200000-observations",
+                "sourceFormat": "controlled",
+                "selectedRun": null,
+                "axisKind": "step",
+                "axisLabel": "steps",
+                "axisSource": null,
+                "requestedMetrics": [
+                  "train/loss"
+                ],
+                "plottedMetrics": [
+                  "train/loss"
+                ],
+                "excludedMetrics": [],
+                "metricSources": {
+                  "train/loss": "train/loss"
+                },
+                "inputComplete": true,
+                "inputNotes": [],
+                "scope": "The report's displayed trajectory and heuristic finding bands. Display thinning and off-scale caps remain; this is not the original log or an independent diagnosis. Inspect the report and source log for evidence."
+              },
+              "geometry": {
+                "rootWidth": 920,
+                "rootHeight": 281,
+                "innerWidth": 920,
+                "innerHeight": 180,
+                "footerTop": 260,
+                "axesBottom": 245,
+                "viewportWidth": 1440
+              },
+              "valueLabels": [],
+              "axes": [
+                {
+                  "text": "0",
+                  "fill": "rgb(110, 124, 135)"
+                },
+                {
+                  "text": "1",
+                  "fill": "rgb(110, 124, 135)"
+                },
+                {
+                  "text": "2",
+                  "fill": "rgb(110, 124, 135)"
+                },
+                {
+                  "text": "3",
+                  "fill": "rgb(110, 124, 135)"
+                },
+                {
+                  "text": "4",
+                  "fill": "rgb(110, 124, 135)"
+                },
+                {
+                  "text": "0",
+                  "fill": "rgb(110, 124, 135)"
+                },
+                {
+                  "text": "50000",
+                  "fill": "rgb(110, 124, 135)"
+                },
+                {
+                  "text": "100000",
+                  "fill": "rgb(110, 124, 135)"
+                },
+                {
+                  "text": "150000",
+                  "fill": "rgb(110, 124, 135)"
+                }
+              ],
+              "grids": [
+                "rgb(31, 40, 48)",
+                "rgb(31, 40, 48)",
+                "rgb(31, 40, 48)",
+                "rgb(31, 40, 48)",
+                "rgb(31, 40, 48)",
+                "rgb(31, 40, 48)",
+                "rgb(31, 40, 48)",
+                "rgb(31, 40, 48)",
+                "rgb(31, 40, 48)"
+              ],
+              "svgNamespace": "http://www.w3.org/2000/svg"
+            }
+          ]
+        }
+      ],
+      "errors": [],
+      "requests": [],
+      "csp": []
+    },
+    {
+      "engine": "firefox",
+      "width": 375,
+      "offlineBeforeOpening": true,
+      "rows": [
+        {
+          "name": "recorded-divergence",
+          "downloads": [
+            {
+              "filename": "firefox-375-recorded-divergence-0.svg",
+              "suggestedFilename": "trainspotter-1-train-loss-eval-loss.svg",
+              "bytes": 10196,
+              "sha256": "3629ff436602809702085c5555ab27f617f536f4b076122cb917fb76575f3d61",
+              "metadata": {
+                "schemaVersion": 1,
+                "format": "trainspotter-chart",
+                "sourcePath": "examples/divergence.trainer_state.json",
+                "sourceFormat": "hf",
+                "selectedRun": null,
+                "axisKind": "step",
+                "axisLabel": "steps",
+                "axisSource": null,
+                "requestedMetrics": [
+                  "train/loss",
+                  "eval/loss"
+                ],
+                "plottedMetrics": [
+                  "train/loss",
+                  "eval/loss"
+                ],
+                "excludedMetrics": [],
+                "metricSources": {
+                  "train/loss": "loss",
+                  "eval/loss": "eval_loss"
+                },
+                "inputComplete": true,
+                "inputNotes": [],
+                "scope": "The report's displayed trajectory and heuristic finding bands. Display thinning and off-scale caps remain; this is not the original log or an independent diagnosis. Inspect the report and source log for evidence."
+              },
+              "geometry": {
+                "rootWidth": 375,
+                "rootHeight": 121.86666870117188,
+                "innerWidth": 920,
+                "innerHeight": 198,
+                "footerTop": 112.69999694824219,
+                "axesBottom": 107.5,
+                "viewportWidth": 375
+              },
+              "valueLabels": [
+                {
+                  "text": "54.88 / 55.49",
+                  "left": 332.066650390625,
+                  "right": 363.08331298828125,
+                  "frameLeft": 0,
+                  "frameRight": 375,
+                  "separators": [
+                    "rgb(110, 124, 135)"
+                  ]
+                }
+              ],
+              "axes": [
+                {
+                  "text": "0",
+                  "fill": "rgb(110, 124, 135)"
+                },
+                {
+                  "text": "1",
+                  "fill": "rgb(110, 124, 135)"
+                },
+                {
+                  "text": "2",
+                  "fill": "rgb(110, 124, 135)"
+                },
+                {
+                  "text": "3",
+                  "fill": "rgb(110, 124, 135)"
+                },
+                {
+                  "text": "4",
+                  "fill": "rgb(110, 124, 135)"
+                },
+                {
+                  "text": "0",
+                  "fill": "rgb(110, 124, 135)"
+                },
+                {
+                  "text": "100",
+                  "fill": "rgb(110, 124, 135)"
+                },
+                {
+                  "text": "200",
+                  "fill": "rgb(110, 124, 135)"
+                },
+                {
+                  "text": "300",
+                  "fill": "rgb(110, 124, 135)"
+                }
+              ],
+              "grids": [
+                "rgb(31, 40, 48)",
+                "rgb(31, 40, 48)",
+                "rgb(31, 40, 48)",
+                "rgb(31, 40, 48)",
+                "rgb(31, 40, 48)",
+                "rgb(31, 40, 48)",
+                "rgb(31, 40, 48)",
+                "rgb(31, 40, 48)",
+                "rgb(31, 40, 48)"
+              ],
+              "svgNamespace": "http://www.w3.org/2000/svg"
+            },
+            {
+              "filename": "firefox-375-recorded-divergence-1.svg",
+              "suggestedFilename": "trainspotter-2-lr.svg",
+              "bytes": 8290,
+              "sha256": "2f23382ca26e021eaaf9d5f2004e6ee35b4e17e88244bec35507e2fe12d5b0f3",
+              "metadata": {
+                "schemaVersion": 1,
+                "format": "trainspotter-chart",
+                "sourcePath": "examples/divergence.trainer_state.json",
+                "sourceFormat": "hf",
+                "selectedRun": null,
+                "axisKind": "step",
+                "axisLabel": "steps",
+                "axisSource": null,
+                "requestedMetrics": [
+                  "lr"
+                ],
+                "plottedMetrics": [
+                  "lr"
+                ],
+                "excludedMetrics": [],
+                "metricSources": {
+                  "lr": "learning_rate"
+                },
+                "inputComplete": true,
+                "inputNotes": [],
+                "scope": "The report's displayed trajectory and heuristic finding bands. Display thinning and off-scale caps remain; this is not the original log or an independent diagnosis. Inspect the report and source log for evidence."
+              },
+              "geometry": {
+                "rootWidth": 375,
+                "rootHeight": 114.53334045410156,
+                "innerWidth": 920,
+                "innerHeight": 180,
+                "footerTop": 105.36666870117188,
+                "axesBottom": 100.16667175292969,
+                "viewportWidth": 375
+              },
+              "valueLabels": [
+                {
+                  "text": "30",
+                  "left": 356.73333740234375,
+                  "right": 363.18333435058594,
+                  "frameLeft": 0,
+                  "frameRight": 375,
+                  "separators": []
+                }
+              ],
+              "axes": [
+                {
+                  "text": "0",
+                  "fill": "rgb(110, 124, 135)"
+                },
+                {
+                  "text": "0.2",
+                  "fill": "rgb(110, 124, 135)"
+                },
+                {
+                  "text": "0.4",
+                  "fill": "rgb(110, 124, 135)"
+                },
+                {
+                  "text": "0.6",
+                  "fill": "rgb(110, 124, 135)"
+                },
+                {
+                  "text": "0",
+                  "fill": "rgb(110, 124, 135)"
+                },
+                {
+                  "text": "100",
+                  "fill": "rgb(110, 124, 135)"
+                },
+                {
+                  "text": "200",
+                  "fill": "rgb(110, 124, 135)"
+                },
+                {
+                  "text": "300",
+                  "fill": "rgb(110, 124, 135)"
+                }
+              ],
+              "grids": [
+                "rgb(31, 40, 48)",
+                "rgb(31, 40, 48)",
+                "rgb(31, 40, 48)",
+                "rgb(31, 40, 48)",
+                "rgb(31, 40, 48)",
+                "rgb(31, 40, 48)",
+                "rgb(31, 40, 48)",
+                "rgb(31, 40, 48)"
+              ],
+              "svgNamespace": "http://www.w3.org/2000/svg"
+            },
+            {
+              "filename": "firefox-375-recorded-divergence-2.svg",
+              "suggestedFilename": "trainspotter-3-grad-norm.svg",
+              "bytes": 8535,
+              "sha256": "c6342dd63fa6276e57c2528c04d7d7430cacf07878214cb3f69f6801efb02af0",
+              "metadata": {
+                "schemaVersion": 1,
+                "format": "trainspotter-chart",
+                "sourcePath": "examples/divergence.trainer_state.json",
+                "sourceFormat": "hf",
+                "selectedRun": null,
+                "axisKind": "step",
+                "axisLabel": "steps",
+                "axisSource": null,
+                "requestedMetrics": [
+                  "grad_norm"
+                ],
+                "plottedMetrics": [
+                  "grad_norm"
+                ],
+                "excludedMetrics": [],
+                "metricSources": {
+                  "grad_norm": "grad_norm"
+                },
+                "inputComplete": true,
+                "inputNotes": [],
+                "scope": "The report's displayed trajectory and heuristic finding bands. Display thinning and off-scale caps remain; this is not the original log or an independent diagnosis. Inspect the report and source log for evidence."
+              },
+              "geometry": {
+                "rootWidth": 375,
+                "rootHeight": 114.53334045410156,
+                "innerWidth": 920,
+                "innerHeight": 180,
+                "footerTop": 105.36666870117188,
+                "axesBottom": 100.16667175292969,
+                "viewportWidth": 375
+              },
+              "valueLabels": [
+                {
+                  "text": "23.02",
+                  "left": 351.1166687011719,
+                  "right": 364.18333435058594,
+                  "frameLeft": 0,
+                  "frameRight": 375,
+                  "separators": []
+                }
+              ],
+              "axes": [
+                {
+                  "text": "0",
+                  "fill": "rgb(110, 124, 135)"
+                },
+                {
+                  "text": "1",
+                  "fill": "rgb(110, 124, 135)"
+                },
+                {
+                  "text": "2",
+                  "fill": "rgb(110, 124, 135)"
+                },
+                {
+                  "text": "3",
+                  "fill": "rgb(110, 124, 135)"
+                },
+                {
+                  "text": "0",
+                  "fill": "rgb(110, 124, 135)"
+                },
+                {
+                  "text": "100",
+                  "fill": "rgb(110, 124, 135)"
+                },
+                {
+                  "text": "200",
+                  "fill": "rgb(110, 124, 135)"
+                },
+                {
+                  "text": "300",
+                  "fill": "rgb(110, 124, 135)"
+                }
+              ],
+              "grids": [
+                "rgb(31, 40, 48)",
+                "rgb(31, 40, 48)",
+                "rgb(31, 40, 48)",
+                "rgb(31, 40, 48)",
+                "rgb(31, 40, 48)",
+                "rgb(31, 40, 48)",
+                "rgb(31, 40, 48)",
+                "rgb(31, 40, 48)"
+              ],
+              "svgNamespace": "http://www.w3.org/2000/svg"
+            },
+            {
+              "filename": "firefox-375-recorded-divergence-3.svg",
+              "suggestedFilename": "trainspotter-4-eval-accuracy.svg",
+              "bytes": 3966,
+              "sha256": "b5fdc1ee02e23eeb350640b5daf813572341b50b95d02305b7712c0c3586db73",
+              "metadata": {
+                "schemaVersion": 1,
+                "format": "trainspotter-chart",
+                "sourcePath": "examples/divergence.trainer_state.json",
+                "sourceFormat": "hf",
+                "selectedRun": null,
+                "axisKind": "step",
+                "axisLabel": "steps",
+                "axisSource": null,
+                "requestedMetrics": [
+                  "eval/accuracy"
+                ],
+                "plottedMetrics": [
+                  "eval/accuracy"
+                ],
+                "excludedMetrics": [],
+                "metricSources": {
+                  "eval/accuracy": "eval_accuracy"
+                },
+                "inputComplete": true,
+                "inputNotes": [],
+                "scope": "The report's displayed trajectory and heuristic finding bands. Display thinning and off-scale caps remain; this is not the original log or an independent diagnosis. Inspect the report and source log for evidence."
+              },
+              "geometry": {
+                "rootWidth": 375,
+                "rootHeight": 114.53334045410156,
+                "innerWidth": 920,
+                "innerHeight": 180,
+                "footerTop": 105.36666870117188,
+                "axesBottom": 100.16667175292969,
+                "viewportWidth": 375
+              },
+              "valueLabels": [],
+              "axes": [
+                {
+                  "text": "0",
+                  "fill": "rgb(110, 124, 135)"
+                },
+                {
+                  "text": "0.5",
+                  "fill": "rgb(110, 124, 135)"
+                },
+                {
+                  "text": "1",
+                  "fill": "rgb(110, 124, 135)"
+                },
+                {
+                  "text": "0",
+                  "fill": "rgb(110, 124, 135)"
+                },
+                {
+                  "text": "100",
+                  "fill": "rgb(110, 124, 135)"
+                },
+                {
+                  "text": "200",
+                  "fill": "rgb(110, 124, 135)"
+                },
+                {
+                  "text": "300",
+                  "fill": "rgb(110, 124, 135)"
+                }
+              ],
+              "grids": [
+                "rgb(31, 40, 48)",
+                "rgb(31, 40, 48)",
+                "rgb(31, 40, 48)",
+                "rgb(31, 40, 48)",
+                "rgb(31, 40, 48)",
+                "rgb(31, 40, 48)",
+                "rgb(31, 40, 48)"
+              ],
+              "svgNamespace": "http://www.w3.org/2000/svg"
+            },
+            {
+              "filename": "firefox-375-recorded-divergence-4.svg",
+              "suggestedFilename": "trainspotter-5-step-time.svg",
+              "bytes": 7779,
+              "sha256": "b089ad83bdc38a023c9dab65b58bf5985d365dcf4d12ca7651a9365cb180c321",
+              "metadata": {
+                "schemaVersion": 1,
+                "format": "trainspotter-chart",
+                "sourcePath": "examples/divergence.trainer_state.json",
+                "sourceFormat": "hf",
+                "selectedRun": null,
+                "axisKind": "step",
+                "axisLabel": "steps",
+                "axisSource": null,
+                "requestedMetrics": [
+                  "step_time"
+                ],
+                "plottedMetrics": [
+                  "step_time"
+                ],
+                "excludedMetrics": [],
+                "metricSources": {
+                  "step_time": "step_time"
+                },
+                "inputComplete": true,
+                "inputNotes": [],
+                "scope": "The report's displayed trajectory and heuristic finding bands. Display thinning and off-scale caps remain; this is not the original log or an independent diagnosis. Inspect the report and source log for evidence."
+              },
+              "geometry": {
+                "rootWidth": 375,
+                "rootHeight": 114.53334045410156,
+                "innerWidth": 920,
+                "innerHeight": 180,
+                "footerTop": 105.36666870117188,
+                "axesBottom": 100.16667175292969,
+                "viewportWidth": 375
+              },
+              "valueLabels": [],
+              "axes": [
+                {
+                  "text": "0",
+                  "fill": "rgb(110, 124, 135)"
+                },
+                {
+                  "text": "5e-05",
+                  "fill": "rgb(110, 124, 135)"
+                },
+                {
+                  "text": "0.0001",
+                  "fill": "rgb(110, 124, 135)"
+                },
+                {
+                  "text": "0.00015",
+                  "fill": "rgb(110, 124, 135)"
+                },
+                {
+                  "text": "0",
+                  "fill": "rgb(110, 124, 135)"
+                },
+                {
+                  "text": "100",
+                  "fill": "rgb(110, 124, 135)"
+                },
+                {
+                  "text": "200",
+                  "fill": "rgb(110, 124, 135)"
+                },
+                {
+                  "text": "300",
+                  "fill": "rgb(110, 124, 135)"
+                }
+              ],
+              "grids": [
+                "rgb(31, 40, 48)",
+                "rgb(31, 40, 48)",
+                "rgb(31, 40, 48)",
+                "rgb(31, 40, 48)",
+                "rgb(31, 40, 48)",
+                "rgb(31, 40, 48)",
+                "rgb(31, 40, 48)",
+                "rgb(31, 40, 48)"
+              ],
+              "svgNamespace": "http://www.w3.org/2000/svg"
+            }
+          ]
+        },
+        {
+          "name": "recorded-logging-axis",
+          "downloads": [
+            {
+              "filename": "firefox-375-recorded-logging-axis-0.svg",
+              "suggestedFilename": "trainspotter-1-train-loss.svg",
+              "bytes": 5573,
+              "sha256": "ee1d9b90cea2ed1a4f382b67f00942cee393754d7a6b1e06dff5b5c802760581",
+              "metadata": {
+                "schemaVersion": 1,
+                "format": "trainspotter-chart",
+                "sourcePath": "examples/wandb-axes/stable-logging.csv",
+                "sourceFormat": "wandb",
+                "selectedRun": null,
+                "axisKind": "logging_step",
+                "axisLabel": "logging steps",
+                "axisSource": "_step",
+                "requestedMetrics": [
+                  "train/loss"
+                ],
+                "plottedMetrics": [
+                  "train/loss"
+                ],
+                "excludedMetrics": [],
+                "metricSources": {
+                  "train/loss": "train/loss"
+                },
+                "inputComplete": true,
+                "inputNotes": [
+                  "The horizontal axis uses W&B logging counter '_step'; findings locate logging events, not training steps. Log a training counter or select one with --step-key to measure progress per training step."
+                ],
+                "scope": "The report's displayed trajectory and heuristic finding bands. Display thinning and off-scale caps remain; this is not the original log or an independent diagnosis. Inspect the report and source log for evidence."
+              },
+              "geometry": {
+                "rootWidth": 375,
+                "rootHeight": 121.46665954589844,
+                "innerWidth": 920,
+                "innerHeight": 180,
+                "footerTop": 112.30000305175781,
+                "axesBottom": 107.10000610351562,
+                "viewportWidth": 375
+              },
+              "valueLabels": [],
+              "axes": [
+                {
+                  "text": "0",
+                  "fill": "rgb(110, 124, 135)"
+                },
+                {
+                  "text": "0.2",
+                  "fill": "rgb(110, 124, 135)"
+                },
+                {
+                  "text": "0.4",
+                  "fill": "rgb(110, 124, 135)"
+                },
+                {
+                  "text": "0.6",
+                  "fill": "rgb(110, 124, 135)"
+                },
+                {
+                  "text": "0",
+                  "fill": "rgb(110, 124, 135)"
+                },
+                {
+                  "text": "20",
+                  "fill": "rgb(110, 124, 135)"
+                },
+                {
+                  "text": "40",
+                  "fill": "rgb(110, 124, 135)"
+                },
+                {
+                  "text": "60",
+                  "fill": "rgb(110, 124, 135)"
+                },
+                {
+                  "text": "80",
+                  "fill": "rgb(110, 124, 135)"
+                },
+                {
+                  "text": "100",
+                  "fill": "rgb(110, 124, 135)"
+                }
+              ],
+              "grids": [
+                "rgb(31, 40, 48)",
+                "rgb(31, 40, 48)",
+                "rgb(31, 40, 48)",
+                "rgb(31, 40, 48)",
+                "rgb(31, 40, 48)",
+                "rgb(31, 40, 48)",
+                "rgb(31, 40, 48)",
+                "rgb(31, 40, 48)",
+                "rgb(31, 40, 48)",
+                "rgb(31, 40, 48)"
+              ],
+              "svgNamespace": "http://www.w3.org/2000/svg"
+            },
+            {
+              "filename": "firefox-375-recorded-logging-axis-1.svg",
+              "suggestedFilename": "trainspotter-2-capture-elapsed.svg",
+              "bytes": 5514,
+              "sha256": "3cb0f61a9394bc37c28f383e2cd8b10b7beb017d4897fc660437db57ec4517b8",
+              "metadata": {
+                "schemaVersion": 1,
+                "format": "trainspotter-chart",
+                "sourcePath": "examples/wandb-axes/stable-logging.csv",
+                "sourceFormat": "wandb",
+                "selectedRun": null,
+                "axisKind": "logging_step",
+                "axisLabel": "logging steps",
+                "axisSource": "_step",
+                "requestedMetrics": [
+                  "capture/elapsed"
+                ],
+                "plottedMetrics": [
+                  "capture/elapsed"
+                ],
+                "excludedMetrics": [],
+                "metricSources": {
+                  "capture/elapsed": "capture/elapsed"
+                },
+                "inputComplete": true,
+                "inputNotes": [
+                  "The horizontal axis uses W&B logging counter '_step'; findings locate logging events, not training steps. Log a training counter or select one with --step-key to measure progress per training step."
+                ],
+                "scope": "The report's displayed trajectory and heuristic finding bands. Display thinning and off-scale caps remain; this is not the original log or an independent diagnosis. Inspect the report and source log for evidence."
+              },
+              "geometry": {
+                "rootWidth": 375,
+                "rootHeight": 121.46665954589844,
+                "innerWidth": 920,
+                "innerHeight": 180,
+                "footerTop": 112.30000305175781,
+                "axesBottom": 107.10000610351562,
+                "viewportWidth": 375
+              },
+              "valueLabels": [],
+              "axes": [
+                {
+                  "text": "0",
+                  "fill": "rgb(110, 124, 135)"
+                },
+                {
+                  "text": "2",
+                  "fill": "rgb(110, 124, 135)"
+                },
+                {
+                  "text": "4",
+                  "fill": "rgb(110, 124, 135)"
+                },
+                {
+                  "text": "0",
+                  "fill": "rgb(110, 124, 135)"
+                },
+                {
+                  "text": "20",
+                  "fill": "rgb(110, 124, 135)"
+                },
+                {
+                  "text": "40",
+                  "fill": "rgb(110, 124, 135)"
+                },
+                {
+                  "text": "60",
+                  "fill": "rgb(110, 124, 135)"
+                },
+                {
+                  "text": "80",
+                  "fill": "rgb(110, 124, 135)"
+                },
+                {
+                  "text": "100",
+                  "fill": "rgb(110, 124, 135)"
+                }
+              ],
+              "grids": [
+                "rgb(31, 40, 48)",
+                "rgb(31, 40, 48)",
+                "rgb(31, 40, 48)",
+                "rgb(31, 40, 48)",
+                "rgb(31, 40, 48)",
+                "rgb(31, 40, 48)",
+                "rgb(31, 40, 48)",
+                "rgb(31, 40, 48)",
+                "rgb(31, 40, 48)"
+              ],
+              "svgNamespace": "http://www.w3.org/2000/svg"
+            }
+          ]
+        },
+        {
+          "name": "unreadable-gap",
+          "downloads": [
+            {
+              "filename": "firefox-375-unreadable-gap-0.svg",
+              "suggestedFilename": "trainspotter-1-train-loss.svg",
+              "bytes": 4828,
+              "sha256": "8e00771ca8629017a49f219a858518bd2f9b0f73e3687e9248719ab3ea92bcbc",
+              "metadata": {
+                "schemaVersion": 1,
+                "format": "trainspotter-chart",
+                "sourcePath": "controlled-gap.jsonl",
+                "sourceFormat": "controlled",
+                "selectedRun": null,
+                "axisKind": "step",
+                "axisLabel": "steps",
+                "axisSource": null,
+                "requestedMetrics": [
+                  "train/loss"
+                ],
+                "plottedMetrics": [
+                  "train/loss"
+                ],
+                "excludedMetrics": [],
+                "metricSources": {
+                  "train/loss": "train/loss"
+                },
+                "inputComplete": false,
+                "inputNotes": [
+                  "train/loss: 1 unreadable values at recorded steps; trajectory checks stop at these gaps. These are not observed NaN/Inf values.",
+                  "Input is incomplete; findings describe only the readable data."
+                ],
+                "scope": "The report's displayed trajectory and heuristic finding bands. Display thinning and off-scale caps remain; this is not the original log or an independent diagnosis. Inspect the report and source log for evidence."
+              },
+              "geometry": {
+                "rootWidth": 375,
+                "rootHeight": 121.46665954589844,
+                "innerWidth": 920,
+                "innerHeight": 180,
+                "footerTop": 112.30000305175781,
+                "axesBottom": 107.10000610351562,
+                "viewportWidth": 375
+              },
+              "valueLabels": [],
+              "axes": [
+                {
+                  "text": "0",
+                  "fill": "rgb(110, 124, 135)"
+                },
+                {
+                  "text": "0.1",
+                  "fill": "rgb(110, 124, 135)"
+                },
+                {
+                  "text": "0.2",
+                  "fill": "rgb(110, 124, 135)"
+                },
+                {
+                  "text": "0.3",
+                  "fill": "rgb(110, 124, 135)"
+                },
+                {
+                  "text": "0.4",
+                  "fill": "rgb(110, 124, 135)"
+                },
+                {
+                  "text": "0",
+                  "fill": "rgb(110, 124, 135)"
+                },
+                {
+                  "text": "1",
+                  "fill": "rgb(110, 124, 135)"
+                },
+                {
+                  "text": "2",
+                  "fill": "rgb(110, 124, 135)"
+                },
+                {
+                  "text": "3",
+                  "fill": "rgb(110, 124, 135)"
+                },
+                {
+                  "text": "4",
+                  "fill": "rgb(110, 124, 135)"
+                }
+              ],
+              "grids": [
+                "rgb(31, 40, 48)",
+                "rgb(31, 40, 48)",
+                "rgb(31, 40, 48)",
+                "rgb(31, 40, 48)",
+                "rgb(31, 40, 48)",
+                "rgb(31, 40, 48)",
+                "rgb(31, 40, 48)",
+                "rgb(31, 40, 48)",
+                "rgb(31, 40, 48)",
+                "rgb(31, 40, 48)"
+              ],
+              "svgNamespace": "http://www.w3.org/2000/svg"
+            }
+          ]
+        },
+        {
+          "name": "partial-peer",
+          "downloads": [
+            {
+              "filename": "firefox-375-partial-peer-0.svg",
+              "suggestedFilename": "trainspotter-1-train-loss-eval-loss.svg",
+              "bytes": 4467,
+              "sha256": "90faef7a0f9faae53cecbc4a9e9d2c147a88d7fd0ea8467d062ae21479387c0e",
+              "metadata": {
+                "schemaVersion": 1,
+                "format": "trainspotter-chart",
+                "sourcePath": "controlled-contradiction.jsonl",
+                "sourceFormat": "controlled",
+                "selectedRun": null,
+                "axisKind": "step",
+                "axisLabel": "steps",
+                "axisSource": null,
+                "requestedMetrics": [
+                  "train/loss",
+                  "eval/loss"
+                ],
+                "plottedMetrics": [
+                  "eval/loss"
+                ],
+                "excludedMetrics": [
+                  "train/loss"
+                ],
+                "metricSources": {
+                  "train/loss": "train/loss",
+                  "eval/loss": "eval/loss"
+                },
+                "inputComplete": false,
+                "inputNotes": [
+                  "train/loss: 1 repeated reading across 1 step; equal values count once in analysis, and all readings remain in evidence.",
+                  "train/loss: 1 step has conflicting values. This metric is excluded from trajectory checks; separate the runs or writers first.",
+                  "Input is incomplete; findings describe only the readable data."
+                ],
+                "scope": "The report's displayed trajectory and heuristic finding bands. Display thinning and off-scale caps remain; this is not the original log or an independent diagnosis. Inspect the report and source log for evidence."
+              },
+              "geometry": {
+                "rootWidth": 375,
+                "rootHeight": 128.39999389648438,
+                "innerWidth": 920,
+                "innerHeight": 180,
+                "footerTop": 119.23333740234375,
+                "axesBottom": 114.01666259765625,
+                "viewportWidth": 375
+              },
+              "valueLabels": [],
+              "axes": [
+                {
+                  "text": "0",
+                  "fill": "rgb(110, 124, 135)"
+                },
+                {
+                  "text": "1",
+                  "fill": "rgb(110, 124, 135)"
+                },
+                {
+                  "text": "2",
+                  "fill": "rgb(110, 124, 135)"
+                },
+                {
+                  "text": "0",
+                  "fill": "rgb(110, 124, 135)"
+                },
+                {
+                  "text": "0",
+                  "fill": "rgb(110, 124, 135)"
+                },
+                {
+                  "text": "0",
+                  "fill": "rgb(110, 124, 135)"
+                },
+                {
+                  "text": "0",
+                  "fill": "rgb(110, 124, 135)"
+                },
+                {
+                  "text": "0",
+                  "fill": "rgb(110, 124, 135)"
+                },
+                {
+                  "text": "1",
+                  "fill": "rgb(110, 124, 135)"
+                }
+              ],
+              "grids": [
+                "rgb(31, 40, 48)",
+                "rgb(31, 40, 48)",
+                "rgb(31, 40, 48)",
+                "rgb(31, 40, 48)",
+                "rgb(31, 40, 48)",
+                "rgb(31, 40, 48)",
+                "rgb(31, 40, 48)",
+                "rgb(31, 40, 48)",
+                "rgb(31, 40, 48)"
+              ],
+              "svgNamespace": "http://www.w3.org/2000/svg"
+            }
+          ]
+        },
+        {
+          "name": "no-trajectory",
+          "downloads": []
+        },
+        {
+          "name": "unsafe-names",
+          "downloads": [
+            {
+              "filename": "firefox-375-unsafe-names-0.svg",
+              "suggestedFilename": "trainspotter-1-script-onload-bad.svg",
+              "bytes": 4241,
+              "sha256": "9e674ddda069c85e2e4ecbf08c24e44ab7f3f77a93df60fff83df3e19b4d82f0",
+              "metadata": {
+                "schemaVersion": 1,
+                "format": "trainspotter-chart",
+                "sourcePath": "<script onload=\"bad()\"> & ]]> 雨\u0000\u0001",
+                "sourceFormat": "controlled",
+                "selectedRun": null,
+                "axisKind": "step",
+                "axisLabel": "steps",
+                "axisSource": null,
+                "requestedMetrics": [
+                  "<script onload=\"bad()\"> & ]]> 雨\u0000\u0001"
+                ],
+                "plottedMetrics": [
+                  "<script onload=\"bad()\"> & ]]> 雨\u0000\u0001"
+                ],
+                "excludedMetrics": [],
+                "metricSources": {
+                  "<script onload=\"bad()\"> & ]]> 雨\u0000\u0001": "original ' column"
+                },
+                "inputComplete": true,
+                "inputNotes": [],
+                "scope": "The report's displayed trajectory and heuristic finding bands. Display thinning and off-scale caps remain; this is not the original log or an independent diagnosis. Inspect the report and source log for evidence."
+              },
+              "geometry": {
+                "rootWidth": 375,
+                "rootHeight": 114.53334045410156,
+                "innerWidth": 920,
+                "innerHeight": 180,
+                "footerTop": 105.36666870117188,
+                "axesBottom": 100.16667175292969,
+                "viewportWidth": 375
+              },
+              "valueLabels": [],
+              "axes": [
+                {
+                  "text": "0",
+                  "fill": "rgb(110, 124, 135)"
+                },
+                {
+                  "text": "1",
+                  "fill": "rgb(110, 124, 135)"
+                },
+                {
+                  "text": "2",
+                  "fill": "rgb(110, 124, 135)"
+                },
+                {
+                  "text": "0",
+                  "fill": "rgb(110, 124, 135)"
+                },
+                {
+                  "text": "0",
+                  "fill": "rgb(110, 124, 135)"
+                },
+                {
+                  "text": "0",
+                  "fill": "rgb(110, 124, 135)"
+                },
+                {
+                  "text": "0",
+                  "fill": "rgb(110, 124, 135)"
+                },
+                {
+                  "text": "0",
+                  "fill": "rgb(110, 124, 135)"
+                },
+                {
+                  "text": "1",
+                  "fill": "rgb(110, 124, 135)"
+                }
+              ],
+              "grids": [
+                "rgb(31, 40, 48)",
+                "rgb(31, 40, 48)",
+                "rgb(31, 40, 48)",
+                "rgb(31, 40, 48)",
+                "rgb(31, 40, 48)",
+                "rgb(31, 40, 48)",
+                "rgb(31, 40, 48)",
+                "rgb(31, 40, 48)",
+                "rgb(31, 40, 48)"
+              ],
+              "svgNamespace": "http://www.w3.org/2000/svg"
+            }
+          ]
+        },
+        {
+          "name": "long-curve",
+          "downloads": [
+            {
+              "filename": "firefox-375-long-curve-0.svg",
+              "suggestedFilename": "trainspotter-1-train-loss.svg",
+              "bytes": 88758,
+              "sha256": "0a1931dee224d03f4ada0b1ce51d942445225ac5908a90d997211b4b234e0b50",
+              "metadata": {
+                "schemaVersion": 1,
+                "format": "trainspotter-chart",
+                "sourcePath": "controlled-200000-observations",
+                "sourceFormat": "controlled",
+                "selectedRun": null,
+                "axisKind": "step",
+                "axisLabel": "steps",
+                "axisSource": null,
+                "requestedMetrics": [
+                  "train/loss"
+                ],
+                "plottedMetrics": [
+                  "train/loss"
+                ],
+                "excludedMetrics": [],
+                "metricSources": {
+                  "train/loss": "train/loss"
+                },
+                "inputComplete": true,
+                "inputNotes": [],
+                "scope": "The report's displayed trajectory and heuristic finding bands. Display thinning and off-scale caps remain; this is not the original log or an independent diagnosis. Inspect the report and source log for evidence."
+              },
+              "geometry": {
+                "rootWidth": 375,
+                "rootHeight": 114.53334045410156,
+                "innerWidth": 920,
+                "innerHeight": 180,
+                "footerTop": 105.36666870117188,
+                "axesBottom": 100.16667175292969,
+                "viewportWidth": 375
+              },
+              "valueLabels": [],
+              "axes": [
+                {
+                  "text": "0",
+                  "fill": "rgb(110, 124, 135)"
+                },
+                {
+                  "text": "1",
+                  "fill": "rgb(110, 124, 135)"
+                },
+                {
+                  "text": "2",
+                  "fill": "rgb(110, 124, 135)"
+                },
+                {
+                  "text": "3",
+                  "fill": "rgb(110, 124, 135)"
+                },
+                {
+                  "text": "4",
+                  "fill": "rgb(110, 124, 135)"
+                },
+                {
+                  "text": "0",
+                  "fill": "rgb(110, 124, 135)"
+                },
+                {
+                  "text": "50000",
+                  "fill": "rgb(110, 124, 135)"
+                },
+                {
+                  "text": "100000",
+                  "fill": "rgb(110, 124, 135)"
+                },
+                {
+                  "text": "150000",
+                  "fill": "rgb(110, 124, 135)"
+                }
+              ],
+              "grids": [
+                "rgb(31, 40, 48)",
+                "rgb(31, 40, 48)",
+                "rgb(31, 40, 48)",
+                "rgb(31, 40, 48)",
+                "rgb(31, 40, 48)",
+                "rgb(31, 40, 48)",
+                "rgb(31, 40, 48)",
+                "rgb(31, 40, 48)",
+                "rgb(31, 40, 48)"
+              ],
+              "svgNamespace": "http://www.w3.org/2000/svg"
+            }
+          ]
+        }
+      ],
+      "errors": [],
+      "requests": [],
+      "csp": []
+    }
+  ]
+}

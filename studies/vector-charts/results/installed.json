@@ -1,0 +1,533 @@
+{
+  "sourceRevision": "0e6a0f7c8f1ce29ccf438fb157aefa29d9e833b3",
+  "installations": [
+    {
+      "installation": "final-wheel310",
+      "python": "3.10.21",
+      "numpy": "1.24.0",
+      "artifact": "trainspotter-0.2.6-py3-none-any.whl",
+      "artifactBytes": 122258,
+      "artifactSha256": "fa31c1a7973d9aa5702621a5d685534c55f83b9bfdc4f3249669db06ef6ccfc4",
+      "runtimeFiles": [
+        {
+          "file": "trainspotter/__init__.py",
+          "bytes": 452,
+          "sha256": "f902908eabb455be7238326cae68b500f401e4962b326bc7696dbc748be6437b"
+        },
+        {
+          "file": "trainspotter/cli.py",
+          "bytes": 14987,
+          "sha256": "318ca66e3fa9529d3fa055c87a2c086f345a6753f8d5d23855ed4871cec79892"
+        },
+        {
+          "file": "trainspotter/detectors/__init__.py",
+          "bytes": 4699,
+          "sha256": "38482b71273ec74fdf748c447e35c1132451b5f9a74a581a8e72067d91624e09"
+        },
+        {
+          "file": "trainspotter/detectors/_rolling_slope.py",
+          "bytes": 5280,
+          "sha256": "bb5d8c31ad43864cca26a9633a7d616a80ccc26fc1c5cd199152c8a84c59e892"
+        },
+        {
+          "file": "trainspotter/detectors/base.py",
+          "bytes": 18400,
+          "sha256": "a1b8ff3e7163f7b6aaa476b42565a8fccc46bfefd4e07270fbe3c69691c11bd8"
+        },
+        {
+          "file": "trainspotter/detectors/divergence.py",
+          "bytes": 12240,
+          "sha256": "70721e99da4edbf8a5a67308d4222baeb1d951d8f076c745c698fe680fc557ac"
+        },
+        {
+          "file": "trainspotter/detectors/eval_noise.py",
+          "bytes": 4434,
+          "sha256": "1fa2258d2d3247fa0486fda30867e1b769bf5d06ffd864402c91fd1610b350ca"
+        },
+        {
+          "file": "trainspotter/detectors/grad_norm.py",
+          "bytes": 10115,
+          "sha256": "1a6e37d4b37324a089721f759999f4f8fd53d0d8bae06dde3a9cf016f6919089"
+        },
+        {
+          "file": "trainspotter/detectors/loss_floor.py",
+          "bytes": 5943,
+          "sha256": "e50fed8be010eaa3fcd813f1d73b49871f3627d1035b0547d8bccdbd99bc3131"
+        },
+        {
+          "file": "trainspotter/detectors/lr_schedule.py",
+          "bytes": 15632,
+          "sha256": "1ad15a455347020f3e89628032158bd1598669f3109a8cbf0e79f9e54bc22ed7"
+        },
+        {
+          "file": "trainspotter/detectors/overfitting.py",
+          "bytes": 10614,
+          "sha256": "b581df9ad6223916f03aa4341ba3168518d3dd7820559a5102e14b7e175f88db"
+        },
+        {
+          "file": "trainspotter/detectors/plateau.py",
+          "bytes": 14729,
+          "sha256": "41f3aa5f785316de91cb3d6075ff57e18e3c231a25bbc7d4f39a02b94b39c1fa"
+        },
+        {
+          "file": "trainspotter/detectors/setbacks.py",
+          "bytes": 11987,
+          "sha256": "acabd69fdb7da9bc2bfd29004c43b8174a631fc7c35dc63a2bd3cd28ad2b65e0"
+        },
+        {
+          "file": "trainspotter/detectors/spikes.py",
+          "bytes": 11291,
+          "sha256": "53a976289535bb047f135f88bfd04745d2d22992eb90ee723e89f9a5c70a626b"
+        },
+        {
+          "file": "trainspotter/detectors/throughput.py",
+          "bytes": 4602,
+          "sha256": "b6a506b973629696564601546992b051700bdece9bbc67b2bd05e402d4a68a54"
+        },
+        {
+          "file": "trainspotter/model.py",
+          "bytes": 14969,
+          "sha256": "29fe7f9c1d5f4c5469420581b8144b942459037f6ee948193ae0975368a2283f"
+        },
+        {
+          "file": "trainspotter/py.typed",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "file": "trainspotter/readers/__init__.py",
+          "bytes": 4471,
+          "sha256": "8d263cd9a1c0d7ec291e7df2cd7f81c544e4f9c1c3dfab3d91c29eb225827772"
+        },
+        {
+          "file": "trainspotter/readers/common.py",
+          "bytes": 12108,
+          "sha256": "a745dc356474fc5251bd5d157796a1465383e982a2ab8578ab4aad5fbe2c0ea8"
+        },
+        {
+          "file": "trainspotter/readers/hf.py",
+          "bytes": 4328,
+          "sha256": "96044ace7ad474a21d937c4cd8e2a587991e2a658596cb06c31208a3570b3cef"
+        },
+        {
+          "file": "trainspotter/readers/lightning.py",
+          "bytes": 720,
+          "sha256": "36cf68c7dc9e90f99de4e3007647c9308323154cb6aa96b0b09d9b40af0929f4"
+        },
+        {
+          "file": "trainspotter/readers/tabular.py",
+          "bytes": 7065,
+          "sha256": "64be9d3d6e4b1b26318d7bf5814132f26f417a34373df6bab853be2cd0ba7901"
+        },
+        {
+          "file": "trainspotter/readers/tensorboard.py",
+          "bytes": 17214,
+          "sha256": "5b94496234ab00f6943965b556e1d9da1425d1cf6d462025b5f368d7e4e0153e"
+        },
+        {
+          "file": "trainspotter/readers/wandb.py",
+          "bytes": 12430,
+          "sha256": "b228e5d286b628762b00cad529fec0057682a0fa94d3cc0be6ab72f587091777"
+        },
+        {
+          "file": "trainspotter/report/__init__.py",
+          "bytes": 312,
+          "sha256": "317d8be1f917cf65f0312a083c62f7bf268d37b5c9d7232c3a0bf37ae18b9a0a"
+        },
+        {
+          "file": "trainspotter/report/chart_style.py",
+          "bytes": 983,
+          "sha256": "63f693a882ac05f82861db47e9553b12080aa16ed6166916ba8be44aaf9ecc6f"
+        },
+        {
+          "file": "trainspotter/report/html_report.py",
+          "bytes": 46875,
+          "sha256": "b9db0a3498ce4a4b8f99b45ac7eb3199d365836c3f3d2fef3de754b9a23657b5"
+        },
+        {
+          "file": "trainspotter/report/json_report.py",
+          "bytes": 6497,
+          "sha256": "76d6677dc7d74866296d6c75b6153f916d7a2d890f11b2ae7b4d974e453a0128"
+        },
+        {
+          "file": "trainspotter/report/svg_export.py",
+          "bytes": 7639,
+          "sha256": "a69dd63fb4a90bdf54a3ddc6aae1105c425fa1d880552849ea3a75acb2de1f52"
+        },
+        {
+          "file": "trainspotter/report/terminal.py",
+          "bytes": 6741,
+          "sha256": "6beacecc76a8134eacf1929792bf5747b30d06426bfcd3c43855e854903d16ca"
+        },
+        {
+          "file": "trainspotter/timing.py",
+          "bytes": 8171,
+          "sha256": "16f3de6a150563d62dee5f7b3b2edcaacfa8d21b3a4407bf902c84e779e52c3b"
+        }
+      ],
+      "runtimeFilesByteEqualCleanArchive": true,
+      "cases": 7,
+      "svgPayloads": 11,
+      "allSelectedChartGeometryMetadataAndPayloadsEqualSource": true,
+      "cliReportSvgDownloads": 5,
+      "captureOutput": {
+        "cases": 7,
+        "charts": 11,
+        "exports": 11
+      },
+      "installOutputSha256": "ba52ad57aa6a18871d4bf96e0c6872aa6a82c4942b35299a8ff6811d8f1ccf38"
+    },
+    {
+      "installation": "final-wheel314",
+      "python": "3.14.7",
+      "numpy": "2.5.4",
+      "artifact": "trainspotter-0.2.6-py3-none-any.whl",
+      "artifactBytes": 122258,
+      "artifactSha256": "fa31c1a7973d9aa5702621a5d685534c55f83b9bfdc4f3249669db06ef6ccfc4",
+      "runtimeFiles": [
+        {
+          "file": "trainspotter/__init__.py",
+          "bytes": 452,
+          "sha256": "f902908eabb455be7238326cae68b500f401e4962b326bc7696dbc748be6437b"
+        },
+        {
+          "file": "trainspotter/cli.py",
+          "bytes": 14987,
+          "sha256": "318ca66e3fa9529d3fa055c87a2c086f345a6753f8d5d23855ed4871cec79892"
+        },
+        {
+          "file": "trainspotter/detectors/__init__.py",
+          "bytes": 4699,
+          "sha256": "38482b71273ec74fdf748c447e35c1132451b5f9a74a581a8e72067d91624e09"
+        },
+        {
+          "file": "trainspotter/detectors/_rolling_slope.py",
+          "bytes": 5280,
+          "sha256": "bb5d8c31ad43864cca26a9633a7d616a80ccc26fc1c5cd199152c8a84c59e892"
+        },
+        {
+          "file": "trainspotter/detectors/base.py",
+          "bytes": 18400,
+          "sha256": "a1b8ff3e7163f7b6aaa476b42565a8fccc46bfefd4e07270fbe3c69691c11bd8"
+        },
+        {
+          "file": "trainspotter/detectors/divergence.py",
+          "bytes": 12240,
+          "sha256": "70721e99da4edbf8a5a67308d4222baeb1d951d8f076c745c698fe680fc557ac"
+        },
+        {
+          "file": "trainspotter/detectors/eval_noise.py",
+          "bytes": 4434,
+          "sha256": "1fa2258d2d3247fa0486fda30867e1b769bf5d06ffd864402c91fd1610b350ca"
+        },
+        {
+          "file": "trainspotter/detectors/grad_norm.py",
+          "bytes": 10115,
+          "sha256": "1a6e37d4b37324a089721f759999f4f8fd53d0d8bae06dde3a9cf016f6919089"
+        },
+        {
+          "file": "trainspotter/detectors/loss_floor.py",
+          "bytes": 5943,
+          "sha256": "e50fed8be010eaa3fcd813f1d73b49871f3627d1035b0547d8bccdbd99bc3131"
+        },
+        {
+          "file": "trainspotter/detectors/lr_schedule.py",
+          "bytes": 15632,
+          "sha256": "1ad15a455347020f3e89628032158bd1598669f3109a8cbf0e79f9e54bc22ed7"
+        },
+        {
+          "file": "trainspotter/detectors/overfitting.py",
+          "bytes": 10614,
+          "sha256": "b581df9ad6223916f03aa4341ba3168518d3dd7820559a5102e14b7e175f88db"
+        },
+        {
+          "file": "trainspotter/detectors/plateau.py",
+          "bytes": 14729,
+          "sha256": "41f3aa5f785316de91cb3d6075ff57e18e3c231a25bbc7d4f39a02b94b39c1fa"
+        },
+        {
+          "file": "trainspotter/detectors/setbacks.py",
+          "bytes": 11987,
+          "sha256": "acabd69fdb7da9bc2bfd29004c43b8174a631fc7c35dc63a2bd3cd28ad2b65e0"
+        },
+        {
+          "file": "trainspotter/detectors/spikes.py",
+          "bytes": 11291,
+          "sha256": "53a976289535bb047f135f88bfd04745d2d22992eb90ee723e89f9a5c70a626b"
+        },
+        {
+          "file": "trainspotter/detectors/throughput.py",
+          "bytes": 4602,
+          "sha256": "b6a506b973629696564601546992b051700bdece9bbc67b2bd05e402d4a68a54"
+        },
+        {
+          "file": "trainspotter/model.py",
+          "bytes": 14969,
+          "sha256": "29fe7f9c1d5f4c5469420581b8144b942459037f6ee948193ae0975368a2283f"
+        },
+        {
+          "file": "trainspotter/py.typed",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "file": "trainspotter/readers/__init__.py",
+          "bytes": 4471,
+          "sha256": "8d263cd9a1c0d7ec291e7df2cd7f81c544e4f9c1c3dfab3d91c29eb225827772"
+        },
+        {
+          "file": "trainspotter/readers/common.py",
+          "bytes": 12108,
+          "sha256": "a745dc356474fc5251bd5d157796a1465383e982a2ab8578ab4aad5fbe2c0ea8"
+        },
+        {
+          "file": "trainspotter/readers/hf.py",
+          "bytes": 4328,
+          "sha256": "96044ace7ad474a21d937c4cd8e2a587991e2a658596cb06c31208a3570b3cef"
+        },
+        {
+          "file": "trainspotter/readers/lightning.py",
+          "bytes": 720,
+          "sha256": "36cf68c7dc9e90f99de4e3007647c9308323154cb6aa96b0b09d9b40af0929f4"
+        },
+        {
+          "file": "trainspotter/readers/tabular.py",
+          "bytes": 7065,
+          "sha256": "64be9d3d6e4b1b26318d7bf5814132f26f417a34373df6bab853be2cd0ba7901"
+        },
+        {
+          "file": "trainspotter/readers/tensorboard.py",
+          "bytes": 17214,
+          "sha256": "5b94496234ab00f6943965b556e1d9da1425d1cf6d462025b5f368d7e4e0153e"
+        },
+        {
+          "file": "trainspotter/readers/wandb.py",
+          "bytes": 12430,
+          "sha256": "b228e5d286b628762b00cad529fec0057682a0fa94d3cc0be6ab72f587091777"
+        },
+        {
+          "file": "trainspotter/report/__init__.py",
+          "bytes": 312,
+          "sha256": "317d8be1f917cf65f0312a083c62f7bf268d37b5c9d7232c3a0bf37ae18b9a0a"
+        },
+        {
+          "file": "trainspotter/report/chart_style.py",
+          "bytes": 983,
+          "sha256": "63f693a882ac05f82861db47e9553b12080aa16ed6166916ba8be44aaf9ecc6f"
+        },
+        {
+          "file": "trainspotter/report/html_report.py",
+          "bytes": 46875,
+          "sha256": "b9db0a3498ce4a4b8f99b45ac7eb3199d365836c3f3d2fef3de754b9a23657b5"
+        },
+        {
+          "file": "trainspotter/report/json_report.py",
+          "bytes": 6497,
+          "sha256": "76d6677dc7d74866296d6c75b6153f916d7a2d890f11b2ae7b4d974e453a0128"
+        },
+        {
+          "file": "trainspotter/report/svg_export.py",
+          "bytes": 7639,
+          "sha256": "a69dd63fb4a90bdf54a3ddc6aae1105c425fa1d880552849ea3a75acb2de1f52"
+        },
+        {
+          "file": "trainspotter/report/terminal.py",
+          "bytes": 6741,
+          "sha256": "6beacecc76a8134eacf1929792bf5747b30d06426bfcd3c43855e854903d16ca"
+        },
+        {
+          "file": "trainspotter/timing.py",
+          "bytes": 8171,
+          "sha256": "16f3de6a150563d62dee5f7b3b2edcaacfa8d21b3a4407bf902c84e779e52c3b"
+        }
+      ],
+      "runtimeFilesByteEqualCleanArchive": true,
+      "cases": 7,
+      "svgPayloads": 11,
+      "allSelectedChartGeometryMetadataAndPayloadsEqualSource": true,
+      "cliReportSvgDownloads": 5,
+      "captureOutput": {
+        "cases": 7,
+        "charts": 11,
+        "exports": 11
+      },
+      "installOutputSha256": "3f9725b7bfd0e4156abe7939c83de994029d0a24c0b972e2280fea1b865f2a34"
+    },
+    {
+      "installation": "final-sdist314",
+      "python": "3.14.7",
+      "numpy": "2.5.4",
+      "artifact": "trainspotter-0.2.6.tar.gz",
+      "artifactBytes": 170856,
+      "artifactSha256": "911b80b1ba0cddb6467bb0998cd22884165df10d751d4ba187b670cd1ab7946a",
+      "runtimeFiles": [
+        {
+          "file": "trainspotter/__init__.py",
+          "bytes": 452,
+          "sha256": "f902908eabb455be7238326cae68b500f401e4962b326bc7696dbc748be6437b"
+        },
+        {
+          "file": "trainspotter/cli.py",
+          "bytes": 14987,
+          "sha256": "318ca66e3fa9529d3fa055c87a2c086f345a6753f8d5d23855ed4871cec79892"
+        },
+        {
+          "file": "trainspotter/detectors/__init__.py",
+          "bytes": 4699,
+          "sha256": "38482b71273ec74fdf748c447e35c1132451b5f9a74a581a8e72067d91624e09"
+        },
+        {
+          "file": "trainspotter/detectors/_rolling_slope.py",
+          "bytes": 5280,
+          "sha256": "bb5d8c31ad43864cca26a9633a7d616a80ccc26fc1c5cd199152c8a84c59e892"
+        },
+        {
+          "file": "trainspotter/detectors/base.py",
+          "bytes": 18400,
+          "sha256": "a1b8ff3e7163f7b6aaa476b42565a8fccc46bfefd4e07270fbe3c69691c11bd8"
+        },
+        {
+          "file": "trainspotter/detectors/divergence.py",
+          "bytes": 12240,
+          "sha256": "70721e99da4edbf8a5a67308d4222baeb1d951d8f076c745c698fe680fc557ac"
+        },
+        {
+          "file": "trainspotter/detectors/eval_noise.py",
+          "bytes": 4434,
+          "sha256": "1fa2258d2d3247fa0486fda30867e1b769bf5d06ffd864402c91fd1610b350ca"
+        },
+        {
+          "file": "trainspotter/detectors/grad_norm.py",
+          "bytes": 10115,
+          "sha256": "1a6e37d4b37324a089721f759999f4f8fd53d0d8bae06dde3a9cf016f6919089"
+        },
+        {
+          "file": "trainspotter/detectors/loss_floor.py",
+          "bytes": 5943,
+          "sha256": "e50fed8be010eaa3fcd813f1d73b49871f3627d1035b0547d8bccdbd99bc3131"
+        },
+        {
+          "file": "trainspotter/detectors/lr_schedule.py",
+          "bytes": 15632,
+          "sha256": "1ad15a455347020f3e89628032158bd1598669f3109a8cbf0e79f9e54bc22ed7"
+        },
+        {
+          "file": "trainspotter/detectors/overfitting.py",
+          "bytes": 10614,
+          "sha256": "b581df9ad6223916f03aa4341ba3168518d3dd7820559a5102e14b7e175f88db"
+        },
+        {
+          "file": "trainspotter/detectors/plateau.py",
+          "bytes": 14729,
+          "sha256": "41f3aa5f785316de91cb3d6075ff57e18e3c231a25bbc7d4f39a02b94b39c1fa"
+        },
+        {
+          "file": "trainspotter/detectors/setbacks.py",
+          "bytes": 11987,
+          "sha256": "acabd69fdb7da9bc2bfd29004c43b8174a631fc7c35dc63a2bd3cd28ad2b65e0"
+        },
+        {
+          "file": "trainspotter/detectors/spikes.py",
+          "bytes": 11291,
+          "sha256": "53a976289535bb047f135f88bfd04745d2d22992eb90ee723e89f9a5c70a626b"
+        },
+        {
+          "file": "trainspotter/detectors/throughput.py",
+          "bytes": 4602,
+          "sha256": "b6a506b973629696564601546992b051700bdece9bbc67b2bd05e402d4a68a54"
+        },
+        {
+          "file": "trainspotter/model.py",
+          "bytes": 14969,
+          "sha256": "29fe7f9c1d5f4c5469420581b8144b942459037f6ee948193ae0975368a2283f"
+        },
+        {
+          "file": "trainspotter/py.typed",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "file": "trainspotter/readers/__init__.py",
+          "bytes": 4471,
+          "sha256": "8d263cd9a1c0d7ec291e7df2cd7f81c544e4f9c1c3dfab3d91c29eb225827772"
+        },
+        {
+          "file": "trainspotter/readers/common.py",
+          "bytes": 12108,
+          "sha256": "a745dc356474fc5251bd5d157796a1465383e982a2ab8578ab4aad5fbe2c0ea8"
+        },
+        {
+          "file": "trainspotter/readers/hf.py",
+          "bytes": 4328,
+          "sha256": "96044ace7ad474a21d937c4cd8e2a587991e2a658596cb06c31208a3570b3cef"
+        },
+        {
+          "file": "trainspotter/readers/lightning.py",
+          "bytes": 720,
+          "sha256": "36cf68c7dc9e90f99de4e3007647c9308323154cb6aa96b0b09d9b40af0929f4"
+        },
+        {
+          "file": "trainspotter/readers/tabular.py",
+          "bytes": 7065,
+          "sha256": "64be9d3d6e4b1b26318d7bf5814132f26f417a34373df6bab853be2cd0ba7901"
+        },
+        {
+          "file": "trainspotter/readers/tensorboard.py",
+          "bytes": 17214,
+          "sha256": "5b94496234ab00f6943965b556e1d9da1425d1cf6d462025b5f368d7e4e0153e"
+        },
+        {
+          "file": "trainspotter/readers/wandb.py",
+          "bytes": 12430,
+          "sha256": "b228e5d286b628762b00cad529fec0057682a0fa94d3cc0be6ab72f587091777"
+        },
+        {
+          "file": "trainspotter/report/__init__.py",
+          "bytes": 312,
+          "sha256": "317d8be1f917cf65f0312a083c62f7bf268d37b5c9d7232c3a0bf37ae18b9a0a"
+        },
+        {
+          "file": "trainspotter/report/chart_style.py",
+          "bytes": 983,
+          "sha256": "63f693a882ac05f82861db47e9553b12080aa16ed6166916ba8be44aaf9ecc6f"
+        },
+        {
+          "file": "trainspotter/report/html_report.py",
+          "bytes": 46875,
+          "sha256": "b9db0a3498ce4a4b8f99b45ac7eb3199d365836c3f3d2fef3de754b9a23657b5"
+        },
+        {
+          "file": "trainspotter/report/json_report.py",
+          "bytes": 6497,
+          "sha256": "76d6677dc7d74866296d6c75b6153f916d7a2d890f11b2ae7b4d974e453a0128"
+        },
+        {
+          "file": "trainspotter/report/svg_export.py",
+          "bytes": 7639,
+          "sha256": "a69dd63fb4a90bdf54a3ddc6aae1105c425fa1d880552849ea3a75acb2de1f52"
+        },
+        {
+          "file": "trainspotter/report/terminal.py",
+          "bytes": 6741,
+          "sha256": "6beacecc76a8134eacf1929792bf5747b30d06426bfcd3c43855e854903d16ca"
+        },
+        {
+          "file": "trainspotter/timing.py",
+          "bytes": 8171,
+          "sha256": "16f3de6a150563d62dee5f7b3b2edcaacfa8d21b3a4407bf902c84e779e52c3b"
+        }
+      ],
+      "runtimeFilesByteEqualCleanArchive": true,
+      "cases": 7,
+      "svgPayloads": 11,
+      "allSelectedChartGeometryMetadataAndPayloadsEqualSource": true,
+      "cliReportSvgDownloads": 5,
+      "captureOutput": {
+        "cases": 7,
+        "charts": 11,
+        "exports": 11
+      },
+      "installOutputSha256": "fa47a33fa7a2afc97fdf0dfde46ccda9f8faacf1928a175a36d0c347a5facfe9"
+    }
+  ]
+}
