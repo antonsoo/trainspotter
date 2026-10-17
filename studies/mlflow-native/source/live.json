@@ -1,0 +1,34 @@
+{
+  "scope": "Actual CLI watch processes and native MLflow 3.17.1 writer, in separate environments; scratch copies only.",
+  "python": "3.14.7",
+  "cases": [
+    {
+      "store": "sqlite",
+      "selectedRun": "5d6e8ec204cc46388ab9c3583f132036",
+      "selectedName": "overfitting",
+      "writer": {
+        "largerNeighbor": "85cebaa08b124eaabaf5e9c37408a1f4",
+        "appendedTo": "5d6e8ec204cc46388ab9c3583f132036",
+        "neighborReadings": 6000
+      },
+      "exitCode": 1,
+      "deletedExperimentDefaultRefused": true,
+      "explicitDeletedRunReadable": true,
+      "transcript": "sqlite-watch.txt"
+    },
+    {
+      "store": "files",
+      "selectedRun": "0de2260ce240409d9e4c7587bbfe76ce",
+      "selectedName": "overfitting",
+      "writer": {
+        "largerNeighbor": "037c0c8c4a504f60ab7608bc5ddfc65e",
+        "appendedTo": "0de2260ce240409d9e4c7587bbfe76ce",
+        "neighborReadings": 6000
+      },
+      "exitCode": 1,
+      "deletedExperimentDefaultRefused": true,
+      "explicitDeletedRunReadable": true,
+      "transcript": "files-watch.txt"
+    }
+  ]
+}

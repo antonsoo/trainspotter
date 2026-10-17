@@ -9,8 +9,8 @@ Automatic diagnosis of loss curves and training logs.
 [![Live demo](https://img.shields.io/badge/live%20demo-sample%20reports-4fc3f7)](https://antonsoo.github.io/trainspotter/)
 [![Hugging Face](https://img.shields.io/badge/Hugging%20Face-workbench-ffd21e)](https://huggingface.co/spaces/antonsoloviev/trainspotter)
 
-Point trainspotter at a Trainer checkpoint, TensorBoard log directory, W&B
-export or CSV/JSONL history. It locates recorded loss spikes, sustained
+Point trainspotter at a Trainer checkpoint, TensorBoard log directory, local
+MLflow store, W&B export or CSV/JSONL history. It locates recorded loss spikes, sustained
 setbacks, evaluation changes, learning-rate reversals and measured timing
 changes, retaining the step ranges and data limits behind each finding.
 Run it on a finished log, watch a growing one, or use its exit status in CI.
@@ -44,11 +44,13 @@ changes. To use the released CLI with your own log, install it with
 
 ## Features
 
-- **Five readers**, auto-detected from the file: Hugging Face
+- **Native training histories**, auto-detected from the input: Hugging Face
   `trainer_state.json`, generic CSV/JSONL, Weights & Biases CSVs (a run's
   history, or a chart's export), PyTorch Lightning `CSVLogger`
   `metrics.csv`, and TensorBoard logdirs (`pip install
-  trainspotter[tensorboard]`).
+  trainspotter[tensorboard]`), and local MLflow SQLite or legacy FileStore
+  histories. SQLite needs no MLflow dependency; FileStore uses the small
+  `mlflow-files` extra for YAML metadata. [MLflow selection, steps and limits](docs/mlflow.md).
 - **Reads logs the way tools really write them.** The names
   `transformers.Trainer` sends to W&B and TensorBoard (`train/learning_rate`,
   `train/grad_norm`), Lightning's `train_loss_step` and `lr-AdamW`, Keras's
@@ -123,6 +125,9 @@ trainspotter analyze run/metrics.csv --format lightning
 # A TensorBoard logdir, or a W&B chart export, with several runs in it
 trainspotter analyze runs/ --run lr-1e-3
 
+# Native local MLflow database, selecting one run by ID or unique display name
+trainspotter analyze mlflow.db --run overfitting --output html --out mlflow-report.html
+
 # Tail a log that's still being written
 trainspotter watch run/trainer_state.json --interval 5 --fail-on error
 ```
@@ -150,6 +155,7 @@ finding shown):
 | W&B runs table | One row per run (`Name`, `State`, `Runtime`, config...) | Refused: its rows are different runs, not steps |
 | Lightning `metrics.csv` | `step`, `epoch`, sparse metric columns | Blank cells skipped; `train_loss_step` is the loss curve, `train_loss_epoch` keeps its name |
 | TensorBoard logdir | Legacy scalar summaries and tensor-valued scalars, in one directory or a tree | Split directories (`train/`, `validation/`) and `add_scalars` directories (`Loss_train/`) are parts of one run; other subdirectories are runs. Modern event streams use explicit restart markers, never wall-clock sorting or an inferred restart from an out-of-order reading |
+| MLflow SQLite / FileStore | Full local metric histories, native run identities, steps and millisecond timestamps | One active run by default, with all run IDs listed; `--run` accepts an exact ID, unique ID prefix or unique display name. Native steps remain logging coordinates unless `--step-key step` declares training updates. SQLite is read-only in one transaction; FileStore requires `pip install '.[mlflow-files]'` from the source checkout |
 | Any CSV / JSONL | A `step` column and numeric columns | An explicit step must be an exact integer. With no step column anywhere in the source, row indices are used and identified in the report |
 
 The source checkout replays same-second native TensorBoard writer files by their

@@ -301,7 +301,27 @@ class Run:
         axis = self.meta.get("step_column")
         if isinstance(axis, str) and axis.startswith("(row index"):
             notes.append(f"The horizontal axis uses {axis}; these are not training-step counts.")
-        if self.axis_kind() == "logging_step":
+        mlflow = self.meta.get("mlflow")
+        if self.source_format == "mlflow" and isinstance(mlflow, dict):
+            info = mlflow["run"]
+            notes.append(
+                f"MLflow run {info['name']!r} ({info['run_id']}), "
+                f"experiment {info['experiment_id']}; recorded status {info['status']}, "
+                f"lifecycle {info['lifecycle_stage']}."
+            )
+            if mlflow["store"] == "sqlite":
+                notes.append(
+                    "MLflow SQL backends can normalize infinities to finite extremes. "
+                    "This reader restores native NaN flags but cannot reconstruct infinities "
+                    "already replaced by the backend."
+                )
+        if self.axis_kind() == "logging_step" and self.source_format == "mlflow":
+            notes.append(
+                "The horizontal axis retains MLflow's caller-supplied step values; "
+                "they do not establish optimizer-update counts. Native defaults can repeat step 0. "
+                "Use --step-key step only when this counter measures training updates."
+            )
+        elif self.axis_kind() == "logging_step":
             notes.append(
                 f"The horizontal axis uses W&B logging counter {axis!r}; "
                 "findings locate logging events, not training steps. Log a training counter "

@@ -1,0 +1,549 @@
+{
+  "source": "1195f7b",
+  "cases": [
+    {
+      "version": "2.17.2",
+      "store": "sqlite",
+      "run": "baseline",
+      "command": [
+        "analyze",
+        "studies/mlflow-native/fixtures/mlflow-2.17.2/mlflow.db",
+        "--run",
+        "8f91483945614779b1728653e4a5a317",
+        "--output",
+        "json",
+        "--fail-on",
+        "error"
+      ],
+      "exitCode": 2,
+      "stderr": "trainspotter: cannot guess format for studies/mlflow-native/fixtures/mlflow-2.17.2/mlflow.db; pass --format explicitly (one of hf, csv, jsonl, wandb, lightning, tensorboard)"
+    },
+    {
+      "version": "2.17.2",
+      "store": "sqlite",
+      "run": "divergence",
+      "command": [
+        "analyze",
+        "studies/mlflow-native/fixtures/mlflow-2.17.2/mlflow.db",
+        "--run",
+        "02dd020e0c044f7e8ed77f79d0a3cf70",
+        "--output",
+        "json",
+        "--fail-on",
+        "error"
+      ],
+      "exitCode": 2,
+      "stderr": "trainspotter: cannot guess format for studies/mlflow-native/fixtures/mlflow-2.17.2/mlflow.db; pass --format explicitly (one of hf, csv, jsonl, wandb, lightning, tensorboard)"
+    },
+    {
+      "version": "2.17.2",
+      "store": "sqlite",
+      "run": "overfitting",
+      "command": [
+        "analyze",
+        "studies/mlflow-native/fixtures/mlflow-2.17.2/mlflow.db",
+        "--run",
+        "90cdf8f0372d417bab01c8de221418d9",
+        "--output",
+        "json",
+        "--fail-on",
+        "error"
+      ],
+      "exitCode": 2,
+      "stderr": "trainspotter: cannot guess format for studies/mlflow-native/fixtures/mlflow-2.17.2/mlflow.db; pass --format explicitly (one of hf, csv, jsonl, wandb, lightning, tensorboard)"
+    },
+    {
+      "version": "2.17.2",
+      "store": "sqlite",
+      "run": "stable-training",
+      "command": [
+        "analyze",
+        "studies/mlflow-native/fixtures/mlflow-2.17.2/mlflow.db",
+        "--run",
+        "0770c0e6897b46b99dabcea68b874e6a",
+        "--output",
+        "json",
+        "--fail-on",
+        "error"
+      ],
+      "exitCode": 2,
+      "stderr": "trainspotter: cannot guess format for studies/mlflow-native/fixtures/mlflow-2.17.2/mlflow.db; pass --format explicitly (one of hf, csv, jsonl, wandb, lightning, tensorboard)"
+    },
+    {
+      "version": "2.17.2",
+      "store": "sqlite",
+      "run": "slow-training",
+      "command": [
+        "analyze",
+        "studies/mlflow-native/fixtures/mlflow-2.17.2/mlflow.db",
+        "--run",
+        "912775ff61fa4cbfa5b7911d64ef0e36",
+        "--output",
+        "json",
+        "--fail-on",
+        "error"
+      ],
+      "exitCode": 2,
+      "stderr": "trainspotter: cannot guess format for studies/mlflow-native/fixtures/mlflow-2.17.2/mlflow.db; pass --format explicitly (one of hf, csv, jsonl, wandb, lightning, tensorboard)"
+    },
+    {
+      "version": "2.17.2",
+      "store": "sqlite",
+      "run": "nonfinite",
+      "command": [
+        "analyze",
+        "studies/mlflow-native/fixtures/mlflow-2.17.2/mlflow.db",
+        "--run",
+        "f04405808bd64bd3bc1da47fa106ecd5",
+        "--output",
+        "json",
+        "--fail-on",
+        "error"
+      ],
+      "exitCode": 2,
+      "stderr": "trainspotter: cannot guess format for studies/mlflow-native/fixtures/mlflow-2.17.2/mlflow.db; pass --format explicitly (one of hf, csv, jsonl, wandb, lightning, tensorboard)"
+    },
+    {
+      "version": "2.17.2",
+      "store": "sqlite",
+      "run": "conflicting-steps",
+      "command": [
+        "analyze",
+        "studies/mlflow-native/fixtures/mlflow-2.17.2/mlflow.db",
+        "--run",
+        "18a9995358f6419bab559a26bb5b09c4",
+        "--output",
+        "json",
+        "--fail-on",
+        "error"
+      ],
+      "exitCode": 2,
+      "stderr": "trainspotter: cannot guess format for studies/mlflow-native/fixtures/mlflow-2.17.2/mlflow.db; pass --format explicitly (one of hf, csv, jsonl, wandb, lightning, tensorboard)"
+    },
+    {
+      "version": "2.17.2",
+      "store": "sqlite",
+      "run": "default-step",
+      "command": [
+        "analyze",
+        "studies/mlflow-native/fixtures/mlflow-2.17.2/mlflow.db",
+        "--run",
+        "2e15f31a8d674a2293afd9fa3961b066",
+        "--output",
+        "json",
+        "--fail-on",
+        "error"
+      ],
+      "exitCode": 2,
+      "stderr": "trainspotter: cannot guess format for studies/mlflow-native/fixtures/mlflow-2.17.2/mlflow.db; pass --format explicitly (one of hf, csv, jsonl, wandb, lightning, tensorboard)"
+    },
+    {
+      "version": "2.17.2",
+      "store": "files",
+      "run": "baseline",
+      "command": [
+        "analyze",
+        "studies/mlflow-native/fixtures/mlflow-2.17.2/mlruns",
+        "--run",
+        "ce64c32acf124b38a35c27978a3db31c",
+        "--output",
+        "json",
+        "--fail-on",
+        "error"
+      ],
+      "exitCode": 2,
+      "stderr": "trainspotter: studies/mlflow-native/fixtures/mlflow-2.17.2/mlruns: TensorBoard logdir has no runs in it"
+    },
+    {
+      "version": "2.17.2",
+      "store": "files",
+      "run": "divergence",
+      "command": [
+        "analyze",
+        "studies/mlflow-native/fixtures/mlflow-2.17.2/mlruns",
+        "--run",
+        "d7575153a61e4bb8adce39c815dbe5ce",
+        "--output",
+        "json",
+        "--fail-on",
+        "error"
+      ],
+      "exitCode": 2,
+      "stderr": "trainspotter: studies/mlflow-native/fixtures/mlflow-2.17.2/mlruns: TensorBoard logdir has no runs in it"
+    },
+    {
+      "version": "2.17.2",
+      "store": "files",
+      "run": "overfitting",
+      "command": [
+        "analyze",
+        "studies/mlflow-native/fixtures/mlflow-2.17.2/mlruns",
+        "--run",
+        "8e61aa80dd3f499d97d595b677a9376d",
+        "--output",
+        "json",
+        "--fail-on",
+        "error"
+      ],
+      "exitCode": 2,
+      "stderr": "trainspotter: studies/mlflow-native/fixtures/mlflow-2.17.2/mlruns: TensorBoard logdir has no runs in it"
+    },
+    {
+      "version": "2.17.2",
+      "store": "files",
+      "run": "stable-training",
+      "command": [
+        "analyze",
+        "studies/mlflow-native/fixtures/mlflow-2.17.2/mlruns",
+        "--run",
+        "eda5ea4919f74d7cb2c1d11c7e66781d",
+        "--output",
+        "json",
+        "--fail-on",
+        "error"
+      ],
+      "exitCode": 2,
+      "stderr": "trainspotter: studies/mlflow-native/fixtures/mlflow-2.17.2/mlruns: TensorBoard logdir has no runs in it"
+    },
+    {
+      "version": "2.17.2",
+      "store": "files",
+      "run": "slow-training",
+      "command": [
+        "analyze",
+        "studies/mlflow-native/fixtures/mlflow-2.17.2/mlruns",
+        "--run",
+        "a901125e1fbc4dd0a7dba58ab228aa6e",
+        "--output",
+        "json",
+        "--fail-on",
+        "error"
+      ],
+      "exitCode": 2,
+      "stderr": "trainspotter: studies/mlflow-native/fixtures/mlflow-2.17.2/mlruns: TensorBoard logdir has no runs in it"
+    },
+    {
+      "version": "2.17.2",
+      "store": "files",
+      "run": "nonfinite",
+      "command": [
+        "analyze",
+        "studies/mlflow-native/fixtures/mlflow-2.17.2/mlruns",
+        "--run",
+        "4bb3634cb8c34e69abbc291463eb0c5e",
+        "--output",
+        "json",
+        "--fail-on",
+        "error"
+      ],
+      "exitCode": 2,
+      "stderr": "trainspotter: studies/mlflow-native/fixtures/mlflow-2.17.2/mlruns: TensorBoard logdir has no runs in it"
+    },
+    {
+      "version": "2.17.2",
+      "store": "files",
+      "run": "conflicting-steps",
+      "command": [
+        "analyze",
+        "studies/mlflow-native/fixtures/mlflow-2.17.2/mlruns",
+        "--run",
+        "bcd66befa2f14b57bba79c7262caab65",
+        "--output",
+        "json",
+        "--fail-on",
+        "error"
+      ],
+      "exitCode": 2,
+      "stderr": "trainspotter: studies/mlflow-native/fixtures/mlflow-2.17.2/mlruns: TensorBoard logdir has no runs in it"
+    },
+    {
+      "version": "2.17.2",
+      "store": "files",
+      "run": "default-step",
+      "command": [
+        "analyze",
+        "studies/mlflow-native/fixtures/mlflow-2.17.2/mlruns",
+        "--run",
+        "d5dd560369fd4d548b6eed0433577129",
+        "--output",
+        "json",
+        "--fail-on",
+        "error"
+      ],
+      "exitCode": 2,
+      "stderr": "trainspotter: studies/mlflow-native/fixtures/mlflow-2.17.2/mlruns: TensorBoard logdir has no runs in it"
+    },
+    {
+      "version": "3.17.1",
+      "store": "sqlite",
+      "run": "baseline",
+      "command": [
+        "analyze",
+        "studies/mlflow-native/fixtures/mlflow-3.17.1/mlflow.db",
+        "--run",
+        "12b61cbcd4114346ab779ad97433c986",
+        "--output",
+        "json",
+        "--fail-on",
+        "error"
+      ],
+      "exitCode": 2,
+      "stderr": "trainspotter: cannot guess format for studies/mlflow-native/fixtures/mlflow-3.17.1/mlflow.db; pass --format explicitly (one of hf, csv, jsonl, wandb, lightning, tensorboard)"
+    },
+    {
+      "version": "3.17.1",
+      "store": "sqlite",
+      "run": "divergence",
+      "command": [
+        "analyze",
+        "studies/mlflow-native/fixtures/mlflow-3.17.1/mlflow.db",
+        "--run",
+        "ace0bd93a53e47e5aea904a2ce6f476b",
+        "--output",
+        "json",
+        "--fail-on",
+        "error"
+      ],
+      "exitCode": 2,
+      "stderr": "trainspotter: cannot guess format for studies/mlflow-native/fixtures/mlflow-3.17.1/mlflow.db; pass --format explicitly (one of hf, csv, jsonl, wandb, lightning, tensorboard)"
+    },
+    {
+      "version": "3.17.1",
+      "store": "sqlite",
+      "run": "overfitting",
+      "command": [
+        "analyze",
+        "studies/mlflow-native/fixtures/mlflow-3.17.1/mlflow.db",
+        "--run",
+        "5d6e8ec204cc46388ab9c3583f132036",
+        "--output",
+        "json",
+        "--fail-on",
+        "error"
+      ],
+      "exitCode": 2,
+      "stderr": "trainspotter: cannot guess format for studies/mlflow-native/fixtures/mlflow-3.17.1/mlflow.db; pass --format explicitly (one of hf, csv, jsonl, wandb, lightning, tensorboard)"
+    },
+    {
+      "version": "3.17.1",
+      "store": "sqlite",
+      "run": "stable-training",
+      "command": [
+        "analyze",
+        "studies/mlflow-native/fixtures/mlflow-3.17.1/mlflow.db",
+        "--run",
+        "d9dab18d8b054725b13f3894b0dc97fc",
+        "--output",
+        "json",
+        "--fail-on",
+        "error"
+      ],
+      "exitCode": 2,
+      "stderr": "trainspotter: cannot guess format for studies/mlflow-native/fixtures/mlflow-3.17.1/mlflow.db; pass --format explicitly (one of hf, csv, jsonl, wandb, lightning, tensorboard)"
+    },
+    {
+      "version": "3.17.1",
+      "store": "sqlite",
+      "run": "slow-training",
+      "command": [
+        "analyze",
+        "studies/mlflow-native/fixtures/mlflow-3.17.1/mlflow.db",
+        "--run",
+        "214bb67d331a4988b21e75b343876ee9",
+        "--output",
+        "json",
+        "--fail-on",
+        "error"
+      ],
+      "exitCode": 2,
+      "stderr": "trainspotter: cannot guess format for studies/mlflow-native/fixtures/mlflow-3.17.1/mlflow.db; pass --format explicitly (one of hf, csv, jsonl, wandb, lightning, tensorboard)"
+    },
+    {
+      "version": "3.17.1",
+      "store": "sqlite",
+      "run": "nonfinite",
+      "command": [
+        "analyze",
+        "studies/mlflow-native/fixtures/mlflow-3.17.1/mlflow.db",
+        "--run",
+        "e1403ed00ca24f0b9f5a7d59e52821b1",
+        "--output",
+        "json",
+        "--fail-on",
+        "error"
+      ],
+      "exitCode": 2,
+      "stderr": "trainspotter: cannot guess format for studies/mlflow-native/fixtures/mlflow-3.17.1/mlflow.db; pass --format explicitly (one of hf, csv, jsonl, wandb, lightning, tensorboard)"
+    },
+    {
+      "version": "3.17.1",
+      "store": "sqlite",
+      "run": "conflicting-steps",
+      "command": [
+        "analyze",
+        "studies/mlflow-native/fixtures/mlflow-3.17.1/mlflow.db",
+        "--run",
+        "718523e5cdbd4eed8c92c9adfe31767b",
+        "--output",
+        "json",
+        "--fail-on",
+        "error"
+      ],
+      "exitCode": 2,
+      "stderr": "trainspotter: cannot guess format for studies/mlflow-native/fixtures/mlflow-3.17.1/mlflow.db; pass --format explicitly (one of hf, csv, jsonl, wandb, lightning, tensorboard)"
+    },
+    {
+      "version": "3.17.1",
+      "store": "sqlite",
+      "run": "default-step",
+      "command": [
+        "analyze",
+        "studies/mlflow-native/fixtures/mlflow-3.17.1/mlflow.db",
+        "--run",
+        "e8da372c228c4590ac22f9f210e3f964",
+        "--output",
+        "json",
+        "--fail-on",
+        "error"
+      ],
+      "exitCode": 2,
+      "stderr": "trainspotter: cannot guess format for studies/mlflow-native/fixtures/mlflow-3.17.1/mlflow.db; pass --format explicitly (one of hf, csv, jsonl, wandb, lightning, tensorboard)"
+    },
+    {
+      "version": "3.17.1",
+      "store": "files",
+      "run": "baseline",
+      "command": [
+        "analyze",
+        "studies/mlflow-native/fixtures/mlflow-3.17.1/mlruns",
+        "--run",
+        "3c665e359ffc47f69110efab5d74ef76",
+        "--output",
+        "json",
+        "--fail-on",
+        "error"
+      ],
+      "exitCode": 2,
+      "stderr": "trainspotter: studies/mlflow-native/fixtures/mlflow-3.17.1/mlruns: TensorBoard logdir has no runs in it"
+    },
+    {
+      "version": "3.17.1",
+      "store": "files",
+      "run": "divergence",
+      "command": [
+        "analyze",
+        "studies/mlflow-native/fixtures/mlflow-3.17.1/mlruns",
+        "--run",
+        "81c6646ed240443286b1aa444f372549",
+        "--output",
+        "json",
+        "--fail-on",
+        "error"
+      ],
+      "exitCode": 2,
+      "stderr": "trainspotter: studies/mlflow-native/fixtures/mlflow-3.17.1/mlruns: TensorBoard logdir has no runs in it"
+    },
+    {
+      "version": "3.17.1",
+      "store": "files",
+      "run": "overfitting",
+      "command": [
+        "analyze",
+        "studies/mlflow-native/fixtures/mlflow-3.17.1/mlruns",
+        "--run",
+        "0de2260ce240409d9e4c7587bbfe76ce",
+        "--output",
+        "json",
+        "--fail-on",
+        "error"
+      ],
+      "exitCode": 2,
+      "stderr": "trainspotter: studies/mlflow-native/fixtures/mlflow-3.17.1/mlruns: TensorBoard logdir has no runs in it"
+    },
+    {
+      "version": "3.17.1",
+      "store": "files",
+      "run": "stable-training",
+      "command": [
+        "analyze",
+        "studies/mlflow-native/fixtures/mlflow-3.17.1/mlruns",
+        "--run",
+        "bd1bc11e7eaa47088e35004c8fe371d0",
+        "--output",
+        "json",
+        "--fail-on",
+        "error"
+      ],
+      "exitCode": 2,
+      "stderr": "trainspotter: studies/mlflow-native/fixtures/mlflow-3.17.1/mlruns: TensorBoard logdir has no runs in it"
+    },
+    {
+      "version": "3.17.1",
+      "store": "files",
+      "run": "slow-training",
+      "command": [
+        "analyze",
+        "studies/mlflow-native/fixtures/mlflow-3.17.1/mlruns",
+        "--run",
+        "5df81fff9de340ef9dd2bc36639783fb",
+        "--output",
+        "json",
+        "--fail-on",
+        "error"
+      ],
+      "exitCode": 2,
+      "stderr": "trainspotter: studies/mlflow-native/fixtures/mlflow-3.17.1/mlruns: TensorBoard logdir has no runs in it"
+    },
+    {
+      "version": "3.17.1",
+      "store": "files",
+      "run": "nonfinite",
+      "command": [
+        "analyze",
+        "studies/mlflow-native/fixtures/mlflow-3.17.1/mlruns",
+        "--run",
+        "ce2b6d956864468ab5fa6d1870bf2f3b",
+        "--output",
+        "json",
+        "--fail-on",
+        "error"
+      ],
+      "exitCode": 2,
+      "stderr": "trainspotter: studies/mlflow-native/fixtures/mlflow-3.17.1/mlruns: TensorBoard logdir has no runs in it"
+    },
+    {
+      "version": "3.17.1",
+      "store": "files",
+      "run": "conflicting-steps",
+      "command": [
+        "analyze",
+        "studies/mlflow-native/fixtures/mlflow-3.17.1/mlruns",
+        "--run",
+        "c5e6e4b106434baeafeb43e8f7994d76",
+        "--output",
+        "json",
+        "--fail-on",
+        "error"
+      ],
+      "exitCode": 2,
+      "stderr": "trainspotter: studies/mlflow-native/fixtures/mlflow-3.17.1/mlruns: TensorBoard logdir has no runs in it"
+    },
+    {
+      "version": "3.17.1",
+      "store": "files",
+      "run": "default-step",
+      "command": [
+        "analyze",
+        "studies/mlflow-native/fixtures/mlflow-3.17.1/mlruns",
+        "--run",
+        "8e6bd1f57f6c4a11a08b6e674b002d22",
+        "--output",
+        "json",
+        "--fail-on",
+        "error"
+      ],
+      "exitCode": 2,
+      "stderr": "trainspotter: studies/mlflow-native/fixtures/mlflow-3.17.1/mlruns: TensorBoard logdir has no runs in it"
+    }
+  ]
+}

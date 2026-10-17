@@ -6,6 +6,14 @@ and this project uses [Semantic Versioning](https://semver.org/).
 
 ## Unreleased
 
+- Read native local MLflow SQLite databases and legacy FileStore directories
+  without CSV conversion or a running MLflow server. Preserve full histories,
+  run identity, native NaN flags, repeated-step ambiguity and millisecond clocks.
+  Keep caller-supplied steps distinct from declared training updates; report
+  incomplete records and protect live store files from report output. SQLite
+  uses the standard library; FileStore's optional extra adds PyYAML only.
+  [Native SDK captures and limits](docs/mlflow.md).
+
 - Download a self-contained SVG from each plotted chart in an offline HTML
   report. Preserve source and axis context, input notes and excluded ambiguous
   metrics, sharing the existing trajectory geometry and styles. Keep reports

@@ -90,6 +90,7 @@ ordinal = destination / "synthetic-ordinal.csv"
 ordinal.write_text("loss\n2\n1\n")
 sources.append(ordinal)
 sources.extend((root / "examples/repeated_steps").iterdir())
+sources.append(root / "studies/mlflow-native/fixtures/mlflow-3.17.1/mlflow.db")
 repeated_large = destination / "synthetic-repeated-large.jsonl"
 repeated_large.write_text(
     "\n".join(

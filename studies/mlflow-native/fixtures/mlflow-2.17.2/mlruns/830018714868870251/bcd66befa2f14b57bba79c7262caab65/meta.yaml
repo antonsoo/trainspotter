@@ -1,0 +1,15 @@
+artifact_uri: file:///controlled-mlflow-artifacts/bcd66befa2f14b57bba79c7262caab65/artifacts
+end_time: 1700001000000
+entry_point_name: ''
+experiment_id: '830018714868870251'
+lifecycle_stage: active
+run_id: bcd66befa2f14b57bba79c7262caab65
+run_name: conflicting-steps
+run_uuid: bcd66befa2f14b57bba79c7262caab65
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1700000000000
+status: 3
+tags: []
+user_id: trainspotter-native-study

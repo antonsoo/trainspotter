@@ -1,0 +1,15 @@
+artifact_uri: file:///controlled-mlflow-artifacts/ce64c32acf124b38a35c27978a3db31c/artifacts
+end_time: 1700001000000
+entry_point_name: ''
+experiment_id: '830018714868870251'
+lifecycle_stage: active
+run_id: ce64c32acf124b38a35c27978a3db31c
+run_name: baseline
+run_uuid: ce64c32acf124b38a35c27978a3db31c
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1700000000000
+status: 3
+tags: []
+user_id: trainspotter-native-study

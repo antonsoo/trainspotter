@@ -1,0 +1,9 @@
+artifact_location: file:///home/antonsoloviev/work/projects/showcases/trainspotter/studies/mlflow-native/fixtures/current/mlruns/0
+creation_time: 1792272444052
+effective_trace_archival_retention: null
+experiment_id: '0'
+last_update_time: 1792272444052
+lifecycle_stage: active
+name: Default
+trace_location: null
+workspace: default

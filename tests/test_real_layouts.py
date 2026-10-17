@@ -387,7 +387,7 @@ def test_run_selection_is_refused_where_there_is_one_run(
 ) -> None:
     assert main(["analyze", str(EXAMPLES / "baseline.trainer_state.json"), "--run", "x"]) == 2
     assert (
-        "--run picks one run out of a W&B chart export or a TensorBoard logdir"
+        "--run picks one run out of a W&B chart export, TensorBoard logdir or MLflow store"
         in capsys.readouterr().err
     )
 

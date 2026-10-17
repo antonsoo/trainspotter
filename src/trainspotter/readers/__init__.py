@@ -24,9 +24,10 @@ __all__ = [
     "read_jsonl",
     "read_wandb_csv",
     "read_lightning_csv",
+    "read_mlflow",
 ]
 
-_FORMATS = ("hf", "csv", "jsonl", "wandb", "lightning", "tensorboard")
+_FORMATS = ("hf", "csv", "jsonl", "wandb", "lightning", "tensorboard", "mlflow")
 
 
 def detect_format(path: str | Path) -> str:
@@ -34,8 +35,14 @@ def detect_format(path: str | Path) -> str:
     callers can always override with --format."""
     p = Path(path)
     if p.is_dir():
+        from .mlflow_files import is_file_store
+
+        if is_file_store(p):
+            return "mlflow"
         return "tensorboard"
     suffix = p.suffix.lower()
+    if suffix in (".db", ".sqlite", ".sqlite3"):
+        return "mlflow"
     if suffix == ".jsonl":
         return "jsonl"
     if suffix == ".json":
@@ -63,6 +70,10 @@ def detect_format(path: str | Path) -> str:
                 "--format csv reads it as it is."
             )
         return "csv"
+    from .mlflow import is_sqlite
+
+    if is_sqlite(p):
+        return "mlflow"
     raise ValueError(
         f"cannot guess format for {p!s}; pass --format explicitly "
         f"(one of {', '.join(_FORMATS)})"
@@ -76,7 +87,7 @@ def load_run(
     """Load a Run from `path`, auto-detecting the format unless `fmt` is given.
 
     `run_name` picks one run out of a source that holds several (a W&B chart export, a
-    TensorBoard logdir); see `readers.common.select_run`.
+    TensorBoard logdir, or a native MLflow store); see `readers.common.select_run`.
     `step_key` selects an exact integer training-step column in tabular inputs;
     the caller asserts this column measures training progress, not logger calls.
     `chart_single_run` asserts that every W&B chart value column belongs to this
@@ -86,11 +97,13 @@ def load_run(
     fmt = fmt or detect_format(p)
     if chart_single_run is not None and fmt != "wandb":
         raise ValueError("--chart-single-run applies only to W&B chart CSV exports")
-    if step_key is not None and fmt not in ("csv", "jsonl", "wandb", "lightning"):
-        raise ValueError("--step-key selects a column in CSV, JSONL, W&B or Lightning input")
-    if run_name is not None and fmt not in ("wandb", "tensorboard"):
+    if step_key is not None and fmt not in ("csv", "jsonl", "wandb", "lightning", "mlflow"):
         raise ValueError(
-            f"--run picks one run out of a W&B chart export or a TensorBoard logdir; "
+            "--step-key selects a column in CSV, JSONL, W&B, Lightning or MLflow input"
+        )
+    if run_name is not None and fmt not in ("wandb", "tensorboard", "mlflow"):
+        raise ValueError(
+            f"--run picks one run out of a W&B chart export, TensorBoard logdir or MLflow store; "
             f"{p} is read as {fmt}, which holds one run"
         )
     if fmt == "hf":
@@ -103,6 +116,8 @@ def load_run(
         run = read_wandb_csv(p, run_name, step_key=step_key, chart_single_run=chart_single_run)
     elif fmt == "lightning":
         run = read_lightning_csv(p, step_key=step_key)
+    elif fmt == "mlflow":
+        run = read_mlflow(p, run_name, step_key=step_key)
     elif fmt == "tensorboard":
         from .tensorboard import read_tensorboard  # optional dependency
 
@@ -111,3 +126,11 @@ def load_run(
         raise ValueError(f"unknown format {fmt!r}; choose from {', '.join(_FORMATS)}")
     run.finalize()
     return run
+
+
+def read_mlflow(
+    path: str | Path, run_name: str | None = None, *, step_key: str | None = None,
+) -> Run:
+    from .mlflow import read_mlflow as read
+
+    return read(path, run_name, step_key=step_key)

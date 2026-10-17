@@ -1,0 +1,659 @@
+{
+  "mlflow": "3.17.1",
+  "python": "3.12.12",
+  "population": "Native local SDK replay of retained training measurements, plus explicitly controlled integrity cases. No server, artifact download or new training.",
+  "timestampPolicy": "Controlled one-second spacing for MLP replay; retained W&B wall clocks rounded to native integer milliseconds.",
+  "stores": [
+    {
+      "kind": "sqlite",
+      "path": "mlflow.db",
+      "runs": [
+        {
+          "name": "baseline",
+          "runId": "12b61cbcd4114346ab779ad97433c986",
+          "experimentId": "1",
+          "source": "examples/baseline.trainer_state.json",
+          "sourceSha256": "77cef17e5130ad978e229d07d7aaa5c8b8eb2f2a0286cce9eeb02cfc4c8171d1",
+          "loggedRows": 2243,
+          "histories": {
+            "epoch": {
+              "observations": 400,
+              "sha256": "3a7b8495b3a061026b978a83b7f01af2f2d19056cf1a814e170714963833fc9e"
+            },
+            "eval_accuracy": {
+              "observations": 81,
+              "sha256": "6164cba92da74f83fc2fae971cd2505e49ca289016e180bc3cf9bbb07019e27d"
+            },
+            "eval_loss": {
+              "observations": 81,
+              "sha256": "8643f00ca1e23334ff95657ff8a0f1a26ab65b96860b08904b6bf174d56b134e"
+            },
+            "grad_norm": {
+              "observations": 400,
+              "sha256": "9e95710c03b09f9a63276e966c57c95cf843129a0e13a5a62f4dd42366350a5f"
+            },
+            "learning_rate": {
+              "observations": 400,
+              "sha256": "c38cdc82f8b5158106504991f2497401c85d330b6dc9a57642a546b2cf4da9b8"
+            },
+            "loss": {
+              "observations": 400,
+              "sha256": "a2f2dbd25256d54d19a2cf9cda91c161a5c417fe920e942963b4081976d5cbc5"
+            },
+            "step_time": {
+              "observations": 400,
+              "sha256": "d04e6e15b4f4e22dfb7d7650beb0b817b0ea1864cf00df94550d1b71fa480d16"
+            }
+          }
+        },
+        {
+          "name": "divergence",
+          "runId": "ace0bd93a53e47e5aea904a2ce6f476b",
+          "experimentId": "1",
+          "source": "examples/divergence.trainer_state.json",
+          "sourceSha256": "39d6723152887c81e07171263db2fa6e3a63acfcc73c9b097e6519e5e431d613",
+          "loggedRows": 1714,
+          "histories": {
+            "epoch": {
+              "observations": 323,
+              "sha256": "297ac9ed07c1a6212f555e04ea8e7366d781688e8c7a328f0f4dba5ccbf4f521"
+            },
+            "eval_accuracy": {
+              "observations": 33,
+              "sha256": "82c242903da2bc4292ca68d9ba460bc5b47b9074db75f5b86486b919e3691678"
+            },
+            "eval_loss": {
+              "observations": 33,
+              "sha256": "85176b71eee052bb66ff4c6089965d3f23e0738b8aa11ba214297f4f5d444635"
+            },
+            "grad_norm": {
+              "observations": 323,
+              "sha256": "5318bf7f193d910efcef79443fac0be6597f717f739a379ec19ed6e4e8295ccf"
+            },
+            "learning_rate": {
+              "observations": 323,
+              "sha256": "f55bd4b0a697dd3d8eec5cf07b7a9ffdecfa08f9b37c9f571674c6714ee6059d"
+            },
+            "loss": {
+              "observations": 323,
+              "sha256": "d484f1f75ba24297a5bcedfadac4734ea96acb6c61a61afb44d8bcdaecd624b2"
+            },
+            "step_time": {
+              "observations": 323,
+              "sha256": "c191a6192a00671008db848045b189741b7e0c3861e196e133dda1a3061023c0"
+            }
+          }
+        },
+        {
+          "name": "overfitting",
+          "runId": "5d6e8ec204cc46388ab9c3583f132036",
+          "experimentId": "1",
+          "source": "examples/overfitting.trainer_state.json",
+          "sourceSha256": "a290af9a64c9247db8e4784c9990cc180a5a65e136720c3deb51cfc05af5d641",
+          "loggedRows": 4483,
+          "histories": {
+            "epoch": {
+              "observations": 800,
+              "sha256": "b1f7e4fe666068f20032360071d44fc032b55cc3eb10b2a0f0e40c01f26ce92e"
+            },
+            "eval_accuracy": {
+              "observations": 161,
+              "sha256": "e87343f3e3cf288340d95b4a0a9a78a6911836e57e4f8035ad21165879598c1b"
+            },
+            "eval_loss": {
+              "observations": 161,
+              "sha256": "4ab82541e598ad2ab52d19fc526a374b98a18e17f20d725dcc4fb189ba2da09f"
+            },
+            "grad_norm": {
+              "observations": 800,
+              "sha256": "73237067285eee824d295ec9c4ea7bae062ad6abd899d2eade48f43f22026db8"
+            },
+            "learning_rate": {
+              "observations": 800,
+              "sha256": "6b69ed5532706da779f3f12162625c1af38e4e37fe4b67dfecf6ca9af21b1062"
+            },
+            "loss": {
+              "observations": 800,
+              "sha256": "6b8b99bc30e7aaf88c8f7bb0b935dfafed8a8e715c576a5c824de9a5435a9357"
+            },
+            "step_time": {
+              "observations": 800,
+              "sha256": "a6e21824dd7d44bf45429afb3b7833d11d4301e89e604fb5c7aef4d6187c20d5"
+            }
+          }
+        },
+        {
+          "name": "stable-training",
+          "runId": "d9dab18d8b054725b13f3894b0dc97fc",
+          "experimentId": "1",
+          "source": "examples/wandb-axes/stable-training.csv",
+          "sourceSha256": "100508c128b4d857dcf441747b01625a0bd879321c7d4cb91c8b76ba1207cc6a",
+          "loggedRows": 101,
+          "histories": {
+            "train/loss": {
+              "observations": 101,
+              "sha256": "4c0663acbce1dfed9538c4a9d505b71f85f1492de9548fc520cd38eeb48faa18"
+            }
+          }
+        },
+        {
+          "name": "slow-training",
+          "runId": "214bb67d331a4988b21e75b343876ee9",
+          "experimentId": "1",
+          "source": "examples/wandb-axes/slow-training.csv",
+          "sourceSha256": "71abe85c765e8e3b8b16615096369e67549886ed75320911bc43bae3e3a524fd",
+          "loggedRows": 101,
+          "histories": {
+            "train/loss": {
+              "observations": 101,
+              "sha256": "d97817ae8c7e2639d160b3377b751260fa41ad4441262b904ff252606416552e"
+            }
+          }
+        },
+        {
+          "name": "nonfinite",
+          "runId": "e1403ed00ca24f0b9f5a7d59e52821b1",
+          "experimentId": "1",
+          "source": "controlled special-value observations",
+          "sourceSha256": null,
+          "loggedRows": 7,
+          "histories": {
+            "loss": {
+              "observations": 7,
+              "sha256": "9d0f6072b579ac7c9834ac9e5844eef50b204080ae2e85741aabcec6865391dd"
+            }
+          }
+        },
+        {
+          "name": "conflicting-steps",
+          "runId": "718523e5cdbd4eed8c92c9adfe31767b",
+          "experimentId": "1",
+          "source": "controlled conflicting readings",
+          "sourceSha256": null,
+          "loggedRows": 21,
+          "histories": {
+            "loss": {
+              "observations": 21,
+              "sha256": "33e31a12c837eb06a8b1210d3a0c26e8a5abd22eca9acbd7305265416a979958"
+            }
+          }
+        },
+        {
+          "name": "default-step",
+          "runId": "e8da372c228c4590ac22f9f210e3f964",
+          "experimentId": "1",
+          "source": "controlled observations with no advancing step",
+          "sourceSha256": null,
+          "loggedRows": 20,
+          "histories": {
+            "loss": {
+              "observations": 20,
+              "sha256": "b7da8e3b56f03552f8afae26ef9c3ebd4a54663f7126661af5b41bd5af9ced1d"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "kind": "files",
+      "path": "mlruns",
+      "runs": [
+        {
+          "name": "baseline",
+          "runId": "3c665e359ffc47f69110efab5d74ef76",
+          "experimentId": "245312837016001889",
+          "source": "examples/baseline.trainer_state.json",
+          "sourceSha256": "77cef17e5130ad978e229d07d7aaa5c8b8eb2f2a0286cce9eeb02cfc4c8171d1",
+          "loggedRows": 2243,
+          "histories": {
+            "epoch": {
+              "observations": 481,
+              "sha256": "2ec6634a644ed51a157e0d3bcb6628fa8f3042f0c8bd6206aac34b01b940a3b5"
+            },
+            "eval_accuracy": {
+              "observations": 81,
+              "sha256": "6164cba92da74f83fc2fae971cd2505e49ca289016e180bc3cf9bbb07019e27d"
+            },
+            "eval_loss": {
+              "observations": 81,
+              "sha256": "8643f00ca1e23334ff95657ff8a0f1a26ab65b96860b08904b6bf174d56b134e"
+            },
+            "grad_norm": {
+              "observations": 400,
+              "sha256": "9e95710c03b09f9a63276e966c57c95cf843129a0e13a5a62f4dd42366350a5f"
+            },
+            "learning_rate": {
+              "observations": 400,
+              "sha256": "c38cdc82f8b5158106504991f2497401c85d330b6dc9a57642a546b2cf4da9b8"
+            },
+            "loss": {
+              "observations": 400,
+              "sha256": "a2f2dbd25256d54d19a2cf9cda91c161a5c417fe920e942963b4081976d5cbc5"
+            },
+            "step_time": {
+              "observations": 400,
+              "sha256": "d04e6e15b4f4e22dfb7d7650beb0b817b0ea1864cf00df94550d1b71fa480d16"
+            }
+          }
+        },
+        {
+          "name": "divergence",
+          "runId": "81c6646ed240443286b1aa444f372549",
+          "experimentId": "245312837016001889",
+          "source": "examples/divergence.trainer_state.json",
+          "sourceSha256": "39d6723152887c81e07171263db2fa6e3a63acfcc73c9b097e6519e5e431d613",
+          "loggedRows": 1714,
+          "histories": {
+            "epoch": {
+              "observations": 356,
+              "sha256": "c765015e4133bb4de59ce9253444e1278050d0361c5ab296305d220f76cf2bb9"
+            },
+            "eval_accuracy": {
+              "observations": 33,
+              "sha256": "82c242903da2bc4292ca68d9ba460bc5b47b9074db75f5b86486b919e3691678"
+            },
+            "eval_loss": {
+              "observations": 33,
+              "sha256": "85176b71eee052bb66ff4c6089965d3f23e0738b8aa11ba214297f4f5d444635"
+            },
+            "grad_norm": {
+              "observations": 323,
+              "sha256": "5318bf7f193d910efcef79443fac0be6597f717f739a379ec19ed6e4e8295ccf"
+            },
+            "learning_rate": {
+              "observations": 323,
+              "sha256": "f55bd4b0a697dd3d8eec5cf07b7a9ffdecfa08f9b37c9f571674c6714ee6059d"
+            },
+            "loss": {
+              "observations": 323,
+              "sha256": "d371735c8c764ac0ce9b7e5521e4c4e43a62d781282431278186e507ccdd13e6"
+            },
+            "step_time": {
+              "observations": 323,
+              "sha256": "c191a6192a00671008db848045b189741b7e0c3861e196e133dda1a3061023c0"
+            }
+          }
+        },
+        {
+          "name": "overfitting",
+          "runId": "0de2260ce240409d9e4c7587bbfe76ce",
+          "experimentId": "245312837016001889",
+          "source": "examples/overfitting.trainer_state.json",
+          "sourceSha256": "a290af9a64c9247db8e4784c9990cc180a5a65e136720c3deb51cfc05af5d641",
+          "loggedRows": 4483,
+          "histories": {
+            "epoch": {
+              "observations": 961,
+              "sha256": "230e35f1b115388d4b2507b5e537df8ad62edb9851517c3f4a9e57198b0de4d5"
+            },
+            "eval_accuracy": {
+              "observations": 161,
+              "sha256": "e87343f3e3cf288340d95b4a0a9a78a6911836e57e4f8035ad21165879598c1b"
+            },
+            "eval_loss": {
+              "observations": 161,
+              "sha256": "4ab82541e598ad2ab52d19fc526a374b98a18e17f20d725dcc4fb189ba2da09f"
+            },
+            "grad_norm": {
+              "observations": 800,
+              "sha256": "73237067285eee824d295ec9c4ea7bae062ad6abd899d2eade48f43f22026db8"
+            },
+            "learning_rate": {
+              "observations": 800,
+              "sha256": "6b69ed5532706da779f3f12162625c1af38e4e37fe4b67dfecf6ca9af21b1062"
+            },
+            "loss": {
+              "observations": 800,
+              "sha256": "6b8b99bc30e7aaf88c8f7bb0b935dfafed8a8e715c576a5c824de9a5435a9357"
+            },
+            "step_time": {
+              "observations": 800,
+              "sha256": "a6e21824dd7d44bf45429afb3b7833d11d4301e89e604fb5c7aef4d6187c20d5"
+            }
+          }
+        },
+        {
+          "name": "stable-training",
+          "runId": "bd1bc11e7eaa47088e35004c8fe371d0",
+          "experimentId": "245312837016001889",
+          "source": "examples/wandb-axes/stable-training.csv",
+          "sourceSha256": "100508c128b4d857dcf441747b01625a0bd879321c7d4cb91c8b76ba1207cc6a",
+          "loggedRows": 101,
+          "histories": {
+            "train/loss": {
+              "observations": 101,
+              "sha256": "4c0663acbce1dfed9538c4a9d505b71f85f1492de9548fc520cd38eeb48faa18"
+            }
+          }
+        },
+        {
+          "name": "slow-training",
+          "runId": "5df81fff9de340ef9dd2bc36639783fb",
+          "experimentId": "245312837016001889",
+          "source": "examples/wandb-axes/slow-training.csv",
+          "sourceSha256": "71abe85c765e8e3b8b16615096369e67549886ed75320911bc43bae3e3a524fd",
+          "loggedRows": 101,
+          "histories": {
+            "train/loss": {
+              "observations": 101,
+              "sha256": "d97817ae8c7e2639d160b3377b751260fa41ad4441262b904ff252606416552e"
+            }
+          }
+        },
+        {
+          "name": "nonfinite",
+          "runId": "ce2b6d956864468ab5fa6d1870bf2f3b",
+          "experimentId": "245312837016001889",
+          "source": "controlled special-value observations",
+          "sourceSha256": null,
+          "loggedRows": 7,
+          "histories": {
+            "loss": {
+              "observations": 7,
+              "sha256": "4e32a2c2d5c7ed7bece20629b7688e6d54bb67781fb0fd458a09ec8c48289717"
+            }
+          }
+        },
+        {
+          "name": "conflicting-steps",
+          "runId": "c5e6e4b106434baeafeb43e8f7994d76",
+          "experimentId": "245312837016001889",
+          "source": "controlled conflicting readings",
+          "sourceSha256": null,
+          "loggedRows": 21,
+          "histories": {
+            "loss": {
+              "observations": 21,
+              "sha256": "33e31a12c837eb06a8b1210d3a0c26e8a5abd22eca9acbd7305265416a979958"
+            }
+          }
+        },
+        {
+          "name": "default-step",
+          "runId": "8e6bd1f57f6c4a11a08b6e674b002d22",
+          "experimentId": "245312837016001889",
+          "source": "controlled observations with no advancing step",
+          "sourceSha256": null,
+          "loggedRows": 20,
+          "histories": {
+            "loss": {
+              "observations": 20,
+              "sha256": "b7da8e3b56f03552f8afae26ef9c3ebd4a54663f7126661af5b41bd5af9ced1d"
+            }
+          }
+        }
+      ]
+    }
+  ],
+  "files": [
+    {
+      "file": "mlflow.db",
+      "bytes": 3051520,
+      "sha256": "4deb943a134452509468a50fe3afc06fe1f2ac9bfea102297a4695e263e7f37c"
+    },
+    {
+      "file": "mlruns/0/meta.yaml",
+      "bytes": 330,
+      "sha256": "17f4beb2756a5569d63a02d5e68aa3cb02004829abb2409bd40c400516f60576"
+    },
+    {
+      "file": "mlruns/245312837016001889/0de2260ce240409d9e4c7587bbfe76ce/meta.yaml",
+      "bytes": 391,
+      "sha256": "92a29d765f31b37cd0f6576c325b6599ebfab5863ecbbea1826f10ac1b74b624"
+    },
+    {
+      "file": "mlruns/245312837016001889/0de2260ce240409d9e4c7587bbfe76ce/metrics/epoch",
+      "bytes": 22272,
+      "sha256": "44898487407479381c225aefd860beef33c4a7df29337a17c4c6c24abdf6d3d4"
+    },
+    {
+      "file": "mlruns/245312837016001889/0de2260ce240409d9e4c7587bbfe76ce/metrics/eval_accuracy",
+      "bytes": 4740,
+      "sha256": "c361565104a495d346f720cd16bfe076046d320bed4aac86ea03ebdea7a7560f"
+    },
+    {
+      "file": "mlruns/245312837016001889/0de2260ce240409d9e4c7587bbfe76ce/metrics/eval_loss",
+      "bytes": 5919,
+      "sha256": "811e5703a205d201f53fbbf4248d01bcef5b5d5f8d6d650b01b9a7c845a1476f"
+    },
+    {
+      "file": "mlruns/245312837016001889/0de2260ce240409d9e4c7587bbfe76ce/metrics/grad_norm",
+      "bytes": 30439,
+      "sha256": "2af55ef98b67ec4a8e786c9329815c4a17a70729288ceb28691cfbb92a43e43a"
+    },
+    {
+      "file": "mlruns/245312837016001889/0de2260ce240409d9e4c7587bbfe76ce/metrics/learning_rate",
+      "bytes": 29985,
+      "sha256": "72b4fd5a372bd890a4c83275dcdfbf1a74d33de28f5d91730154930aa28061ea"
+    },
+    {
+      "file": "mlruns/245312837016001889/0de2260ce240409d9e4c7587bbfe76ce/metrics/loss",
+      "bytes": 30924,
+      "sha256": "3f82141e3c3522240d89fa9eca3357038b0bf8e2e949b8ecaa63041c22f98841"
+    },
+    {
+      "file": "mlruns/245312837016001889/0de2260ce240409d9e4c7587bbfe76ce/metrics/step_time",
+      "bytes": 32052,
+      "sha256": "88cbc16cb691025b75810622e3e5fa72bc5be1fc2eda70ae9f7364a815cc76a8"
+    },
+    {
+      "file": "mlruns/245312837016001889/0de2260ce240409d9e4c7587bbfe76ce/tags/mlflow.runName",
+      "bytes": 11,
+      "sha256": "a1f32f577f69843e0c2e8a5af9c2e5c636fee5d6a48d601bc8b5acf8b417545a"
+    },
+    {
+      "file": "mlruns/245312837016001889/0de2260ce240409d9e4c7587bbfe76ce/tags/mlflow.user",
+      "bytes": 25,
+      "sha256": "88b4ed7326e1de001a28a3e852e945ce18bc2747514280d86dbf78b9af5a3f12"
+    },
+    {
+      "file": "mlruns/245312837016001889/3c665e359ffc47f69110efab5d74ef76/meta.yaml",
+      "bytes": 388,
+      "sha256": "c19a31af3be3d26cb98f4f989bd3108ac1418cc06be85408268bfb337a566d89"
+    },
+    {
+      "file": "mlruns/245312837016001889/3c665e359ffc47f69110efab5d74ef76/metrics/epoch",
+      "bytes": 11836,
+      "sha256": "698b90fcc64076e3afe5f4dedf6702e6fab254020b3df911fc6f4b0847cbf657"
+    },
+    {
+      "file": "mlruns/245312837016001889/3c665e359ffc47f69110efab5d74ef76/metrics/eval_accuracy",
+      "bytes": 2923,
+      "sha256": "d289431c63fda7d82cf70c01da98ffd21b43d46441408a77fdfe7b0dbd99054c"
+    },
+    {
+      "file": "mlruns/245312837016001889/3c665e359ffc47f69110efab5d74ef76/metrics/eval_loss",
+      "bytes": 3023,
+      "sha256": "32ee63ff4f45e8d49a41c5b6eeb4f8a1103547ae9bdb75d79ad9dfc662faced4"
+    },
+    {
+      "file": "mlruns/245312837016001889/3c665e359ffc47f69110efab5d74ef76/metrics/grad_norm",
+      "bytes": 14746,
+      "sha256": "4d3665b742af264453042b2421800af60314deeba7c3f15472afa9f37530adb8"
+    },
+    {
+      "file": "mlruns/245312837016001889/3c665e359ffc47f69110efab5d74ef76/metrics/learning_rate",
+      "bytes": 14714,
+      "sha256": "02966d49f585778e40480f92f8713b751cd8ea37f3ef319b386f591fd16523c0"
+    },
+    {
+      "file": "mlruns/245312837016001889/3c665e359ffc47f69110efab5d74ef76/metrics/loss",
+      "bytes": 14867,
+      "sha256": "4701537188fcead0f4890bb6b1d475ad5eb3ad4e84bba1ee11c9adfd65c6e3ba"
+    },
+    {
+      "file": "mlruns/245312837016001889/3c665e359ffc47f69110efab5d74ef76/metrics/step_time",
+      "bytes": 15991,
+      "sha256": "eef776ac4c9b423baab5dcb834535582b786a00ce13b5f1d6214d262690f53fc"
+    },
+    {
+      "file": "mlruns/245312837016001889/3c665e359ffc47f69110efab5d74ef76/tags/mlflow.runName",
+      "bytes": 8,
+      "sha256": "8ba8496a2525ae171ffd104d632dede6ef418d9b95962a9d88e2fcdbc8d48d24"
+    },
+    {
+      "file": "mlruns/245312837016001889/3c665e359ffc47f69110efab5d74ef76/tags/mlflow.user",
+      "bytes": 25,
+      "sha256": "88b4ed7326e1de001a28a3e852e945ce18bc2747514280d86dbf78b9af5a3f12"
+    },
+    {
+      "file": "mlruns/245312837016001889/5df81fff9de340ef9dd2bc36639783fb/meta.yaml",
+      "bytes": 393,
+      "sha256": "9393c127896115c3c4593069fa67afbc5b6a4a6d8db7bce058758dd9b31f8643"
+    },
+    {
+      "file": "mlruns/245312837016001889/5df81fff9de340ef9dd2bc36639783fb/metrics/train/loss",
+      "bytes": 3740,
+      "sha256": "006cab19f493be753fb37d185c7657878d697a64f7dd87b54c58047353a332cc"
+    },
+    {
+      "file": "mlruns/245312837016001889/5df81fff9de340ef9dd2bc36639783fb/tags/mlflow.runName",
+      "bytes": 13,
+      "sha256": "ad36199b42092f98b27d44bd9fff7b0360d7ebdc2db0107293631835caf45f26"
+    },
+    {
+      "file": "mlruns/245312837016001889/5df81fff9de340ef9dd2bc36639783fb/tags/mlflow.user",
+      "bytes": 25,
+      "sha256": "88b4ed7326e1de001a28a3e852e945ce18bc2747514280d86dbf78b9af5a3f12"
+    },
+    {
+      "file": "mlruns/245312837016001889/81c6646ed240443286b1aa444f372549/meta.yaml",
+      "bytes": 390,
+      "sha256": "db064670d55642bcaa3fec739737f31648f1bd0612d566d10c3a2ab9ced390b3"
+    },
+    {
+      "file": "mlruns/245312837016001889/81c6646ed240443286b1aa444f372549/metrics/epoch",
+      "bytes": 8737,
+      "sha256": "56001afb629e1e0c4e2c69dd7800062f7d7bb5b52e46a7169797790ff67e63e7"
+    },
+    {
+      "file": "mlruns/245312837016001889/81c6646ed240443286b1aa444f372549/metrics/eval_accuracy",
+      "bytes": 1129,
+      "sha256": "5767561f137e5b4964040ba2e97a9078bb8c56fd9ab6537843149a09a1b48a03"
+    },
+    {
+      "file": "mlruns/245312837016001889/81c6646ed240443286b1aa444f372549/metrics/eval_loss",
+      "bytes": 1225,
+      "sha256": "2b551bb78fbbcd920127ecf90e1b642ed09407df001bf607f6cdf4495f115d8c"
+    },
+    {
+      "file": "mlruns/245312837016001889/81c6646ed240443286b1aa444f372549/metrics/grad_norm",
+      "bytes": 11844,
+      "sha256": "cde13097fc906e2abc955b8161a039712c2460cb4f56ca270191dd0bb66cacf6"
+    },
+    {
+      "file": "mlruns/245312837016001889/81c6646ed240443286b1aa444f372549/metrics/learning_rate",
+      "bytes": 11806,
+      "sha256": "c2f4f96f6aa6574df45586d5e1baf12f695406c57875c2370f64a913cd9794a0"
+    },
+    {
+      "file": "mlruns/245312837016001889/81c6646ed240443286b1aa444f372549/metrics/loss",
+      "bytes": 11958,
+      "sha256": "2f10c1f69c8dbca95ac748b9f3e6436b63cade02560714eab982f66702a9e959"
+    },
+    {
+      "file": "mlruns/245312837016001889/81c6646ed240443286b1aa444f372549/metrics/step_time",
+      "bytes": 12886,
+      "sha256": "a8edf39f54c9bcd957def84b8a0fb392e5fd9b439b31189a3b5a148dc131be70"
+    },
+    {
+      "file": "mlruns/245312837016001889/81c6646ed240443286b1aa444f372549/tags/mlflow.runName",
+      "bytes": 10,
+      "sha256": "9abf3c8a074355c0cfc19ad8d9ee93e7b246439648a80e43dc2e41b9b419427f"
+    },
+    {
+      "file": "mlruns/245312837016001889/81c6646ed240443286b1aa444f372549/tags/mlflow.user",
+      "bytes": 25,
+      "sha256": "88b4ed7326e1de001a28a3e852e945ce18bc2747514280d86dbf78b9af5a3f12"
+    },
+    {
+      "file": "mlruns/245312837016001889/8e6bd1f57f6c4a11a08b6e674b002d22/meta.yaml",
+      "bytes": 392,
+      "sha256": "a62cd53ec77bbebb02f801963420fbe847fce3447b0844b7a7fbc54af9d2c324"
+    },
+    {
+      "file": "mlruns/245312837016001889/8e6bd1f57f6c4a11a08b6e674b002d22/metrics/loss",
+      "bytes": 598,
+      "sha256": "f2ae0565dda0d376eb9ccb2f87ba818854977689fe08036a4c053eb75b88f61b"
+    },
+    {
+      "file": "mlruns/245312837016001889/8e6bd1f57f6c4a11a08b6e674b002d22/tags/mlflow.runName",
+      "bytes": 12,
+      "sha256": "1c33d69ab00017dae384756be67b6b0784f5bfd9007782ec22021d29b497d9e1"
+    },
+    {
+      "file": "mlruns/245312837016001889/8e6bd1f57f6c4a11a08b6e674b002d22/tags/mlflow.user",
+      "bytes": 25,
+      "sha256": "88b4ed7326e1de001a28a3e852e945ce18bc2747514280d86dbf78b9af5a3f12"
+    },
+    {
+      "file": "mlruns/245312837016001889/bd1bc11e7eaa47088e35004c8fe371d0/meta.yaml",
+      "bytes": 395,
+      "sha256": "813ba6d776249ae93d2333e65bb92a155437ef20a1c21291f3df7e7080388d9b"
+    },
+    {
+      "file": "mlruns/245312837016001889/bd1bc11e7eaa47088e35004c8fe371d0/metrics/train/loss",
+      "bytes": 3740,
+      "sha256": "8c9b4c09b40d3676d15219295191cb156c27a22e0fee5bea35336f76150c0c14"
+    },
+    {
+      "file": "mlruns/245312837016001889/bd1bc11e7eaa47088e35004c8fe371d0/tags/mlflow.runName",
+      "bytes": 15,
+      "sha256": "9be0a5442cdcfdb9cba0fea864943c74edff991646ac2ef034bf13057bd80585"
+    },
+    {
+      "file": "mlruns/245312837016001889/bd1bc11e7eaa47088e35004c8fe371d0/tags/mlflow.user",
+      "bytes": 25,
+      "sha256": "88b4ed7326e1de001a28a3e852e945ce18bc2747514280d86dbf78b9af5a3f12"
+    },
+    {
+      "file": "mlruns/245312837016001889/c5e6e4b106434baeafeb43e8f7994d76/meta.yaml",
+      "bytes": 397,
+      "sha256": "4ab65bad2b82b856fa07d21ff62608688dd1070458b5a5a54be9cbac3bf987f1"
+    },
+    {
+      "file": "mlruns/245312837016001889/c5e6e4b106434baeafeb43e8f7994d76/metrics/loss",
+      "bytes": 628,
+      "sha256": "0aa03fc5df81e922de808c434060824ee8501d1fcd232e54e4e5e0da58427c23"
+    },
+    {
+      "file": "mlruns/245312837016001889/c5e6e4b106434baeafeb43e8f7994d76/tags/mlflow.runName",
+      "bytes": 17,
+      "sha256": "cb8131baecbd5d589530c8fd5ab7d65343b2a559841320b5b97423363b47ad46"
+    },
+    {
+      "file": "mlruns/245312837016001889/c5e6e4b106434baeafeb43e8f7994d76/tags/mlflow.user",
+      "bytes": 25,
+      "sha256": "88b4ed7326e1de001a28a3e852e945ce18bc2747514280d86dbf78b9af5a3f12"
+    },
+    {
+      "file": "mlruns/245312837016001889/ce2b6d956864468ab5fa6d1870bf2f3b/meta.yaml",
+      "bytes": 389,
+      "sha256": "aba5ab1d1a6153e5630e6bf5df0c183b60b9acfbe37069062f2b29ae1a209f17"
+    },
+    {
+      "file": "mlruns/245312837016001889/ce2b6d956864468ab5fa6d1870bf2f3b/metrics/loss",
+      "bytes": 141,
+      "sha256": "44d3a1904d019fa572502b8d323375fb85852419fffef7e7f349a21f7270ed98"
+    },
+    {
+      "file": "mlruns/245312837016001889/ce2b6d956864468ab5fa6d1870bf2f3b/tags/mlflow.runName",
+      "bytes": 9,
+      "sha256": "3f571003572b105f5e8786edf0a2af6411e99dc38cf54320de563c7bb590c091"
+    },
+    {
+      "file": "mlruns/245312837016001889/ce2b6d956864468ab5fa6d1870bf2f3b/tags/mlflow.user",
+      "bytes": 25,
+      "sha256": "88b4ed7326e1de001a28a3e852e945ce18bc2747514280d86dbf78b9af5a3f12"
+    },
+    {
+      "file": "mlruns/245312837016001889/meta.yaml",
+      "bytes": 298,
+      "sha256": "010948655a1e573622dd5ea131b1b295ca35379cdf0ee8d2b995cfc4dc92dced"
+    }
+  ],
+  "nativeHistoryFile": {
+    "file": "histories.json.gz",
+    "sha256": "2797bec5ea595408b32e68eb01fa312c434429378ea1dd6a9bb82007ab9e3c0f"
+  }
+}

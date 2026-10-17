@@ -46,12 +46,25 @@ class ExampleMeta:
     blurb: str
     source: str | None = None
     method: str | None = None
+    run_name: str | None = None
+    step_key: str | None = None
 
 
 # Titles and one-line blurbs are static labels, same spirit as a table
 # caption; the finding counts shown next to each one are never hand-typed
 # (see main()) -- only what a fresh `run_all()` reports at build time.
 EXAMPLES = [
+    ExampleMeta(
+        "mlflow-slowdown",
+        "One measured slowdown inside a native MLflow store",
+        "The MLflow 3.17.1 SDK replayed retained training measurements into a local SQLite "
+        "store with eight separate runs. This report selects slow-training; its logged "
+        "step is explicitly declared to count training updates. Replay does not run training again.",
+        "../studies/mlflow-native/fixtures/mlflow-3.17.1/mlflow.db",
+        "docs/mlflow.md",
+        run_name="slow-training",
+        step_key="step",
+    ),
     ExampleMeta(
         "loss-cadence",
         "A late loss drop is still late when logging is sparse",
@@ -297,14 +310,14 @@ def main() -> None:
     for meta in EXAMPLES:
         # Load by repo-relative path: the report prints its source path, and a
         # published page must not carry the build machine's absolute paths.
-        src = (EXAMPLES_DIR / (meta.source or f"{meta.slug}.trainer_state.json")).relative_to(REPO_ROOT)
-        run = load_run(src)
+        src = (EXAMPLES_DIR / (meta.source or f"{meta.slug}.trainer_state.json")).resolve().relative_to(REPO_ROOT)
+        run = load_run(src, run_name=meta.run_name, step_key=meta.step_key)
         findings = run_all(run)
         page = render_html(run, findings, title=f"trainspotter - {meta.title}")
         page = page.replace("<title>", f'<link rel="icon" href="{_ICON}">\n<title>', 1)
         # Keep experimental context and the exact input with a downloaded report.
         # They explain the capture; they do not alter the automated findings.
-        mime = "text/csv" if src.suffix == ".csv" else "application/json"
+        mime = {".csv": "text/csv", ".db": "application/vnd.sqlite3"}.get(src.suffix, "application/json")
         encoded = base64.b64encode(src.read_bytes()).decode("ascii")
         method = meta.method or "README.md#real-demo-data"
         context = (

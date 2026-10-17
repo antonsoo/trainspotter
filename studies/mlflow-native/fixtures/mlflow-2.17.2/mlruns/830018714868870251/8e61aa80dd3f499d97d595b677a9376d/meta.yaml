@@ -1,0 +1,15 @@
+artifact_uri: file:///controlled-mlflow-artifacts/8e61aa80dd3f499d97d595b677a9376d/artifacts
+end_time: 1700001000000
+entry_point_name: ''
+experiment_id: '830018714868870251'
+lifecycle_stage: active
+run_id: 8e61aa80dd3f499d97d595b677a9376d
+run_name: overfitting
+run_uuid: 8e61aa80dd3f499d97d595b677a9376d
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1700000000000
+status: 3
+tags: []
+user_id: trainspotter-native-study

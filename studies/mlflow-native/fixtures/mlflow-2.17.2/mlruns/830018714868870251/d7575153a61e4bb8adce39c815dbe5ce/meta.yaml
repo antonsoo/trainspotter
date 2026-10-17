@@ -1,0 +1,15 @@
+artifact_uri: file:///controlled-mlflow-artifacts/d7575153a61e4bb8adce39c815dbe5ce/artifacts
+end_time: 1700001000000
+entry_point_name: ''
+experiment_id: '830018714868870251'
+lifecycle_stage: active
+run_id: d7575153a61e4bb8adce39c815dbe5ce
+run_name: divergence
+run_uuid: d7575153a61e4bb8adce39c815dbe5ce
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1700000000000
+status: 4
+tags: []
+user_id: trainspotter-native-study

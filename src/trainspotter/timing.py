@@ -146,7 +146,8 @@ def assess_timing(
         return _compare(result, run, "throughput", "1/throughput", throughput.steps(), times)
 
     if result.axis != "step":
-        coordinates = "row indices" if result.axis == "row_index" else "W&B logging steps"
+        coordinates = ("row indices" if result.axis == "row_index" else "MLflow logged steps"
+                       if run.source_format == "mlflow" else "W&B logging steps")
         result.reason = (
             "Wall-clock timing needs an explicit training-step column; this source uses "
             f"{coordinates}. Logging intervals cannot establish seconds per training step. "

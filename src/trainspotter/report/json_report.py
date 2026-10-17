@@ -101,6 +101,7 @@ def to_json_dict(run: Run, findings: list[Finding]) -> dict[str, Any]:
             "step_axis": run.axis_kind(),
             "step_selection": run.meta.get("step_selection", "automatic"),
             "metric_sources": run.meta.get("metric_sources", {}),
+            **({"mlflow": run.meta["mlflow"]} if run.source_format == "mlflow" else {}),
             **({"chart_identity": run.meta["chart_identity"]}
                if "chart_identity" in run.meta else {}),
             "ambiguous_metric_sources": run.meta.get("ambiguous_metric_sources", []),

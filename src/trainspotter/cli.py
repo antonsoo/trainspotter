@@ -20,7 +20,7 @@ from trainspotter.report import render_html, render_terminal, to_json_str
 from trainspotter.report.terminal import visible
 from trainspotter.timing import assess_timing
 
-_FORMAT_CHOICES = ("hf", "csv", "jsonl", "wandb", "lightning", "tensorboard")
+_FORMAT_CHOICES = ("hf", "csv", "jsonl", "wandb", "lightning", "tensorboard", "mlflow")
 
 
 def _interval(raw: str) -> float:
@@ -36,12 +36,12 @@ def _build_parser() -> argparse.ArgumentParser:
     sub = parser.add_subparsers(dest="command", required=True)
 
     analyze = sub.add_parser("analyze", help="Analyze a training log and report findings.")
-    analyze.add_argument("path", help="Path to a log file (or a TensorBoard logdir).")
+    analyze.add_argument("path", help="Path to a log file, TensorBoard logdir or local MLflow store.")
     analyze.add_argument("--format", choices=_FORMAT_CHOICES, default=None, help="Force a reader instead of auto-detecting from the path.")
     analyze_run = analyze.add_mutually_exclusive_group()
-    analyze_run.add_argument("--run", default=None, metavar="NAME", help="Which run to analyse when the source holds several (a W&B chart export, a TensorBoard logdir): its name, or the start of it. Default: the run with the most points.")
+    analyze_run.add_argument("--run", default=None, metavar="NAME", help="Which run to analyse in W&B, TensorBoard or MLflow input. MLflow accepts a run ID/prefix or unique display name. Default: the run with the most points (active runs only for MLflow).")
     analyze_run.add_argument("--chart-single-run", metavar="NAME", help="Assert that every W&B chart value column belongs to this exact run display name. Required when chart labels contain ambiguous ' - ' separators; cannot be combined with --run.")
-    analyze.add_argument("--step-key", default=None, metavar="COLUMN", help="Exact training-step column in CSV/JSONL/W&B/Lightning input. Values must be integers. Selecting a column asserts it counts training steps, including when selecting W&B _step.")
+    analyze.add_argument("--step-key", default=None, metavar="COLUMN", help="Exact training-step column in tabular input; MLflow supports step. Values must be integers. Selecting a column asserts it counts training updates, including W&B _step and MLflow step.")
     analyze.add_argument("--output", choices=("terminal", "json", "html"), default="terminal")
     analyze.add_argument("--out", default=None, help="Write the report to this file (HTML defaults to a .trainspotter.html file beside the source).")
     analyze.add_argument("--fail-on", choices=("warning", "error"), default=None, help="CI gate: exit 1 for findings at this severity, or 2 when input is incomplete.")
@@ -50,12 +50,12 @@ def _build_parser() -> argparse.ArgumentParser:
     analyze.add_argument("--title", default=None, help="Title for the HTML report (default: derived from the input path).")
 
     watch = sub.add_parser("watch", help="Tail a growing log file and print findings as they first appear.")
-    watch.add_argument("path", help="Path to a log file being actively written.")
+    watch.add_argument("path", help="Path to a log file or local store being actively written.")
     watch.add_argument("--format", choices=_FORMAT_CHOICES, default=None)
     watch_run = watch.add_mutually_exclusive_group()
-    watch_run.add_argument("--run", default=None, metavar="NAME", help="Which run to watch when the source holds several.")
+    watch_run.add_argument("--run", default=None, metavar="NAME", help="Which run to watch when the source holds several; MLflow accepts a run ID/prefix or unique display name.")
     watch_run.add_argument("--chart-single-run", metavar="NAME", help="Assert a single-run W&B chart layout (same as analyze); held across every read.")
-    watch.add_argument("--step-key", default=None, metavar="COLUMN", help="Exact training-step column in CSV/JSONL/W&B/Lightning input (same as analyze).")
+    watch.add_argument("--step-key", default=None, metavar="COLUMN", help="Exact training-step column in tabular input, or step for native MLflow (same as analyze).")
     watch.add_argument("--interval", type=_interval, default=2.0, help="Positive seconds between re-reads (default: 2.0).")
     watch.add_argument("--fail-on", choices=("warning", "error"), default=None, help="Stop with exit 1 on a matching finding, or 2 when a loaded run has incomplete input.")
     watch.add_argument("--require-timing", action="store_true", help="Stop with exit 2 if a loaded run has incomplete input or no usable timing comparison, including too few readings.")
@@ -65,13 +65,27 @@ def _build_parser() -> argparse.ArgumentParser:
     return parser
 
 
-def _write_report(path: Path, text: str, source: str) -> None:
+def _write_report(path: Path, text: str, source: str, *, source_format: str | None = None) -> None:
     source_path = Path(source)
     if path.resolve() == source_path.resolve() or (
         path.exists() and source_path.exists() and path.samefile(source_path)
     ):
         raise ValueError("report destination is the input file; choose a different --out path")
-    if source_path.is_dir():
+    if source_format == "mlflow" and source_path.is_file():
+        # A live SQLite writer may need these sidecars on the next read too.
+        for database in (source_path, source_path.resolve()):
+            for suffix in ("-wal", "-shm", "-journal"):
+                sidecar = Path(str(database) + suffix)
+                if path.resolve() == sidecar.resolve() or (
+                    path.exists() and sidecar.exists() and path.samefile(sidecar)
+                ):
+                    raise ValueError("report destination is an MLflow database sidecar; choose a different --out path")
+    if source_format == "mlflow" and source_path.is_dir():
+        from trainspotter.readers.mlflow_files import output_conflict
+
+        if output_conflict(source_path, path):
+            raise ValueError("report destination is MLflow input metadata; write outside its metrics, params and tags, or use an artifacts directory")
+    if source_path.is_dir() and source_format != "mlflow":
         from trainspotter.readers.tensorboard import event_files, is_event_name
 
         destination = path.resolve()
@@ -107,7 +121,7 @@ def _emit(run: Run, findings: list[Finding], args: argparse.Namespace) -> None:
     if args.output == "json":
         text = to_json_str(run, findings)
         if args.out:
-            _write_report(Path(args.out), text + "\n", run.source_path)
+            _write_report(Path(args.out), text + "\n", run.source_path, source_format=run.source_format)
         else:
             sys.stdout.write(text + "\n")
     elif args.output == "html":
@@ -117,13 +131,13 @@ def _emit(run: Run, findings: list[Finding], args: argparse.Namespace) -> None:
         title = args.title or f"trainspotter · {Path(run.source_path).name or 'report'}"
         text = render_html(run, findings, title=title)
         out_path = Path(args.out) if args.out else Path(run.source_path).with_suffix(".trainspotter.html")
-        _write_report(out_path, text, run.source_path)
+        _write_report(out_path, text, run.source_path, source_format=run.source_format)
         print(f"wrote {visible(str(out_path))}")
     else:
         if args.out:
             stream = io.StringIO()
             render_terminal(run, findings, stream=stream, color=False)
-            _write_report(Path(args.out), stream.getvalue(), run.source_path)
+            _write_report(Path(args.out), stream.getvalue(), run.source_path, source_format=run.source_format)
         else:
             render_terminal(run, findings, color=False if args.no_color else None)
 

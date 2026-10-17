@@ -5,6 +5,13 @@ describe their own controlled captures. Moving them here does not rerun the
 studies or establish a new package release. The [README](../README.md)
 introduces the current workflows and installation choices.
 
+**Native local MLflow histories are now an input capability.** The source
+checkout reads SQLite and legacy FileStore directly, retaining selected-run
+identity and full recorded histories without the SDK at runtime. Native steps
+remain logging coordinates unless declared to count training updates.
+[Usage, native producer comparisons and backend limits](mlflow.md). This is
+separate from the PyPI 0.2.6 release.
+
 **Logging less often must not look like slower training.** In a new controlled
 offline W&B capture, the previous checkout reported a **4.95x slowdown** when
 the logger changed from every 4 updates to every 20. The source checkout now uses

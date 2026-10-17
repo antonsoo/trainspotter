@@ -67,6 +67,7 @@ dependencies = [
 
 [project.optional-dependencies]
 tensorboard = ["tensorboard>=2.12"]
+mlflow-files = ["PyYAML>=6.0.3"]
 examples = ["scikit-learn>=1.5"]
 dev = [
   "pytest>=9.0.3",
@@ -113,7 +114,7 @@ strict = true
 files = ["src"]
 
 [[tool.mypy.overrides]]
-module = ["tensorboard.*", "google.protobuf.*"]
+module = ["tensorboard.*", "google.protobuf.*", "yaml.*"]
 ignore_missing_imports = true
 
 [tool.pytest.ini_options]
