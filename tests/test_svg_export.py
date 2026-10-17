@@ -82,7 +82,7 @@ def test_svg_keeps_gaps_nonfinite_markers_and_the_actual_axis_meaning() -> None:
 
 
 def test_svg_names_remain_text_and_illegal_xml_characters_cannot_break_the_file() -> None:
-    name = '<script onload="bad()"> & ]]> 雨\x00\x01'
+    name = 'var(--text) <script onload="bad()"> & ]]> 雨\x00\x01'
     run = Run(source_path=name, meta={"metric_sources": {name: "original ' column"}})
     run.add_point(name, 0, 1)
     run.add_point(name, 1, 2)
@@ -91,8 +91,14 @@ def test_svg_names_remain_text_and_illegal_xml_characters_cannot_break_the_file(
     assert evidence["sourcePath"] == name
     assert evidence["metricSources"] == {name: "original ' column"}
     assert "\ufffd" in "".join(root.itertext())
+    style = root.find("svg:style", NS)
+    assert style is not None and style.text is not None
+    assert "var(" not in style.text
+    assert "var(--text)" in "".join(root.itertext())
     assert not root.findall(".//svg:script", NS)
     assert not root.findall(".//svg:image", NS)
     assert not root.findall(".//svg:foreignObject", NS)
     for element in root.iter():
+        for prop in ("fill", "stroke", "color"):
+            assert "var(" not in element.get(prop, "")
         assert not any(key.lower().startswith("on") for key in element.attrib)

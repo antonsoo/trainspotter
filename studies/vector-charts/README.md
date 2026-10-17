@@ -28,9 +28,9 @@ across the seven cases. No detector or reader was modified.
 
 | Case | Before HTML bytes | Source HTML bytes |
 |---|---:|---:|
-| Retained divergence capture, five charts | 49,572 | 105,288 |
-| Retained logging-axis capture, two charts | 18,836 | 35,458 |
-| Constructed 200,000-observation curve | 99,272 | 218,644 |
+| Retained divergence capture, five charts | 49,572 | 102,480 |
+| Retained logging-axis capture, two charts | 18,836 | 34,250 |
+| Constructed 200,000-observation curve | 99,272 | 218,040 |
 
 Downloads embed their own styling and context. Preserving the report's
 script-free design duplicates the vector markup and increases size; this is
@@ -71,6 +71,33 @@ characters inert. Full source labels remain in JSON metadata, while XML text
 uses legal replacement characters where necessary. These checks are separate
 from detector calibration.
 
+## A separate SVG 1.1 renderer
+
+The first browser-valid export at `1993888` produced an empty image in
+CairoSVG 2.8.2. Its root `height: auto` was interpreted differently. Removing
+only that responsive rule restored geometry but left a black palette and
+invisible labels: CSS variables were still unresolved. The
+[unchanged first export](fixtures/unresolved-palette.svg) and
+[controlled sizing isolation](results/cairo.json) retain these distinct outcomes.
+
+The exporter now isolates responsive sizing under screen media, resolves only
+its fixed palette/paint attributes to literal values, and uses generic fonts.
+Cairo's nested text anchoring also clipped a colored value; explicit positions
+for the off-scale spans preserve both 54.88 and 55.49. User labels containing
+`var(...)` remain literal data. Curve paths, values and original inline report
+geometry are unchanged.
+
+[`cairo.py`](cairo.py), with [pinned tool dependencies](requirements-cairo.txt),
+converts all 11 unique vectors independently of the browsers. Every result
+now has the expected opaque background and visible caption/axis paint.
+The retained PDF has one page, no raster images, selectable source/axis text,
+and both complete off-scale values, inspected with Poppler. A separate
+Poppler rasterization was visually inspected. These are digital conversion
+checks, not a physical-print or universal-editor claim. CairoSVG is an
+optional verification tool, not an application dependency.
+
+![The corrected vector rendered independently through CairoSVG](../../docs/assets/vector-charts/cairo-chromium-1440-recorded-divergence-0.png)
+
 ## Reproduce
 
 ```bash
@@ -86,3 +113,8 @@ same retained inputs and constructed controls; the original produces no SVG
 links. The renderer uses only standard-library code beyond the application's
 existing dependencies. Version 0.2.6 is unchanged. Clean builds, installed
 artifacts and publication are recorded separately after verification.
+
+For the independent conversion check, create a separate Python 3.14 environment,
+install `requirements-cairo.txt`, then run `cairo.py /tmp/vector-browser /tmp/vector-cairo`.
+PDF inspection reports `unavailable` if Poppler tools are absent; it is not
+counted as a successful inspection in that case.

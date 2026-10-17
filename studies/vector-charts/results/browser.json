@@ -12,8 +12,8 @@
             {
               "filename": "chromium-1440-recorded-divergence-0.svg",
               "suggestedFilename": "trainspotter-1-train-loss-eval-loss.svg",
-              "bytes": 10554,
-              "sha256": "f80707e62dec5dfd49e9428488c3e65d66beef71601387503ef1e726646e16be",
+              "bytes": 10196,
+              "sha256": "3629ff436602809702085c5555ab27f617f536f4b076122cb917fb76575f3d61",
               "metadata": {
                 "schemaVersion": 1,
                 "format": "trainspotter-chart",
@@ -46,9 +46,21 @@
                 "innerWidth": 920,
                 "innerHeight": 198,
                 "footerTop": 280,
-                "axesBottom": 262,
+                "axesBottom": 261,
                 "viewportWidth": 1440
               },
+              "valueLabels": [
+                {
+                  "text": "54.88 / 55.49",
+                  "left": 817.2000122070312,
+                  "right": 888.2937622070312,
+                  "frameLeft": 0,
+                  "frameRight": 920,
+                  "separators": [
+                    "rgb(110, 124, 135)"
+                  ]
+                }
+              ],
               "axes": [
                 {
                   "text": "0",
@@ -103,8 +115,8 @@
             {
               "filename": "chromium-1440-recorded-divergence-1.svg",
               "suggestedFilename": "trainspotter-2-lr.svg",
-              "bytes": 8706,
-              "sha256": "f9bcfb3840ce477c024ab66f3d1390f66c9dcc8827574f8e4cc6b36d6887eed0",
+              "bytes": 8290,
+              "sha256": "2f23382ca26e021eaaf9d5f2004e6ee35b4e17e88244bec35507e2fe12d5b0f3",
               "metadata": {
                 "schemaVersion": 1,
                 "format": "trainspotter-chart",
@@ -134,9 +146,19 @@
                 "innerWidth": 920,
                 "innerHeight": 180,
                 "footerTop": 262,
-                "axesBottom": 244,
+                "axesBottom": 243,
                 "viewportWidth": 1440
               },
+              "valueLabels": [
+                {
+                  "text": "30",
+                  "left": 877.7000122070312,
+                  "right": 888.5437622070312,
+                  "frameLeft": 0,
+                  "frameRight": 920,
+                  "separators": []
+                }
+              ],
               "axes": [
                 {
                   "text": "0",
@@ -186,8 +208,8 @@
             {
               "filename": "chromium-1440-recorded-divergence-2.svg",
               "suggestedFilename": "trainspotter-3-grad-norm.svg",
-              "bytes": 8956,
-              "sha256": "42d8ee49554a7e40978e34eb3b9123e9567b55aef606dc7da4bae2ce66944ff1",
+              "bytes": 8535,
+              "sha256": "c6342dd63fa6276e57c2528c04d7d7430cacf07878214cb3f69f6801efb02af0",
               "metadata": {
                 "schemaVersion": 1,
                 "format": "trainspotter-chart",
@@ -217,9 +239,19 @@
                 "innerWidth": 920,
                 "innerHeight": 180,
                 "footerTop": 262,
-                "axesBottom": 244,
+                "axesBottom": 243,
                 "viewportWidth": 1440
               },
+              "valueLabels": [
+                {
+                  "text": "23.02",
+                  "left": 863.9000244140625,
+                  "right": 890.9937744140625,
+                  "frameLeft": 0,
+                  "frameRight": 920,
+                  "separators": []
+                }
+              ],
               "axes": [
                 {
                   "text": "0",
@@ -269,8 +301,8 @@
             {
               "filename": "chromium-1440-recorded-divergence-3.svg",
               "suggestedFilename": "trainspotter-4-eval-accuracy.svg",
-              "bytes": 4421,
-              "sha256": "3d47238fb937e86e98d298991a7d93a4242a4486f2bad1134bcc2b46fbc4fe0a",
+              "bytes": 3966,
+              "sha256": "b5fdc1ee02e23eeb350640b5daf813572341b50b95d02305b7712c0c3586db73",
               "metadata": {
                 "schemaVersion": 1,
                 "format": "trainspotter-chart",
@@ -300,9 +332,10 @@
                 "innerWidth": 920,
                 "innerHeight": 180,
                 "footerTop": 262,
-                "axesBottom": 244,
+                "axesBottom": 243,
                 "viewportWidth": 1440
               },
+              "valueLabels": [],
               "axes": [
                 {
                   "text": "0",
@@ -347,8 +380,8 @@
             {
               "filename": "chromium-1440-recorded-divergence-4.svg",
               "suggestedFilename": "trainspotter-5-step-time.svg",
-              "bytes": 8233,
-              "sha256": "86b8d225b6b408a7375840faf1fbdac3397a2ba740205938b2d6395818eb6604",
+              "bytes": 7779,
+              "sha256": "b089ad83bdc38a023c9dab65b58bf5985d365dcf4d12ca7651a9365cb180c321",
               "metadata": {
                 "schemaVersion": 1,
                 "format": "trainspotter-chart",
@@ -378,9 +411,10 @@
                 "innerWidth": 920,
                 "innerHeight": 180,
                 "footerTop": 262,
-                "axesBottom": 244,
+                "axesBottom": 243,
                 "viewportWidth": 1440
               },
+              "valueLabels": [],
               "axes": [
                 {
                   "text": "0",
@@ -435,8 +469,8 @@
             {
               "filename": "chromium-1440-recorded-logging-axis-0.svg",
               "suggestedFilename": "trainspotter-1-train-loss.svg",
-              "bytes": 6025,
-              "sha256": "564ce4e36670d6738e7367cb8690bf71c180be4a2d47f9b95a6850963d4d4bab",
+              "bytes": 5573,
+              "sha256": "ee1d9b90cea2ed1a4f382b67f00942cee393754d7a6b1e06dff5b5c802760581",
               "metadata": {
                 "schemaVersion": 1,
                 "format": "trainspotter-chart",
@@ -468,9 +502,10 @@
                 "innerWidth": 920,
                 "innerHeight": 180,
                 "footerTop": 279,
-                "axesBottom": 261,
+                "axesBottom": 260,
                 "viewportWidth": 1440
               },
+              "valueLabels": [],
               "axes": [
                 {
                   "text": "0",
@@ -530,8 +565,8 @@
             {
               "filename": "chromium-1440-recorded-logging-axis-1.svg",
               "suggestedFilename": "trainspotter-2-capture-elapsed.svg",
-              "bytes": 5967,
-              "sha256": "fb904649febc19f5771bbce93b2f58d5c2ab03edbfebd9b0515701c58ebdb007",
+              "bytes": 5514,
+              "sha256": "3cb0f61a9394bc37c28f383e2cd8b10b7beb017d4897fc660437db57ec4517b8",
               "metadata": {
                 "schemaVersion": 1,
                 "format": "trainspotter-chart",
@@ -563,9 +598,10 @@
                 "innerWidth": 920,
                 "innerHeight": 180,
                 "footerTop": 279,
-                "axesBottom": 261,
+                "axesBottom": 260,
                 "viewportWidth": 1440
               },
+              "valueLabels": [],
               "axes": [
                 {
                   "text": "0",
@@ -625,8 +661,8 @@
             {
               "filename": "chromium-1440-unreadable-gap-0.svg",
               "suggestedFilename": "trainspotter-1-train-loss.svg",
-              "bytes": 5281,
-              "sha256": "3ae605e8330222efcdfd8e95c86e1e574f4f49c21b7116322171858c2c4c16ed",
+              "bytes": 4828,
+              "sha256": "8e00771ca8629017a49f219a858518bd2f9b0f73e3687e9248719ab3ea92bcbc",
               "metadata": {
                 "schemaVersion": 1,
                 "format": "trainspotter-chart",
@@ -659,9 +695,10 @@
                 "innerWidth": 920,
                 "innerHeight": 180,
                 "footerTop": 279,
-                "axesBottom": 261,
+                "axesBottom": 260,
                 "viewportWidth": 1440
               },
+              "valueLabels": [],
               "axes": [
                 {
                   "text": "0",
@@ -726,8 +763,8 @@
             {
               "filename": "chromium-1440-partial-peer-0.svg",
               "suggestedFilename": "trainspotter-1-train-loss-eval-loss.svg",
-              "bytes": 4920,
-              "sha256": "144fa1b189e1883a52b4ba8213489ef9bea07c40aa990557b109670b04778cad",
+              "bytes": 4467,
+              "sha256": "90faef7a0f9faae53cecbc4a9e9d2c147a88d7fd0ea8467d062ae21479387c0e",
               "metadata": {
                 "schemaVersion": 1,
                 "format": "trainspotter-chart",
@@ -765,9 +802,10 @@
                 "innerWidth": 920,
                 "innerHeight": 180,
                 "footerTop": 296,
-                "axesBottom": 278,
+                "axesBottom": 277,
                 "viewportWidth": 1440
               },
+              "valueLabels": [],
               "axes": [
                 {
                   "text": "0",
@@ -831,8 +869,8 @@
             {
               "filename": "chromium-1440-unsafe-names-0.svg",
               "suggestedFilename": "trainspotter-1-script-onload-bad.svg",
-              "bytes": 4694,
-              "sha256": "7cf0490ede895010def3b98ea9baa41cb9a5534f6fbcc0aa8993c342866c2ed1",
+              "bytes": 4241,
+              "sha256": "9e674ddda069c85e2e4ecbf08c24e44ab7f3f77a93df60fff83df3e19b4d82f0",
               "metadata": {
                 "schemaVersion": 1,
                 "format": "trainspotter-chart",
@@ -862,9 +900,10 @@
                 "innerWidth": 920,
                 "innerHeight": 180,
                 "footerTop": 262,
-                "axesBottom": 244,
+                "axesBottom": 243,
                 "viewportWidth": 1440
               },
+              "valueLabels": [],
               "axes": [
                 {
                   "text": "0",
@@ -924,8 +963,8 @@
             {
               "filename": "chromium-1440-long-curve-0.svg",
               "suggestedFilename": "trainspotter-1-train-loss.svg",
-              "bytes": 89211,
-              "sha256": "7ec7efc89067e57b6283a8f026f58e55d08dea7ca541251197890db4c0b78b8c",
+              "bytes": 88758,
+              "sha256": "0a1931dee224d03f4ada0b1ce51d942445225ac5908a90d997211b4b234e0b50",
               "metadata": {
                 "schemaVersion": 1,
                 "format": "trainspotter-chart",
@@ -955,9 +994,10 @@
                 "innerWidth": 920,
                 "innerHeight": 180,
                 "footerTop": 262,
-                "axesBottom": 244,
+                "axesBottom": 243,
                 "viewportWidth": 1440
               },
+              "valueLabels": [],
               "axes": [
                 {
                   "text": "0",
@@ -1027,8 +1067,8 @@
             {
               "filename": "chromium-375-recorded-divergence-0.svg",
               "suggestedFilename": "trainspotter-1-train-loss-eval-loss.svg",
-              "bytes": 10554,
-              "sha256": "f80707e62dec5dfd49e9428488c3e65d66beef71601387503ef1e726646e16be",
+              "bytes": 10196,
+              "sha256": "3629ff436602809702085c5555ab27f617f536f4b076122cb917fb76575f3d61",
               "metadata": {
                 "schemaVersion": 1,
                 "format": "trainspotter-chart",
@@ -1064,6 +1104,18 @@
                 "axesBottom": 106.5706558227539,
                 "viewportWidth": 375
               },
+              "valueLabels": [
+                {
+                  "text": "54.88 / 55.49",
+                  "left": 333.0978698730469,
+                  "right": 362.0482177734375,
+                  "frameLeft": 0,
+                  "frameRight": 375,
+                  "separators": [
+                    "rgb(110, 124, 135)"
+                  ]
+                }
+              ],
               "axes": [
                 {
                   "text": "0",
@@ -1118,8 +1170,8 @@
             {
               "filename": "chromium-375-recorded-divergence-1.svg",
               "suggestedFilename": "trainspotter-2-lr.svg",
-              "bytes": 8706,
-              "sha256": "f9bcfb3840ce477c024ab66f3d1390f66c9dcc8827574f8e4cc6b36d6887eed0",
+              "bytes": 8290,
+              "sha256": "2f23382ca26e021eaaf9d5f2004e6ee35b4e17e88244bec35507e2fe12d5b0f3",
               "metadata": {
                 "schemaVersion": 1,
                 "format": "trainspotter-chart",
@@ -1152,6 +1204,16 @@
                 "axesBottom": 99.22786712646484,
                 "viewportWidth": 375
               },
+              "valueLabels": [
+                {
+                  "text": "30",
+                  "left": 357.748046875,
+                  "right": 362.1543273925781,
+                  "frameLeft": 0,
+                  "frameRight": 375,
+                  "separators": []
+                }
+              ],
               "axes": [
                 {
                   "text": "0",
@@ -1201,8 +1263,8 @@
             {
               "filename": "chromium-375-recorded-divergence-2.svg",
               "suggestedFilename": "trainspotter-3-grad-norm.svg",
-              "bytes": 8956,
-              "sha256": "42d8ee49554a7e40978e34eb3b9123e9567b55aef606dc7da4bae2ce66944ff1",
+              "bytes": 8535,
+              "sha256": "c6342dd63fa6276e57c2528c04d7d7430cacf07878214cb3f69f6801efb02af0",
               "metadata": {
                 "schemaVersion": 1,
                 "format": "trainspotter-chart",
@@ -1235,6 +1297,16 @@
                 "axesBottom": 99.22786712646484,
                 "viewportWidth": 375
               },
+              "valueLabels": [
+                {
+                  "text": "23.02",
+                  "left": 352.1233825683594,
+                  "right": 363.1390380859375,
+                  "frameLeft": 0,
+                  "frameRight": 375,
+                  "separators": []
+                }
+              ],
               "axes": [
                 {
                   "text": "0",
@@ -1284,8 +1356,8 @@
             {
               "filename": "chromium-375-recorded-divergence-3.svg",
               "suggestedFilename": "trainspotter-4-eval-accuracy.svg",
-              "bytes": 4421,
-              "sha256": "3d47238fb937e86e98d298991a7d93a4242a4486f2bad1134bcc2b46fbc4fe0a",
+              "bytes": 3966,
+              "sha256": "b5fdc1ee02e23eeb350640b5daf813572341b50b95d02305b7712c0c3586db73",
               "metadata": {
                 "schemaVersion": 1,
                 "format": "trainspotter-chart",
@@ -1318,6 +1390,7 @@
                 "axesBottom": 99.22786712646484,
                 "viewportWidth": 375
               },
+              "valueLabels": [],
               "axes": [
                 {
                   "text": "0",
@@ -1362,8 +1435,8 @@
             {
               "filename": "chromium-375-recorded-divergence-4.svg",
               "suggestedFilename": "trainspotter-5-step-time.svg",
-              "bytes": 8233,
-              "sha256": "86b8d225b6b408a7375840faf1fbdac3397a2ba740205938b2d6395818eb6604",
+              "bytes": 7779,
+              "sha256": "b089ad83bdc38a023c9dab65b58bf5985d365dcf4d12ca7651a9365cb180c321",
               "metadata": {
                 "schemaVersion": 1,
                 "format": "trainspotter-chart",
@@ -1396,6 +1469,7 @@
                 "axesBottom": 99.22786712646484,
                 "viewportWidth": 375
               },
+              "valueLabels": [],
               "axes": [
                 {
                   "text": "0",
@@ -1450,8 +1524,8 @@
             {
               "filename": "chromium-375-recorded-logging-axis-0.svg",
               "suggestedFilename": "trainspotter-1-train-loss.svg",
-              "bytes": 6025,
-              "sha256": "564ce4e36670d6738e7367cb8690bf71c180be4a2d47f9b95a6850963d4d4bab",
+              "bytes": 5573,
+              "sha256": "ee1d9b90cea2ed1a4f382b67f00942cee393754d7a6b1e06dff5b5c802760581",
               "metadata": {
                 "schemaVersion": 1,
                 "format": "trainspotter-chart",
@@ -1486,6 +1560,7 @@
                 "axesBottom": 106.15068817138672,
                 "viewportWidth": 375
               },
+              "valueLabels": [],
               "axes": [
                 {
                   "text": "0",
@@ -1545,8 +1620,8 @@
             {
               "filename": "chromium-375-recorded-logging-axis-1.svg",
               "suggestedFilename": "trainspotter-2-capture-elapsed.svg",
-              "bytes": 5967,
-              "sha256": "fb904649febc19f5771bbce93b2f58d5c2ab03edbfebd9b0515701c58ebdb007",
+              "bytes": 5514,
+              "sha256": "3cb0f61a9394bc37c28f383e2cd8b10b7beb017d4897fc660437db57ec4517b8",
               "metadata": {
                 "schemaVersion": 1,
                 "format": "trainspotter-chart",
@@ -1581,6 +1656,7 @@
                 "axesBottom": 106.15068817138672,
                 "viewportWidth": 375
               },
+              "valueLabels": [],
               "axes": [
                 {
                   "text": "0",
@@ -1640,8 +1716,8 @@
             {
               "filename": "chromium-375-unreadable-gap-0.svg",
               "suggestedFilename": "trainspotter-1-train-loss.svg",
-              "bytes": 5281,
-              "sha256": "3ae605e8330222efcdfd8e95c86e1e574f4f49c21b7116322171858c2c4c16ed",
+              "bytes": 4828,
+              "sha256": "8e00771ca8629017a49f219a858518bd2f9b0f73e3687e9248719ab3ea92bcbc",
               "metadata": {
                 "schemaVersion": 1,
                 "format": "trainspotter-chart",
@@ -1677,6 +1753,7 @@
                 "axesBottom": 106.15068817138672,
                 "viewportWidth": 375
               },
+              "valueLabels": [],
               "axes": [
                 {
                   "text": "0",
@@ -1741,8 +1818,8 @@
             {
               "filename": "chromium-375-partial-peer-0.svg",
               "suggestedFilename": "trainspotter-1-train-loss-eval-loss.svg",
-              "bytes": 4920,
-              "sha256": "144fa1b189e1883a52b4ba8213489ef9bea07c40aa990557b109670b04778cad",
+              "bytes": 4467,
+              "sha256": "90faef7a0f9faae53cecbc4a9e9d2c147a88d7fd0ea8467d062ae21479387c0e",
               "metadata": {
                 "schemaVersion": 1,
                 "format": "trainspotter-chart",
@@ -1783,6 +1860,7 @@
                 "axesBottom": 113.08704376220703,
                 "viewportWidth": 375
               },
+              "valueLabels": [],
               "axes": [
                 {
                   "text": "0",
@@ -1846,8 +1924,8 @@
             {
               "filename": "chromium-375-unsafe-names-0.svg",
               "suggestedFilename": "trainspotter-1-script-onload-bad.svg",
-              "bytes": 4694,
-              "sha256": "7cf0490ede895010def3b98ea9baa41cb9a5534f6fbcc0aa8993c342866c2ed1",
+              "bytes": 4241,
+              "sha256": "9e674ddda069c85e2e4ecbf08c24e44ab7f3f77a93df60fff83df3e19b4d82f0",
               "metadata": {
                 "schemaVersion": 1,
                 "format": "trainspotter-chart",
@@ -1880,6 +1958,7 @@
                 "axesBottom": 99.22786712646484,
                 "viewportWidth": 375
               },
+              "valueLabels": [],
               "axes": [
                 {
                   "text": "0",
@@ -1939,8 +2018,8 @@
             {
               "filename": "chromium-375-long-curve-0.svg",
               "suggestedFilename": "trainspotter-1-train-loss.svg",
-              "bytes": 89211,
-              "sha256": "7ec7efc89067e57b6283a8f026f58e55d08dea7ca541251197890db4c0b78b8c",
+              "bytes": 88758,
+              "sha256": "0a1931dee224d03f4ada0b1ce51d942445225ac5908a90d997211b4b234e0b50",
               "metadata": {
                 "schemaVersion": 1,
                 "format": "trainspotter-chart",
@@ -1973,6 +2052,7 @@
                 "axesBottom": 99.22786712646484,
                 "viewportWidth": 375
               },
+              "valueLabels": [],
               "axes": [
                 {
                   "text": "0",
@@ -2042,8 +2122,8 @@
             {
               "filename": "firefox-1440-recorded-divergence-0.svg",
               "suggestedFilename": "trainspotter-1-train-loss-eval-loss.svg",
-              "bytes": 10554,
-              "sha256": "f80707e62dec5dfd49e9428488c3e65d66beef71601387503ef1e726646e16be",
+              "bytes": 10196,
+              "sha256": "3629ff436602809702085c5555ab27f617f536f4b076122cb917fb76575f3d61",
               "metadata": {
                 "schemaVersion": 1,
                 "format": "trainspotter-chart",
@@ -2079,6 +2159,18 @@
                 "axesBottom": 263,
                 "viewportWidth": 1440
               },
+              "valueLabels": [
+                {
+                  "text": "54.88 / 55.49",
+                  "left": 816.2000122070312,
+                  "right": 889.2833557128906,
+                  "frameLeft": 0,
+                  "frameRight": 920,
+                  "separators": [
+                    "rgb(110, 124, 135)"
+                  ]
+                }
+              ],
               "axes": [
                 {
                   "text": "0",
@@ -2133,8 +2225,8 @@
             {
               "filename": "firefox-1440-recorded-divergence-1.svg",
               "suggestedFilename": "trainspotter-2-lr.svg",
-              "bytes": 8706,
-              "sha256": "f9bcfb3840ce477c024ab66f3d1390f66c9dcc8827574f8e4cc6b36d6887eed0",
+              "bytes": 8290,
+              "sha256": "2f23382ca26e021eaaf9d5f2004e6ee35b4e17e88244bec35507e2fe12d5b0f3",
               "metadata": {
                 "schemaVersion": 1,
                 "format": "trainspotter-chart",
@@ -2167,6 +2259,16 @@
                 "axesBottom": 245,
                 "viewportWidth": 1440
               },
+              "valueLabels": [
+                {
+                  "text": "30",
+                  "left": 876.7000122070312,
+                  "right": 889.5333557128906,
+                  "frameLeft": 0,
+                  "frameRight": 920,
+                  "separators": []
+                }
+              ],
               "axes": [
                 {
                   "text": "0",
@@ -2216,8 +2318,8 @@
             {
               "filename": "firefox-1440-recorded-divergence-2.svg",
               "suggestedFilename": "trainspotter-3-grad-norm.svg",
-              "bytes": 8956,
-              "sha256": "42d8ee49554a7e40978e34eb3b9123e9567b55aef606dc7da4bae2ce66944ff1",
+              "bytes": 8535,
+              "sha256": "c6342dd63fa6276e57c2528c04d7d7430cacf07878214cb3f69f6801efb02af0",
               "metadata": {
                 "schemaVersion": 1,
                 "format": "trainspotter-chart",
@@ -2250,6 +2352,16 @@
                 "axesBottom": 245,
                 "viewportWidth": 1440
               },
+              "valueLabels": [
+                {
+                  "text": "23.02",
+                  "left": 862.9000244140625,
+                  "right": 892.0000305175781,
+                  "frameLeft": 0,
+                  "frameRight": 920,
+                  "separators": []
+                }
+              ],
               "axes": [
                 {
                   "text": "0",
@@ -2299,8 +2411,8 @@
             {
               "filename": "firefox-1440-recorded-divergence-3.svg",
               "suggestedFilename": "trainspotter-4-eval-accuracy.svg",
-              "bytes": 4421,
-              "sha256": "3d47238fb937e86e98d298991a7d93a4242a4486f2bad1134bcc2b46fbc4fe0a",
+              "bytes": 3966,
+              "sha256": "b5fdc1ee02e23eeb350640b5daf813572341b50b95d02305b7712c0c3586db73",
               "metadata": {
                 "schemaVersion": 1,
                 "format": "trainspotter-chart",
@@ -2333,6 +2445,7 @@
                 "axesBottom": 245,
                 "viewportWidth": 1440
               },
+              "valueLabels": [],
               "axes": [
                 {
                   "text": "0",
@@ -2377,8 +2490,8 @@
             {
               "filename": "firefox-1440-recorded-divergence-4.svg",
               "suggestedFilename": "trainspotter-5-step-time.svg",
-              "bytes": 8233,
-              "sha256": "86b8d225b6b408a7375840faf1fbdac3397a2ba740205938b2d6395818eb6604",
+              "bytes": 7779,
+              "sha256": "b089ad83bdc38a023c9dab65b58bf5985d365dcf4d12ca7651a9365cb180c321",
               "metadata": {
                 "schemaVersion": 1,
                 "format": "trainspotter-chart",
@@ -2411,6 +2524,7 @@
                 "axesBottom": 245,
                 "viewportWidth": 1440
               },
+              "valueLabels": [],
               "axes": [
                 {
                   "text": "0",
@@ -2465,8 +2579,8 @@
             {
               "filename": "firefox-1440-recorded-logging-axis-0.svg",
               "suggestedFilename": "trainspotter-1-train-loss.svg",
-              "bytes": 6025,
-              "sha256": "564ce4e36670d6738e7367cb8690bf71c180be4a2d47f9b95a6850963d4d4bab",
+              "bytes": 5573,
+              "sha256": "ee1d9b90cea2ed1a4f382b67f00942cee393754d7a6b1e06dff5b5c802760581",
               "metadata": {
                 "schemaVersion": 1,
                 "format": "trainspotter-chart",
@@ -2501,6 +2615,7 @@
                 "axesBottom": 262,
                 "viewportWidth": 1440
               },
+              "valueLabels": [],
               "axes": [
                 {
                   "text": "0",
@@ -2560,8 +2675,8 @@
             {
               "filename": "firefox-1440-recorded-logging-axis-1.svg",
               "suggestedFilename": "trainspotter-2-capture-elapsed.svg",
-              "bytes": 5967,
-              "sha256": "fb904649febc19f5771bbce93b2f58d5c2ab03edbfebd9b0515701c58ebdb007",
+              "bytes": 5514,
+              "sha256": "3cb0f61a9394bc37c28f383e2cd8b10b7beb017d4897fc660437db57ec4517b8",
               "metadata": {
                 "schemaVersion": 1,
                 "format": "trainspotter-chart",
@@ -2596,6 +2711,7 @@
                 "axesBottom": 262,
                 "viewportWidth": 1440
               },
+              "valueLabels": [],
               "axes": [
                 {
                   "text": "0",
@@ -2655,8 +2771,8 @@
             {
               "filename": "firefox-1440-unreadable-gap-0.svg",
               "suggestedFilename": "trainspotter-1-train-loss.svg",
-              "bytes": 5281,
-              "sha256": "3ae605e8330222efcdfd8e95c86e1e574f4f49c21b7116322171858c2c4c16ed",
+              "bytes": 4828,
+              "sha256": "8e00771ca8629017a49f219a858518bd2f9b0f73e3687e9248719ab3ea92bcbc",
               "metadata": {
                 "schemaVersion": 1,
                 "format": "trainspotter-chart",
@@ -2692,6 +2808,7 @@
                 "axesBottom": 262,
                 "viewportWidth": 1440
               },
+              "valueLabels": [],
               "axes": [
                 {
                   "text": "0",
@@ -2756,8 +2873,8 @@
             {
               "filename": "firefox-1440-partial-peer-0.svg",
               "suggestedFilename": "trainspotter-1-train-loss-eval-loss.svg",
-              "bytes": 4920,
-              "sha256": "144fa1b189e1883a52b4ba8213489ef9bea07c40aa990557b109670b04778cad",
+              "bytes": 4467,
+              "sha256": "90faef7a0f9faae53cecbc4a9e9d2c147a88d7fd0ea8467d062ae21479387c0e",
               "metadata": {
                 "schemaVersion": 1,
                 "format": "trainspotter-chart",
@@ -2798,6 +2915,7 @@
                 "axesBottom": 279,
                 "viewportWidth": 1440
               },
+              "valueLabels": [],
               "axes": [
                 {
                   "text": "0",
@@ -2861,8 +2979,8 @@
             {
               "filename": "firefox-1440-unsafe-names-0.svg",
               "suggestedFilename": "trainspotter-1-script-onload-bad.svg",
-              "bytes": 4694,
-              "sha256": "7cf0490ede895010def3b98ea9baa41cb9a5534f6fbcc0aa8993c342866c2ed1",
+              "bytes": 4241,
+              "sha256": "9e674ddda069c85e2e4ecbf08c24e44ab7f3f77a93df60fff83df3e19b4d82f0",
               "metadata": {
                 "schemaVersion": 1,
                 "format": "trainspotter-chart",
@@ -2895,6 +3013,7 @@
                 "axesBottom": 245,
                 "viewportWidth": 1440
               },
+              "valueLabels": [],
               "axes": [
                 {
                   "text": "0",
@@ -2954,8 +3073,8 @@
             {
               "filename": "firefox-1440-long-curve-0.svg",
               "suggestedFilename": "trainspotter-1-train-loss.svg",
-              "bytes": 89211,
-              "sha256": "7ec7efc89067e57b6283a8f026f58e55d08dea7ca541251197890db4c0b78b8c",
+              "bytes": 88758,
+              "sha256": "0a1931dee224d03f4ada0b1ce51d942445225ac5908a90d997211b4b234e0b50",
               "metadata": {
                 "schemaVersion": 1,
                 "format": "trainspotter-chart",
@@ -2988,6 +3107,7 @@
                 "axesBottom": 245,
                 "viewportWidth": 1440
               },
+              "valueLabels": [],
               "axes": [
                 {
                   "text": "0",
@@ -3057,8 +3177,8 @@
             {
               "filename": "firefox-375-recorded-divergence-0.svg",
               "suggestedFilename": "trainspotter-1-train-loss-eval-loss.svg",
-              "bytes": 10554,
-              "sha256": "f80707e62dec5dfd49e9428488c3e65d66beef71601387503ef1e726646e16be",
+              "bytes": 10196,
+              "sha256": "3629ff436602809702085c5555ab27f617f536f4b076122cb917fb76575f3d61",
               "metadata": {
                 "schemaVersion": 1,
                 "format": "trainspotter-chart",
@@ -3091,9 +3211,21 @@
                 "innerWidth": 920,
                 "innerHeight": 198,
                 "footerTop": 112.69999694824219,
-                "axesBottom": 107.94999694824219,
+                "axesBottom": 107.5,
                 "viewportWidth": 375
               },
+              "valueLabels": [
+                {
+                  "text": "54.88 / 55.49",
+                  "left": 332.066650390625,
+                  "right": 363.08331298828125,
+                  "frameLeft": 0,
+                  "frameRight": 375,
+                  "separators": [
+                    "rgb(110, 124, 135)"
+                  ]
+                }
+              ],
               "axes": [
                 {
                   "text": "0",
@@ -3148,8 +3280,8 @@
             {
               "filename": "firefox-375-recorded-divergence-1.svg",
               "suggestedFilename": "trainspotter-2-lr.svg",
-              "bytes": 8706,
-              "sha256": "f9bcfb3840ce477c024ab66f3d1390f66c9dcc8827574f8e4cc6b36d6887eed0",
+              "bytes": 8290,
+              "sha256": "2f23382ca26e021eaaf9d5f2004e6ee35b4e17e88244bec35507e2fe12d5b0f3",
               "metadata": {
                 "schemaVersion": 1,
                 "format": "trainspotter-chart",
@@ -3179,9 +3311,19 @@
                 "innerWidth": 920,
                 "innerHeight": 180,
                 "footerTop": 105.36666870117188,
-                "axesBottom": 100.61666870117188,
+                "axesBottom": 100.16667175292969,
                 "viewportWidth": 375
               },
+              "valueLabels": [
+                {
+                  "text": "30",
+                  "left": 356.73333740234375,
+                  "right": 363.18333435058594,
+                  "frameLeft": 0,
+                  "frameRight": 375,
+                  "separators": []
+                }
+              ],
               "axes": [
                 {
                   "text": "0",
@@ -3231,8 +3373,8 @@
             {
               "filename": "firefox-375-recorded-divergence-2.svg",
               "suggestedFilename": "trainspotter-3-grad-norm.svg",
-              "bytes": 8956,
-              "sha256": "42d8ee49554a7e40978e34eb3b9123e9567b55aef606dc7da4bae2ce66944ff1",
+              "bytes": 8535,
+              "sha256": "c6342dd63fa6276e57c2528c04d7d7430cacf07878214cb3f69f6801efb02af0",
               "metadata": {
                 "schemaVersion": 1,
                 "format": "trainspotter-chart",
@@ -3262,9 +3404,19 @@
                 "innerWidth": 920,
                 "innerHeight": 180,
                 "footerTop": 105.36666870117188,
-                "axesBottom": 100.61666870117188,
+                "axesBottom": 100.16667175292969,
                 "viewportWidth": 375
               },
+              "valueLabels": [
+                {
+                  "text": "23.02",
+                  "left": 351.1166687011719,
+                  "right": 364.18333435058594,
+                  "frameLeft": 0,
+                  "frameRight": 375,
+                  "separators": []
+                }
+              ],
               "axes": [
                 {
                   "text": "0",
@@ -3314,8 +3466,8 @@
             {
               "filename": "firefox-375-recorded-divergence-3.svg",
               "suggestedFilename": "trainspotter-4-eval-accuracy.svg",
-              "bytes": 4421,
-              "sha256": "3d47238fb937e86e98d298991a7d93a4242a4486f2bad1134bcc2b46fbc4fe0a",
+              "bytes": 3966,
+              "sha256": "b5fdc1ee02e23eeb350640b5daf813572341b50b95d02305b7712c0c3586db73",
               "metadata": {
                 "schemaVersion": 1,
                 "format": "trainspotter-chart",
@@ -3345,9 +3497,10 @@
                 "innerWidth": 920,
                 "innerHeight": 180,
                 "footerTop": 105.36666870117188,
-                "axesBottom": 100.61666870117188,
+                "axesBottom": 100.16667175292969,
                 "viewportWidth": 375
               },
+              "valueLabels": [],
               "axes": [
                 {
                   "text": "0",
@@ -3392,8 +3545,8 @@
             {
               "filename": "firefox-375-recorded-divergence-4.svg",
               "suggestedFilename": "trainspotter-5-step-time.svg",
-              "bytes": 8233,
-              "sha256": "86b8d225b6b408a7375840faf1fbdac3397a2ba740205938b2d6395818eb6604",
+              "bytes": 7779,
+              "sha256": "b089ad83bdc38a023c9dab65b58bf5985d365dcf4d12ca7651a9365cb180c321",
               "metadata": {
                 "schemaVersion": 1,
                 "format": "trainspotter-chart",
@@ -3423,9 +3576,10 @@
                 "innerWidth": 920,
                 "innerHeight": 180,
                 "footerTop": 105.36666870117188,
-                "axesBottom": 100.61666870117188,
+                "axesBottom": 100.16667175292969,
                 "viewportWidth": 375
               },
+              "valueLabels": [],
               "axes": [
                 {
                   "text": "0",
@@ -3480,8 +3634,8 @@
             {
               "filename": "firefox-375-recorded-logging-axis-0.svg",
               "suggestedFilename": "trainspotter-1-train-loss.svg",
-              "bytes": 6025,
-              "sha256": "564ce4e36670d6738e7367cb8690bf71c180be4a2d47f9b95a6850963d4d4bab",
+              "bytes": 5573,
+              "sha256": "ee1d9b90cea2ed1a4f382b67f00942cee393754d7a6b1e06dff5b5c802760581",
               "metadata": {
                 "schemaVersion": 1,
                 "format": "trainspotter-chart",
@@ -3513,9 +3667,10 @@
                 "innerWidth": 920,
                 "innerHeight": 180,
                 "footerTop": 112.30000305175781,
-                "axesBottom": 107.55000305175781,
+                "axesBottom": 107.10000610351562,
                 "viewportWidth": 375
               },
+              "valueLabels": [],
               "axes": [
                 {
                   "text": "0",
@@ -3575,8 +3730,8 @@
             {
               "filename": "firefox-375-recorded-logging-axis-1.svg",
               "suggestedFilename": "trainspotter-2-capture-elapsed.svg",
-              "bytes": 5967,
-              "sha256": "fb904649febc19f5771bbce93b2f58d5c2ab03edbfebd9b0515701c58ebdb007",
+              "bytes": 5514,
+              "sha256": "3cb0f61a9394bc37c28f383e2cd8b10b7beb017d4897fc660437db57ec4517b8",
               "metadata": {
                 "schemaVersion": 1,
                 "format": "trainspotter-chart",
@@ -3608,9 +3763,10 @@
                 "innerWidth": 920,
                 "innerHeight": 180,
                 "footerTop": 112.30000305175781,
-                "axesBottom": 107.55000305175781,
+                "axesBottom": 107.10000610351562,
                 "viewportWidth": 375
               },
+              "valueLabels": [],
               "axes": [
                 {
                   "text": "0",
@@ -3670,8 +3826,8 @@
             {
               "filename": "firefox-375-unreadable-gap-0.svg",
               "suggestedFilename": "trainspotter-1-train-loss.svg",
-              "bytes": 5281,
-              "sha256": "3ae605e8330222efcdfd8e95c86e1e574f4f49c21b7116322171858c2c4c16ed",
+              "bytes": 4828,
+              "sha256": "8e00771ca8629017a49f219a858518bd2f9b0f73e3687e9248719ab3ea92bcbc",
               "metadata": {
                 "schemaVersion": 1,
                 "format": "trainspotter-chart",
@@ -3704,9 +3860,10 @@
                 "innerWidth": 920,
                 "innerHeight": 180,
                 "footerTop": 112.30000305175781,
-                "axesBottom": 107.55000305175781,
+                "axesBottom": 107.10000610351562,
                 "viewportWidth": 375
               },
+              "valueLabels": [],
               "axes": [
                 {
                   "text": "0",
@@ -3771,8 +3928,8 @@
             {
               "filename": "firefox-375-partial-peer-0.svg",
               "suggestedFilename": "trainspotter-1-train-loss-eval-loss.svg",
-              "bytes": 4920,
-              "sha256": "144fa1b189e1883a52b4ba8213489ef9bea07c40aa990557b109670b04778cad",
+              "bytes": 4467,
+              "sha256": "90faef7a0f9faae53cecbc4a9e9d2c147a88d7fd0ea8467d062ae21479387c0e",
               "metadata": {
                 "schemaVersion": 1,
                 "format": "trainspotter-chart",
@@ -3810,9 +3967,10 @@
                 "innerWidth": 920,
                 "innerHeight": 180,
                 "footerTop": 119.23333740234375,
-                "axesBottom": 114.48333740234375,
+                "axesBottom": 114.01666259765625,
                 "viewportWidth": 375
               },
+              "valueLabels": [],
               "axes": [
                 {
                   "text": "0",
@@ -3876,8 +4034,8 @@
             {
               "filename": "firefox-375-unsafe-names-0.svg",
               "suggestedFilename": "trainspotter-1-script-onload-bad.svg",
-              "bytes": 4694,
-              "sha256": "7cf0490ede895010def3b98ea9baa41cb9a5534f6fbcc0aa8993c342866c2ed1",
+              "bytes": 4241,
+              "sha256": "9e674ddda069c85e2e4ecbf08c24e44ab7f3f77a93df60fff83df3e19b4d82f0",
               "metadata": {
                 "schemaVersion": 1,
                 "format": "trainspotter-chart",
@@ -3907,9 +4065,10 @@
                 "innerWidth": 920,
                 "innerHeight": 180,
                 "footerTop": 105.36666870117188,
-                "axesBottom": 100.61666870117188,
+                "axesBottom": 100.16667175292969,
                 "viewportWidth": 375
               },
+              "valueLabels": [],
               "axes": [
                 {
                   "text": "0",
@@ -3969,8 +4128,8 @@
             {
               "filename": "firefox-375-long-curve-0.svg",
               "suggestedFilename": "trainspotter-1-train-loss.svg",
-              "bytes": 89211,
-              "sha256": "7ec7efc89067e57b6283a8f026f58e55d08dea7ca541251197890db4c0b78b8c",
+              "bytes": 88758,
+              "sha256": "0a1931dee224d03f4ada0b1ce51d942445225ac5908a90d997211b4b234e0b50",
               "metadata": {
                 "schemaVersion": 1,
                 "format": "trainspotter-chart",
@@ -4000,9 +4159,10 @@
                 "innerWidth": 920,
                 "innerHeight": 180,
                 "footerTop": 105.36666870117188,
-                "axesBottom": 100.61666870117188,
+                "axesBottom": 100.16667175292969,
                 "viewportWidth": 375
               },
+              "valueLabels": [],
               "axes": [
                 {
                   "text": "0",

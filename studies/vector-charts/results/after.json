@@ -6,8 +6,8 @@
       "name": "recorded-divergence",
       "file": "recorded-divergence.html",
       "scope": "Retained controlled CPU training capture deliberately made to fail; no new training executed.",
-      "reportBytes": 105288,
-      "reportSha256": "6751799c0fc651627578a97de94e0e49c43bfa65a3e2e9a4af0b8c1d329687a7",
+      "reportBytes": 102480,
+      "reportSha256": "4b8feb114d2df2994234d2a7d3a7d90a77cb508a7758039e9d331d87e7ec22b3",
       "chartSha256": [
         "1bc32e3b0605e9d1253ea4244ff5bbcc6474031e2061eb9fda1f90971630df7b",
         "84111c71d7f42cb03e1a71c85b7c96dbda8fe4a2a918e9bde7e37822663a62b6",
@@ -18,8 +18,8 @@
       "charts": 5,
       "exports": [
         {
-          "bytes": 10554,
-          "sha256": "f80707e62dec5dfd49e9428488c3e65d66beef71601387503ef1e726646e16be",
+          "bytes": 10196,
+          "sha256": "3629ff436602809702085c5555ab27f617f536f4b076122cb917fb76575f3d61",
           "metadata": {
             "schemaVersion": 1,
             "format": "trainspotter-chart",
@@ -48,8 +48,8 @@
           }
         },
         {
-          "bytes": 8706,
-          "sha256": "f9bcfb3840ce477c024ab66f3d1390f66c9dcc8827574f8e4cc6b36d6887eed0",
+          "bytes": 8290,
+          "sha256": "2f23382ca26e021eaaf9d5f2004e6ee35b4e17e88244bec35507e2fe12d5b0f3",
           "metadata": {
             "schemaVersion": 1,
             "format": "trainspotter-chart",
@@ -75,8 +75,8 @@
           }
         },
         {
-          "bytes": 8956,
-          "sha256": "42d8ee49554a7e40978e34eb3b9123e9567b55aef606dc7da4bae2ce66944ff1",
+          "bytes": 8535,
+          "sha256": "c6342dd63fa6276e57c2528c04d7d7430cacf07878214cb3f69f6801efb02af0",
           "metadata": {
             "schemaVersion": 1,
             "format": "trainspotter-chart",
@@ -102,8 +102,8 @@
           }
         },
         {
-          "bytes": 4421,
-          "sha256": "3d47238fb937e86e98d298991a7d93a4242a4486f2bad1134bcc2b46fbc4fe0a",
+          "bytes": 3966,
+          "sha256": "b5fdc1ee02e23eeb350640b5daf813572341b50b95d02305b7712c0c3586db73",
           "metadata": {
             "schemaVersion": 1,
             "format": "trainspotter-chart",
@@ -129,8 +129,8 @@
           }
         },
         {
-          "bytes": 8233,
-          "sha256": "86b8d225b6b408a7375840faf1fbdac3397a2ba740205938b2d6395818eb6604",
+          "bytes": 7779,
+          "sha256": "b089ad83bdc38a023c9dab65b58bf5985d365dcf4d12ca7651a9365cb180c321",
           "metadata": {
             "schemaVersion": 1,
             "format": "trainspotter-chart",
@@ -170,8 +170,8 @@
       "name": "recorded-logging-axis",
       "file": "recorded-logging-axis.html",
       "scope": "Retained native offline W&B capture, with its training counter removed; logging events are not training steps.",
-      "reportBytes": 35458,
-      "reportSha256": "2e5a9406c11bcaa6adf120f90809332283d08ea56b824e07e335db8986dcbddb",
+      "reportBytes": 34250,
+      "reportSha256": "c4edd8b4c21d10443e791a82b1ba3f8f97b866aa2dabb798ddb7222f08142925",
       "chartSha256": [
         "97cc78771ccc4d442cc00716cec2d5c2b8d62aaf4acf83b47aa2291a1c66fb23",
         "c1831be08dd842c1af966ca4387cdefea48f3240f1e2c17320d08250f20d4870"
@@ -179,8 +179,8 @@
       "charts": 2,
       "exports": [
         {
-          "bytes": 6025,
-          "sha256": "564ce4e36670d6738e7367cb8690bf71c180be4a2d47f9b95a6850963d4d4bab",
+          "bytes": 5573,
+          "sha256": "ee1d9b90cea2ed1a4f382b67f00942cee393754d7a6b1e06dff5b5c802760581",
           "metadata": {
             "schemaVersion": 1,
             "format": "trainspotter-chart",
@@ -208,8 +208,8 @@
           }
         },
         {
-          "bytes": 5967,
-          "sha256": "fb904649febc19f5771bbce93b2f58d5c2ab03edbfebd9b0515701c58ebdb007",
+          "bytes": 5514,
+          "sha256": "3cb0f61a9394bc37c28f383e2cd8b10b7beb017d4897fc660437db57ec4517b8",
           "metadata": {
             "schemaVersion": 1,
             "format": "trainspotter-chart",
@@ -251,16 +251,16 @@
       "name": "unreadable-gap",
       "file": "unreadable-gap.html",
       "scope": "Constructed known-step unreadable and infinite values; finite segments must remain separate.",
-      "reportBytes": 24842,
-      "reportSha256": "554b3884261196f858f947d6122c00379b06b272b508ab4ac135bd651e93bfba",
+      "reportBytes": 24238,
+      "reportSha256": "aee4ef5614133ab183fe242124a16094163309cf19588a6a007fcfcf03291920",
       "chartSha256": [
         "94063452d311f1b2bd95c0a9e5977654cb97fa61760d74d20c1463405e8b0ebb"
       ],
       "charts": 1,
       "exports": [
         {
-          "bytes": 5281,
-          "sha256": "3ae605e8330222efcdfd8e95c86e1e574f4f49c21b7116322171858c2c4c16ed",
+          "bytes": 4828,
+          "sha256": "8e00771ca8629017a49f219a858518bd2f9b0f73e3687e9248719ab3ea92bcbc",
           "metadata": {
             "schemaVersion": 1,
             "format": "trainspotter-chart",
@@ -298,16 +298,16 @@
       "name": "partial-peer",
       "file": "partial-peer.html",
       "scope": "Constructed conflicting training quantity with an independently readable evaluation trajectory.",
-      "reportBytes": 23579,
-      "reportSha256": "93adfc72a5a46a6516fe1e0c1cecc417a1545a284f88eaad665662030c6f9f5e",
+      "reportBytes": 22975,
+      "reportSha256": "42608dbb1d2ac12e343a0aecd6f02bb2ec4bbb3a615483875e2d8b91e50c5faa",
       "chartSha256": [
         "739c0e9b64609ffd1ccee206d3b9de3fd939f8bf2432d9bcc44bda8a7b34c4e9"
       ],
       "charts": 1,
       "exports": [
         {
-          "bytes": 4920,
-          "sha256": "144fa1b189e1883a52b4ba8213489ef9bea07c40aa990557b109670b04778cad",
+          "bytes": 4467,
+          "sha256": "90faef7a0f9faae53cecbc4a9e9d2c147a88d7fd0ea8467d062ae21479387c0e",
           "metadata": {
             "schemaVersion": 1,
             "format": "trainspotter-chart",
@@ -351,7 +351,7 @@
       "file": "no-trajectory.html",
       "scope": "Only the contradictory metric remains; no vector download should invent a trajectory.",
       "reportBytes": 15184,
-      "reportSha256": "484b327a2c2800d612d2f52be5cc9ddf7cc1789d8590f83af641c80bce5b6352",
+      "reportSha256": "c80e900e7f4852fae0156e61e7a880a72a64514d925981ab9031eb58d6708b90",
       "chartSha256": [],
       "charts": 0,
       "exports": [],
@@ -364,16 +364,16 @@
       "name": "unsafe-names",
       "file": "unsafe-names.html",
       "scope": "Constructed markup-shaped names and illegal XML characters; names remain data.",
-      "reportBytes": 21138,
-      "reportSha256": "ca7830c821ee347fa8ff656924b60d67169119b90f12f54a214de7d42eafc3ae",
+      "reportBytes": 20534,
+      "reportSha256": "6ad439f170bb94d12c943105bceb72fd3b6bede2130dab2bb359e6df19e2297d",
       "chartSha256": [
         "9d1f2200b25ed3ef088043c8ca83c6c6670a43047d25bc832f2667054b473387"
       ],
       "charts": 1,
       "exports": [
         {
-          "bytes": 4694,
-          "sha256": "7cf0490ede895010def3b98ea9baa41cb9a5534f6fbcc0aa8993c342866c2ed1",
+          "bytes": 4241,
+          "sha256": "9e674ddda069c85e2e4ecbf08c24e44ab7f3f77a93df60fff83df3e19b4d82f0",
           "metadata": {
             "schemaVersion": 1,
             "format": "trainspotter-chart",
@@ -408,16 +408,16 @@
       "name": "long-curve",
       "file": "long-curve.html",
       "scope": "Constructed 200,000 observations; rendering size and preserved one-step spike, not detector accuracy.",
-      "reportBytes": 218644,
-      "reportSha256": "25a2c49d1e4a0c2f442100e8f0b7782e70f5856bf1492aec4ed08b62489a72ce",
+      "reportBytes": 218040,
+      "reportSha256": "ca014a29006fc62ea0a3fe19648c743b0793b0b1c6b079f400aa03d398e9cd29",
       "chartSha256": [
         "c1819d148ee494edc289cd2ba073378831f252561fb6b970930fe9b858f74303"
       ],
       "charts": 1,
       "exports": [
         {
-          "bytes": 89211,
-          "sha256": "7ec7efc89067e57b6283a8f026f58e55d08dea7ca541251197890db4c0b78b8c",
+          "bytes": 88758,
+          "sha256": "0a1931dee224d03f4ada0b1ce51d942445225ac5908a90d997211b4b234e0b50",
           "metadata": {
             "schemaVersion": 1,
             "format": "trainspotter-chart",

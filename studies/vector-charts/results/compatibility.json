@@ -9,7 +9,7 @@
       "findingsUnchanged": true,
       "axisAndInputCompletenessUnchanged": true,
       "beforeReportBytes": 49572,
-      "afterReportBytes": 105288
+      "afterReportBytes": 102480
     },
     {
       "name": "recorded-logging-axis",
@@ -18,7 +18,7 @@
       "findingsUnchanged": true,
       "axisAndInputCompletenessUnchanged": true,
       "beforeReportBytes": 18836,
-      "afterReportBytes": 35458
+      "afterReportBytes": 34250
     },
     {
       "name": "unreadable-gap",
@@ -27,7 +27,7 @@
       "findingsUnchanged": true,
       "axisAndInputCompletenessUnchanged": true,
       "beforeReportBytes": 17374,
-      "afterReportBytes": 24842
+      "afterReportBytes": 24238
     },
     {
       "name": "partial-peer",
@@ -36,7 +36,7 @@
       "findingsUnchanged": true,
       "axisAndInputCompletenessUnchanged": true,
       "beforeReportBytes": 16573,
-      "afterReportBytes": 23579
+      "afterReportBytes": 22975
     },
     {
       "name": "no-trajectory",
@@ -54,7 +54,7 @@
       "findingsUnchanged": true,
       "axisAndInputCompletenessUnchanged": true,
       "beforeReportBytes": 14399,
-      "afterReportBytes": 21138
+      "afterReportBytes": 20534
     },
     {
       "name": "long-curve",
@@ -63,7 +63,7 @@
       "findingsUnchanged": true,
       "axisAndInputCompletenessUnchanged": true,
       "beforeReportBytes": 99272,
-      "afterReportBytes": 218644
+      "afterReportBytes": 218040
     }
   ]
 }

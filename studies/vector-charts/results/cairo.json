@@ -1,0 +1,299 @@
+{
+  "renderer": "CairoSVG",
+  "version": "2.8.2",
+  "scope": "Eleven unique controlled/retained SVG payloads, converted to PNG independently of Chromium/Firefox. Exact dark background and opaque caption/axis paint are checked; font rasterization is not expected to match browsers pixel for pixel. PDF conversion is retained separately, without a physical-printer claim.",
+  "baselineSource": "1993888a27d93c6f09558f61fc09b3c84c1a590b",
+  "before": {
+    "file": "unresolved-palette.svg",
+    "svgBytes": 10554,
+    "svgSha256": "f80707e62dec5dfd49e9428488c3e65d66beef71601387503ef1e726646e16be",
+    "pngBytes": 1163,
+    "pngSha256": "b7f811d79505f7a9a2f09e73d3a924bea33cbebfd8bb4929075eee2ce0f61c74",
+    "dimensions": [
+      920,
+      299
+    ],
+    "background": [
+      0,
+      0,
+      0,
+      0
+    ],
+    "nonTransparentPixels": 0,
+    "brightCaptionPixels": 0,
+    "brightAxisPixels": 0,
+    "palettePreserved": false
+  },
+  "controlledSizingIsolation": {
+    "operation": "Remove only the responsive root rule from the original fixture; retains unresolved palette variables.",
+    "result": {
+      "file": "unresolved-palette.svg",
+      "svgBytes": 10511,
+      "svgSha256": "3d76e568cca356a62fe54ca9220fc6db1595e2b8be77ad79c7a007235ab6a8fa",
+      "pngBytes": 19599,
+      "pngSha256": "39fda10ebf33c922d97bc3c70cf0772708624d6230477a85a4942f9489e9e7bf",
+      "dimensions": [
+        920,
+        299
+      ],
+      "background": [
+        0,
+        0,
+        0,
+        255
+      ],
+      "nonTransparentPixels": 275080,
+      "brightCaptionPixels": 0,
+      "brightAxisPixels": 0,
+      "palettePreserved": false
+    }
+  },
+  "after": [
+    {
+      "file": "chromium-1440-long-curve-0.svg",
+      "svgBytes": 88758,
+      "svgSha256": "0a1931dee224d03f4ada0b1ce51d942445225ac5908a90d997211b4b234e0b50",
+      "pngBytes": 26923,
+      "pngSha256": "9f5ddabbe118aafdde026027b9df25adb7c62d1f3d69619dbc12439310b64eba",
+      "dimensions": [
+        920,
+        281
+      ],
+      "background": [
+        16,
+        21,
+        26,
+        255
+      ],
+      "nonTransparentPixels": 258520,
+      "brightCaptionPixels": 387,
+      "brightAxisPixels": 52,
+      "palettePreserved": true
+    },
+    {
+      "file": "chromium-1440-partial-peer-0.svg",
+      "svgBytes": 4467,
+      "svgSha256": "90faef7a0f9faae53cecbc4a9e9d2c147a88d7fd0ea8467d062ae21479387c0e",
+      "pngBytes": 18109,
+      "pngSha256": "4002940b2b8f745d886fcc1c5e4eecfacd7e305749a13437f739626093ef8a72",
+      "dimensions": [
+        920,
+        315
+      ],
+      "background": [
+        16,
+        21,
+        26,
+        255
+      ],
+      "nonTransparentPixels": 289800,
+      "brightCaptionPixels": 838,
+      "brightAxisPixels": 29,
+      "palettePreserved": true
+    },
+    {
+      "file": "chromium-1440-recorded-divergence-0.svg",
+      "svgBytes": 10196,
+      "svgSha256": "3629ff436602809702085c5555ab27f617f536f4b076122cb917fb76575f3d61",
+      "pngBytes": 32377,
+      "pngSha256": "c1cf5067dd309c8e3cb0a13874c27372f53a9236f21c6afb3791a73199d9ece6",
+      "dimensions": [
+        920,
+        299
+      ],
+      "background": [
+        16,
+        21,
+        26,
+        255
+      ],
+      "nonTransparentPixels": 275080,
+      "brightCaptionPixels": 494,
+      "brightAxisPixels": 51,
+      "palettePreserved": true
+    },
+    {
+      "file": "chromium-1440-recorded-divergence-1.svg",
+      "svgBytes": 8290,
+      "svgSha256": "2f23382ca26e021eaaf9d5f2004e6ee35b4e17e88244bec35507e2fe12d5b0f3",
+      "pngBytes": 21066,
+      "pngSha256": "701373f6f0e6b96ffcc400e23c4fc1c45c42d0ed0123fa8d48e496c41eacecde",
+      "dimensions": [
+        920,
+        281
+      ],
+      "background": [
+        16,
+        21,
+        26,
+        255
+      ],
+      "nonTransparentPixels": 258520,
+      "brightCaptionPixels": 419,
+      "brightAxisPixels": 100,
+      "palettePreserved": true
+    },
+    {
+      "file": "chromium-1440-recorded-divergence-2.svg",
+      "svgBytes": 8535,
+      "svgSha256": "c6342dd63fa6276e57c2528c04d7d7430cacf07878214cb3f69f6801efb02af0",
+      "pngBytes": 40641,
+      "pngSha256": "be3af1b53c01e2b54b3a717d5398f452f8b6db6276551852b1155ae71e34e624",
+      "dimensions": [
+        920,
+        281
+      ],
+      "background": [
+        16,
+        21,
+        26,
+        255
+      ],
+      "nonTransparentPixels": 258520,
+      "brightCaptionPixels": 450,
+      "brightAxisPixels": 38,
+      "palettePreserved": true
+    },
+    {
+      "file": "chromium-1440-recorded-divergence-3.svg",
+      "svgBytes": 3966,
+      "svgSha256": "b5fdc1ee02e23eeb350640b5daf813572341b50b95d02305b7712c0c3586db73",
+      "pngBytes": 19297,
+      "pngSha256": "235c3f4d1727e2724b64b2f3c9c7ee4bd8d2f83f415784fb76113189b104de7a",
+      "dimensions": [
+        920,
+        281
+      ],
+      "background": [
+        16,
+        21,
+        26,
+        255
+      ],
+      "nonTransparentPixels": 258520,
+      "brightCaptionPixels": 466,
+      "brightAxisPixels": 50,
+      "palettePreserved": true
+    },
+    {
+      "file": "chromium-1440-recorded-divergence-4.svg",
+      "svgBytes": 7779,
+      "svgSha256": "b089ad83bdc38a023c9dab65b58bf5985d365dcf4d12ca7651a9365cb180c321",
+      "pngBytes": 36023,
+      "pngSha256": "67abe7bc31ce12a14dfae7c61cca9ca5ff66a8d70e0c21166a77fb2f4a4d3cd3",
+      "dimensions": [
+        920,
+        281
+      ],
+      "background": [
+        16,
+        21,
+        26,
+        255
+      ],
+      "nonTransparentPixels": 258520,
+      "brightCaptionPixels": 464,
+      "brightAxisPixels": 225,
+      "palettePreserved": true
+    },
+    {
+      "file": "chromium-1440-recorded-logging-axis-0.svg",
+      "svgBytes": 5573,
+      "svgSha256": "ee1d9b90cea2ed1a4f382b67f00942cee393754d7a6b1e06dff5b5c802760581",
+      "pngBytes": 23607,
+      "pngSha256": "9aed54898a856bf6a76ed8b86c7a0a8fb4b17e58450a0b5b978ea0d7b5fb2ff4",
+      "dimensions": [
+        920,
+        298
+      ],
+      "background": [
+        16,
+        21,
+        26,
+        255
+      ],
+      "nonTransparentPixels": 274160,
+      "brightCaptionPixels": 800,
+      "brightAxisPixels": 99,
+      "palettePreserved": true
+    },
+    {
+      "file": "chromium-1440-recorded-logging-axis-1.svg",
+      "svgBytes": 5514,
+      "svgSha256": "3cb0f61a9394bc37c28f383e2cd8b10b7beb017d4897fc660437db57ec4517b8",
+      "pngBytes": 22017,
+      "pngSha256": "a0ac0bbf82e2c8bc7868996d74b5c871a2374387e49c5d56467c89a097031619",
+      "dimensions": [
+        920,
+        298
+      ],
+      "background": [
+        16,
+        21,
+        26,
+        255
+      ],
+      "nonTransparentPixels": 274160,
+      "brightCaptionPixels": 843,
+      "brightAxisPixels": 36,
+      "palettePreserved": true
+    },
+    {
+      "file": "chromium-1440-unreadable-gap-0.svg",
+      "svgBytes": 4828,
+      "svgSha256": "8e00771ca8629017a49f219a858518bd2f9b0f73e3687e9248719ab3ea92bcbc",
+      "pngBytes": 16075,
+      "pngSha256": "98b0f7a190304510c491c96b4dfe6e5aed969f1485ef7c77de0b668424f15a8a",
+      "dimensions": [
+        920,
+        298
+      ],
+      "background": [
+        16,
+        21,
+        26,
+        255
+      ],
+      "nonTransparentPixels": 274160,
+      "brightCaptionPixels": 657,
+      "brightAxisPixels": 120,
+      "palettePreserved": true
+    },
+    {
+      "file": "chromium-1440-unsafe-names-0.svg",
+      "svgBytes": 4241,
+      "svgSha256": "9e674ddda069c85e2e4ecbf08c24e44ab7f3f77a93df60fff83df3e19b4d82f0",
+      "pngBytes": 16307,
+      "pngSha256": "957770970c58c173da173dde6e0b5bff8b5ce2624f900e8e1af0e1908c279082",
+      "dimensions": [
+        920,
+        281
+      ],
+      "background": [
+        16,
+        21,
+        26,
+        255
+      ],
+      "nonTransparentPixels": 258520,
+      "brightCaptionPixels": 500,
+      "brightAxisPixels": 29,
+      "palettePreserved": true
+    }
+  ],
+  "convertedPdf": {
+    "file": "recorded-divergence.pdf",
+    "bytes": 25014,
+    "sha256": "10ca941cf2c8add72e43f8bcb52c2c7a6c86d46c0ba7f061856aad27cae09981"
+  },
+  "pdfInspection": {
+    "state": "verified",
+    "pages": 1,
+    "rasterImages": 0,
+    "sourceAndAxisText": true,
+    "bothOffScaleValues": [
+      "54.88",
+      "55.49"
+    ]
+  }
+}

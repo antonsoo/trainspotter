@@ -66,6 +66,10 @@ for (const [engine, launcher] of Object.entries({ chromium, firefox })) {
                     viewportWidth: innerWidth },
                   axes: [...inner.querySelectorAll('.axis-y, .axis-x')].map(node => ({ text: node.textContent, fill: getComputedStyle(node).fill })),
                   grids: [...inner.querySelectorAll('.grid')].map(node => getComputedStyle(node).stroke),
+                  valueLabels: [...inner.querySelectorAll('.off-scale-label')].map(node => ({ text: node.textContent,
+                    left: node.getBoundingClientRect().left, right: node.getBoundingClientRect().right,
+                    frameLeft: root.getBoundingClientRect().left, frameRight: root.getBoundingClientRect().right,
+                    separators: [...node.querySelectorAll('tspan')].filter(span => span.textContent.includes('/')).map(span => getComputedStyle(span).fill) })),
                   scripts: root.querySelectorAll('script, image, foreignObject').length,
                   eventAttributes: [...root.querySelectorAll('*')].flatMap(node => [...node.attributes].filter(attr => /^on/i.test(attr.name)).map(attr => attr.name)),
                   unsafeExecuted: !!window.injected, visibleText: root.textContent };
@@ -76,6 +80,10 @@ for (const [engine, launcher] of Object.entries({ chromium, firefox })) {
               assert.ok(actual.grids.every(stroke => stroke === 'rgb(31, 40, 48)'));
               assert.ok(actual.geometry.rootWidth <= width + .1, JSON.stringify(actual.geometry));
               assert.ok(actual.geometry.footerTop > actual.geometry.axesBottom, JSON.stringify(actual.geometry));
+              for (const label of actual.valueLabels) {
+                assert.ok(label.left >= label.frameLeft - 1 && label.right <= label.frameRight + 1, JSON.stringify(label));
+                assert.ok(label.separators.every(fill => fill === 'rgb(110, 124, 135)'));
+              }
               assert.equal(actual.scripts, 0); assert.deepEqual(actual.eventAttributes, []); assert.equal(actual.unsafeExecuted, false);
               if (!item.inputComplete) assert.ok(actual.visibleText.includes('Input incomplete'));
               if (item.name === 'partial-peer') assert.ok(actual.visibleText.includes('No trajectory: train/loss'));
@@ -85,7 +93,7 @@ for (const [engine, launcher] of Object.entries({ chromium, firefox })) {
               }
               assert.deepEqual(standaloneErrors, []); assert.deepEqual(standaloneRequests, []);
               downloads.push({ filename, suggestedFilename: download.suggestedFilename(), bytes: bytes.length, sha256: sha(bytes),
-                metadata: actual.metadata, geometry: actual.geometry, axes: actual.axes, grids: actual.grids, svgNamespace: actual.namespace });
+                metadata: actual.metadata, geometry: actual.geometry, valueLabels: actual.valueLabels, axes: actual.axes, grids: actual.grids, svgNamespace: actual.namespace });
             } finally { await standalone.close(); }
           }
           csp.push(...await page.evaluate(() => window.svgCsp));

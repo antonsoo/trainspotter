@@ -56,6 +56,11 @@ jobs:
         run: |
           uv run python studies/vector-charts/capture.py "$RUNNER_TEMP/vector-capture"
           node studies/vector-charts/browser.mjs "$RUNNER_TEMP/vector-capture" "$RUNNER_TEMP/vector-browser"
+      - name: Render vectors with the independent SVG 1.1 converter
+        run: |
+          uv venv "$RUNNER_TEMP/svg-renderer"
+          uv pip install --python "$RUNNER_TEMP/svg-renderer/bin/python" -r studies/vector-charts/requirements-cairo.txt
+          "$RUNNER_TEMP/svg-renderer/bin/python" studies/vector-charts/cairo.py "$RUNNER_TEMP/vector-browser" "$RUNNER_TEMP/vector-cairo"
 
   minimums:
     name: Oldest supported Python and dependencies
