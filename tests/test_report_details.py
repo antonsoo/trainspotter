@@ -89,7 +89,9 @@ def test_a_long_run_gives_a_report_a_browser_can_open() -> None:
     values[123_456] = 4.0  # one spike, a single step wide
     run = make_run(**{"train/loss": values})
     html = render_html(run, [])
-    assert len(html) < 150_000, f"{len(html)} bytes"  # with every point in the path: 2.6 MB
+    # The inline chart and script-free SVG download each retain bounded geometry.
+    # A path with every original point would still be multiple megabytes.
+    assert len(html) < 300_000, f"{len(html)} bytes"
     drawn = re.findall(r'<path d="([^"]*)" fill="none"', html)
     assert len(drawn) == 1
     ys = [float(pair.split()[1]) for pair in drawn[0][1:].split(" L")]

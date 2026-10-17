@@ -1,0 +1,131 @@
+{
+  "python": "3.14.7",
+  "scope": "Native retained training/logging captures plus explicit display and XML controls. No extraction accuracy, new training result or invoice claim.",
+  "cases": [
+    {
+      "name": "recorded-divergence",
+      "file": "recorded-divergence.html",
+      "scope": "Retained controlled CPU training capture deliberately made to fail; no new training executed.",
+      "reportBytes": 49572,
+      "reportSha256": "a1637024b7886bb98b7b0f8d18b9f3670f2a713eba869ab4536f113e773301f7",
+      "chartSha256": [
+        "1bc32e3b0605e9d1253ea4244ff5bbcc6474031e2061eb9fda1f90971630df7b",
+        "84111c71d7f42cb03e1a71c85b7c96dbda8fe4a2a918e9bde7e37822663a62b6",
+        "527ef89cd103de3e7e150c31c68626bb23cd23b1b581b39d90954faf74995ae9",
+        "b73f6314a9fba6e0277739aace137596d6e07b4bae100a1581c84d392c006e5b",
+        "7458f76bcbeecc28974022065abe2e35377bd5ef5efd19a0415eed10ca49f775"
+      ],
+      "charts": 5,
+      "exports": [],
+      "findings": 7,
+      "axisKind": "step",
+      "axisLabel": "steps",
+      "inputComplete": true,
+      "source": {
+        "file": "examples/divergence.trainer_state.json",
+        "bytes": 72949,
+        "sha256": "39d6723152887c81e07171263db2fa6e3a63acfcc73c9b097e6519e5e431d613"
+      }
+    },
+    {
+      "name": "recorded-logging-axis",
+      "file": "recorded-logging-axis.html",
+      "scope": "Retained native offline W&B capture, with its training counter removed; logging events are not training steps.",
+      "reportBytes": 18836,
+      "reportSha256": "9708d798e8ca0c66d6c74fed4bb698e310242b13e2220dbcfa09324b72153eb6",
+      "chartSha256": [
+        "97cc78771ccc4d442cc00716cec2d5c2b8d62aaf4acf83b47aa2291a1c66fb23",
+        "c1831be08dd842c1af966ca4387cdefea48f3240f1e2c17320d08250f20d4870"
+      ],
+      "charts": 2,
+      "exports": [],
+      "findings": 0,
+      "axisKind": "logging_step",
+      "axisLabel": "logging steps",
+      "inputComplete": true,
+      "source": {
+        "file": "examples/wandb-axes/stable-logging.csv",
+        "bytes": 7428,
+        "sha256": "3af4f9d55d796c14fae7ef29ff58b9eb41fcf0219c00115f498aeefe9ff0d8bf"
+      }
+    },
+    {
+      "name": "unreadable-gap",
+      "file": "unreadable-gap.html",
+      "scope": "Constructed known-step unreadable and infinite values; finite segments must remain separate.",
+      "reportBytes": 17374,
+      "reportSha256": "5cb3d9f046ccddc628d8cae17dc47ed5543552c5feab96bbb3640b95a0083e02",
+      "chartSha256": [
+        "94063452d311f1b2bd95c0a9e5977654cb97fa61760d74d20c1463405e8b0ebb"
+      ],
+      "charts": 1,
+      "exports": [],
+      "findings": 1,
+      "axisKind": "step",
+      "axisLabel": "steps",
+      "inputComplete": false
+    },
+    {
+      "name": "partial-peer",
+      "file": "partial-peer.html",
+      "scope": "Constructed conflicting training quantity with an independently readable evaluation trajectory.",
+      "reportBytes": 16573,
+      "reportSha256": "d5f108d7f4da5e163789551cccd253ae9dbf71160aa42580a4138ea4256a7085",
+      "chartSha256": [
+        "739c0e9b64609ffd1ccee206d3b9de3fd939f8bf2432d9bcc44bda8a7b34c4e9"
+      ],
+      "charts": 1,
+      "exports": [],
+      "findings": 0,
+      "axisKind": "step",
+      "axisLabel": "steps",
+      "inputComplete": false
+    },
+    {
+      "name": "no-trajectory",
+      "file": "no-trajectory.html",
+      "scope": "Only the contradictory metric remains; no vector download should invent a trajectory.",
+      "reportBytes": 14923,
+      "reportSha256": "a8b7b8f41b60ed19ac2190968edfc6902dec9d1d2bcdc5c7c3f78402117fc5e9",
+      "chartSha256": [],
+      "charts": 0,
+      "exports": [],
+      "findings": 0,
+      "axisKind": "step",
+      "axisLabel": "steps",
+      "inputComplete": false
+    },
+    {
+      "name": "unsafe-names",
+      "file": "unsafe-names.html",
+      "scope": "Constructed markup-shaped names and illegal XML characters; names remain data.",
+      "reportBytes": 14399,
+      "reportSha256": "8092630667eb0cc6d4baa2fe5fe175517999dfb3a566afa5a5e3f33f2fc070a9",
+      "chartSha256": [
+        "9d1f2200b25ed3ef088043c8ca83c6c6670a43047d25bc832f2667054b473387"
+      ],
+      "charts": 1,
+      "exports": [],
+      "findings": 0,
+      "axisKind": "step",
+      "axisLabel": "steps",
+      "inputComplete": true
+    },
+    {
+      "name": "long-curve",
+      "file": "long-curve.html",
+      "scope": "Constructed 200,000 observations; rendering size and preserved one-step spike, not detector accuracy.",
+      "reportBytes": 99272,
+      "reportSha256": "ca8761decb2da1343acac9fdf789f5fdb1380b34284196a14ab172fdfb860d5f",
+      "chartSha256": [
+        "c1819d148ee494edc289cd2ba073378831f252561fb6b970930fe9b858f74303"
+      ],
+      "charts": 1,
+      "exports": [],
+      "findings": 0,
+      "axisKind": "step",
+      "axisLabel": "steps",
+      "inputComplete": true
+    }
+  ]
+}

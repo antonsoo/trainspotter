@@ -1,0 +1,452 @@
+{
+  "python": "3.14.7",
+  "scope": "Native retained training/logging captures plus explicit display and XML controls. No extraction accuracy, new training result or invoice claim.",
+  "cases": [
+    {
+      "name": "recorded-divergence",
+      "file": "recorded-divergence.html",
+      "scope": "Retained controlled CPU training capture deliberately made to fail; no new training executed.",
+      "reportBytes": 105288,
+      "reportSha256": "6751799c0fc651627578a97de94e0e49c43bfa65a3e2e9a4af0b8c1d329687a7",
+      "chartSha256": [
+        "1bc32e3b0605e9d1253ea4244ff5bbcc6474031e2061eb9fda1f90971630df7b",
+        "84111c71d7f42cb03e1a71c85b7c96dbda8fe4a2a918e9bde7e37822663a62b6",
+        "527ef89cd103de3e7e150c31c68626bb23cd23b1b581b39d90954faf74995ae9",
+        "b73f6314a9fba6e0277739aace137596d6e07b4bae100a1581c84d392c006e5b",
+        "7458f76bcbeecc28974022065abe2e35377bd5ef5efd19a0415eed10ca49f775"
+      ],
+      "charts": 5,
+      "exports": [
+        {
+          "bytes": 10554,
+          "sha256": "f80707e62dec5dfd49e9428488c3e65d66beef71601387503ef1e726646e16be",
+          "metadata": {
+            "schemaVersion": 1,
+            "format": "trainspotter-chart",
+            "sourcePath": "examples/divergence.trainer_state.json",
+            "sourceFormat": "hf",
+            "selectedRun": null,
+            "axisKind": "step",
+            "axisLabel": "steps",
+            "axisSource": null,
+            "requestedMetrics": [
+              "train/loss",
+              "eval/loss"
+            ],
+            "plottedMetrics": [
+              "train/loss",
+              "eval/loss"
+            ],
+            "excludedMetrics": [],
+            "metricSources": {
+              "train/loss": "loss",
+              "eval/loss": "eval_loss"
+            },
+            "inputComplete": true,
+            "inputNotes": [],
+            "scope": "The report's displayed trajectory and heuristic finding bands. Display thinning and off-scale caps remain; this is not the original log or an independent diagnosis. Inspect the report and source log for evidence."
+          }
+        },
+        {
+          "bytes": 8706,
+          "sha256": "f9bcfb3840ce477c024ab66f3d1390f66c9dcc8827574f8e4cc6b36d6887eed0",
+          "metadata": {
+            "schemaVersion": 1,
+            "format": "trainspotter-chart",
+            "sourcePath": "examples/divergence.trainer_state.json",
+            "sourceFormat": "hf",
+            "selectedRun": null,
+            "axisKind": "step",
+            "axisLabel": "steps",
+            "axisSource": null,
+            "requestedMetrics": [
+              "lr"
+            ],
+            "plottedMetrics": [
+              "lr"
+            ],
+            "excludedMetrics": [],
+            "metricSources": {
+              "lr": "learning_rate"
+            },
+            "inputComplete": true,
+            "inputNotes": [],
+            "scope": "The report's displayed trajectory and heuristic finding bands. Display thinning and off-scale caps remain; this is not the original log or an independent diagnosis. Inspect the report and source log for evidence."
+          }
+        },
+        {
+          "bytes": 8956,
+          "sha256": "42d8ee49554a7e40978e34eb3b9123e9567b55aef606dc7da4bae2ce66944ff1",
+          "metadata": {
+            "schemaVersion": 1,
+            "format": "trainspotter-chart",
+            "sourcePath": "examples/divergence.trainer_state.json",
+            "sourceFormat": "hf",
+            "selectedRun": null,
+            "axisKind": "step",
+            "axisLabel": "steps",
+            "axisSource": null,
+            "requestedMetrics": [
+              "grad_norm"
+            ],
+            "plottedMetrics": [
+              "grad_norm"
+            ],
+            "excludedMetrics": [],
+            "metricSources": {
+              "grad_norm": "grad_norm"
+            },
+            "inputComplete": true,
+            "inputNotes": [],
+            "scope": "The report's displayed trajectory and heuristic finding bands. Display thinning and off-scale caps remain; this is not the original log or an independent diagnosis. Inspect the report and source log for evidence."
+          }
+        },
+        {
+          "bytes": 4421,
+          "sha256": "3d47238fb937e86e98d298991a7d93a4242a4486f2bad1134bcc2b46fbc4fe0a",
+          "metadata": {
+            "schemaVersion": 1,
+            "format": "trainspotter-chart",
+            "sourcePath": "examples/divergence.trainer_state.json",
+            "sourceFormat": "hf",
+            "selectedRun": null,
+            "axisKind": "step",
+            "axisLabel": "steps",
+            "axisSource": null,
+            "requestedMetrics": [
+              "eval/accuracy"
+            ],
+            "plottedMetrics": [
+              "eval/accuracy"
+            ],
+            "excludedMetrics": [],
+            "metricSources": {
+              "eval/accuracy": "eval_accuracy"
+            },
+            "inputComplete": true,
+            "inputNotes": [],
+            "scope": "The report's displayed trajectory and heuristic finding bands. Display thinning and off-scale caps remain; this is not the original log or an independent diagnosis. Inspect the report and source log for evidence."
+          }
+        },
+        {
+          "bytes": 8233,
+          "sha256": "86b8d225b6b408a7375840faf1fbdac3397a2ba740205938b2d6395818eb6604",
+          "metadata": {
+            "schemaVersion": 1,
+            "format": "trainspotter-chart",
+            "sourcePath": "examples/divergence.trainer_state.json",
+            "sourceFormat": "hf",
+            "selectedRun": null,
+            "axisKind": "step",
+            "axisLabel": "steps",
+            "axisSource": null,
+            "requestedMetrics": [
+              "step_time"
+            ],
+            "plottedMetrics": [
+              "step_time"
+            ],
+            "excludedMetrics": [],
+            "metricSources": {
+              "step_time": "step_time"
+            },
+            "inputComplete": true,
+            "inputNotes": [],
+            "scope": "The report's displayed trajectory and heuristic finding bands. Display thinning and off-scale caps remain; this is not the original log or an independent diagnosis. Inspect the report and source log for evidence."
+          }
+        }
+      ],
+      "findings": 7,
+      "axisKind": "step",
+      "axisLabel": "steps",
+      "inputComplete": true,
+      "source": {
+        "file": "examples/divergence.trainer_state.json",
+        "bytes": 72949,
+        "sha256": "39d6723152887c81e07171263db2fa6e3a63acfcc73c9b097e6519e5e431d613"
+      }
+    },
+    {
+      "name": "recorded-logging-axis",
+      "file": "recorded-logging-axis.html",
+      "scope": "Retained native offline W&B capture, with its training counter removed; logging events are not training steps.",
+      "reportBytes": 35458,
+      "reportSha256": "2e5a9406c11bcaa6adf120f90809332283d08ea56b824e07e335db8986dcbddb",
+      "chartSha256": [
+        "97cc78771ccc4d442cc00716cec2d5c2b8d62aaf4acf83b47aa2291a1c66fb23",
+        "c1831be08dd842c1af966ca4387cdefea48f3240f1e2c17320d08250f20d4870"
+      ],
+      "charts": 2,
+      "exports": [
+        {
+          "bytes": 6025,
+          "sha256": "564ce4e36670d6738e7367cb8690bf71c180be4a2d47f9b95a6850963d4d4bab",
+          "metadata": {
+            "schemaVersion": 1,
+            "format": "trainspotter-chart",
+            "sourcePath": "examples/wandb-axes/stable-logging.csv",
+            "sourceFormat": "wandb",
+            "selectedRun": null,
+            "axisKind": "logging_step",
+            "axisLabel": "logging steps",
+            "axisSource": "_step",
+            "requestedMetrics": [
+              "train/loss"
+            ],
+            "plottedMetrics": [
+              "train/loss"
+            ],
+            "excludedMetrics": [],
+            "metricSources": {
+              "train/loss": "train/loss"
+            },
+            "inputComplete": true,
+            "inputNotes": [
+              "The horizontal axis uses W&B logging counter '_step'; findings locate logging events, not training steps. Log a training counter or select one with --step-key to measure progress per training step."
+            ],
+            "scope": "The report's displayed trajectory and heuristic finding bands. Display thinning and off-scale caps remain; this is not the original log or an independent diagnosis. Inspect the report and source log for evidence."
+          }
+        },
+        {
+          "bytes": 5967,
+          "sha256": "fb904649febc19f5771bbce93b2f58d5c2ab03edbfebd9b0515701c58ebdb007",
+          "metadata": {
+            "schemaVersion": 1,
+            "format": "trainspotter-chart",
+            "sourcePath": "examples/wandb-axes/stable-logging.csv",
+            "sourceFormat": "wandb",
+            "selectedRun": null,
+            "axisKind": "logging_step",
+            "axisLabel": "logging steps",
+            "axisSource": "_step",
+            "requestedMetrics": [
+              "capture/elapsed"
+            ],
+            "plottedMetrics": [
+              "capture/elapsed"
+            ],
+            "excludedMetrics": [],
+            "metricSources": {
+              "capture/elapsed": "capture/elapsed"
+            },
+            "inputComplete": true,
+            "inputNotes": [
+              "The horizontal axis uses W&B logging counter '_step'; findings locate logging events, not training steps. Log a training counter or select one with --step-key to measure progress per training step."
+            ],
+            "scope": "The report's displayed trajectory and heuristic finding bands. Display thinning and off-scale caps remain; this is not the original log or an independent diagnosis. Inspect the report and source log for evidence."
+          }
+        }
+      ],
+      "findings": 0,
+      "axisKind": "logging_step",
+      "axisLabel": "logging steps",
+      "inputComplete": true,
+      "source": {
+        "file": "examples/wandb-axes/stable-logging.csv",
+        "bytes": 7428,
+        "sha256": "3af4f9d55d796c14fae7ef29ff58b9eb41fcf0219c00115f498aeefe9ff0d8bf"
+      }
+    },
+    {
+      "name": "unreadable-gap",
+      "file": "unreadable-gap.html",
+      "scope": "Constructed known-step unreadable and infinite values; finite segments must remain separate.",
+      "reportBytes": 24842,
+      "reportSha256": "554b3884261196f858f947d6122c00379b06b272b508ab4ac135bd651e93bfba",
+      "chartSha256": [
+        "94063452d311f1b2bd95c0a9e5977654cb97fa61760d74d20c1463405e8b0ebb"
+      ],
+      "charts": 1,
+      "exports": [
+        {
+          "bytes": 5281,
+          "sha256": "3ae605e8330222efcdfd8e95c86e1e574f4f49c21b7116322171858c2c4c16ed",
+          "metadata": {
+            "schemaVersion": 1,
+            "format": "trainspotter-chart",
+            "sourcePath": "controlled-gap.jsonl",
+            "sourceFormat": "controlled",
+            "selectedRun": null,
+            "axisKind": "step",
+            "axisLabel": "steps",
+            "axisSource": null,
+            "requestedMetrics": [
+              "train/loss"
+            ],
+            "plottedMetrics": [
+              "train/loss"
+            ],
+            "excludedMetrics": [],
+            "metricSources": {
+              "train/loss": "train/loss"
+            },
+            "inputComplete": false,
+            "inputNotes": [
+              "train/loss: 1 unreadable values at recorded steps; trajectory checks stop at these gaps. These are not observed NaN/Inf values.",
+              "Input is incomplete; findings describe only the readable data."
+            ],
+            "scope": "The report's displayed trajectory and heuristic finding bands. Display thinning and off-scale caps remain; this is not the original log or an independent diagnosis. Inspect the report and source log for evidence."
+          }
+        }
+      ],
+      "findings": 1,
+      "axisKind": "step",
+      "axisLabel": "steps",
+      "inputComplete": false
+    },
+    {
+      "name": "partial-peer",
+      "file": "partial-peer.html",
+      "scope": "Constructed conflicting training quantity with an independently readable evaluation trajectory.",
+      "reportBytes": 23579,
+      "reportSha256": "93adfc72a5a46a6516fe1e0c1cecc417a1545a284f88eaad665662030c6f9f5e",
+      "chartSha256": [
+        "739c0e9b64609ffd1ccee206d3b9de3fd939f8bf2432d9bcc44bda8a7b34c4e9"
+      ],
+      "charts": 1,
+      "exports": [
+        {
+          "bytes": 4920,
+          "sha256": "144fa1b189e1883a52b4ba8213489ef9bea07c40aa990557b109670b04778cad",
+          "metadata": {
+            "schemaVersion": 1,
+            "format": "trainspotter-chart",
+            "sourcePath": "controlled-contradiction.jsonl",
+            "sourceFormat": "controlled",
+            "selectedRun": null,
+            "axisKind": "step",
+            "axisLabel": "steps",
+            "axisSource": null,
+            "requestedMetrics": [
+              "train/loss",
+              "eval/loss"
+            ],
+            "plottedMetrics": [
+              "eval/loss"
+            ],
+            "excludedMetrics": [
+              "train/loss"
+            ],
+            "metricSources": {
+              "train/loss": "train/loss",
+              "eval/loss": "eval/loss"
+            },
+            "inputComplete": false,
+            "inputNotes": [
+              "train/loss: 1 repeated reading across 1 step; equal values count once in analysis, and all readings remain in evidence.",
+              "train/loss: 1 step has conflicting values. This metric is excluded from trajectory checks; separate the runs or writers first.",
+              "Input is incomplete; findings describe only the readable data."
+            ],
+            "scope": "The report's displayed trajectory and heuristic finding bands. Display thinning and off-scale caps remain; this is not the original log or an independent diagnosis. Inspect the report and source log for evidence."
+          }
+        }
+      ],
+      "findings": 0,
+      "axisKind": "step",
+      "axisLabel": "steps",
+      "inputComplete": false
+    },
+    {
+      "name": "no-trajectory",
+      "file": "no-trajectory.html",
+      "scope": "Only the contradictory metric remains; no vector download should invent a trajectory.",
+      "reportBytes": 15184,
+      "reportSha256": "484b327a2c2800d612d2f52be5cc9ddf7cc1789d8590f83af641c80bce5b6352",
+      "chartSha256": [],
+      "charts": 0,
+      "exports": [],
+      "findings": 0,
+      "axisKind": "step",
+      "axisLabel": "steps",
+      "inputComplete": false
+    },
+    {
+      "name": "unsafe-names",
+      "file": "unsafe-names.html",
+      "scope": "Constructed markup-shaped names and illegal XML characters; names remain data.",
+      "reportBytes": 21138,
+      "reportSha256": "ca7830c821ee347fa8ff656924b60d67169119b90f12f54a214de7d42eafc3ae",
+      "chartSha256": [
+        "9d1f2200b25ed3ef088043c8ca83c6c6670a43047d25bc832f2667054b473387"
+      ],
+      "charts": 1,
+      "exports": [
+        {
+          "bytes": 4694,
+          "sha256": "7cf0490ede895010def3b98ea9baa41cb9a5534f6fbcc0aa8993c342866c2ed1",
+          "metadata": {
+            "schemaVersion": 1,
+            "format": "trainspotter-chart",
+            "sourcePath": "<script onload=\"bad()\"> & ]]> \u96e8\u0000\u0001",
+            "sourceFormat": "controlled",
+            "selectedRun": null,
+            "axisKind": "step",
+            "axisLabel": "steps",
+            "axisSource": null,
+            "requestedMetrics": [
+              "<script onload=\"bad()\"> & ]]> \u96e8\u0000\u0001"
+            ],
+            "plottedMetrics": [
+              "<script onload=\"bad()\"> & ]]> \u96e8\u0000\u0001"
+            ],
+            "excludedMetrics": [],
+            "metricSources": {
+              "<script onload=\"bad()\"> & ]]> \u96e8\u0000\u0001": "original ' column"
+            },
+            "inputComplete": true,
+            "inputNotes": [],
+            "scope": "The report's displayed trajectory and heuristic finding bands. Display thinning and off-scale caps remain; this is not the original log or an independent diagnosis. Inspect the report and source log for evidence."
+          }
+        }
+      ],
+      "findings": 0,
+      "axisKind": "step",
+      "axisLabel": "steps",
+      "inputComplete": true
+    },
+    {
+      "name": "long-curve",
+      "file": "long-curve.html",
+      "scope": "Constructed 200,000 observations; rendering size and preserved one-step spike, not detector accuracy.",
+      "reportBytes": 218644,
+      "reportSha256": "25a2c49d1e4a0c2f442100e8f0b7782e70f5856bf1492aec4ed08b62489a72ce",
+      "chartSha256": [
+        "c1819d148ee494edc289cd2ba073378831f252561fb6b970930fe9b858f74303"
+      ],
+      "charts": 1,
+      "exports": [
+        {
+          "bytes": 89211,
+          "sha256": "7ec7efc89067e57b6283a8f026f58e55d08dea7ca541251197890db4c0b78b8c",
+          "metadata": {
+            "schemaVersion": 1,
+            "format": "trainspotter-chart",
+            "sourcePath": "controlled-200000-observations",
+            "sourceFormat": "controlled",
+            "selectedRun": null,
+            "axisKind": "step",
+            "axisLabel": "steps",
+            "axisSource": null,
+            "requestedMetrics": [
+              "train/loss"
+            ],
+            "plottedMetrics": [
+              "train/loss"
+            ],
+            "excludedMetrics": [],
+            "metricSources": {
+              "train/loss": "train/loss"
+            },
+            "inputComplete": true,
+            "inputNotes": [],
+            "scope": "The report's displayed trajectory and heuristic finding bands. Display thinning and off-scale caps remain; this is not the original log or an independent diagnosis. Inspect the report and source log for evidence."
+          }
+        }
+      ],
+      "findings": 0,
+      "axisKind": "step",
+      "axisLabel": "steps",
+      "inputComplete": true
+    }
+  ]
+}

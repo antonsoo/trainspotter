@@ -6,6 +6,13 @@ and this project uses [Semantic Versioning](https://semver.org/).
 
 ## Unreleased
 
+- Download a self-contained SVG from each plotted chart in an offline HTML
+  report. Preserve source and axis context, input notes and excluded ambiguous
+  metrics, sharing the existing trajectory geometry and styles. Keep reports
+  script-free; embedded vectors increase their size. Compute shared input
+  status once per report. [Export workflow and native browser checks](docs/vector-charts.md).
+
+
 - Preserve rejected JSONL records on fallback row-index axes. Malformed JSON,
   repeated keys and non-object records no longer renumber later readings or join
   loss trajectories across unknown observations. Keep blank lines, sparse objects

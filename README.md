@@ -9,153 +9,38 @@ Automatic diagnosis of loss curves and training logs.
 [![Live demo](https://img.shields.io/badge/live%20demo-sample%20reports-4fc3f7)](https://antonsoo.github.io/trainspotter/)
 [![Hugging Face](https://img.shields.io/badge/Hugging%20Face-workbench-ffd21e)](https://huggingface.co/spaces/antonsoloviev/trainspotter)
 
-Every ML engineer has stared at a TensorBoard or W&B chart trying to answer
-"is this run okay?" -- and caught the answer late: a spike that should have
-triggered a restart three hours ago, an eval curve that's been overfitting
-since epoch 4, a learning-rate schedule that never actually warmed up. The
-signal was in the log the whole time. trainspotter reads the log a run
-already writes and turns eyeballing into a report: which pathologies were
-detected, where (step ranges), the evidence behind each, and the usual
-fixes. It runs post-hoc on a finished log, live via `watch` on a growing
-one, or as a CI gate that fails the build.
+Point trainspotter at a Trainer checkpoint, TensorBoard log directory, W&B
+export or CSV/JSONL history. It locates recorded loss spikes, sustained
+setbacks, evaluation changes, learning-rate reversals and measured timing
+changes, retaining the step ranges and data limits behind each finding.
+Run it on a finished log, watch a growing one, or use its exit status in CI.
+The diagnostics are heuristics; a finding is a reason to inspect the evidence.
 
-**Logging less often must not look like slower training.** In a new controlled
-offline W&B capture, the previous checkout reported a **4.95x slowdown** when
-the logger changed from every 4 updates to every 20. The source checkout now uses
-the recorded `trainer/global_step` and reports **0.991x**. A deliberately delayed
-run still reports **2.90x**. When only `_step` is available, the report identifies
-logging events and leaves per-training-step timing unavailable. Select a custom
-counter with `--step-key`. [Captured records, commands and limits](docs/wandb-axes.md).
-These fixes are available from source and are **not yet in the PyPI release**.
+![Standalone chart from the controlled divergence example, with source, axis and heuristic finding context](docs/assets/vector-charts/chromium-1440-standalone.png)
 
-The current source also corrects [loss and gradient evidence](docs/diagnostic-evidence.md):
-a late low-loss reading does not become "early" because logging is sparse,
-constant gradient norms do not establish clipping, and short histories keep
-their observed NaN/Inf norms. The retained PyTorch captures include clipped
-and unclipped runs with identical pre-clip norm histories.
-
-**NaN/Inf gaps must not invent a loss trajectory.** The current source keeps
-spikes, setbacks and terminal-rise comparisons inside finite segments. A
-[controlled PyTorch capture](studies/finite-segments/README.md) previously
-produced a 30-step setback and an isolated spike by joining observations across
-two logging gaps. Those unsupported claims are gone; the non-finite training
-loss still fails the error gate. The alert names the observed loss, since a
-NaN logging reduction alone does not prove that optimizer updates diverged.
-The source also [bounds possible plateaus by the observed loss level](studies/plateau-evidence/README.md):
-a recovered fourfold rise cannot be folded into one "barely moved" interval.
-The report distinguishes the smoothed level from raw fluctuations, retains
-noise estimates, and cannot use a future learning rate to hide an earlier stall.
-Known-step nonnumeric cells now preserve those boundaries too: dropping
-`LOGGER_ERROR` from a loss column could invent a 30-step setback and hide a real
-later event. The [unreadable-value repair](studies/unreadable-values/README.md)
-keeps the gaps visible in CLI/JSON/HTML, preserves actual NaN/Inf alerts, and adds
-an offline download of unreadable coordinates.
-Malformed CSV rows with a readable step now retain those boundaries as well:
-[short or extra-width records](studies/csv-row-gaps/README.md) cannot join separate
-loss segments or hide a valid later setback.
-Counter-free JSONL now retains rejected records' ordinal positions too. Removing
-ten unreadable records between flat loss sections previously produced a
-"Diverged" diagnosis and renumbered later observations. The
-[JSONL correction and actual reports](studies/jsonl-record-gaps/README.md) preserve
-those boundaries; explicit steps and sparse metric cells keep their existing rules.
-These corrections are available from source; no PyPI release was made for them.
-
-## Calibration study on 3,145 real runs
-
-Many people upload `Trainer`'s checkpoint directories to the Hugging Face Hub,
-`trainer_state.json` included, so thousands of real training logs are public.
-[**The census**](studies/hub-census/README.md) collects 3,145 of them, runs
-trainspotter over each, and compares its findings with how the run ended.
-
-The original calibration study below predates the later reader, scheduler, and
-[evaluation-evidence repairs](docs/evaluation-evidence.md). Its numbers describe
-that retained study snapshot, not a fresh accuracy estimate for the current checkout.
-
-The released detectors (0.2.6) did badly at this: they raised a warning or an
-error on 75% of the runs that ended at their best loss, and 12% of their errors
-were on runs that ended badly. They had been tuned on smooth generated curves,
-and a real per-step loss is not smooth. The unreleased detectors in that study were reworked against the corpus, and then scored once on
-1,032 further logs from accounts the corpus does not contain:
-
-| | 0.2.6 | Calibration snapshot | Held out: 0.2.6 | Calibration snapshot |
-|---|---:|---:|---:|---:|
-| Runs that ended at their best loss and were given a warning or an error | 74.6% | 5.7% | 73.0% | 6.9% |
-| ... and were given an error | 20.6% | 0.0% | 18.4% | 0.0% |
-| Runs that ended badly and were given a warning or an error | 96.1% | 89.9% | 98% | 95% |
-| Findings per run | 16.7 | 0.9 | 13.4 | 0.9 |
-
-The first two columns are the 3,145 runs the detectors were tuned on. The zero
-is mostly by construction: an error can now come only from the end-of-run
-quantities that define a bad ending. What the quieter detectors miss was
-measured by damaging 300 held-out runs by known amounts: sustained rises, late
-divergence and NaNs are caught 99% of the time or more. A short burst was
-missed three times in five at any height, which turned out to be a gap between
-two detectors; with it closed, a burst as high as the run's progress or higher
-is caught 92% to 98% of the time, and the runs that ended well get the same
-warnings as before. [The study](studies/hub-census/README.md#what-it-no-longer-catches)
-has the table.
-
-![The trainspotter report for a public fine-tuning run from the Hub. The training loss falls from 2.7 to about 0.5, spikes to 1.9 at step 3,150, then rises to about 1.4 between steps 14,100 and 27,050 before returning; that stretch is shaded. Two warnings are listed: the spike, at 82% of the run's progress, and the setback, 12,950 steps or 33% of the run.](docs/assets/report-public-run.png)
-
-*A real run from the corpus (the log itself is not redistributed). 0.2.6 gave
-it an error and three warnings, each for a single noisy point. This checkout
-reports the one spike that undid most of the run's progress for a step, and the
-setback: a third of the run spent above a loss level it had already reached.*
-
-## Report
-
-The [sample gallery](https://antonsoo.github.io/trainspotter/) includes a
-[sparse log of a late loss drop](https://antonsoo.github.io/trainspotter/loss-cadence.html),
-[constant gradients without clipping](https://antonsoo.github.io/trainspotter/gradient-concentration.html),
-[W&B run with changing logging cadence](https://antonsoo.github.io/trainspotter/wandb-cadence.html),
-[timing without a training counter](https://antonsoo.github.io/trainspotter/wandb-logging-only.html),
-[a measured slowdown](https://antonsoo.github.io/trainspotter/wandb-slowdown.html),
-[scheduler reset below its old peak](https://antonsoo.github.io/trainspotter/scheduler-resume.html),
-[disjoint training and evaluation intervals](https://antonsoo.github.io/trainspotter/evaluation-overlap.html),
-and a [frozen model evaluated on changing cohorts](https://antonsoo.github.io/trainspotter/evaluation-cohorts.html).
-Each report explains the controlled experiment and embeds its exact input log
-for download, including when opened from disk. These reports use the source
-checkout; the detector repairs are not yet in the PyPI release.
-
-![Top of the trainspotter HTML report on the bundled divergence example: a header with the run's source and step range, an error/warning/info summary with a health-strip timeline, and the combined train/loss + eval/loss chart -- 320 steps of ordinary cosine-schedule training, then a labeled spike as the run breaks -- followed by the findings log, the non-finite training loss first.](docs/assets/html-report-divergence.png)
-
-*(top of the report -- [full report, all 5 charts + all 7 findings](docs/assets/html-report-divergence-full.png))*
-
-![Terminal output of `trainspotter analyze divergence.trainer_state.json --fail-on error`, showing all 7 findings ordered by severity -- one ERROR (the training loss became Inf), two WARNINGs (the evaluation-loss and training-loss spikes just before it), then four INFO findings (the evaluation rise attributed to the spike, the LR discontinuity that caused it, the gradient-norm explosion and the non-finite gradient norm) -- each with step range, detector name, message, and a one-line fix suggestion.](docs/assets/terminal-divergence.png)
-
-Browse every bundled example's full HTML report at
-**[antonsoo.github.io/trainspotter](https://antonsoo.github.io/trainspotter/)**
-(built from the source checkout by `scripts/build_site.py`). The two images above are real output from
-`examples/divergence.trainer_state.json`, a run built to fail (see
-[Demo data](#real-demo-data) for how).
+A chart from the bundled training run deliberately made to fail. The report
+keeps the observed readings, off-scale values and finding ranges together.
+[Full report gallery](docs/report-gallery.md).
 
 ## Quickstart
 
+Build a report with the current source behavior:
+
 ```bash
-pip install trainspotter
 git clone --depth 1 https://github.com/antonsoo/trainspotter && cd trainspotter
-trainspotter analyze examples/divergence.trainer_state.json
-```
-
-Those commands install the PyPI release. To use the current reader, detector,
-and long-history improvements, install the cloned checkout:
-
-```bash
 python -m pip install .
+trainspotter analyze examples/divergence.trainer_state.json --output html --out report.html
 ```
 
-Or point it at your own log:
+Open `report.html` from disk. Inspect a shaded interval, read the finding's
+reason and limits, and use **Download SVG** to save a chart with its source
+and axis context. The report and its vector downloads work offline.
 
-```bash
-trainspotter analyze path/to/trainer_state.json --output html --out report.html
-```
+The PyPI 0.2.6 release predates the current reader, diagnostic and vector-export
+changes. To use the released CLI with your own log, install it with
+`python -m pip install trainspotter`, then run `trainspotter analyze path/to/your/log`.
 
 ## Features
-
-- **Evaluation evidence with limits:** smooth improvement is not labelled noise;
-  later training cannot explain an earlier evaluation interval. Reports retain
-  exact overlapping spans and treat non-finite readings as gaps.
-  [Captured model runs, independent score checks, and public-log audit](docs/evaluation-evidence.md).
 
 - **Five readers**, auto-detected from the file: Hugging Face
   `trainer_state.json`, generic CSV/JSONL, Weights & Biases CSVs (a run's
@@ -173,9 +58,16 @@ trainspotter analyze path/to/trainer_state.json --output html --out report.html
   documented algorithm, tunable thresholds, and stated false-positive modes.
   A finding says what the problem cost the run (a share of its progress, a
   share of its steps), and its severity follows that cost.
+- **Evaluation evidence with limits:** smooth improvement is not labelled noise;
+  later training cannot explain an earlier evaluation interval. Reports retain
+  exact overlapping spans and treat non-finite readings as gaps.
+  [Captured model runs, independent score checks, and public-log audit](docs/evaluation-evidence.md).
+
 - **Three report formats**: a color-coded terminal report, JSON (stable
   schema, for tooling), and a self-contained HTML report (inline SVG
-  charts, no CDN, no JavaScript -- opens from disk, works offline forever).
+  charts, no CDN, no JavaScript -- opens from disk and works offline).
+  **Download SVG** saves a styled vector with source/axis context, input notes
+  and excluded ambiguous metrics. [Export rules, examples and limits](docs/vector-charts.md).
 - **Learning-rate reversals (source checkout)**: finds a renewed rise after
   decay, even below the original peak, with exact peak/low/confirmation steps.
   A missing-scheduler-state resume and a cosine-horizon overrun previously
@@ -193,6 +85,23 @@ trainspotter analyze path/to/trainer_state.json --output html --out report.html
 - **numpy is the only required dependency.** No pandas, no plotting
   library, no web framework. (`tensorboard` support is an optional extra
   for TensorBoard's event-file decoder; it does not require pandas or TensorFlow.)
+
+## Report
+
+The HTML report links annotated curves to findings and their step ranges.
+It retains metric sources, incomplete-input notes, unreadable coordinates and
+repeated-step evidence. A vector export preserves the displayed trajectory;
+keep the original report and log for the complete diagnostic evidence.
+[Captured examples and full screenshots](docs/report-gallery.md).
+
+## Calibration study on 3,145 real runs
+
+A retained study calibrated detectors on 3,145 public training logs and checked
+1,032 further logs from different accounts. It predates later reader and
+evidence repairs. Its historical outcomes, misses and calibration boundaries
+remain in [the calibration record](docs/calibration-history.md). The
+[source history](docs/source-history.md) links later reproduced corrections;
+none of these figures is a new accuracy estimate for the current source.
 
 ## Usage
 

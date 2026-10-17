@@ -26,7 +26,9 @@ from datetime import datetime, timezone
 
 from trainspotter.detectors import Finding
 from trainspotter.model import MetricSeries, Run
+from trainspotter.report.chart_style import SVG_STYLE, THEME_STYLE
 from trainspotter.report.json_report import notable_repeats, repeated_step_evidence
+from trainspotter.report.svg_export import chart_download
 from trainspotter.timing import assess_timing
 
 _SEVERITY_COLOR = {"error": "#ff5d5d", "warning": "#f2b84b", "info": "#5fb3ff"}
@@ -644,6 +646,8 @@ def _timing_evidence(run: Run) -> str:
 
 def render_html(run: Run, findings: list[Finding], title: str = "trainspotter report") -> str:
     analysis = run.analysis_view()
+    input_complete = run.input_complete()
+    notes = run.input_notes()
     counts = {"error": 0, "warning": 0, "info": 0}
     for f in findings:
         counts[f.severity] += 1
@@ -652,7 +656,7 @@ def render_html(run: Run, findings: list[Finding], title: str = "trainspotter re
     charts_html = []
     fallback_i = 0
     plan, uncharted = _chart_plan(run)
-    for group in plan:
+    for chart_index, group in enumerate(plan, 1):
         entries: list[tuple[str, MetricSeries, str]] = []
         for name in group:
             series = analysis.metrics.get(name)
@@ -669,11 +673,16 @@ def render_html(run: Run, findings: list[Finding], title: str = "trainspotter re
             '<p class="warn">Trajectory not plotted for ' + _esc(', '.join(excluded))
             + ': conflicting values at the same step. See repeated-step evidence.</p>' if excluded else ''
         )
+        chart = _render_chart(entries, findings, run.axis_label()) if entries else ""
+        download = chart_download(
+            chart, run, group, entries, chart_index,
+            input_complete=input_complete, input_notes=notes,
+        ) if chart else ""
         charts_html.append(
-            f'<section class="chart-block"><h2>{_esc(heading)}</h2>'
-            + note
+            f'<section class="chart-block"><div class="chart-heading"><h2>{_esc(heading)}</h2>'
+            + download + '</div>' + note
             + (f'<div class="chart-scroll" tabindex="0" role="region" aria-label="{_esc(heading)} chart">'
-               f"{_render_chart(entries, findings, run.axis_label())}</div>" if entries else '') + '</section>'
+               f"{chart}</div>" if chart else '') + '</section>'
         )
 
     if uncharted:
@@ -708,8 +717,7 @@ def render_html(run: Run, findings: list[Finding], title: str = "trainspotter re
         else ""
     )
 
-    notes = run.input_notes()
-    input_status = "Input incomplete" if not run.input_complete() else "Input notes"
+    input_status = "Input incomplete" if not input_complete else "Input notes"
     input_html = (
         '<section class="input-notes" aria-labelledby="input-heading">'
         f'<h2 id="input-heading">{input_status}</h2><ul>'
@@ -738,7 +746,7 @@ def render_html(run: Run, findings: list[Finding], title: str = "trainspotter re
         '<th scope="col">Readings</th><th scope="col">Analysis points</th></tr></thead><tbody>' + source_rows
         + '</tbody></table></div></details>'
     )
-    finding_rows = _findings_rows(findings, run.axis_label()) if findings or run.input_complete() else (
+    finding_rows = _findings_rows(findings, run.axis_label()) if findings or input_complete else (
         '<p class="clean">No findings in the readable data. Input is incomplete.</p>'
     )
 
@@ -806,22 +814,7 @@ def render_html(run: Run, findings: list[Finding], title: str = "trainspotter re
 """
 
 
-_CSS = """
-:root {
-  --bg: #0a0d10;
-  --panel: #10151a;
-  --panel-2: #0d1216;
-  --line: #1f2830;
-  --line-strong: #2c3944;
-  --text: #d9e2e8;
-  --text-muted: #8b97a1;
-  --text-dim: #6e7c87;
-  --err: #ff5d5d;
-  --warn: #f2b84b;
-  --info: #5fb3ff;
-  --mono: ui-monospace, "SFMono-Regular", "Cascadia Mono", Consolas, "Liberation Mono", monospace;
-  --sans: -apple-system, "Segoe UI", "Helvetica Neue", Arial, sans-serif;
-}
+_CSS = THEME_STYLE + """
 * { box-sizing: border-box; }
 a { color: var(--info); }
 a:focus-visible, .repeated-evidence summary:focus-visible, .unreadable-evidence summary:focus-visible, .table-scroll:focus-visible {
@@ -907,6 +900,8 @@ body {
 
 .charts { display: flex; flex-direction: column; gap: 6px; margin-top: 10px; }
 .chart-block { background: var(--panel); border: 1px solid var(--line); border-radius: 2px; padding: 10px 14px 4px; }
+.chart-heading { display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: 6px 16px; margin-bottom: 4px; }
+.chart-download { font-family: var(--mono); font-size: 11px; white-space: nowrap; }
 .chart-block h2 {
   font-family: var(--mono); font-size: 12px; font-weight: 600; letter-spacing: 0.08em;
   text-transform: uppercase; color: var(--text-muted); margin: 0 0 4px; overflow-wrap: anywhere;
@@ -916,13 +911,7 @@ body {
 .chart-scroll { overflow-x: auto; }
 .chart-scroll:focus-visible { outline: 2px solid var(--info); outline-offset: 2px; }
 .chart-hint { display: none; }
-.grid { stroke: var(--line); stroke-width: 1; }
-.frame { stroke: var(--line-strong); stroke-width: 1; }
-.axis-y, .axis-x { font-family: var(--mono); font-size: 9px; fill: var(--text-dim); }
-.legend { font-family: var(--mono); font-size: 10px; fill: var(--text-muted); }
-.marker-bad { font-family: var(--mono); font-size: 13px; fill: var(--err); font-weight: 700; }
-.off-scale-label { font-family: var(--mono); font-size: 9px; font-weight: 600; }
-
+""" + SVG_STYLE + """
 .findings-log { margin-top: 28px; }
 .log-title {
   font-family: var(--mono); font-size: 12px; letter-spacing: 0.1em; text-transform: uppercase;

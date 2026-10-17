@@ -1,0 +1,69 @@
+{
+  "baseline": "9d0c62a75f1f80a06af297eced77b2aeb28c18c6",
+  "scope": "Seven chosen report cases, including two retained native captures. Not a new detector calibration, accuracy result or production-frequency estimate.",
+  "cases": [
+    {
+      "name": "recorded-divergence",
+      "charts": 5,
+      "curveMarkupUnchanged": true,
+      "findingsUnchanged": true,
+      "axisAndInputCompletenessUnchanged": true,
+      "beforeReportBytes": 49572,
+      "afterReportBytes": 105288
+    },
+    {
+      "name": "recorded-logging-axis",
+      "charts": 2,
+      "curveMarkupUnchanged": true,
+      "findingsUnchanged": true,
+      "axisAndInputCompletenessUnchanged": true,
+      "beforeReportBytes": 18836,
+      "afterReportBytes": 35458
+    },
+    {
+      "name": "unreadable-gap",
+      "charts": 1,
+      "curveMarkupUnchanged": true,
+      "findingsUnchanged": true,
+      "axisAndInputCompletenessUnchanged": true,
+      "beforeReportBytes": 17374,
+      "afterReportBytes": 24842
+    },
+    {
+      "name": "partial-peer",
+      "charts": 1,
+      "curveMarkupUnchanged": true,
+      "findingsUnchanged": true,
+      "axisAndInputCompletenessUnchanged": true,
+      "beforeReportBytes": 16573,
+      "afterReportBytes": 23579
+    },
+    {
+      "name": "no-trajectory",
+      "charts": 0,
+      "curveMarkupUnchanged": true,
+      "findingsUnchanged": true,
+      "axisAndInputCompletenessUnchanged": true,
+      "beforeReportBytes": 14923,
+      "afterReportBytes": 15184
+    },
+    {
+      "name": "unsafe-names",
+      "charts": 1,
+      "curveMarkupUnchanged": true,
+      "findingsUnchanged": true,
+      "axisAndInputCompletenessUnchanged": true,
+      "beforeReportBytes": 14399,
+      "afterReportBytes": 21138
+    },
+    {
+      "name": "long-curve",
+      "charts": 1,
+      "curveMarkupUnchanged": true,
+      "findingsUnchanged": true,
+      "axisAndInputCompletenessUnchanged": true,
+      "beforeReportBytes": 99272,
+      "afterReportBytes": 218644
+    }
+  ]
+}
