@@ -116,6 +116,93 @@ def _observation(
     run.add_point(metric, step, math.nan if is_nan else float(value), wall_time)
 
 
+def _scoped_metric_keys(db: sqlite3.Connection, run: Run, chosen: str) -> set[str]:
+    """Model-qualified log calls can also populate the unqualified run table.
+
+    Never subtract matching rows: SQL can coalesce an unqualified call and a
+    qualified call with identical key/value/step/time. Scope cannot then be
+    recovered from the aggregate. Retain its values under an explicit name.
+    """
+    record = db.execute(
+        "SELECT type FROM sqlite_master WHERE name = 'logged_model_metrics'"
+    ).fetchone()
+    if record is None:
+        return set()  # Older MLflow stores have no logged-model metric signal.
+    if record[0] != "table":
+        raise ValueError("unsupported MLflow logged-model metrics object; expected a table")
+    columns = _table_columns(db, "logged_model_metrics")
+    if not {"metric_name", "model_id", "run_id"} <= columns:
+        raise ValueError(
+            "unsupported MLflow logged-model metric schema; cannot establish run metric scopes"
+        )
+    # These expressions are fixed identifiers, not database-supplied SQL.
+    dataset = "dataset_name" if "dataset_name" in columns else "NULL"
+    digest = "dataset_digest" if "dataset_digest" in columns else "NULL"
+    keys: set[str] = set()
+    groups: list[dict[str, str | int | None]] = []
+    group_count = qualified_rows = 0
+    for metric, model, data_name, data_digest, count in db.execute(
+        f"SELECT metric_name, model_id, {dataset}, {digest}, count(*) "
+        "FROM logged_model_metrics WHERE run_id = ? "
+        f"GROUP BY metric_name, model_id, {dataset}, {digest} "
+        f"ORDER BY metric_name, model_id, {dataset}, {digest}", (chosen,)
+    ):
+        if (not isinstance(metric, str) or not metric
+                or not isinstance(model, str) or not model
+                or any(value is not None and not isinstance(value, str)
+                       for value in (data_name, data_digest))):
+            raise ValueError("unreadable MLflow logged-model metric identity or dataset scope")
+        keys.add(metric)
+        group_count += 1
+        qualified_rows += count
+        if len(groups) < 10:
+            groups.append({"metric": metric, "model_id": model, "dataset_name": data_name,
+                           "dataset_digest": data_digest, "recorded_rows": count})
+    if keys:
+        evidence = run.meta["mlflow"]
+        assert isinstance(evidence, dict)
+        evidence["metric_scopes"] = {
+            "qualified_keys": sorted(keys), "recorded_rows": qualified_rows,
+            "groups": groups, "omitted_groups": group_count - len(groups),
+            "available_dataset_fields": sorted(columns & {"dataset_name", "dataset_digest"}),
+            "relationship": (
+                "Logged-model rows may also occur in the run aggregate; these are not "
+                "additional run observations. Model/dataset histories are not reconstructed."
+            ),
+        }
+        run.meta["ambiguous_metric_sources"] = sorted(keys)
+        for metric in sorted(keys):
+            _issue(run, metric, "linked model/dataset records leave the run aggregate's "
+                   "metric scope unresolved", count_row=False)
+    return keys
+
+
+def _metric_names(run: Run, raw_names: list[str], scoped: set[str]) -> dict[str, str]:
+    if not scoped:
+        return metric_names(run, raw_names)
+    # Unqualified keys keep their normal alias ranking. A scoped `loss` must
+    # not claim train/loss ahead of a separately recorded unqualified train_loss.
+    names = metric_names(run, [raw for raw in raw_names if raw not in scoped])
+    used = set(names.values()) | set(raw_names)
+    for raw in raw_names:
+        if raw in scoped:
+            name = f"{raw} [MLflow run aggregate]"
+            suffix = 2
+            while name in used:
+                name = f"{raw} [MLflow run aggregate {suffix}]"
+                suffix += 1
+            names[raw] = name
+            used.add(name)
+    names = {raw: names[raw] for raw in raw_names}
+    run.meta["metric_sources"] = {name: raw for raw, name in names.items()}
+    evidence = run.meta["mlflow"]
+    assert isinstance(evidence, dict)
+    evidence["metric_scopes"]["retained_aggregates"] = {
+        raw: names[raw] for raw in raw_names if raw in scoped
+    }
+    return names
+
+
 def _sqlite(path: Path, wanted: str | None, step_key: str | None) -> Run:
     run = Run(source_format="mlflow", source_path=str(path))
     run.meta["step_column"] = "step"
@@ -157,10 +244,11 @@ def _sqlite(path: Path, wanted: str | None, step_key: str | None) -> Run:
                     )
                 counts[key] = count
             chosen = _select(run, infos, counts, wanted, "sqlite")
+            scoped = _scoped_metric_keys(db, run, chosen)
             raw_names = [row[0] for row in db.execute(
                 "SELECT DISTINCT key FROM metrics WHERE run_uuid = ? ORDER BY key", (chosen,)
             ) if isinstance(row[0], str) and row[0]]
-            names = metric_names(run, raw_names)
+            names = _metric_names(run, raw_names, scoped)
             for raw, value, timestamp, step, nan_flag in db.execute(
                 "SELECT key, value, timestamp, step, is_nan FROM metrics "
                 "WHERE run_uuid = ? ORDER BY key, step, timestamp, value", (chosen,)

@@ -51,6 +51,9 @@ changes. To use the released CLI with your own log, install it with
   trainspotter[tensorboard]`), and local MLflow SQLite or legacy FileStore
   histories. SQLite needs no MLflow dependency; FileStore uses the small
   `mlflow-files` extra for YAML metadata. [MLflow selection, steps and limits](docs/mlflow.md).
+  Linked model/dataset metrics retain their run aggregates under explicit names;
+  a scope change cannot silently become a training-divergence recommendation.
+  [SDK-written before/after controls](studies/mlflow-scopes/README.md).
 - **Reads logs the way tools really write them.** The names
   `transformers.Trainer` sends to W&B and TensorBoard (`train/learning_rate`,
   `train/grad_norm`), Lightning's `train_loss_step` and `lr-AdamW`, Keras's

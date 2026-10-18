@@ -6,6 +6,12 @@ and this project uses [Semantic Versioning](https://semver.org/).
 
 ## Unreleased
 
+- Keep MLflow model/dataset-qualified run aggregates out of canonical training
+  diagnostics. Preserve every recorded run observation, retain linked scope
+  evidence, and mark affected selected-run keys incomplete. Do not subtract
+  coalesced log calls or let a qualified `loss` hide an unqualified training
+  alias. [Native SDK reproduction](studies/mlflow-scopes/README.md).
+
 - Read native local MLflow SQLite databases and legacy FileStore directories
   without CSV conversion or a running MLflow server. Preserve full histories,
   run identity, native NaN flags, repeated-step ambiguity and millisecond clocks.

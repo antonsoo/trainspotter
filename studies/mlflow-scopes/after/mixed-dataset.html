@@ -1,0 +1,222 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; style-src 'unsafe-inline'; img-src data:; base-uri 'none'; form-action 'none'">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>trainspotter · scopes.sqlite</title>
+<style>
+
+:root {
+  --bg: #0a0d10;
+  --panel: #10151a;
+  --panel-2: #0d1216;
+  --line: #1f2830;
+  --line-strong: #2c3944;
+  --text: #d9e2e8;
+  --text-muted: #8b97a1;
+  --text-dim: #6e7c87;
+  --err: #ff5d5d;
+  --warn: #f2b84b;
+  --info: #5fb3ff;
+  --mono: ui-monospace, "SFMono-Regular", "Cascadia Mono", Consolas, "Liberation Mono", monospace;
+  --sans: -apple-system, "Segoe UI", "Helvetica Neue", Arial, sans-serif;
+}
+
+* { box-sizing: border-box; }
+a { color: var(--info); }
+a:focus-visible, .repeated-evidence summary:focus-visible, .unreadable-evidence summary:focus-visible, .table-scroll:focus-visible {
+  outline: 2px solid var(--info); outline-offset: 3px;
+}
+html, body { margin: 0; padding: 0; background: var(--bg); color: var(--text); }
+body {
+  font-family: var(--sans);
+  font-size: 14px;
+  line-height: 1.5;
+  padding: 0 0 48px;
+}
+.bezel { max-width: 980px; margin: 0 auto; padding: 28px 20px 0; }
+
+.masthead {
+  display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between;
+  gap: 12px 24px; padding-bottom: 16px; border-bottom: 1px solid var(--line-strong);
+}
+.brand { display: flex; align-items: baseline; gap: 10px; }
+.brand-mark { color: var(--info); font-size: 11px; }
+.brand-name { margin: 0; line-height: inherit; font-family: var(--mono); font-weight: 700; font-size: 17px; letter-spacing: 0.12em; }
+.brand-sub { font-family: var(--mono); color: var(--text-dim); font-size: 12px; letter-spacing: 0.06em; text-transform: uppercase; }
+.readouts { display: flex; flex-wrap: wrap; gap: 18px 28px; margin: 0; font-family: var(--mono); font-size: 12px; }
+.readouts > div { display: flex; flex-direction: column; gap: 2px; max-width: 260px; }
+.readouts dt { color: var(--text-dim); text-transform: uppercase; letter-spacing: 0.08em; font-size: 10px; }
+.readouts dd { margin: 0; color: var(--text-muted); overflow-wrap: anywhere; }
+.readouts dd.warn { color: var(--warn); }
+.input-notes { border-left: 3px solid var(--warn); padding: 10px 14px; margin: 18px 0 4px; background: var(--panel); }
+.input-notes h2 { margin: 0 0 4px; color: var(--warn); font-size: 14px; }
+.input-notes ul { margin: 0; padding-left: 18px; overflow-wrap: anywhere; }
+.input-evidence { margin: 12px 0; font-family: var(--mono); color: var(--text-muted); font-size: 12px; }
+.input-evidence summary { cursor: pointer; padding: 6px 0; }
+.input-evidence summary:focus-visible { outline: 2px solid var(--info); outline-offset: 4px; }
+.table-scroll { overflow-x: auto; }
+.input-evidence table { width: 100%; min-width: 560px; border-collapse: collapse; table-layout: fixed; }
+.input-evidence caption { text-align: left; padding: 8px 0; }
+.input-evidence th, .input-evidence td { text-align: left; padding: 7px 8px; border-bottom: 1px solid var(--line); overflow-wrap: anywhere; }
+.input-evidence th:nth-child(n+3), .input-evidence td:nth-child(n+3) { width: 110px; text-align: right; }
+.input-evidence tbody th { font-weight: normal; }
+.timing-evidence { margin: 16px 0 20px; padding: 12px 16px; background: var(--panel); border: 1px solid var(--line-strong); border-left: 3px solid var(--info); overflow-wrap: anywhere; }
+.timing-evidence h2 { margin: 0 0 6px; font: 13px var(--mono); color: var(--text-muted); text-transform: uppercase; letter-spacing: .06em; }
+.timing-evidence p { margin: 8px 0; }
+.timing-ratio { font-family: var(--mono); }
+.timing-ratio strong { font-size: 22px; color: var(--info); font-weight: normal; }
+.timing-evidence details { color: var(--text-muted); font-size: 12px; }
+.timing-evidence summary { cursor: pointer; padding: 4px 0; }
+.timing-evidence summary:focus-visible { outline: 2px solid var(--info); outline-offset: 3px; }
+.timing-evidence table { width: 100%; min-width: 580px; border-collapse: collapse; font-family: var(--mono); }
+.timing-evidence caption { text-align: left; padding: 10px 0; }
+.timing-evidence th, .timing-evidence td { text-align: right; padding: 8px; border-bottom: 1px solid var(--line); }
+.timing-evidence th:first-child { text-align: left; }
+.timing-evidence ul { padding-left: 20px; }
+.repeated-evidence summary { cursor: pointer; padding: 5px 0; }
+.repeated-evidence h2 { margin-top: 10px; }
+.repeated-evidence table { width: 100%; min-width: 800px; table-layout: fixed; border-collapse: collapse; font-family: var(--mono); font-size: 12px; }
+.repeated-evidence th, .repeated-evidence td { text-align: left; padding: 8px; border-bottom: 1px solid var(--line); overflow-wrap: anywhere; }
+.repeated-evidence th:nth-child(1) { width: 140px; }
+.repeated-evidence th:nth-child(2) { width: 70px; }
+.repeated-evidence th:nth-child(3) { width: 210px; }
+.repeated-evidence caption { text-align: left; padding: 10px 0; }
+.unreadable-evidence summary { cursor: pointer; padding: 5px 0; }
+.unreadable-evidence h2 { margin-top: 10px; }
+.unreadable-evidence table { width: 100%; min-width: 600px; table-layout: fixed; border-collapse: collapse; font-family: var(--mono); font-size: 12px; }
+.unreadable-evidence th, .unreadable-evidence td { text-align: left; padding: 8px; border-bottom: 1px solid var(--line); overflow-wrap: anywhere; }
+.unreadable-evidence th:nth-child(1) { width: 140px; }
+.unreadable-evidence th:nth-child(2) { width: 100px; }
+.unreadable-evidence caption { text-align: left; padding: 10px 0; }
+.table-hint { color: var(--text-muted); font-size: 12px; margin: 8px 0; }
+@media (min-width: 900px) { .table-hint { display: none; } }
+
+.summary { padding: 18px 0 8px; }
+.summary { display: grid; grid-template-columns: repeat(3, auto) 1fr; align-items: center; gap: 20px; }
+.count { display: flex; align-items: baseline; gap: 8px; font-family: var(--mono); }
+.count .n { font-size: 22px; font-weight: 700; }
+.count .l { font-size: 11px; text-transform: uppercase; letter-spacing: 0.08em; color: var(--text-dim); }
+.count.sev-error .n { color: var(--err); }
+.count.sev-warning .n { color: var(--warn); }
+.count.sev-info .n { color: var(--info); }
+.strip-wrap { min-width: 220px; }
+.strip { width: 100%; height: 34px; display: block; }
+.strip-bg { fill: var(--panel-2); }
+.strip-base { stroke: var(--line-strong); stroke-width: 1; }
+
+.charts { display: flex; flex-direction: column; gap: 6px; margin-top: 10px; }
+.chart-block { background: var(--panel); border: 1px solid var(--line); border-radius: 2px; padding: 10px 14px 4px; }
+.chart-heading { display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: 6px 16px; margin-bottom: 4px; }
+.chart-download { font-family: var(--mono); font-size: 11px; white-space: nowrap; }
+.chart-block h2 {
+  font-family: var(--mono); font-size: 12px; font-weight: 600; letter-spacing: 0.08em;
+  text-transform: uppercase; color: var(--text-muted); margin: 0 0 4px; overflow-wrap: anywhere;
+}
+.chart { width: 100%; height: auto; display: block; }
+.uncharted { font-family: var(--mono); font-size: 12px; color: var(--text-muted); margin: 8px 2px; overflow-wrap: anywhere; }
+.chart-scroll { overflow-x: auto; }
+.chart-scroll:focus-visible { outline: 2px solid var(--info); outline-offset: 2px; }
+.chart-hint { display: none; }
+
+.grid { stroke: var(--line); stroke-width: 1; }
+.frame { stroke: var(--line-strong); stroke-width: 1; }
+.axis-y, .axis-x { font-family: var(--mono); font-size: 9px; fill: var(--text-dim); }
+.legend { font-family: var(--mono); font-size: 10px; fill: var(--text-muted); }
+.marker-bad { font-family: var(--mono); font-size: 13px; fill: var(--err); font-weight: 700; }
+.off-scale-label { font-family: var(--mono); font-size: 9px; font-weight: 600; }
+
+
+.findings-log { margin-top: 28px; }
+.log-title {
+  font-family: var(--mono); font-size: 12px; letter-spacing: 0.1em; text-transform: uppercase;
+  color: var(--text-muted); border-bottom: 1px solid var(--line-strong); padding-bottom: 8px;
+}
+.clean { color: var(--text-muted); font-family: var(--mono); font-size: 13px; }
+.finding { border-bottom: 1px solid var(--line); padding: 14px 0; }
+.finding:last-child { border-bottom: none; }
+.finding-head { display: flex; flex-wrap: wrap; align-items: baseline; gap: 10px; }
+.finding-head h3 { font-size: 14.5px; margin: 0; color: var(--text); font-weight: 600; }
+.chip {
+  font-family: var(--mono); font-size: 10px; font-weight: 700; letter-spacing: 0.06em;
+  padding: 2px 6px; border-radius: 2px; border: 1px solid currentColor;
+}
+.chip.sev-error { color: var(--err); }
+.chip.sev-warning { color: var(--warn); }
+.chip.sev-info { color: var(--info); }
+.steps, .detector { font-family: var(--mono); font-size: 11px; color: var(--text-dim); }
+.detector::before { content: "\00b7 "; }
+.message { margin: 6px 0 4px; color: var(--text); }
+.finding, .brand { overflow-wrap: anywhere; min-width: 0; }
+.evidence { font-family: var(--mono); font-size: 11.5px; color: var(--text-muted); margin: 0 0 6px; }
+.evidence .k { color: var(--text-dim); }
+.fixes { margin: 0; padding-left: 18px; color: var(--text-muted); font-size: 13px; }
+.fixes li { margin: 2px 0; }
+
+.masthead-foot {
+  margin-top: 32px; padding-top: 14px; border-top: 1px solid var(--line);
+  color: var(--text-dim); font-family: var(--mono); font-size: 11px;
+}
+
+@media (max-width: 600px) {
+  .chart { width: 760px; max-width: none; }
+  .axis-y, .axis-x, .legend, .off-scale-label { font-size: 12px; }
+  .chart-hint { display: block; margin: 2px 0 8px; color: var(--text-muted); font-size: 12px; }
+  .brand { flex-wrap: wrap; }
+  .summary { grid-template-columns: repeat(3, auto); }
+  .strip-wrap { grid-column: 1 / -1; order: 10; }
+}
+
+</style>
+</head>
+<body>
+<div class="bezel">
+  <header class="masthead">
+    <div class="brand">
+      <span class="brand-mark" aria-hidden="true">&#9679;</span>
+      <h1 class="brand-name">TRAINSPOTTER</h1>
+      <span class="brand-sub">run diagnostic</span>
+    </div>
+    <dl class="readouts">
+      <div><dt>source</dt><dd>studies/<wbr>mlflow-scopes/<wbr>native/<wbr>scopes.sqlite</dd></div>
+      <div><dt>format</dt><dd>mlflow</dd></div>
+      <div><dt>run</dt><dd class="warn">094ea54767b24a8895e0876c978ac4c6 (1 of 6 in this source)</dd></div>
+      <div><dt>steps</dt><dd>0&ndash;39</dd></div>
+      <div><dt>axis source</dt><dd>step</dd></div>
+      
+      
+      <div><dt>generated</dt><dd>2026-10-18 14:16 UTC</dd></div>
+    </dl>
+  </header>
+
+  <main>
+  <section class="input-notes" aria-labelledby="input-heading"><h2 id="input-heading">Input incomplete</h2><ul><li>1 MLflow metric key has linked model/dataset records. Their run-level aggregates retain all recorded values under explicit names, without mapping them to canonical diagnostic metrics. Export one model/dataset history to diagnose it; a run aggregate cannot recover its source scopes.</li><li>MLflow run 'mixed-dataset' (094ea54767b24a8895e0876c978ac4c6), experiment 1; recorded status FINISHED, lifecycle active.</li><li>MLflow SQL backends can normalize infinities to finite extremes. This reader restores native NaN flags but cannot reconstruct infinities already replaced by the backend.</li><li>Training-step column 'step' was selected explicitly (--step-key); its values are interpreted as training-step counts.</li><li>Input is incomplete; findings describe only the readable data.</li></ul></section>
+  <section class="summary">
+    <div class="count sev-error"><span class="n">0</span><span class="l">error</span></div>
+    <div class="count sev-warning"><span class="n">0</span><span class="l">warning</span></div>
+    <div class="count sev-info"><span class="n">0</span><span class="l">info</span></div>
+    <div class="strip-wrap"><svg class="strip" viewBox="0 0 920 34" role="img" aria-label="Finding timeline for the whole run"><rect x="0" y="0" width="920" height="34" class="strip-bg"/><line x1="0" y1="33" x2="920" y2="33" class="strip-base"/></svg></div>
+  </section>
+
+  <details class="input-evidence"><summary>Metric sources and point counts</summary><p class="table-hint">Scroll the table horizontally to inspect every column.</p><div class="table-scroll" tabindex="0" role="region" aria-label="Metric sources and point counts"><table><caption>Names used by the report and their original source</caption><thead><tr><th scope="col">Report metric</th><th scope="col">Source metric</th><th scope="col">Readings</th><th scope="col">Analysis points</th></tr></thead><tbody><tr><th scope="row">loss [MLflow run aggregate]</th><td>loss</td><td>40</td><td>40</td></tr></tbody></table></div></details>
+  
+  <section class="timing-evidence" aria-labelledby="timing-heading"><h2 id="timing-heading">Timing unavailable</h2><p>No eligible timing source. The comparison needs enough step_time or throughput readings, or loss observations with timestamps and explicit training steps. Conflicting repeated-step values are excluded from this check.</p><details><summary>Timing sources and windows</summary><p>Coordinates: <code>step</code> (steps).</p><p>Default timing check: first and last 20% of observations, at least five each, without overlap. This describes those windows, not every step of the run. Direct throughput is time per reported unit (such as a sample or token). Unavailable timing does not establish stable speed.</p></details></section>
+
+  <div class="charts">
+    <p class="chart-hint">Scroll charts horizontally to inspect the full range of steps.</p>
+    <section class="chart-block"><div class="chart-heading"><h2>loss [MLflow run aggregate]</h2><a class="chart-download" download="trainspotter-1-loss-mlflow-run-aggregate.svg" aria-label="Download loss [MLflow run aggregate] chart as SVG" href="data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz48c3ZnIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgd2lkdGg9IjkyMCIgaGVpZ2h0PSIyOTgiIHZpZXdCb3g9IjAgMCA5MjAgMjk4IiByb2xlPSJpbWciIGFyaWEtbGFiZWxsZWRieT0iZXhwb3J0LXRpdGxlIj48dGl0bGUgaWQ9ImV4cG9ydC10aXRsZSI+bG9zcyBbTUxmbG93IHJ1biBhZ2dyZWdhdGVdIG92ZXIgc3RlcHM8L3RpdGxlPjxkZXNjPkFubm90YXRlZCBjaGFydCBmcm9tIGEgVHJhaW5zcG90dGVyIHJlcG9ydC4gU291cmNlIGFuZCBpbnRlcnByZXRhdGlvbiBjb250ZXh0IGFyZSByZXRhaW5lZCBpbiB0aGUgdmlzaWJsZSBjYXB0aW9uIGFuZCBtZXRhZGF0YS48L2Rlc2M+PG1ldGFkYXRhPnsmcXVvdDtzY2hlbWFWZXJzaW9uJnF1b3Q7OiAxLCAmcXVvdDtmb3JtYXQmcXVvdDs6ICZxdW90O3RyYWluc3BvdHRlci1jaGFydCZxdW90OywgJnF1b3Q7c291cmNlUGF0aCZxdW90OzogJnF1b3Q7c3R1ZGllcy9tbGZsb3ctc2NvcGVzL25hdGl2ZS9zY29wZXMuc3FsaXRlJnF1b3Q7LCAmcXVvdDtzb3VyY2VGb3JtYXQmcXVvdDs6ICZxdW90O21sZmxvdyZxdW90OywgJnF1b3Q7c2VsZWN0ZWRSdW4mcXVvdDs6ICZxdW90OzA5NGVhNTQ3NjdiMjRhODg5NWUwODc2Yzk3OGFjNGM2JnF1b3Q7LCAmcXVvdDtheGlzS2luZCZxdW90OzogJnF1b3Q7c3RlcCZxdW90OywgJnF1b3Q7YXhpc0xhYmVsJnF1b3Q7OiAmcXVvdDtzdGVwcyZxdW90OywgJnF1b3Q7YXhpc1NvdXJjZSZxdW90OzogJnF1b3Q7c3RlcCZxdW90OywgJnF1b3Q7cmVxdWVzdGVkTWV0cmljcyZxdW90OzogWyZxdW90O2xvc3MgW01MZmxvdyBydW4gYWdncmVnYXRlXSZxdW90O10sICZxdW90O3Bsb3R0ZWRNZXRyaWNzJnF1b3Q7OiBbJnF1b3Q7bG9zcyBbTUxmbG93IHJ1biBhZ2dyZWdhdGVdJnF1b3Q7XSwgJnF1b3Q7ZXhjbHVkZWRNZXRyaWNzJnF1b3Q7OiBbXSwgJnF1b3Q7bWV0cmljU291cmNlcyZxdW90OzogeyZxdW90O2xvc3MgW01MZmxvdyBydW4gYWdncmVnYXRlXSZxdW90OzogJnF1b3Q7bG9zcyZxdW90O30sICZxdW90O2lucHV0Q29tcGxldGUmcXVvdDs6IGZhbHNlLCAmcXVvdDtpbnB1dE5vdGVzJnF1b3Q7OiBbJnF1b3Q7MSBNTGZsb3cgbWV0cmljIGtleSBoYXMgbGlua2VkIG1vZGVsL2RhdGFzZXQgcmVjb3Jkcy4gVGhlaXIgcnVuLWxldmVsIGFnZ3JlZ2F0ZXMgcmV0YWluIGFsbCByZWNvcmRlZCB2YWx1ZXMgdW5kZXIgZXhwbGljaXQgbmFtZXMsIHdpdGhvdXQgbWFwcGluZyB0aGVtIHRvIGNhbm9uaWNhbCBkaWFnbm9zdGljIG1ldHJpY3MuIEV4cG9ydCBvbmUgbW9kZWwvZGF0YXNldCBoaXN0b3J5IHRvIGRpYWdub3NlIGl0OyBhIHJ1biBhZ2dyZWdhdGUgY2Fubm90IHJlY292ZXIgaXRzIHNvdXJjZSBzY29wZXMuJnF1b3Q7LCAmcXVvdDtNTGZsb3cgcnVuICYjeDI3O21peGVkLWRhdGFzZXQmI3gyNzsgKDA5NGVhNTQ3NjdiMjRhODg5NWUwODc2Yzk3OGFjNGM2KSwgZXhwZXJpbWVudCAxOyByZWNvcmRlZCBzdGF0dXMgRklOSVNIRUQsIGxpZmVjeWNsZSBhY3RpdmUuJnF1b3Q7LCAmcXVvdDtNTGZsb3cgU1FMIGJhY2tlbmRzIGNhbiBub3JtYWxpemUgaW5maW5pdGllcyB0byBmaW5pdGUgZXh0cmVtZXMuIFRoaXMgcmVhZGVyIHJlc3RvcmVzIG5hdGl2ZSBOYU4gZmxhZ3MgYnV0IGNhbm5vdCByZWNvbnN0cnVjdCBpbmZpbml0aWVzIGFscmVhZHkgcmVwbGFjZWQgYnkgdGhlIGJhY2tlbmQuJnF1b3Q7LCAmcXVvdDtUcmFpbmluZy1zdGVwIGNvbHVtbiAmI3gyNztzdGVwJiN4Mjc7IHdhcyBzZWxlY3RlZCBleHBsaWNpdGx5ICgtLXN0ZXAta2V5KTsgaXRzIHZhbHVlcyBhcmUgaW50ZXJwcmV0ZWQgYXMgdHJhaW5pbmctc3RlcCBjb3VudHMuJnF1b3Q7LCAmcXVvdDtJbnB1dCBpcyBpbmNvbXBsZXRlOyBmaW5kaW5ncyBkZXNjcmliZSBvbmx5IHRoZSByZWFkYWJsZSBkYXRhLiZxdW90O10sICZxdW90O3Njb3BlJnF1b3Q7OiAmcXVvdDtUaGUgcmVwb3J0JiN4Mjc7cyBkaXNwbGF5ZWQgdHJhamVjdG9yeSBhbmQgaGV1cmlzdGljIGZpbmRpbmcgYmFuZHMuIERpc3BsYXkgdGhpbm5pbmcgYW5kIG9mZi1zY2FsZSBjYXBzIHJlbWFpbjsgdGhpcyBpcyBub3QgdGhlIG9yaWdpbmFsIGxvZyBvciBhbiBpbmRlcGVuZGVudCBkaWFnbm9zaXMuIEluc3BlY3QgdGhlIHJlcG9ydCBhbmQgc291cmNlIGxvZyBmb3IgZXZpZGVuY2UuJnF1b3Q7fTwvbWV0YWRhdGE+PHN0eWxlPgouZ3JpZCB7IHN0cm9rZTogIzFmMjgzMDsgc3Ryb2tlLXdpZHRoOiAxOyB9Ci5mcmFtZSB7IHN0cm9rZTogIzJjMzk0NDsgc3Ryb2tlLXdpZHRoOiAxOyB9Ci5heGlzLXksIC5heGlzLXggeyBmb250LWZhbWlseTogbW9ub3NwYWNlOyBmb250LXNpemU6IDlweDsgZmlsbDogIzZlN2M4NzsgfQoubGVnZW5kIHsgZm9udC1mYW1pbHk6IG1vbm9zcGFjZTsgZm9udC1zaXplOiAxMHB4OyBmaWxsOiAjOGI5N2ExOyB9Ci5tYXJrZXItYmFkIHsgZm9udC1mYW1pbHk6IG1vbm9zcGFjZTsgZm9udC1zaXplOiAxM3B4OyBmaWxsOiAjZmY1ZDVkOyBmb250LXdlaWdodDogNzAwOyB9Ci5vZmYtc2NhbGUtbGFiZWwgeyBmb250LWZhbWlseTogbW9ub3NwYWNlOyBmb250LXNpemU6IDlweDsgZm9udC13ZWlnaHQ6IDYwMDsgfQoKc3ZnIHsgZm9udC1mYW1pbHk6IHNhbnMtc2VyaWY7IGZvbnQtc2l6ZTogMTRweDsgY29sb3I6ICNkOWUyZTg7IH1AbWVkaWEgc2NyZWVuIHsgc3ZnOnJvb3QgeyBtYXgtd2lkdGg6IDEwMCU7IGhlaWdodDogYXV0bzsgfSB9LmV4cG9ydC1jYXB0aW9uIHsgZm9udC1mYW1pbHk6IG1vbm9zcGFjZTsgZm9udC1zaXplOiAxMXB4OyBmaWxsOiAjZDllMmU4OyB9LmV4cG9ydC1mb290ZXIgeyBmb250LWZhbWlseTogc2Fucy1zZXJpZjsgZm9udC1zaXplOiAxMHB4OyBmaWxsOiAjOGI5N2ExOyB9PC9zdHlsZT48cmVjdCB3aWR0aD0iOTIwIiBoZWlnaHQ9IjI5OCIgZmlsbD0iIzEwMTUxYSIvPjx0ZXh0IGNsYXNzPSJleHBvcnQtY2FwdGlvbiIgeD0iMTgiIHk9IjIwIj5UUkFJTlNQT1RURVIgLyBsb3NzIFtNTGZsb3cgcnVuIGFnZ3JlZ2F0ZV08L3RleHQ+PHRleHQgY2xhc3M9ImV4cG9ydC1jYXB0aW9uIiB4PSIxOCIgeT0iMzciPlNvdXJjZTogc3R1ZGllcy9tbGZsb3ctc2NvcGVzL25hdGl2ZS9zY29wZXMuc3FsaXRlPC90ZXh0Pjx0ZXh0IGNsYXNzPSJleHBvcnQtY2FwdGlvbiIgeD0iMTgiIHk9IjU0Ij5Ib3Jpem9udGFsIGF4aXM6IHN0ZXBzPC90ZXh0Pjx0ZXh0IGNsYXNzPSJleHBvcnQtY2FwdGlvbiIgeD0iMTgiIHk9IjcxIj5JbnB1dCBpbmNvbXBsZXRlLiBJbnRlcnByZXQgdGhlIHJlYWRhYmxlIGRhdGEgd2l0aCB0aGUgb3JpZ2luYWwgcmVwb3J0LjwvdGV4dD48c3ZnIGNsYXNzPSJjaGFydCIgdmlld0JveD0iMCAwIDkyMCAxODAiIHJvbGU9ImltZyIgYXJpYS1sYWJlbD0ibG9zcyBbTUxmbG93IHJ1biBhZ2dyZWdhdGVdIG92ZXIgc3RlcHMgMCB0byAzOSIgeD0iMCIgeT0iODgiIHdpZHRoPSI5MjAiIGhlaWdodD0iMTgwIj48bGluZSBjbGFzcz0iZ3JpZCIgeDE9IjU0IiB5MT0iMTU0LjAiIHgyPSI5MDIiIHkyPSIxNTQuMCIgLz48dGV4dCBjbGFzcz0iYXhpcy15IiB4PSI0NiIgeT0iMTU3LjAiIHRleHQtYW5jaG9yPSJlbmQiPjA8L3RleHQ+PGxpbmUgY2xhc3M9ImdyaWQiIHgxPSI1NCIgeTE9Ijg5LjIiIHgyPSI5MDIiIHkyPSI4OS4yIiAvPjx0ZXh0IGNsYXNzPSJheGlzLXkiIHg9IjQ2IiB5PSI5Mi4yIiB0ZXh0LWFuY2hvcj0iZW5kIj41PC90ZXh0PjxsaW5lIGNsYXNzPSJncmlkIiB4MT0iNTQiIHkxPSIyNC40IiB4Mj0iOTAyIiB5Mj0iMjQuNCIgLz48dGV4dCBjbGFzcz0iYXhpcy15IiB4PSI0NiIgeT0iMjcuNCIgdGV4dC1hbmNob3I9ImVuZCI+MTA8L3RleHQ+PGxpbmUgY2xhc3M9ImdyaWQiIHgxPSI1NC4wIiB5MT0iMTQiIHgyPSI1NC4wIiB5Mj0iMTU0IiAvPjx0ZXh0IGNsYXNzPSJheGlzLXgiIHg9IjU0LjAiIHk9IjE3MCIgdGV4dC1hbmNob3I9Im1pZGRsZSI+MDwvdGV4dD48bGluZSBjbGFzcz0iZ3JpZCIgeDE9IjI3MS40IiB5MT0iMTQiIHgyPSIyNzEuNCIgeTI9IjE1NCIgLz48dGV4dCBjbGFzcz0iYXhpcy14IiB4PSIyNzEuNCIgeT0iMTcwIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIj4xMDwvdGV4dD48bGluZSBjbGFzcz0iZ3JpZCIgeDE9IjQ4OC45IiB5MT0iMTQiIHgyPSI0ODguOSIgeTI9IjE1NCIgLz48dGV4dCBjbGFzcz0iYXhpcy14IiB4PSI0ODguOSIgeT0iMTcwIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIj4yMDwvdGV4dD48bGluZSBjbGFzcz0iZ3JpZCIgeDE9IjcwNi4zIiB5MT0iMTQiIHgyPSI3MDYuMyIgeTI9IjE1NCIgLz48dGV4dCBjbGFzcz0iYXhpcy14IiB4PSI3MDYuMyIgeT0iMTcwIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIj4zMDwvdGV4dD48cGF0aCBkPSJNNTQuMCAxNDEuMCBMNzUuNyAxNDIuMiBMOTcuNSAxNDMuMiBMMTE5LjIgMTQ0LjAgTDE0MS4wIDE0NC43IEwxNjIuNyAxNDUuNCBMMTg0LjUgMTQ1LjkgTDIwNi4yIDE0Ni40IEwyMjcuOSAxNDYuOCBMMjQ5LjcgMTQ3LjIgTDI3MS40IDE0Ny41IEwyOTMuMiAxNDcuOCBMMzE0LjkgMTQ4LjEgTDMzNi43IDE0OC40IEwzNTguNCAxNDguNiBMMzgwLjIgMTQ4LjggTDQwMS45IDE0OS4wIEw0MjMuNiAxNDkuMiBMNDQ1LjQgMTQ5LjQgTDQ2Ny4xIDE0OS41IEw0ODguOSAyNC40IEw1MTAuNiAyNC40IEw1MzIuNCAyNC40IEw1NTQuMSAyNC40IEw1NzUuOCAyNC40IEw1OTcuNiAyNC40IEw2MTkuMyAyNC40IEw2NDEuMSAyNC40IEw2NjIuOCAyNC40IEw2ODQuNiAyNC40IEw3MDYuMyAyNC40IEw3MjguMSAyNC40IEw3NDkuOCAyNC40IEw3NzEuNSAyNC40IEw3OTMuMyAyNC40IEw4MTUuMCAyNC40IEw4MzYuOCAyNC40IEw4NTguNSAyNC40IEw4ODAuMyAyNC40IEw5MDIuMCAyNC40IiBmaWxsPSJub25lIiBzdHJva2U9IiM5YWE3YjAiIHN0cm9rZS13aWR0aD0iMS43NSIgLz48cmVjdCBjbGFzcz0iZnJhbWUiIHg9IjU0IiB5PSIxNCIgd2lkdGg9Ijg0OCIgaGVpZ2h0PSIxNDAiIGZpbGw9Im5vbmUiIC8+PC9zdmc+PHRleHQgY2xhc3M9ImV4cG9ydC1mb290ZXIiIHg9IjE4IiB5PSIyODgiPlJlYWQgdGhlIG9yaWdpbmFsIHJlcG9ydCBhbmQgbG9nIGZvciBmdWxsIGRpYWdub3N0aWMgZXZpZGVuY2UuIFNoYWRlZCBmaW5kaW5ncyBhcmUgaGV1cmlzdGljcy48L3RleHQ+PC9zdmc+">Download SVG</a></div><div class="chart-scroll" tabindex="0" role="region" aria-label="loss [MLflow run aggregate] chart"><svg class="chart" viewBox="0 0 920 180" role="img" aria-label="loss [MLflow run aggregate] over steps 0 to 39"><line class="grid" x1="54" y1="154.0" x2="902" y2="154.0"/><text class="axis-y" x="46" y="157.0" text-anchor="end">0</text><line class="grid" x1="54" y1="89.2" x2="902" y2="89.2"/><text class="axis-y" x="46" y="92.2" text-anchor="end">5</text><line class="grid" x1="54" y1="24.4" x2="902" y2="24.4"/><text class="axis-y" x="46" y="27.4" text-anchor="end">10</text><line class="grid" x1="54.0" y1="14" x2="54.0" y2="154"/><text class="axis-x" x="54.0" y="170" text-anchor="middle">0</text><line class="grid" x1="271.4" y1="14" x2="271.4" y2="154"/><text class="axis-x" x="271.4" y="170" text-anchor="middle">10</text><line class="grid" x1="488.9" y1="14" x2="488.9" y2="154"/><text class="axis-x" x="488.9" y="170" text-anchor="middle">20</text><line class="grid" x1="706.3" y1="14" x2="706.3" y2="154"/><text class="axis-x" x="706.3" y="170" text-anchor="middle">30</text><path d="M54.0 141.0 L75.7 142.2 L97.5 143.2 L119.2 144.0 L141.0 144.7 L162.7 145.4 L184.5 145.9 L206.2 146.4 L227.9 146.8 L249.7 147.2 L271.4 147.5 L293.2 147.8 L314.9 148.1 L336.7 148.4 L358.4 148.6 L380.2 148.8 L401.9 149.0 L423.6 149.2 L445.4 149.4 L467.1 149.5 L488.9 24.4 L510.6 24.4 L532.4 24.4 L554.1 24.4 L575.8 24.4 L597.6 24.4 L619.3 24.4 L641.1 24.4 L662.8 24.4 L684.6 24.4 L706.3 24.4 L728.1 24.4 L749.8 24.4 L771.5 24.4 L793.3 24.4 L815.0 24.4 L836.8 24.4 L858.5 24.4 L880.3 24.4 L902.0 24.4" fill="none" stroke="#9aa7b0" stroke-width="1.75"/><rect class="frame" x="54" y="14" width="848" height="140" fill="none"/></svg></div></section>
+  </div>
+
+  <section class="findings-log">
+    <h2 class="log-title">Findings log</h2>
+    <p class="clean">No findings in the readable data. Input is incomplete.</p>
+  </section>
+  </main>
+
+  <footer class="masthead-foot">
+    <span>trainspotter &mdash; heuristic diagnostics, not ground truth. Read each finding's false-positive modes before acting on it.</span>
+  </footer>
+</div>
+</body>
+</html>

@@ -89,7 +89,7 @@ aliases and future files under metric/tag/parameter directories. An existing Fil
 | NaN | SQL `is_nan` flags restore native NaN observations; malformed values remain unknown and cannot become NaN alerts |
 | Infinity | FileStore retains it; MLflow's SQL backend can replace it with a finite extreme, and the original infinity cannot be reconstructed |
 | Metric names | Existing normalization keeps one source per canonical metric; nested FileStore metric names retain their complete path |
-| Dataset-qualified/model histories | Separate logged-model tables and dataset-qualified FileStore rows are outside this reader's run-history contract; unsupported rows remain incomplete input, never merged into a run curve |
+| Dataset-qualified/model histories | Linked `logged_model_metrics` records make the affected selected-run keys incomplete. Their run aggregates keep every recorded value under explicit noncanonical names; no model/dataset history is reconstructed. Dataset-qualified FileStore rows remain unsupported and incomplete |
 | Schema changes | Unknown metric-table columns or missing required tables refuse the read; no automatic migration |
 | Remote stores | HTTP, Databricks, PostgreSQL, MySQL and artifact/model downloads are not supported by this local reader |
 
@@ -99,6 +99,33 @@ SDK-written SQLite run exposes a largest-finite loss, so its report retains
 loss-spike warnings and the separately recorded NaN gradient. Converting that
 finite number back to infinity would invent evidence. The SQLite report states
 this backend boundary. Recorded run status is provenance, not a causal diagnosis.
+
+## Model and dataset scope can be lost in a run aggregate
+
+MLflow 3 can write a model-qualified metric both to `logged_model_metrics` and
+to the run's unqualified `metrics` table. `get_metric_history` returns that
+aggregate without its original qualifiers. Calling all of it `train/loss` can
+manufacture a divergence when logging moves to another model or dataset.
+
+The SQLite reader checks linked records for the selected run in the same
+read-only snapshot. Affected keys remain visible, for example as
+`loss [MLflow run aggregate]`, and keep all recorded steps, values and clocks.
+They do not claim a canonical diagnostic metric. Separate unqualified aliases
+keep their ordinary mapping. Input notes, JSON scope groups and exit 2 from
+an enabled `--fail-on` gate explain the unresolved scope. Other runs' linked
+records do not make the selected run incomplete.
+
+Matching rows cannot safely be subtracted: the native backend can coalesce an
+unqualified and qualified log call with identical coordinates and value. Model
+rows are not additional run observations. The reader does not infer train/eval
+roles from dataset names, nor recover context already discarded by the producer.
+When dataset columns are unavailable, the JSON states which columns were read.
+At most ten scope groups are retained with the omitted group count.
+
+The [scope study](../studies/mlflow-scopes/README.md) retains the unchanged
+SDK-written database, all 200 run observations, before/after CLI reports,
+coalesced calls and both gate commands. These are controlled logging inputs,
+not a new training result or detector-accuracy estimate.
 
 ## Native producer checks
 

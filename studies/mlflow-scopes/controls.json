@@ -1,0 +1,293 @@
+{
+  "scope": "Actual former and corrected installed CLI, complete canonical JSON and enabled error gate equality on all existing unqualified native MLflow controls.",
+  "records": [
+    {
+      "producer": "mlflow-2.17.2",
+      "store": "sqlite",
+      "run": "baseline",
+      "runId": "8f91483945614779b1728653e4a5a317",
+      "exit": 0,
+      "completeJsonUnchanged": true,
+      "canonicalJsonSha256": "126e85f780b456fc0d4a0edc76c67ecbcc7d8d12d393892a032b17b564e70453"
+    },
+    {
+      "producer": "mlflow-2.17.2",
+      "store": "sqlite",
+      "run": "divergence",
+      "runId": "02dd020e0c044f7e8ed77f79d0a3cf70",
+      "exit": 0,
+      "completeJsonUnchanged": true,
+      "canonicalJsonSha256": "30ce8e79e686cb66e3734c1bf3112d709a28fda8342435967d92448400105f3a"
+    },
+    {
+      "producer": "mlflow-2.17.2",
+      "store": "sqlite",
+      "run": "overfitting",
+      "runId": "90cdf8f0372d417bab01c8de221418d9",
+      "exit": 0,
+      "completeJsonUnchanged": true,
+      "canonicalJsonSha256": "510859cf777e9fdf4539f0ea32f53398152646ef6f1fd28c3750a4bc562cc27a"
+    },
+    {
+      "producer": "mlflow-2.17.2",
+      "store": "sqlite",
+      "run": "stable-training",
+      "runId": "0770c0e6897b46b99dabcea68b874e6a",
+      "exit": 0,
+      "completeJsonUnchanged": true,
+      "canonicalJsonSha256": "bf82403a854e1bda726e637476e6f4d1c54f97604383e3800378b71165ae844a"
+    },
+    {
+      "producer": "mlflow-2.17.2",
+      "store": "sqlite",
+      "run": "slow-training",
+      "runId": "912775ff61fa4cbfa5b7911d64ef0e36",
+      "exit": 0,
+      "completeJsonUnchanged": true,
+      "canonicalJsonSha256": "d5dec911a7d431bf50ac58c71ec376100272391c635aebaed65a6104cb3c0bba"
+    },
+    {
+      "producer": "mlflow-2.17.2",
+      "store": "sqlite",
+      "run": "nonfinite",
+      "runId": "f04405808bd64bd3bc1da47fa106ecd5",
+      "exit": 1,
+      "completeJsonUnchanged": true,
+      "canonicalJsonSha256": "e7d9671beb81acacf5717c85d1651ad086fd40dde7479bf19d3e11150f6f2ac9"
+    },
+    {
+      "producer": "mlflow-2.17.2",
+      "store": "sqlite",
+      "run": "conflicting-steps",
+      "runId": "18a9995358f6419bab559a26bb5b09c4",
+      "exit": 2,
+      "completeJsonUnchanged": true,
+      "canonicalJsonSha256": "4a7eb7e2c7fd148ed844d9eb9023fc2d3700a24bf500444d178fb30104a220fa"
+    },
+    {
+      "producer": "mlflow-2.17.2",
+      "store": "sqlite",
+      "run": "default-step",
+      "runId": "2e15f31a8d674a2293afd9fa3961b066",
+      "exit": 2,
+      "completeJsonUnchanged": true,
+      "canonicalJsonSha256": "8220d02e463508c5b04dc2934c47a02071149ee31ced240e9c9093609acb27da"
+    },
+    {
+      "producer": "mlflow-2.17.2",
+      "store": "files",
+      "run": "baseline",
+      "runId": "ce64c32acf124b38a35c27978a3db31c",
+      "exit": 0,
+      "completeJsonUnchanged": true,
+      "canonicalJsonSha256": "d6c88cdd2fc272b342ec339ca06455bd25be4e7cb1e0c223473f1704558ee44d"
+    },
+    {
+      "producer": "mlflow-2.17.2",
+      "store": "files",
+      "run": "divergence",
+      "runId": "d7575153a61e4bb8adce39c815dbe5ce",
+      "exit": 1,
+      "completeJsonUnchanged": true,
+      "canonicalJsonSha256": "7da59a85417fefe22cbe56d042026c52975e5ed30b6359cca61cc7260f940c58"
+    },
+    {
+      "producer": "mlflow-2.17.2",
+      "store": "files",
+      "run": "overfitting",
+      "runId": "8e61aa80dd3f499d97d595b677a9376d",
+      "exit": 0,
+      "completeJsonUnchanged": true,
+      "canonicalJsonSha256": "fef013b473fd381a9d22cbb8ba610579aafb436aa98031f031c69a4cc2478969"
+    },
+    {
+      "producer": "mlflow-2.17.2",
+      "store": "files",
+      "run": "stable-training",
+      "runId": "eda5ea4919f74d7cb2c1d11c7e66781d",
+      "exit": 0,
+      "completeJsonUnchanged": true,
+      "canonicalJsonSha256": "891dd0a821cd17d0877fbf312510ffe7898fe1469a0c0323eb487021d39de023"
+    },
+    {
+      "producer": "mlflow-2.17.2",
+      "store": "files",
+      "run": "slow-training",
+      "runId": "a901125e1fbc4dd0a7dba58ab228aa6e",
+      "exit": 0,
+      "completeJsonUnchanged": true,
+      "canonicalJsonSha256": "bc45d669c32076e6d79571eb070b5739bb9630fa5ac5b77bb54866ede2fce84c"
+    },
+    {
+      "producer": "mlflow-2.17.2",
+      "store": "files",
+      "run": "nonfinite",
+      "runId": "4bb3634cb8c34e69abbc291463eb0c5e",
+      "exit": 1,
+      "completeJsonUnchanged": true,
+      "canonicalJsonSha256": "f3d6964ae13c6bd160f2aac2db9788d4db8311f3b3de82c9ee64fc6d3f8600ec"
+    },
+    {
+      "producer": "mlflow-2.17.2",
+      "store": "files",
+      "run": "conflicting-steps",
+      "runId": "bcd66befa2f14b57bba79c7262caab65",
+      "exit": 2,
+      "completeJsonUnchanged": true,
+      "canonicalJsonSha256": "9e539afe8f907e1152d73dd78f89bb366f07079d841e5fc426b829094b7641d0"
+    },
+    {
+      "producer": "mlflow-2.17.2",
+      "store": "files",
+      "run": "default-step",
+      "runId": "d5dd560369fd4d548b6eed0433577129",
+      "exit": 2,
+      "completeJsonUnchanged": true,
+      "canonicalJsonSha256": "2011381676f4ba180248662ebcc829ad3bf84508e4033503146f96324a5f42f5"
+    },
+    {
+      "producer": "mlflow-3.17.1",
+      "store": "sqlite",
+      "run": "baseline",
+      "runId": "12b61cbcd4114346ab779ad97433c986",
+      "exit": 0,
+      "completeJsonUnchanged": true,
+      "canonicalJsonSha256": "11707dc4c68bdf185e1a0446c8ec844c5a4f4b8ea872186e1e591722d49cd821"
+    },
+    {
+      "producer": "mlflow-3.17.1",
+      "store": "sqlite",
+      "run": "divergence",
+      "runId": "ace0bd93a53e47e5aea904a2ce6f476b",
+      "exit": 0,
+      "completeJsonUnchanged": true,
+      "canonicalJsonSha256": "66ec87988f946557b881019cfd3e0d604790bdd9d780e72c8255f7ce0f4b9659"
+    },
+    {
+      "producer": "mlflow-3.17.1",
+      "store": "sqlite",
+      "run": "overfitting",
+      "runId": "5d6e8ec204cc46388ab9c3583f132036",
+      "exit": 0,
+      "completeJsonUnchanged": true,
+      "canonicalJsonSha256": "0d8b94615103a3e6cc1ba433b40e99ebfe50e1f0561ef444f70beaf1b2251e63"
+    },
+    {
+      "producer": "mlflow-3.17.1",
+      "store": "sqlite",
+      "run": "stable-training",
+      "runId": "d9dab18d8b054725b13f3894b0dc97fc",
+      "exit": 0,
+      "completeJsonUnchanged": true,
+      "canonicalJsonSha256": "7dc5415f3cf547fc21ee1f12d6e0649aa608763ceaf329dd388689d47815483b"
+    },
+    {
+      "producer": "mlflow-3.17.1",
+      "store": "sqlite",
+      "run": "slow-training",
+      "runId": "214bb67d331a4988b21e75b343876ee9",
+      "exit": 0,
+      "completeJsonUnchanged": true,
+      "canonicalJsonSha256": "e7de7da0061036014bfeaa886566d51b3361bb9d828c49c4ba8e5d2d59ae4f4b"
+    },
+    {
+      "producer": "mlflow-3.17.1",
+      "store": "sqlite",
+      "run": "nonfinite",
+      "runId": "e1403ed00ca24f0b9f5a7d59e52821b1",
+      "exit": 1,
+      "completeJsonUnchanged": true,
+      "canonicalJsonSha256": "5ee372c95971dd18f3a0a417dfa6df2d5868dfa03d667399f7eb7ae3d911b269"
+    },
+    {
+      "producer": "mlflow-3.17.1",
+      "store": "sqlite",
+      "run": "conflicting-steps",
+      "runId": "718523e5cdbd4eed8c92c9adfe31767b",
+      "exit": 2,
+      "completeJsonUnchanged": true,
+      "canonicalJsonSha256": "98905c40c91bf7bc17ba3bbf90a5be3889688af9acf1427fb526f85845df8f1a"
+    },
+    {
+      "producer": "mlflow-3.17.1",
+      "store": "sqlite",
+      "run": "default-step",
+      "runId": "e8da372c228c4590ac22f9f210e3f964",
+      "exit": 2,
+      "completeJsonUnchanged": true,
+      "canonicalJsonSha256": "7fff66320829c5624f8cbde8d41b598d3f4b9cd2daca93f88b2ab6178f8bb383"
+    },
+    {
+      "producer": "mlflow-3.17.1",
+      "store": "files",
+      "run": "baseline",
+      "runId": "3c665e359ffc47f69110efab5d74ef76",
+      "exit": 0,
+      "completeJsonUnchanged": true,
+      "canonicalJsonSha256": "e84af9b9b13184061b80aa9866a85762d7e15887a9254c50be5a0813c0b18407"
+    },
+    {
+      "producer": "mlflow-3.17.1",
+      "store": "files",
+      "run": "divergence",
+      "runId": "81c6646ed240443286b1aa444f372549",
+      "exit": 1,
+      "completeJsonUnchanged": true,
+      "canonicalJsonSha256": "e04510e30ca631ce01d67348d0a49437766f2c99b06d0c74b6b0c9203e6eac6b"
+    },
+    {
+      "producer": "mlflow-3.17.1",
+      "store": "files",
+      "run": "overfitting",
+      "runId": "0de2260ce240409d9e4c7587bbfe76ce",
+      "exit": 0,
+      "completeJsonUnchanged": true,
+      "canonicalJsonSha256": "783d92f193344bf1f40f969a921e3eb4aa059a7c4082d22e7893350767a87b61"
+    },
+    {
+      "producer": "mlflow-3.17.1",
+      "store": "files",
+      "run": "stable-training",
+      "runId": "bd1bc11e7eaa47088e35004c8fe371d0",
+      "exit": 0,
+      "completeJsonUnchanged": true,
+      "canonicalJsonSha256": "da7a1e9bfa5f2e63117b11ffbb6199ed979071128c9c82d48c7af85c532b40a7"
+    },
+    {
+      "producer": "mlflow-3.17.1",
+      "store": "files",
+      "run": "slow-training",
+      "runId": "5df81fff9de340ef9dd2bc36639783fb",
+      "exit": 0,
+      "completeJsonUnchanged": true,
+      "canonicalJsonSha256": "210591e84543e0aeb5fa7f45d35705ee3eaaa84e6c3f03f31766d1a53377b5bd"
+    },
+    {
+      "producer": "mlflow-3.17.1",
+      "store": "files",
+      "run": "nonfinite",
+      "runId": "ce2b6d956864468ab5fa6d1870bf2f3b",
+      "exit": 1,
+      "completeJsonUnchanged": true,
+      "canonicalJsonSha256": "533cc32213dffc2060f9219745bf47fe003e8175748a9750c54f0e3c62cc7f18"
+    },
+    {
+      "producer": "mlflow-3.17.1",
+      "store": "files",
+      "run": "conflicting-steps",
+      "runId": "c5e6e4b106434baeafeb43e8f7994d76",
+      "exit": 2,
+      "completeJsonUnchanged": true,
+      "canonicalJsonSha256": "b873346028c83d2e900ca5ca08479607d044ed13f406dc3027bbebf8f2c7bc99"
+    },
+    {
+      "producer": "mlflow-3.17.1",
+      "store": "files",
+      "run": "default-step",
+      "runId": "8e6bd1f57f6c4a11a08b6e674b002d22",
+      "exit": 2,
+      "completeJsonUnchanged": true,
+      "canonicalJsonSha256": "d2efa4588f4639d94c590426144ac04d928ecc37817ca16983c353f81f53aab9"
+    }
+  ]
+}

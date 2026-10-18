@@ -1,0 +1,206 @@
+{
+  "schema_version": 1,
+  "run": {
+    "source_format": "mlflow",
+    "source_path": "studies/mlflow-scopes/native/scopes.sqlite",
+    "skipped_rows": 0,
+    "skipped_values": 0,
+    "input_complete": false,
+    "input_notes": [
+      "1 MLflow metric key has linked model/dataset records. Their run-level aggregates retain all recorded values under explicit names, without mapping them to canonical diagnostic metrics. Export one model/dataset history to diagnose it; a run aggregate cannot recover its source scopes.",
+      "MLflow run 'mixed-dataset' (094ea54767b24a8895e0876c978ac4c6), experiment 1; recorded status FINISHED, lifecycle active.",
+      "MLflow SQL backends can normalize infinities to finite extremes. This reader restores native NaN flags but cannot reconstruct infinities already replaced by the backend.",
+      "Training-step column 'step' was selected explicitly (--step-key); its values are interpreted as training-step counts.",
+      "Input is incomplete; findings describe only the readable data."
+    ],
+    "unread_event_bytes": 0,
+    "event_directories": [],
+    "overwritten_points": 0,
+    "restart_markers": 0,
+    "step_column": "step",
+    "step_axis": "step",
+    "step_selection": "explicit",
+    "metric_sources": {
+      "loss [MLflow run aggregate]": "loss"
+    },
+    "mlflow": {
+      "store": "sqlite",
+      "run": {
+        "run_id": "094ea54767b24a8895e0876c978ac4c6",
+        "name": "mixed-dataset",
+        "experiment_id": "1",
+        "status": "FINISHED",
+        "lifecycle_stage": "active"
+      },
+      "runs": [
+        {
+          "run_id": "094ea54767b24a8895e0876c978ac4c6",
+          "name": "mixed-dataset",
+          "experiment_id": "1",
+          "status": "FINISHED",
+          "lifecycle_stage": "active",
+          "observations": 40,
+          "history_read": true
+        },
+        {
+          "run_id": "2b241120fa68442bae8e6e82cabb43ca",
+          "name": "unqualified-alias",
+          "experiment_id": "1",
+          "status": "FINISHED",
+          "lifecycle_stage": "active",
+          "observations": 40,
+          "history_read": false
+        },
+        {
+          "run_id": "6e2822675bc140468f014097cd538eba",
+          "name": "unqualified",
+          "experiment_id": "1",
+          "status": "FINISHED",
+          "lifecycle_stage": "active",
+          "observations": 20,
+          "history_read": false
+        },
+        {
+          "run_id": "9de2dc6d30f5443abb9efb7dd6c7aba0",
+          "name": "two-models",
+          "experiment_id": "1",
+          "status": "FINISHED",
+          "lifecycle_stage": "active",
+          "observations": 40,
+          "history_read": false
+        },
+        {
+          "run_id": "dc8cb9b378804a8a971d7d43ea1d77f5",
+          "name": "coalesced-coordinate",
+          "experiment_id": "1",
+          "status": "FINISHED",
+          "lifecycle_stage": "active",
+          "observations": 20,
+          "history_read": false
+        },
+        {
+          "run_id": "e57fd7b40f284b6d811c3cf7819b554f",
+          "name": "model-without-dataset",
+          "experiment_id": "1",
+          "status": "FINISHED",
+          "lifecycle_stage": "active",
+          "observations": 40,
+          "history_read": false
+        }
+      ],
+      "history": "full recorded metric histories",
+      "read_only": true,
+      "issues": [
+        {
+          "metric": "loss",
+          "reason": "linked model/dataset records leave the run aggregate's metric scope unresolved",
+          "step": null
+        }
+      ],
+      "omitted_issues": 0,
+      "metric_scopes": {
+        "qualified_keys": [
+          "loss"
+        ],
+        "recorded_rows": 20,
+        "groups": [
+          {
+            "metric": "loss",
+            "model_id": "m-78c9695ece9549039fa2a083e92e88a4",
+            "dataset_name": "held-out",
+            "dataset_digest": "abcd1234",
+            "recorded_rows": 20
+          }
+        ],
+        "omitted_groups": 0,
+        "available_dataset_fields": [
+          "dataset_digest",
+          "dataset_name"
+        ],
+        "relationship": "Logged-model rows may also occur in the run aggregate; these are not additional run observations. Model/dataset histories are not reconstructed.",
+        "retained_aggregates": {
+          "loss": "loss [MLflow run aggregate]"
+        }
+      }
+    },
+    "ambiguous_metric_sources": [
+      "loss"
+    ],
+    "repeated_steps": [],
+    "selected_run": "094ea54767b24a8895e0876c978ac4c6",
+    "runs": [
+      {
+        "name": "094ea54767b24a8895e0876c978ac4c6",
+        "points": 40,
+        "display_name": "mixed-dataset",
+        "lifecycle_stage": "active"
+      },
+      {
+        "name": "2b241120fa68442bae8e6e82cabb43ca",
+        "points": 40,
+        "display_name": "unqualified-alias",
+        "lifecycle_stage": "active"
+      },
+      {
+        "name": "6e2822675bc140468f014097cd538eba",
+        "points": 20,
+        "display_name": "unqualified",
+        "lifecycle_stage": "active"
+      },
+      {
+        "name": "9de2dc6d30f5443abb9efb7dd6c7aba0",
+        "points": 40,
+        "display_name": "two-models",
+        "lifecycle_stage": "active"
+      },
+      {
+        "name": "dc8cb9b378804a8a971d7d43ea1d77f5",
+        "points": 20,
+        "display_name": "coalesced-coordinate",
+        "lifecycle_stage": "active"
+      },
+      {
+        "name": "e57fd7b40f284b6d811c3cf7819b554f",
+        "points": 40,
+        "display_name": "model-without-dataset",
+        "lifecycle_stage": "active"
+      }
+    ],
+    "metrics": {
+      "loss [MLflow run aggregate]": {
+        "count": 40,
+        "analysis_count": 40,
+        "distinct_steps": 40,
+        "analysis_excluded": false,
+        "first_step": 0,
+        "last_step": 39
+      }
+    }
+  },
+  "summary": {
+    "input_complete": false,
+    "total_findings": 0,
+    "by_severity": {
+      "error": 0,
+      "warning": 0,
+      "info": 0
+    }
+  },
+  "timing": {
+    "status": "unavailable",
+    "axis": "step",
+    "source": null,
+    "source_metric": null,
+    "unit": null,
+    "observations": 0,
+    "invalid_observations": 0,
+    "baseline": null,
+    "recent": null,
+    "ratio": null,
+    "reason": "No eligible timing source. The comparison needs enough step_time or throughput readings, or loss observations with timestamps and explicit training steps. Conflicting repeated-step values are excluded from this check.",
+    "notes": [],
+    "min_window": 5,
+    "baseline_fraction": 0.2
+  },
+  "findings": []
+}

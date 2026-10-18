@@ -294,10 +294,21 @@ class Run:
             )
         ambiguous = self.meta.get("ambiguous_metric_sources")
         if isinstance(ambiguous, list) and ambiguous:
-            notes.append(
-                f"{len(ambiguous)} metric names are claimed by multiple writer directories; "
-                "their curves are kept separate. Select a single writer directory to diagnose them."
-            )
+            if self.source_format == "mlflow":
+                subject = "key has" if len(ambiguous) == 1 else "keys have"
+                notes.append(
+                    f"{len(ambiguous)} MLflow metric {subject} linked model/dataset records. "
+                    "Their run-level aggregates retain all recorded values under explicit names, "
+                    "without mapping them to canonical diagnostic metrics. Export one "
+                    "model/dataset history to diagnose it; a run aggregate cannot recover "
+                    "its source scopes."
+                )
+            else:
+                notes.append(
+                    f"{len(ambiguous)} metric names are claimed by multiple writer directories; "
+                    "their curves are kept separate. Select a single writer directory "
+                    "to diagnose them."
+                )
         axis = self.meta.get("step_column")
         if isinstance(axis, str) and axis.startswith("(row index"):
             notes.append(f"The horizontal axis uses {axis}; these are not training-step counts.")

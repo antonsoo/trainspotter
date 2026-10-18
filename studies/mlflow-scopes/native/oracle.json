@@ -1,0 +1,3924 @@
+{
+  "sdk": "3.17.1",
+  "scope": "Native MLflow 3.17.1 logging controls; no training, models or data downloaded.\n\nValues and metric clocks are authored to distinguish run-level aggregates from\nmodel/dataset scopes. The real SDK writes and reads its native SQLite schema.\n",
+  "normalization": "None; native database bytes retained.",
+  "database": {
+    "file": "scopes.sqlite",
+    "bytes": 1032192,
+    "sha256": "ab0debdd2c38371ad461df0c6ba0cec1a9fb40f3436a8a3c77bfc585a78af9d4"
+  },
+  "cases": [
+    {
+      "name": "unqualified",
+      "run_id": "6e2822675bc140468f014097cd538eba",
+      "model_ids": [],
+      "authored_log_calls": [
+        {
+          "key": "loss",
+          "step": 0,
+          "timestamp": 1700000000000,
+          "value": 1.0,
+          "model_id": null,
+          "dataset_name": null,
+          "dataset_digest": null
+        },
+        {
+          "key": "loss",
+          "step": 1,
+          "timestamp": 1700000001000,
+          "value": 0.9090909090909091,
+          "model_id": null,
+          "dataset_name": null,
+          "dataset_digest": null
+        },
+        {
+          "key": "loss",
+          "step": 2,
+          "timestamp": 1700000002000,
+          "value": 0.8333333333333334,
+          "model_id": null,
+          "dataset_name": null,
+          "dataset_digest": null
+        },
+        {
+          "key": "loss",
+          "step": 3,
+          "timestamp": 1700000003000,
+          "value": 0.7692307692307692,
+          "model_id": null,
+          "dataset_name": null,
+          "dataset_digest": null
+        },
+        {
+          "key": "loss",
+          "step": 4,
+          "timestamp": 1700000004000,
+          "value": 0.7142857142857143,
+          "model_id": null,
+          "dataset_name": null,
+          "dataset_digest": null
+        },
+        {
+          "key": "loss",
+          "step": 5,
+          "timestamp": 1700000005000,
+          "value": 0.6666666666666666,
+          "model_id": null,
+          "dataset_name": null,
+          "dataset_digest": null
+        },
+        {
+          "key": "loss",
+          "step": 6,
+          "timestamp": 1700000006000,
+          "value": 0.625,
+          "model_id": null,
+          "dataset_name": null,
+          "dataset_digest": null
+        },
+        {
+          "key": "loss",
+          "step": 7,
+          "timestamp": 1700000007000,
+          "value": 0.5882352941176471,
+          "model_id": null,
+          "dataset_name": null,
+          "dataset_digest": null
+        },
+        {
+          "key": "loss",
+          "step": 8,
+          "timestamp": 1700000008000,
+          "value": 0.5555555555555556,
+          "model_id": null,
+          "dataset_name": null,
+          "dataset_digest": null
+        },
+        {
+          "key": "loss",
+          "step": 9,
+          "timestamp": 1700000009000,
+          "value": 0.5263157894736842,
+          "model_id": null,
+          "dataset_name": null,
+          "dataset_digest": null
+        },
+        {
+          "key": "loss",
+          "step": 10,
+          "timestamp": 1700000010000,
+          "value": 0.5,
+          "model_id": null,
+          "dataset_name": null,
+          "dataset_digest": null
+        },
+        {
+          "key": "loss",
+          "step": 11,
+          "timestamp": 1700000011000,
+          "value": 0.47619047619047616,
+          "model_id": null,
+          "dataset_name": null,
+          "dataset_digest": null
+        },
+        {
+          "key": "loss",
+          "step": 12,
+          "timestamp": 1700000012000,
+          "value": 0.45454545454545453,
+          "model_id": null,
+          "dataset_name": null,
+          "dataset_digest": null
+        },
+        {
+          "key": "loss",
+          "step": 13,
+          "timestamp": 1700000013000,
+          "value": 0.4347826086956522,
+          "model_id": null,
+          "dataset_name": null,
+          "dataset_digest": null
+        },
+        {
+          "key": "loss",
+          "step": 14,
+          "timestamp": 1700000014000,
+          "value": 0.4166666666666667,
+          "model_id": null,
+          "dataset_name": null,
+          "dataset_digest": null
+        },
+        {
+          "key": "loss",
+          "step": 15,
+          "timestamp": 1700000015000,
+          "value": 0.4,
+          "model_id": null,
+          "dataset_name": null,
+          "dataset_digest": null
+        },
+        {
+          "key": "loss",
+          "step": 16,
+          "timestamp": 1700000016000,
+          "value": 0.3846153846153846,
+          "model_id": null,
+          "dataset_name": null,
+          "dataset_digest": null
+        },
+        {
+          "key": "loss",
+          "step": 17,
+          "timestamp": 1700000017000,
+          "value": 0.37037037037037035,
+          "model_id": null,
+          "dataset_name": null,
+          "dataset_digest": null
+        },
+        {
+          "key": "loss",
+          "step": 18,
+          "timestamp": 1700000018000,
+          "value": 0.35714285714285715,
+          "model_id": null,
+          "dataset_name": null,
+          "dataset_digest": null
+        },
+        {
+          "key": "loss",
+          "step": 19,
+          "timestamp": 1700000019000,
+          "value": 0.3448275862068966,
+          "model_id": null,
+          "dataset_name": null,
+          "dataset_digest": null
+        }
+      ],
+      "sdk_run_histories": {
+        "loss": [
+          {
+            "key": "loss",
+            "value": 1.0,
+            "step": 0,
+            "timestamp": 1700000000000,
+            "model_id": null,
+            "dataset_name": null,
+            "dataset_digest": null
+          },
+          {
+            "key": "loss",
+            "value": 0.9090909090909091,
+            "step": 1,
+            "timestamp": 1700000001000,
+            "model_id": null,
+            "dataset_name": null,
+            "dataset_digest": null
+          },
+          {
+            "key": "loss",
+            "value": 0.8333333333333334,
+            "step": 2,
+            "timestamp": 1700000002000,
+            "model_id": null,
+            "dataset_name": null,
+            "dataset_digest": null
+          },
+          {
+            "key": "loss",
+            "value": 0.7692307692307692,
+            "step": 3,
+            "timestamp": 1700000003000,
+            "model_id": null,
+            "dataset_name": null,
+            "dataset_digest": null
+          },
+          {
+            "key": "loss",
+            "value": 0.7142857142857143,
+            "step": 4,
+            "timestamp": 1700000004000,
+            "model_id": null,
+            "dataset_name": null,
+            "dataset_digest": null
+          },
+          {
+            "key": "loss",
+            "value": 0.6666666666666666,
+            "step": 5,
+            "timestamp": 1700000005000,
+            "model_id": null,
+            "dataset_name": null,
+            "dataset_digest": null
+          },
+          {
+            "key": "loss",
+            "value": 0.625,
+            "step": 6,
+            "timestamp": 1700000006000,
+            "model_id": null,
+            "dataset_name": null,
+            "dataset_digest": null
+          },
+          {
+            "key": "loss",
+            "value": 0.5882352941176471,
+            "step": 7,
+            "timestamp": 1700000007000,
+            "model_id": null,
+            "dataset_name": null,
+            "dataset_digest": null
+          },
+          {
+            "key": "loss",
+            "value": 0.5555555555555556,
+            "step": 8,
+            "timestamp": 1700000008000,
+            "model_id": null,
+            "dataset_name": null,
+            "dataset_digest": null
+          },
+          {
+            "key": "loss",
+            "value": 0.5263157894736842,
+            "step": 9,
+            "timestamp": 1700000009000,
+            "model_id": null,
+            "dataset_name": null,
+            "dataset_digest": null
+          },
+          {
+            "key": "loss",
+            "value": 0.5,
+            "step": 10,
+            "timestamp": 1700000010000,
+            "model_id": null,
+            "dataset_name": null,
+            "dataset_digest": null
+          },
+          {
+            "key": "loss",
+            "value": 0.47619047619047616,
+            "step": 11,
+            "timestamp": 1700000011000,
+            "model_id": null,
+            "dataset_name": null,
+            "dataset_digest": null
+          },
+          {
+            "key": "loss",
+            "value": 0.45454545454545453,
+            "step": 12,
+            "timestamp": 1700000012000,
+            "model_id": null,
+            "dataset_name": null,
+            "dataset_digest": null
+          },
+          {
+            "key": "loss",
+            "value": 0.4347826086956522,
+            "step": 13,
+            "timestamp": 1700000013000,
+            "model_id": null,
+            "dataset_name": null,
+            "dataset_digest": null
+          },
+          {
+            "key": "loss",
+            "value": 0.4166666666666667,
+            "step": 14,
+            "timestamp": 1700000014000,
+            "model_id": null,
+            "dataset_name": null,
+            "dataset_digest": null
+          },
+          {
+            "key": "loss",
+            "value": 0.4,
+            "step": 15,
+            "timestamp": 1700000015000,
+            "model_id": null,
+            "dataset_name": null,
+            "dataset_digest": null
+          },
+          {
+            "key": "loss",
+            "value": 0.3846153846153846,
+            "step": 16,
+            "timestamp": 1700000016000,
+            "model_id": null,
+            "dataset_name": null,
+            "dataset_digest": null
+          },
+          {
+            "key": "loss",
+            "value": 0.37037037037037035,
+            "step": 17,
+            "timestamp": 1700000017000,
+            "model_id": null,
+            "dataset_name": null,
+            "dataset_digest": null
+          },
+          {
+            "key": "loss",
+            "value": 0.35714285714285715,
+            "step": 18,
+            "timestamp": 1700000018000,
+            "model_id": null,
+            "dataset_name": null,
+            "dataset_digest": null
+          },
+          {
+            "key": "loss",
+            "value": 0.3448275862068966,
+            "step": 19,
+            "timestamp": 1700000019000,
+            "model_id": null,
+            "dataset_name": null,
+            "dataset_digest": null
+          }
+        ]
+      },
+      "sql_model_scopes": []
+    },
+    {
+      "name": "mixed-dataset",
+      "run_id": "094ea54767b24a8895e0876c978ac4c6",
+      "model_ids": [
+        "m-78c9695ece9549039fa2a083e92e88a4"
+      ],
+      "authored_log_calls": [
+        {
+          "key": "loss",
+          "step": 0,
+          "timestamp": 1700000000000,
+          "value": 1.0,
+          "model_id": null,
+          "dataset_name": null,
+          "dataset_digest": null
+        },
+        {
+          "key": "loss",
+          "step": 1,
+          "timestamp": 1700000001000,
+          "value": 0.9090909090909091,
+          "model_id": null,
+          "dataset_name": null,
+          "dataset_digest": null
+        },
+        {
+          "key": "loss",
+          "step": 2,
+          "timestamp": 1700000002000,
+          "value": 0.8333333333333334,
+          "model_id": null,
+          "dataset_name": null,
+          "dataset_digest": null
+        },
+        {
+          "key": "loss",
+          "step": 3,
+          "timestamp": 1700000003000,
+          "value": 0.7692307692307692,
+          "model_id": null,
+          "dataset_name": null,
+          "dataset_digest": null
+        },
+        {
+          "key": "loss",
+          "step": 4,
+          "timestamp": 1700000004000,
+          "value": 0.7142857142857143,
+          "model_id": null,
+          "dataset_name": null,
+          "dataset_digest": null
+        },
+        {
+          "key": "loss",
+          "step": 5,
+          "timestamp": 1700000005000,
+          "value": 0.6666666666666666,
+          "model_id": null,
+          "dataset_name": null,
+          "dataset_digest": null
+        },
+        {
+          "key": "loss",
+          "step": 6,
+          "timestamp": 1700000006000,
+          "value": 0.625,
+          "model_id": null,
+          "dataset_name": null,
+          "dataset_digest": null
+        },
+        {
+          "key": "loss",
+          "step": 7,
+          "timestamp": 1700000007000,
+          "value": 0.5882352941176471,
+          "model_id": null,
+          "dataset_name": null,
+          "dataset_digest": null
+        },
+        {
+          "key": "loss",
+          "step": 8,
+          "timestamp": 1700000008000,
+          "value": 0.5555555555555556,
+          "model_id": null,
+          "dataset_name": null,
+          "dataset_digest": null
+        },
+        {
+          "key": "loss",
+          "step": 9,
+          "timestamp": 1700000009000,
+          "value": 0.5263157894736842,
+          "model_id": null,
+          "dataset_name": null,
+          "dataset_digest": null
+        },
+        {
+          "key": "loss",
+          "step": 10,
+          "timestamp": 1700000010000,
+          "value": 0.5,
+          "model_id": null,
+          "dataset_name": null,
+          "dataset_digest": null
+        },
+        {
+          "key": "loss",
+          "step": 11,
+          "timestamp": 1700000011000,
+          "value": 0.47619047619047616,
+          "model_id": null,
+          "dataset_name": null,
+          "dataset_digest": null
+        },
+        {
+          "key": "loss",
+          "step": 12,
+          "timestamp": 1700000012000,
+          "value": 0.45454545454545453,
+          "model_id": null,
+          "dataset_name": null,
+          "dataset_digest": null
+        },
+        {
+          "key": "loss",
+          "step": 13,
+          "timestamp": 1700000013000,
+          "value": 0.4347826086956522,
+          "model_id": null,
+          "dataset_name": null,
+          "dataset_digest": null
+        },
+        {
+          "key": "loss",
+          "step": 14,
+          "timestamp": 1700000014000,
+          "value": 0.4166666666666667,
+          "model_id": null,
+          "dataset_name": null,
+          "dataset_digest": null
+        },
+        {
+          "key": "loss",
+          "step": 15,
+          "timestamp": 1700000015000,
+          "value": 0.4,
+          "model_id": null,
+          "dataset_name": null,
+          "dataset_digest": null
+        },
+        {
+          "key": "loss",
+          "step": 16,
+          "timestamp": 1700000016000,
+          "value": 0.3846153846153846,
+          "model_id": null,
+          "dataset_name": null,
+          "dataset_digest": null
+        },
+        {
+          "key": "loss",
+          "step": 17,
+          "timestamp": 1700000017000,
+          "value": 0.37037037037037035,
+          "model_id": null,
+          "dataset_name": null,
+          "dataset_digest": null
+        },
+        {
+          "key": "loss",
+          "step": 18,
+          "timestamp": 1700000018000,
+          "value": 0.35714285714285715,
+          "model_id": null,
+          "dataset_name": null,
+          "dataset_digest": null
+        },
+        {
+          "key": "loss",
+          "step": 19,
+          "timestamp": 1700000019000,
+          "value": 0.3448275862068966,
+          "model_id": null,
+          "dataset_name": null,
+          "dataset_digest": null
+        },
+        {
+          "key": "loss",
+          "step": 20,
+          "timestamp": 1700000020000,
+          "value": 10.0,
+          "model_id": "m-78c9695ece9549039fa2a083e92e88a4",
+          "dataset_name": "held-out",
+          "dataset_digest": "abcd1234"
+        },
+        {
+          "key": "loss",
+          "step": 21,
+          "timestamp": 1700000021000,
+          "value": 10.0,
+          "model_id": "m-78c9695ece9549039fa2a083e92e88a4",
+          "dataset_name": "held-out",
+          "dataset_digest": "abcd1234"
+        },
+        {
+          "key": "loss",
+          "step": 22,
+          "timestamp": 1700000022000,
+          "value": 10.0,
+          "model_id": "m-78c9695ece9549039fa2a083e92e88a4",
+          "dataset_name": "held-out",
+          "dataset_digest": "abcd1234"
+        },
+        {
+          "key": "loss",
+          "step": 23,
+          "timestamp": 1700000023000,
+          "value": 10.0,
+          "model_id": "m-78c9695ece9549039fa2a083e92e88a4",
+          "dataset_name": "held-out",
+          "dataset_digest": "abcd1234"
+        },
+        {
+          "key": "loss",
+          "step": 24,
+          "timestamp": 1700000024000,
+          "value": 10.0,
+          "model_id": "m-78c9695ece9549039fa2a083e92e88a4",
+          "dataset_name": "held-out",
+          "dataset_digest": "abcd1234"
+        },
+        {
+          "key": "loss",
+          "step": 25,
+          "timestamp": 1700000025000,
+          "value": 10.0,
+          "model_id": "m-78c9695ece9549039fa2a083e92e88a4",
+          "dataset_name": "held-out",
+          "dataset_digest": "abcd1234"
+        },
+        {
+          "key": "loss",
+          "step": 26,
+          "timestamp": 1700000026000,
+          "value": 10.0,
+          "model_id": "m-78c9695ece9549039fa2a083e92e88a4",
+          "dataset_name": "held-out",
+          "dataset_digest": "abcd1234"
+        },
+        {
+          "key": "loss",
+          "step": 27,
+          "timestamp": 1700000027000,
+          "value": 10.0,
+          "model_id": "m-78c9695ece9549039fa2a083e92e88a4",
+          "dataset_name": "held-out",
+          "dataset_digest": "abcd1234"
+        },
+        {
+          "key": "loss",
+          "step": 28,
+          "timestamp": 1700000028000,
+          "value": 10.0,
+          "model_id": "m-78c9695ece9549039fa2a083e92e88a4",
+          "dataset_name": "held-out",
+          "dataset_digest": "abcd1234"
+        },
+        {
+          "key": "loss",
+          "step": 29,
+          "timestamp": 1700000029000,
+          "value": 10.0,
+          "model_id": "m-78c9695ece9549039fa2a083e92e88a4",
+          "dataset_name": "held-out",
+          "dataset_digest": "abcd1234"
+        },
+        {
+          "key": "loss",
+          "step": 30,
+          "timestamp": 1700000030000,
+          "value": 10.0,
+          "model_id": "m-78c9695ece9549039fa2a083e92e88a4",
+          "dataset_name": "held-out",
+          "dataset_digest": "abcd1234"
+        },
+        {
+          "key": "loss",
+          "step": 31,
+          "timestamp": 1700000031000,
+          "value": 10.0,
+          "model_id": "m-78c9695ece9549039fa2a083e92e88a4",
+          "dataset_name": "held-out",
+          "dataset_digest": "abcd1234"
+        },
+        {
+          "key": "loss",
+          "step": 32,
+          "timestamp": 1700000032000,
+          "value": 10.0,
+          "model_id": "m-78c9695ece9549039fa2a083e92e88a4",
+          "dataset_name": "held-out",
+          "dataset_digest": "abcd1234"
+        },
+        {
+          "key": "loss",
+          "step": 33,
+          "timestamp": 1700000033000,
+          "value": 10.0,
+          "model_id": "m-78c9695ece9549039fa2a083e92e88a4",
+          "dataset_name": "held-out",
+          "dataset_digest": "abcd1234"
+        },
+        {
+          "key": "loss",
+          "step": 34,
+          "timestamp": 1700000034000,
+          "value": 10.0,
+          "model_id": "m-78c9695ece9549039fa2a083e92e88a4",
+          "dataset_name": "held-out",
+          "dataset_digest": "abcd1234"
+        },
+        {
+          "key": "loss",
+          "step": 35,
+          "timestamp": 1700000035000,
+          "value": 10.0,
+          "model_id": "m-78c9695ece9549039fa2a083e92e88a4",
+          "dataset_name": "held-out",
+          "dataset_digest": "abcd1234"
+        },
+        {
+          "key": "loss",
+          "step": 36,
+          "timestamp": 1700000036000,
+          "value": 10.0,
+          "model_id": "m-78c9695ece9549039fa2a083e92e88a4",
+          "dataset_name": "held-out",
+          "dataset_digest": "abcd1234"
+        },
+        {
+          "key": "loss",
+          "step": 37,
+          "timestamp": 1700000037000,
+          "value": 10.0,
+          "model_id": "m-78c9695ece9549039fa2a083e92e88a4",
+          "dataset_name": "held-out",
+          "dataset_digest": "abcd1234"
+        },
+        {
+          "key": "loss",
+          "step": 38,
+          "timestamp": 1700000038000,
+          "value": 10.0,
+          "model_id": "m-78c9695ece9549039fa2a083e92e88a4",
+          "dataset_name": "held-out",
+          "dataset_digest": "abcd1234"
+        },
+        {
+          "key": "loss",
+          "step": 39,
+          "timestamp": 1700000039000,
+          "value": 10.0,
+          "model_id": "m-78c9695ece9549039fa2a083e92e88a4",
+          "dataset_name": "held-out",
+          "dataset_digest": "abcd1234"
+        }
+      ],
+      "sdk_run_histories": {
+        "loss": [
+          {
+            "key": "loss",
+            "value": 1.0,
+            "step": 0,
+            "timestamp": 1700000000000,
+            "model_id": null,
+            "dataset_name": null,
+            "dataset_digest": null
+          },
+          {
+            "key": "loss",
+            "value": 0.9090909090909091,
+            "step": 1,
+            "timestamp": 1700000001000,
+            "model_id": null,
+            "dataset_name": null,
+            "dataset_digest": null
+          },
+          {
+            "key": "loss",
+            "value": 0.8333333333333334,
+            "step": 2,
+            "timestamp": 1700000002000,
+            "model_id": null,
+            "dataset_name": null,
+            "dataset_digest": null
+          },
+          {
+            "key": "loss",
+            "value": 0.7692307692307692,
+            "step": 3,
+            "timestamp": 1700000003000,
+            "model_id": null,
+            "dataset_name": null,
+            "dataset_digest": null
+          },
+          {
+            "key": "loss",
+            "value": 0.7142857142857143,
+            "step": 4,
+            "timestamp": 1700000004000,
+            "model_id": null,
+            "dataset_name": null,
+            "dataset_digest": null
+          },
+          {
+            "key": "loss",
+            "value": 0.6666666666666666,
+            "step": 5,
+            "timestamp": 1700000005000,
+            "model_id": null,
+            "dataset_name": null,
+            "dataset_digest": null
+          },
+          {
+            "key": "loss",
+            "value": 0.625,
+            "step": 6,
+            "timestamp": 1700000006000,
+            "model_id": null,
+            "dataset_name": null,
+            "dataset_digest": null
+          },
+          {
+            "key": "loss",
+            "value": 0.5882352941176471,
+            "step": 7,
+            "timestamp": 1700000007000,
+            "model_id": null,
+            "dataset_name": null,
+            "dataset_digest": null
+          },
+          {
+            "key": "loss",
+            "value": 0.5555555555555556,
+            "step": 8,
+            "timestamp": 1700000008000,
+            "model_id": null,
+            "dataset_name": null,
+            "dataset_digest": null
+          },
+          {
+            "key": "loss",
+            "value": 0.5263157894736842,
+            "step": 9,
+            "timestamp": 1700000009000,
+            "model_id": null,
+            "dataset_name": null,
+            "dataset_digest": null
+          },
+          {
+            "key": "loss",
+            "value": 0.5,
+            "step": 10,
+            "timestamp": 1700000010000,
+            "model_id": null,
+            "dataset_name": null,
+            "dataset_digest": null
+          },
+          {
+            "key": "loss",
+            "value": 0.47619047619047616,
+            "step": 11,
+            "timestamp": 1700000011000,
+            "model_id": null,
+            "dataset_name": null,
+            "dataset_digest": null
+          },
+          {
+            "key": "loss",
+            "value": 0.45454545454545453,
+            "step": 12,
+            "timestamp": 1700000012000,
+            "model_id": null,
+            "dataset_name": null,
+            "dataset_digest": null
+          },
+          {
+            "key": "loss",
+            "value": 0.4347826086956522,
+            "step": 13,
+            "timestamp": 1700000013000,
+            "model_id": null,
+            "dataset_name": null,
+            "dataset_digest": null
+          },
+          {
+            "key": "loss",
+            "value": 0.4166666666666667,
+            "step": 14,
+            "timestamp": 1700000014000,
+            "model_id": null,
+            "dataset_name": null,
+            "dataset_digest": null
+          },
+          {
+            "key": "loss",
+            "value": 0.4,
+            "step": 15,
+            "timestamp": 1700000015000,
+            "model_id": null,
+            "dataset_name": null,
+            "dataset_digest": null
+          },
+          {
+            "key": "loss",
+            "value": 0.3846153846153846,
+            "step": 16,
+            "timestamp": 1700000016000,
+            "model_id": null,
+            "dataset_name": null,
+            "dataset_digest": null
+          },
+          {
+            "key": "loss",
+            "value": 0.37037037037037035,
+            "step": 17,
+            "timestamp": 1700000017000,
+            "model_id": null,
+            "dataset_name": null,
+            "dataset_digest": null
+          },
+          {
+            "key": "loss",
+            "value": 0.35714285714285715,
+            "step": 18,
+            "timestamp": 1700000018000,
+            "model_id": null,
+            "dataset_name": null,
+            "dataset_digest": null
+          },
+          {
+            "key": "loss",
+            "value": 0.3448275862068966,
+            "step": 19,
+            "timestamp": 1700000019000,
+            "model_id": null,
+            "dataset_name": null,
+            "dataset_digest": null
+          },
+          {
+            "key": "loss",
+            "value": 10.0,
+            "step": 20,
+            "timestamp": 1700000020000,
+            "model_id": null,
+            "dataset_name": null,
+            "dataset_digest": null
+          },
+          {
+            "key": "loss",
+            "value": 10.0,
+            "step": 21,
+            "timestamp": 1700000021000,
+            "model_id": null,
+            "dataset_name": null,
+            "dataset_digest": null
+          },
+          {
+            "key": "loss",
+            "value": 10.0,
+            "step": 22,
+            "timestamp": 1700000022000,
+            "model_id": null,
+            "dataset_name": null,
+            "dataset_digest": null
+          },
+          {
+            "key": "loss",
+            "value": 10.0,
+            "step": 23,
+            "timestamp": 1700000023000,
+            "model_id": null,
+            "dataset_name": null,
+            "dataset_digest": null
+          },
+          {
+            "key": "loss",
+            "value": 10.0,
+            "step": 24,
+            "timestamp": 1700000024000,
+            "model_id": null,
+            "dataset_name": null,
+            "dataset_digest": null
+          },
+          {
+            "key": "loss",
+            "value": 10.0,
+            "step": 25,
+            "timestamp": 1700000025000,
+            "model_id": null,
+            "dataset_name": null,
+            "dataset_digest": null
+          },
+          {
+            "key": "loss",
+            "value": 10.0,
+            "step": 26,
+            "timestamp": 1700000026000,
+            "model_id": null,
+            "dataset_name": null,
+            "dataset_digest": null
+          },
+          {
+            "key": "loss",
+            "value": 10.0,
+            "step": 27,
+            "timestamp": 1700000027000,
+            "model_id": null,
+            "dataset_name": null,
+            "dataset_digest": null
+          },
+          {
+            "key": "loss",
+            "value": 10.0,
+            "step": 28,
+            "timestamp": 1700000028000,
+            "model_id": null,
+            "dataset_name": null,
+            "dataset_digest": null
+          },
+          {
+            "key": "loss",
+            "value": 10.0,
+            "step": 29,
+            "timestamp": 1700000029000,
+            "model_id": null,
+            "dataset_name": null,
+            "dataset_digest": null
+          },
+          {
+            "key": "loss",
+            "value": 10.0,
+            "step": 30,
+            "timestamp": 1700000030000,
+            "model_id": null,
+            "dataset_name": null,
+            "dataset_digest": null
+          },
+          {
+            "key": "loss",
+            "value": 10.0,
+            "step": 31,
+            "timestamp": 1700000031000,
+            "model_id": null,
+            "dataset_name": null,
+            "dataset_digest": null
+          },
+          {
+            "key": "loss",
+            "value": 10.0,
+            "step": 32,
+            "timestamp": 1700000032000,
+            "model_id": null,
+            "dataset_name": null,
+            "dataset_digest": null
+          },
+          {
+            "key": "loss",
+            "value": 10.0,
+            "step": 33,
+            "timestamp": 1700000033000,
+            "model_id": null,
+            "dataset_name": null,
+            "dataset_digest": null
+          },
+          {
+            "key": "loss",
+            "value": 10.0,
+            "step": 34,
+            "timestamp": 1700000034000,
+            "model_id": null,
+            "dataset_name": null,
+            "dataset_digest": null
+          },
+          {
+            "key": "loss",
+            "value": 10.0,
+            "step": 35,
+            "timestamp": 1700000035000,
+            "model_id": null,
+            "dataset_name": null,
+            "dataset_digest": null
+          },
+          {
+            "key": "loss",
+            "value": 10.0,
+            "step": 36,
+            "timestamp": 1700000036000,
+            "model_id": null,
+            "dataset_name": null,
+            "dataset_digest": null
+          },
+          {
+            "key": "loss",
+            "value": 10.0,
+            "step": 37,
+            "timestamp": 1700000037000,
+            "model_id": null,
+            "dataset_name": null,
+            "dataset_digest": null
+          },
+          {
+            "key": "loss",
+            "value": 10.0,
+            "step": 38,
+            "timestamp": 1700000038000,
+            "model_id": null,
+            "dataset_name": null,
+            "dataset_digest": null
+          },
+          {
+            "key": "loss",
+            "value": 10.0,
+            "step": 39,
+            "timestamp": 1700000039000,
+            "model_id": null,
+            "dataset_name": null,
+            "dataset_digest": null
+          }
+        ]
+      },
+      "sql_model_scopes": [
+        {
+          "metric": "loss",
+          "model_id": "m-78c9695ece9549039fa2a083e92e88a4",
+          "dataset_name": "held-out",
+          "dataset_digest": "abcd1234",
+          "recorded_rows": 20
+        }
+      ]
+    },
+    {
+      "name": "coalesced-coordinate",
+      "run_id": "dc8cb9b378804a8a971d7d43ea1d77f5",
+      "model_ids": [
+        "m-df11624657f44c9fb9b3c8e76c50d386"
+      ],
+      "authored_log_calls": [
+        {
+          "key": "loss",
+          "step": 0,
+          "timestamp": 1700000000000,
+          "value": 1.0,
+          "model_id": null,
+          "dataset_name": null,
+          "dataset_digest": null
+        },
+        {
+          "key": "loss",
+          "step": 1,
+          "timestamp": 1700000001000,
+          "value": 0.9090909090909091,
+          "model_id": null,
+          "dataset_name": null,
+          "dataset_digest": null
+        },
+        {
+          "key": "loss",
+          "step": 2,
+          "timestamp": 1700000002000,
+          "value": 0.8333333333333334,
+          "model_id": null,
+          "dataset_name": null,
+          "dataset_digest": null
+        },
+        {
+          "key": "loss",
+          "step": 3,
+          "timestamp": 1700000003000,
+          "value": 0.7692307692307692,
+          "model_id": null,
+          "dataset_name": null,
+          "dataset_digest": null
+        },
+        {
+          "key": "loss",
+          "step": 4,
+          "timestamp": 1700000004000,
+          "value": 0.7142857142857143,
+          "model_id": null,
+          "dataset_name": null,
+          "dataset_digest": null
+        },
+        {
+          "key": "loss",
+          "step": 5,
+          "timestamp": 1700000005000,
+          "value": 0.6666666666666666,
+          "model_id": null,
+          "dataset_name": null,
+          "dataset_digest": null
+        },
+        {
+          "key": "loss",
+          "step": 6,
+          "timestamp": 1700000006000,
+          "value": 0.625,
+          "model_id": null,
+          "dataset_name": null,
+          "dataset_digest": null
+        },
+        {
+          "key": "loss",
+          "step": 7,
+          "timestamp": 1700000007000,
+          "value": 0.5882352941176471,
+          "model_id": null,
+          "dataset_name": null,
+          "dataset_digest": null
+        },
+        {
+          "key": "loss",
+          "step": 8,
+          "timestamp": 1700000008000,
+          "value": 0.5555555555555556,
+          "model_id": null,
+          "dataset_name": null,
+          "dataset_digest": null
+        },
+        {
+          "key": "loss",
+          "step": 9,
+          "timestamp": 1700000009000,
+          "value": 0.5263157894736842,
+          "model_id": null,
+          "dataset_name": null,
+          "dataset_digest": null
+        },
+        {
+          "key": "loss",
+          "step": 10,
+          "timestamp": 1700000010000,
+          "value": 0.5,
+          "model_id": null,
+          "dataset_name": null,
+          "dataset_digest": null
+        },
+        {
+          "key": "loss",
+          "step": 11,
+          "timestamp": 1700000011000,
+          "value": 0.47619047619047616,
+          "model_id": null,
+          "dataset_name": null,
+          "dataset_digest": null
+        },
+        {
+          "key": "loss",
+          "step": 12,
+          "timestamp": 1700000012000,
+          "value": 0.45454545454545453,
+          "model_id": null,
+          "dataset_name": null,
+          "dataset_digest": null
+        },
+        {
+          "key": "loss",
+          "step": 13,
+          "timestamp": 1700000013000,
+          "value": 0.4347826086956522,
+          "model_id": null,
+          "dataset_name": null,
+          "dataset_digest": null
+        },
+        {
+          "key": "loss",
+          "step": 14,
+          "timestamp": 1700000014000,
+          "value": 0.4166666666666667,
+          "model_id": null,
+          "dataset_name": null,
+          "dataset_digest": null
+        },
+        {
+          "key": "loss",
+          "step": 15,
+          "timestamp": 1700000015000,
+          "value": 0.4,
+          "model_id": null,
+          "dataset_name": null,
+          "dataset_digest": null
+        },
+        {
+          "key": "loss",
+          "step": 16,
+          "timestamp": 1700000016000,
+          "value": 0.3846153846153846,
+          "model_id": null,
+          "dataset_name": null,
+          "dataset_digest": null
+        },
+        {
+          "key": "loss",
+          "step": 17,
+          "timestamp": 1700000017000,
+          "value": 0.37037037037037035,
+          "model_id": null,
+          "dataset_name": null,
+          "dataset_digest": null
+        },
+        {
+          "key": "loss",
+          "step": 18,
+          "timestamp": 1700000018000,
+          "value": 0.35714285714285715,
+          "model_id": null,
+          "dataset_name": null,
+          "dataset_digest": null
+        },
+        {
+          "key": "loss",
+          "step": 19,
+          "timestamp": 1700000019000,
+          "value": 0.3448275862068966,
+          "model_id": null,
+          "dataset_name": null,
+          "dataset_digest": null
+        },
+        {
+          "key": "loss",
+          "step": 0,
+          "timestamp": 1700000000000,
+          "value": 1.0,
+          "model_id": "m-df11624657f44c9fb9b3c8e76c50d386",
+          "dataset_name": "held-out",
+          "dataset_digest": "abcd1234"
+        },
+        {
+          "key": "loss",
+          "step": 1,
+          "timestamp": 1700000001000,
+          "value": 0.9090909090909091,
+          "model_id": "m-df11624657f44c9fb9b3c8e76c50d386",
+          "dataset_name": "held-out",
+          "dataset_digest": "abcd1234"
+        },
+        {
+          "key": "loss",
+          "step": 2,
+          "timestamp": 1700000002000,
+          "value": 0.8333333333333334,
+          "model_id": "m-df11624657f44c9fb9b3c8e76c50d386",
+          "dataset_name": "held-out",
+          "dataset_digest": "abcd1234"
+        },
+        {
+          "key": "loss",
+          "step": 3,
+          "timestamp": 1700000003000,
+          "value": 0.7692307692307692,
+          "model_id": "m-df11624657f44c9fb9b3c8e76c50d386",
+          "dataset_name": "held-out",
+          "dataset_digest": "abcd1234"
+        },
+        {
+          "key": "loss",
+          "step": 4,
+          "timestamp": 1700000004000,
+          "value": 0.7142857142857143,
+          "model_id": "m-df11624657f44c9fb9b3c8e76c50d386",
+          "dataset_name": "held-out",
+          "dataset_digest": "abcd1234"
+        },
+        {
+          "key": "loss",
+          "step": 5,
+          "timestamp": 1700000005000,
+          "value": 0.6666666666666666,
+          "model_id": "m-df11624657f44c9fb9b3c8e76c50d386",
+          "dataset_name": "held-out",
+          "dataset_digest": "abcd1234"
+        },
+        {
+          "key": "loss",
+          "step": 6,
+          "timestamp": 1700000006000,
+          "value": 0.625,
+          "model_id": "m-df11624657f44c9fb9b3c8e76c50d386",
+          "dataset_name": "held-out",
+          "dataset_digest": "abcd1234"
+        },
+        {
+          "key": "loss",
+          "step": 7,
+          "timestamp": 1700000007000,
+          "value": 0.5882352941176471,
+          "model_id": "m-df11624657f44c9fb9b3c8e76c50d386",
+          "dataset_name": "held-out",
+          "dataset_digest": "abcd1234"
+        },
+        {
+          "key": "loss",
+          "step": 8,
+          "timestamp": 1700000008000,
+          "value": 0.5555555555555556,
+          "model_id": "m-df11624657f44c9fb9b3c8e76c50d386",
+          "dataset_name": "held-out",
+          "dataset_digest": "abcd1234"
+        },
+        {
+          "key": "loss",
+          "step": 9,
+          "timestamp": 1700000009000,
+          "value": 0.5263157894736842,
+          "model_id": "m-df11624657f44c9fb9b3c8e76c50d386",
+          "dataset_name": "held-out",
+          "dataset_digest": "abcd1234"
+        },
+        {
+          "key": "loss",
+          "step": 10,
+          "timestamp": 1700000010000,
+          "value": 0.5,
+          "model_id": "m-df11624657f44c9fb9b3c8e76c50d386",
+          "dataset_name": "held-out",
+          "dataset_digest": "abcd1234"
+        },
+        {
+          "key": "loss",
+          "step": 11,
+          "timestamp": 1700000011000,
+          "value": 0.47619047619047616,
+          "model_id": "m-df11624657f44c9fb9b3c8e76c50d386",
+          "dataset_name": "held-out",
+          "dataset_digest": "abcd1234"
+        },
+        {
+          "key": "loss",
+          "step": 12,
+          "timestamp": 1700000012000,
+          "value": 0.45454545454545453,
+          "model_id": "m-df11624657f44c9fb9b3c8e76c50d386",
+          "dataset_name": "held-out",
+          "dataset_digest": "abcd1234"
+        },
+        {
+          "key": "loss",
+          "step": 13,
+          "timestamp": 1700000013000,
+          "value": 0.4347826086956522,
+          "model_id": "m-df11624657f44c9fb9b3c8e76c50d386",
+          "dataset_name": "held-out",
+          "dataset_digest": "abcd1234"
+        },
+        {
+          "key": "loss",
+          "step": 14,
+          "timestamp": 1700000014000,
+          "value": 0.4166666666666667,
+          "model_id": "m-df11624657f44c9fb9b3c8e76c50d386",
+          "dataset_name": "held-out",
+          "dataset_digest": "abcd1234"
+        },
+        {
+          "key": "loss",
+          "step": 15,
+          "timestamp": 1700000015000,
+          "value": 0.4,
+          "model_id": "m-df11624657f44c9fb9b3c8e76c50d386",
+          "dataset_name": "held-out",
+          "dataset_digest": "abcd1234"
+        },
+        {
+          "key": "loss",
+          "step": 16,
+          "timestamp": 1700000016000,
+          "value": 0.3846153846153846,
+          "model_id": "m-df11624657f44c9fb9b3c8e76c50d386",
+          "dataset_name": "held-out",
+          "dataset_digest": "abcd1234"
+        },
+        {
+          "key": "loss",
+          "step": 17,
+          "timestamp": 1700000017000,
+          "value": 0.37037037037037035,
+          "model_id": "m-df11624657f44c9fb9b3c8e76c50d386",
+          "dataset_name": "held-out",
+          "dataset_digest": "abcd1234"
+        },
+        {
+          "key": "loss",
+          "step": 18,
+          "timestamp": 1700000018000,
+          "value": 0.35714285714285715,
+          "model_id": "m-df11624657f44c9fb9b3c8e76c50d386",
+          "dataset_name": "held-out",
+          "dataset_digest": "abcd1234"
+        },
+        {
+          "key": "loss",
+          "step": 19,
+          "timestamp": 1700000019000,
+          "value": 0.3448275862068966,
+          "model_id": "m-df11624657f44c9fb9b3c8e76c50d386",
+          "dataset_name": "held-out",
+          "dataset_digest": "abcd1234"
+        }
+      ],
+      "sdk_run_histories": {
+        "loss": [
+          {
+            "key": "loss",
+            "value": 1.0,
+            "step": 0,
+            "timestamp": 1700000000000,
+            "model_id": null,
+            "dataset_name": null,
+            "dataset_digest": null
+          },
+          {
+            "key": "loss",
+            "value": 0.9090909090909091,
+            "step": 1,
+            "timestamp": 1700000001000,
+            "model_id": null,
+            "dataset_name": null,
+            "dataset_digest": null
+          },
+          {
+            "key": "loss",
+            "value": 0.8333333333333334,
+            "step": 2,
+            "timestamp": 1700000002000,
+            "model_id": null,
+            "dataset_name": null,
+            "dataset_digest": null
+          },
+          {
+            "key": "loss",
+            "value": 0.7692307692307692,
+            "step": 3,
+            "timestamp": 1700000003000,
+            "model_id": null,
+            "dataset_name": null,
+            "dataset_digest": null
+          },
+          {
+            "key": "loss",
+            "value": 0.7142857142857143,
+            "step": 4,
+            "timestamp": 1700000004000,
+            "model_id": null,
+            "dataset_name": null,
+            "dataset_digest": null
+          },
+          {
+            "key": "loss",
+            "value": 0.6666666666666666,
+            "step": 5,
+            "timestamp": 1700000005000,
+            "model_id": null,
+            "dataset_name": null,
+            "dataset_digest": null
+          },
+          {
+            "key": "loss",
+            "value": 0.625,
+            "step": 6,
+            "timestamp": 1700000006000,
+            "model_id": null,
+            "dataset_name": null,
+            "dataset_digest": null
+          },
+          {
+            "key": "loss",
+            "value": 0.5882352941176471,
+            "step": 7,
+            "timestamp": 1700000007000,
+            "model_id": null,
+            "dataset_name": null,
+            "dataset_digest": null
+          },
+          {
+            "key": "loss",
+            "value": 0.5555555555555556,
+            "step": 8,
+            "timestamp": 1700000008000,
+            "model_id": null,
+            "dataset_name": null,
+            "dataset_digest": null
+          },
+          {
+            "key": "loss",
+            "value": 0.5263157894736842,
+            "step": 9,
+            "timestamp": 1700000009000,
+            "model_id": null,
+            "dataset_name": null,
+            "dataset_digest": null
+          },
+          {
+            "key": "loss",
+            "value": 0.5,
+            "step": 10,
+            "timestamp": 1700000010000,
+            "model_id": null,
+            "dataset_name": null,
+            "dataset_digest": null
+          },
+          {
+            "key": "loss",
+            "value": 0.47619047619047616,
+            "step": 11,
+            "timestamp": 1700000011000,
+            "model_id": null,
+            "dataset_name": null,
+            "dataset_digest": null
+          },
+          {
+            "key": "loss",
+            "value": 0.45454545454545453,
+            "step": 12,
+            "timestamp": 1700000012000,
+            "model_id": null,
+            "dataset_name": null,
+            "dataset_digest": null
+          },
+          {
+            "key": "loss",
+            "value": 0.4347826086956522,
+            "step": 13,
+            "timestamp": 1700000013000,
+            "model_id": null,
+            "dataset_name": null,
+            "dataset_digest": null
+          },
+          {
+            "key": "loss",
+            "value": 0.4166666666666667,
+            "step": 14,
+            "timestamp": 1700000014000,
+            "model_id": null,
+            "dataset_name": null,
+            "dataset_digest": null
+          },
+          {
+            "key": "loss",
+            "value": 0.4,
+            "step": 15,
+            "timestamp": 1700000015000,
+            "model_id": null,
+            "dataset_name": null,
+            "dataset_digest": null
+          },
+          {
+            "key": "loss",
+            "value": 0.3846153846153846,
+            "step": 16,
+            "timestamp": 1700000016000,
+            "model_id": null,
+            "dataset_name": null,
+            "dataset_digest": null
+          },
+          {
+            "key": "loss",
+            "value": 0.37037037037037035,
+            "step": 17,
+            "timestamp": 1700000017000,
+            "model_id": null,
+            "dataset_name": null,
+            "dataset_digest": null
+          },
+          {
+            "key": "loss",
+            "value": 0.35714285714285715,
+            "step": 18,
+            "timestamp": 1700000018000,
+            "model_id": null,
+            "dataset_name": null,
+            "dataset_digest": null
+          },
+          {
+            "key": "loss",
+            "value": 0.3448275862068966,
+            "step": 19,
+            "timestamp": 1700000019000,
+            "model_id": null,
+            "dataset_name": null,
+            "dataset_digest": null
+          }
+        ]
+      },
+      "sql_model_scopes": [
+        {
+          "metric": "loss",
+          "model_id": "m-df11624657f44c9fb9b3c8e76c50d386",
+          "dataset_name": "held-out",
+          "dataset_digest": "abcd1234",
+          "recorded_rows": 20
+        }
+      ]
+    },
+    {
+      "name": "unqualified-alias",
+      "run_id": "2b241120fa68442bae8e6e82cabb43ca",
+      "model_ids": [
+        "m-1d8f8cc4a6db42a79fb1cf6a86d383c6"
+      ],
+      "authored_log_calls": [
+        {
+          "key": "train_loss",
+          "step": 0,
+          "timestamp": 1700000000000,
+          "value": 1.0,
+          "model_id": null,
+          "dataset_name": null,
+          "dataset_digest": null
+        },
+        {
+          "key": "train_loss",
+          "step": 1,
+          "timestamp": 1700000001000,
+          "value": 0.9090909090909091,
+          "model_id": null,
+          "dataset_name": null,
+          "dataset_digest": null
+        },
+        {
+          "key": "train_loss",
+          "step": 2,
+          "timestamp": 1700000002000,
+          "value": 0.8333333333333334,
+          "model_id": null,
+          "dataset_name": null,
+          "dataset_digest": null
+        },
+        {
+          "key": "train_loss",
+          "step": 3,
+          "timestamp": 1700000003000,
+          "value": 0.7692307692307692,
+          "model_id": null,
+          "dataset_name": null,
+          "dataset_digest": null
+        },
+        {
+          "key": "train_loss",
+          "step": 4,
+          "timestamp": 1700000004000,
+          "value": 0.7142857142857143,
+          "model_id": null,
+          "dataset_name": null,
+          "dataset_digest": null
+        },
+        {
+          "key": "train_loss",
+          "step": 5,
+          "timestamp": 1700000005000,
+          "value": 0.6666666666666666,
+          "model_id": null,
+          "dataset_name": null,
+          "dataset_digest": null
+        },
+        {
+          "key": "train_loss",
+          "step": 6,
+          "timestamp": 1700000006000,
+          "value": 0.625,
+          "model_id": null,
+          "dataset_name": null,
+          "dataset_digest": null
+        },
+        {
+          "key": "train_loss",
+          "step": 7,
+          "timestamp": 1700000007000,
+          "value": 0.5882352941176471,
+          "model_id": null,
+          "dataset_name": null,
+          "dataset_digest": null
+        },
+        {
+          "key": "train_loss",
+          "step": 8,
+          "timestamp": 1700000008000,
+          "value": 0.5555555555555556,
+          "model_id": null,
+          "dataset_name": null,
+          "dataset_digest": null
+        },
+        {
+          "key": "train_loss",
+          "step": 9,
+          "timestamp": 1700000009000,
+          "value": 0.5263157894736842,
+          "model_id": null,
+          "dataset_name": null,
+          "dataset_digest": null
+        },
+        {
+          "key": "train_loss",
+          "step": 10,
+          "timestamp": 1700000010000,
+          "value": 0.5,
+          "model_id": null,
+          "dataset_name": null,
+          "dataset_digest": null
+        },
+        {
+          "key": "train_loss",
+          "step": 11,
+          "timestamp": 1700000011000,
+          "value": 0.47619047619047616,
+          "model_id": null,
+          "dataset_name": null,
+          "dataset_digest": null
+        },
+        {
+          "key": "train_loss",
+          "step": 12,
+          "timestamp": 1700000012000,
+          "value": 0.45454545454545453,
+          "model_id": null,
+          "dataset_name": null,
+          "dataset_digest": null
+        },
+        {
+          "key": "train_loss",
+          "step": 13,
+          "timestamp": 1700000013000,
+          "value": 0.4347826086956522,
+          "model_id": null,
+          "dataset_name": null,
+          "dataset_digest": null
+        },
+        {
+          "key": "train_loss",
+          "step": 14,
+          "timestamp": 1700000014000,
+          "value": 0.4166666666666667,
+          "model_id": null,
+          "dataset_name": null,
+          "dataset_digest": null
+        },
+        {
+          "key": "train_loss",
+          "step": 15,
+          "timestamp": 1700000015000,
+          "value": 0.4,
+          "model_id": null,
+          "dataset_name": null,
+          "dataset_digest": null
+        },
+        {
+          "key": "train_loss",
+          "step": 16,
+          "timestamp": 1700000016000,
+          "value": 0.3846153846153846,
+          "model_id": null,
+          "dataset_name": null,
+          "dataset_digest": null
+        },
+        {
+          "key": "train_loss",
+          "step": 17,
+          "timestamp": 1700000017000,
+          "value": 0.37037037037037035,
+          "model_id": null,
+          "dataset_name": null,
+          "dataset_digest": null
+        },
+        {
+          "key": "train_loss",
+          "step": 18,
+          "timestamp": 1700000018000,
+          "value": 0.35714285714285715,
+          "model_id": null,
+          "dataset_name": null,
+          "dataset_digest": null
+        },
+        {
+          "key": "train_loss",
+          "step": 19,
+          "timestamp": 1700000019000,
+          "value": 0.3448275862068966,
+          "model_id": null,
+          "dataset_name": null,
+          "dataset_digest": null
+        },
+        {
+          "key": "loss",
+          "step": 20,
+          "timestamp": 1700000020000,
+          "value": 10.0,
+          "model_id": "m-1d8f8cc4a6db42a79fb1cf6a86d383c6",
+          "dataset_name": "held-out",
+          "dataset_digest": "abcd1234"
+        },
+        {
+          "key": "loss",
+          "step": 21,
+          "timestamp": 1700000021000,
+          "value": 10.0,
+          "model_id": "m-1d8f8cc4a6db42a79fb1cf6a86d383c6",
+          "dataset_name": "held-out",
+          "dataset_digest": "abcd1234"
+        },
+        {
+          "key": "loss",
+          "step": 22,
+          "timestamp": 1700000022000,
+          "value": 10.0,
+          "model_id": "m-1d8f8cc4a6db42a79fb1cf6a86d383c6",
+          "dataset_name": "held-out",
+          "dataset_digest": "abcd1234"
+        },
+        {
+          "key": "loss",
+          "step": 23,
+          "timestamp": 1700000023000,
+          "value": 10.0,
+          "model_id": "m-1d8f8cc4a6db42a79fb1cf6a86d383c6",
+          "dataset_name": "held-out",
+          "dataset_digest": "abcd1234"
+        },
+        {
+          "key": "loss",
+          "step": 24,
+          "timestamp": 1700000024000,
+          "value": 10.0,
+          "model_id": "m-1d8f8cc4a6db42a79fb1cf6a86d383c6",
+          "dataset_name": "held-out",
+          "dataset_digest": "abcd1234"
+        },
+        {
+          "key": "loss",
+          "step": 25,
+          "timestamp": 1700000025000,
+          "value": 10.0,
+          "model_id": "m-1d8f8cc4a6db42a79fb1cf6a86d383c6",
+          "dataset_name": "held-out",
+          "dataset_digest": "abcd1234"
+        },
+        {
+          "key": "loss",
+          "step": 26,
+          "timestamp": 1700000026000,
+          "value": 10.0,
+          "model_id": "m-1d8f8cc4a6db42a79fb1cf6a86d383c6",
+          "dataset_name": "held-out",
+          "dataset_digest": "abcd1234"
+        },
+        {
+          "key": "loss",
+          "step": 27,
+          "timestamp": 1700000027000,
+          "value": 10.0,
+          "model_id": "m-1d8f8cc4a6db42a79fb1cf6a86d383c6",
+          "dataset_name": "held-out",
+          "dataset_digest": "abcd1234"
+        },
+        {
+          "key": "loss",
+          "step": 28,
+          "timestamp": 1700000028000,
+          "value": 10.0,
+          "model_id": "m-1d8f8cc4a6db42a79fb1cf6a86d383c6",
+          "dataset_name": "held-out",
+          "dataset_digest": "abcd1234"
+        },
+        {
+          "key": "loss",
+          "step": 29,
+          "timestamp": 1700000029000,
+          "value": 10.0,
+          "model_id": "m-1d8f8cc4a6db42a79fb1cf6a86d383c6",
+          "dataset_name": "held-out",
+          "dataset_digest": "abcd1234"
+        },
+        {
+          "key": "loss",
+          "step": 30,
+          "timestamp": 1700000030000,
+          "value": 10.0,
+          "model_id": "m-1d8f8cc4a6db42a79fb1cf6a86d383c6",
+          "dataset_name": "held-out",
+          "dataset_digest": "abcd1234"
+        },
+        {
+          "key": "loss",
+          "step": 31,
+          "timestamp": 1700000031000,
+          "value": 10.0,
+          "model_id": "m-1d8f8cc4a6db42a79fb1cf6a86d383c6",
+          "dataset_name": "held-out",
+          "dataset_digest": "abcd1234"
+        },
+        {
+          "key": "loss",
+          "step": 32,
+          "timestamp": 1700000032000,
+          "value": 10.0,
+          "model_id": "m-1d8f8cc4a6db42a79fb1cf6a86d383c6",
+          "dataset_name": "held-out",
+          "dataset_digest": "abcd1234"
+        },
+        {
+          "key": "loss",
+          "step": 33,
+          "timestamp": 1700000033000,
+          "value": 10.0,
+          "model_id": "m-1d8f8cc4a6db42a79fb1cf6a86d383c6",
+          "dataset_name": "held-out",
+          "dataset_digest": "abcd1234"
+        },
+        {
+          "key": "loss",
+          "step": 34,
+          "timestamp": 1700000034000,
+          "value": 10.0,
+          "model_id": "m-1d8f8cc4a6db42a79fb1cf6a86d383c6",
+          "dataset_name": "held-out",
+          "dataset_digest": "abcd1234"
+        },
+        {
+          "key": "loss",
+          "step": 35,
+          "timestamp": 1700000035000,
+          "value": 10.0,
+          "model_id": "m-1d8f8cc4a6db42a79fb1cf6a86d383c6",
+          "dataset_name": "held-out",
+          "dataset_digest": "abcd1234"
+        },
+        {
+          "key": "loss",
+          "step": 36,
+          "timestamp": 1700000036000,
+          "value": 10.0,
+          "model_id": "m-1d8f8cc4a6db42a79fb1cf6a86d383c6",
+          "dataset_name": "held-out",
+          "dataset_digest": "abcd1234"
+        },
+        {
+          "key": "loss",
+          "step": 37,
+          "timestamp": 1700000037000,
+          "value": 10.0,
+          "model_id": "m-1d8f8cc4a6db42a79fb1cf6a86d383c6",
+          "dataset_name": "held-out",
+          "dataset_digest": "abcd1234"
+        },
+        {
+          "key": "loss",
+          "step": 38,
+          "timestamp": 1700000038000,
+          "value": 10.0,
+          "model_id": "m-1d8f8cc4a6db42a79fb1cf6a86d383c6",
+          "dataset_name": "held-out",
+          "dataset_digest": "abcd1234"
+        },
+        {
+          "key": "loss",
+          "step": 39,
+          "timestamp": 1700000039000,
+          "value": 10.0,
+          "model_id": "m-1d8f8cc4a6db42a79fb1cf6a86d383c6",
+          "dataset_name": "held-out",
+          "dataset_digest": "abcd1234"
+        }
+      ],
+      "sdk_run_histories": {
+        "loss": [
+          {
+            "key": "loss",
+            "value": 10.0,
+            "step": 20,
+            "timestamp": 1700000020000,
+            "model_id": null,
+            "dataset_name": null,
+            "dataset_digest": null
+          },
+          {
+            "key": "loss",
+            "value": 10.0,
+            "step": 21,
+            "timestamp": 1700000021000,
+            "model_id": null,
+            "dataset_name": null,
+            "dataset_digest": null
+          },
+          {
+            "key": "loss",
+            "value": 10.0,
+            "step": 22,
+            "timestamp": 1700000022000,
+            "model_id": null,
+            "dataset_name": null,
+            "dataset_digest": null
+          },
+          {
+            "key": "loss",
+            "value": 10.0,
+            "step": 23,
+            "timestamp": 1700000023000,
+            "model_id": null,
+            "dataset_name": null,
+            "dataset_digest": null
+          },
+          {
+            "key": "loss",
+            "value": 10.0,
+            "step": 24,
+            "timestamp": 1700000024000,
+            "model_id": null,
+            "dataset_name": null,
+            "dataset_digest": null
+          },
+          {
+            "key": "loss",
+            "value": 10.0,
+            "step": 25,
+            "timestamp": 1700000025000,
+            "model_id": null,
+            "dataset_name": null,
+            "dataset_digest": null
+          },
+          {
+            "key": "loss",
+            "value": 10.0,
+            "step": 26,
+            "timestamp": 1700000026000,
+            "model_id": null,
+            "dataset_name": null,
+            "dataset_digest": null
+          },
+          {
+            "key": "loss",
+            "value": 10.0,
+            "step": 27,
+            "timestamp": 1700000027000,
+            "model_id": null,
+            "dataset_name": null,
+            "dataset_digest": null
+          },
+          {
+            "key": "loss",
+            "value": 10.0,
+            "step": 28,
+            "timestamp": 1700000028000,
+            "model_id": null,
+            "dataset_name": null,
+            "dataset_digest": null
+          },
+          {
+            "key": "loss",
+            "value": 10.0,
+            "step": 29,
+            "timestamp": 1700000029000,
+            "model_id": null,
+            "dataset_name": null,
+            "dataset_digest": null
+          },
+          {
+            "key": "loss",
+            "value": 10.0,
+            "step": 30,
+            "timestamp": 1700000030000,
+            "model_id": null,
+            "dataset_name": null,
+            "dataset_digest": null
+          },
+          {
+            "key": "loss",
+            "value": 10.0,
+            "step": 31,
+            "timestamp": 1700000031000,
+            "model_id": null,
+            "dataset_name": null,
+            "dataset_digest": null
+          },
+          {
+            "key": "loss",
+            "value": 10.0,
+            "step": 32,
+            "timestamp": 1700000032000,
+            "model_id": null,
+            "dataset_name": null,
+            "dataset_digest": null
+          },
+          {
+            "key": "loss",
+            "value": 10.0,
+            "step": 33,
+            "timestamp": 1700000033000,
+            "model_id": null,
+            "dataset_name": null,
+            "dataset_digest": null
+          },
+          {
+            "key": "loss",
+            "value": 10.0,
+            "step": 34,
+            "timestamp": 1700000034000,
+            "model_id": null,
+            "dataset_name": null,
+            "dataset_digest": null
+          },
+          {
+            "key": "loss",
+            "value": 10.0,
+            "step": 35,
+            "timestamp": 1700000035000,
+            "model_id": null,
+            "dataset_name": null,
+            "dataset_digest": null
+          },
+          {
+            "key": "loss",
+            "value": 10.0,
+            "step": 36,
+            "timestamp": 1700000036000,
+            "model_id": null,
+            "dataset_name": null,
+            "dataset_digest": null
+          },
+          {
+            "key": "loss",
+            "value": 10.0,
+            "step": 37,
+            "timestamp": 1700000037000,
+            "model_id": null,
+            "dataset_name": null,
+            "dataset_digest": null
+          },
+          {
+            "key": "loss",
+            "value": 10.0,
+            "step": 38,
+            "timestamp": 1700000038000,
+            "model_id": null,
+            "dataset_name": null,
+            "dataset_digest": null
+          },
+          {
+            "key": "loss",
+            "value": 10.0,
+            "step": 39,
+            "timestamp": 1700000039000,
+            "model_id": null,
+            "dataset_name": null,
+            "dataset_digest": null
+          }
+        ],
+        "train_loss": [
+          {
+            "key": "train_loss",
+            "value": 1.0,
+            "step": 0,
+            "timestamp": 1700000000000,
+            "model_id": null,
+            "dataset_name": null,
+            "dataset_digest": null
+          },
+          {
+            "key": "train_loss",
+            "value": 0.9090909090909091,
+            "step": 1,
+            "timestamp": 1700000001000,
+            "model_id": null,
+            "dataset_name": null,
+            "dataset_digest": null
+          },
+          {
+            "key": "train_loss",
+            "value": 0.8333333333333334,
+            "step": 2,
+            "timestamp": 1700000002000,
+            "model_id": null,
+            "dataset_name": null,
+            "dataset_digest": null
+          },
+          {
+            "key": "train_loss",
+            "value": 0.7692307692307692,
+            "step": 3,
+            "timestamp": 1700000003000,
+            "model_id": null,
+            "dataset_name": null,
+            "dataset_digest": null
+          },
+          {
+            "key": "train_loss",
+            "value": 0.7142857142857143,
+            "step": 4,
+            "timestamp": 1700000004000,
+            "model_id": null,
+            "dataset_name": null,
+            "dataset_digest": null
+          },
+          {
+            "key": "train_loss",
+            "value": 0.6666666666666666,
+            "step": 5,
+            "timestamp": 1700000005000,
+            "model_id": null,
+            "dataset_name": null,
+            "dataset_digest": null
+          },
+          {
+            "key": "train_loss",
+            "value": 0.625,
+            "step": 6,
+            "timestamp": 1700000006000,
+            "model_id": null,
+            "dataset_name": null,
+            "dataset_digest": null
+          },
+          {
+            "key": "train_loss",
+            "value": 0.5882352941176471,
+            "step": 7,
+            "timestamp": 1700000007000,
+            "model_id": null,
+            "dataset_name": null,
+            "dataset_digest": null
+          },
+          {
+            "key": "train_loss",
+            "value": 0.5555555555555556,
+            "step": 8,
+            "timestamp": 1700000008000,
+            "model_id": null,
+            "dataset_name": null,
+            "dataset_digest": null
+          },
+          {
+            "key": "train_loss",
+            "value": 0.5263157894736842,
+            "step": 9,
+            "timestamp": 1700000009000,
+            "model_id": null,
+            "dataset_name": null,
+            "dataset_digest": null
+          },
+          {
+            "key": "train_loss",
+            "value": 0.5,
+            "step": 10,
+            "timestamp": 1700000010000,
+            "model_id": null,
+            "dataset_name": null,
+            "dataset_digest": null
+          },
+          {
+            "key": "train_loss",
+            "value": 0.47619047619047616,
+            "step": 11,
+            "timestamp": 1700000011000,
+            "model_id": null,
+            "dataset_name": null,
+            "dataset_digest": null
+          },
+          {
+            "key": "train_loss",
+            "value": 0.45454545454545453,
+            "step": 12,
+            "timestamp": 1700000012000,
+            "model_id": null,
+            "dataset_name": null,
+            "dataset_digest": null
+          },
+          {
+            "key": "train_loss",
+            "value": 0.4347826086956522,
+            "step": 13,
+            "timestamp": 1700000013000,
+            "model_id": null,
+            "dataset_name": null,
+            "dataset_digest": null
+          },
+          {
+            "key": "train_loss",
+            "value": 0.4166666666666667,
+            "step": 14,
+            "timestamp": 1700000014000,
+            "model_id": null,
+            "dataset_name": null,
+            "dataset_digest": null
+          },
+          {
+            "key": "train_loss",
+            "value": 0.4,
+            "step": 15,
+            "timestamp": 1700000015000,
+            "model_id": null,
+            "dataset_name": null,
+            "dataset_digest": null
+          },
+          {
+            "key": "train_loss",
+            "value": 0.3846153846153846,
+            "step": 16,
+            "timestamp": 1700000016000,
+            "model_id": null,
+            "dataset_name": null,
+            "dataset_digest": null
+          },
+          {
+            "key": "train_loss",
+            "value": 0.37037037037037035,
+            "step": 17,
+            "timestamp": 1700000017000,
+            "model_id": null,
+            "dataset_name": null,
+            "dataset_digest": null
+          },
+          {
+            "key": "train_loss",
+            "value": 0.35714285714285715,
+            "step": 18,
+            "timestamp": 1700000018000,
+            "model_id": null,
+            "dataset_name": null,
+            "dataset_digest": null
+          },
+          {
+            "key": "train_loss",
+            "value": 0.3448275862068966,
+            "step": 19,
+            "timestamp": 1700000019000,
+            "model_id": null,
+            "dataset_name": null,
+            "dataset_digest": null
+          }
+        ]
+      },
+      "sql_model_scopes": [
+        {
+          "metric": "loss",
+          "model_id": "m-1d8f8cc4a6db42a79fb1cf6a86d383c6",
+          "dataset_name": "held-out",
+          "dataset_digest": "abcd1234",
+          "recorded_rows": 20
+        }
+      ]
+    },
+    {
+      "name": "two-models",
+      "run_id": "9de2dc6d30f5443abb9efb7dd6c7aba0",
+      "model_ids": [
+        "m-2934a95e46ea4563bbcb55362c7c5a8f",
+        "m-1a14d662916543108435755968993219"
+      ],
+      "authored_log_calls": [
+        {
+          "key": "loss",
+          "step": 0,
+          "timestamp": 1700000000000,
+          "value": 1.0,
+          "model_id": null,
+          "dataset_name": null,
+          "dataset_digest": null
+        },
+        {
+          "key": "loss",
+          "step": 1,
+          "timestamp": 1700000001000,
+          "value": 0.9090909090909091,
+          "model_id": null,
+          "dataset_name": null,
+          "dataset_digest": null
+        },
+        {
+          "key": "loss",
+          "step": 2,
+          "timestamp": 1700000002000,
+          "value": 0.8333333333333334,
+          "model_id": null,
+          "dataset_name": null,
+          "dataset_digest": null
+        },
+        {
+          "key": "loss",
+          "step": 3,
+          "timestamp": 1700000003000,
+          "value": 0.7692307692307692,
+          "model_id": null,
+          "dataset_name": null,
+          "dataset_digest": null
+        },
+        {
+          "key": "loss",
+          "step": 4,
+          "timestamp": 1700000004000,
+          "value": 0.7142857142857143,
+          "model_id": null,
+          "dataset_name": null,
+          "dataset_digest": null
+        },
+        {
+          "key": "loss",
+          "step": 5,
+          "timestamp": 1700000005000,
+          "value": 0.6666666666666666,
+          "model_id": null,
+          "dataset_name": null,
+          "dataset_digest": null
+        },
+        {
+          "key": "loss",
+          "step": 6,
+          "timestamp": 1700000006000,
+          "value": 0.625,
+          "model_id": null,
+          "dataset_name": null,
+          "dataset_digest": null
+        },
+        {
+          "key": "loss",
+          "step": 7,
+          "timestamp": 1700000007000,
+          "value": 0.5882352941176471,
+          "model_id": null,
+          "dataset_name": null,
+          "dataset_digest": null
+        },
+        {
+          "key": "loss",
+          "step": 8,
+          "timestamp": 1700000008000,
+          "value": 0.5555555555555556,
+          "model_id": null,
+          "dataset_name": null,
+          "dataset_digest": null
+        },
+        {
+          "key": "loss",
+          "step": 9,
+          "timestamp": 1700000009000,
+          "value": 0.5263157894736842,
+          "model_id": null,
+          "dataset_name": null,
+          "dataset_digest": null
+        },
+        {
+          "key": "loss",
+          "step": 10,
+          "timestamp": 1700000010000,
+          "value": 0.5,
+          "model_id": null,
+          "dataset_name": null,
+          "dataset_digest": null
+        },
+        {
+          "key": "loss",
+          "step": 11,
+          "timestamp": 1700000011000,
+          "value": 0.47619047619047616,
+          "model_id": null,
+          "dataset_name": null,
+          "dataset_digest": null
+        },
+        {
+          "key": "loss",
+          "step": 12,
+          "timestamp": 1700000012000,
+          "value": 0.45454545454545453,
+          "model_id": null,
+          "dataset_name": null,
+          "dataset_digest": null
+        },
+        {
+          "key": "loss",
+          "step": 13,
+          "timestamp": 1700000013000,
+          "value": 0.4347826086956522,
+          "model_id": null,
+          "dataset_name": null,
+          "dataset_digest": null
+        },
+        {
+          "key": "loss",
+          "step": 14,
+          "timestamp": 1700000014000,
+          "value": 0.4166666666666667,
+          "model_id": null,
+          "dataset_name": null,
+          "dataset_digest": null
+        },
+        {
+          "key": "loss",
+          "step": 15,
+          "timestamp": 1700000015000,
+          "value": 0.4,
+          "model_id": null,
+          "dataset_name": null,
+          "dataset_digest": null
+        },
+        {
+          "key": "loss",
+          "step": 16,
+          "timestamp": 1700000016000,
+          "value": 0.3846153846153846,
+          "model_id": null,
+          "dataset_name": null,
+          "dataset_digest": null
+        },
+        {
+          "key": "loss",
+          "step": 17,
+          "timestamp": 1700000017000,
+          "value": 0.37037037037037035,
+          "model_id": null,
+          "dataset_name": null,
+          "dataset_digest": null
+        },
+        {
+          "key": "loss",
+          "step": 18,
+          "timestamp": 1700000018000,
+          "value": 0.35714285714285715,
+          "model_id": null,
+          "dataset_name": null,
+          "dataset_digest": null
+        },
+        {
+          "key": "loss",
+          "step": 19,
+          "timestamp": 1700000019000,
+          "value": 0.3448275862068966,
+          "model_id": null,
+          "dataset_name": null,
+          "dataset_digest": null
+        },
+        {
+          "key": "loss",
+          "step": 20,
+          "timestamp": 1700000020000,
+          "value": 10.0,
+          "model_id": "m-2934a95e46ea4563bbcb55362c7c5a8f",
+          "dataset_name": "held-out",
+          "dataset_digest": "abcd1234"
+        },
+        {
+          "key": "loss",
+          "step": 21,
+          "timestamp": 1700000021000,
+          "value": 10.0,
+          "model_id": "m-2934a95e46ea4563bbcb55362c7c5a8f",
+          "dataset_name": "held-out",
+          "dataset_digest": "abcd1234"
+        },
+        {
+          "key": "loss",
+          "step": 22,
+          "timestamp": 1700000022000,
+          "value": 10.0,
+          "model_id": "m-2934a95e46ea4563bbcb55362c7c5a8f",
+          "dataset_name": "held-out",
+          "dataset_digest": "abcd1234"
+        },
+        {
+          "key": "loss",
+          "step": 23,
+          "timestamp": 1700000023000,
+          "value": 10.0,
+          "model_id": "m-2934a95e46ea4563bbcb55362c7c5a8f",
+          "dataset_name": "held-out",
+          "dataset_digest": "abcd1234"
+        },
+        {
+          "key": "loss",
+          "step": 24,
+          "timestamp": 1700000024000,
+          "value": 10.0,
+          "model_id": "m-2934a95e46ea4563bbcb55362c7c5a8f",
+          "dataset_name": "held-out",
+          "dataset_digest": "abcd1234"
+        },
+        {
+          "key": "loss",
+          "step": 25,
+          "timestamp": 1700000025000,
+          "value": 10.0,
+          "model_id": "m-2934a95e46ea4563bbcb55362c7c5a8f",
+          "dataset_name": "held-out",
+          "dataset_digest": "abcd1234"
+        },
+        {
+          "key": "loss",
+          "step": 26,
+          "timestamp": 1700000026000,
+          "value": 10.0,
+          "model_id": "m-2934a95e46ea4563bbcb55362c7c5a8f",
+          "dataset_name": "held-out",
+          "dataset_digest": "abcd1234"
+        },
+        {
+          "key": "loss",
+          "step": 27,
+          "timestamp": 1700000027000,
+          "value": 10.0,
+          "model_id": "m-2934a95e46ea4563bbcb55362c7c5a8f",
+          "dataset_name": "held-out",
+          "dataset_digest": "abcd1234"
+        },
+        {
+          "key": "loss",
+          "step": 28,
+          "timestamp": 1700000028000,
+          "value": 10.0,
+          "model_id": "m-2934a95e46ea4563bbcb55362c7c5a8f",
+          "dataset_name": "held-out",
+          "dataset_digest": "abcd1234"
+        },
+        {
+          "key": "loss",
+          "step": 29,
+          "timestamp": 1700000029000,
+          "value": 10.0,
+          "model_id": "m-2934a95e46ea4563bbcb55362c7c5a8f",
+          "dataset_name": "held-out",
+          "dataset_digest": "abcd1234"
+        },
+        {
+          "key": "loss",
+          "step": 30,
+          "timestamp": 1700000030000,
+          "value": 20.0,
+          "model_id": "m-1a14d662916543108435755968993219",
+          "dataset_name": "held-out",
+          "dataset_digest": "abcd1234"
+        },
+        {
+          "key": "loss",
+          "step": 31,
+          "timestamp": 1700000031000,
+          "value": 20.0,
+          "model_id": "m-1a14d662916543108435755968993219",
+          "dataset_name": "held-out",
+          "dataset_digest": "abcd1234"
+        },
+        {
+          "key": "loss",
+          "step": 32,
+          "timestamp": 1700000032000,
+          "value": 20.0,
+          "model_id": "m-1a14d662916543108435755968993219",
+          "dataset_name": "held-out",
+          "dataset_digest": "abcd1234"
+        },
+        {
+          "key": "loss",
+          "step": 33,
+          "timestamp": 1700000033000,
+          "value": 20.0,
+          "model_id": "m-1a14d662916543108435755968993219",
+          "dataset_name": "held-out",
+          "dataset_digest": "abcd1234"
+        },
+        {
+          "key": "loss",
+          "step": 34,
+          "timestamp": 1700000034000,
+          "value": 20.0,
+          "model_id": "m-1a14d662916543108435755968993219",
+          "dataset_name": "held-out",
+          "dataset_digest": "abcd1234"
+        },
+        {
+          "key": "loss",
+          "step": 35,
+          "timestamp": 1700000035000,
+          "value": 20.0,
+          "model_id": "m-1a14d662916543108435755968993219",
+          "dataset_name": "held-out",
+          "dataset_digest": "abcd1234"
+        },
+        {
+          "key": "loss",
+          "step": 36,
+          "timestamp": 1700000036000,
+          "value": 20.0,
+          "model_id": "m-1a14d662916543108435755968993219",
+          "dataset_name": "held-out",
+          "dataset_digest": "abcd1234"
+        },
+        {
+          "key": "loss",
+          "step": 37,
+          "timestamp": 1700000037000,
+          "value": 20.0,
+          "model_id": "m-1a14d662916543108435755968993219",
+          "dataset_name": "held-out",
+          "dataset_digest": "abcd1234"
+        },
+        {
+          "key": "loss",
+          "step": 38,
+          "timestamp": 1700000038000,
+          "value": 20.0,
+          "model_id": "m-1a14d662916543108435755968993219",
+          "dataset_name": "held-out",
+          "dataset_digest": "abcd1234"
+        },
+        {
+          "key": "loss",
+          "step": 39,
+          "timestamp": 1700000039000,
+          "value": 20.0,
+          "model_id": "m-1a14d662916543108435755968993219",
+          "dataset_name": "held-out",
+          "dataset_digest": "abcd1234"
+        }
+      ],
+      "sdk_run_histories": {
+        "loss": [
+          {
+            "key": "loss",
+            "value": 1.0,
+            "step": 0,
+            "timestamp": 1700000000000,
+            "model_id": null,
+            "dataset_name": null,
+            "dataset_digest": null
+          },
+          {
+            "key": "loss",
+            "value": 0.9090909090909091,
+            "step": 1,
+            "timestamp": 1700000001000,
+            "model_id": null,
+            "dataset_name": null,
+            "dataset_digest": null
+          },
+          {
+            "key": "loss",
+            "value": 0.8333333333333334,
+            "step": 2,
+            "timestamp": 1700000002000,
+            "model_id": null,
+            "dataset_name": null,
+            "dataset_digest": null
+          },
+          {
+            "key": "loss",
+            "value": 0.7692307692307692,
+            "step": 3,
+            "timestamp": 1700000003000,
+            "model_id": null,
+            "dataset_name": null,
+            "dataset_digest": null
+          },
+          {
+            "key": "loss",
+            "value": 0.7142857142857143,
+            "step": 4,
+            "timestamp": 1700000004000,
+            "model_id": null,
+            "dataset_name": null,
+            "dataset_digest": null
+          },
+          {
+            "key": "loss",
+            "value": 0.6666666666666666,
+            "step": 5,
+            "timestamp": 1700000005000,
+            "model_id": null,
+            "dataset_name": null,
+            "dataset_digest": null
+          },
+          {
+            "key": "loss",
+            "value": 0.625,
+            "step": 6,
+            "timestamp": 1700000006000,
+            "model_id": null,
+            "dataset_name": null,
+            "dataset_digest": null
+          },
+          {
+            "key": "loss",
+            "value": 0.5882352941176471,
+            "step": 7,
+            "timestamp": 1700000007000,
+            "model_id": null,
+            "dataset_name": null,
+            "dataset_digest": null
+          },
+          {
+            "key": "loss",
+            "value": 0.5555555555555556,
+            "step": 8,
+            "timestamp": 1700000008000,
+            "model_id": null,
+            "dataset_name": null,
+            "dataset_digest": null
+          },
+          {
+            "key": "loss",
+            "value": 0.5263157894736842,
+            "step": 9,
+            "timestamp": 1700000009000,
+            "model_id": null,
+            "dataset_name": null,
+            "dataset_digest": null
+          },
+          {
+            "key": "loss",
+            "value": 0.5,
+            "step": 10,
+            "timestamp": 1700000010000,
+            "model_id": null,
+            "dataset_name": null,
+            "dataset_digest": null
+          },
+          {
+            "key": "loss",
+            "value": 0.47619047619047616,
+            "step": 11,
+            "timestamp": 1700000011000,
+            "model_id": null,
+            "dataset_name": null,
+            "dataset_digest": null
+          },
+          {
+            "key": "loss",
+            "value": 0.45454545454545453,
+            "step": 12,
+            "timestamp": 1700000012000,
+            "model_id": null,
+            "dataset_name": null,
+            "dataset_digest": null
+          },
+          {
+            "key": "loss",
+            "value": 0.4347826086956522,
+            "step": 13,
+            "timestamp": 1700000013000,
+            "model_id": null,
+            "dataset_name": null,
+            "dataset_digest": null
+          },
+          {
+            "key": "loss",
+            "value": 0.4166666666666667,
+            "step": 14,
+            "timestamp": 1700000014000,
+            "model_id": null,
+            "dataset_name": null,
+            "dataset_digest": null
+          },
+          {
+            "key": "loss",
+            "value": 0.4,
+            "step": 15,
+            "timestamp": 1700000015000,
+            "model_id": null,
+            "dataset_name": null,
+            "dataset_digest": null
+          },
+          {
+            "key": "loss",
+            "value": 0.3846153846153846,
+            "step": 16,
+            "timestamp": 1700000016000,
+            "model_id": null,
+            "dataset_name": null,
+            "dataset_digest": null
+          },
+          {
+            "key": "loss",
+            "value": 0.37037037037037035,
+            "step": 17,
+            "timestamp": 1700000017000,
+            "model_id": null,
+            "dataset_name": null,
+            "dataset_digest": null
+          },
+          {
+            "key": "loss",
+            "value": 0.35714285714285715,
+            "step": 18,
+            "timestamp": 1700000018000,
+            "model_id": null,
+            "dataset_name": null,
+            "dataset_digest": null
+          },
+          {
+            "key": "loss",
+            "value": 0.3448275862068966,
+            "step": 19,
+            "timestamp": 1700000019000,
+            "model_id": null,
+            "dataset_name": null,
+            "dataset_digest": null
+          },
+          {
+            "key": "loss",
+            "value": 10.0,
+            "step": 20,
+            "timestamp": 1700000020000,
+            "model_id": null,
+            "dataset_name": null,
+            "dataset_digest": null
+          },
+          {
+            "key": "loss",
+            "value": 10.0,
+            "step": 21,
+            "timestamp": 1700000021000,
+            "model_id": null,
+            "dataset_name": null,
+            "dataset_digest": null
+          },
+          {
+            "key": "loss",
+            "value": 10.0,
+            "step": 22,
+            "timestamp": 1700000022000,
+            "model_id": null,
+            "dataset_name": null,
+            "dataset_digest": null
+          },
+          {
+            "key": "loss",
+            "value": 10.0,
+            "step": 23,
+            "timestamp": 1700000023000,
+            "model_id": null,
+            "dataset_name": null,
+            "dataset_digest": null
+          },
+          {
+            "key": "loss",
+            "value": 10.0,
+            "step": 24,
+            "timestamp": 1700000024000,
+            "model_id": null,
+            "dataset_name": null,
+            "dataset_digest": null
+          },
+          {
+            "key": "loss",
+            "value": 10.0,
+            "step": 25,
+            "timestamp": 1700000025000,
+            "model_id": null,
+            "dataset_name": null,
+            "dataset_digest": null
+          },
+          {
+            "key": "loss",
+            "value": 10.0,
+            "step": 26,
+            "timestamp": 1700000026000,
+            "model_id": null,
+            "dataset_name": null,
+            "dataset_digest": null
+          },
+          {
+            "key": "loss",
+            "value": 10.0,
+            "step": 27,
+            "timestamp": 1700000027000,
+            "model_id": null,
+            "dataset_name": null,
+            "dataset_digest": null
+          },
+          {
+            "key": "loss",
+            "value": 10.0,
+            "step": 28,
+            "timestamp": 1700000028000,
+            "model_id": null,
+            "dataset_name": null,
+            "dataset_digest": null
+          },
+          {
+            "key": "loss",
+            "value": 10.0,
+            "step": 29,
+            "timestamp": 1700000029000,
+            "model_id": null,
+            "dataset_name": null,
+            "dataset_digest": null
+          },
+          {
+            "key": "loss",
+            "value": 20.0,
+            "step": 30,
+            "timestamp": 1700000030000,
+            "model_id": null,
+            "dataset_name": null,
+            "dataset_digest": null
+          },
+          {
+            "key": "loss",
+            "value": 20.0,
+            "step": 31,
+            "timestamp": 1700000031000,
+            "model_id": null,
+            "dataset_name": null,
+            "dataset_digest": null
+          },
+          {
+            "key": "loss",
+            "value": 20.0,
+            "step": 32,
+            "timestamp": 1700000032000,
+            "model_id": null,
+            "dataset_name": null,
+            "dataset_digest": null
+          },
+          {
+            "key": "loss",
+            "value": 20.0,
+            "step": 33,
+            "timestamp": 1700000033000,
+            "model_id": null,
+            "dataset_name": null,
+            "dataset_digest": null
+          },
+          {
+            "key": "loss",
+            "value": 20.0,
+            "step": 34,
+            "timestamp": 1700000034000,
+            "model_id": null,
+            "dataset_name": null,
+            "dataset_digest": null
+          },
+          {
+            "key": "loss",
+            "value": 20.0,
+            "step": 35,
+            "timestamp": 1700000035000,
+            "model_id": null,
+            "dataset_name": null,
+            "dataset_digest": null
+          },
+          {
+            "key": "loss",
+            "value": 20.0,
+            "step": 36,
+            "timestamp": 1700000036000,
+            "model_id": null,
+            "dataset_name": null,
+            "dataset_digest": null
+          },
+          {
+            "key": "loss",
+            "value": 20.0,
+            "step": 37,
+            "timestamp": 1700000037000,
+            "model_id": null,
+            "dataset_name": null,
+            "dataset_digest": null
+          },
+          {
+            "key": "loss",
+            "value": 20.0,
+            "step": 38,
+            "timestamp": 1700000038000,
+            "model_id": null,
+            "dataset_name": null,
+            "dataset_digest": null
+          },
+          {
+            "key": "loss",
+            "value": 20.0,
+            "step": 39,
+            "timestamp": 1700000039000,
+            "model_id": null,
+            "dataset_name": null,
+            "dataset_digest": null
+          }
+        ]
+      },
+      "sql_model_scopes": [
+        {
+          "metric": "loss",
+          "model_id": "m-1a14d662916543108435755968993219",
+          "dataset_name": "held-out",
+          "dataset_digest": "abcd1234",
+          "recorded_rows": 10
+        },
+        {
+          "metric": "loss",
+          "model_id": "m-2934a95e46ea4563bbcb55362c7c5a8f",
+          "dataset_name": "held-out",
+          "dataset_digest": "abcd1234",
+          "recorded_rows": 10
+        }
+      ]
+    },
+    {
+      "name": "model-without-dataset",
+      "run_id": "e57fd7b40f284b6d811c3cf7819b554f",
+      "model_ids": [
+        "m-2c650a63f553412db555c39b853686e0"
+      ],
+      "authored_log_calls": [
+        {
+          "key": "loss",
+          "step": 0,
+          "timestamp": 1700000000000,
+          "value": 1.0,
+          "model_id": null,
+          "dataset_name": null,
+          "dataset_digest": null
+        },
+        {
+          "key": "loss",
+          "step": 1,
+          "timestamp": 1700000001000,
+          "value": 0.9090909090909091,
+          "model_id": null,
+          "dataset_name": null,
+          "dataset_digest": null
+        },
+        {
+          "key": "loss",
+          "step": 2,
+          "timestamp": 1700000002000,
+          "value": 0.8333333333333334,
+          "model_id": null,
+          "dataset_name": null,
+          "dataset_digest": null
+        },
+        {
+          "key": "loss",
+          "step": 3,
+          "timestamp": 1700000003000,
+          "value": 0.7692307692307692,
+          "model_id": null,
+          "dataset_name": null,
+          "dataset_digest": null
+        },
+        {
+          "key": "loss",
+          "step": 4,
+          "timestamp": 1700000004000,
+          "value": 0.7142857142857143,
+          "model_id": null,
+          "dataset_name": null,
+          "dataset_digest": null
+        },
+        {
+          "key": "loss",
+          "step": 5,
+          "timestamp": 1700000005000,
+          "value": 0.6666666666666666,
+          "model_id": null,
+          "dataset_name": null,
+          "dataset_digest": null
+        },
+        {
+          "key": "loss",
+          "step": 6,
+          "timestamp": 1700000006000,
+          "value": 0.625,
+          "model_id": null,
+          "dataset_name": null,
+          "dataset_digest": null
+        },
+        {
+          "key": "loss",
+          "step": 7,
+          "timestamp": 1700000007000,
+          "value": 0.5882352941176471,
+          "model_id": null,
+          "dataset_name": null,
+          "dataset_digest": null
+        },
+        {
+          "key": "loss",
+          "step": 8,
+          "timestamp": 1700000008000,
+          "value": 0.5555555555555556,
+          "model_id": null,
+          "dataset_name": null,
+          "dataset_digest": null
+        },
+        {
+          "key": "loss",
+          "step": 9,
+          "timestamp": 1700000009000,
+          "value": 0.5263157894736842,
+          "model_id": null,
+          "dataset_name": null,
+          "dataset_digest": null
+        },
+        {
+          "key": "loss",
+          "step": 10,
+          "timestamp": 1700000010000,
+          "value": 0.5,
+          "model_id": null,
+          "dataset_name": null,
+          "dataset_digest": null
+        },
+        {
+          "key": "loss",
+          "step": 11,
+          "timestamp": 1700000011000,
+          "value": 0.47619047619047616,
+          "model_id": null,
+          "dataset_name": null,
+          "dataset_digest": null
+        },
+        {
+          "key": "loss",
+          "step": 12,
+          "timestamp": 1700000012000,
+          "value": 0.45454545454545453,
+          "model_id": null,
+          "dataset_name": null,
+          "dataset_digest": null
+        },
+        {
+          "key": "loss",
+          "step": 13,
+          "timestamp": 1700000013000,
+          "value": 0.4347826086956522,
+          "model_id": null,
+          "dataset_name": null,
+          "dataset_digest": null
+        },
+        {
+          "key": "loss",
+          "step": 14,
+          "timestamp": 1700000014000,
+          "value": 0.4166666666666667,
+          "model_id": null,
+          "dataset_name": null,
+          "dataset_digest": null
+        },
+        {
+          "key": "loss",
+          "step": 15,
+          "timestamp": 1700000015000,
+          "value": 0.4,
+          "model_id": null,
+          "dataset_name": null,
+          "dataset_digest": null
+        },
+        {
+          "key": "loss",
+          "step": 16,
+          "timestamp": 1700000016000,
+          "value": 0.3846153846153846,
+          "model_id": null,
+          "dataset_name": null,
+          "dataset_digest": null
+        },
+        {
+          "key": "loss",
+          "step": 17,
+          "timestamp": 1700000017000,
+          "value": 0.37037037037037035,
+          "model_id": null,
+          "dataset_name": null,
+          "dataset_digest": null
+        },
+        {
+          "key": "loss",
+          "step": 18,
+          "timestamp": 1700000018000,
+          "value": 0.35714285714285715,
+          "model_id": null,
+          "dataset_name": null,
+          "dataset_digest": null
+        },
+        {
+          "key": "loss",
+          "step": 19,
+          "timestamp": 1700000019000,
+          "value": 0.3448275862068966,
+          "model_id": null,
+          "dataset_name": null,
+          "dataset_digest": null
+        },
+        {
+          "key": "loss",
+          "step": 20,
+          "timestamp": 1700000020000,
+          "value": 10.0,
+          "model_id": "m-2c650a63f553412db555c39b853686e0",
+          "dataset_name": null,
+          "dataset_digest": null
+        },
+        {
+          "key": "loss",
+          "step": 21,
+          "timestamp": 1700000021000,
+          "value": 10.0,
+          "model_id": "m-2c650a63f553412db555c39b853686e0",
+          "dataset_name": null,
+          "dataset_digest": null
+        },
+        {
+          "key": "loss",
+          "step": 22,
+          "timestamp": 1700000022000,
+          "value": 10.0,
+          "model_id": "m-2c650a63f553412db555c39b853686e0",
+          "dataset_name": null,
+          "dataset_digest": null
+        },
+        {
+          "key": "loss",
+          "step": 23,
+          "timestamp": 1700000023000,
+          "value": 10.0,
+          "model_id": "m-2c650a63f553412db555c39b853686e0",
+          "dataset_name": null,
+          "dataset_digest": null
+        },
+        {
+          "key": "loss",
+          "step": 24,
+          "timestamp": 1700000024000,
+          "value": 10.0,
+          "model_id": "m-2c650a63f553412db555c39b853686e0",
+          "dataset_name": null,
+          "dataset_digest": null
+        },
+        {
+          "key": "loss",
+          "step": 25,
+          "timestamp": 1700000025000,
+          "value": 10.0,
+          "model_id": "m-2c650a63f553412db555c39b853686e0",
+          "dataset_name": null,
+          "dataset_digest": null
+        },
+        {
+          "key": "loss",
+          "step": 26,
+          "timestamp": 1700000026000,
+          "value": 10.0,
+          "model_id": "m-2c650a63f553412db555c39b853686e0",
+          "dataset_name": null,
+          "dataset_digest": null
+        },
+        {
+          "key": "loss",
+          "step": 27,
+          "timestamp": 1700000027000,
+          "value": 10.0,
+          "model_id": "m-2c650a63f553412db555c39b853686e0",
+          "dataset_name": null,
+          "dataset_digest": null
+        },
+        {
+          "key": "loss",
+          "step": 28,
+          "timestamp": 1700000028000,
+          "value": 10.0,
+          "model_id": "m-2c650a63f553412db555c39b853686e0",
+          "dataset_name": null,
+          "dataset_digest": null
+        },
+        {
+          "key": "loss",
+          "step": 29,
+          "timestamp": 1700000029000,
+          "value": 10.0,
+          "model_id": "m-2c650a63f553412db555c39b853686e0",
+          "dataset_name": null,
+          "dataset_digest": null
+        },
+        {
+          "key": "loss",
+          "step": 30,
+          "timestamp": 1700000030000,
+          "value": 10.0,
+          "model_id": "m-2c650a63f553412db555c39b853686e0",
+          "dataset_name": null,
+          "dataset_digest": null
+        },
+        {
+          "key": "loss",
+          "step": 31,
+          "timestamp": 1700000031000,
+          "value": 10.0,
+          "model_id": "m-2c650a63f553412db555c39b853686e0",
+          "dataset_name": null,
+          "dataset_digest": null
+        },
+        {
+          "key": "loss",
+          "step": 32,
+          "timestamp": 1700000032000,
+          "value": 10.0,
+          "model_id": "m-2c650a63f553412db555c39b853686e0",
+          "dataset_name": null,
+          "dataset_digest": null
+        },
+        {
+          "key": "loss",
+          "step": 33,
+          "timestamp": 1700000033000,
+          "value": 10.0,
+          "model_id": "m-2c650a63f553412db555c39b853686e0",
+          "dataset_name": null,
+          "dataset_digest": null
+        },
+        {
+          "key": "loss",
+          "step": 34,
+          "timestamp": 1700000034000,
+          "value": 10.0,
+          "model_id": "m-2c650a63f553412db555c39b853686e0",
+          "dataset_name": null,
+          "dataset_digest": null
+        },
+        {
+          "key": "loss",
+          "step": 35,
+          "timestamp": 1700000035000,
+          "value": 10.0,
+          "model_id": "m-2c650a63f553412db555c39b853686e0",
+          "dataset_name": null,
+          "dataset_digest": null
+        },
+        {
+          "key": "loss",
+          "step": 36,
+          "timestamp": 1700000036000,
+          "value": 10.0,
+          "model_id": "m-2c650a63f553412db555c39b853686e0",
+          "dataset_name": null,
+          "dataset_digest": null
+        },
+        {
+          "key": "loss",
+          "step": 37,
+          "timestamp": 1700000037000,
+          "value": 10.0,
+          "model_id": "m-2c650a63f553412db555c39b853686e0",
+          "dataset_name": null,
+          "dataset_digest": null
+        },
+        {
+          "key": "loss",
+          "step": 38,
+          "timestamp": 1700000038000,
+          "value": 10.0,
+          "model_id": "m-2c650a63f553412db555c39b853686e0",
+          "dataset_name": null,
+          "dataset_digest": null
+        },
+        {
+          "key": "loss",
+          "step": 39,
+          "timestamp": 1700000039000,
+          "value": 10.0,
+          "model_id": "m-2c650a63f553412db555c39b853686e0",
+          "dataset_name": null,
+          "dataset_digest": null
+        }
+      ],
+      "sdk_run_histories": {
+        "loss": [
+          {
+            "key": "loss",
+            "value": 1.0,
+            "step": 0,
+            "timestamp": 1700000000000,
+            "model_id": null,
+            "dataset_name": null,
+            "dataset_digest": null
+          },
+          {
+            "key": "loss",
+            "value": 0.9090909090909091,
+            "step": 1,
+            "timestamp": 1700000001000,
+            "model_id": null,
+            "dataset_name": null,
+            "dataset_digest": null
+          },
+          {
+            "key": "loss",
+            "value": 0.8333333333333334,
+            "step": 2,
+            "timestamp": 1700000002000,
+            "model_id": null,
+            "dataset_name": null,
+            "dataset_digest": null
+          },
+          {
+            "key": "loss",
+            "value": 0.7692307692307692,
+            "step": 3,
+            "timestamp": 1700000003000,
+            "model_id": null,
+            "dataset_name": null,
+            "dataset_digest": null
+          },
+          {
+            "key": "loss",
+            "value": 0.7142857142857143,
+            "step": 4,
+            "timestamp": 1700000004000,
+            "model_id": null,
+            "dataset_name": null,
+            "dataset_digest": null
+          },
+          {
+            "key": "loss",
+            "value": 0.6666666666666666,
+            "step": 5,
+            "timestamp": 1700000005000,
+            "model_id": null,
+            "dataset_name": null,
+            "dataset_digest": null
+          },
+          {
+            "key": "loss",
+            "value": 0.625,
+            "step": 6,
+            "timestamp": 1700000006000,
+            "model_id": null,
+            "dataset_name": null,
+            "dataset_digest": null
+          },
+          {
+            "key": "loss",
+            "value": 0.5882352941176471,
+            "step": 7,
+            "timestamp": 1700000007000,
+            "model_id": null,
+            "dataset_name": null,
+            "dataset_digest": null
+          },
+          {
+            "key": "loss",
+            "value": 0.5555555555555556,
+            "step": 8,
+            "timestamp": 1700000008000,
+            "model_id": null,
+            "dataset_name": null,
+            "dataset_digest": null
+          },
+          {
+            "key": "loss",
+            "value": 0.5263157894736842,
+            "step": 9,
+            "timestamp": 1700000009000,
+            "model_id": null,
+            "dataset_name": null,
+            "dataset_digest": null
+          },
+          {
+            "key": "loss",
+            "value": 0.5,
+            "step": 10,
+            "timestamp": 1700000010000,
+            "model_id": null,
+            "dataset_name": null,
+            "dataset_digest": null
+          },
+          {
+            "key": "loss",
+            "value": 0.47619047619047616,
+            "step": 11,
+            "timestamp": 1700000011000,
+            "model_id": null,
+            "dataset_name": null,
+            "dataset_digest": null
+          },
+          {
+            "key": "loss",
+            "value": 0.45454545454545453,
+            "step": 12,
+            "timestamp": 1700000012000,
+            "model_id": null,
+            "dataset_name": null,
+            "dataset_digest": null
+          },
+          {
+            "key": "loss",
+            "value": 0.4347826086956522,
+            "step": 13,
+            "timestamp": 1700000013000,
+            "model_id": null,
+            "dataset_name": null,
+            "dataset_digest": null
+          },
+          {
+            "key": "loss",
+            "value": 0.4166666666666667,
+            "step": 14,
+            "timestamp": 1700000014000,
+            "model_id": null,
+            "dataset_name": null,
+            "dataset_digest": null
+          },
+          {
+            "key": "loss",
+            "value": 0.4,
+            "step": 15,
+            "timestamp": 1700000015000,
+            "model_id": null,
+            "dataset_name": null,
+            "dataset_digest": null
+          },
+          {
+            "key": "loss",
+            "value": 0.3846153846153846,
+            "step": 16,
+            "timestamp": 1700000016000,
+            "model_id": null,
+            "dataset_name": null,
+            "dataset_digest": null
+          },
+          {
+            "key": "loss",
+            "value": 0.37037037037037035,
+            "step": 17,
+            "timestamp": 1700000017000,
+            "model_id": null,
+            "dataset_name": null,
+            "dataset_digest": null
+          },
+          {
+            "key": "loss",
+            "value": 0.35714285714285715,
+            "step": 18,
+            "timestamp": 1700000018000,
+            "model_id": null,
+            "dataset_name": null,
+            "dataset_digest": null
+          },
+          {
+            "key": "loss",
+            "value": 0.3448275862068966,
+            "step": 19,
+            "timestamp": 1700000019000,
+            "model_id": null,
+            "dataset_name": null,
+            "dataset_digest": null
+          },
+          {
+            "key": "loss",
+            "value": 10.0,
+            "step": 20,
+            "timestamp": 1700000020000,
+            "model_id": null,
+            "dataset_name": null,
+            "dataset_digest": null
+          },
+          {
+            "key": "loss",
+            "value": 10.0,
+            "step": 21,
+            "timestamp": 1700000021000,
+            "model_id": null,
+            "dataset_name": null,
+            "dataset_digest": null
+          },
+          {
+            "key": "loss",
+            "value": 10.0,
+            "step": 22,
+            "timestamp": 1700000022000,
+            "model_id": null,
+            "dataset_name": null,
+            "dataset_digest": null
+          },
+          {
+            "key": "loss",
+            "value": 10.0,
+            "step": 23,
+            "timestamp": 1700000023000,
+            "model_id": null,
+            "dataset_name": null,
+            "dataset_digest": null
+          },
+          {
+            "key": "loss",
+            "value": 10.0,
+            "step": 24,
+            "timestamp": 1700000024000,
+            "model_id": null,
+            "dataset_name": null,
+            "dataset_digest": null
+          },
+          {
+            "key": "loss",
+            "value": 10.0,
+            "step": 25,
+            "timestamp": 1700000025000,
+            "model_id": null,
+            "dataset_name": null,
+            "dataset_digest": null
+          },
+          {
+            "key": "loss",
+            "value": 10.0,
+            "step": 26,
+            "timestamp": 1700000026000,
+            "model_id": null,
+            "dataset_name": null,
+            "dataset_digest": null
+          },
+          {
+            "key": "loss",
+            "value": 10.0,
+            "step": 27,
+            "timestamp": 1700000027000,
+            "model_id": null,
+            "dataset_name": null,
+            "dataset_digest": null
+          },
+          {
+            "key": "loss",
+            "value": 10.0,
+            "step": 28,
+            "timestamp": 1700000028000,
+            "model_id": null,
+            "dataset_name": null,
+            "dataset_digest": null
+          },
+          {
+            "key": "loss",
+            "value": 10.0,
+            "step": 29,
+            "timestamp": 1700000029000,
+            "model_id": null,
+            "dataset_name": null,
+            "dataset_digest": null
+          },
+          {
+            "key": "loss",
+            "value": 10.0,
+            "step": 30,
+            "timestamp": 1700000030000,
+            "model_id": null,
+            "dataset_name": null,
+            "dataset_digest": null
+          },
+          {
+            "key": "loss",
+            "value": 10.0,
+            "step": 31,
+            "timestamp": 1700000031000,
+            "model_id": null,
+            "dataset_name": null,
+            "dataset_digest": null
+          },
+          {
+            "key": "loss",
+            "value": 10.0,
+            "step": 32,
+            "timestamp": 1700000032000,
+            "model_id": null,
+            "dataset_name": null,
+            "dataset_digest": null
+          },
+          {
+            "key": "loss",
+            "value": 10.0,
+            "step": 33,
+            "timestamp": 1700000033000,
+            "model_id": null,
+            "dataset_name": null,
+            "dataset_digest": null
+          },
+          {
+            "key": "loss",
+            "value": 10.0,
+            "step": 34,
+            "timestamp": 1700000034000,
+            "model_id": null,
+            "dataset_name": null,
+            "dataset_digest": null
+          },
+          {
+            "key": "loss",
+            "value": 10.0,
+            "step": 35,
+            "timestamp": 1700000035000,
+            "model_id": null,
+            "dataset_name": null,
+            "dataset_digest": null
+          },
+          {
+            "key": "loss",
+            "value": 10.0,
+            "step": 36,
+            "timestamp": 1700000036000,
+            "model_id": null,
+            "dataset_name": null,
+            "dataset_digest": null
+          },
+          {
+            "key": "loss",
+            "value": 10.0,
+            "step": 37,
+            "timestamp": 1700000037000,
+            "model_id": null,
+            "dataset_name": null,
+            "dataset_digest": null
+          },
+          {
+            "key": "loss",
+            "value": 10.0,
+            "step": 38,
+            "timestamp": 1700000038000,
+            "model_id": null,
+            "dataset_name": null,
+            "dataset_digest": null
+          },
+          {
+            "key": "loss",
+            "value": 10.0,
+            "step": 39,
+            "timestamp": 1700000039000,
+            "model_id": null,
+            "dataset_name": null,
+            "dataset_digest": null
+          }
+        ]
+      },
+      "sql_model_scopes": [
+        {
+          "metric": "loss",
+          "model_id": "m-2c650a63f553412db555c39b853686e0",
+          "dataset_name": null,
+          "dataset_digest": null,
+          "recorded_rows": 20
+        }
+      ]
+    }
+  ]
+}

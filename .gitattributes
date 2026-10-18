@@ -7,3 +7,5 @@ studies/plateau-evidence/**/*.csv -text whitespace=blank-at-eol,blank-at-eof,spa
 studies/lr-gaps/captured/*.csv -text
 # Retained CLI HTML is byte-for-byte output, including template indentation.
 studies/lr-gaps/reports/**/*.html -text -whitespace
+studies/mlflow-scopes/before/*.html -text -whitespace
+studies/mlflow-scopes/after/*.html -text -whitespace

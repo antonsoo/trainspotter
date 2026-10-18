@@ -1,0 +1,180 @@
+{
+  "phase": "before",
+  "scope": "Actual CLI reports and gates plus every decoded observation from the selected installed reader, compared with native MLflow 3.17.1 SDK histories. Authored logging controls, no training or production reliability claim.",
+  "database": {
+    "file": "scopes.sqlite",
+    "bytes": 1032192,
+    "sha256": "ab0debdd2c38371ad461df0c6ba0cec1a9fb40f3436a8a3c77bfc585a78af9d4"
+  },
+  "cases": [
+    {
+      "case": "unqualified",
+      "runId": "6e2822675bc140468f014097cd538eba",
+      "recordedRunObservations": 20,
+      "separateModelRows": 0,
+      "allObservationsMatchSdk": true,
+      "inputComplete": true,
+      "diagnosticMetrics": {
+        "train/loss": "loss"
+      },
+      "findings": [],
+      "gateExits": {
+        "analyze": 0,
+        "watch": 0
+      }
+    },
+    {
+      "case": "mixed-dataset",
+      "runId": "094ea54767b24a8895e0876c978ac4c6",
+      "recordedRunObservations": 40,
+      "separateModelRows": 20,
+      "allObservationsMatchSdk": true,
+      "inputComplete": true,
+      "diagnosticMetrics": {
+        "train/loss": "loss"
+      },
+      "findings": [
+        {
+          "detector": "divergence",
+          "title": "Diverged (did not recover)",
+          "severity": "error",
+          "metric": "train/loss",
+          "step_start": 20,
+          "step_end": 39,
+          "message": "train/loss ended at 10 after reaching 0.3704 around step 17. It has been above that level since step 20 and the log ends with 1788% of the run's progress given back.",
+          "evidence": {
+            "start_level": 0.9090909090909091,
+            "best_level": 0.37037037037037035,
+            "best_step": 17,
+            "final_level": 10.0,
+            "gave_back": 17.875,
+            "rising_since_step": 20
+          },
+          "fixes": [
+            "Use a checkpoint from around step 17, before the rise.",
+            "Lower the learning rate or restart from the last good checkpoint before this window.",
+            "Check the LR schedule isn't re-warming up unintentionally (see lr_schedule detector).",
+            "Look for a data distribution shift at this step range (new shard, curriculum stage change)."
+          ]
+        }
+      ],
+      "gateExits": {
+        "analyze": 1,
+        "watch": 1
+      }
+    },
+    {
+      "case": "coalesced-coordinate",
+      "runId": "dc8cb9b378804a8a971d7d43ea1d77f5",
+      "recordedRunObservations": 20,
+      "separateModelRows": 20,
+      "allObservationsMatchSdk": true,
+      "inputComplete": true,
+      "diagnosticMetrics": {
+        "train/loss": "loss"
+      },
+      "findings": [],
+      "gateExits": {
+        "analyze": 0,
+        "watch": 0
+      }
+    },
+    {
+      "case": "unqualified-alias",
+      "runId": "2b241120fa68442bae8e6e82cabb43ca",
+      "recordedRunObservations": 40,
+      "separateModelRows": 20,
+      "allObservationsMatchSdk": true,
+      "inputComplete": true,
+      "diagnosticMetrics": {
+        "train/loss": "loss",
+        "train_loss": "train_loss"
+      },
+      "findings": [],
+      "gateExits": {
+        "analyze": 0,
+        "watch": 0
+      }
+    },
+    {
+      "case": "two-models",
+      "runId": "9de2dc6d30f5443abb9efb7dd6c7aba0",
+      "recordedRunObservations": 40,
+      "separateModelRows": 20,
+      "allObservationsMatchSdk": true,
+      "inputComplete": true,
+      "diagnosticMetrics": {
+        "train/loss": "loss"
+      },
+      "findings": [
+        {
+          "detector": "divergence",
+          "title": "Diverged (did not recover)",
+          "severity": "error",
+          "metric": "train/loss",
+          "step_start": 20,
+          "step_end": 39,
+          "message": "train/loss ended at 20 after reaching 0.3704 around step 17. It has been above that level since step 20 and the log ends with 3644% of the run's progress given back.",
+          "evidence": {
+            "start_level": 0.9090909090909091,
+            "best_level": 0.37037037037037035,
+            "best_step": 17,
+            "final_level": 20.0,
+            "gave_back": 36.4375,
+            "rising_since_step": 20
+          },
+          "fixes": [
+            "Use a checkpoint from around step 17, before the rise.",
+            "Lower the learning rate or restart from the last good checkpoint before this window.",
+            "Check the LR schedule isn't re-warming up unintentionally (see lr_schedule detector).",
+            "Look for a data distribution shift at this step range (new shard, curriculum stage change)."
+          ]
+        }
+      ],
+      "gateExits": {
+        "analyze": 1,
+        "watch": 1
+      }
+    },
+    {
+      "case": "model-without-dataset",
+      "runId": "e57fd7b40f284b6d811c3cf7819b554f",
+      "recordedRunObservations": 40,
+      "separateModelRows": 20,
+      "allObservationsMatchSdk": true,
+      "inputComplete": true,
+      "diagnosticMetrics": {
+        "train/loss": "loss"
+      },
+      "findings": [
+        {
+          "detector": "divergence",
+          "title": "Diverged (did not recover)",
+          "severity": "error",
+          "metric": "train/loss",
+          "step_start": 20,
+          "step_end": 39,
+          "message": "train/loss ended at 10 after reaching 0.3704 around step 17. It has been above that level since step 20 and the log ends with 1788% of the run's progress given back.",
+          "evidence": {
+            "start_level": 0.9090909090909091,
+            "best_level": 0.37037037037037035,
+            "best_step": 17,
+            "final_level": 10.0,
+            "gave_back": 17.875,
+            "rising_since_step": 20
+          },
+          "fixes": [
+            "Use a checkpoint from around step 17, before the rise.",
+            "Lower the learning rate or restart from the last good checkpoint before this window.",
+            "Check the LR schedule isn't re-warming up unintentionally (see lr_schedule detector).",
+            "Look for a data distribution shift at this step range (new shard, curriculum stage change)."
+          ]
+        }
+      ],
+      "gateExits": {
+        "analyze": 1,
+        "watch": 1
+      }
+    }
+  ]
+}

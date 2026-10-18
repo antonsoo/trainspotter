@@ -55,6 +55,16 @@ class ExampleMeta:
 # (see main()) -- only what a fresh `run_all()` reports at build time.
 EXAMPLES = [
     ExampleMeta(
+        "mlflow-model-scopes",
+        "A change of metric scope is not training divergence",
+        "Controlled MLflow 3.17.1 logging only: twenty improving unqualified losses followed "
+        "by twenty model/dataset losses. Native SQLite exposes both in one run aggregate. "
+        "The report preserves every recorded value but cannot diagnose it as one training curve.",
+        "../studies/mlflow-scopes/native/scopes.sqlite",
+        "studies/mlflow-scopes/README.md",
+        run_name="mixed-dataset",
+    ),
+    ExampleMeta(
         "mlflow-slowdown",
         "One measured slowdown inside a native MLflow store",
         "The MLflow 3.17.1 SDK replayed retained training measurements into a local SQLite "
@@ -317,7 +327,8 @@ def main() -> None:
         page = page.replace("<title>", f'<link rel="icon" href="{_ICON}">\n<title>', 1)
         # Keep experimental context and the exact input with a downloaded report.
         # They explain the capture; they do not alter the automated findings.
-        mime = {".csv": "text/csv", ".db": "application/vnd.sqlite3"}.get(src.suffix, "application/json")
+        mime = {".csv": "text/csv", ".db": "application/vnd.sqlite3",
+                ".sqlite": "application/vnd.sqlite3"}.get(src.suffix, "application/json")
         encoded = base64.b64encode(src.read_bytes()).decode("ascii")
         method = meta.method or "README.md#real-demo-data"
         context = (
