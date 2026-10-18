@@ -1,0 +1,211 @@
+{
+  "checkedAtUtc": "2026-10-18T14:23:18.526Z",
+  "url": "https://antonsoo.github.io/trainspotter/",
+  "scope": "Actual served sample and original native database download, offline installed CLI replay and standalone SVG. No analysis responses or assets mocked.",
+  "records": [
+    {
+      "engine": "chromium",
+      "browserVersion": "153.0.8010.12",
+      "width": 1440,
+      "inputComplete": false,
+      "observations": 40,
+      "modelRowsNotAdded": 20,
+      "findings": 0,
+      "nativeDatabaseSha256": "ab0debdd2c38371ad461df0c6ba0cec1a9fb40f3436a8a3c77bfc585a78af9d4",
+      "installedCliExit": 2,
+      "svgSha256": "2ad463fbc22b02441d2be836e244aab5d9e3e1ccc569e27361f5cfdfb90682b5",
+      "svgMetadata": {
+        "schemaVersion": 1,
+        "format": "trainspotter-chart",
+        "sourcePath": "studies/mlflow-scopes/native/scopes.sqlite",
+        "sourceFormat": "mlflow",
+        "selectedRun": "094ea54767b24a8895e0876c978ac4c6",
+        "axisKind": "logging_step",
+        "axisLabel": "logging steps",
+        "axisSource": "step",
+        "requestedMetrics": [
+          "loss [MLflow run aggregate]"
+        ],
+        "plottedMetrics": [
+          "loss [MLflow run aggregate]"
+        ],
+        "excludedMetrics": [],
+        "metricSources": {
+          "loss [MLflow run aggregate]": "loss"
+        },
+        "inputComplete": false,
+        "inputNotes": [
+          "1 MLflow metric key has linked model/dataset records. Their run-level aggregates retain all recorded values under explicit names, without mapping them to canonical diagnostic metrics. Export one model/dataset history to diagnose it; a run aggregate cannot recover its source scopes.",
+          "MLflow run 'mixed-dataset' (094ea54767b24a8895e0876c978ac4c6), experiment 1; recorded status FINISHED, lifecycle active.",
+          "MLflow SQL backends can normalize infinities to finite extremes. This reader restores native NaN flags but cannot reconstruct infinities already replaced by the backend.",
+          "The horizontal axis retains MLflow's caller-supplied step values; they do not establish optimizer-update counts. Native defaults can repeat step 0. Use --step-key step only when this counter measures training updates.",
+          "Input is incomplete; findings describe only the readable data."
+        ],
+        "scope": "The report's displayed trajectory and heuristic finding bands. Display thinning and off-scale caps remain; this is not the original log or an independent diagnosis. Inspect the report and source log for evidence."
+      },
+      "errors": [],
+      "requests": [
+        "https://antonsoo.github.io/trainspotter/",
+        "https://antonsoo.github.io/trainspotter/mlflow-model-scopes.html"
+      ],
+      "diagnostics": {
+        "csp": [],
+        "rejections": []
+      },
+      "overflow": false
+    },
+    {
+      "engine": "chromium",
+      "browserVersion": "153.0.8010.12",
+      "width": 375,
+      "inputComplete": false,
+      "observations": 40,
+      "modelRowsNotAdded": 20,
+      "findings": 0,
+      "nativeDatabaseSha256": "ab0debdd2c38371ad461df0c6ba0cec1a9fb40f3436a8a3c77bfc585a78af9d4",
+      "installedCliExit": 2,
+      "svgSha256": "2ad463fbc22b02441d2be836e244aab5d9e3e1ccc569e27361f5cfdfb90682b5",
+      "svgMetadata": {
+        "schemaVersion": 1,
+        "format": "trainspotter-chart",
+        "sourcePath": "studies/mlflow-scopes/native/scopes.sqlite",
+        "sourceFormat": "mlflow",
+        "selectedRun": "094ea54767b24a8895e0876c978ac4c6",
+        "axisKind": "logging_step",
+        "axisLabel": "logging steps",
+        "axisSource": "step",
+        "requestedMetrics": [
+          "loss [MLflow run aggregate]"
+        ],
+        "plottedMetrics": [
+          "loss [MLflow run aggregate]"
+        ],
+        "excludedMetrics": [],
+        "metricSources": {
+          "loss [MLflow run aggregate]": "loss"
+        },
+        "inputComplete": false,
+        "inputNotes": [
+          "1 MLflow metric key has linked model/dataset records. Their run-level aggregates retain all recorded values under explicit names, without mapping them to canonical diagnostic metrics. Export one model/dataset history to diagnose it; a run aggregate cannot recover its source scopes.",
+          "MLflow run 'mixed-dataset' (094ea54767b24a8895e0876c978ac4c6), experiment 1; recorded status FINISHED, lifecycle active.",
+          "MLflow SQL backends can normalize infinities to finite extremes. This reader restores native NaN flags but cannot reconstruct infinities already replaced by the backend.",
+          "The horizontal axis retains MLflow's caller-supplied step values; they do not establish optimizer-update counts. Native defaults can repeat step 0. Use --step-key step only when this counter measures training updates.",
+          "Input is incomplete; findings describe only the readable data."
+        ],
+        "scope": "The report's displayed trajectory and heuristic finding bands. Display thinning and off-scale caps remain; this is not the original log or an independent diagnosis. Inspect the report and source log for evidence."
+      },
+      "errors": [],
+      "requests": [
+        "https://antonsoo.github.io/trainspotter/",
+        "https://antonsoo.github.io/trainspotter/mlflow-model-scopes.html"
+      ],
+      "diagnostics": {
+        "csp": [],
+        "rejections": []
+      },
+      "overflow": false
+    },
+    {
+      "engine": "firefox",
+      "browserVersion": "155.0",
+      "width": 1440,
+      "inputComplete": false,
+      "observations": 40,
+      "modelRowsNotAdded": 20,
+      "findings": 0,
+      "nativeDatabaseSha256": "ab0debdd2c38371ad461df0c6ba0cec1a9fb40f3436a8a3c77bfc585a78af9d4",
+      "installedCliExit": 2,
+      "svgSha256": "2ad463fbc22b02441d2be836e244aab5d9e3e1ccc569e27361f5cfdfb90682b5",
+      "svgMetadata": {
+        "schemaVersion": 1,
+        "format": "trainspotter-chart",
+        "sourcePath": "studies/mlflow-scopes/native/scopes.sqlite",
+        "sourceFormat": "mlflow",
+        "selectedRun": "094ea54767b24a8895e0876c978ac4c6",
+        "axisKind": "logging_step",
+        "axisLabel": "logging steps",
+        "axisSource": "step",
+        "requestedMetrics": [
+          "loss [MLflow run aggregate]"
+        ],
+        "plottedMetrics": [
+          "loss [MLflow run aggregate]"
+        ],
+        "excludedMetrics": [],
+        "metricSources": {
+          "loss [MLflow run aggregate]": "loss"
+        },
+        "inputComplete": false,
+        "inputNotes": [
+          "1 MLflow metric key has linked model/dataset records. Their run-level aggregates retain all recorded values under explicit names, without mapping them to canonical diagnostic metrics. Export one model/dataset history to diagnose it; a run aggregate cannot recover its source scopes.",
+          "MLflow run 'mixed-dataset' (094ea54767b24a8895e0876c978ac4c6), experiment 1; recorded status FINISHED, lifecycle active.",
+          "MLflow SQL backends can normalize infinities to finite extremes. This reader restores native NaN flags but cannot reconstruct infinities already replaced by the backend.",
+          "The horizontal axis retains MLflow's caller-supplied step values; they do not establish optimizer-update counts. Native defaults can repeat step 0. Use --step-key step only when this counter measures training updates.",
+          "Input is incomplete; findings describe only the readable data."
+        ],
+        "scope": "The report's displayed trajectory and heuristic finding bands. Display thinning and off-scale caps remain; this is not the original log or an independent diagnosis. Inspect the report and source log for evidence."
+      },
+      "errors": [],
+      "requests": [
+        "https://antonsoo.github.io/trainspotter/",
+        "https://antonsoo.github.io/trainspotter/mlflow-model-scopes.html"
+      ],
+      "diagnostics": {
+        "csp": [],
+        "rejections": []
+      },
+      "overflow": false
+    },
+    {
+      "engine": "firefox",
+      "browserVersion": "155.0",
+      "width": 375,
+      "inputComplete": false,
+      "observations": 40,
+      "modelRowsNotAdded": 20,
+      "findings": 0,
+      "nativeDatabaseSha256": "ab0debdd2c38371ad461df0c6ba0cec1a9fb40f3436a8a3c77bfc585a78af9d4",
+      "installedCliExit": 2,
+      "svgSha256": "2ad463fbc22b02441d2be836e244aab5d9e3e1ccc569e27361f5cfdfb90682b5",
+      "svgMetadata": {
+        "schemaVersion": 1,
+        "format": "trainspotter-chart",
+        "sourcePath": "studies/mlflow-scopes/native/scopes.sqlite",
+        "sourceFormat": "mlflow",
+        "selectedRun": "094ea54767b24a8895e0876c978ac4c6",
+        "axisKind": "logging_step",
+        "axisLabel": "logging steps",
+        "axisSource": "step",
+        "requestedMetrics": [
+          "loss [MLflow run aggregate]"
+        ],
+        "plottedMetrics": [
+          "loss [MLflow run aggregate]"
+        ],
+        "excludedMetrics": [],
+        "metricSources": {
+          "loss [MLflow run aggregate]": "loss"
+        },
+        "inputComplete": false,
+        "inputNotes": [
+          "1 MLflow metric key has linked model/dataset records. Their run-level aggregates retain all recorded values under explicit names, without mapping them to canonical diagnostic metrics. Export one model/dataset history to diagnose it; a run aggregate cannot recover its source scopes.",
+          "MLflow run 'mixed-dataset' (094ea54767b24a8895e0876c978ac4c6), experiment 1; recorded status FINISHED, lifecycle active.",
+          "MLflow SQL backends can normalize infinities to finite extremes. This reader restores native NaN flags but cannot reconstruct infinities already replaced by the backend.",
+          "The horizontal axis retains MLflow's caller-supplied step values; they do not establish optimizer-update counts. Native defaults can repeat step 0. Use --step-key step only when this counter measures training updates.",
+          "Input is incomplete; findings describe only the readable data."
+        ],
+        "scope": "The report's displayed trajectory and heuristic finding bands. Display thinning and off-scale caps remain; this is not the original log or an independent diagnosis. Inspect the report and source log for evidence."
+      },
+      "errors": [],
+      "requests": [
+        "https://antonsoo.github.io/trainspotter/",
+        "https://antonsoo.github.io/trainspotter/mlflow-model-scopes.html"
+      ],
+      "diagnostics": {
+        "csp": [],
+        "rejections": []
+      },
+      "overflow": false
+    }
+  ]
+}

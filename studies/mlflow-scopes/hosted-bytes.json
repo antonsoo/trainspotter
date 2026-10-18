@@ -1,0 +1,244 @@
+{
+  "base": "https://antonsoo.github.io/trainspotter/",
+  "scope": "Every generated public HTML file, plus canonical root alias; exact bytes, no generated-time normalization.",
+  "attempts": [
+    {
+      "matching": 21,
+      "total": 21
+    }
+  ],
+  "files": [
+    {
+      "file": "baseline.html",
+      "url": "https://antonsoo.github.io/trainspotter/baseline.html",
+      "status": 200,
+      "bytes": 227600,
+      "sha256": "a917ab9f1d41fdad1a71fef65dfe93473565307600c01a41f7e86550d47cbf97",
+      "expectedSha256": "a917ab9f1d41fdad1a71fef65dfe93473565307600c01a41f7e86550d47cbf97",
+      "matches": true,
+      "etag": "\"6ad4d5ff-37910\"",
+      "age": "0"
+    },
+    {
+      "file": "divergence.html",
+      "url": "https://antonsoo.github.io/trainspotter/divergence.html",
+      "status": 200,
+      "bytes": 200518,
+      "sha256": "4247b170123a3e7b423a208c28a56c85b7f883000b5e3639a7a83730188a314b",
+      "expectedSha256": "4247b170123a3e7b423a208c28a56c85b7f883000b5e3639a7a83730188a314b",
+      "matches": true,
+      "etag": "\"6ad4d5ff-30f46\"",
+      "age": "0"
+    },
+    {
+      "file": "evaluation-cohorts.html",
+      "url": "https://antonsoo.github.io/trainspotter/evaluation-cohorts.html",
+      "status": 200,
+      "bytes": 25368,
+      "sha256": "3ccd0ece0ee221aa4b688eb05b271114f119cf7096733d3fe6d340b69eff540a",
+      "expectedSha256": "3ccd0ece0ee221aa4b688eb05b271114f119cf7096733d3fe6d340b69eff540a",
+      "matches": true,
+      "etag": "\"6ad4d5ff-6318\"",
+      "age": "0"
+    },
+    {
+      "file": "evaluation-overlap.html",
+      "url": "https://antonsoo.github.io/trainspotter/evaluation-overlap.html",
+      "status": 200,
+      "bytes": 40400,
+      "sha256": "d20fed571ce87911623f2ecaa2a812cd6bb4f66a0eecb27b23898230df0e6dae",
+      "expectedSha256": "d20fed571ce87911623f2ecaa2a812cd6bb4f66a0eecb27b23898230df0e6dae",
+      "matches": true,
+      "etag": "\"6ad4d5ff-9dd0\"",
+      "age": "0"
+    },
+    {
+      "file": "gradient-concentration.html",
+      "url": "https://antonsoo.github.io/trainspotter/gradient-concentration.html",
+      "status": 200,
+      "bytes": 36275,
+      "sha256": "ebb24145d86d9343385f4df5b56f0531eeda5e030666c6cc6896c30620c38ac7",
+      "expectedSha256": "ebb24145d86d9343385f4df5b56f0531eeda5e030666c6cc6896c30620c38ac7",
+      "matches": true,
+      "etag": "\"6ad4d5ff-8db3\"",
+      "age": "0"
+    },
+    {
+      "file": "index.html",
+      "url": "https://antonsoo.github.io/trainspotter/index.html",
+      "status": 200,
+      "bytes": 12288,
+      "sha256": "95a6dd7a356e17974e9f1e1bab79efc6d7186946f060d333aca29e7717f038b4",
+      "expectedSha256": "95a6dd7a356e17974e9f1e1bab79efc6d7186946f060d333aca29e7717f038b4",
+      "matches": true,
+      "etag": "\"6ad4d5ff-3000\"",
+      "age": "0"
+    },
+    {
+      "file": "loss-cadence.html",
+      "url": "https://antonsoo.github.io/trainspotter/loss-cadence.html",
+      "status": 200,
+      "bytes": 28357,
+      "sha256": "c0cf3798d84e007e13aa63629c6fc089850f3075d465db7b01db7fdf70762056",
+      "expectedSha256": "c0cf3798d84e007e13aa63629c6fc089850f3075d465db7b01db7fdf70762056",
+      "matches": true,
+      "etag": "\"6ad4d5ff-6ec5\"",
+      "age": "0"
+    },
+    {
+      "file": "missing_warmup.html",
+      "url": "https://antonsoo.github.io/trainspotter/missing_warmup.html",
+      "status": 200,
+      "bytes": 160402,
+      "sha256": "ad714342ba75e0759ab8297a80032463a0aa5226c9ad474815eb19abffc25d96",
+      "expectedSha256": "ad714342ba75e0759ab8297a80032463a0aa5226c9ad474815eb19abffc25d96",
+      "matches": true,
+      "etag": "\"6ad4d5ff-27292\"",
+      "age": "0"
+    },
+    {
+      "file": "mlflow-model-scopes.html",
+      "url": "https://antonsoo.github.io/trainspotter/mlflow-model-scopes.html",
+      "status": 200,
+      "bytes": 1400456,
+      "sha256": "b947abec2d652a2799d5ccf17d0bd43f21242c2b8a628b567ee739abe21616d5",
+      "expectedSha256": "b947abec2d652a2799d5ccf17d0bd43f21242c2b8a628b567ee739abe21616d5",
+      "matches": true,
+      "etag": "\"6ad4d5ff-155e88\"",
+      "age": "0"
+    },
+    {
+      "file": "mlflow-slowdown.html",
+      "url": "https://antonsoo.github.io/trainspotter/mlflow-slowdown.html",
+      "status": 200,
+      "bytes": 4095229,
+      "sha256": "5a1118acf7791da67fe7bb51652db486f2dc8b856ba31828b52946fd142ca28c",
+      "expectedSha256": "5a1118acf7791da67fe7bb51652db486f2dc8b856ba31828b52946fd142ca28c",
+      "matches": true,
+      "etag": "\"6ad4d5ff-3e7cfd\"",
+      "age": "0"
+    },
+    {
+      "file": "overfitting.html",
+      "url": "https://antonsoo.github.io/trainspotter/overfitting.html",
+      "status": 200,
+      "bytes": 409755,
+      "sha256": "9585e8d99fa0612bf8570d9a76b939452925ade205f0ca16f6d63bafcb58c04f",
+      "expectedSha256": "9585e8d99fa0612bf8570d9a76b939452925ade205f0ca16f6d63bafcb58c04f",
+      "matches": true,
+      "etag": "\"6ad4d5ff-6409b\"",
+      "age": "0"
+    },
+    {
+      "file": "scheduler-resume.html",
+      "url": "https://antonsoo.github.io/trainspotter/scheduler-resume.html",
+      "status": 200,
+      "bytes": 70008,
+      "sha256": "793045af325f8386d6ca70bbaf5e464e0690af5bf814dbc729c1a7445b6cd9da",
+      "expectedSha256": "793045af325f8386d6ca70bbaf5e464e0690af5bf814dbc729c1a7445b6cd9da",
+      "matches": true,
+      "etag": "\"6ad4d5ff-11178\"",
+      "age": "0"
+    },
+    {
+      "file": "throughput_drop.html",
+      "url": "https://antonsoo.github.io/trainspotter/throughput_drop.html",
+      "status": 200,
+      "bytes": 174260,
+      "sha256": "71de5196bcad25ce9a168b96948c095adb632946ec5656693648077c61c580c2",
+      "expectedSha256": "71de5196bcad25ce9a168b96948c095adb632946ec5656693648077c61c580c2",
+      "matches": true,
+      "etag": "\"6ad4d5ff-2a8b4\"",
+      "age": "0"
+    },
+    {
+      "file": "timing-broken-clock.html",
+      "url": "https://antonsoo.github.io/trainspotter/timing-broken-clock.html",
+      "status": 200,
+      "bytes": 27188,
+      "sha256": "23c741651e6c26e2daa8ee3bbc3505c31ecfff6b7f794b9a1c66ef3860c694b9",
+      "expectedSha256": "23c741651e6c26e2daa8ee3bbc3505c31ecfff6b7f794b9a1c66ef3860c694b9",
+      "matches": true,
+      "etag": "\"6ad4d5ff-6a34\"",
+      "age": "0"
+    },
+    {
+      "file": "timing-cadence.html",
+      "url": "https://antonsoo.github.io/trainspotter/timing-cadence.html",
+      "status": 200,
+      "bytes": 26293,
+      "sha256": "c456dee400eae72780c78839c5c409f9d54243e34155f9c341750466d50130f9",
+      "expectedSha256": "c456dee400eae72780c78839c5c409f9d54243e34155f9c341750466d50130f9",
+      "matches": true,
+      "etag": "\"6ad4d5ff-66b5\"",
+      "age": "0"
+    },
+    {
+      "file": "timing-slowdown.html",
+      "url": "https://antonsoo.github.io/trainspotter/timing-slowdown.html",
+      "status": 200,
+      "bytes": 28336,
+      "sha256": "2f6184886c82aabc60e17efe2648e72e978161db8fe22a999c692c970b6f0558",
+      "expectedSha256": "2f6184886c82aabc60e17efe2648e72e978161db8fe22a999c692c970b6f0558",
+      "matches": true,
+      "etag": "\"6ad4d5ff-6eb0\"",
+      "age": "0"
+    },
+    {
+      "file": "transformers_tinygpt2.html",
+      "url": "https://antonsoo.github.io/trainspotter/transformers_tinygpt2.html",
+      "status": 200,
+      "bytes": 94612,
+      "sha256": "815fecb65696b9273b9b35fe0faae386d55d67c58f44e1d30fa3c3cfc848004f",
+      "expectedSha256": "815fecb65696b9273b9b35fe0faae386d55d67c58f44e1d30fa3c3cfc848004f",
+      "matches": true,
+      "etag": "\"6ad4d5ff-17194\"",
+      "age": "0"
+    },
+    {
+      "file": "wandb-cadence.html",
+      "url": "https://antonsoo.github.io/trainspotter/wandb-cadence.html",
+      "status": 200,
+      "bytes": 43231,
+      "sha256": "afec55243fde3f791a98c8b40ff88eec196388432e8f9a83a3c626743c708c00",
+      "expectedSha256": "afec55243fde3f791a98c8b40ff88eec196388432e8f9a83a3c626743c708c00",
+      "matches": true,
+      "etag": "\"6ad4d5ff-a8df\"",
+      "age": "0"
+    },
+    {
+      "file": "wandb-logging-only.html",
+      "url": "https://antonsoo.github.io/trainspotter/wandb-logging-only.html",
+      "status": 200,
+      "bytes": 45063,
+      "sha256": "3c5706b1d1a28189bae512b991441066e315bb92bb11bceceae843639e8c2ff1",
+      "expectedSha256": "3c5706b1d1a28189bae512b991441066e315bb92bb11bceceae843639e8c2ff1",
+      "matches": true,
+      "etag": "\"6ad4d5ff-b007\"",
+      "age": "0"
+    },
+    {
+      "file": "wandb-slowdown.html",
+      "url": "https://antonsoo.github.io/trainspotter/wandb-slowdown.html",
+      "status": 200,
+      "bytes": 44395,
+      "sha256": "e57dc2d41c0e050f147fab3b539905f7d4c52a3c67a520fda5dfd7a166ff1755",
+      "expectedSha256": "e57dc2d41c0e050f147fab3b539905f7d4c52a3c67a520fda5dfd7a166ff1755",
+      "matches": true,
+      "etag": "\"6ad4d5ff-ad6b\"",
+      "age": "0"
+    },
+    {
+      "file": "(canonical root)",
+      "url": "https://antonsoo.github.io/trainspotter/",
+      "status": 200,
+      "bytes": 12288,
+      "sha256": "95a6dd7a356e17974e9f1e1bab79efc6d7186946f060d333aca29e7717f038b4",
+      "expectedSha256": "95a6dd7a356e17974e9f1e1bab79efc6d7186946f060d333aca29e7717f038b4",
+      "matches": true,
+      "etag": "\"6ad4d5ff-3000\"",
+      "age": "0"
+    }
+  ],
+  "complete": true
+}

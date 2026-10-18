@@ -10,6 +10,8 @@ The corrected reader preserves every recorded run observation under explicit
 aggregate names, retains linked scope evidence, and withholds that canonical
 diagnosis. It marks affected selected-run keys incomplete. This adds no
 dependency and does not reconstruct model histories or infer train/eval roles.
+[Publication checks](publication.md) distinguish the clean source, installed
+artifact, served report and actual offline download workflows.
 
 ## Controlled native producer
 
