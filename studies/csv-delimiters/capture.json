@@ -1,0 +1,229 @@
+{
+  "scope": "Retain pandas-written CSVs using the committed divergence log's measurements.\n\nThe experiment names and chart bands are controlled layouts, not W&B downloads.\nBands repeat each center value solely to identify the chart layout. No new\ntraining, hosted W&B account, or uncertainty measurement is involved.\n",
+  "python": "3.14.7",
+  "pandas": "3.0.6",
+  "measurementSource": {
+    "file": "examples/divergence.csv",
+    "sha256": "9b7231f92761488af1a62bfa0e69b3a22688b2a93912ed4185534bdb9778de16",
+    "rows": 356
+  },
+  "cases": [
+    {
+      "name": "control",
+      "file": "fixtures/control.csv",
+      "delimiter": ",",
+      "sha256": "8d9c85643e6e4c5ccd1dfe78fb229ccdf1e74a48e13f57082ef99f51a3ba70fe",
+      "kind": "generic",
+      "expected": {
+        "train/loss": {
+          "count": 323,
+          "sha256": "1f6f15371d645cff36ec41a79de593f52b5eb804ad65e4f8b07e590c3ec30cc7"
+        },
+        "eval/loss": {
+          "count": 33,
+          "sha256": "c3da21f7c27f736fb137de63b2103537eb5f07cdb63c6558047bda0d72b0325e"
+        },
+        "lr": {
+          "count": 323,
+          "sha256": "8801d9ffb7e28563b2520c9a35fa17d6523cd2711972c7f5a46d7b118e5264ee"
+        }
+      }
+    },
+    {
+      "name": "chart-plain",
+      "file": "fixtures/chart-plain.csv",
+      "delimiter": ",",
+      "sha256": "417794e844c82fa297dd3a80ba94d8392d6719b393934e071bfc1bf630685607",
+      "kind": "chart",
+      "label": "baseline",
+      "expected": {
+        "train/loss": {
+          "count": 323,
+          "sha256": "1f6f15371d645cff36ec41a79de593f52b5eb804ad65e4f8b07e590c3ec30cc7"
+        },
+        "eval/loss": {
+          "count": 33,
+          "sha256": "c3da21f7c27f736fb137de63b2103537eb5f07cdb63c6558047bda0d72b0325e"
+        },
+        "lr": {
+          "count": 323,
+          "sha256": "8801d9ffb7e28563b2520c9a35fa17d6523cd2711972c7f5a46d7b118e5264ee"
+        }
+      }
+    },
+    {
+      "name": "chart-semicolons",
+      "file": "fixtures/chart-semicolons.csv",
+      "delimiter": ",",
+      "sha256": "46fd24b1410c3e7145d85131bc4af1eedf85ece1e6fc20675f97f88a11a964f1",
+      "kind": "chart",
+      "label": "seed=0; lr=0.001; wd=0.01",
+      "expected": {
+        "train/loss": {
+          "count": 323,
+          "sha256": "1f6f15371d645cff36ec41a79de593f52b5eb804ad65e4f8b07e590c3ec30cc7"
+        },
+        "eval/loss": {
+          "count": 33,
+          "sha256": "c3da21f7c27f736fb137de63b2103537eb5f07cdb63c6558047bda0d72b0325e"
+        },
+        "lr": {
+          "count": 323,
+          "sha256": "8801d9ffb7e28563b2520c9a35fa17d6523cd2711972c7f5a46d7b118e5264ee"
+        }
+      }
+    },
+    {
+      "name": "chart-tabs",
+      "file": "fixtures/chart-tabs.csv",
+      "delimiter": ",",
+      "sha256": "aff21723822ce68ae5a9a794305c42e671bfda92b9430c1485ed3f087ae78f69",
+      "kind": "chart",
+      "label": "seed=0\tlr=0.001\twd=0.01",
+      "expected": {
+        "train/loss": {
+          "count": 323,
+          "sha256": "1f6f15371d645cff36ec41a79de593f52b5eb804ad65e4f8b07e590c3ec30cc7"
+        },
+        "eval/loss": {
+          "count": 33,
+          "sha256": "c3da21f7c27f736fb137de63b2103537eb5f07cdb63c6558047bda0d72b0325e"
+        },
+        "lr": {
+          "count": 323,
+          "sha256": "8801d9ffb7e28563b2520c9a35fa17d6523cd2711972c7f5a46d7b118e5264ee"
+        }
+      }
+    },
+    {
+      "name": "chart-quotes",
+      "file": "fixtures/chart-quotes.csv",
+      "delimiter": ",",
+      "sha256": "f962dc633599f574ecbbc591d09514e33995467c3c936b6eb524bbe089a8d193",
+      "kind": "chart",
+      "label": "seed=0, note=\"main\"; lr=0.001; wd=0.01",
+      "expected": {
+        "train/loss": {
+          "count": 323,
+          "sha256": "1f6f15371d645cff36ec41a79de593f52b5eb804ad65e4f8b07e590c3ec30cc7"
+        },
+        "eval/loss": {
+          "count": 33,
+          "sha256": "c3da21f7c27f736fb137de63b2103537eb5f07cdb63c6558047bda0d72b0325e"
+        },
+        "lr": {
+          "count": 323,
+          "sha256": "8801d9ffb7e28563b2520c9a35fa17d6523cd2711972c7f5a46d7b118e5264ee"
+        }
+      }
+    },
+    {
+      "name": "chart-multiline",
+      "file": "fixtures/chart-multiline.csv",
+      "delimiter": ",",
+      "sha256": "bd28e2882e271da1bcf7cedc0b3529d8bf1f1aff69eb4323fc4efbe5849e9fd5",
+      "kind": "chart",
+      "label": "seed=0; lr=0.001;\nwd=0.01",
+      "expected": {
+        "train/loss": {
+          "count": 323,
+          "sha256": "1f6f15371d645cff36ec41a79de593f52b5eb804ad65e4f8b07e590c3ec30cc7"
+        },
+        "eval/loss": {
+          "count": 33,
+          "sha256": "c3da21f7c27f736fb137de63b2103537eb5f07cdb63c6558047bda0d72b0325e"
+        },
+        "lr": {
+          "count": 323,
+          "sha256": "8801d9ffb7e28563b2520c9a35fa17d6523cd2711972c7f5a46d7b118e5264ee"
+        }
+      }
+    },
+    {
+      "name": "semicolon-writer",
+      "file": "fixtures/semicolon-writer.csv",
+      "delimiter": ";",
+      "sha256": "629612974c9e1ac50017e412a8598830c7328c31f2ab3b2b33cd60953dfdb332",
+      "kind": "chart",
+      "label": "seed=0, lr=0.001, wd=0.01",
+      "expected": {
+        "train/loss": {
+          "count": 323,
+          "sha256": "1f6f15371d645cff36ec41a79de593f52b5eb804ad65e4f8b07e590c3ec30cc7"
+        },
+        "eval/loss": {
+          "count": 33,
+          "sha256": "c3da21f7c27f736fb137de63b2103537eb5f07cdb63c6558047bda0d72b0325e"
+        },
+        "lr": {
+          "count": 323,
+          "sha256": "8801d9ffb7e28563b2520c9a35fa17d6523cd2711972c7f5a46d7b118e5264ee"
+        }
+      }
+    },
+    {
+      "name": "tab-writer",
+      "file": "fixtures/tab-writer.csv",
+      "delimiter": "\t",
+      "sha256": "5bc8df37f90684922b8dd4b6f64210319527f6457ecb5726ef5b86f00f8b3cb1",
+      "kind": "chart",
+      "label": "seed=0; lr=0.001; wd=0.01",
+      "expected": {
+        "train/loss": {
+          "count": 323,
+          "sha256": "1f6f15371d645cff36ec41a79de593f52b5eb804ad65e4f8b07e590c3ec30cc7"
+        },
+        "eval/loss": {
+          "count": 33,
+          "sha256": "c3da21f7c27f736fb137de63b2103537eb5f07cdb63c6558047bda0d72b0325e"
+        },
+        "lr": {
+          "count": 323,
+          "sha256": "8801d9ffb7e28563b2520c9a35fa17d6523cd2711972c7f5a46d7b118e5264ee"
+        }
+      }
+    },
+    {
+      "name": "history-punctuation",
+      "file": "fixtures/history-punctuation.csv",
+      "delimiter": ",",
+      "sha256": "18d287d3eae4e79b1690d27c37907d065e2fe62ec17a9a4ac23e98a3c6c4e1cc",
+      "kind": "history",
+      "expected": {
+        "train/loss": {
+          "count": 323,
+          "sha256": "1f6f15371d645cff36ec41a79de593f52b5eb804ad65e4f8b07e590c3ec30cc7"
+        },
+        "eval/loss": {
+          "count": 33,
+          "sha256": "c3da21f7c27f736fb137de63b2103537eb5f07cdb63c6558047bda0d72b0325e"
+        },
+        "lr": {
+          "count": 323,
+          "sha256": "8801d9ffb7e28563b2520c9a35fa17d6523cd2711972c7f5a46d7b118e5264ee"
+        }
+      }
+    },
+    {
+      "name": "generic-punctuation",
+      "file": "fixtures/generic-punctuation.csv",
+      "delimiter": ",",
+      "sha256": "9692f414426589b5006bd08ff607b732e293982973c524f5b10fa59ccbcf39ab",
+      "kind": "generic",
+      "expected": {
+        "train/loss": {
+          "count": 323,
+          "sha256": "1f6f15371d645cff36ec41a79de593f52b5eb804ad65e4f8b07e590c3ec30cc7"
+        },
+        "eval/loss": {
+          "count": 33,
+          "sha256": "c3da21f7c27f736fb137de63b2103537eb5f07cdb63c6558047bda0d72b0325e"
+        },
+        "lr": {
+          "count": 323,
+          "sha256": "8801d9ffb7e28563b2520c9a35fa17d6523cd2711972c7f5a46d7b118e5264ee"
+        }
+      }
+    }
+  ]
+}

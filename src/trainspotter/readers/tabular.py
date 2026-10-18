@@ -14,7 +14,9 @@ import json
 import re
 from collections.abc import Sequence
 from decimal import Decimal
+from itertools import islice
 from pathlib import Path
+from typing import TextIO
 
 from trainspotter.model import Run
 
@@ -83,16 +85,65 @@ def _metric_names(run: Run, keys: Sequence[str], step_key: str | None) -> dict[s
     return metric_names(run, (k for k in keys if k not in not_metrics))
 
 
-def _delimiter(header: str) -> str:
-    """The delimiter a CSV's header was written with: the comma, unless a semicolon or a tab
-    splits the header into more fields. A spreadsheet saves "CSV" with its locale's list
-    separator, which is a semicolon wherever the decimal mark is a comma."""
-    best, most = ",", len(next(csv.reader([header]), []))
-    for candidate in (";", "\t"):
-        fields = len(next(csv.reader([header], delimiter=candidate), []))
-        if fields > most:
-            best, most = candidate, fields
-    return best
+def _delimiter(source: TextIO, step_key: str | None = None) -> str:
+    """Infer comma/semicolon/tab from complete records, then rewind the source.
+
+    A run or metric name can contain the other separators, even unquoted: a
+    comma writer need not quote semicolons. Header width alone therefore cannot
+    establish the delimiter. Prefer the candidate whose first 32 data records
+    agree with its header. A declared/recognized coordinate column constrains
+    the header first, so damaged rows cannot replace a known step axis with a
+    punctuation fragment. Keep malformed-row handling in the actual reader.
+    """
+    candidates: list[tuple[str, list[str], int, int]] = []
+    try:
+        for delimiter in (",", ";", "\t"):
+            source.seek(0)
+            reader = csv.reader(source, delimiter=delimiter, strict=True)
+            try:
+                header = next(reader, [])
+            except csv.Error:
+                continue
+            matches = mismatches = 0
+            try:
+                for row in islice(reader, 32):
+                    if not row:
+                        continue
+                    if len(row) == len(header):
+                        matches += 1
+                    else:
+                        mismatches += 1
+            except csv.Error:
+                # A bad row remains an error when the selected reader replays
+                # it. Do not turn a probe failure into an accepted partial file.
+                mismatches += 1
+            candidates.append((delimiter, header, matches, mismatches))
+        multiple = [candidate for candidate in candidates if len(candidate[1]) > 1]
+        if not multiple:
+            return ","
+        axes = {step_key} if step_key is not None else {*_STEP_KEYS, "_step"}
+        with_axis = [
+            candidate for candidate in multiple
+            if candidate[2] > 0
+            and any((key if step_key is not None else key.strip().lower()) in axes
+                    for key in candidate[1])
+        ]
+        if with_axis:
+            multiple = with_axis
+        best_fit = max((matches, -mismatches) for _, _, matches, mismatches in multiple)
+        best = [c for c in multiple if (c[2], -c[3]) == best_fit]
+        if len(best) == 1:
+            return best[0][0]
+        # An empty or entirely damaged sample cannot improve on header-only
+        # evidence. Preserve the existing width preference and row diagnostics.
+        if best_fit[0] == 0:
+            return max(best, key=lambda candidate: len(candidate[1]))[0]
+        raise ValueError(
+            "ambiguous CSV delimiter: multiple separators fit the sampled records; "
+            "export a fully quoted CSV so punctuation in labels stays unambiguous"
+        )
+    finally:
+        source.seek(0)
 
 
 _DECIMAL_COMMA = re.compile(r"[+-]?\d+,\d+(?:[eE][+-]?\d+)?")
@@ -118,9 +169,7 @@ def read_csv(path: str | Path, *, step_key: str | None = None) -> Run:
     # utf-8-sig: Excel's "CSV UTF-8" starts with a byte-order mark, which would otherwise be
     # part of the first column's name (so "step" was no longer the step column).
     with p.open(encoding="utf-8-sig", newline="") as fh:
-        header = fh.readline()
-        fh.seek(0)
-        delimiter = _delimiter(header)
+        delimiter = _delimiter(fh, step_key)
         reader = csv.DictReader(fh, delimiter=delimiter, strict=True)
         fieldnames = reader.fieldnames or []
         validate_columns(fieldnames)

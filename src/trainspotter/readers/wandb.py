@@ -128,7 +128,7 @@ def read_wandb_chart_csv(
     p = Path(path)
     run = Run(source_format="wandb", source_path=str(p))
     with p.open(encoding="utf-8-sig", newline="") as fh:
-        delimiter = _delimiter(fh.readline())
+        delimiter = _delimiter(fh, step_key)
         fh.seek(0)
         reader = csv.reader(fh, delimiter=delimiter, strict=True)
         header = next(reader, [])
@@ -217,7 +217,7 @@ def read_wandb_csv(
 ) -> Run:
     p = Path(path)
     with p.open(encoding="utf-8-sig", newline="") as fh:
-        delimiter = _delimiter(fh.readline())
+        delimiter = _delimiter(fh, step_key)
         fh.seek(0)
         header = next(csv.reader(fh, delimiter=delimiter), [])
     validate_columns(header)

@@ -1,0 +1,2 @@
+# Native writer bytes include CRLF and significant empty trailing tab fields.
+fixtures/*.csv -text whitespace=-blank-at-eol,-blank-at-eof

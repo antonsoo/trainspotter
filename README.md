@@ -167,6 +167,13 @@ session's NaN or resurrect a replaced session's NaN. Changed order is inspectabl
 in JSON directory evidence; other exporters retain their existing order.
 [Native capture, CI gates and limits](studies/writer-order/README.md).
 
+CSV delimiter inference reads complete quoted records and samples up to 32 data
+records. Punctuation or line breaks in experiment labels do not by themselves
+choose a different separator. Recognized or explicitly selected step columns
+constrain candidates with matching records; equally consistent ambiguous
+separators are refused. Export with all fields quoted to resolve such ambiguity.
+[Native pandas exports, before/after CLI gates and limits](studies/csv-delimiters/README.md).
+
 The source checkout also reads native bfloat16 tensor scalars without a
 TensorFlow dependency. A TensorFlow-written capture previously left all five
 loss readings unreadable while its float32 controls loaded; both now retain

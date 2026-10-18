@@ -6,6 +6,14 @@ and this project uses [Semantic Versioning](https://semver.org/).
 
 ## Unreleased
 
+- Infer CSV delimiters from complete logical records and a bounded sample,
+  rather than counting separators in the first physical header line. Preserve
+  W&B run names and metric columns containing semicolons, tabs, quotes or line
+  breaks, and carry explicit step selection through format detection. Refuse
+  equally consistent ambiguous separators. Retain native pandas exports and
+  before/after numeric-history and CLI-gate evidence in
+  [the delimiter study](studies/csv-delimiters/README.md).
+
 - Keep MLflow model/dataset-qualified run aggregates out of canonical training
   diagnostics. Preserve every recorded run observation, retain linked scope
   evidence, and mark affected selected-run keys incomplete. Do not subtract

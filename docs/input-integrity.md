@@ -41,6 +41,17 @@ An unterminated quoted field is an input error. Comma, semicolon, and tab delimi
 UTF-8 BOMs, and decimal commas with non-comma delimiters are supported. All names in
 terminal diagnostics are shown with control characters escaped; HTML names are escaped.
 
+Delimiter detection parses complete logical records, including multiline quoted
+headers, and samples at most 32 following records for each supported separator.
+Single-column guesses cannot override a multicolumn interpretation. A recognized
+or explicitly selected coordinate column constrains candidates that have at
+least one complete matching record, so a damaged row cannot silently replace a
+known axis with punctuation fragments. Equally consistent candidates are refused;
+exporting with every field quoted makes the intended separation explicit. An empty
+or entirely damaged sample retains the existing header-width fallback and row
+diagnostics. This bounded inference cannot prove the intended dialect of every
+possible file. [Captured exports and replay](../studies/csv-delimiters/README.md).
+
 Counter-free JSONL uses zero-based positions among **all nonblank records**, including
 rejected records. Malformed JSON, repeated members and non-object values (`null`, arrays,
 strings or numbers) cannot supply metric measurements. Their known ordinal positions

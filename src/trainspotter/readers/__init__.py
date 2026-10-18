@@ -30,7 +30,7 @@ __all__ = [
 _FORMATS = ("hf", "csv", "jsonl", "wandb", "lightning", "tensorboard", "mlflow")
 
 
-def detect_format(path: str | Path) -> str:
+def detect_format(path: str | Path, *, step_key: str | None = None) -> str:
     """Guess a log format from its path/contents. Best-effort, not magic:
     callers can always override with --format."""
     p = Path(path)
@@ -57,9 +57,7 @@ def detect_format(path: str | Path) -> str:
         return "hf"
     if suffix == ".csv":
         with p.open(encoding="utf-8-sig", newline="") as fh:
-            header = fh.readline()
-            fh.seek(0)
-            fieldnames = next(csv.reader(fh, delimiter=_delimiter(header)), [])
+            fieldnames = next(csv.reader(fh, delimiter=_delimiter(fh, step_key)), [])
         bookkeeping = {"_step", "_runtime", "_timestamp"} & {k.strip().lower() for k in fieldnames}
         if bookkeeping or is_chart_export(fieldnames):
             return "wandb"
@@ -94,7 +92,7 @@ def load_run(
     exact display name; it preserves separators within metric names.
     """
     p = Path(path)
-    fmt = fmt or detect_format(p)
+    fmt = fmt or detect_format(p, step_key=step_key)
     if chart_single_run is not None and fmt != "wandb":
         raise ValueError("--chart-single-run applies only to W&B chart CSV exports")
     if step_key is not None and fmt not in ("csv", "jsonl", "wandb", "lightning", "mlflow"):
