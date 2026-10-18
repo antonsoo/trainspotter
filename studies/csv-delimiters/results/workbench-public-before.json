@@ -1,0 +1,444 @@
+{
+  "results": [
+    {
+      "engine": "chromium",
+      "version": "153.0.8010.12",
+      "width": 1440,
+      "app": "trainspotter",
+      "site": "https://antonsoloviev-trainspotter.static.hf.space/",
+      "expectation": "before",
+      "offlineDuringProcessing": true,
+      "cases": [
+        {
+          "name": "control",
+          "accepted": true,
+          "readings": 679,
+          "nativeReportMismatches": 0
+        },
+        {
+          "name": "chart-plain",
+          "accepted": true,
+          "readings": 679,
+          "nativeReportMismatches": 0
+        },
+        {
+          "name": "chart-semicolons",
+          "accepted": false,
+          "error": "duplicate CSV column names; give each metric a distinct header"
+        },
+        {
+          "name": "chart-tabs",
+          "accepted": false,
+          "error": "duplicate CSV column names; give each metric a distinct header"
+        },
+        {
+          "name": "chart-quotes",
+          "accepted": false,
+          "error": "duplicate CSV column names; give each metric a distinct header"
+        },
+        {
+          "name": "chart-multiline",
+          "accepted": false,
+          "error": "No numeric metric series found. Include a step column and logged metrics such as loss."
+        },
+        {
+          "name": "semicolon-writer",
+          "accepted": false,
+          "error": "CSV must have unique, nonempty column names."
+        },
+        {
+          "name": "tab-writer",
+          "accepted": false,
+          "error": "Use at most 32 fields per entry and metric names up to 100 characters."
+        },
+        {
+          "name": "history-punctuation",
+          "accepted": true,
+          "readings": 679,
+          "nativeReportMismatches": 0
+        },
+        {
+          "name": "generic-punctuation",
+          "accepted": true,
+          "readings": 679,
+          "nativeReportMismatches": 0
+        }
+      ],
+      "downloads": [
+        {
+          "file": "chromium-1440-control.json",
+          "sha256": "b5b08789a26abddad8856a9b6ff55e0eb97590ff87da59736f9aacee3d538bd7",
+          "bytes": 58210
+        },
+        {
+          "file": "chromium-1440-control.html",
+          "sha256": "8fda8594707ad7346b248cfdf5306024e9c5e8641f02c14b7468bc3a877cd1a6",
+          "bytes": 58713
+        },
+        {
+          "file": "chromium-1440-chart-plain.json",
+          "sha256": "15cc62c052d79add6c75d8bad22ba5643caff0232104c5d044c0d43e14afc665",
+          "bytes": 58492
+        },
+        {
+          "file": "chromium-1440-chart-plain.html",
+          "sha256": "dbf6ecea134a2275abcde53006692a18f4c5c188bf0c859b00ba876cdec67fff",
+          "bytes": 58868
+        },
+        {
+          "file": "chromium-1440-history-punctuation.json",
+          "sha256": "f280c56cb5f36ed801925d66a78657105f52faf378ce9d48c5381d4339545e3e",
+          "bytes": 58280
+        },
+        {
+          "file": "chromium-1440-history-punctuation.html",
+          "sha256": "f7c4d05236fd86ec4989909773f4af3d2b0639d446f4a70c4d33fe82ada55821",
+          "bytes": 58795
+        },
+        {
+          "file": "chromium-1440-generic-punctuation.json",
+          "sha256": "445caa4a81e60923bc13e328bc102e7ec19e5c834c4096af5cc00b5407fb227f",
+          "bytes": 58276
+        },
+        {
+          "file": "chromium-1440-generic-punctuation.html",
+          "sha256": "b37050be893c1f4f133c8ac61082db93bd76a51757fdf5bbd12b979f9b968eda",
+          "bytes": 58789
+        }
+      ],
+      "errors": [],
+      "requests": [],
+      "screenshot": "chromium-1440-trainspotter.png"
+    },
+    {
+      "engine": "chromium",
+      "version": "153.0.8010.12",
+      "width": 375,
+      "app": "trainspotter",
+      "site": "https://antonsoloviev-trainspotter.static.hf.space/",
+      "expectation": "before",
+      "offlineDuringProcessing": true,
+      "cases": [
+        {
+          "name": "control",
+          "accepted": true,
+          "readings": 679,
+          "nativeReportMismatches": 0
+        },
+        {
+          "name": "chart-plain",
+          "accepted": true,
+          "readings": 679,
+          "nativeReportMismatches": 0
+        },
+        {
+          "name": "chart-semicolons",
+          "accepted": false,
+          "error": "duplicate CSV column names; give each metric a distinct header"
+        },
+        {
+          "name": "chart-tabs",
+          "accepted": false,
+          "error": "duplicate CSV column names; give each metric a distinct header"
+        },
+        {
+          "name": "chart-quotes",
+          "accepted": false,
+          "error": "duplicate CSV column names; give each metric a distinct header"
+        },
+        {
+          "name": "chart-multiline",
+          "accepted": false,
+          "error": "No numeric metric series found. Include a step column and logged metrics such as loss."
+        },
+        {
+          "name": "semicolon-writer",
+          "accepted": false,
+          "error": "CSV must have unique, nonempty column names."
+        },
+        {
+          "name": "tab-writer",
+          "accepted": false,
+          "error": "Use at most 32 fields per entry and metric names up to 100 characters."
+        },
+        {
+          "name": "history-punctuation",
+          "accepted": true,
+          "readings": 679,
+          "nativeReportMismatches": 0
+        },
+        {
+          "name": "generic-punctuation",
+          "accepted": true,
+          "readings": 679,
+          "nativeReportMismatches": 0
+        }
+      ],
+      "downloads": [
+        {
+          "file": "chromium-375-control.json",
+          "sha256": "b5b08789a26abddad8856a9b6ff55e0eb97590ff87da59736f9aacee3d538bd7",
+          "bytes": 58210
+        },
+        {
+          "file": "chromium-375-control.html",
+          "sha256": "8fda8594707ad7346b248cfdf5306024e9c5e8641f02c14b7468bc3a877cd1a6",
+          "bytes": 58713
+        },
+        {
+          "file": "chromium-375-chart-plain.json",
+          "sha256": "15cc62c052d79add6c75d8bad22ba5643caff0232104c5d044c0d43e14afc665",
+          "bytes": 58492
+        },
+        {
+          "file": "chromium-375-chart-plain.html",
+          "sha256": "dbf6ecea134a2275abcde53006692a18f4c5c188bf0c859b00ba876cdec67fff",
+          "bytes": 58868
+        },
+        {
+          "file": "chromium-375-history-punctuation.json",
+          "sha256": "f280c56cb5f36ed801925d66a78657105f52faf378ce9d48c5381d4339545e3e",
+          "bytes": 58280
+        },
+        {
+          "file": "chromium-375-history-punctuation.html",
+          "sha256": "f7c4d05236fd86ec4989909773f4af3d2b0639d446f4a70c4d33fe82ada55821",
+          "bytes": 58795
+        },
+        {
+          "file": "chromium-375-generic-punctuation.json",
+          "sha256": "445caa4a81e60923bc13e328bc102e7ec19e5c834c4096af5cc00b5407fb227f",
+          "bytes": 58276
+        },
+        {
+          "file": "chromium-375-generic-punctuation.html",
+          "sha256": "b37050be893c1f4f133c8ac61082db93bd76a51757fdf5bbd12b979f9b968eda",
+          "bytes": 58789
+        }
+      ],
+      "errors": [],
+      "requests": [],
+      "screenshot": "chromium-375-trainspotter.png"
+    },
+    {
+      "engine": "firefox",
+      "version": "155.0",
+      "width": 1440,
+      "app": "trainspotter",
+      "site": "https://antonsoloviev-trainspotter.static.hf.space/",
+      "expectation": "before",
+      "offlineDuringProcessing": true,
+      "cases": [
+        {
+          "name": "control",
+          "accepted": true,
+          "readings": 679,
+          "nativeReportMismatches": 0
+        },
+        {
+          "name": "chart-plain",
+          "accepted": true,
+          "readings": 679,
+          "nativeReportMismatches": 0
+        },
+        {
+          "name": "chart-semicolons",
+          "accepted": false,
+          "error": "duplicate CSV column names; give each metric a distinct header"
+        },
+        {
+          "name": "chart-tabs",
+          "accepted": false,
+          "error": "duplicate CSV column names; give each metric a distinct header"
+        },
+        {
+          "name": "chart-quotes",
+          "accepted": false,
+          "error": "duplicate CSV column names; give each metric a distinct header"
+        },
+        {
+          "name": "chart-multiline",
+          "accepted": false,
+          "error": "No numeric metric series found. Include a step column and logged metrics such as loss."
+        },
+        {
+          "name": "semicolon-writer",
+          "accepted": false,
+          "error": "CSV must have unique, nonempty column names."
+        },
+        {
+          "name": "tab-writer",
+          "accepted": false,
+          "error": "Use at most 32 fields per entry and metric names up to 100 characters."
+        },
+        {
+          "name": "history-punctuation",
+          "accepted": true,
+          "readings": 679,
+          "nativeReportMismatches": 0
+        },
+        {
+          "name": "generic-punctuation",
+          "accepted": true,
+          "readings": 679,
+          "nativeReportMismatches": 0
+        }
+      ],
+      "downloads": [
+        {
+          "file": "firefox-1440-control.json",
+          "sha256": "b5b08789a26abddad8856a9b6ff55e0eb97590ff87da59736f9aacee3d538bd7",
+          "bytes": 58210
+        },
+        {
+          "file": "firefox-1440-control.html",
+          "sha256": "f6670e3a8919918747fc7f1b1cc15ea9b36d025cd1fb0bb2bbbb84c959ed6e96",
+          "bytes": 58713
+        },
+        {
+          "file": "firefox-1440-chart-plain.json",
+          "sha256": "15cc62c052d79add6c75d8bad22ba5643caff0232104c5d044c0d43e14afc665",
+          "bytes": 58492
+        },
+        {
+          "file": "firefox-1440-chart-plain.html",
+          "sha256": "66805d48e002045ac6668baf2497de618f1287d29770836b1f8bf2a0273e56cc",
+          "bytes": 58868
+        },
+        {
+          "file": "firefox-1440-history-punctuation.json",
+          "sha256": "f280c56cb5f36ed801925d66a78657105f52faf378ce9d48c5381d4339545e3e",
+          "bytes": 58280
+        },
+        {
+          "file": "firefox-1440-history-punctuation.html",
+          "sha256": "32e23d766c7f796c41383ff4812aa3c3b0b1c2929cf93e116268e77a10a37c20",
+          "bytes": 58795
+        },
+        {
+          "file": "firefox-1440-generic-punctuation.json",
+          "sha256": "445caa4a81e60923bc13e328bc102e7ec19e5c834c4096af5cc00b5407fb227f",
+          "bytes": 58276
+        },
+        {
+          "file": "firefox-1440-generic-punctuation.html",
+          "sha256": "5bcc1885f81471ab23cfc57340608f4cd614839431523b581e4acc8bf1e6d068",
+          "bytes": 58789
+        }
+      ],
+      "errors": [],
+      "requests": [],
+      "screenshot": "firefox-1440-trainspotter.png"
+    },
+    {
+      "engine": "firefox",
+      "version": "155.0",
+      "width": 375,
+      "app": "trainspotter",
+      "site": "https://antonsoloviev-trainspotter.static.hf.space/",
+      "expectation": "before",
+      "offlineDuringProcessing": true,
+      "cases": [
+        {
+          "name": "control",
+          "accepted": true,
+          "readings": 679,
+          "nativeReportMismatches": 0
+        },
+        {
+          "name": "chart-plain",
+          "accepted": true,
+          "readings": 679,
+          "nativeReportMismatches": 0
+        },
+        {
+          "name": "chart-semicolons",
+          "accepted": false,
+          "error": "duplicate CSV column names; give each metric a distinct header"
+        },
+        {
+          "name": "chart-tabs",
+          "accepted": false,
+          "error": "duplicate CSV column names; give each metric a distinct header"
+        },
+        {
+          "name": "chart-quotes",
+          "accepted": false,
+          "error": "duplicate CSV column names; give each metric a distinct header"
+        },
+        {
+          "name": "chart-multiline",
+          "accepted": false,
+          "error": "No numeric metric series found. Include a step column and logged metrics such as loss."
+        },
+        {
+          "name": "semicolon-writer",
+          "accepted": false,
+          "error": "CSV must have unique, nonempty column names."
+        },
+        {
+          "name": "tab-writer",
+          "accepted": false,
+          "error": "Use at most 32 fields per entry and metric names up to 100 characters."
+        },
+        {
+          "name": "history-punctuation",
+          "accepted": true,
+          "readings": 679,
+          "nativeReportMismatches": 0
+        },
+        {
+          "name": "generic-punctuation",
+          "accepted": true,
+          "readings": 679,
+          "nativeReportMismatches": 0
+        }
+      ],
+      "downloads": [
+        {
+          "file": "firefox-375-control.json",
+          "sha256": "b5b08789a26abddad8856a9b6ff55e0eb97590ff87da59736f9aacee3d538bd7",
+          "bytes": 58210
+        },
+        {
+          "file": "firefox-375-control.html",
+          "sha256": "f6670e3a8919918747fc7f1b1cc15ea9b36d025cd1fb0bb2bbbb84c959ed6e96",
+          "bytes": 58713
+        },
+        {
+          "file": "firefox-375-chart-plain.json",
+          "sha256": "15cc62c052d79add6c75d8bad22ba5643caff0232104c5d044c0d43e14afc665",
+          "bytes": 58492
+        },
+        {
+          "file": "firefox-375-chart-plain.html",
+          "sha256": "66805d48e002045ac6668baf2497de618f1287d29770836b1f8bf2a0273e56cc",
+          "bytes": 58868
+        },
+        {
+          "file": "firefox-375-history-punctuation.json",
+          "sha256": "f280c56cb5f36ed801925d66a78657105f52faf378ce9d48c5381d4339545e3e",
+          "bytes": 58280
+        },
+        {
+          "file": "firefox-375-history-punctuation.html",
+          "sha256": "32e23d766c7f796c41383ff4812aa3c3b0b1c2929cf93e116268e77a10a37c20",
+          "bytes": 58795
+        },
+        {
+          "file": "firefox-375-generic-punctuation.json",
+          "sha256": "445caa4a81e60923bc13e328bc102e7ec19e5c834c4096af5cc00b5407fb227f",
+          "bytes": 58276
+        },
+        {
+          "file": "firefox-375-generic-punctuation.html",
+          "sha256": "5bcc1885f81471ab23cfc57340608f4cd614839431523b581e4acc8bf1e6d068",
+          "bytes": 58789
+        }
+      ],
+      "errors": [],
+      "requests": [],
+      "screenshot": "firefox-375-trainspotter.png"
+    }
+  ]
+}

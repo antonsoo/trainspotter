@@ -81,3 +81,35 @@ retained exports. Delimiter inference is bounded and cannot establish every
 producer's intended dialect. An empty or entirely damaged sample keeps the
 existing header-width fallback. This is an import repair, not a new detector
 accuracy study or evidence of production training health.
+
+## Clean builds and public workbench
+
+The implementation is `7f6894093461a0a5abeca568ec749df9da4e5263`, pushed
+to public Git. A fresh source archive passed Ruff, strict mypy over 32 files,
+822 Python checks and a wheel/sdist build on Python 3.12.12 / NumPy 2.5.3.
+All 33 runtime files match across source, wheel, sdist and both isolated installs.
+The wheel is SHA-256
+`906bc3138a2816cbb68bbba3ac4171b1a6cd7c67c5a352dfdc53314075ebe2b6`.
+
+The installed wheel replays all ten exports with no observation mismatch on
+Python 3.10.21 / NumPy 1.24.0 and Python 3.14.7 / NumPy 2.5.4. The minimum
+environment also passes all 822 Python checks. Forty offline study-report
+workflows and all 220 existing browser-report workflows passed. The latter
+were selected per engine/layout after interrupted longer invocations; the
+tracked browser program was not changed. See [`results/verification.json`](results/verification.json).
+
+The [public workbench](https://huggingface.co/spaces/antonsoloviev/trainspotter/tree/d6ab82a389dcaa78cb560b6efbff1bacfdb3b876)
+now pins this engine and uses the same delimiter decision for its bounded
+upload preflight. That separate adapter correction is necessary: an engine
+re-pin alone still left semicolon and tab exports unreadable there. Fresh
+Chromium and Firefox desktop/phone contexts uploaded every retained file and
+saved 80 actual JSON/HTML reports, with exact numeric histories and the
+documented small tolerance for native/WASM calculated statistics. Ambiguous
+input preserves the preceding report. The study and ordinary public audits
+record zero page errors and zero HTTP requests during processing after startup.
+All 65 published workbench files were verified against the tested bundle,
+using immutable Hub card bytes and the host's known data-only entrypoint change.
+
+Receipts distinguish source, local installs, browser reports and public delivery.
+This does not publish a new PyPI release or tag; the locally built wheel still
+uses the existing package version.

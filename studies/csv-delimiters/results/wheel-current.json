@@ -1,0 +1,1837 @@
+{
+  "expectation": "after",
+  "cases": [
+    {
+      "name": "control",
+      "inputSha256": "8d9c85643e6e4c5ccd1dfe78fb229ccdf1e74a48e13f57082ef99f51a3ba70fe",
+      "exitCode": 1,
+      "stderr": "",
+      "observations": {
+        "train/loss": {
+          "count": 323,
+          "sha256": "1f6f15371d645cff36ec41a79de593f52b5eb804ad65e4f8b07e590c3ec30cc7"
+        },
+        "lr": {
+          "count": 323,
+          "sha256": "8801d9ffb7e28563b2520c9a35fa17d6523cd2711972c7f5a46d7b118e5264ee"
+        },
+        "eval/loss": {
+          "count": 33,
+          "sha256": "c3da21f7c27f736fb137de63b2103537eb5f07cdb63c6558047bda0d72b0325e"
+        }
+      },
+      "findings": [
+        {
+          "detector": "divergence",
+          "title": "Non-finite training loss",
+          "severity": "error",
+          "metric": "train/loss",
+          "step_start": 322,
+          "step_end": 322,
+          "message": "train/loss became Inf at step 322 (1 non-finite point(s) in this run).",
+          "evidence": {
+            "first_bad_step": 322,
+            "count": 1
+          },
+          "fixes": [
+            "Inspect the objective and logging reduction separately: an empty batch or empty logging window can produce NaN even while optimizer updates remain finite.",
+            "Check for a divide-by-zero or log(0) in the loss calculation.",
+            "If the optimizer's loss or gradients also become non-finite, inspect the learning rate, gradient clipping and mixed-precision loss scaling."
+          ]
+        },
+        {
+          "detector": "spikes",
+          "title": "Loss spike",
+          "severity": "warning",
+          "metric": "eval/loss",
+          "step_start": 320,
+          "step_end": 320,
+          "message": "eval/loss jumped to 54.88 at step 320 from a level of 0.1838, 29 times the run's progress, for 1 logged point.",
+          "evidence": {
+            "peak_step": 320,
+            "peak_value": 54.879071152792534,
+            "level": 0.18380520075447826,
+            "share_of_progress": 29.2103096990222,
+            "robust_z": 83.72016735609087,
+            "window": 21,
+            "threshold": 6.0
+          },
+          "fixes": [
+            "Lower the learning rate or add/extend LR warmup.",
+            "Clip gradients (or lower the existing max-norm).",
+            "Check the batch at this step for a data or tokenization bug (e.g. an unmasked pad token, a corrupted shard).",
+            "If the level came straight back and it doesn't recur, it may be one bad batch."
+          ]
+        },
+        {
+          "detector": "spikes",
+          "title": "Loss spike",
+          "severity": "warning",
+          "metric": "train/loss",
+          "step_start": 321,
+          "step_end": 321,
+          "message": "train/loss jumped to 55.49 at step 321 from a level of 0.1953, 22 times the finite segment's progress, for 1 logged point. Assessed within the finite segment at steps 0-321 (322 observations); no loss trajectory is inferred across NaN/Inf readings.",
+          "evidence": {
+            "peak_step": 321,
+            "peak_value": 55.48785726812561,
+            "level": 0.19525849698248648,
+            "share_of_progress": 21.884086878387556,
+            "robust_z": 18.702618748104218,
+            "window": 21,
+            "threshold": 6.0,
+            "segment_start_step": 0,
+            "segment_end_step": 321,
+            "segment_observations": 322
+          },
+          "fixes": [
+            "Lower the learning rate or add/extend LR warmup.",
+            "Clip gradients (or lower the existing max-norm).",
+            "Check the batch at this step for a data or tokenization bug (e.g. an unmasked pad token, a corrupted shard).",
+            "If the level came straight back and it doesn't recur, it may be one bad batch."
+          ]
+        },
+        {
+          "detector": "overfitting",
+          "title": "Evaluation loss rising",
+          "severity": "info",
+          "metric": "eval/loss",
+          "step_start": 290,
+          "step_end": 320,
+          "message": "Lowest logged eval/loss in this finite segment was 0.183 at step 290; the last value is 54.88 (299.9x its minimum, slope diagnostic p=0.0833). (Downgraded: a spikes finding at step 321 explains this rise better than ordinary overfitting does.)",
+          "evidence": {
+            "segment_start": 0,
+            "segment_observations": 33,
+            "best_step": 290,
+            "best_value": 0.18298490886283636,
+            "current_value": 54.879071152792534,
+            "relative_rise": 298.91036689221914,
+            "slope_p_value": 0.08325787746607749,
+            "slope_status": "assessed",
+            "training_status": "opposing_trends_not_established",
+            "training_observations": 31,
+            "overlap_eval_observations": 4,
+            "training_step_start": 290,
+            "training_step_end": 320,
+            "overlap_eval_step_start": 290,
+            "overlap_eval_step_end": 320,
+            "training_scaled_slope": -0.002497209827505516,
+            "training_slope_p_value": 0.4069364107317077,
+            "overlap_eval_scaled_slope": 0.029899949395526457,
+            "overlap_eval_slope_p_value": 0.08325787746607749
+          },
+          "fixes": [
+            "If a checkpoint was saved near step 290, compare it with the last saved checkpoint on the same evaluation examples.",
+            "Check evaluation-data and metric-definition changes before attributing the rise to training.",
+            "If the regression persists on a comparable evaluation set, consider early stopping, regularization, or more training data."
+          ]
+        },
+        {
+          "detector": "lr_schedule",
+          "title": "LR rose after decay",
+          "severity": "info",
+          "metric": "lr",
+          "step_start": 319,
+          "step_end": 322,
+          "message": "lr fell from 0.4 at step 20 to 1.097e-05 at step 319, then rose to 30 at step 322. This can be an intended cycle or restart; the log alone does not establish a scheduler fault.",
+          "evidence": {
+            "earlier_peak": 0.4,
+            "peak_step": 20,
+            "low_value": 1.0966126897571372e-05,
+            "low_step": 319,
+            "high_value": 30.0,
+            "high_step": 322,
+            "confirmed_step": 320,
+            "rise_fraction_of_peak": 0.9999996344624368,
+            "bump_tolerance": 0.01
+          },
+          "fixes": [
+            "If this matches an intended cycle or warm restart, no correction is needed.",
+            "Otherwise, check that scheduler state was restored with the optimizer after a checkpoint resume.",
+            "Check the scheduler's configured horizon and how often scheduler.step() is called."
+          ]
+        }
+      ],
+      "metrics": {
+        "eval/loss": {
+          "count": 33,
+          "analysis_count": 33,
+          "distinct_steps": 33,
+          "analysis_excluded": false,
+          "first_step": 0,
+          "last_step": 320
+        },
+        "lr": {
+          "count": 323,
+          "analysis_count": 323,
+          "distinct_steps": 323,
+          "analysis_excluded": false,
+          "first_step": 0,
+          "last_step": 322
+        },
+        "train/loss": {
+          "count": 323,
+          "analysis_count": 323,
+          "distinct_steps": 323,
+          "analysis_excluded": false,
+          "first_step": 0,
+          "last_step": 322
+        }
+      },
+      "htmlSha256": "060a8f03c90d3a6dc92152ed08ffb8f4114852ce0974ccbeb8067a5ef47d7d8e",
+      "watch": {
+        "exitCode": 1,
+        "stdout": "watching fixtures/control.csv (Ctrl-C to stop)\n[ERROR  ] steps 322           divergence   Non-finite training loss: train/loss became Inf at step 322 (1 non-finite point(s) in this run).\n[WARNING] steps 320           spikes       Loss spike: eval/loss jumped to 54.88 at step 320 from a level of 0.1838, 29 times the run's progress, for 1 logged point.\n[WARNING] steps 321           spikes       Loss spike: train/loss jumped to 55.49 at step 321 from a level of 0.1953, 22 times the finite segment's progress, for 1 logged point. Assessed within the finite segment at steps 0-321 (322 observations); no loss trajectory is inferred across NaN/Inf readings.\n[INFO   ] steps 290-320       overfitting  Evaluation loss rising: Lowest logged eval/loss in this finite segment was 0.183 at step 290; the last value is 54.88 (299.9x its minimum, slope diagnostic p=0.0833). (Downgraded: a spikes finding at step 321 explains this rise better than ordinary overfitting does.)\n[INFO   ] steps 319-322       lr_schedule  LR rose after decay: lr fell from 0.4 at step 20 to 1.097e-05 at step 319, then rose to 30 at step 322. This can be an intended cycle or restart; the log alone does not establish a scheduler fault.\n",
+        "stderr": ""
+      }
+    },
+    {
+      "name": "chart-plain",
+      "inputSha256": "417794e844c82fa297dd3a80ba94d8392d6719b393934e071bfc1bf630685607",
+      "exitCode": 1,
+      "stderr": "",
+      "observations": {
+        "train/loss": {
+          "count": 323,
+          "sha256": "1f6f15371d645cff36ec41a79de593f52b5eb804ad65e4f8b07e590c3ec30cc7"
+        },
+        "lr": {
+          "count": 323,
+          "sha256": "8801d9ffb7e28563b2520c9a35fa17d6523cd2711972c7f5a46d7b118e5264ee"
+        },
+        "eval/loss": {
+          "count": 33,
+          "sha256": "c3da21f7c27f736fb137de63b2103537eb5f07cdb63c6558047bda0d72b0325e"
+        }
+      },
+      "findings": [
+        {
+          "detector": "divergence",
+          "title": "Non-finite training loss",
+          "severity": "error",
+          "metric": "train/loss",
+          "step_start": 322,
+          "step_end": 322,
+          "message": "train/loss became Inf at step 322 (1 non-finite point(s) in this run).",
+          "evidence": {
+            "first_bad_step": 322,
+            "count": 1
+          },
+          "fixes": [
+            "Inspect the objective and logging reduction separately: an empty batch or empty logging window can produce NaN even while optimizer updates remain finite.",
+            "Check for a divide-by-zero or log(0) in the loss calculation.",
+            "If the optimizer's loss or gradients also become non-finite, inspect the learning rate, gradient clipping and mixed-precision loss scaling."
+          ]
+        },
+        {
+          "detector": "spikes",
+          "title": "Loss spike",
+          "severity": "warning",
+          "metric": "eval/loss",
+          "step_start": 320,
+          "step_end": 320,
+          "message": "eval/loss jumped to 54.88 at step 320 from a level of 0.1838, 29 times the run's progress, for 1 logged point.",
+          "evidence": {
+            "peak_step": 320,
+            "peak_value": 54.879071152792534,
+            "level": 0.18380520075447826,
+            "share_of_progress": 29.2103096990222,
+            "robust_z": 83.72016735609087,
+            "window": 21,
+            "threshold": 6.0
+          },
+          "fixes": [
+            "Lower the learning rate or add/extend LR warmup.",
+            "Clip gradients (or lower the existing max-norm).",
+            "Check the batch at this step for a data or tokenization bug (e.g. an unmasked pad token, a corrupted shard).",
+            "If the level came straight back and it doesn't recur, it may be one bad batch."
+          ]
+        },
+        {
+          "detector": "spikes",
+          "title": "Loss spike",
+          "severity": "warning",
+          "metric": "train/loss",
+          "step_start": 321,
+          "step_end": 321,
+          "message": "train/loss jumped to 55.49 at step 321 from a level of 0.1953, 22 times the finite segment's progress, for 1 logged point. Assessed within the finite segment at steps 0-321 (322 observations); no loss trajectory is inferred across NaN/Inf readings.",
+          "evidence": {
+            "peak_step": 321,
+            "peak_value": 55.48785726812561,
+            "level": 0.19525849698248648,
+            "share_of_progress": 21.884086878387556,
+            "robust_z": 18.702618748104218,
+            "window": 21,
+            "threshold": 6.0,
+            "segment_start_step": 0,
+            "segment_end_step": 321,
+            "segment_observations": 322
+          },
+          "fixes": [
+            "Lower the learning rate or add/extend LR warmup.",
+            "Clip gradients (or lower the existing max-norm).",
+            "Check the batch at this step for a data or tokenization bug (e.g. an unmasked pad token, a corrupted shard).",
+            "If the level came straight back and it doesn't recur, it may be one bad batch."
+          ]
+        },
+        {
+          "detector": "overfitting",
+          "title": "Evaluation loss rising",
+          "severity": "info",
+          "metric": "eval/loss",
+          "step_start": 290,
+          "step_end": 320,
+          "message": "Lowest logged eval/loss in this finite segment was 0.183 at step 290; the last value is 54.88 (299.9x its minimum, slope diagnostic p=0.0833). (Downgraded: a spikes finding at step 321 explains this rise better than ordinary overfitting does.)",
+          "evidence": {
+            "segment_start": 0,
+            "segment_observations": 33,
+            "best_step": 290,
+            "best_value": 0.18298490886283636,
+            "current_value": 54.879071152792534,
+            "relative_rise": 298.91036689221914,
+            "slope_p_value": 0.08325787746607749,
+            "slope_status": "assessed",
+            "training_status": "opposing_trends_not_established",
+            "training_observations": 31,
+            "overlap_eval_observations": 4,
+            "training_step_start": 290,
+            "training_step_end": 320,
+            "overlap_eval_step_start": 290,
+            "overlap_eval_step_end": 320,
+            "training_scaled_slope": -0.002497209827505516,
+            "training_slope_p_value": 0.4069364107317077,
+            "overlap_eval_scaled_slope": 0.029899949395526457,
+            "overlap_eval_slope_p_value": 0.08325787746607749
+          },
+          "fixes": [
+            "If a checkpoint was saved near step 290, compare it with the last saved checkpoint on the same evaluation examples.",
+            "Check evaluation-data and metric-definition changes before attributing the rise to training.",
+            "If the regression persists on a comparable evaluation set, consider early stopping, regularization, or more training data."
+          ]
+        },
+        {
+          "detector": "lr_schedule",
+          "title": "LR rose after decay",
+          "severity": "info",
+          "metric": "lr",
+          "step_start": 319,
+          "step_end": 322,
+          "message": "lr fell from 0.4 at step 20 to 1.097e-05 at step 319, then rose to 30 at step 322. This can be an intended cycle or restart; the log alone does not establish a scheduler fault.",
+          "evidence": {
+            "earlier_peak": 0.4,
+            "peak_step": 20,
+            "low_value": 1.0966126897571372e-05,
+            "low_step": 319,
+            "high_value": 30.0,
+            "high_step": 322,
+            "confirmed_step": 320,
+            "rise_fraction_of_peak": 0.9999996344624368,
+            "bump_tolerance": 0.01
+          },
+          "fixes": [
+            "If this matches an intended cycle or warm restart, no correction is needed.",
+            "Otherwise, check that scheduler state was restored with the optimizer after a checkpoint resume.",
+            "Check the scheduler's configured horizon and how often scheduler.step() is called."
+          ]
+        }
+      ],
+      "metrics": {
+        "eval/loss": {
+          "count": 33,
+          "analysis_count": 33,
+          "distinct_steps": 33,
+          "analysis_excluded": false,
+          "first_step": 0,
+          "last_step": 320
+        },
+        "lr": {
+          "count": 323,
+          "analysis_count": 323,
+          "distinct_steps": 323,
+          "analysis_excluded": false,
+          "first_step": 0,
+          "last_step": 322
+        },
+        "train/loss": {
+          "count": 323,
+          "analysis_count": 323,
+          "distinct_steps": 323,
+          "analysis_excluded": false,
+          "first_step": 0,
+          "last_step": 322
+        }
+      },
+      "htmlSha256": "84e282cbb8dc8e4a896f5fb38a33f5591e3f813dc392259565ebb64d13ca4cd9",
+      "watch": {
+        "exitCode": 1,
+        "stdout": "watching fixtures/chart-plain.csv (Ctrl-C to stop)\nrun      baseline (selection held while watching)\n[ERROR  ] steps 322           divergence   Non-finite training loss: train/loss became Inf at step 322 (1 non-finite point(s) in this run).\n[WARNING] steps 320           spikes       Loss spike: eval/loss jumped to 54.88 at step 320 from a level of 0.1838, 29 times the run's progress, for 1 logged point.\n[WARNING] steps 321           spikes       Loss spike: train/loss jumped to 55.49 at step 321 from a level of 0.1953, 22 times the finite segment's progress, for 1 logged point. Assessed within the finite segment at steps 0-321 (322 observations); no loss trajectory is inferred across NaN/Inf readings.\n[INFO   ] steps 290-320       overfitting  Evaluation loss rising: Lowest logged eval/loss in this finite segment was 0.183 at step 290; the last value is 54.88 (299.9x its minimum, slope diagnostic p=0.0833). (Downgraded: a spikes finding at step 321 explains this rise better than ordinary overfitting does.)\n[INFO   ] steps 319-322       lr_schedule  LR rose after decay: lr fell from 0.4 at step 20 to 1.097e-05 at step 319, then rose to 30 at step 322. This can be an intended cycle or restart; the log alone does not establish a scheduler fault.\n",
+        "stderr": ""
+      }
+    },
+    {
+      "name": "chart-semicolons",
+      "inputSha256": "46fd24b1410c3e7145d85131bc4af1eedf85ece1e6fc20675f97f88a11a964f1",
+      "exitCode": 1,
+      "stderr": "",
+      "observations": {
+        "train/loss": {
+          "count": 323,
+          "sha256": "1f6f15371d645cff36ec41a79de593f52b5eb804ad65e4f8b07e590c3ec30cc7"
+        },
+        "lr": {
+          "count": 323,
+          "sha256": "8801d9ffb7e28563b2520c9a35fa17d6523cd2711972c7f5a46d7b118e5264ee"
+        },
+        "eval/loss": {
+          "count": 33,
+          "sha256": "c3da21f7c27f736fb137de63b2103537eb5f07cdb63c6558047bda0d72b0325e"
+        }
+      },
+      "findings": [
+        {
+          "detector": "divergence",
+          "title": "Non-finite training loss",
+          "severity": "error",
+          "metric": "train/loss",
+          "step_start": 322,
+          "step_end": 322,
+          "message": "train/loss became Inf at step 322 (1 non-finite point(s) in this run).",
+          "evidence": {
+            "first_bad_step": 322,
+            "count": 1
+          },
+          "fixes": [
+            "Inspect the objective and logging reduction separately: an empty batch or empty logging window can produce NaN even while optimizer updates remain finite.",
+            "Check for a divide-by-zero or log(0) in the loss calculation.",
+            "If the optimizer's loss or gradients also become non-finite, inspect the learning rate, gradient clipping and mixed-precision loss scaling."
+          ]
+        },
+        {
+          "detector": "spikes",
+          "title": "Loss spike",
+          "severity": "warning",
+          "metric": "eval/loss",
+          "step_start": 320,
+          "step_end": 320,
+          "message": "eval/loss jumped to 54.88 at step 320 from a level of 0.1838, 29 times the run's progress, for 1 logged point.",
+          "evidence": {
+            "peak_step": 320,
+            "peak_value": 54.879071152792534,
+            "level": 0.18380520075447826,
+            "share_of_progress": 29.2103096990222,
+            "robust_z": 83.72016735609087,
+            "window": 21,
+            "threshold": 6.0
+          },
+          "fixes": [
+            "Lower the learning rate or add/extend LR warmup.",
+            "Clip gradients (or lower the existing max-norm).",
+            "Check the batch at this step for a data or tokenization bug (e.g. an unmasked pad token, a corrupted shard).",
+            "If the level came straight back and it doesn't recur, it may be one bad batch."
+          ]
+        },
+        {
+          "detector": "spikes",
+          "title": "Loss spike",
+          "severity": "warning",
+          "metric": "train/loss",
+          "step_start": 321,
+          "step_end": 321,
+          "message": "train/loss jumped to 55.49 at step 321 from a level of 0.1953, 22 times the finite segment's progress, for 1 logged point. Assessed within the finite segment at steps 0-321 (322 observations); no loss trajectory is inferred across NaN/Inf readings.",
+          "evidence": {
+            "peak_step": 321,
+            "peak_value": 55.48785726812561,
+            "level": 0.19525849698248648,
+            "share_of_progress": 21.884086878387556,
+            "robust_z": 18.702618748104218,
+            "window": 21,
+            "threshold": 6.0,
+            "segment_start_step": 0,
+            "segment_end_step": 321,
+            "segment_observations": 322
+          },
+          "fixes": [
+            "Lower the learning rate or add/extend LR warmup.",
+            "Clip gradients (or lower the existing max-norm).",
+            "Check the batch at this step for a data or tokenization bug (e.g. an unmasked pad token, a corrupted shard).",
+            "If the level came straight back and it doesn't recur, it may be one bad batch."
+          ]
+        },
+        {
+          "detector": "overfitting",
+          "title": "Evaluation loss rising",
+          "severity": "info",
+          "metric": "eval/loss",
+          "step_start": 290,
+          "step_end": 320,
+          "message": "Lowest logged eval/loss in this finite segment was 0.183 at step 290; the last value is 54.88 (299.9x its minimum, slope diagnostic p=0.0833). (Downgraded: a spikes finding at step 321 explains this rise better than ordinary overfitting does.)",
+          "evidence": {
+            "segment_start": 0,
+            "segment_observations": 33,
+            "best_step": 290,
+            "best_value": 0.18298490886283636,
+            "current_value": 54.879071152792534,
+            "relative_rise": 298.91036689221914,
+            "slope_p_value": 0.08325787746607749,
+            "slope_status": "assessed",
+            "training_status": "opposing_trends_not_established",
+            "training_observations": 31,
+            "overlap_eval_observations": 4,
+            "training_step_start": 290,
+            "training_step_end": 320,
+            "overlap_eval_step_start": 290,
+            "overlap_eval_step_end": 320,
+            "training_scaled_slope": -0.002497209827505516,
+            "training_slope_p_value": 0.4069364107317077,
+            "overlap_eval_scaled_slope": 0.029899949395526457,
+            "overlap_eval_slope_p_value": 0.08325787746607749
+          },
+          "fixes": [
+            "If a checkpoint was saved near step 290, compare it with the last saved checkpoint on the same evaluation examples.",
+            "Check evaluation-data and metric-definition changes before attributing the rise to training.",
+            "If the regression persists on a comparable evaluation set, consider early stopping, regularization, or more training data."
+          ]
+        },
+        {
+          "detector": "lr_schedule",
+          "title": "LR rose after decay",
+          "severity": "info",
+          "metric": "lr",
+          "step_start": 319,
+          "step_end": 322,
+          "message": "lr fell from 0.4 at step 20 to 1.097e-05 at step 319, then rose to 30 at step 322. This can be an intended cycle or restart; the log alone does not establish a scheduler fault.",
+          "evidence": {
+            "earlier_peak": 0.4,
+            "peak_step": 20,
+            "low_value": 1.0966126897571372e-05,
+            "low_step": 319,
+            "high_value": 30.0,
+            "high_step": 322,
+            "confirmed_step": 320,
+            "rise_fraction_of_peak": 0.9999996344624368,
+            "bump_tolerance": 0.01
+          },
+          "fixes": [
+            "If this matches an intended cycle or warm restart, no correction is needed.",
+            "Otherwise, check that scheduler state was restored with the optimizer after a checkpoint resume.",
+            "Check the scheduler's configured horizon and how often scheduler.step() is called."
+          ]
+        }
+      ],
+      "metrics": {
+        "eval/loss": {
+          "count": 33,
+          "analysis_count": 33,
+          "distinct_steps": 33,
+          "analysis_excluded": false,
+          "first_step": 0,
+          "last_step": 320
+        },
+        "lr": {
+          "count": 323,
+          "analysis_count": 323,
+          "distinct_steps": 323,
+          "analysis_excluded": false,
+          "first_step": 0,
+          "last_step": 322
+        },
+        "train/loss": {
+          "count": 323,
+          "analysis_count": 323,
+          "distinct_steps": 323,
+          "analysis_excluded": false,
+          "first_step": 0,
+          "last_step": 322
+        }
+      },
+      "htmlSha256": "db4cf915ee1a5b4d16021769cdfc7236ea3ade2f7050ec4c6f0e6389f542f7de",
+      "watch": {
+        "exitCode": 1,
+        "stdout": "watching fixtures/chart-semicolons.csv (Ctrl-C to stop)\nrun      seed=0; lr=0.001; wd=0.01 (selection held while watching)\n[ERROR  ] steps 322           divergence   Non-finite training loss: train/loss became Inf at step 322 (1 non-finite point(s) in this run).\n[WARNING] steps 320           spikes       Loss spike: eval/loss jumped to 54.88 at step 320 from a level of 0.1838, 29 times the run's progress, for 1 logged point.\n[WARNING] steps 321           spikes       Loss spike: train/loss jumped to 55.49 at step 321 from a level of 0.1953, 22 times the finite segment's progress, for 1 logged point. Assessed within the finite segment at steps 0-321 (322 observations); no loss trajectory is inferred across NaN/Inf readings.\n[INFO   ] steps 290-320       overfitting  Evaluation loss rising: Lowest logged eval/loss in this finite segment was 0.183 at step 290; the last value is 54.88 (299.9x its minimum, slope diagnostic p=0.0833). (Downgraded: a spikes finding at step 321 explains this rise better than ordinary overfitting does.)\n[INFO   ] steps 319-322       lr_schedule  LR rose after decay: lr fell from 0.4 at step 20 to 1.097e-05 at step 319, then rose to 30 at step 322. This can be an intended cycle or restart; the log alone does not establish a scheduler fault.\n",
+        "stderr": ""
+      }
+    },
+    {
+      "name": "chart-tabs",
+      "inputSha256": "aff21723822ce68ae5a9a794305c42e671bfda92b9430c1485ed3f087ae78f69",
+      "exitCode": 1,
+      "stderr": "",
+      "observations": {
+        "train/loss": {
+          "count": 323,
+          "sha256": "1f6f15371d645cff36ec41a79de593f52b5eb804ad65e4f8b07e590c3ec30cc7"
+        },
+        "lr": {
+          "count": 323,
+          "sha256": "8801d9ffb7e28563b2520c9a35fa17d6523cd2711972c7f5a46d7b118e5264ee"
+        },
+        "eval/loss": {
+          "count": 33,
+          "sha256": "c3da21f7c27f736fb137de63b2103537eb5f07cdb63c6558047bda0d72b0325e"
+        }
+      },
+      "findings": [
+        {
+          "detector": "divergence",
+          "title": "Non-finite training loss",
+          "severity": "error",
+          "metric": "train/loss",
+          "step_start": 322,
+          "step_end": 322,
+          "message": "train/loss became Inf at step 322 (1 non-finite point(s) in this run).",
+          "evidence": {
+            "first_bad_step": 322,
+            "count": 1
+          },
+          "fixes": [
+            "Inspect the objective and logging reduction separately: an empty batch or empty logging window can produce NaN even while optimizer updates remain finite.",
+            "Check for a divide-by-zero or log(0) in the loss calculation.",
+            "If the optimizer's loss or gradients also become non-finite, inspect the learning rate, gradient clipping and mixed-precision loss scaling."
+          ]
+        },
+        {
+          "detector": "spikes",
+          "title": "Loss spike",
+          "severity": "warning",
+          "metric": "eval/loss",
+          "step_start": 320,
+          "step_end": 320,
+          "message": "eval/loss jumped to 54.88 at step 320 from a level of 0.1838, 29 times the run's progress, for 1 logged point.",
+          "evidence": {
+            "peak_step": 320,
+            "peak_value": 54.879071152792534,
+            "level": 0.18380520075447826,
+            "share_of_progress": 29.2103096990222,
+            "robust_z": 83.72016735609087,
+            "window": 21,
+            "threshold": 6.0
+          },
+          "fixes": [
+            "Lower the learning rate or add/extend LR warmup.",
+            "Clip gradients (or lower the existing max-norm).",
+            "Check the batch at this step for a data or tokenization bug (e.g. an unmasked pad token, a corrupted shard).",
+            "If the level came straight back and it doesn't recur, it may be one bad batch."
+          ]
+        },
+        {
+          "detector": "spikes",
+          "title": "Loss spike",
+          "severity": "warning",
+          "metric": "train/loss",
+          "step_start": 321,
+          "step_end": 321,
+          "message": "train/loss jumped to 55.49 at step 321 from a level of 0.1953, 22 times the finite segment's progress, for 1 logged point. Assessed within the finite segment at steps 0-321 (322 observations); no loss trajectory is inferred across NaN/Inf readings.",
+          "evidence": {
+            "peak_step": 321,
+            "peak_value": 55.48785726812561,
+            "level": 0.19525849698248648,
+            "share_of_progress": 21.884086878387556,
+            "robust_z": 18.702618748104218,
+            "window": 21,
+            "threshold": 6.0,
+            "segment_start_step": 0,
+            "segment_end_step": 321,
+            "segment_observations": 322
+          },
+          "fixes": [
+            "Lower the learning rate or add/extend LR warmup.",
+            "Clip gradients (or lower the existing max-norm).",
+            "Check the batch at this step for a data or tokenization bug (e.g. an unmasked pad token, a corrupted shard).",
+            "If the level came straight back and it doesn't recur, it may be one bad batch."
+          ]
+        },
+        {
+          "detector": "overfitting",
+          "title": "Evaluation loss rising",
+          "severity": "info",
+          "metric": "eval/loss",
+          "step_start": 290,
+          "step_end": 320,
+          "message": "Lowest logged eval/loss in this finite segment was 0.183 at step 290; the last value is 54.88 (299.9x its minimum, slope diagnostic p=0.0833). (Downgraded: a spikes finding at step 321 explains this rise better than ordinary overfitting does.)",
+          "evidence": {
+            "segment_start": 0,
+            "segment_observations": 33,
+            "best_step": 290,
+            "best_value": 0.18298490886283636,
+            "current_value": 54.879071152792534,
+            "relative_rise": 298.91036689221914,
+            "slope_p_value": 0.08325787746607749,
+            "slope_status": "assessed",
+            "training_status": "opposing_trends_not_established",
+            "training_observations": 31,
+            "overlap_eval_observations": 4,
+            "training_step_start": 290,
+            "training_step_end": 320,
+            "overlap_eval_step_start": 290,
+            "overlap_eval_step_end": 320,
+            "training_scaled_slope": -0.002497209827505516,
+            "training_slope_p_value": 0.4069364107317077,
+            "overlap_eval_scaled_slope": 0.029899949395526457,
+            "overlap_eval_slope_p_value": 0.08325787746607749
+          },
+          "fixes": [
+            "If a checkpoint was saved near step 290, compare it with the last saved checkpoint on the same evaluation examples.",
+            "Check evaluation-data and metric-definition changes before attributing the rise to training.",
+            "If the regression persists on a comparable evaluation set, consider early stopping, regularization, or more training data."
+          ]
+        },
+        {
+          "detector": "lr_schedule",
+          "title": "LR rose after decay",
+          "severity": "info",
+          "metric": "lr",
+          "step_start": 319,
+          "step_end": 322,
+          "message": "lr fell from 0.4 at step 20 to 1.097e-05 at step 319, then rose to 30 at step 322. This can be an intended cycle or restart; the log alone does not establish a scheduler fault.",
+          "evidence": {
+            "earlier_peak": 0.4,
+            "peak_step": 20,
+            "low_value": 1.0966126897571372e-05,
+            "low_step": 319,
+            "high_value": 30.0,
+            "high_step": 322,
+            "confirmed_step": 320,
+            "rise_fraction_of_peak": 0.9999996344624368,
+            "bump_tolerance": 0.01
+          },
+          "fixes": [
+            "If this matches an intended cycle or warm restart, no correction is needed.",
+            "Otherwise, check that scheduler state was restored with the optimizer after a checkpoint resume.",
+            "Check the scheduler's configured horizon and how often scheduler.step() is called."
+          ]
+        }
+      ],
+      "metrics": {
+        "eval/loss": {
+          "count": 33,
+          "analysis_count": 33,
+          "distinct_steps": 33,
+          "analysis_excluded": false,
+          "first_step": 0,
+          "last_step": 320
+        },
+        "lr": {
+          "count": 323,
+          "analysis_count": 323,
+          "distinct_steps": 323,
+          "analysis_excluded": false,
+          "first_step": 0,
+          "last_step": 322
+        },
+        "train/loss": {
+          "count": 323,
+          "analysis_count": 323,
+          "distinct_steps": 323,
+          "analysis_excluded": false,
+          "first_step": 0,
+          "last_step": 322
+        }
+      },
+      "htmlSha256": "f1d046d179481493f712c446a86c96ec4147a1a6653b2555290d68bca83d7c24",
+      "watch": {
+        "exitCode": 1,
+        "stdout": "watching fixtures/chart-tabs.csv (Ctrl-C to stop)\nrun      seed=0\\x09lr=0.001\\x09wd=0.01 (selection held while watching)\n[ERROR  ] steps 322           divergence   Non-finite training loss: train/loss became Inf at step 322 (1 non-finite point(s) in this run).\n[WARNING] steps 320           spikes       Loss spike: eval/loss jumped to 54.88 at step 320 from a level of 0.1838, 29 times the run's progress, for 1 logged point.\n[WARNING] steps 321           spikes       Loss spike: train/loss jumped to 55.49 at step 321 from a level of 0.1953, 22 times the finite segment's progress, for 1 logged point. Assessed within the finite segment at steps 0-321 (322 observations); no loss trajectory is inferred across NaN/Inf readings.\n[INFO   ] steps 290-320       overfitting  Evaluation loss rising: Lowest logged eval/loss in this finite segment was 0.183 at step 290; the last value is 54.88 (299.9x its minimum, slope diagnostic p=0.0833). (Downgraded: a spikes finding at step 321 explains this rise better than ordinary overfitting does.)\n[INFO   ] steps 319-322       lr_schedule  LR rose after decay: lr fell from 0.4 at step 20 to 1.097e-05 at step 319, then rose to 30 at step 322. This can be an intended cycle or restart; the log alone does not establish a scheduler fault.\n",
+        "stderr": ""
+      }
+    },
+    {
+      "name": "chart-quotes",
+      "inputSha256": "f962dc633599f574ecbbc591d09514e33995467c3c936b6eb524bbe089a8d193",
+      "exitCode": 1,
+      "stderr": "",
+      "observations": {
+        "train/loss": {
+          "count": 323,
+          "sha256": "1f6f15371d645cff36ec41a79de593f52b5eb804ad65e4f8b07e590c3ec30cc7"
+        },
+        "lr": {
+          "count": 323,
+          "sha256": "8801d9ffb7e28563b2520c9a35fa17d6523cd2711972c7f5a46d7b118e5264ee"
+        },
+        "eval/loss": {
+          "count": 33,
+          "sha256": "c3da21f7c27f736fb137de63b2103537eb5f07cdb63c6558047bda0d72b0325e"
+        }
+      },
+      "findings": [
+        {
+          "detector": "divergence",
+          "title": "Non-finite training loss",
+          "severity": "error",
+          "metric": "train/loss",
+          "step_start": 322,
+          "step_end": 322,
+          "message": "train/loss became Inf at step 322 (1 non-finite point(s) in this run).",
+          "evidence": {
+            "first_bad_step": 322,
+            "count": 1
+          },
+          "fixes": [
+            "Inspect the objective and logging reduction separately: an empty batch or empty logging window can produce NaN even while optimizer updates remain finite.",
+            "Check for a divide-by-zero or log(0) in the loss calculation.",
+            "If the optimizer's loss or gradients also become non-finite, inspect the learning rate, gradient clipping and mixed-precision loss scaling."
+          ]
+        },
+        {
+          "detector": "spikes",
+          "title": "Loss spike",
+          "severity": "warning",
+          "metric": "eval/loss",
+          "step_start": 320,
+          "step_end": 320,
+          "message": "eval/loss jumped to 54.88 at step 320 from a level of 0.1838, 29 times the run's progress, for 1 logged point.",
+          "evidence": {
+            "peak_step": 320,
+            "peak_value": 54.879071152792534,
+            "level": 0.18380520075447826,
+            "share_of_progress": 29.2103096990222,
+            "robust_z": 83.72016735609087,
+            "window": 21,
+            "threshold": 6.0
+          },
+          "fixes": [
+            "Lower the learning rate or add/extend LR warmup.",
+            "Clip gradients (or lower the existing max-norm).",
+            "Check the batch at this step for a data or tokenization bug (e.g. an unmasked pad token, a corrupted shard).",
+            "If the level came straight back and it doesn't recur, it may be one bad batch."
+          ]
+        },
+        {
+          "detector": "spikes",
+          "title": "Loss spike",
+          "severity": "warning",
+          "metric": "train/loss",
+          "step_start": 321,
+          "step_end": 321,
+          "message": "train/loss jumped to 55.49 at step 321 from a level of 0.1953, 22 times the finite segment's progress, for 1 logged point. Assessed within the finite segment at steps 0-321 (322 observations); no loss trajectory is inferred across NaN/Inf readings.",
+          "evidence": {
+            "peak_step": 321,
+            "peak_value": 55.48785726812561,
+            "level": 0.19525849698248648,
+            "share_of_progress": 21.884086878387556,
+            "robust_z": 18.702618748104218,
+            "window": 21,
+            "threshold": 6.0,
+            "segment_start_step": 0,
+            "segment_end_step": 321,
+            "segment_observations": 322
+          },
+          "fixes": [
+            "Lower the learning rate or add/extend LR warmup.",
+            "Clip gradients (or lower the existing max-norm).",
+            "Check the batch at this step for a data or tokenization bug (e.g. an unmasked pad token, a corrupted shard).",
+            "If the level came straight back and it doesn't recur, it may be one bad batch."
+          ]
+        },
+        {
+          "detector": "overfitting",
+          "title": "Evaluation loss rising",
+          "severity": "info",
+          "metric": "eval/loss",
+          "step_start": 290,
+          "step_end": 320,
+          "message": "Lowest logged eval/loss in this finite segment was 0.183 at step 290; the last value is 54.88 (299.9x its minimum, slope diagnostic p=0.0833). (Downgraded: a spikes finding at step 321 explains this rise better than ordinary overfitting does.)",
+          "evidence": {
+            "segment_start": 0,
+            "segment_observations": 33,
+            "best_step": 290,
+            "best_value": 0.18298490886283636,
+            "current_value": 54.879071152792534,
+            "relative_rise": 298.91036689221914,
+            "slope_p_value": 0.08325787746607749,
+            "slope_status": "assessed",
+            "training_status": "opposing_trends_not_established",
+            "training_observations": 31,
+            "overlap_eval_observations": 4,
+            "training_step_start": 290,
+            "training_step_end": 320,
+            "overlap_eval_step_start": 290,
+            "overlap_eval_step_end": 320,
+            "training_scaled_slope": -0.002497209827505516,
+            "training_slope_p_value": 0.4069364107317077,
+            "overlap_eval_scaled_slope": 0.029899949395526457,
+            "overlap_eval_slope_p_value": 0.08325787746607749
+          },
+          "fixes": [
+            "If a checkpoint was saved near step 290, compare it with the last saved checkpoint on the same evaluation examples.",
+            "Check evaluation-data and metric-definition changes before attributing the rise to training.",
+            "If the regression persists on a comparable evaluation set, consider early stopping, regularization, or more training data."
+          ]
+        },
+        {
+          "detector": "lr_schedule",
+          "title": "LR rose after decay",
+          "severity": "info",
+          "metric": "lr",
+          "step_start": 319,
+          "step_end": 322,
+          "message": "lr fell from 0.4 at step 20 to 1.097e-05 at step 319, then rose to 30 at step 322. This can be an intended cycle or restart; the log alone does not establish a scheduler fault.",
+          "evidence": {
+            "earlier_peak": 0.4,
+            "peak_step": 20,
+            "low_value": 1.0966126897571372e-05,
+            "low_step": 319,
+            "high_value": 30.0,
+            "high_step": 322,
+            "confirmed_step": 320,
+            "rise_fraction_of_peak": 0.9999996344624368,
+            "bump_tolerance": 0.01
+          },
+          "fixes": [
+            "If this matches an intended cycle or warm restart, no correction is needed.",
+            "Otherwise, check that scheduler state was restored with the optimizer after a checkpoint resume.",
+            "Check the scheduler's configured horizon and how often scheduler.step() is called."
+          ]
+        }
+      ],
+      "metrics": {
+        "eval/loss": {
+          "count": 33,
+          "analysis_count": 33,
+          "distinct_steps": 33,
+          "analysis_excluded": false,
+          "first_step": 0,
+          "last_step": 320
+        },
+        "lr": {
+          "count": 323,
+          "analysis_count": 323,
+          "distinct_steps": 323,
+          "analysis_excluded": false,
+          "first_step": 0,
+          "last_step": 322
+        },
+        "train/loss": {
+          "count": 323,
+          "analysis_count": 323,
+          "distinct_steps": 323,
+          "analysis_excluded": false,
+          "first_step": 0,
+          "last_step": 322
+        }
+      },
+      "htmlSha256": "39a73cce58df14b6e8cae2c479835edc528eb9772ccc289ccde34eafc1f47768",
+      "watch": {
+        "exitCode": 1,
+        "stdout": "watching fixtures/chart-quotes.csv (Ctrl-C to stop)\nrun      seed=0, note=\"main\"; lr=0.001; wd=0.01 (selection held while watching)\n[ERROR  ] steps 322           divergence   Non-finite training loss: train/loss became Inf at step 322 (1 non-finite point(s) in this run).\n[WARNING] steps 320           spikes       Loss spike: eval/loss jumped to 54.88 at step 320 from a level of 0.1838, 29 times the run's progress, for 1 logged point.\n[WARNING] steps 321           spikes       Loss spike: train/loss jumped to 55.49 at step 321 from a level of 0.1953, 22 times the finite segment's progress, for 1 logged point. Assessed within the finite segment at steps 0-321 (322 observations); no loss trajectory is inferred across NaN/Inf readings.\n[INFO   ] steps 290-320       overfitting  Evaluation loss rising: Lowest logged eval/loss in this finite segment was 0.183 at step 290; the last value is 54.88 (299.9x its minimum, slope diagnostic p=0.0833). (Downgraded: a spikes finding at step 321 explains this rise better than ordinary overfitting does.)\n[INFO   ] steps 319-322       lr_schedule  LR rose after decay: lr fell from 0.4 at step 20 to 1.097e-05 at step 319, then rose to 30 at step 322. This can be an intended cycle or restart; the log alone does not establish a scheduler fault.\n",
+        "stderr": ""
+      }
+    },
+    {
+      "name": "chart-multiline",
+      "inputSha256": "bd28e2882e271da1bcf7cedc0b3529d8bf1f1aff69eb4323fc4efbe5849e9fd5",
+      "exitCode": 1,
+      "stderr": "",
+      "observations": {
+        "train/loss": {
+          "count": 323,
+          "sha256": "1f6f15371d645cff36ec41a79de593f52b5eb804ad65e4f8b07e590c3ec30cc7"
+        },
+        "lr": {
+          "count": 323,
+          "sha256": "8801d9ffb7e28563b2520c9a35fa17d6523cd2711972c7f5a46d7b118e5264ee"
+        },
+        "eval/loss": {
+          "count": 33,
+          "sha256": "c3da21f7c27f736fb137de63b2103537eb5f07cdb63c6558047bda0d72b0325e"
+        }
+      },
+      "findings": [
+        {
+          "detector": "divergence",
+          "title": "Non-finite training loss",
+          "severity": "error",
+          "metric": "train/loss",
+          "step_start": 322,
+          "step_end": 322,
+          "message": "train/loss became Inf at step 322 (1 non-finite point(s) in this run).",
+          "evidence": {
+            "first_bad_step": 322,
+            "count": 1
+          },
+          "fixes": [
+            "Inspect the objective and logging reduction separately: an empty batch or empty logging window can produce NaN even while optimizer updates remain finite.",
+            "Check for a divide-by-zero or log(0) in the loss calculation.",
+            "If the optimizer's loss or gradients also become non-finite, inspect the learning rate, gradient clipping and mixed-precision loss scaling."
+          ]
+        },
+        {
+          "detector": "spikes",
+          "title": "Loss spike",
+          "severity": "warning",
+          "metric": "eval/loss",
+          "step_start": 320,
+          "step_end": 320,
+          "message": "eval/loss jumped to 54.88 at step 320 from a level of 0.1838, 29 times the run's progress, for 1 logged point.",
+          "evidence": {
+            "peak_step": 320,
+            "peak_value": 54.879071152792534,
+            "level": 0.18380520075447826,
+            "share_of_progress": 29.2103096990222,
+            "robust_z": 83.72016735609087,
+            "window": 21,
+            "threshold": 6.0
+          },
+          "fixes": [
+            "Lower the learning rate or add/extend LR warmup.",
+            "Clip gradients (or lower the existing max-norm).",
+            "Check the batch at this step for a data or tokenization bug (e.g. an unmasked pad token, a corrupted shard).",
+            "If the level came straight back and it doesn't recur, it may be one bad batch."
+          ]
+        },
+        {
+          "detector": "spikes",
+          "title": "Loss spike",
+          "severity": "warning",
+          "metric": "train/loss",
+          "step_start": 321,
+          "step_end": 321,
+          "message": "train/loss jumped to 55.49 at step 321 from a level of 0.1953, 22 times the finite segment's progress, for 1 logged point. Assessed within the finite segment at steps 0-321 (322 observations); no loss trajectory is inferred across NaN/Inf readings.",
+          "evidence": {
+            "peak_step": 321,
+            "peak_value": 55.48785726812561,
+            "level": 0.19525849698248648,
+            "share_of_progress": 21.884086878387556,
+            "robust_z": 18.702618748104218,
+            "window": 21,
+            "threshold": 6.0,
+            "segment_start_step": 0,
+            "segment_end_step": 321,
+            "segment_observations": 322
+          },
+          "fixes": [
+            "Lower the learning rate or add/extend LR warmup.",
+            "Clip gradients (or lower the existing max-norm).",
+            "Check the batch at this step for a data or tokenization bug (e.g. an unmasked pad token, a corrupted shard).",
+            "If the level came straight back and it doesn't recur, it may be one bad batch."
+          ]
+        },
+        {
+          "detector": "overfitting",
+          "title": "Evaluation loss rising",
+          "severity": "info",
+          "metric": "eval/loss",
+          "step_start": 290,
+          "step_end": 320,
+          "message": "Lowest logged eval/loss in this finite segment was 0.183 at step 290; the last value is 54.88 (299.9x its minimum, slope diagnostic p=0.0833). (Downgraded: a spikes finding at step 321 explains this rise better than ordinary overfitting does.)",
+          "evidence": {
+            "segment_start": 0,
+            "segment_observations": 33,
+            "best_step": 290,
+            "best_value": 0.18298490886283636,
+            "current_value": 54.879071152792534,
+            "relative_rise": 298.91036689221914,
+            "slope_p_value": 0.08325787746607749,
+            "slope_status": "assessed",
+            "training_status": "opposing_trends_not_established",
+            "training_observations": 31,
+            "overlap_eval_observations": 4,
+            "training_step_start": 290,
+            "training_step_end": 320,
+            "overlap_eval_step_start": 290,
+            "overlap_eval_step_end": 320,
+            "training_scaled_slope": -0.002497209827505516,
+            "training_slope_p_value": 0.4069364107317077,
+            "overlap_eval_scaled_slope": 0.029899949395526457,
+            "overlap_eval_slope_p_value": 0.08325787746607749
+          },
+          "fixes": [
+            "If a checkpoint was saved near step 290, compare it with the last saved checkpoint on the same evaluation examples.",
+            "Check evaluation-data and metric-definition changes before attributing the rise to training.",
+            "If the regression persists on a comparable evaluation set, consider early stopping, regularization, or more training data."
+          ]
+        },
+        {
+          "detector": "lr_schedule",
+          "title": "LR rose after decay",
+          "severity": "info",
+          "metric": "lr",
+          "step_start": 319,
+          "step_end": 322,
+          "message": "lr fell from 0.4 at step 20 to 1.097e-05 at step 319, then rose to 30 at step 322. This can be an intended cycle or restart; the log alone does not establish a scheduler fault.",
+          "evidence": {
+            "earlier_peak": 0.4,
+            "peak_step": 20,
+            "low_value": 1.0966126897571372e-05,
+            "low_step": 319,
+            "high_value": 30.0,
+            "high_step": 322,
+            "confirmed_step": 320,
+            "rise_fraction_of_peak": 0.9999996344624368,
+            "bump_tolerance": 0.01
+          },
+          "fixes": [
+            "If this matches an intended cycle or warm restart, no correction is needed.",
+            "Otherwise, check that scheduler state was restored with the optimizer after a checkpoint resume.",
+            "Check the scheduler's configured horizon and how often scheduler.step() is called."
+          ]
+        }
+      ],
+      "metrics": {
+        "eval/loss": {
+          "count": 33,
+          "analysis_count": 33,
+          "distinct_steps": 33,
+          "analysis_excluded": false,
+          "first_step": 0,
+          "last_step": 320
+        },
+        "lr": {
+          "count": 323,
+          "analysis_count": 323,
+          "distinct_steps": 323,
+          "analysis_excluded": false,
+          "first_step": 0,
+          "last_step": 322
+        },
+        "train/loss": {
+          "count": 323,
+          "analysis_count": 323,
+          "distinct_steps": 323,
+          "analysis_excluded": false,
+          "first_step": 0,
+          "last_step": 322
+        }
+      },
+      "htmlSha256": "d037422d6e61bfe246c109ef64fcbf83c2fe4da1edd686a6a6e45f000a7d8f13",
+      "watch": {
+        "exitCode": 1,
+        "stdout": "watching fixtures/chart-multiline.csv (Ctrl-C to stop)\nrun      seed=0; lr=0.001;\\x0awd=0.01 (selection held while watching)\n[ERROR  ] steps 322           divergence   Non-finite training loss: train/loss became Inf at step 322 (1 non-finite point(s) in this run).\n[WARNING] steps 320           spikes       Loss spike: eval/loss jumped to 54.88 at step 320 from a level of 0.1838, 29 times the run's progress, for 1 logged point.\n[WARNING] steps 321           spikes       Loss spike: train/loss jumped to 55.49 at step 321 from a level of 0.1953, 22 times the finite segment's progress, for 1 logged point. Assessed within the finite segment at steps 0-321 (322 observations); no loss trajectory is inferred across NaN/Inf readings.\n[INFO   ] steps 290-320       overfitting  Evaluation loss rising: Lowest logged eval/loss in this finite segment was 0.183 at step 290; the last value is 54.88 (299.9x its minimum, slope diagnostic p=0.0833). (Downgraded: a spikes finding at step 321 explains this rise better than ordinary overfitting does.)\n[INFO   ] steps 319-322       lr_schedule  LR rose after decay: lr fell from 0.4 at step 20 to 1.097e-05 at step 319, then rose to 30 at step 322. This can be an intended cycle or restart; the log alone does not establish a scheduler fault.\n",
+        "stderr": ""
+      }
+    },
+    {
+      "name": "semicolon-writer",
+      "inputSha256": "629612974c9e1ac50017e412a8598830c7328c31f2ab3b2b33cd60953dfdb332",
+      "exitCode": 1,
+      "stderr": "",
+      "observations": {
+        "train/loss": {
+          "count": 323,
+          "sha256": "1f6f15371d645cff36ec41a79de593f52b5eb804ad65e4f8b07e590c3ec30cc7"
+        },
+        "lr": {
+          "count": 323,
+          "sha256": "8801d9ffb7e28563b2520c9a35fa17d6523cd2711972c7f5a46d7b118e5264ee"
+        },
+        "eval/loss": {
+          "count": 33,
+          "sha256": "c3da21f7c27f736fb137de63b2103537eb5f07cdb63c6558047bda0d72b0325e"
+        }
+      },
+      "findings": [
+        {
+          "detector": "divergence",
+          "title": "Non-finite training loss",
+          "severity": "error",
+          "metric": "train/loss",
+          "step_start": 322,
+          "step_end": 322,
+          "message": "train/loss became Inf at step 322 (1 non-finite point(s) in this run).",
+          "evidence": {
+            "first_bad_step": 322,
+            "count": 1
+          },
+          "fixes": [
+            "Inspect the objective and logging reduction separately: an empty batch or empty logging window can produce NaN even while optimizer updates remain finite.",
+            "Check for a divide-by-zero or log(0) in the loss calculation.",
+            "If the optimizer's loss or gradients also become non-finite, inspect the learning rate, gradient clipping and mixed-precision loss scaling."
+          ]
+        },
+        {
+          "detector": "spikes",
+          "title": "Loss spike",
+          "severity": "warning",
+          "metric": "eval/loss",
+          "step_start": 320,
+          "step_end": 320,
+          "message": "eval/loss jumped to 54.88 at step 320 from a level of 0.1838, 29 times the run's progress, for 1 logged point.",
+          "evidence": {
+            "peak_step": 320,
+            "peak_value": 54.879071152792534,
+            "level": 0.18380520075447826,
+            "share_of_progress": 29.2103096990222,
+            "robust_z": 83.72016735609087,
+            "window": 21,
+            "threshold": 6.0
+          },
+          "fixes": [
+            "Lower the learning rate or add/extend LR warmup.",
+            "Clip gradients (or lower the existing max-norm).",
+            "Check the batch at this step for a data or tokenization bug (e.g. an unmasked pad token, a corrupted shard).",
+            "If the level came straight back and it doesn't recur, it may be one bad batch."
+          ]
+        },
+        {
+          "detector": "spikes",
+          "title": "Loss spike",
+          "severity": "warning",
+          "metric": "train/loss",
+          "step_start": 321,
+          "step_end": 321,
+          "message": "train/loss jumped to 55.49 at step 321 from a level of 0.1953, 22 times the finite segment's progress, for 1 logged point. Assessed within the finite segment at steps 0-321 (322 observations); no loss trajectory is inferred across NaN/Inf readings.",
+          "evidence": {
+            "peak_step": 321,
+            "peak_value": 55.48785726812561,
+            "level": 0.19525849698248648,
+            "share_of_progress": 21.884086878387556,
+            "robust_z": 18.702618748104218,
+            "window": 21,
+            "threshold": 6.0,
+            "segment_start_step": 0,
+            "segment_end_step": 321,
+            "segment_observations": 322
+          },
+          "fixes": [
+            "Lower the learning rate or add/extend LR warmup.",
+            "Clip gradients (or lower the existing max-norm).",
+            "Check the batch at this step for a data or tokenization bug (e.g. an unmasked pad token, a corrupted shard).",
+            "If the level came straight back and it doesn't recur, it may be one bad batch."
+          ]
+        },
+        {
+          "detector": "overfitting",
+          "title": "Evaluation loss rising",
+          "severity": "info",
+          "metric": "eval/loss",
+          "step_start": 290,
+          "step_end": 320,
+          "message": "Lowest logged eval/loss in this finite segment was 0.183 at step 290; the last value is 54.88 (299.9x its minimum, slope diagnostic p=0.0833). (Downgraded: a spikes finding at step 321 explains this rise better than ordinary overfitting does.)",
+          "evidence": {
+            "segment_start": 0,
+            "segment_observations": 33,
+            "best_step": 290,
+            "best_value": 0.18298490886283636,
+            "current_value": 54.879071152792534,
+            "relative_rise": 298.91036689221914,
+            "slope_p_value": 0.08325787746607749,
+            "slope_status": "assessed",
+            "training_status": "opposing_trends_not_established",
+            "training_observations": 31,
+            "overlap_eval_observations": 4,
+            "training_step_start": 290,
+            "training_step_end": 320,
+            "overlap_eval_step_start": 290,
+            "overlap_eval_step_end": 320,
+            "training_scaled_slope": -0.002497209827505516,
+            "training_slope_p_value": 0.4069364107317077,
+            "overlap_eval_scaled_slope": 0.029899949395526457,
+            "overlap_eval_slope_p_value": 0.08325787746607749
+          },
+          "fixes": [
+            "If a checkpoint was saved near step 290, compare it with the last saved checkpoint on the same evaluation examples.",
+            "Check evaluation-data and metric-definition changes before attributing the rise to training.",
+            "If the regression persists on a comparable evaluation set, consider early stopping, regularization, or more training data."
+          ]
+        },
+        {
+          "detector": "lr_schedule",
+          "title": "LR rose after decay",
+          "severity": "info",
+          "metric": "lr",
+          "step_start": 319,
+          "step_end": 322,
+          "message": "lr fell from 0.4 at step 20 to 1.097e-05 at step 319, then rose to 30 at step 322. This can be an intended cycle or restart; the log alone does not establish a scheduler fault.",
+          "evidence": {
+            "earlier_peak": 0.4,
+            "peak_step": 20,
+            "low_value": 1.0966126897571372e-05,
+            "low_step": 319,
+            "high_value": 30.0,
+            "high_step": 322,
+            "confirmed_step": 320,
+            "rise_fraction_of_peak": 0.9999996344624368,
+            "bump_tolerance": 0.01
+          },
+          "fixes": [
+            "If this matches an intended cycle or warm restart, no correction is needed.",
+            "Otherwise, check that scheduler state was restored with the optimizer after a checkpoint resume.",
+            "Check the scheduler's configured horizon and how often scheduler.step() is called."
+          ]
+        }
+      ],
+      "metrics": {
+        "eval/loss": {
+          "count": 33,
+          "analysis_count": 33,
+          "distinct_steps": 33,
+          "analysis_excluded": false,
+          "first_step": 0,
+          "last_step": 320
+        },
+        "lr": {
+          "count": 323,
+          "analysis_count": 323,
+          "distinct_steps": 323,
+          "analysis_excluded": false,
+          "first_step": 0,
+          "last_step": 322
+        },
+        "train/loss": {
+          "count": 323,
+          "analysis_count": 323,
+          "distinct_steps": 323,
+          "analysis_excluded": false,
+          "first_step": 0,
+          "last_step": 322
+        }
+      },
+      "htmlSha256": "096f1e834ffaab1c2a5c2e8431261d34f207871d5abccc25ebbbf56488d94641",
+      "watch": {
+        "exitCode": 1,
+        "stdout": "watching fixtures/semicolon-writer.csv (Ctrl-C to stop)\nrun      seed=0, lr=0.001, wd=0.01 (selection held while watching)\n[ERROR  ] steps 322           divergence   Non-finite training loss: train/loss became Inf at step 322 (1 non-finite point(s) in this run).\n[WARNING] steps 320           spikes       Loss spike: eval/loss jumped to 54.88 at step 320 from a level of 0.1838, 29 times the run's progress, for 1 logged point.\n[WARNING] steps 321           spikes       Loss spike: train/loss jumped to 55.49 at step 321 from a level of 0.1953, 22 times the finite segment's progress, for 1 logged point. Assessed within the finite segment at steps 0-321 (322 observations); no loss trajectory is inferred across NaN/Inf readings.\n[INFO   ] steps 290-320       overfitting  Evaluation loss rising: Lowest logged eval/loss in this finite segment was 0.183 at step 290; the last value is 54.88 (299.9x its minimum, slope diagnostic p=0.0833). (Downgraded: a spikes finding at step 321 explains this rise better than ordinary overfitting does.)\n[INFO   ] steps 319-322       lr_schedule  LR rose after decay: lr fell from 0.4 at step 20 to 1.097e-05 at step 319, then rose to 30 at step 322. This can be an intended cycle or restart; the log alone does not establish a scheduler fault.\n",
+        "stderr": ""
+      }
+    },
+    {
+      "name": "tab-writer",
+      "inputSha256": "5bc8df37f90684922b8dd4b6f64210319527f6457ecb5726ef5b86f00f8b3cb1",
+      "exitCode": 1,
+      "stderr": "",
+      "observations": {
+        "train/loss": {
+          "count": 323,
+          "sha256": "1f6f15371d645cff36ec41a79de593f52b5eb804ad65e4f8b07e590c3ec30cc7"
+        },
+        "lr": {
+          "count": 323,
+          "sha256": "8801d9ffb7e28563b2520c9a35fa17d6523cd2711972c7f5a46d7b118e5264ee"
+        },
+        "eval/loss": {
+          "count": 33,
+          "sha256": "c3da21f7c27f736fb137de63b2103537eb5f07cdb63c6558047bda0d72b0325e"
+        }
+      },
+      "findings": [
+        {
+          "detector": "divergence",
+          "title": "Non-finite training loss",
+          "severity": "error",
+          "metric": "train/loss",
+          "step_start": 322,
+          "step_end": 322,
+          "message": "train/loss became Inf at step 322 (1 non-finite point(s) in this run).",
+          "evidence": {
+            "first_bad_step": 322,
+            "count": 1
+          },
+          "fixes": [
+            "Inspect the objective and logging reduction separately: an empty batch or empty logging window can produce NaN even while optimizer updates remain finite.",
+            "Check for a divide-by-zero or log(0) in the loss calculation.",
+            "If the optimizer's loss or gradients also become non-finite, inspect the learning rate, gradient clipping and mixed-precision loss scaling."
+          ]
+        },
+        {
+          "detector": "spikes",
+          "title": "Loss spike",
+          "severity": "warning",
+          "metric": "eval/loss",
+          "step_start": 320,
+          "step_end": 320,
+          "message": "eval/loss jumped to 54.88 at step 320 from a level of 0.1838, 29 times the run's progress, for 1 logged point.",
+          "evidence": {
+            "peak_step": 320,
+            "peak_value": 54.879071152792534,
+            "level": 0.18380520075447826,
+            "share_of_progress": 29.2103096990222,
+            "robust_z": 83.72016735609087,
+            "window": 21,
+            "threshold": 6.0
+          },
+          "fixes": [
+            "Lower the learning rate or add/extend LR warmup.",
+            "Clip gradients (or lower the existing max-norm).",
+            "Check the batch at this step for a data or tokenization bug (e.g. an unmasked pad token, a corrupted shard).",
+            "If the level came straight back and it doesn't recur, it may be one bad batch."
+          ]
+        },
+        {
+          "detector": "spikes",
+          "title": "Loss spike",
+          "severity": "warning",
+          "metric": "train/loss",
+          "step_start": 321,
+          "step_end": 321,
+          "message": "train/loss jumped to 55.49 at step 321 from a level of 0.1953, 22 times the finite segment's progress, for 1 logged point. Assessed within the finite segment at steps 0-321 (322 observations); no loss trajectory is inferred across NaN/Inf readings.",
+          "evidence": {
+            "peak_step": 321,
+            "peak_value": 55.48785726812561,
+            "level": 0.19525849698248648,
+            "share_of_progress": 21.884086878387556,
+            "robust_z": 18.702618748104218,
+            "window": 21,
+            "threshold": 6.0,
+            "segment_start_step": 0,
+            "segment_end_step": 321,
+            "segment_observations": 322
+          },
+          "fixes": [
+            "Lower the learning rate or add/extend LR warmup.",
+            "Clip gradients (or lower the existing max-norm).",
+            "Check the batch at this step for a data or tokenization bug (e.g. an unmasked pad token, a corrupted shard).",
+            "If the level came straight back and it doesn't recur, it may be one bad batch."
+          ]
+        },
+        {
+          "detector": "overfitting",
+          "title": "Evaluation loss rising",
+          "severity": "info",
+          "metric": "eval/loss",
+          "step_start": 290,
+          "step_end": 320,
+          "message": "Lowest logged eval/loss in this finite segment was 0.183 at step 290; the last value is 54.88 (299.9x its minimum, slope diagnostic p=0.0833). (Downgraded: a spikes finding at step 321 explains this rise better than ordinary overfitting does.)",
+          "evidence": {
+            "segment_start": 0,
+            "segment_observations": 33,
+            "best_step": 290,
+            "best_value": 0.18298490886283636,
+            "current_value": 54.879071152792534,
+            "relative_rise": 298.91036689221914,
+            "slope_p_value": 0.08325787746607749,
+            "slope_status": "assessed",
+            "training_status": "opposing_trends_not_established",
+            "training_observations": 31,
+            "overlap_eval_observations": 4,
+            "training_step_start": 290,
+            "training_step_end": 320,
+            "overlap_eval_step_start": 290,
+            "overlap_eval_step_end": 320,
+            "training_scaled_slope": -0.002497209827505516,
+            "training_slope_p_value": 0.4069364107317077,
+            "overlap_eval_scaled_slope": 0.029899949395526457,
+            "overlap_eval_slope_p_value": 0.08325787746607749
+          },
+          "fixes": [
+            "If a checkpoint was saved near step 290, compare it with the last saved checkpoint on the same evaluation examples.",
+            "Check evaluation-data and metric-definition changes before attributing the rise to training.",
+            "If the regression persists on a comparable evaluation set, consider early stopping, regularization, or more training data."
+          ]
+        },
+        {
+          "detector": "lr_schedule",
+          "title": "LR rose after decay",
+          "severity": "info",
+          "metric": "lr",
+          "step_start": 319,
+          "step_end": 322,
+          "message": "lr fell from 0.4 at step 20 to 1.097e-05 at step 319, then rose to 30 at step 322. This can be an intended cycle or restart; the log alone does not establish a scheduler fault.",
+          "evidence": {
+            "earlier_peak": 0.4,
+            "peak_step": 20,
+            "low_value": 1.0966126897571372e-05,
+            "low_step": 319,
+            "high_value": 30.0,
+            "high_step": 322,
+            "confirmed_step": 320,
+            "rise_fraction_of_peak": 0.9999996344624368,
+            "bump_tolerance": 0.01
+          },
+          "fixes": [
+            "If this matches an intended cycle or warm restart, no correction is needed.",
+            "Otherwise, check that scheduler state was restored with the optimizer after a checkpoint resume.",
+            "Check the scheduler's configured horizon and how often scheduler.step() is called."
+          ]
+        }
+      ],
+      "metrics": {
+        "eval/loss": {
+          "count": 33,
+          "analysis_count": 33,
+          "distinct_steps": 33,
+          "analysis_excluded": false,
+          "first_step": 0,
+          "last_step": 320
+        },
+        "lr": {
+          "count": 323,
+          "analysis_count": 323,
+          "distinct_steps": 323,
+          "analysis_excluded": false,
+          "first_step": 0,
+          "last_step": 322
+        },
+        "train/loss": {
+          "count": 323,
+          "analysis_count": 323,
+          "distinct_steps": 323,
+          "analysis_excluded": false,
+          "first_step": 0,
+          "last_step": 322
+        }
+      },
+      "htmlSha256": "7b9f78f72a5107a5ae37062cd56acaaa2c12160edf7b1caf24894d147cb29c00",
+      "watch": {
+        "exitCode": 1,
+        "stdout": "watching fixtures/tab-writer.csv (Ctrl-C to stop)\nrun      seed=0; lr=0.001; wd=0.01 (selection held while watching)\n[ERROR  ] steps 322           divergence   Non-finite training loss: train/loss became Inf at step 322 (1 non-finite point(s) in this run).\n[WARNING] steps 320           spikes       Loss spike: eval/loss jumped to 54.88 at step 320 from a level of 0.1838, 29 times the run's progress, for 1 logged point.\n[WARNING] steps 321           spikes       Loss spike: train/loss jumped to 55.49 at step 321 from a level of 0.1953, 22 times the finite segment's progress, for 1 logged point. Assessed within the finite segment at steps 0-321 (322 observations); no loss trajectory is inferred across NaN/Inf readings.\n[INFO   ] steps 290-320       overfitting  Evaluation loss rising: Lowest logged eval/loss in this finite segment was 0.183 at step 290; the last value is 54.88 (299.9x its minimum, slope diagnostic p=0.0833). (Downgraded: a spikes finding at step 321 explains this rise better than ordinary overfitting does.)\n[INFO   ] steps 319-322       lr_schedule  LR rose after decay: lr fell from 0.4 at step 20 to 1.097e-05 at step 319, then rose to 30 at step 322. This can be an intended cycle or restart; the log alone does not establish a scheduler fault.\n",
+        "stderr": ""
+      }
+    },
+    {
+      "name": "history-punctuation",
+      "inputSha256": "18d287d3eae4e79b1690d27c37907d065e2fe62ec17a9a4ac23e98a3c6c4e1cc",
+      "exitCode": 1,
+      "stderr": "",
+      "observations": {
+        "train/loss": {
+          "count": 323,
+          "sha256": "1f6f15371d645cff36ec41a79de593f52b5eb804ad65e4f8b07e590c3ec30cc7"
+        },
+        "lr": {
+          "count": 323,
+          "sha256": "8801d9ffb7e28563b2520c9a35fa17d6523cd2711972c7f5a46d7b118e5264ee"
+        },
+        "eval/loss": {
+          "count": 33,
+          "sha256": "c3da21f7c27f736fb137de63b2103537eb5f07cdb63c6558047bda0d72b0325e"
+        }
+      },
+      "findings": [
+        {
+          "detector": "divergence",
+          "title": "Non-finite training loss",
+          "severity": "error",
+          "metric": "train/loss",
+          "step_start": 322,
+          "step_end": 322,
+          "message": "train/loss became Inf at step 322 (1 non-finite point(s) in this run).",
+          "evidence": {
+            "first_bad_step": 322,
+            "count": 1
+          },
+          "fixes": [
+            "Inspect the objective and logging reduction separately: an empty batch or empty logging window can produce NaN even while optimizer updates remain finite.",
+            "Check for a divide-by-zero or log(0) in the loss calculation.",
+            "If the optimizer's loss or gradients also become non-finite, inspect the learning rate, gradient clipping and mixed-precision loss scaling."
+          ]
+        },
+        {
+          "detector": "spikes",
+          "title": "Loss spike",
+          "severity": "warning",
+          "metric": "eval/loss",
+          "step_start": 320,
+          "step_end": 320,
+          "message": "eval/loss jumped to 54.88 at step 320 from a level of 0.1838, 29 times the run's progress, for 1 logged point.",
+          "evidence": {
+            "peak_step": 320,
+            "peak_value": 54.879071152792534,
+            "level": 0.18380520075447826,
+            "share_of_progress": 29.2103096990222,
+            "robust_z": 83.72016735609087,
+            "window": 21,
+            "threshold": 6.0
+          },
+          "fixes": [
+            "Lower the learning rate or add/extend LR warmup.",
+            "Clip gradients (or lower the existing max-norm).",
+            "Check the batch at this step for a data or tokenization bug (e.g. an unmasked pad token, a corrupted shard).",
+            "If the level came straight back and it doesn't recur, it may be one bad batch."
+          ]
+        },
+        {
+          "detector": "spikes",
+          "title": "Loss spike",
+          "severity": "warning",
+          "metric": "train/loss",
+          "step_start": 321,
+          "step_end": 321,
+          "message": "train/loss jumped to 55.49 at step 321 from a level of 0.1953, 22 times the finite segment's progress, for 1 logged point. Assessed within the finite segment at steps 0-321 (322 observations); no loss trajectory is inferred across NaN/Inf readings.",
+          "evidence": {
+            "peak_step": 321,
+            "peak_value": 55.48785726812561,
+            "level": 0.19525849698248648,
+            "share_of_progress": 21.884086878387556,
+            "robust_z": 18.702618748104218,
+            "window": 21,
+            "threshold": 6.0,
+            "segment_start_step": 0,
+            "segment_end_step": 321,
+            "segment_observations": 322
+          },
+          "fixes": [
+            "Lower the learning rate or add/extend LR warmup.",
+            "Clip gradients (or lower the existing max-norm).",
+            "Check the batch at this step for a data or tokenization bug (e.g. an unmasked pad token, a corrupted shard).",
+            "If the level came straight back and it doesn't recur, it may be one bad batch."
+          ]
+        },
+        {
+          "detector": "overfitting",
+          "title": "Evaluation loss rising",
+          "severity": "info",
+          "metric": "eval/loss",
+          "step_start": 290,
+          "step_end": 320,
+          "message": "Lowest logged eval/loss in this finite segment was 0.183 at step 290; the last value is 54.88 (299.9x its minimum, slope diagnostic p=0.0833). (Downgraded: a spikes finding at step 321 explains this rise better than ordinary overfitting does.)",
+          "evidence": {
+            "segment_start": 0,
+            "segment_observations": 33,
+            "best_step": 290,
+            "best_value": 0.18298490886283636,
+            "current_value": 54.879071152792534,
+            "relative_rise": 298.91036689221914,
+            "slope_p_value": 0.08325787746607749,
+            "slope_status": "assessed",
+            "training_status": "opposing_trends_not_established",
+            "training_observations": 31,
+            "overlap_eval_observations": 4,
+            "training_step_start": 290,
+            "training_step_end": 320,
+            "overlap_eval_step_start": 290,
+            "overlap_eval_step_end": 320,
+            "training_scaled_slope": -0.002497209827505516,
+            "training_slope_p_value": 0.4069364107317077,
+            "overlap_eval_scaled_slope": 0.029899949395526457,
+            "overlap_eval_slope_p_value": 0.08325787746607749
+          },
+          "fixes": [
+            "If a checkpoint was saved near step 290, compare it with the last saved checkpoint on the same evaluation examples.",
+            "Check evaluation-data and metric-definition changes before attributing the rise to training.",
+            "If the regression persists on a comparable evaluation set, consider early stopping, regularization, or more training data."
+          ]
+        },
+        {
+          "detector": "lr_schedule",
+          "title": "LR rose after decay",
+          "severity": "info",
+          "metric": "lr",
+          "step_start": 319,
+          "step_end": 322,
+          "message": "lr fell from 0.4 at step 20 to 1.097e-05 at step 319, then rose to 30 at step 322. This can be an intended cycle or restart; the log alone does not establish a scheduler fault.",
+          "evidence": {
+            "earlier_peak": 0.4,
+            "peak_step": 20,
+            "low_value": 1.0966126897571372e-05,
+            "low_step": 319,
+            "high_value": 30.0,
+            "high_step": 322,
+            "confirmed_step": 320,
+            "rise_fraction_of_peak": 0.9999996344624368,
+            "bump_tolerance": 0.01
+          },
+          "fixes": [
+            "If this matches an intended cycle or warm restart, no correction is needed.",
+            "Otherwise, check that scheduler state was restored with the optimizer after a checkpoint resume.",
+            "Check the scheduler's configured horizon and how often scheduler.step() is called."
+          ]
+        }
+      ],
+      "metrics": {
+        "eval/loss": {
+          "count": 33,
+          "analysis_count": 33,
+          "distinct_steps": 33,
+          "analysis_excluded": false,
+          "first_step": 0,
+          "last_step": 320
+        },
+        "lr": {
+          "count": 323,
+          "analysis_count": 323,
+          "distinct_steps": 323,
+          "analysis_excluded": false,
+          "first_step": 0,
+          "last_step": 322
+        },
+        "train/loss": {
+          "count": 323,
+          "analysis_count": 323,
+          "distinct_steps": 323,
+          "analysis_excluded": false,
+          "first_step": 0,
+          "last_step": 322
+        }
+      },
+      "htmlSha256": "6929891d148e2efeb6bcf256337301ea243d69fb5e7b727b492c8ee1c98510bb",
+      "watch": {
+        "exitCode": 1,
+        "stdout": "watching fixtures/history-punctuation.csv (Ctrl-C to stop)\n[ERROR  ] steps 322           divergence   Non-finite training loss: train/loss became Inf at step 322 (1 non-finite point(s) in this run).\n[WARNING] steps 320           spikes       Loss spike: eval/loss jumped to 54.88 at step 320 from a level of 0.1838, 29 times the run's progress, for 1 logged point.\n[WARNING] steps 321           spikes       Loss spike: train/loss jumped to 55.49 at step 321 from a level of 0.1953, 22 times the finite segment's progress, for 1 logged point. Assessed within the finite segment at steps 0-321 (322 observations); no loss trajectory is inferred across NaN/Inf readings.\n[INFO   ] steps 290-320       overfitting  Evaluation loss rising: Lowest logged eval/loss in this finite segment was 0.183 at step 290; the last value is 54.88 (299.9x its minimum, slope diagnostic p=0.0833). (Downgraded: a spikes finding at step 321 explains this rise better than ordinary overfitting does.)\n[INFO   ] steps 319-322       lr_schedule  LR rose after decay: lr fell from 0.4 at step 20 to 1.097e-05 at step 319, then rose to 30 at step 322. This can be an intended cycle or restart; the log alone does not establish a scheduler fault.\n",
+        "stderr": ""
+      }
+    },
+    {
+      "name": "generic-punctuation",
+      "inputSha256": "9692f414426589b5006bd08ff607b732e293982973c524f5b10fa59ccbcf39ab",
+      "exitCode": 1,
+      "stderr": "",
+      "observations": {
+        "train/loss": {
+          "count": 323,
+          "sha256": "1f6f15371d645cff36ec41a79de593f52b5eb804ad65e4f8b07e590c3ec30cc7"
+        },
+        "lr": {
+          "count": 323,
+          "sha256": "8801d9ffb7e28563b2520c9a35fa17d6523cd2711972c7f5a46d7b118e5264ee"
+        },
+        "eval/loss": {
+          "count": 33,
+          "sha256": "c3da21f7c27f736fb137de63b2103537eb5f07cdb63c6558047bda0d72b0325e"
+        }
+      },
+      "findings": [
+        {
+          "detector": "divergence",
+          "title": "Non-finite training loss",
+          "severity": "error",
+          "metric": "train/loss",
+          "step_start": 322,
+          "step_end": 322,
+          "message": "train/loss became Inf at step 322 (1 non-finite point(s) in this run).",
+          "evidence": {
+            "first_bad_step": 322,
+            "count": 1
+          },
+          "fixes": [
+            "Inspect the objective and logging reduction separately: an empty batch or empty logging window can produce NaN even while optimizer updates remain finite.",
+            "Check for a divide-by-zero or log(0) in the loss calculation.",
+            "If the optimizer's loss or gradients also become non-finite, inspect the learning rate, gradient clipping and mixed-precision loss scaling."
+          ]
+        },
+        {
+          "detector": "spikes",
+          "title": "Loss spike",
+          "severity": "warning",
+          "metric": "eval/loss",
+          "step_start": 320,
+          "step_end": 320,
+          "message": "eval/loss jumped to 54.88 at step 320 from a level of 0.1838, 29 times the run's progress, for 1 logged point.",
+          "evidence": {
+            "peak_step": 320,
+            "peak_value": 54.879071152792534,
+            "level": 0.18380520075447826,
+            "share_of_progress": 29.2103096990222,
+            "robust_z": 83.72016735609087,
+            "window": 21,
+            "threshold": 6.0
+          },
+          "fixes": [
+            "Lower the learning rate or add/extend LR warmup.",
+            "Clip gradients (or lower the existing max-norm).",
+            "Check the batch at this step for a data or tokenization bug (e.g. an unmasked pad token, a corrupted shard).",
+            "If the level came straight back and it doesn't recur, it may be one bad batch."
+          ]
+        },
+        {
+          "detector": "spikes",
+          "title": "Loss spike",
+          "severity": "warning",
+          "metric": "train/loss",
+          "step_start": 321,
+          "step_end": 321,
+          "message": "train/loss jumped to 55.49 at step 321 from a level of 0.1953, 22 times the finite segment's progress, for 1 logged point. Assessed within the finite segment at steps 0-321 (322 observations); no loss trajectory is inferred across NaN/Inf readings.",
+          "evidence": {
+            "peak_step": 321,
+            "peak_value": 55.48785726812561,
+            "level": 0.19525849698248648,
+            "share_of_progress": 21.884086878387556,
+            "robust_z": 18.702618748104218,
+            "window": 21,
+            "threshold": 6.0,
+            "segment_start_step": 0,
+            "segment_end_step": 321,
+            "segment_observations": 322
+          },
+          "fixes": [
+            "Lower the learning rate or add/extend LR warmup.",
+            "Clip gradients (or lower the existing max-norm).",
+            "Check the batch at this step for a data or tokenization bug (e.g. an unmasked pad token, a corrupted shard).",
+            "If the level came straight back and it doesn't recur, it may be one bad batch."
+          ]
+        },
+        {
+          "detector": "overfitting",
+          "title": "Evaluation loss rising",
+          "severity": "info",
+          "metric": "eval/loss",
+          "step_start": 290,
+          "step_end": 320,
+          "message": "Lowest logged eval/loss in this finite segment was 0.183 at step 290; the last value is 54.88 (299.9x its minimum, slope diagnostic p=0.0833). (Downgraded: a spikes finding at step 321 explains this rise better than ordinary overfitting does.)",
+          "evidence": {
+            "segment_start": 0,
+            "segment_observations": 33,
+            "best_step": 290,
+            "best_value": 0.18298490886283636,
+            "current_value": 54.879071152792534,
+            "relative_rise": 298.91036689221914,
+            "slope_p_value": 0.08325787746607749,
+            "slope_status": "assessed",
+            "training_status": "opposing_trends_not_established",
+            "training_observations": 31,
+            "overlap_eval_observations": 4,
+            "training_step_start": 290,
+            "training_step_end": 320,
+            "overlap_eval_step_start": 290,
+            "overlap_eval_step_end": 320,
+            "training_scaled_slope": -0.002497209827505516,
+            "training_slope_p_value": 0.4069364107317077,
+            "overlap_eval_scaled_slope": 0.029899949395526457,
+            "overlap_eval_slope_p_value": 0.08325787746607749
+          },
+          "fixes": [
+            "If a checkpoint was saved near step 290, compare it with the last saved checkpoint on the same evaluation examples.",
+            "Check evaluation-data and metric-definition changes before attributing the rise to training.",
+            "If the regression persists on a comparable evaluation set, consider early stopping, regularization, or more training data."
+          ]
+        },
+        {
+          "detector": "lr_schedule",
+          "title": "LR rose after decay",
+          "severity": "info",
+          "metric": "lr",
+          "step_start": 319,
+          "step_end": 322,
+          "message": "lr fell from 0.4 at step 20 to 1.097e-05 at step 319, then rose to 30 at step 322. This can be an intended cycle or restart; the log alone does not establish a scheduler fault.",
+          "evidence": {
+            "earlier_peak": 0.4,
+            "peak_step": 20,
+            "low_value": 1.0966126897571372e-05,
+            "low_step": 319,
+            "high_value": 30.0,
+            "high_step": 322,
+            "confirmed_step": 320,
+            "rise_fraction_of_peak": 0.9999996344624368,
+            "bump_tolerance": 0.01
+          },
+          "fixes": [
+            "If this matches an intended cycle or warm restart, no correction is needed.",
+            "Otherwise, check that scheduler state was restored with the optimizer after a checkpoint resume.",
+            "Check the scheduler's configured horizon and how often scheduler.step() is called."
+          ]
+        }
+      ],
+      "metrics": {
+        "eval/loss": {
+          "count": 33,
+          "analysis_count": 33,
+          "distinct_steps": 33,
+          "analysis_excluded": false,
+          "first_step": 0,
+          "last_step": 320
+        },
+        "lr": {
+          "count": 323,
+          "analysis_count": 323,
+          "distinct_steps": 323,
+          "analysis_excluded": false,
+          "first_step": 0,
+          "last_step": 322
+        },
+        "train/loss": {
+          "count": 323,
+          "analysis_count": 323,
+          "distinct_steps": 323,
+          "analysis_excluded": false,
+          "first_step": 0,
+          "last_step": 322
+        }
+      },
+      "htmlSha256": "6eecd98fdaef09c6b9a18036b7a28aa718b53accd675bb4c57c9984d5da5a6c6",
+      "watch": {
+        "exitCode": 1,
+        "stdout": "watching fixtures/generic-punctuation.csv (Ctrl-C to stop)\n[ERROR  ] steps 322           divergence   Non-finite training loss: train/loss became Inf at step 322 (1 non-finite point(s) in this run).\n[WARNING] steps 320           spikes       Loss spike: eval/loss jumped to 54.88 at step 320 from a level of 0.1838, 29 times the run's progress, for 1 logged point.\n[WARNING] steps 321           spikes       Loss spike: train/loss jumped to 55.49 at step 321 from a level of 0.1953, 22 times the finite segment's progress, for 1 logged point. Assessed within the finite segment at steps 0-321 (322 observations); no loss trajectory is inferred across NaN/Inf readings.\n[INFO   ] steps 290-320       overfitting  Evaluation loss rising: Lowest logged eval/loss in this finite segment was 0.183 at step 290; the last value is 54.88 (299.9x its minimum, slope diagnostic p=0.0833). (Downgraded: a spikes finding at step 321 explains this rise better than ordinary overfitting does.)\n[INFO   ] steps 319-322       lr_schedule  LR rose after decay: lr fell from 0.4 at step 20 to 1.097e-05 at step 319, then rose to 30 at step 322. This can be an intended cycle or restart; the log alone does not establish a scheduler fault.\n",
+        "stderr": ""
+      }
+    }
+  ],
+  "python": "/tmp/claude-1000/trainspotter-delimiters-current/bin/python",
+  "source": "clean wheel from 7f6894093461a0a5abeca568ec749df9da4e5263"
+}

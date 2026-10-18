@@ -1,0 +1,55 @@
+{
+  "source": "7f6894093461a0a5abeca568ec749df9da4e5263",
+  "cleanArchive": {
+    "python": "3.12.12",
+    "numpy": "2.5.3",
+    "ruff": "passed",
+    "mypyFiles": 32,
+    "pythonCases": 822,
+    "build": "wheel from clean sdist"
+  },
+  "installedMinimum": {
+    "python": "3.10.21",
+    "numpy": "1.24.0",
+    "pythonCases": 822,
+    "nativeExports": 10,
+    "historyMismatches": 0
+  },
+  "installedCurrent": {
+    "python": "3.14.7",
+    "numpy": "2.5.4",
+    "nativeExports": 10,
+    "historyMismatches": 0
+  },
+  "studyReports": {
+    "layouts": [
+      1440,
+      375
+    ],
+    "engines": [
+      "Chromium",
+      "Firefox"
+    ],
+    "checks": 40,
+    "httpRequests": 0,
+    "axeViolations": 0
+  },
+  "existingBrowserRegression": {
+    "node": "26.7.0",
+    "FirefoxDesktopAndPhone": 110,
+    "ChromiumDesktop": 55,
+    "ChromiumPhone": 55,
+    "total": 220,
+    "note": "The combined run and a subsequent Chromium run were interrupted with SIGTERM without an assertion result. Complete coverage passed using temporary copies of the existing program with only engine/layout selection changed; no tracked browser program was modified."
+  },
+  "publicWorkbench": {
+    "fileExports": 10,
+    "browserContexts": 4,
+    "savedDownloads": 80,
+    "ambiguousInputRefused": true,
+    "priorReportPreserved": true,
+    "httpRequestsDuringProcessing": 0
+  },
+  "registryRelease": false,
+  "tagCreated": false
+}

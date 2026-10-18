@@ -1,0 +1,728 @@
+{
+  "results": [
+    {
+      "engine": "chromium",
+      "version": "153.0.8010.12",
+      "width": 1440,
+      "app": "trainspotter",
+      "site": "https://antonsoloviev-trainspotter.static.hf.space/",
+      "expectation": "after",
+      "offlineDuringProcessing": true,
+      "cases": [
+        {
+          "name": "control",
+          "accepted": true,
+          "readings": 679,
+          "nativeReportMismatches": 0
+        },
+        {
+          "name": "chart-plain",
+          "accepted": true,
+          "readings": 679,
+          "nativeReportMismatches": 0
+        },
+        {
+          "name": "chart-semicolons",
+          "accepted": true,
+          "readings": 679,
+          "nativeReportMismatches": 0
+        },
+        {
+          "name": "chart-tabs",
+          "accepted": true,
+          "readings": 679,
+          "nativeReportMismatches": 0
+        },
+        {
+          "name": "chart-quotes",
+          "accepted": true,
+          "readings": 679,
+          "nativeReportMismatches": 0
+        },
+        {
+          "name": "chart-multiline",
+          "accepted": true,
+          "readings": 679,
+          "nativeReportMismatches": 0
+        },
+        {
+          "name": "semicolon-writer",
+          "accepted": true,
+          "readings": 679,
+          "nativeReportMismatches": 0
+        },
+        {
+          "name": "tab-writer",
+          "accepted": true,
+          "readings": 679,
+          "nativeReportMismatches": 0
+        },
+        {
+          "name": "history-punctuation",
+          "accepted": true,
+          "readings": 679,
+          "nativeReportMismatches": 0
+        },
+        {
+          "name": "generic-punctuation",
+          "accepted": true,
+          "readings": 679,
+          "nativeReportMismatches": 0
+        },
+        {
+          "name": "ambiguous-dialect",
+          "accepted": false,
+          "previousReportPreserved": true
+        }
+      ],
+      "downloads": [
+        {
+          "file": "chromium-1440-control.json",
+          "sha256": "b5b08789a26abddad8856a9b6ff55e0eb97590ff87da59736f9aacee3d538bd7",
+          "bytes": 58210
+        },
+        {
+          "file": "chromium-1440-control.html",
+          "sha256": "3c9babf9883f9c737aa3892ba0cea8882847668bcdce25ae010328b2843cd07f",
+          "bytes": 58713
+        },
+        {
+          "file": "chromium-1440-chart-plain.json",
+          "sha256": "15cc62c052d79add6c75d8bad22ba5643caff0232104c5d044c0d43e14afc665",
+          "bytes": 58492
+        },
+        {
+          "file": "chromium-1440-chart-plain.html",
+          "sha256": "87e1bb43e1dee02edca4622c7514bd50901957cde118283058dc6e2fa320e6c8",
+          "bytes": 58868
+        },
+        {
+          "file": "chromium-1440-chart-semicolons.json",
+          "sha256": "bc72df2a9481887cf1939e7593d08c5c7fc78ddbcfbf4a63b1f90e2492ba71ee",
+          "bytes": 58570
+        },
+        {
+          "file": "chromium-1440-chart-semicolons.html",
+          "sha256": "e16a1796b9c8b48a285c81ce7d3af8cdab849cdd124256246b048c1b25457456",
+          "bytes": 59060
+        },
+        {
+          "file": "chromium-1440-chart-tabs.json",
+          "sha256": "7e16a45369b279e51096bfde931ca783bbbb94129531786abce77120f86d59ef",
+          "bytes": 58558
+        },
+        {
+          "file": "chromium-1440-chart-tabs.html",
+          "sha256": "1da35f8af2563814d9400b28b575824bf86e879740906fc41e3fbc0ac47d979f",
+          "bytes": 59016
+        },
+        {
+          "file": "chromium-1440-chart-quotes.json",
+          "sha256": "d6905ce4e4ec77fb70abfce0eda2b73f7f62bf304f0aff18a5e3bb326acbd977",
+          "bytes": 58622
+        },
+        {
+          "file": "chromium-1440-chart-quotes.html",
+          "sha256": "e44332d5fcd63cf90c46570d75d11361a9789ada59950dfbe1dc94052097655a",
+          "bytes": 59269
+        },
+        {
+          "file": "chromium-1440-chart-multiline.json",
+          "sha256": "6513343c39d75e67259f4c498f5408e3f96d7a047402b7a29e0100d48909bbb1",
+          "bytes": 58572
+        },
+        {
+          "file": "chromium-1440-chart-multiline.html",
+          "sha256": "8bf8d659072774d6b3ebb93ebfdf77a95e0c69d855f5ed7849e723e944d2f0d3",
+          "bytes": 59059
+        },
+        {
+          "file": "chromium-1440-semicolon-writer.json",
+          "sha256": "81b23f1e4f36ec18b15803f5f950cb4d8144b8a47a8e08ed5ebe3aad4eaa476b",
+          "bytes": 58570
+        },
+        {
+          "file": "chromium-1440-semicolon-writer.html",
+          "sha256": "beedc2be0e7c644d4423bf6d8289c655108f9b0f2221b44f16acd8f5cc0d72ec",
+          "bytes": 59060
+        },
+        {
+          "file": "chromium-1440-tab-writer.json",
+          "sha256": "c92818114c73a484a2d38ea0c49fa0ef350fecf21efa88e22100d2cede645472",
+          "bytes": 58558
+        },
+        {
+          "file": "chromium-1440-tab-writer.html",
+          "sha256": "e5c226540a1ee1dbc32991723309377f2e4659bca29339fed15bf40cf2082df6",
+          "bytes": 59022
+        },
+        {
+          "file": "chromium-1440-history-punctuation.json",
+          "sha256": "f280c56cb5f36ed801925d66a78657105f52faf378ce9d48c5381d4339545e3e",
+          "bytes": 58280
+        },
+        {
+          "file": "chromium-1440-history-punctuation.html",
+          "sha256": "a25ac493a4b4d61e7c11455a62dc91a176186fc8eecb0e0561d95aadb8925e43",
+          "bytes": 58795
+        },
+        {
+          "file": "chromium-1440-generic-punctuation.json",
+          "sha256": "445caa4a81e60923bc13e328bc102e7ec19e5c834c4096af5cc00b5407fb227f",
+          "bytes": 58276
+        },
+        {
+          "file": "chromium-1440-generic-punctuation.html",
+          "sha256": "d281b4c8077f789d9842ab3f42882170aee44f4ede040289fff86acc2f63cb2b",
+          "bytes": 58789
+        }
+      ],
+      "errors": [],
+      "requests": [],
+      "screenshot": "chromium-1440-trainspotter.png"
+    },
+    {
+      "engine": "chromium",
+      "version": "153.0.8010.12",
+      "width": 375,
+      "app": "trainspotter",
+      "site": "https://antonsoloviev-trainspotter.static.hf.space/",
+      "expectation": "after",
+      "offlineDuringProcessing": true,
+      "cases": [
+        {
+          "name": "control",
+          "accepted": true,
+          "readings": 679,
+          "nativeReportMismatches": 0
+        },
+        {
+          "name": "chart-plain",
+          "accepted": true,
+          "readings": 679,
+          "nativeReportMismatches": 0
+        },
+        {
+          "name": "chart-semicolons",
+          "accepted": true,
+          "readings": 679,
+          "nativeReportMismatches": 0
+        },
+        {
+          "name": "chart-tabs",
+          "accepted": true,
+          "readings": 679,
+          "nativeReportMismatches": 0
+        },
+        {
+          "name": "chart-quotes",
+          "accepted": true,
+          "readings": 679,
+          "nativeReportMismatches": 0
+        },
+        {
+          "name": "chart-multiline",
+          "accepted": true,
+          "readings": 679,
+          "nativeReportMismatches": 0
+        },
+        {
+          "name": "semicolon-writer",
+          "accepted": true,
+          "readings": 679,
+          "nativeReportMismatches": 0
+        },
+        {
+          "name": "tab-writer",
+          "accepted": true,
+          "readings": 679,
+          "nativeReportMismatches": 0
+        },
+        {
+          "name": "history-punctuation",
+          "accepted": true,
+          "readings": 679,
+          "nativeReportMismatches": 0
+        },
+        {
+          "name": "generic-punctuation",
+          "accepted": true,
+          "readings": 679,
+          "nativeReportMismatches": 0
+        },
+        {
+          "name": "ambiguous-dialect",
+          "accepted": false,
+          "previousReportPreserved": true
+        }
+      ],
+      "downloads": [
+        {
+          "file": "chromium-375-control.json",
+          "sha256": "b5b08789a26abddad8856a9b6ff55e0eb97590ff87da59736f9aacee3d538bd7",
+          "bytes": 58210
+        },
+        {
+          "file": "chromium-375-control.html",
+          "sha256": "d2a0746cb0f02445d1fbfb6faae7dd4bcb90f5efe32a3f247f603a4b45cb92af",
+          "bytes": 58713
+        },
+        {
+          "file": "chromium-375-chart-plain.json",
+          "sha256": "15cc62c052d79add6c75d8bad22ba5643caff0232104c5d044c0d43e14afc665",
+          "bytes": 58492
+        },
+        {
+          "file": "chromium-375-chart-plain.html",
+          "sha256": "6725414c65a4f4b71884fdf6f414386854b58dd3bfb7d936b85e6772ae2f8a4d",
+          "bytes": 58868
+        },
+        {
+          "file": "chromium-375-chart-semicolons.json",
+          "sha256": "bc72df2a9481887cf1939e7593d08c5c7fc78ddbcfbf4a63b1f90e2492ba71ee",
+          "bytes": 58570
+        },
+        {
+          "file": "chromium-375-chart-semicolons.html",
+          "sha256": "a0a18a8a485a2f91cc95c540048e8e91fa800bfa66ab2ad33cd0b06b28c60b45",
+          "bytes": 59060
+        },
+        {
+          "file": "chromium-375-chart-tabs.json",
+          "sha256": "7e16a45369b279e51096bfde931ca783bbbb94129531786abce77120f86d59ef",
+          "bytes": 58558
+        },
+        {
+          "file": "chromium-375-chart-tabs.html",
+          "sha256": "e204390c29e25c52aba4346003b3fe8afdb25424039cdd5db0ce1f6433b18c5e",
+          "bytes": 59016
+        },
+        {
+          "file": "chromium-375-chart-quotes.json",
+          "sha256": "d6905ce4e4ec77fb70abfce0eda2b73f7f62bf304f0aff18a5e3bb326acbd977",
+          "bytes": 58622
+        },
+        {
+          "file": "chromium-375-chart-quotes.html",
+          "sha256": "6d5fec116ec8df00a0d2517c8c9983396c86c8cc9d44be8d712500fd0cdc1a5f",
+          "bytes": 59269
+        },
+        {
+          "file": "chromium-375-chart-multiline.json",
+          "sha256": "6513343c39d75e67259f4c498f5408e3f96d7a047402b7a29e0100d48909bbb1",
+          "bytes": 58572
+        },
+        {
+          "file": "chromium-375-chart-multiline.html",
+          "sha256": "0d1529fd7c541473d076e0fa1dc3e37e9caaf2f75317e0fc87f2664cd3a17cc2",
+          "bytes": 59059
+        },
+        {
+          "file": "chromium-375-semicolon-writer.json",
+          "sha256": "81b23f1e4f36ec18b15803f5f950cb4d8144b8a47a8e08ed5ebe3aad4eaa476b",
+          "bytes": 58570
+        },
+        {
+          "file": "chromium-375-semicolon-writer.html",
+          "sha256": "8eddf2475ec67d26d72376a6f85fd22b9837f0d96ebd2736be752e81c45efebf",
+          "bytes": 59060
+        },
+        {
+          "file": "chromium-375-tab-writer.json",
+          "sha256": "c92818114c73a484a2d38ea0c49fa0ef350fecf21efa88e22100d2cede645472",
+          "bytes": 58558
+        },
+        {
+          "file": "chromium-375-tab-writer.html",
+          "sha256": "f8ec640a8a03c4b49ea79b021f9f42651509988ac32d67b115a738d9560d6f04",
+          "bytes": 59022
+        },
+        {
+          "file": "chromium-375-history-punctuation.json",
+          "sha256": "f280c56cb5f36ed801925d66a78657105f52faf378ce9d48c5381d4339545e3e",
+          "bytes": 58280
+        },
+        {
+          "file": "chromium-375-history-punctuation.html",
+          "sha256": "b3c0d607f95b9cb373ff51617d168e39dc9ee7d23267d6d55d890b5aaec309bf",
+          "bytes": 58795
+        },
+        {
+          "file": "chromium-375-generic-punctuation.json",
+          "sha256": "445caa4a81e60923bc13e328bc102e7ec19e5c834c4096af5cc00b5407fb227f",
+          "bytes": 58276
+        },
+        {
+          "file": "chromium-375-generic-punctuation.html",
+          "sha256": "0310798bfd942098e7117efa0c2077e835bf16eb43fb5f2012c6689007b9d101",
+          "bytes": 58789
+        }
+      ],
+      "errors": [],
+      "requests": [],
+      "screenshot": "chromium-375-trainspotter.png"
+    },
+    {
+      "engine": "firefox",
+      "version": "155.0",
+      "width": 1440,
+      "app": "trainspotter",
+      "site": "https://antonsoloviev-trainspotter.static.hf.space/",
+      "expectation": "after",
+      "offlineDuringProcessing": true,
+      "cases": [
+        {
+          "name": "control",
+          "accepted": true,
+          "readings": 679,
+          "nativeReportMismatches": 0
+        },
+        {
+          "name": "chart-plain",
+          "accepted": true,
+          "readings": 679,
+          "nativeReportMismatches": 0
+        },
+        {
+          "name": "chart-semicolons",
+          "accepted": true,
+          "readings": 679,
+          "nativeReportMismatches": 0
+        },
+        {
+          "name": "chart-tabs",
+          "accepted": true,
+          "readings": 679,
+          "nativeReportMismatches": 0
+        },
+        {
+          "name": "chart-quotes",
+          "accepted": true,
+          "readings": 679,
+          "nativeReportMismatches": 0
+        },
+        {
+          "name": "chart-multiline",
+          "accepted": true,
+          "readings": 679,
+          "nativeReportMismatches": 0
+        },
+        {
+          "name": "semicolon-writer",
+          "accepted": true,
+          "readings": 679,
+          "nativeReportMismatches": 0
+        },
+        {
+          "name": "tab-writer",
+          "accepted": true,
+          "readings": 679,
+          "nativeReportMismatches": 0
+        },
+        {
+          "name": "history-punctuation",
+          "accepted": true,
+          "readings": 679,
+          "nativeReportMismatches": 0
+        },
+        {
+          "name": "generic-punctuation",
+          "accepted": true,
+          "readings": 679,
+          "nativeReportMismatches": 0
+        },
+        {
+          "name": "ambiguous-dialect",
+          "accepted": false,
+          "previousReportPreserved": true
+        }
+      ],
+      "downloads": [
+        {
+          "file": "firefox-1440-control.json",
+          "sha256": "b5b08789a26abddad8856a9b6ff55e0eb97590ff87da59736f9aacee3d538bd7",
+          "bytes": 58210
+        },
+        {
+          "file": "firefox-1440-control.html",
+          "sha256": "ad38201d82447ab0844dba6623f74c4b12cd41b6f43caa98963d7beb34090d50",
+          "bytes": 58713
+        },
+        {
+          "file": "firefox-1440-chart-plain.json",
+          "sha256": "15cc62c052d79add6c75d8bad22ba5643caff0232104c5d044c0d43e14afc665",
+          "bytes": 58492
+        },
+        {
+          "file": "firefox-1440-chart-plain.html",
+          "sha256": "2d8601b8b0b24ce3314231db57dadc9cd4e4f59ce5638ede076c5afee1fa4949",
+          "bytes": 58868
+        },
+        {
+          "file": "firefox-1440-chart-semicolons.json",
+          "sha256": "bc72df2a9481887cf1939e7593d08c5c7fc78ddbcfbf4a63b1f90e2492ba71ee",
+          "bytes": 58570
+        },
+        {
+          "file": "firefox-1440-chart-semicolons.html",
+          "sha256": "ee1deeeadbd547f1e2c8b297d0f5e0aa4b039f884b99267e6cbafba783fc4009",
+          "bytes": 59060
+        },
+        {
+          "file": "firefox-1440-chart-tabs.json",
+          "sha256": "7e16a45369b279e51096bfde931ca783bbbb94129531786abce77120f86d59ef",
+          "bytes": 58558
+        },
+        {
+          "file": "firefox-1440-chart-tabs.html",
+          "sha256": "2cbbe46c8f11dfdca2a55396c9610399eb98396c9e82da171ae1eeb496a177a7",
+          "bytes": 59016
+        },
+        {
+          "file": "firefox-1440-chart-quotes.json",
+          "sha256": "d6905ce4e4ec77fb70abfce0eda2b73f7f62bf304f0aff18a5e3bb326acbd977",
+          "bytes": 58622
+        },
+        {
+          "file": "firefox-1440-chart-quotes.html",
+          "sha256": "8af4f4e250a82a15e32ba17eafdcb1185f67825bf16a4d85f9cc12c16082017a",
+          "bytes": 59269
+        },
+        {
+          "file": "firefox-1440-chart-multiline.json",
+          "sha256": "6513343c39d75e67259f4c498f5408e3f96d7a047402b7a29e0100d48909bbb1",
+          "bytes": 58572
+        },
+        {
+          "file": "firefox-1440-chart-multiline.html",
+          "sha256": "8e12bb055f28e21ce137ae8730ec8054e094945c8a7b486a856838ab3041bcac",
+          "bytes": 59059
+        },
+        {
+          "file": "firefox-1440-semicolon-writer.json",
+          "sha256": "81b23f1e4f36ec18b15803f5f950cb4d8144b8a47a8e08ed5ebe3aad4eaa476b",
+          "bytes": 58570
+        },
+        {
+          "file": "firefox-1440-semicolon-writer.html",
+          "sha256": "4749884e328a18b07d52e563d535bfa0e0cb561adf9afd1d1fd1f3f51fa2300c",
+          "bytes": 59060
+        },
+        {
+          "file": "firefox-1440-tab-writer.json",
+          "sha256": "c92818114c73a484a2d38ea0c49fa0ef350fecf21efa88e22100d2cede645472",
+          "bytes": 58558
+        },
+        {
+          "file": "firefox-1440-tab-writer.html",
+          "sha256": "f1078dffc61dbe860b637a4d944dcf48fac2c63929895cd20ecc3df7e239275b",
+          "bytes": 59022
+        },
+        {
+          "file": "firefox-1440-history-punctuation.json",
+          "sha256": "f280c56cb5f36ed801925d66a78657105f52faf378ce9d48c5381d4339545e3e",
+          "bytes": 58280
+        },
+        {
+          "file": "firefox-1440-history-punctuation.html",
+          "sha256": "e92ea50a307718454bd6b4568cc2a6437842b4b566c1e84e2901f33aa558c733",
+          "bytes": 58795
+        },
+        {
+          "file": "firefox-1440-generic-punctuation.json",
+          "sha256": "445caa4a81e60923bc13e328bc102e7ec19e5c834c4096af5cc00b5407fb227f",
+          "bytes": 58276
+        },
+        {
+          "file": "firefox-1440-generic-punctuation.html",
+          "sha256": "6881e78a6c466b4f21ab3c67d649b9988f2239f4ebd72a2a9a1bccf348968b1f",
+          "bytes": 58789
+        }
+      ],
+      "errors": [],
+      "requests": [],
+      "screenshot": "firefox-1440-trainspotter.png"
+    },
+    {
+      "engine": "firefox",
+      "version": "155.0",
+      "width": 375,
+      "app": "trainspotter",
+      "site": "https://antonsoloviev-trainspotter.static.hf.space/",
+      "expectation": "after",
+      "offlineDuringProcessing": true,
+      "cases": [
+        {
+          "name": "control",
+          "accepted": true,
+          "readings": 679,
+          "nativeReportMismatches": 0
+        },
+        {
+          "name": "chart-plain",
+          "accepted": true,
+          "readings": 679,
+          "nativeReportMismatches": 0
+        },
+        {
+          "name": "chart-semicolons",
+          "accepted": true,
+          "readings": 679,
+          "nativeReportMismatches": 0
+        },
+        {
+          "name": "chart-tabs",
+          "accepted": true,
+          "readings": 679,
+          "nativeReportMismatches": 0
+        },
+        {
+          "name": "chart-quotes",
+          "accepted": true,
+          "readings": 679,
+          "nativeReportMismatches": 0
+        },
+        {
+          "name": "chart-multiline",
+          "accepted": true,
+          "readings": 679,
+          "nativeReportMismatches": 0
+        },
+        {
+          "name": "semicolon-writer",
+          "accepted": true,
+          "readings": 679,
+          "nativeReportMismatches": 0
+        },
+        {
+          "name": "tab-writer",
+          "accepted": true,
+          "readings": 679,
+          "nativeReportMismatches": 0
+        },
+        {
+          "name": "history-punctuation",
+          "accepted": true,
+          "readings": 679,
+          "nativeReportMismatches": 0
+        },
+        {
+          "name": "generic-punctuation",
+          "accepted": true,
+          "readings": 679,
+          "nativeReportMismatches": 0
+        },
+        {
+          "name": "ambiguous-dialect",
+          "accepted": false,
+          "previousReportPreserved": true
+        }
+      ],
+      "downloads": [
+        {
+          "file": "firefox-375-control.json",
+          "sha256": "b5b08789a26abddad8856a9b6ff55e0eb97590ff87da59736f9aacee3d538bd7",
+          "bytes": 58210
+        },
+        {
+          "file": "firefox-375-control.html",
+          "sha256": "ad38201d82447ab0844dba6623f74c4b12cd41b6f43caa98963d7beb34090d50",
+          "bytes": 58713
+        },
+        {
+          "file": "firefox-375-chart-plain.json",
+          "sha256": "15cc62c052d79add6c75d8bad22ba5643caff0232104c5d044c0d43e14afc665",
+          "bytes": 58492
+        },
+        {
+          "file": "firefox-375-chart-plain.html",
+          "sha256": "2d8601b8b0b24ce3314231db57dadc9cd4e4f59ce5638ede076c5afee1fa4949",
+          "bytes": 58868
+        },
+        {
+          "file": "firefox-375-chart-semicolons.json",
+          "sha256": "bc72df2a9481887cf1939e7593d08c5c7fc78ddbcfbf4a63b1f90e2492ba71ee",
+          "bytes": 58570
+        },
+        {
+          "file": "firefox-375-chart-semicolons.html",
+          "sha256": "ee1deeeadbd547f1e2c8b297d0f5e0aa4b039f884b99267e6cbafba783fc4009",
+          "bytes": 59060
+        },
+        {
+          "file": "firefox-375-chart-tabs.json",
+          "sha256": "7e16a45369b279e51096bfde931ca783bbbb94129531786abce77120f86d59ef",
+          "bytes": 58558
+        },
+        {
+          "file": "firefox-375-chart-tabs.html",
+          "sha256": "2cbbe46c8f11dfdca2a55396c9610399eb98396c9e82da171ae1eeb496a177a7",
+          "bytes": 59016
+        },
+        {
+          "file": "firefox-375-chart-quotes.json",
+          "sha256": "d6905ce4e4ec77fb70abfce0eda2b73f7f62bf304f0aff18a5e3bb326acbd977",
+          "bytes": 58622
+        },
+        {
+          "file": "firefox-375-chart-quotes.html",
+          "sha256": "8af4f4e250a82a15e32ba17eafdcb1185f67825bf16a4d85f9cc12c16082017a",
+          "bytes": 59269
+        },
+        {
+          "file": "firefox-375-chart-multiline.json",
+          "sha256": "6513343c39d75e67259f4c498f5408e3f96d7a047402b7a29e0100d48909bbb1",
+          "bytes": 58572
+        },
+        {
+          "file": "firefox-375-chart-multiline.html",
+          "sha256": "8e12bb055f28e21ce137ae8730ec8054e094945c8a7b486a856838ab3041bcac",
+          "bytes": 59059
+        },
+        {
+          "file": "firefox-375-semicolon-writer.json",
+          "sha256": "81b23f1e4f36ec18b15803f5f950cb4d8144b8a47a8e08ed5ebe3aad4eaa476b",
+          "bytes": 58570
+        },
+        {
+          "file": "firefox-375-semicolon-writer.html",
+          "sha256": "4749884e328a18b07d52e563d535bfa0e0cb561adf9afd1d1fd1f3f51fa2300c",
+          "bytes": 59060
+        },
+        {
+          "file": "firefox-375-tab-writer.json",
+          "sha256": "c92818114c73a484a2d38ea0c49fa0ef350fecf21efa88e22100d2cede645472",
+          "bytes": 58558
+        },
+        {
+          "file": "firefox-375-tab-writer.html",
+          "sha256": "f1078dffc61dbe860b637a4d944dcf48fac2c63929895cd20ecc3df7e239275b",
+          "bytes": 59022
+        },
+        {
+          "file": "firefox-375-history-punctuation.json",
+          "sha256": "f280c56cb5f36ed801925d66a78657105f52faf378ce9d48c5381d4339545e3e",
+          "bytes": 58280
+        },
+        {
+          "file": "firefox-375-history-punctuation.html",
+          "sha256": "e92ea50a307718454bd6b4568cc2a6437842b4b566c1e84e2901f33aa558c733",
+          "bytes": 58795
+        },
+        {
+          "file": "firefox-375-generic-punctuation.json",
+          "sha256": "445caa4a81e60923bc13e328bc102e7ec19e5c834c4096af5cc00b5407fb227f",
+          "bytes": 58276
+        },
+        {
+          "file": "firefox-375-generic-punctuation.html",
+          "sha256": "6881e78a6c466b4f21ab3c67d649b9988f2239f4ebd72a2a9a1bccf348968b1f",
+          "bytes": 58789
+        }
+      ],
+      "errors": [],
+      "requests": [],
+      "screenshot": "firefox-375-trainspotter.png"
+    }
+  ]
+}

@@ -1,0 +1,248 @@
+{
+  "results": [
+    {
+      "engine": "chromium",
+      "version": "153.0.8010.12",
+      "width": 1440,
+      "offlineBeforeNavigation": true,
+      "reports": [
+        {
+          "name": "control",
+          "htmlSha256": "60fdf6be569c70df0ee44f788737d564da8d2c7f5b3c72707e8454557e62d343",
+          "screenshot": null
+        },
+        {
+          "name": "chart-plain",
+          "htmlSha256": "091a33fef22760ee5d4e9b6e187ad24c7ea9d71e1164aba9365e51d7d572dd44",
+          "screenshot": null
+        },
+        {
+          "name": "chart-semicolons",
+          "htmlSha256": "99a6eedc1966e6038d7dbc0e2f53851b4ea64ce5b90c295da5c5f9d7e45319e1",
+          "screenshot": null
+        },
+        {
+          "name": "chart-tabs",
+          "htmlSha256": "081b48062bd32aa0373d2208b42fca1c2a84934138e9ba9254b12da7f6c4e2ab",
+          "screenshot": null
+        },
+        {
+          "name": "chart-quotes",
+          "htmlSha256": "e26ab7164c2c6e7d83303ab2c60666e452a8fd7bfe694975866b752a1e1cc230",
+          "screenshot": null
+        },
+        {
+          "name": "chart-multiline",
+          "htmlSha256": "c5af64aa7b3ffbae26c689c62b60819afef6baa3be3388dbf1ba5ed83a7a530e",
+          "screenshot": "chromium-1440.png"
+        },
+        {
+          "name": "semicolon-writer",
+          "htmlSha256": "09bf5508854239396ec141dca8f5ae5f782b8d74806686397675af1cdede65a0",
+          "screenshot": null
+        },
+        {
+          "name": "tab-writer",
+          "htmlSha256": "f69174914510e0df5d9ae8f297924171f7f225be088c307c3ce881fbf0d23082",
+          "screenshot": null
+        },
+        {
+          "name": "history-punctuation",
+          "htmlSha256": "ab2b1f95066170c8f00bd026cf6be94201695a28f08f62f6b50785ecc16746cd",
+          "screenshot": null
+        },
+        {
+          "name": "generic-punctuation",
+          "htmlSha256": "3f31a075ea9fd8f81daca0abe832c5f5a375942fb81c1ab66b8306d53881397f",
+          "screenshot": null
+        }
+      ],
+      "errors": [],
+      "requests": [],
+      "axeViolations": 0
+    },
+    {
+      "engine": "chromium",
+      "version": "153.0.8010.12",
+      "width": 375,
+      "offlineBeforeNavigation": true,
+      "reports": [
+        {
+          "name": "control",
+          "htmlSha256": "60fdf6be569c70df0ee44f788737d564da8d2c7f5b3c72707e8454557e62d343",
+          "screenshot": null
+        },
+        {
+          "name": "chart-plain",
+          "htmlSha256": "091a33fef22760ee5d4e9b6e187ad24c7ea9d71e1164aba9365e51d7d572dd44",
+          "screenshot": null
+        },
+        {
+          "name": "chart-semicolons",
+          "htmlSha256": "99a6eedc1966e6038d7dbc0e2f53851b4ea64ce5b90c295da5c5f9d7e45319e1",
+          "screenshot": null
+        },
+        {
+          "name": "chart-tabs",
+          "htmlSha256": "081b48062bd32aa0373d2208b42fca1c2a84934138e9ba9254b12da7f6c4e2ab",
+          "screenshot": null
+        },
+        {
+          "name": "chart-quotes",
+          "htmlSha256": "e26ab7164c2c6e7d83303ab2c60666e452a8fd7bfe694975866b752a1e1cc230",
+          "screenshot": null
+        },
+        {
+          "name": "chart-multiline",
+          "htmlSha256": "c5af64aa7b3ffbae26c689c62b60819afef6baa3be3388dbf1ba5ed83a7a530e",
+          "screenshot": "chromium-375.png"
+        },
+        {
+          "name": "semicolon-writer",
+          "htmlSha256": "09bf5508854239396ec141dca8f5ae5f782b8d74806686397675af1cdede65a0",
+          "screenshot": null
+        },
+        {
+          "name": "tab-writer",
+          "htmlSha256": "f69174914510e0df5d9ae8f297924171f7f225be088c307c3ce881fbf0d23082",
+          "screenshot": null
+        },
+        {
+          "name": "history-punctuation",
+          "htmlSha256": "ab2b1f95066170c8f00bd026cf6be94201695a28f08f62f6b50785ecc16746cd",
+          "screenshot": null
+        },
+        {
+          "name": "generic-punctuation",
+          "htmlSha256": "3f31a075ea9fd8f81daca0abe832c5f5a375942fb81c1ab66b8306d53881397f",
+          "screenshot": null
+        }
+      ],
+      "errors": [],
+      "requests": [],
+      "axeViolations": 0
+    },
+    {
+      "engine": "firefox",
+      "version": "155.0",
+      "width": 1440,
+      "offlineBeforeNavigation": true,
+      "reports": [
+        {
+          "name": "control",
+          "htmlSha256": "60fdf6be569c70df0ee44f788737d564da8d2c7f5b3c72707e8454557e62d343",
+          "screenshot": null
+        },
+        {
+          "name": "chart-plain",
+          "htmlSha256": "091a33fef22760ee5d4e9b6e187ad24c7ea9d71e1164aba9365e51d7d572dd44",
+          "screenshot": null
+        },
+        {
+          "name": "chart-semicolons",
+          "htmlSha256": "99a6eedc1966e6038d7dbc0e2f53851b4ea64ce5b90c295da5c5f9d7e45319e1",
+          "screenshot": null
+        },
+        {
+          "name": "chart-tabs",
+          "htmlSha256": "081b48062bd32aa0373d2208b42fca1c2a84934138e9ba9254b12da7f6c4e2ab",
+          "screenshot": null
+        },
+        {
+          "name": "chart-quotes",
+          "htmlSha256": "e26ab7164c2c6e7d83303ab2c60666e452a8fd7bfe694975866b752a1e1cc230",
+          "screenshot": null
+        },
+        {
+          "name": "chart-multiline",
+          "htmlSha256": "c5af64aa7b3ffbae26c689c62b60819afef6baa3be3388dbf1ba5ed83a7a530e",
+          "screenshot": "firefox-1440.png"
+        },
+        {
+          "name": "semicolon-writer",
+          "htmlSha256": "09bf5508854239396ec141dca8f5ae5f782b8d74806686397675af1cdede65a0",
+          "screenshot": null
+        },
+        {
+          "name": "tab-writer",
+          "htmlSha256": "f69174914510e0df5d9ae8f297924171f7f225be088c307c3ce881fbf0d23082",
+          "screenshot": null
+        },
+        {
+          "name": "history-punctuation",
+          "htmlSha256": "ab2b1f95066170c8f00bd026cf6be94201695a28f08f62f6b50785ecc16746cd",
+          "screenshot": null
+        },
+        {
+          "name": "generic-punctuation",
+          "htmlSha256": "3f31a075ea9fd8f81daca0abe832c5f5a375942fb81c1ab66b8306d53881397f",
+          "screenshot": null
+        }
+      ],
+      "errors": [],
+      "requests": [],
+      "axeViolations": 0
+    },
+    {
+      "engine": "firefox",
+      "version": "155.0",
+      "width": 375,
+      "offlineBeforeNavigation": true,
+      "reports": [
+        {
+          "name": "control",
+          "htmlSha256": "60fdf6be569c70df0ee44f788737d564da8d2c7f5b3c72707e8454557e62d343",
+          "screenshot": null
+        },
+        {
+          "name": "chart-plain",
+          "htmlSha256": "091a33fef22760ee5d4e9b6e187ad24c7ea9d71e1164aba9365e51d7d572dd44",
+          "screenshot": null
+        },
+        {
+          "name": "chart-semicolons",
+          "htmlSha256": "99a6eedc1966e6038d7dbc0e2f53851b4ea64ce5b90c295da5c5f9d7e45319e1",
+          "screenshot": null
+        },
+        {
+          "name": "chart-tabs",
+          "htmlSha256": "081b48062bd32aa0373d2208b42fca1c2a84934138e9ba9254b12da7f6c4e2ab",
+          "screenshot": null
+        },
+        {
+          "name": "chart-quotes",
+          "htmlSha256": "e26ab7164c2c6e7d83303ab2c60666e452a8fd7bfe694975866b752a1e1cc230",
+          "screenshot": null
+        },
+        {
+          "name": "chart-multiline",
+          "htmlSha256": "c5af64aa7b3ffbae26c689c62b60819afef6baa3be3388dbf1ba5ed83a7a530e",
+          "screenshot": "firefox-375.png"
+        },
+        {
+          "name": "semicolon-writer",
+          "htmlSha256": "09bf5508854239396ec141dca8f5ae5f782b8d74806686397675af1cdede65a0",
+          "screenshot": null
+        },
+        {
+          "name": "tab-writer",
+          "htmlSha256": "f69174914510e0df5d9ae8f297924171f7f225be088c307c3ce881fbf0d23082",
+          "screenshot": null
+        },
+        {
+          "name": "history-punctuation",
+          "htmlSha256": "ab2b1f95066170c8f00bd026cf6be94201695a28f08f62f6b50785ecc16746cd",
+          "screenshot": null
+        },
+        {
+          "name": "generic-punctuation",
+          "htmlSha256": "3f31a075ea9fd8f81daca0abe832c5f5a375942fb81c1ab66b8306d53881397f",
+          "screenshot": null
+        }
+      ],
+      "errors": [],
+      "requests": [],
+      "axeViolations": 0
+    }
+  ]
+}
