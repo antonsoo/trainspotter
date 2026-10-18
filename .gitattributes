@@ -1,0 +1,2 @@
+# Keep the standalone report's actual template bytes.
+mlflow-model-scopes.html -text -whitespace

@@ -63,7 +63,11 @@ footer a { color: var(--text-dim); }
     a fresh analysis at each build.</p>
   </header>
   <main class="grid">
-    <a class="card" href="mlflow-slowdown.html">
+    <a class="card" href="mlflow-model-scopes.html">
+  <h2>A change of metric scope is not training divergence</h2>
+  <p>Controlled MLflow 3.17.1 logging only: twenty improving unqualified losses followed by twenty model/dataset losses. Native SQLite exposes both in one run aggregate. The report preserves every recorded value but cannot diagnose it as one training curve.</p>
+  <div class="chips"><span class="chip sev-error">0 error</span><span class="chip sev-warning">0 warning</span><span class="chip sev-info">0 info</span></div>
+</a><a class="card" href="mlflow-slowdown.html">
   <h2>One measured slowdown inside a native MLflow store</h2>
   <p>The MLflow 3.17.1 SDK replayed retained training measurements into a local SQLite store with eight separate runs. This report selects slow-training; its logged step is explicitly declared to count training updates. Replay does not run training again.</p>
   <div class="chips"><span class="chip sev-error">0 error</span><span class="chip sev-warning">1 warning</span><span class="chip sev-info">0 info</span></div>
@@ -138,7 +142,7 @@ footer a { color: var(--text-dim); }
 </a>
   </main>
   <footer>
-    <span>Built 2026-10-17 22:04 UTC &middot;
+    <span>Built 2026-10-18 14:19 UTC &middot;
     <a href="https://github.com/antonsoo/trainspotter">source</a></span>
   </footer>
 </div>
