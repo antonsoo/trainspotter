@@ -56,3 +56,11 @@ The replay scripts run from this checkout and invoke the selected installation.
 The local source still declares version 0.2.6, so `--force-reinstall` replaces an
 existing installation of that version. A source installation and precomputed
 Pages report are separate from a registry release or an interactive workbench.
+
+The [separate interactive workbench receipt](workbench-publication.json) retains
+Hub revision `e4dfb16d477f86767e4e873c58ca78d97fd2ac38`, the sixty-five-file public
+audit and four actual browser workflows. All six uploaded native histories
+produce complete JSON equal to CPython after disconnection; declaring training
+steps does not resolve their model/dataset scope. The receipt also preserves
+the original public app's actual false-divergence JSON and its older Hub
+revision. These are controlled logging inputs, not new training observations.

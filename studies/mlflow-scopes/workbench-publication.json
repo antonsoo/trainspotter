@@ -1,0 +1,1165 @@
+{
+  "scope": "Separate interactive Hugging Face workbench publication, actual canonical file audit and native browser workflows. Source/package/Pages evidence is retained separately. No registry publication.",
+  "publication": {
+    "published": {
+      "repo_id": "antonsoloviev/trainspotter",
+      "commit": "e4dfb16d477f86767e4e873c58ca78d97fd2ac38",
+      "manifest_sha256": "45a024991783b3703355a3147ea559cf58e44e2642430e5d1e83d8bb931b6fd7",
+      "published_at": "2026-10-18T14:28:55.805637+00:00",
+      "host": "https://antonsoloviev-trainspotter.static.hf.space"
+    },
+    "publicAudit": {
+      "verified_at": "2026-10-18T14:30:03.693Z",
+      "results": [
+        {
+          "name": "trainspotter",
+          "url": "https://antonsoloviev-trainspotter.static.hf.space/",
+          "startup_ms": 6755,
+          "desktop": "1440x1050",
+          "mobile": {
+            "width": 375,
+            "scroll": 375
+          },
+          "workflow": "passed",
+          "served_files_verified": true,
+          "lifecycle_regressions": "passed",
+          "network_requests_during_analysis": 0
+        }
+      ],
+      "errors": [],
+      "worker_failure_recovery": "passed",
+      "bundle_digests": {
+        "trainspotter": "45a024991783b3703355a3147ea559cf58e44e2642430e5d1e83d8bb931b6fd7"
+      }
+    },
+    "buildManifest": {
+      "schema_version": 2,
+      "sdk": "static",
+      "space": "trainspotter",
+      "engine": "trainspotter @ git+https://github.com/antonsoo/trainspotter@f0061fca61ad5b6f9a9ce869448fb7ca8611cb74",
+      "pyodide": "314.0.7",
+      "files": {
+        "LICENSE": "e26144be8673d69c175126ad8dcd9ed78431464f0b97120b799dc75ec7edb647",
+        "LOCAL-GRADIO.md": "51c29398a8291cd29cca7f7b651a21913fee3033ffbefbba3b582495c2dbf0f9",
+        "README.md": "0a529b47ad2cd9628b51da38ffc96573738557780e47870dfeba307061badaff",
+        "app.js": "b7b3a2567c585bce18ecdcc7c8efe8d56a185670fc379352dbbcc8cafa0dde59",
+        "app.py": "54f2940dedf73c94264a192ad58a4215880cdbcfb485d912d6a1498dbfddce76",
+        "assets/workbench.png": "0f587a8f63c19e741fa631879f0edb02a1d1ba4991860bdb85a95895f9399970",
+        "bridge.py": "c4117be22241104a333bae92b0864e1eabfedc07fd467d66911c9758d450d2f1",
+        "browser.css": "ca6a2629e7402cf6a3d046ac935c4ad201d9406b2585758f2e1ead568b032a90",
+        "constraints.txt": "36a82ce76196d01d868f86b93f4949f7a94052843ae84c428f0039f58cca4818",
+        "evidence/mlflow-browser/README.md": "14ae6ed50b3bcbc49d06b71274980fe0d6ccb849ea5d6ae13b09d3776e322d30",
+        "evidence/mlflow-browser/browser.mjs": "2d5ecc9ca26c314e59acc58dd01e9dbafa1498a519fdc0c73fea84df233ded99",
+        "evidence/mlflow-browser/capture_controls.py": "a82e8629207639d2900a30bbf6ab4893d573cac3b71642be39cdc11a56f5f87e",
+        "evidence/mlflow-browser/fixtures/histories-2.17.2.json.gz": "fff279c869007c7b8e9777616b2493068c9ceac2dff2da4ffe4d576426813a01",
+        "evidence/mlflow-browser/fixtures/histories-3.17.1.json.gz": "2797bec5ea595408b32e68eb01fa312c434429378ea1dd6a9bb82007ab9e3c0f",
+        "evidence/mlflow-browser/fixtures/manifest.json": "c61bce893d07cee0883593406ea9e135e2a69f8b9b28f16bd220eec872552a8d",
+        "evidence/mlflow-browser/fixtures/oracle.json": "cfece3fa0191bfab9a56de410be2f31cbd786517c9ce7d42c27f6797ef75d0c1",
+        "evidence/mlflow-browser/fixtures/provenance.json": "26986b8be9cf83afddfc8a368d3c14be7d588a4901cf400776d80fd9ad8948f7",
+        "evidence/mlflow-browser/fixtures/reader-controls.sqlite": "b92272103132724748c4b7bd72a5dfc1a193da57e95b2eb97452dc59fb6ecaa7",
+        "evidence/mlflow-browser/fixtures/wal-main-only.sqlite": "d267e8df7bdef22e4b0630eccbe1828b8065c53ab5cca0c579b1e2e3d168e65c",
+        "evidence/mlflow-browser/replay.py": "b4d22b568421a9c8319510310218e2d714144a85539ed0c6b0c7b7d5f97e0cdd",
+        "evidence/mlflow-browser/results/native/mlflow-2.17.2-baseline-0.json": "8b132ccc6f36bb777ea40481343f80015d096501036c4abc0de3923dddfaa887",
+        "evidence/mlflow-browser/results/native/mlflow-2.17.2-baseline-1.json": "55dbffb08003069ceae1628a08cab2593e8863c3b7371c158fd2219a2cc41ed2",
+        "evidence/mlflow-browser/results/native/mlflow-2.17.2-overfitting-0.json": "eedaa5e7dbb95dbab7ad73aa496fee3615b9d1ebbc069b57c94f9b26530918c4",
+        "evidence/mlflow-browser/results/native/mlflow-2.17.2-overfitting-1.json": "8755b3df591f287201a8fc6bdecedae771e62034a159024680c5bfe3cf71592f",
+        "evidence/mlflow-browser/results/native/mlflow-2.17.2-slow-training-0.json": "80800480c4bb7a8e4fc782cb1e36610e19bbbbfae043c23ba28c613413e43079",
+        "evidence/mlflow-browser/results/native/mlflow-2.17.2-slow-training-1.json": "36d148a16d1e6354f60cdd80355f737a1e70b53dfc010d73b717e8114ad2a11d",
+        "evidence/mlflow-browser/results/native/mlflow-2.17.2-stable-training-0.json": "122b9b35471cd11c99af40199ccac5596082772e25d77594f2984bf98eb9526c",
+        "evidence/mlflow-browser/results/native/mlflow-2.17.2-stable-training-1.json": "81694f883b6337c7493ad0231181ff3ad492bdae73801d8faae0fe95d632d4a7",
+        "evidence/mlflow-browser/results/native/mlflow-3.17.1-baseline-0.json": "ad57d74c4db27917c280ab63a41f959b773ed0375311713ace8657c9a11c525d",
+        "evidence/mlflow-browser/results/native/mlflow-3.17.1-baseline-1.json": "569125a1ee0a4314dcb5fdcfd9d2b0afef2a61d5f716a2e9678f4e68b8b8c9d5",
+        "evidence/mlflow-browser/results/native/mlflow-3.17.1-overfitting-0.json": "cbf006c3a44278f5e21364cb0b65d94b924ab1abddd3b9e0f23fe1653db8ccf8",
+        "evidence/mlflow-browser/results/native/mlflow-3.17.1-overfitting-1.json": "45911cf6503731670ad2381b896597f1d0e1ff8f7c0917a8501c873e723563ea",
+        "evidence/mlflow-browser/results/native/mlflow-3.17.1-slow-training-0.json": "e71c3ff85fbef9569500cf6085836fcc8a8d661c84e370284136cedc6acfb444",
+        "evidence/mlflow-browser/results/native/mlflow-3.17.1-slow-training-1.json": "5f8d675803699547cff4d164d2f5c92b2a074541df1a176099edab4d66913104",
+        "evidence/mlflow-browser/results/native/mlflow-3.17.1-stable-training-0.json": "d612a4afe752a9bbad8305c637879c7b5b9a23845afad5aa5b5a8b6875094b2c",
+        "evidence/mlflow-browser/results/native/mlflow-3.17.1-stable-training-1.json": "db687008836997972a429344814008b04c356f0da55de3485202a4de945d32ef",
+        "evidence/mlflow-browser/results/native/native.json": "c88bd432e38be8314c16d8f62a3f00ffafb9783c07c8303a69848a3d82f92ed7",
+        "evidence/mlflow-browser/results/native/reader-controls-deleted-control-0.json": "afb9a58090396985b794603302dca6062b67037cdef1254fb482262b1de2fe0f",
+        "evidence/mlflow-browser/results/native/reader-controls-recorded-nan-0.json": "9ea1340ed65c430c8d8ac1db1739d230558a4e83b47bc4f24b4c0d61fb9f7d90",
+        "examples/PROVENANCE.json": "c095100fc3b836df6ec111365c5b4084f47bd9031e09faefb476fccd013e65eb",
+        "examples/baseline.trainer_state.json": "77cef17e5130ad978e229d07d7aaa5c8b8eb2f2a0286cce9eeb02cfc4c8171d1",
+        "examples/divergence.trainer_state.json": "39d6723152887c81e07171263db2fa6e3a63acfcc73c9b097e6519e5e431d613",
+        "examples/missing_warmup.trainer_state.json": "fd258799ee173107feff456acf433f38198d92554657a9ca15e0671526cea901",
+        "examples/mlflow-2.17.2.sqlite": "6f6726d847eacf7bbe355a6088bb5490056d48557c90ac57eaac9cc028648297",
+        "examples/mlflow-3.17.1.sqlite": "4deb943a134452509468a50fe3afc06fe1f2ac9bfea102297a4695e263e7f37c",
+        "examples/mlflow-model-scopes.sqlite": "ab0debdd2c38371ad461df0c6ba0cec1a9fb40f3436a8a3c77bfc585a78af9d4",
+        "examples/overfitting.trainer_state.json": "a290af9a64c9247db8e4784c9990cc180a5a65e136720c3deb51cfc05af5d641",
+        "examples/throughput_drop.trainer_state.json": "ca26e36415b8682258f920aa18ef984fd1afc077c59ad3e5ff89d06ff0021d79",
+        "examples/transformers_tinygpt2.trainer_state.json": "5b094bb19524f480a4f662e9b4cebce13070e0be8b96d2d6bdab95574e2ba3f0",
+        "index.html": "b15c9c689fbc3b3ddf36929aa20d88372e31ac4af8f0e1908d7f572683e8f201",
+        "licenses/trainspotter-MIT.txt": "e26144be8673d69c175126ad8dcd9ed78431464f0b97120b799dc75ec7edb647",
+        "python.zip": "9c691c0b77de7a02c2b5923201894a509b841de8fdfec5e998cc607eed7490f9",
+        "requirements.txt": "0f49f51c45af59affded8a70b0548bacd4164be3179d4639c5ca60943cbc8da1",
+        "runtime-provenance.json": "3052228c13d7dc0ff77ac54fed41d9c52da2041917f1ee02c70e8d9a6600a7c2",
+        "spacekit/__init__.py": "ab3651e938f896e9271d6c08c19b5ce2dda9305f201dc4dabaae495fd5086610",
+        "spacekit/html.py": "b0cfe2d79d70255e563d8730b350241d2df351b2882a5865319c88e7e0b3f585",
+        "spacekit/io.py": "a3a79deb53e0b1378e2e74ea1c60ea2a26d3aa0fc6d83fbc30a285cd92d2125f",
+        "spacekit/ui.py": "c559d6b5de79b99890c3e68ad44dc4d92032ea6066234d81c8c3e59ac130675b",
+        "spacekit/workbench.css": "535f9b642d608d796832310d6170ba66b2e8319767701a14216ace58607043fe",
+        "test-requirements.txt": "1438527233ce7beb1cdf4a046b8b5d38f140bd77217ef4df17d5592989d3ec15",
+        "tests/test_boundaries.py": "7cb17ba2a5c17849029f48d642fd63af0cc80588437228be1a2e2fced3830507",
+        "tests/test_trainspotter.py": "9108611871c86a2d2d15fd937dfe5da805638e1a68cffb1ae53f25d65afa48aa",
+        "training_workbench.py": "89dd003700a286c45c41e09be322f7923daaf52b366470ab3515c9f782ba9f65",
+        "workbench.css": "535f9b642d608d796832310d6170ba66b2e8319767701a14216ace58607043fe",
+        "worker.mjs": "4c805fa6870bc0b09614105fa0017aed0d8795c54208bc2e6e3f0225c179849a"
+      }
+    },
+    "runtime": {
+      "engine": "trainspotter @ git+https://github.com/antonsoo/trainspotter@f0061fca61ad5b6f9a9ce869448fb7ca8611cb74",
+      "source_revision": "f0061fca61ad5b6f9a9ce869448fb7ca8611cb74",
+      "engine_files": {
+        "trainspotter/__init__.py": "f902908eabb455be7238326cae68b500f401e4962b326bc7696dbc748be6437b",
+        "trainspotter/cli.py": "50b8a00befff190bdf8328279936a37a607bc142415e1c1088eefb0847d6e098",
+        "trainspotter/detectors/__init__.py": "38482b71273ec74fdf748c447e35c1132451b5f9a74a581a8e72067d91624e09",
+        "trainspotter/detectors/_rolling_slope.py": "bb5d8c31ad43864cca26a9633a7d616a80ccc26fc1c5cd199152c8a84c59e892",
+        "trainspotter/detectors/base.py": "a1b8ff3e7163f7b6aaa476b42565a8fccc46bfefd4e07270fbe3c69691c11bd8",
+        "trainspotter/detectors/divergence.py": "70721e99da4edbf8a5a67308d4222baeb1d951d8f076c745c698fe680fc557ac",
+        "trainspotter/detectors/eval_noise.py": "1fa2258d2d3247fa0486fda30867e1b769bf5d06ffd864402c91fd1610b350ca",
+        "trainspotter/detectors/grad_norm.py": "1a6e37d4b37324a089721f759999f4f8fd53d0d8bae06dde3a9cf016f6919089",
+        "trainspotter/detectors/loss_floor.py": "e50fed8be010eaa3fcd813f1d73b49871f3627d1035b0547d8bccdbd99bc3131",
+        "trainspotter/detectors/lr_schedule.py": "1ad15a455347020f3e89628032158bd1598669f3109a8cbf0e79f9e54bc22ed7",
+        "trainspotter/detectors/overfitting.py": "b581df9ad6223916f03aa4341ba3168518d3dd7820559a5102e14b7e175f88db",
+        "trainspotter/detectors/plateau.py": "41f3aa5f785316de91cb3d6075ff57e18e3c231a25bbc7d4f39a02b94b39c1fa",
+        "trainspotter/detectors/setbacks.py": "acabd69fdb7da9bc2bfd29004c43b8174a631fc7c35dc63a2bd3cd28ad2b65e0",
+        "trainspotter/detectors/spikes.py": "53a976289535bb047f135f88bfd04745d2d22992eb90ee723e89f9a5c70a626b",
+        "trainspotter/detectors/throughput.py": "b6a506b973629696564601546992b051700bdece9bbc67b2bd05e402d4a68a54",
+        "trainspotter/model.py": "1a43d5543f8ea0258fa5c49c41935043ee38844d502a975d42230d7a9a41d239",
+        "trainspotter/py.typed": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "trainspotter/readers/__init__.py": "b3ce3896463150ae7b77e49487581f42d1672b24d3380b8f1b600a2cb738f739",
+        "trainspotter/readers/common.py": "a745dc356474fc5251bd5d157796a1465383e982a2ab8578ab4aad5fbe2c0ea8",
+        "trainspotter/readers/hf.py": "96044ace7ad474a21d937c4cd8e2a587991e2a658596cb06c31208a3570b3cef",
+        "trainspotter/readers/lightning.py": "36cf68c7dc9e90f99de4e3007647c9308323154cb6aa96b0b09d9b40af0929f4",
+        "trainspotter/readers/mlflow.py": "f579ee2618aadde7929472785a1cbe306c4fe63db568c7bee5496165baefc3f5",
+        "trainspotter/readers/mlflow_files.py": "fd85c9b190d24acee3e956ee296d2bf3c2edd6ec75153523892643de7bee2a9c",
+        "trainspotter/readers/tabular.py": "64be9d3d6e4b1b26318d7bf5814132f26f417a34373df6bab853be2cd0ba7901",
+        "trainspotter/readers/tensorboard.py": "5b94496234ab00f6943965b556e1d9da1425d1cf6d462025b5f368d7e4e0153e",
+        "trainspotter/readers/wandb.py": "b228e5d286b628762b00cad529fec0057682a0fa94d3cc0be6ab72f587091777",
+        "trainspotter/report/__init__.py": "317d8be1f917cf65f0312a083c62f7bf268d37b5c9d7232c3a0bf37ae18b9a0a",
+        "trainspotter/report/chart_style.py": "63f693a882ac05f82861db47e9553b12080aa16ed6166916ba8be44aaf9ecc6f",
+        "trainspotter/report/html_report.py": "b9db0a3498ce4a4b8f99b45ac7eb3199d365836c3f3d2fef3de754b9a23657b5",
+        "trainspotter/report/json_report.py": "b1d134917903298cfd30534b4117e0fb6561cb3d9fd8371c62b0b01480ae1c7e",
+        "trainspotter/report/svg_export.py": "a69dd63fb4a90bdf54a3ddc6aae1105c425fa1d880552849ea3a75acb2de1f52",
+        "trainspotter/report/terminal.py": "6beacecc76a8134eacf1929792bf5747b30d06426bfcd3c43855e854903d16ca",
+        "trainspotter/timing.py": "a6a19d22bbbb658ac2cdd57c6cc1e498d6d13a4c814c32667c631bd992a22609"
+      },
+      "bundled_dependencies": {},
+      "pyodide": "314.0.7",
+      "python": "3.14.2",
+      "numpy": "2.4.6",
+      "rich": null,
+      "python_sha256": "9c691c0b77de7a02c2b5923201894a509b841de8fdfec5e998cc607eed7490f9"
+    },
+    "scope": "Only Trainspotter was published in this update. Other local app builds and their checks are separate from their public deployments."
+  },
+  "browser": {
+    "checkedAtUtc": "2026-10-18T14:30:19.076Z",
+    "site": "https://antonsoloviev-trainspotter.static.hf.space/",
+    "scope": "Actual served workbench and Pyodide SQLite; original native database download, six complete CPython report comparisons, declared-step control, refusal recovery and actual offline JSON/HTML exports. No analysis responses or assets mocked.",
+    "records": [
+      {
+        "engine": "chromium",
+        "browserVersion": "153.0.8010.12",
+        "width": 1440,
+        "cases": [
+          {
+            "name": "unqualified",
+            "inputComplete": true,
+            "observations": 20,
+            "completeJsonMatchesCpython": true
+          },
+          {
+            "name": "mixed-dataset",
+            "inputComplete": false,
+            "observations": 40,
+            "completeJsonMatchesCpython": true
+          },
+          {
+            "name": "coalesced-coordinate",
+            "inputComplete": false,
+            "observations": 20,
+            "completeJsonMatchesCpython": true
+          },
+          {
+            "name": "unqualified-alias",
+            "inputComplete": false,
+            "observations": 40,
+            "completeJsonMatchesCpython": true
+          },
+          {
+            "name": "two-models",
+            "inputComplete": false,
+            "observations": 40,
+            "completeJsonMatchesCpython": true
+          },
+          {
+            "name": "model-without-dataset",
+            "inputComplete": false,
+            "observations": 40,
+            "completeJsonMatchesCpython": true
+          }
+        ],
+        "offlineAnalysis": true,
+        "actualNativeUploadAndExample": true,
+        "declaredStepDoesNotResolveScope": true,
+        "priorAnalysisAndDownloadsSurviveRefusal": true,
+        "downloads": [
+          {
+            "file": "chromium-1440-native.sqlite",
+            "suggested": "mlflow-model-scopes.sqlite",
+            "sha256": "ab0debdd2c38371ad461df0c6ba0cec1a9fb40f3436a8a3c77bfc585a78af9d4",
+            "bytes": 1032192
+          },
+          {
+            "file": "chromium-1440-bundled.json",
+            "suggested": "trainspotter-report.json",
+            "sha256": "5762747fe051c7caea660ff8490f2287ea088322b2915ba42b2e0cb38de7dfcf",
+            "bytes": 11096
+          },
+          {
+            "file": "chromium-1440-bundled.html",
+            "suggested": "trainspotter-report.html",
+            "sha256": "109831c0fbb1c2f6e793217e4f86665ea4055d2e375e3d4cb3a20ffa0f51721e",
+            "bytes": 23101
+          },
+          {
+            "file": "chromium-1440-unqualified.json",
+            "suggested": "trainspotter-report.json",
+            "sha256": "246c386228e0f8e3f9de758087df35fc259471e3e821fd4f92ef41770caf9e0b",
+            "bytes": 7800
+          },
+          {
+            "file": "chromium-1440-mixed-dataset.json",
+            "suggested": "trainspotter-report.json",
+            "sha256": "37413f2bc42a62e8bf07aa6bc50c6ece47fa2ac0b5b685fa190f3436622c2518",
+            "bytes": 11075
+          },
+          {
+            "file": "chromium-1440-coalesced-coordinate.json",
+            "suggested": "trainspotter-report.json",
+            "sha256": "8c58668046af038dae9f046138639f9dd9eb426702d978e69a022af630bc0478",
+            "bytes": 9216
+          },
+          {
+            "file": "chromium-1440-unqualified-alias.json",
+            "suggested": "trainspotter-report.json",
+            "sha256": "36992ff0f49cbdd946864fe76a5f1d76a38068a99a9ce84de8c5a520a32200d5",
+            "bytes": 11345
+          },
+          {
+            "file": "chromium-1440-two-models.json",
+            "suggested": "trainspotter-report.json",
+            "sha256": "a4bff3850ced3a233c36f1268cbb56a4c8c9503488cfd9c1a87fd91db8ead1d6",
+            "bytes": 11297
+          },
+          {
+            "file": "chromium-1440-model-without-dataset.json",
+            "suggested": "trainspotter-report.json",
+            "sha256": "352414a54a4a1fcb77444b75019eace4766ec3410f409e390e0c4318e0430054",
+            "bytes": 11087
+          },
+          {
+            "file": "chromium-1440-declared-step.json",
+            "suggested": "trainspotter-report.json",
+            "sha256": "5f5dbbc42c3307f1f13b0e7948992081a4df1993de0b34626c58c68f6a83d52e",
+            "bytes": 10920
+          },
+          {
+            "file": "chromium-1440-declared-step.html",
+            "suggested": "trainspotter-report.html",
+            "sha256": "3470ed7cb002d2ebb59984feaa465de0cc6c14e3c6e2f75f79df9202cf46b7c0",
+            "bytes": 22760
+          },
+          {
+            "file": "chromium-1440-retained-after-refusal.json",
+            "suggested": "trainspotter-report.json",
+            "sha256": "5f5dbbc42c3307f1f13b0e7948992081a4df1993de0b34626c58c68f6a83d52e",
+            "bytes": 10920
+          }
+        ],
+        "errors": [],
+        "network": [],
+        "diagnostics": {
+          "csp": [],
+          "rejections": []
+        },
+        "overflow": false
+      },
+      {
+        "engine": "chromium",
+        "browserVersion": "153.0.8010.12",
+        "width": 375,
+        "cases": [
+          {
+            "name": "unqualified",
+            "inputComplete": true,
+            "observations": 20,
+            "completeJsonMatchesCpython": true
+          },
+          {
+            "name": "mixed-dataset",
+            "inputComplete": false,
+            "observations": 40,
+            "completeJsonMatchesCpython": true
+          },
+          {
+            "name": "coalesced-coordinate",
+            "inputComplete": false,
+            "observations": 20,
+            "completeJsonMatchesCpython": true
+          },
+          {
+            "name": "unqualified-alias",
+            "inputComplete": false,
+            "observations": 40,
+            "completeJsonMatchesCpython": true
+          },
+          {
+            "name": "two-models",
+            "inputComplete": false,
+            "observations": 40,
+            "completeJsonMatchesCpython": true
+          },
+          {
+            "name": "model-without-dataset",
+            "inputComplete": false,
+            "observations": 40,
+            "completeJsonMatchesCpython": true
+          }
+        ],
+        "offlineAnalysis": true,
+        "actualNativeUploadAndExample": true,
+        "declaredStepDoesNotResolveScope": true,
+        "priorAnalysisAndDownloadsSurviveRefusal": true,
+        "downloads": [
+          {
+            "file": "chromium-375-native.sqlite",
+            "suggested": "mlflow-model-scopes.sqlite",
+            "sha256": "ab0debdd2c38371ad461df0c6ba0cec1a9fb40f3436a8a3c77bfc585a78af9d4",
+            "bytes": 1032192
+          },
+          {
+            "file": "chromium-375-bundled.json",
+            "suggested": "trainspotter-report.json",
+            "sha256": "5762747fe051c7caea660ff8490f2287ea088322b2915ba42b2e0cb38de7dfcf",
+            "bytes": 11096
+          },
+          {
+            "file": "chromium-375-bundled.html",
+            "suggested": "trainspotter-report.html",
+            "sha256": "109831c0fbb1c2f6e793217e4f86665ea4055d2e375e3d4cb3a20ffa0f51721e",
+            "bytes": 23101
+          },
+          {
+            "file": "chromium-375-unqualified.json",
+            "suggested": "trainspotter-report.json",
+            "sha256": "246c386228e0f8e3f9de758087df35fc259471e3e821fd4f92ef41770caf9e0b",
+            "bytes": 7800
+          },
+          {
+            "file": "chromium-375-mixed-dataset.json",
+            "suggested": "trainspotter-report.json",
+            "sha256": "37413f2bc42a62e8bf07aa6bc50c6ece47fa2ac0b5b685fa190f3436622c2518",
+            "bytes": 11075
+          },
+          {
+            "file": "chromium-375-coalesced-coordinate.json",
+            "suggested": "trainspotter-report.json",
+            "sha256": "8c58668046af038dae9f046138639f9dd9eb426702d978e69a022af630bc0478",
+            "bytes": 9216
+          },
+          {
+            "file": "chromium-375-unqualified-alias.json",
+            "suggested": "trainspotter-report.json",
+            "sha256": "36992ff0f49cbdd946864fe76a5f1d76a38068a99a9ce84de8c5a520a32200d5",
+            "bytes": 11345
+          },
+          {
+            "file": "chromium-375-two-models.json",
+            "suggested": "trainspotter-report.json",
+            "sha256": "a4bff3850ced3a233c36f1268cbb56a4c8c9503488cfd9c1a87fd91db8ead1d6",
+            "bytes": 11297
+          },
+          {
+            "file": "chromium-375-model-without-dataset.json",
+            "suggested": "trainspotter-report.json",
+            "sha256": "352414a54a4a1fcb77444b75019eace4766ec3410f409e390e0c4318e0430054",
+            "bytes": 11087
+          },
+          {
+            "file": "chromium-375-declared-step.json",
+            "suggested": "trainspotter-report.json",
+            "sha256": "5f5dbbc42c3307f1f13b0e7948992081a4df1993de0b34626c58c68f6a83d52e",
+            "bytes": 10920
+          },
+          {
+            "file": "chromium-375-declared-step.html",
+            "suggested": "trainspotter-report.html",
+            "sha256": "3470ed7cb002d2ebb59984feaa465de0cc6c14e3c6e2f75f79df9202cf46b7c0",
+            "bytes": 22760
+          },
+          {
+            "file": "chromium-375-retained-after-refusal.json",
+            "suggested": "trainspotter-report.json",
+            "sha256": "5f5dbbc42c3307f1f13b0e7948992081a4df1993de0b34626c58c68f6a83d52e",
+            "bytes": 10920
+          }
+        ],
+        "errors": [],
+        "network": [],
+        "diagnostics": {
+          "csp": [],
+          "rejections": []
+        },
+        "overflow": false
+      },
+      {
+        "engine": "firefox",
+        "browserVersion": "155.0",
+        "width": 1440,
+        "cases": [
+          {
+            "name": "unqualified",
+            "inputComplete": true,
+            "observations": 20,
+            "completeJsonMatchesCpython": true
+          },
+          {
+            "name": "mixed-dataset",
+            "inputComplete": false,
+            "observations": 40,
+            "completeJsonMatchesCpython": true
+          },
+          {
+            "name": "coalesced-coordinate",
+            "inputComplete": false,
+            "observations": 20,
+            "completeJsonMatchesCpython": true
+          },
+          {
+            "name": "unqualified-alias",
+            "inputComplete": false,
+            "observations": 40,
+            "completeJsonMatchesCpython": true
+          },
+          {
+            "name": "two-models",
+            "inputComplete": false,
+            "observations": 40,
+            "completeJsonMatchesCpython": true
+          },
+          {
+            "name": "model-without-dataset",
+            "inputComplete": false,
+            "observations": 40,
+            "completeJsonMatchesCpython": true
+          }
+        ],
+        "offlineAnalysis": true,
+        "actualNativeUploadAndExample": true,
+        "declaredStepDoesNotResolveScope": true,
+        "priorAnalysisAndDownloadsSurviveRefusal": true,
+        "downloads": [
+          {
+            "file": "firefox-1440-native.sqlite",
+            "suggested": "mlflow-model-scopes.sqlite",
+            "sha256": "ab0debdd2c38371ad461df0c6ba0cec1a9fb40f3436a8a3c77bfc585a78af9d4",
+            "bytes": 1032192
+          },
+          {
+            "file": "firefox-1440-bundled.json",
+            "suggested": "trainspotter-report.json",
+            "sha256": "5762747fe051c7caea660ff8490f2287ea088322b2915ba42b2e0cb38de7dfcf",
+            "bytes": 11096
+          },
+          {
+            "file": "firefox-1440-bundled.html",
+            "suggested": "trainspotter-report.html",
+            "sha256": "1cc4ea80d4079cb6870206f00e1f18abd29127a086be9a6e0c0508112c959155",
+            "bytes": 23101
+          },
+          {
+            "file": "firefox-1440-unqualified.json",
+            "suggested": "trainspotter-report.json",
+            "sha256": "246c386228e0f8e3f9de758087df35fc259471e3e821fd4f92ef41770caf9e0b",
+            "bytes": 7800
+          },
+          {
+            "file": "firefox-1440-mixed-dataset.json",
+            "suggested": "trainspotter-report.json",
+            "sha256": "37413f2bc42a62e8bf07aa6bc50c6ece47fa2ac0b5b685fa190f3436622c2518",
+            "bytes": 11075
+          },
+          {
+            "file": "firefox-1440-coalesced-coordinate.json",
+            "suggested": "trainspotter-report.json",
+            "sha256": "8c58668046af038dae9f046138639f9dd9eb426702d978e69a022af630bc0478",
+            "bytes": 9216
+          },
+          {
+            "file": "firefox-1440-unqualified-alias.json",
+            "suggested": "trainspotter-report.json",
+            "sha256": "36992ff0f49cbdd946864fe76a5f1d76a38068a99a9ce84de8c5a520a32200d5",
+            "bytes": 11345
+          },
+          {
+            "file": "firefox-1440-two-models.json",
+            "suggested": "trainspotter-report.json",
+            "sha256": "a4bff3850ced3a233c36f1268cbb56a4c8c9503488cfd9c1a87fd91db8ead1d6",
+            "bytes": 11297
+          },
+          {
+            "file": "firefox-1440-model-without-dataset.json",
+            "suggested": "trainspotter-report.json",
+            "sha256": "352414a54a4a1fcb77444b75019eace4766ec3410f409e390e0c4318e0430054",
+            "bytes": 11087
+          },
+          {
+            "file": "firefox-1440-declared-step.json",
+            "suggested": "trainspotter-report.json",
+            "sha256": "5f5dbbc42c3307f1f13b0e7948992081a4df1993de0b34626c58c68f6a83d52e",
+            "bytes": 10920
+          },
+          {
+            "file": "firefox-1440-declared-step.html",
+            "suggested": "trainspotter-report.html",
+            "sha256": "c14708f36bea47fd74491c072382d911ddcfdac57e43610a00656eb132ecf697",
+            "bytes": 22760
+          },
+          {
+            "file": "firefox-1440-retained-after-refusal.json",
+            "suggested": "trainspotter-report.json",
+            "sha256": "5f5dbbc42c3307f1f13b0e7948992081a4df1993de0b34626c58c68f6a83d52e",
+            "bytes": 10920
+          }
+        ],
+        "errors": [],
+        "network": [],
+        "diagnostics": {
+          "csp": [],
+          "rejections": []
+        },
+        "overflow": false
+      },
+      {
+        "engine": "firefox",
+        "browserVersion": "155.0",
+        "width": 375,
+        "cases": [
+          {
+            "name": "unqualified",
+            "inputComplete": true,
+            "observations": 20,
+            "completeJsonMatchesCpython": true
+          },
+          {
+            "name": "mixed-dataset",
+            "inputComplete": false,
+            "observations": 40,
+            "completeJsonMatchesCpython": true
+          },
+          {
+            "name": "coalesced-coordinate",
+            "inputComplete": false,
+            "observations": 20,
+            "completeJsonMatchesCpython": true
+          },
+          {
+            "name": "unqualified-alias",
+            "inputComplete": false,
+            "observations": 40,
+            "completeJsonMatchesCpython": true
+          },
+          {
+            "name": "two-models",
+            "inputComplete": false,
+            "observations": 40,
+            "completeJsonMatchesCpython": true
+          },
+          {
+            "name": "model-without-dataset",
+            "inputComplete": false,
+            "observations": 40,
+            "completeJsonMatchesCpython": true
+          }
+        ],
+        "offlineAnalysis": true,
+        "actualNativeUploadAndExample": true,
+        "declaredStepDoesNotResolveScope": true,
+        "priorAnalysisAndDownloadsSurviveRefusal": true,
+        "downloads": [
+          {
+            "file": "firefox-375-native.sqlite",
+            "suggested": "mlflow-model-scopes.sqlite",
+            "sha256": "ab0debdd2c38371ad461df0c6ba0cec1a9fb40f3436a8a3c77bfc585a78af9d4",
+            "bytes": 1032192
+          },
+          {
+            "file": "firefox-375-bundled.json",
+            "suggested": "trainspotter-report.json",
+            "sha256": "5762747fe051c7caea660ff8490f2287ea088322b2915ba42b2e0cb38de7dfcf",
+            "bytes": 11096
+          },
+          {
+            "file": "firefox-375-bundled.html",
+            "suggested": "trainspotter-report.html",
+            "sha256": "1cc4ea80d4079cb6870206f00e1f18abd29127a086be9a6e0c0508112c959155",
+            "bytes": 23101
+          },
+          {
+            "file": "firefox-375-unqualified.json",
+            "suggested": "trainspotter-report.json",
+            "sha256": "246c386228e0f8e3f9de758087df35fc259471e3e821fd4f92ef41770caf9e0b",
+            "bytes": 7800
+          },
+          {
+            "file": "firefox-375-mixed-dataset.json",
+            "suggested": "trainspotter-report.json",
+            "sha256": "37413f2bc42a62e8bf07aa6bc50c6ece47fa2ac0b5b685fa190f3436622c2518",
+            "bytes": 11075
+          },
+          {
+            "file": "firefox-375-coalesced-coordinate.json",
+            "suggested": "trainspotter-report.json",
+            "sha256": "8c58668046af038dae9f046138639f9dd9eb426702d978e69a022af630bc0478",
+            "bytes": 9216
+          },
+          {
+            "file": "firefox-375-unqualified-alias.json",
+            "suggested": "trainspotter-report.json",
+            "sha256": "36992ff0f49cbdd946864fe76a5f1d76a38068a99a9ce84de8c5a520a32200d5",
+            "bytes": 11345
+          },
+          {
+            "file": "firefox-375-two-models.json",
+            "suggested": "trainspotter-report.json",
+            "sha256": "a4bff3850ced3a233c36f1268cbb56a4c8c9503488cfd9c1a87fd91db8ead1d6",
+            "bytes": 11297
+          },
+          {
+            "file": "firefox-375-model-without-dataset.json",
+            "suggested": "trainspotter-report.json",
+            "sha256": "352414a54a4a1fcb77444b75019eace4766ec3410f409e390e0c4318e0430054",
+            "bytes": 11087
+          },
+          {
+            "file": "firefox-375-declared-step.json",
+            "suggested": "trainspotter-report.json",
+            "sha256": "5f5dbbc42c3307f1f13b0e7948992081a4df1993de0b34626c58c68f6a83d52e",
+            "bytes": 10920
+          },
+          {
+            "file": "firefox-375-declared-step.html",
+            "suggested": "trainspotter-report.html",
+            "sha256": "c14708f36bea47fd74491c072382d911ddcfdac57e43610a00656eb132ecf697",
+            "bytes": 22760
+          },
+          {
+            "file": "firefox-375-retained-after-refusal.json",
+            "suggested": "trainspotter-report.json",
+            "sha256": "5f5dbbc42c3307f1f13b0e7948992081a4df1993de0b34626c58c68f6a83d52e",
+            "bytes": 10920
+          }
+        ],
+        "errors": [],
+        "network": [],
+        "diagnostics": {
+          "csp": [],
+          "rejections": []
+        },
+        "overflow": false
+      }
+    ]
+  },
+  "before": {
+    "publication": {
+      "scope": "Old served metadata captured before this Space update; browser reproduction is retained separately, not a complete old-file audit.",
+      "published": {
+        "repo_id": "antonsoloviev/trainspotter",
+        "commit": "f47a4950399e2f3e18cdc6dfc6281cb75088f36f",
+        "manifest_sha256": "f127561f6295c062c44f10d4cfd691c7ce8a5edb3b762917b06e7dad99150688",
+        "published_at": "2026-10-18T02:39:12.587508+00:00",
+        "host": "https://antonsoloviev-trainspotter.static.hf.space"
+      },
+      "checks": [
+        {
+          "file": "release-manifest.json",
+          "sha256": "f127561f6295c062c44f10d4cfd691c7ce8a5edb3b762917b06e7dad99150688",
+          "bytes": 7662
+        },
+        {
+          "file": "runtime-provenance.json",
+          "sha256": "23a86d203400d8710cb89ea31bf082c8d10de1f274e4a2622c7f60520988e669",
+          "bytes": 3957
+        }
+      ]
+    },
+    "browser": {
+      "checkedAtUtc": "2026-10-18T14:19:17.195Z",
+      "site": "https://antonsoloviev-trainspotter.static.hf.space/",
+      "scope": "Actual former public Pyodide workbench, native SDK file uploaded and analyzed after disconnection. Authored logging values, no training. No assets or analysis responses mocked.",
+      "nativeSha256": "ab0debdd2c38371ad461df0c6ba0cec1a9fb40f3436a8a3c77bfc585a78af9d4",
+      "inputComplete": true,
+      "observations": 40,
+      "findings": [
+        {
+          "detector": "divergence",
+          "title": "Diverged (did not recover)",
+          "severity": "error",
+          "metric": "train/loss",
+          "step_start": 20,
+          "step_end": 39,
+          "message": "train/loss ended at 10 after reaching 0.3704 around step 17. It has been above that level since step 20 and the log ends with 1788% of the run's progress given back.",
+          "evidence": {
+            "start_level": 0.9090909090909091,
+            "best_level": 0.37037037037037035,
+            "best_step": 17,
+            "final_level": 10,
+            "gave_back": 17.875,
+            "rising_since_step": 20
+          },
+          "fixes": [
+            "Use a checkpoint from around step 17, before the rise.",
+            "Lower the learning rate or restart from the last good checkpoint before this window.",
+            "Check the LR schedule isn't re-warming up unintentionally (see lr_schedule detector).",
+            "Look for a data distribution shift at this step range (new shard, curriculum stage change)."
+          ]
+        }
+      ],
+      "requests": [],
+      "errors": []
+    },
+    "download": {
+      "schema_version": 1,
+      "run": {
+        "source_format": "mlflow",
+        "source_path": "scopes.sqlite",
+        "skipped_rows": 0,
+        "skipped_values": 0,
+        "input_complete": true,
+        "input_notes": [
+          "MLflow run 'mixed-dataset' (094ea54767b24a8895e0876c978ac4c6), experiment 1; recorded status FINISHED, lifecycle active.",
+          "MLflow SQL backends can normalize infinities to finite extremes. This reader restores native NaN flags but cannot reconstruct infinities already replaced by the backend.",
+          "Training-step column 'step' was selected explicitly (--step-key); its values are interpreted as training-step counts."
+        ],
+        "unread_event_bytes": 0,
+        "event_directories": [],
+        "overwritten_points": 0,
+        "restart_markers": 0,
+        "step_column": "step",
+        "step_axis": "step",
+        "step_selection": "explicit",
+        "metric_sources": {
+          "train/loss": "loss"
+        },
+        "mlflow": {
+          "store": "sqlite",
+          "run": {
+            "run_id": "094ea54767b24a8895e0876c978ac4c6",
+            "name": "mixed-dataset",
+            "experiment_id": "1",
+            "status": "FINISHED",
+            "lifecycle_stage": "active"
+          },
+          "runs": [
+            {
+              "run_id": "094ea54767b24a8895e0876c978ac4c6",
+              "name": "mixed-dataset",
+              "experiment_id": "1",
+              "status": "FINISHED",
+              "lifecycle_stage": "active",
+              "observations": 40,
+              "history_read": true
+            },
+            {
+              "run_id": "2b241120fa68442bae8e6e82cabb43ca",
+              "name": "unqualified-alias",
+              "experiment_id": "1",
+              "status": "FINISHED",
+              "lifecycle_stage": "active",
+              "observations": 40,
+              "history_read": false
+            },
+            {
+              "run_id": "6e2822675bc140468f014097cd538eba",
+              "name": "unqualified",
+              "experiment_id": "1",
+              "status": "FINISHED",
+              "lifecycle_stage": "active",
+              "observations": 20,
+              "history_read": false
+            },
+            {
+              "run_id": "9de2dc6d30f5443abb9efb7dd6c7aba0",
+              "name": "two-models",
+              "experiment_id": "1",
+              "status": "FINISHED",
+              "lifecycle_stage": "active",
+              "observations": 40,
+              "history_read": false
+            },
+            {
+              "run_id": "dc8cb9b378804a8a971d7d43ea1d77f5",
+              "name": "coalesced-coordinate",
+              "experiment_id": "1",
+              "status": "FINISHED",
+              "lifecycle_stage": "active",
+              "observations": 20,
+              "history_read": false
+            },
+            {
+              "run_id": "e57fd7b40f284b6d811c3cf7819b554f",
+              "name": "model-without-dataset",
+              "experiment_id": "1",
+              "status": "FINISHED",
+              "lifecycle_stage": "active",
+              "observations": 40,
+              "history_read": false
+            }
+          ],
+          "history": "full recorded metric histories",
+          "read_only": true,
+          "issues": [],
+          "omitted_issues": 0
+        },
+        "ambiguous_metric_sources": [],
+        "repeated_steps": [],
+        "selected_run": "094ea54767b24a8895e0876c978ac4c6",
+        "runs": [
+          {
+            "name": "094ea54767b24a8895e0876c978ac4c6",
+            "points": 40,
+            "display_name": "mixed-dataset",
+            "lifecycle_stage": "active"
+          },
+          {
+            "name": "2b241120fa68442bae8e6e82cabb43ca",
+            "points": 40,
+            "display_name": "unqualified-alias",
+            "lifecycle_stage": "active"
+          },
+          {
+            "name": "6e2822675bc140468f014097cd538eba",
+            "points": 20,
+            "display_name": "unqualified",
+            "lifecycle_stage": "active"
+          },
+          {
+            "name": "9de2dc6d30f5443abb9efb7dd6c7aba0",
+            "points": 40,
+            "display_name": "two-models",
+            "lifecycle_stage": "active"
+          },
+          {
+            "name": "dc8cb9b378804a8a971d7d43ea1d77f5",
+            "points": 20,
+            "display_name": "coalesced-coordinate",
+            "lifecycle_stage": "active"
+          },
+          {
+            "name": "e57fd7b40f284b6d811c3cf7819b554f",
+            "points": 40,
+            "display_name": "model-without-dataset",
+            "lifecycle_stage": "active"
+          }
+        ],
+        "metrics": {
+          "train/loss": {
+            "count": 40,
+            "analysis_count": 40,
+            "distinct_steps": 40,
+            "analysis_excluded": false,
+            "first_step": 0,
+            "last_step": 39
+          }
+        }
+      },
+      "summary": {
+        "input_complete": true,
+        "total_findings": 1,
+        "by_severity": {
+          "error": 1,
+          "warning": 0,
+          "info": 0
+        }
+      },
+      "timing": {
+        "status": "compared",
+        "axis": "step",
+        "source": "wall_time(train/loss)",
+        "source_metric": "loss",
+        "unit": "s/step",
+        "observations": 39,
+        "invalid_observations": 0,
+        "baseline": {
+          "first_position": 1,
+          "last_position": 7,
+          "interval_start_step": 0,
+          "observations": 7,
+          "invalid_observations": 0,
+          "median_seconds": 1.0
+        },
+        "recent": {
+          "first_position": 33,
+          "last_position": 39,
+          "interval_start_step": 32,
+          "observations": 7,
+          "invalid_observations": 0,
+          "median_seconds": 1.0
+        },
+        "ratio": 1.0,
+        "reason": null,
+        "notes": [
+          "Wall-clock intervals include evaluation, checkpointing, pauses and other work between observations. They are not isolated compute timings."
+        ],
+        "min_window": 5,
+        "baseline_fraction": 0.2
+      },
+      "findings": [
+        {
+          "detector": "divergence",
+          "title": "Diverged (did not recover)",
+          "severity": "error",
+          "metric": "train/loss",
+          "step_start": 20,
+          "step_end": 39,
+          "message": "train/loss ended at 10 after reaching 0.3704 around step 17. It has been above that level since step 20 and the log ends with 1788% of the run's progress given back.",
+          "evidence": {
+            "start_level": 0.9090909090909091,
+            "best_level": 0.37037037037037035,
+            "best_step": 17,
+            "final_level": 10.0,
+            "gave_back": 17.875,
+            "rising_since_step": 20
+          },
+          "fixes": [
+            "Use a checkpoint from around step 17, before the rise.",
+            "Lower the learning rate or restart from the last good checkpoint before this window.",
+            "Check the LR schedule isn't re-warming up unintentionally (see lr_schedule detector).",
+            "Look for a data distribution shift at this step range (new shard, curriculum stage change)."
+          ]
+        }
+      ],
+      "series": {
+        "train/loss": [
+          {
+            "step": 0,
+            "value": 1.0,
+            "wall_time": 1700000000.0
+          },
+          {
+            "step": 1,
+            "value": 0.9090909090909091,
+            "wall_time": 1700000001.0
+          },
+          {
+            "step": 2,
+            "value": 0.8333333333333334,
+            "wall_time": 1700000002.0
+          },
+          {
+            "step": 3,
+            "value": 0.7692307692307692,
+            "wall_time": 1700000003.0
+          },
+          {
+            "step": 4,
+            "value": 0.7142857142857143,
+            "wall_time": 1700000004.0
+          },
+          {
+            "step": 5,
+            "value": 0.6666666666666666,
+            "wall_time": 1700000005.0
+          },
+          {
+            "step": 6,
+            "value": 0.625,
+            "wall_time": 1700000006.0
+          },
+          {
+            "step": 7,
+            "value": 0.5882352941176471,
+            "wall_time": 1700000007.0
+          },
+          {
+            "step": 8,
+            "value": 0.5555555555555556,
+            "wall_time": 1700000008.0
+          },
+          {
+            "step": 9,
+            "value": 0.5263157894736842,
+            "wall_time": 1700000009.0
+          },
+          {
+            "step": 10,
+            "value": 0.5,
+            "wall_time": 1700000010.0
+          },
+          {
+            "step": 11,
+            "value": 0.47619047619047616,
+            "wall_time": 1700000011.0
+          },
+          {
+            "step": 12,
+            "value": 0.45454545454545453,
+            "wall_time": 1700000012.0
+          },
+          {
+            "step": 13,
+            "value": 0.4347826086956522,
+            "wall_time": 1700000013.0
+          },
+          {
+            "step": 14,
+            "value": 0.4166666666666667,
+            "wall_time": 1700000014.0
+          },
+          {
+            "step": 15,
+            "value": 0.4,
+            "wall_time": 1700000015.0
+          },
+          {
+            "step": 16,
+            "value": 0.3846153846153846,
+            "wall_time": 1700000016.0
+          },
+          {
+            "step": 17,
+            "value": 0.37037037037037035,
+            "wall_time": 1700000017.0
+          },
+          {
+            "step": 18,
+            "value": 0.35714285714285715,
+            "wall_time": 1700000018.0
+          },
+          {
+            "step": 19,
+            "value": 0.3448275862068966,
+            "wall_time": 1700000019.0
+          },
+          {
+            "step": 20,
+            "value": 10.0,
+            "wall_time": 1700000020.0
+          },
+          {
+            "step": 21,
+            "value": 10.0,
+            "wall_time": 1700000021.0
+          },
+          {
+            "step": 22,
+            "value": 10.0,
+            "wall_time": 1700000022.0
+          },
+          {
+            "step": 23,
+            "value": 10.0,
+            "wall_time": 1700000023.0
+          },
+          {
+            "step": 24,
+            "value": 10.0,
+            "wall_time": 1700000024.0
+          },
+          {
+            "step": 25,
+            "value": 10.0,
+            "wall_time": 1700000025.0
+          },
+          {
+            "step": 26,
+            "value": 10.0,
+            "wall_time": 1700000026.0
+          },
+          {
+            "step": 27,
+            "value": 10.0,
+            "wall_time": 1700000027.0
+          },
+          {
+            "step": 28,
+            "value": 10.0,
+            "wall_time": 1700000028.0
+          },
+          {
+            "step": 29,
+            "value": 10.0,
+            "wall_time": 1700000029.0
+          },
+          {
+            "step": 30,
+            "value": 10.0,
+            "wall_time": 1700000030.0
+          },
+          {
+            "step": 31,
+            "value": 10.0,
+            "wall_time": 1700000031.0
+          },
+          {
+            "step": 32,
+            "value": 10.0,
+            "wall_time": 1700000032.0
+          },
+          {
+            "step": 33,
+            "value": 10.0,
+            "wall_time": 1700000033.0
+          },
+          {
+            "step": 34,
+            "value": 10.0,
+            "wall_time": 1700000034.0
+          },
+          {
+            "step": 35,
+            "value": 10.0,
+            "wall_time": 1700000035.0
+          },
+          {
+            "step": 36,
+            "value": 10.0,
+            "wall_time": 1700000036.0
+          },
+          {
+            "step": 37,
+            "value": 10.0,
+            "wall_time": 1700000037.0
+          },
+          {
+            "step": 38,
+            "value": 10.0,
+            "wall_time": 1700000038.0
+          },
+          {
+            "step": 39,
+            "value": 10.0,
+            "wall_time": 1700000039.0
+          }
+        ]
+      },
+      "provenance": {
+        "source": "user upload",
+        "file": "scopes.sqlite",
+        "format": "mlflow",
+        "step_column": "step",
+        "step_axis": "step",
+        "unreadable_metric_points": 0,
+        "nonfinite_metric_points": 0,
+        "sqlite_snapshot": {
+          "read_only": true,
+          "external_sidecars_included": false,
+          "requested_run": "mixed-dataset",
+          "training_steps_asserted": true
+        }
+      }
+    }
+  }
+}
