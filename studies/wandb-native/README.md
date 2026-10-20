@@ -138,6 +138,22 @@ current source suite passes 857 cases. [Schema-only package evidence](results/sc
 
 ## Reproduction
 
+The final `cf6c7a3` archive passes all 858 tests from a fresh locked environment.
+Its 38 runtime files match source, sdist and wheel exactly, including the binary
+schema and its notices. Fresh wheel installations on Python 3.10 / NumPy 1.24 /
+protobuf 5.28.3 and Python 3.15 / NumPy 2.5.4 / protobuf 7.36.2 have no W&B SDK,
+and pass the native/gradient checks, real console/API equality, one-shot watch
+and input overwrite protection. [Final package receipt](results/final-package.json)
+and [immutable source publication](results/final-publication.json) retain the
+exact boundaries. All 69 changed public source files were byte-matched.
+
+The separate
+[live browser workbench](https://huggingface.co/spaces/antonsoloviev/trainspotter)
+now runs this pinned decoder in Pyodide with a pure Python protobuf runtime.
+Its native-file workflow and retained CPython expectations are documented in
+[the published browser study](https://huggingface.co/spaces/antonsoloviev/trainspotter/blob/d29692cfe4f3dd7a0e3fbcdc989c0f335874f256/evidence/wandb-browser/README.md).
+This static hosting update does not release the package on PyPI.
+
 The initial SDK-backed `a4a88f2` archive built a wheel through its source distribution. All
 33 Python module bytes agree across source, sdist and wheel. The full 855-test
 suite passes in the locked clean archive and in isolated wheel installations

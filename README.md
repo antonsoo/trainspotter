@@ -69,6 +69,11 @@ Downloaded SVGs retain the native file's SHA-256 and the partial-read boundary.
 [Captured optimizer/logger controls and verification](studies/wandb-native/README.md).
 This support is unreleased; the registry package and hosted workbench are separate.
 
+The [browser workbench](https://huggingface.co/spaces/antonsoloviev/trainspotter)
+also opens these original `.wandb` files, with example downloads, typed gaps and
+SVG exports. Select a W&B example or upload a file up to 5 MiB. It runs the
+pinned Python engine inside the tab, with no account or sync service.
+
 ## Features
 
 - **Native training histories**, auto-detected from the input: Hugging Face
