@@ -1,0 +1,103 @@
+{
+  "method": "Actual installed console HTML; full HTML timestamps may differ. Every downloadable vector compared byte for byte with browser-verified source exports.",
+  "cases": [
+    {
+      "python": "310",
+      "case": "stable",
+      "standalone_svg_sha256": [
+        "3033e0df3943e39a3c00d7a0549bc25adec4c97230f3c270f26a202f0042a8dc",
+        "154828dc8a68b8b113185c2ae8704b071f19f2fa43c6032c07753e001ded6233",
+        "6d48cf2e825d1f896adf7b0197a8cc782c28cfd8d5dd94748eed1d721e6d4f42"
+      ],
+      "matches_browser_verified_source": true
+    },
+    {
+      "python": "310",
+      "case": "unstable-lr",
+      "standalone_svg_sha256": [
+        "3af5e718ef39d49bc7ae4dc2b84a8935edbf4185261df44335e04667b9c7c1a2",
+        "6441f5005f38678386e9860d86cd698939dac0835d1cd87470dd474389a6811f",
+        "6355b80beb88ee2ca9c42cd58a6301a4f8884a678391ebcdc4da43c640144500"
+      ],
+      "matches_browser_verified_source": true
+    },
+    {
+      "python": "310",
+      "case": "logged-null",
+      "standalone_svg_sha256": [
+        "9e908e1e7a7aeb9797fddcd66e55a23ca214a9007c3ec865d675d6439cfad89c",
+        "9af563e714d1c7458066cbbac47f847cc80d41def317f529f03e97b100e8fe41",
+        "4efff0535824d770bda353c4a3021065ea63892db0586607e92cc1099d1798d1"
+      ],
+      "matches_browser_verified_source": true
+    },
+    {
+      "python": "310",
+      "case": "custom-counter",
+      "standalone_svg_sha256": [
+        "9d01302cc86f0b5744d68d5faecbdfe30debc3c8b15a8e8f15c2f5430e59d94d",
+        "de638ad9a21b683d885d2a18077778a7fb7a84ea666f180d1010016cf82d2f31",
+        "10bb074428340b893bbeee29bf0b9e9e34095f44433aa8ddc7845defe971c0d6",
+        "287ee6f1067b9d3149d602febbfa19222f19c8232ea072853d7a84673cf0308b"
+      ],
+      "matches_browser_verified_source": true
+    },
+    {
+      "python": "310",
+      "case": "types",
+      "standalone_svg_sha256": [
+        "a7fdfd97ba012c8b7e1e9b5fe7649feaf6042416b5ce9d72d1c3cb7796a2b6af"
+      ],
+      "matches_browser_verified_source": true
+    },
+    {
+      "python": "315",
+      "case": "stable",
+      "standalone_svg_sha256": [
+        "3033e0df3943e39a3c00d7a0549bc25adec4c97230f3c270f26a202f0042a8dc",
+        "154828dc8a68b8b113185c2ae8704b071f19f2fa43c6032c07753e001ded6233",
+        "6d48cf2e825d1f896adf7b0197a8cc782c28cfd8d5dd94748eed1d721e6d4f42"
+      ],
+      "matches_browser_verified_source": true
+    },
+    {
+      "python": "315",
+      "case": "unstable-lr",
+      "standalone_svg_sha256": [
+        "3af5e718ef39d49bc7ae4dc2b84a8935edbf4185261df44335e04667b9c7c1a2",
+        "6441f5005f38678386e9860d86cd698939dac0835d1cd87470dd474389a6811f",
+        "6355b80beb88ee2ca9c42cd58a6301a4f8884a678391ebcdc4da43c640144500"
+      ],
+      "matches_browser_verified_source": true
+    },
+    {
+      "python": "315",
+      "case": "logged-null",
+      "standalone_svg_sha256": [
+        "9e908e1e7a7aeb9797fddcd66e55a23ca214a9007c3ec865d675d6439cfad89c",
+        "9af563e714d1c7458066cbbac47f847cc80d41def317f529f03e97b100e8fe41",
+        "4efff0535824d770bda353c4a3021065ea63892db0586607e92cc1099d1798d1"
+      ],
+      "matches_browser_verified_source": true
+    },
+    {
+      "python": "315",
+      "case": "custom-counter",
+      "standalone_svg_sha256": [
+        "9d01302cc86f0b5744d68d5faecbdfe30debc3c8b15a8e8f15c2f5430e59d94d",
+        "de638ad9a21b683d885d2a18077778a7fb7a84ea666f180d1010016cf82d2f31",
+        "10bb074428340b893bbeee29bf0b9e9e34095f44433aa8ddc7845defe971c0d6",
+        "287ee6f1067b9d3149d602febbfa19222f19c8232ea072853d7a84673cf0308b"
+      ],
+      "matches_browser_verified_source": true
+    },
+    {
+      "python": "315",
+      "case": "types",
+      "standalone_svg_sha256": [
+        "a7fdfd97ba012c8b7e1e9b5fe7649feaf6042416b5ce9d72d1c3cb7796a2b6af"
+      ],
+      "matches_browser_verified_source": true
+    }
+  ]
+}

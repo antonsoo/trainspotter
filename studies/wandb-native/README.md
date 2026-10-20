@@ -122,6 +122,29 @@ start a W&B run or backend. The default package has no SDK dependency; the
 
 ## Reproduction
 
+The clean `a4a88f2` archive built a wheel through its source distribution. All
+33 Python module bytes agree across source, sdist and wheel. The full 855-test
+suite passes in the locked clean archive and in isolated wheel installations
+on Python 3.10.21 / NumPy 1.24.0 and Python 3.15.0 / NumPy 2.5.4. Both wheel
+environments reproduce every independent scalar/coordinate/clock check,
+native CLI gates, one-shot watch, input overwrite refusal and the Linux
+network-prohibited read. Base-only installations give explicit SDK guidance.
+[Package receipt](results/package.json) |
+[Installed console exports](results/console-vectors.json).
+
+The actual console HTML exports in both environments have byte-identical SVGs
+to the source reports exercised in offline Chromium and Firefox, at 1440 and
+375 pixels: 36 report views and 104 downloaded/reopened vectors, including the
+type control. The original 25 source vectors stayed byte-identical after the
+type fix. Full HTML timestamps are deliberately not treated as stable bytes.
+The real desktop capture appears in the repository README; the phone capture
+was also visually inspected.
+
+A fresh installed Python 3.15 CLI process read the 250,519-byte unstable capture
+in 0.47 seconds with 71,120 KiB peak RSS under GNU time. This is one warm-cache
+small-file observation on the shared 14-vCPU WSL2 / Ryzen 7800X3D host with
+47 GiB RAM, not a scale benchmark or a process-memory limit.
+
 The producer uses Python **3.12.12**, NumPy **2.5.4**, W&B **0.31.0** and protobuf
 **7.36.2**. Use a separate environment with W&B **0.23.1** and protobuf **6.33.6**
 for the older official reader and boundary writer. These are verification

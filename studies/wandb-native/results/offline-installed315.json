@@ -1,0 +1,38 @@
+{
+  "method": "Fresh Python process; seccomp prohibits socket/socketpair/connect/sendto/sendmsg before application imports; Python audit hooks reject network/process activity, including swallowed attempts.",
+  "blocked_kernel_syscalls": [
+    "socket",
+    "socketpair",
+    "connect",
+    "sendto",
+    "sendmsg"
+  ],
+  "python_network_or_process_attempts": [],
+  "script_sha256": "177c248bf77aac604a6bd19e101f54b55622d81aa92abe555489d7bb806e24c1",
+  "cases": [
+    {
+      "case": "stable",
+      "input_sha256": "714fad7123d0e6772e3c72812926c0ebb0f5b9dd7b808698c1764651819f0e3f",
+      "history_records": 100,
+      "input_complete": true
+    },
+    {
+      "case": "unstable-lr",
+      "input_sha256": "ea39bb5e22a52a8742f96cc34b552f77cf63c08d3f87f40e546e79f3fd00bf56",
+      "history_records": 100,
+      "input_complete": true
+    },
+    {
+      "case": "logged-null",
+      "input_sha256": "ff4f9bbc47e826fc7aabc69faa1611462c192da4294ec438fe5e389daf6c6f38",
+      "history_records": 100,
+      "input_complete": false
+    },
+    {
+      "case": "custom-counter",
+      "input_sha256": "42972fe3bb8e408ada42eb706031abf6421a8801a8e9422eee2b5b27e9b9257b",
+      "history_records": 100,
+      "input_complete": true
+    }
+  ]
+}

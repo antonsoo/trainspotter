@@ -1,0 +1,41 @@
+{
+  "source_commit": "a4a88f29ed4f9a69eae6e4fd2d34e694ca0aef9a",
+  "runtime_modules_compared": 33,
+  "archive_sha256": "089c54d190dea077dcc7b67d8bfa71af0d1e5864f75b9f8aabcde94c096e8e52",
+  "artifacts": {
+    "trainspotter-0.2.6-py3-none-any.whl": "6d926a7c31d6c4395514fdb45d1c8d0ec351e7f7f865adde43a81951998e1953",
+    "trainspotter-0.2.6.tar.gz": "51b97ec3713b3f558f3d887f7e7a559c874f650d29b75e16666aa6647f0e2547",
+    ".gitignore": "684888c0ebb17f374298b65ee2807526c066094c701bcc7ebbe1c1095f494fc1"
+  },
+  "method": "Clean git archive; locked full dependency install; wheel built from sdist; all Python module bytes match source/sdist/wheel; optional SDK extra metadata checked.",
+  "checks": {
+    "source": {
+      "tests_passed": 855,
+      "output_sha256": "ccfb51bd9c789297ea22859293424761ba9b5e5767f4aaed7afc45185a7732ac"
+    },
+    "clean_locked_archive": {
+      "tests_passed": 855,
+      "output_sha256": "d9d3104d9de0c589d14b571059cac40c499f72b74009ea2353906b6f9c578f62"
+    },
+    "installed_python310": {
+      "tests_passed": 855,
+      "output_sha256": "e798f560c3ee36cd05eb3ac9282fe33452f02a5e276aba16a6041286b566b807"
+    },
+    "installed_python315": {
+      "tests_passed": 855,
+      "output_sha256": "58852decd25aff044a63157c8241912b77a5f619a821de66e2a674a26bbe1618"
+    }
+  },
+  "lint": "ruff check src tests examples scripts; source and clean archive passed",
+  "types": "mypy src; source and clean archive passed for all 33 modules",
+  "base_only_install": "Python 3.10/3.15: no wandb module, native read gives exact optional SDK installation guidance.",
+  "timed_read": {
+    "scope": "Single warm-cache actual SDK capture, fresh installed Python 3.15 CLI process, JSON output, not a throughput or scale benchmark.",
+    "host": "AMD Ryzen 7 7800X3D; shared 14-vCPU WSL2 Linux; 47 GiB RAM",
+    "input_sha256": "ea39bb5e22a52a8742f96cc34b552f77cf63c08d3f87f40e546e79f3fd00bf56",
+    "input_bytes": 250519,
+    "wall_seconds": 0.47,
+    "peak_rss_kib": 71120,
+    "gnu_time_output_sha256": "3847210fa385e9341b89ea4d80a4c0cd2b68e29080e6792eeba235d2803a2677"
+  }
+}
