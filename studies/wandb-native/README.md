@@ -127,6 +127,14 @@ The runtime builds the Record class in a private descriptor pool, keeping it
 separate from SDK definitions a caller might load. No W&B code is imported.
 Unknown fields anywhere in a record refuse against this pinned schema.
 The original SDK and Go oracles remain separate from this decoder.
+The schema-only follow-up at `715a1f9` is checked in fresh wheel environments
+with **no W&B SDK installed**: Python 3.10 / protobuf 5.28.3 and Python 3.15 /
+protobuf 7.36.2. All 38 package files, including descriptors, provenance and
+notices, agree across source, sdist and wheel. Both reproduce the 400 independent
+history packets, CLI gates, watch, overwrite protections and network-prohibited
+reads. The 35 native cases also pass with the pure Python protobuf implementation.
+All 25 previously browser-verified vectors remain byte-identical. The full
+current source suite passes 857 cases. [Schema-only package evidence](results/schema-package.json).
 
 ## Reproduction
 

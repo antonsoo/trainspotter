@@ -1,0 +1,63 @@
+{
+  "source_commit": "715a1f93654966dfc1a13bfbe06ac78c831e14c8",
+  "scope": "Schema-only reader; no W&B SDK installed in clean wheel environments. Exact binary/JSON/license/source bytes checked across source, sdist and wheel.",
+  "files": {
+    "timing.py": "a6a19d22bbbb658ac2cdd57c6cc1e498d6d13a4c814c32667c631bd992a22609",
+    "model.py": "9482465908cc6532e8f7013739c4ef9c0b0ecbe5666cf3657f4970a02450c487",
+    "__init__.py": "f902908eabb455be7238326cae68b500f401e4962b326bc7696dbc748be6437b",
+    "cli.py": "5d907eea4503cffccb9d075275edfe42ebfa185393f5c37b06c1ebe69a01222d",
+    "py.typed": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "report/terminal.py": "6beacecc76a8134eacf1929792bf5747b30d06426bfcd3c43855e854903d16ca",
+    "report/__init__.py": "317d8be1f917cf65f0312a083c62f7bf268d37b5c9d7232c3a0bf37ae18b9a0a",
+    "report/chart_style.py": "63f693a882ac05f82861db47e9553b12080aa16ed6166916ba8be44aaf9ecc6f",
+    "report/html_report.py": "b9db0a3498ce4a4b8f99b45ac7eb3199d365836c3f3d2fef3de754b9a23657b5",
+    "report/svg_export.py": "b10df248571cb2a1628df6810ea19a7cc1a618a4bd2ea048524a402de8e46285",
+    "report/json_report.py": "93de91e9f171b1b8bcb4d86fc82d9da778da29fb33bb661feed595e29e58e2b0",
+    "readers/__init__.py": "8f3d72856494860657c6917bbe51527e06f996b02173690a9ce207a9a2fe9c3e",
+    "readers/hf.py": "96044ace7ad474a21d937c4cd8e2a587991e2a658596cb06c31208a3570b3cef",
+    "readers/common.py": "edc8ae090325a081a26f6888a02095326dd14ae8ee7b089048734221bb43caf1",
+    "readers/wandb-schema.pb": "bd4666ea8563f64349b91cc71fa68403dade0fdd5170bea051d77d96f0b69dba",
+    "readers/tabular.py": "b5c23646126da7b601b4df77579ecb2bf4b7f58ef1f1233e583c36bf574ab4ef",
+    "readers/_wandb_schema.py": "7e2587a8ca8804358a5b6d40f5fcddb68296891c4be8ff91243e0bea4b5f707b",
+    "readers/wandb-schema.json": "cc8a93a71631572a95401aefc09f812808c4abe6c0630377263c952aa0d9a030",
+    "readers/mlflow.py": "f579ee2618aadde7929472785a1cbe306c4fe63db568c7bee5496165baefc3f5",
+    "readers/wandb.py": "318210d8a4e758221c83b1ce0e4d41a8d8b061d4b05fe98c2749cd94a5a0b70f",
+    "readers/lightning.py": "36cf68c7dc9e90f99de4e3007647c9308323154cb6aa96b0b09d9b40af0929f4",
+    "readers/WANDB-SCHEMA-LICENSES.txt": "f49f15b4f82cd3b928d645f3cbedd7a197b6a9fe10cb056cbc29d58afe0b3dac",
+    "readers/tensorboard.py": "5b94496234ab00f6943965b556e1d9da1425d1cf6d462025b5f368d7e4e0153e",
+    "readers/mlflow_files.py": "fd85c9b190d24acee3e956ee296d2bf3c2edd6ec75153523892643de7bee2a9c",
+    "readers/wandb_native.py": "1953cd4a7e5d8f65084dfe60fb79bba56c5aebac47d75c295cf7875ce8b01147",
+    "detectors/loss_floor.py": "e50fed8be010eaa3fcd813f1d73b49871f3627d1035b0547d8bccdbd99bc3131",
+    "detectors/lr_schedule.py": "1ad15a455347020f3e89628032158bd1598669f3109a8cbf0e79f9e54bc22ed7",
+    "detectors/divergence.py": "70721e99da4edbf8a5a67308d4222baeb1d951d8f076c745c698fe680fc557ac",
+    "detectors/__init__.py": "38482b71273ec74fdf748c447e35c1132451b5f9a74a581a8e72067d91624e09",
+    "detectors/base.py": "a1b8ff3e7163f7b6aaa476b42565a8fccc46bfefd4e07270fbe3c69691c11bd8",
+    "detectors/spikes.py": "53a976289535bb047f135f88bfd04745d2d22992eb90ee723e89f9a5c70a626b",
+    "detectors/eval_noise.py": "1fa2258d2d3247fa0486fda30867e1b769bf5d06ffd864402c91fd1610b350ca",
+    "detectors/plateau.py": "41f3aa5f785316de91cb3d6075ff57e18e3c231a25bbc7d4f39a02b94b39c1fa",
+    "detectors/throughput.py": "b6a506b973629696564601546992b051700bdece9bbc67b2bd05e402d4a68a54",
+    "detectors/overfitting.py": "b581df9ad6223916f03aa4341ba3168518d3dd7820559a5102e14b7e175f88db",
+    "detectors/grad_norm.py": "1a6e37d4b37324a089721f759999f4f8fd53d0d8bae06dde3a9cf016f6919089",
+    "detectors/_rolling_slope.py": "bb5d8c31ad43864cca26a9633a7d616a80ccc26fc1c5cd199152c8a84c59e892",
+    "detectors/setbacks.py": "acabd69fdb7da9bc2bfd29004c43b8174a631fc7c35dc63a2bd3cd28ad2b65e0"
+  },
+  "artifacts": {
+    "trainspotter-0.2.6-py3-none-any.whl": "9926b3c80c4ed96b2dab97e5807575512ae4598c14bd9cc4e33e3212b13e9e0f",
+    "trainspotter-0.2.6.tar.gz": "3af4507e15e28dfc91541709033008308391cd47e60cef369a62c45711a950ab",
+    ".gitignore": "684888c0ebb17f374298b65ee2807526c066094c701bcc7ebbe1c1095f494fc1"
+  },
+  "full_source_tests": 857,
+  "native_tests_each_wheel": 35,
+  "minimum_protobuf_pure_python": "5.28.3: native tests and complete independent scalar/clock/coordinate comparisons passed",
+  "unchanged_browser_verified_vectors": 25,
+  "optional_runtime_dependencies": [
+    "numpy>=1.24",
+    "protobuf>=5.28.3"
+  ],
+  "timed_read": {
+    "scope": "One fresh installed Python 3.15 CLI process; warm-cache native unstable capture; not a general speed benchmark.",
+    "wall_seconds": 0.32,
+    "peak_rss_kib": 43864,
+    "gnu_time_sha256": "4a3c498f0de41c4724e1ca080b1b7db22658121114130bd7e70ea65f62fa8c7d"
+  }
+}

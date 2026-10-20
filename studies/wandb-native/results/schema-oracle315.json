@@ -1,0 +1,263 @@
+{
+  "scope": "All scalar values, coordinates and runtime clocks compared with independent official SDK/Go decoders; original SDK captures unchanged; binary64 metric semantics and exact step coordinates.",
+  "before": false,
+  "producer_manifest_sha256": "9aa5f7c3fea79cef58f60fdc37d2b7f145998248a11468a25f60c0ec35906029",
+  "oracle_script_sha256": "2ae67ac7600c9144421ce5127c8fceedc89d4c03e21bfcd464e3bd8d89ea0a3a",
+  "sdk_decoder_source_sha256": "17d8e04ba970f52e872c85621098ffe4e5171fcf61ca2d4fc126355ffcc4f73c",
+  "go_decoder_binary_sha256": "bbea309ea88986aac0f625379521acce8e339b2d0da0fc4392799c8347f00b80",
+  "verifier_sha256": "cd3386aba606b06baca3237ad965b25270b71521988811cc68d33494f522b11b",
+  "runtime_modules": {
+    "__init__.py": "f902908eabb455be7238326cae68b500f401e4962b326bc7696dbc748be6437b",
+    "cli.py": "5d907eea4503cffccb9d075275edfe42ebfa185393f5c37b06c1ebe69a01222d",
+    "detectors/__init__.py": "38482b71273ec74fdf748c447e35c1132451b5f9a74a581a8e72067d91624e09",
+    "detectors/_rolling_slope.py": "bb5d8c31ad43864cca26a9633a7d616a80ccc26fc1c5cd199152c8a84c59e892",
+    "detectors/base.py": "a1b8ff3e7163f7b6aaa476b42565a8fccc46bfefd4e07270fbe3c69691c11bd8",
+    "detectors/divergence.py": "70721e99da4edbf8a5a67308d4222baeb1d951d8f076c745c698fe680fc557ac",
+    "detectors/eval_noise.py": "1fa2258d2d3247fa0486fda30867e1b769bf5d06ffd864402c91fd1610b350ca",
+    "detectors/grad_norm.py": "1a6e37d4b37324a089721f759999f4f8fd53d0d8bae06dde3a9cf016f6919089",
+    "detectors/loss_floor.py": "e50fed8be010eaa3fcd813f1d73b49871f3627d1035b0547d8bccdbd99bc3131",
+    "detectors/lr_schedule.py": "1ad15a455347020f3e89628032158bd1598669f3109a8cbf0e79f9e54bc22ed7",
+    "detectors/overfitting.py": "b581df9ad6223916f03aa4341ba3168518d3dd7820559a5102e14b7e175f88db",
+    "detectors/plateau.py": "41f3aa5f785316de91cb3d6075ff57e18e3c231a25bbc7d4f39a02b94b39c1fa",
+    "detectors/setbacks.py": "acabd69fdb7da9bc2bfd29004c43b8174a631fc7c35dc63a2bd3cd28ad2b65e0",
+    "detectors/spikes.py": "53a976289535bb047f135f88bfd04745d2d22992eb90ee723e89f9a5c70a626b",
+    "detectors/throughput.py": "b6a506b973629696564601546992b051700bdece9bbc67b2bd05e402d4a68a54",
+    "model.py": "9482465908cc6532e8f7013739c4ef9c0b0ecbe5666cf3657f4970a02450c487",
+    "readers/__init__.py": "8f3d72856494860657c6917bbe51527e06f996b02173690a9ce207a9a2fe9c3e",
+    "readers/_wandb_schema.py": "7e2587a8ca8804358a5b6d40f5fcddb68296891c4be8ff91243e0bea4b5f707b",
+    "readers/common.py": "edc8ae090325a081a26f6888a02095326dd14ae8ee7b089048734221bb43caf1",
+    "readers/hf.py": "96044ace7ad474a21d937c4cd8e2a587991e2a658596cb06c31208a3570b3cef",
+    "readers/lightning.py": "36cf68c7dc9e90f99de4e3007647c9308323154cb6aa96b0b09d9b40af0929f4",
+    "readers/mlflow.py": "f579ee2618aadde7929472785a1cbe306c4fe63db568c7bee5496165baefc3f5",
+    "readers/mlflow_files.py": "fd85c9b190d24acee3e956ee296d2bf3c2edd6ec75153523892643de7bee2a9c",
+    "readers/tabular.py": "b5c23646126da7b601b4df77579ecb2bf4b7f58ef1f1233e583c36bf574ab4ef",
+    "readers/tensorboard.py": "5b94496234ab00f6943965b556e1d9da1425d1cf6d462025b5f368d7e4e0153e",
+    "readers/wandb.py": "318210d8a4e758221c83b1ce0e4d41a8d8b061d4b05fe98c2749cd94a5a0b70f",
+    "readers/wandb_native.py": "1953cd4a7e5d8f65084dfe60fb79bba56c5aebac47d75c295cf7875ce8b01147",
+    "report/__init__.py": "317d8be1f917cf65f0312a083c62f7bf268d37b5c9d7232c3a0bf37ae18b9a0a",
+    "report/chart_style.py": "63f693a882ac05f82861db47e9553b12080aa16ed6166916ba8be44aaf9ecc6f",
+    "report/html_report.py": "b9db0a3498ce4a4b8f99b45ac7eb3199d365836c3f3d2fef3de754b9a23657b5",
+    "report/json_report.py": "93de91e9f171b1b8bcb4d86fc82d9da778da29fb33bb661feed595e29e58e2b0",
+    "report/svg_export.py": "b10df248571cb2a1628df6810ea19a7cc1a618a4bd2ea048524a402de8e46285",
+    "report/terminal.py": "6beacecc76a8134eacf1929792bf5747b30d06426bfcd3c43855e854903d16ca",
+    "timing.py": "a6a19d22bbbb658ac2cdd57c6cc1e498d6d13a4c814c32667c631bd992a22609"
+  },
+  "cases": [
+    {
+      "case": "stable",
+      "axis": "train/global_step",
+      "input_complete": true,
+      "file_sha256": "714fad7123d0e6772e3c72812926c0ebb0f5b9dd7b808698c1764651819f0e3f",
+      "points_sha256": "581204af49b01d981df7ac17f1903a85eea10bd0033b76cd2fabd44a1102a495",
+      "points": {
+        "train/loss": 80,
+        "lr": 80,
+        "grad_norm": 80,
+        "epoch": 80,
+        "eval/loss": 20
+      },
+      "record_types": {
+        "exit": 1,
+        "files": 1,
+        "header": 1,
+        "history": 100,
+        "metric": 3,
+        "run": 1,
+        "summary": 201,
+        "telemetry": 3
+      },
+      "fragments_read": 318,
+      "cli_fail_on_error_status": 0,
+      "findings": [
+        {
+          "detector": "throughput",
+          "severity": "warning",
+          "step_start": 330,
+          "step_end": 400
+        },
+        {
+          "detector": "lr_schedule",
+          "severity": "info",
+          "step_start": 5,
+          "step_end": 5
+        },
+        {
+          "detector": "loss_floor",
+          "severity": "info",
+          "step_start": 5,
+          "step_end": 30
+        }
+      ]
+    },
+    {
+      "case": "unstable-lr",
+      "axis": "train/global_step",
+      "input_complete": true,
+      "file_sha256": "ea39bb5e22a52a8742f96cc34b552f77cf63c08d3f87f40e546e79f3fd00bf56",
+      "points_sha256": "83889f6cd61f5fb47ed449026d23096bdcb98c49d3d1625836ce5b09b7baf1b9",
+      "points": {
+        "train/loss": 80,
+        "lr": 80,
+        "grad_norm": 80,
+        "epoch": 80,
+        "eval/loss": 20
+      },
+      "record_types": {
+        "exit": 1,
+        "files": 1,
+        "header": 1,
+        "history": 100,
+        "metric": 3,
+        "run": 1,
+        "summary": 201,
+        "telemetry": 3
+      },
+      "fragments_read": 318,
+      "cli_fail_on_error_status": 1,
+      "findings": [
+        {
+          "detector": "divergence",
+          "severity": "error",
+          "step_start": 325,
+          "step_end": 400
+        },
+        {
+          "detector": "divergence",
+          "severity": "warning",
+          "step_start": 340,
+          "step_end": 400
+        },
+        {
+          "detector": "loss_floor",
+          "severity": "info",
+          "step_start": 5,
+          "step_end": 30
+        },
+        {
+          "detector": "grad_norm",
+          "severity": "info",
+          "step_start": 165,
+          "step_end": 320
+        },
+        {
+          "detector": "grad_norm",
+          "severity": "info",
+          "step_start": 325,
+          "step_end": 400
+        }
+      ]
+    },
+    {
+      "case": "logged-null",
+      "axis": "train/global_step",
+      "input_complete": false,
+      "file_sha256": "ff4f9bbc47e826fc7aabc69faa1611462c192da4294ec438fe5e389daf6c6f38",
+      "points_sha256": "857ed19aa9c59488a18943406bc5085d65263553d5b107d7273c70e25b51d177",
+      "points": {
+        "train/loss": 80,
+        "lr": 80,
+        "grad_norm": 80,
+        "epoch": 80,
+        "eval/loss": 20
+      },
+      "record_types": {
+        "exit": 1,
+        "files": 1,
+        "header": 1,
+        "history": 100,
+        "metric": 3,
+        "run": 1,
+        "summary": 201,
+        "telemetry": 3
+      },
+      "fragments_read": 318,
+      "cli_fail_on_error_status": 2,
+      "findings": [
+        {
+          "detector": "lr_schedule",
+          "severity": "info",
+          "step_start": 5,
+          "step_end": 5
+        },
+        {
+          "detector": "loss_floor",
+          "severity": "info",
+          "step_start": 5,
+          "step_end": 30
+        }
+      ]
+    },
+    {
+      "case": "custom-counter",
+      "axis": "_step",
+      "input_complete": true,
+      "file_sha256": "42972fe3bb8e408ada42eb706031abf6421a8801a8e9422eee2b5b27e9b9257b",
+      "points_sha256": "e3cd9ae4404602eac2144b0a0d02c5158ef7e8c36315e76737bd4496e7947752",
+      "points": {
+        "train/loss": 80,
+        "lr": 80,
+        "grad_norm": 80,
+        "epoch": 80,
+        "optimizer_step": 100,
+        "eval/loss": 20
+      },
+      "record_types": {
+        "exit": 1,
+        "files": 1,
+        "header": 1,
+        "history": 100,
+        "metric": 3,
+        "run": 1,
+        "summary": 201,
+        "telemetry": 3
+      },
+      "fragments_read": 318,
+      "cli_fail_on_error_status": 0,
+      "findings": [
+        {
+          "detector": "lr_schedule",
+          "severity": "info",
+          "step_start": 0,
+          "step_end": 0
+        }
+      ],
+      "explicit_axis": {
+        "axis": "optimizer_step",
+        "points_sha256": "2c376c610d713a24efd36605be3ddff6b069ddae2723b89822454a184691c164",
+        "require_timing_status": 0
+      }
+    }
+  ],
+  "authored_damage_controls": [
+    {
+      "case": "truncated-fragment",
+      "authored_control": true,
+      "file_sha256": "85cae9151a017619f78ee8ac7cf7b4bfb30dcec79ea22434f14eb34c13f6ce98",
+      "retained_points_sha256": "c4395f7325a4a5a021b24bd1f4671895157ca90a8cd9b786819ae5b26a258708",
+      "last_loss_step": 95,
+      "unread_event_bytes": 40000,
+      "tail_error": "byte 112553: incomplete fragment payload",
+      "cli_fail_on_error_status": 2
+    },
+    {
+      "case": "corrupt-fragment",
+      "authored_control": true,
+      "file_sha256": "d5d179841104de868bfa6e6493da4b8d68b2a936e69649b0f5d8e9c454619008",
+      "retained_points_sha256": "c4395f7325a4a5a021b24bd1f4671895157ca90a8cd9b786819ae5b26a258708",
+      "last_loss_step": 95,
+      "unread_event_bytes": 138982,
+      "tail_error": "byte 112553: invalid fragment checksum",
+      "cli_fail_on_error_status": 2
+    },
+    {
+      "case": "truncated-tail",
+      "authored_control": true,
+      "file_sha256": "714a570ccd8aec6a3d96a97651deaeea73b8827c65347f6623a87366d85ed6f5",
+      "retained_points_sha256": "581204af49b01d981df7ac17f1903a85eea10bd0033b76cd2fabd44a1102a495",
+      "last_loss_step": 400,
+      "unread_event_bytes": 46,
+      "tail_error": "byte 251487: incomplete fragment payload",
+      "cli_fail_on_error_status": 2
+    }
+  ]
+}
