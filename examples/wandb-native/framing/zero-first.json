@@ -1,0 +1,9 @@
+{
+  "purpose": "SDK-written boundary control; seven bytes left -> empty FIRST, then LAST",
+  "wandb": "0.23.1",
+  "bytes": 32799,
+  "sha256": "6bb829013f04515a5958d2daac051737c6332fe02dd820d45caa55dbe0ddfcaf",
+  "empty_first_offset": 32761,
+  "empty_first_checksum": 1007455905,
+  "script_sha256": "d1464f1c562af206a99cdf95a6bd76bd16f70468caeb08717e19d5f3f81be64e"
+}

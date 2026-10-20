@@ -10,7 +10,7 @@ Automatic diagnosis of loss curves and training logs.
 [![Hugging Face](https://img.shields.io/badge/Hugging%20Face-workbench-ffd21e)](https://huggingface.co/spaces/antonsoloviev/trainspotter)
 
 Point trainspotter at a Trainer checkpoint, TensorBoard log directory, local
-MLflow store, W&B export or CSV/JSONL history. It locates recorded loss spikes, sustained
+MLflow store, native W&B run file, W&B export or CSV/JSONL history. It locates recorded loss spikes, sustained
 setbacks, evaluation changes, learning-rate reversals and measured timing
 changes, retaining the step ranges and data limits behind each finding.
 Run it on a finished log, watch a growing one, or use its exit status in CI.
@@ -42,6 +42,30 @@ The PyPI 0.2.6 release predates the current reader, diagnostic and vector-export
 changes. To use the released CLI with your own log, install it with
 `python -m pip install trainspotter`, then run `trainspotter analyze path/to/your/log`.
 
+## Read an offline W&B run before a sync
+
+The source checkout reads a run's **native `.wandb` file** directly. Install the
+optional schema dependency in this checkout, then analyze the included SDK capture:
+
+```bash
+python -m pip install '.[wandb]'
+trainspotter analyze examples/wandb-native/unstable-lr/run.wandb --output html --out native.html
+```
+
+The capture contains 400 NumPy optimizer updates, logged through W&B in offline
+mode as 100 history records. An authored learning-rate fault produces the loss
+explosion in the report. Every scalar, coordinate and runtime clock agrees with
+two independent W&B decoders. Original log files and reproduction code are included.
+
+This reader starts no run or sync service and needs no account. It checks native
+fragment checksums, retains explicit missing readings as gaps, and keeps a damaged
+log's readable prefix marked incomplete. Logging counters remain separate from
+training updates; select a custom training counter with `--step-key optimizer_step`.
+Downloaded SVGs retain the native file's SHA-256 and the partial-read boundary.
+[Commands, exact format contract and limits](docs/wandb-native.md) |
+[Captured optimizer/logger controls and verification](studies/wandb-native/README.md).
+This support is unreleased; the registry package and hosted workbench are separate.
+
 ## Features
 
 - **Native training histories**, auto-detected from the input: Hugging Face
@@ -51,6 +75,8 @@ changes. To use the released CLI with your own log, install it with
   trainspotter[tensorboard]`), and local MLflow SQLite or legacy FileStore
   histories. SQLite needs no MLflow dependency; FileStore uses the small
   `mlflow-files` extra for YAML metadata. [MLflow selection, steps and limits](docs/mlflow.md).
+  Native `.wandb` files use the optional `wandb` extra in the source checkout;
+  every committed scalar history is read without resampling.
   Linked model/dataset metrics retain their run aggregates under explicit names;
   a scope change cannot silently become a training-divergence recommendation.
   [SDK-written before/after controls](studies/mlflow-scopes/README.md).

@@ -20,7 +20,7 @@ from trainspotter.report import render_html, render_terminal, to_json_str
 from trainspotter.report.terminal import visible
 from trainspotter.timing import assess_timing
 
-_FORMAT_CHOICES = ("hf", "csv", "jsonl", "wandb", "lightning", "tensorboard", "mlflow")
+_FORMAT_CHOICES = ("hf", "csv", "jsonl", "wandb", "wandb-native", "lightning", "tensorboard", "mlflow")
 
 
 def _interval(raw: str) -> float:
@@ -41,7 +41,7 @@ def _build_parser() -> argparse.ArgumentParser:
     analyze_run = analyze.add_mutually_exclusive_group()
     analyze_run.add_argument("--run", default=None, metavar="NAME", help="Which run to analyse in W&B, TensorBoard or MLflow input. MLflow accepts a run ID/prefix or unique display name. Default: the run with the most points (active runs only for MLflow).")
     analyze_run.add_argument("--chart-single-run", metavar="NAME", help="Assert that every W&B chart value column belongs to this exact run display name. Required when chart labels contain ambiguous ' - ' separators; cannot be combined with --run.")
-    analyze.add_argument("--step-key", default=None, metavar="COLUMN", help="Exact training-step column in tabular input; MLflow supports step. Values must be integers. Selecting a column asserts it counts training updates, including W&B _step and MLflow step.")
+    analyze.add_argument("--step-key", default=None, metavar="COLUMN", help="Exact training-step field in tabular or native W&B input; MLflow supports step. Values must be integers. Selecting a field asserts it counts training updates, including W&B _step and MLflow step.")
     analyze.add_argument("--output", choices=("terminal", "json", "html"), default="terminal")
     analyze.add_argument("--out", default=None, help="Write the report to this file (HTML defaults to a .trainspotter.html file beside the source).")
     analyze.add_argument("--fail-on", choices=("warning", "error"), default=None, help="CI gate: exit 1 for findings at this severity, or 2 when input is incomplete.")
@@ -55,7 +55,7 @@ def _build_parser() -> argparse.ArgumentParser:
     watch_run = watch.add_mutually_exclusive_group()
     watch_run.add_argument("--run", default=None, metavar="NAME", help="Which run to watch when the source holds several; MLflow accepts a run ID/prefix or unique display name.")
     watch_run.add_argument("--chart-single-run", metavar="NAME", help="Assert a single-run W&B chart layout (same as analyze); held across every read.")
-    watch.add_argument("--step-key", default=None, metavar="COLUMN", help="Exact training-step column in tabular input, or step for native MLflow (same as analyze).")
+    watch.add_argument("--step-key", default=None, metavar="COLUMN", help="Exact training-step field in tabular or native W&B input, or step for native MLflow (same as analyze).")
     watch.add_argument("--interval", type=_interval, default=2.0, help="Positive seconds between re-reads (default: 2.0).")
     watch.add_argument("--fail-on", choices=("warning", "error"), default=None, help="Stop with exit 1 on a matching finding, or 2 when a loaded run has incomplete input.")
     watch.add_argument("--require-timing", action="store_true", help="Stop with exit 2 if a loaded run has incomplete input or no usable timing comparison, including too few readings.")

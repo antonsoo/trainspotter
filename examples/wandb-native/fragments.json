@@ -1,0 +1,96 @@
+{
+  "method": "Offsets and physical-fragment counts from the unchanged official W&B 0.23.1 Python DataStore, over byte-identical copies of the original W&B 0.31.0 captures.",
+  "decoder_version": "0.23.1",
+  "decoder_source_sha256": "17d8e04ba970f52e872c85621098ffe4e5171fcf61ca2d4fc126355ffcc4f73c",
+  "oracle_script_sha256": "2ae67ac7600c9144421ce5127c8fceedc89d4c03e21bfcd464e3bd8d89ea0a3a",
+  "cases": [
+    {
+      "case": "stable",
+      "input_sha256": "714fad7123d0e6772e3c72812926c0ebb0f5b9dd7b808698c1764651819f0e3f",
+      "records": 311,
+      "fragments": 318,
+      "large_records": [
+        {
+          "record_num": 79,
+          "kind": "summary",
+          "start": 12249,
+          "end": 112553,
+          "payload_bytes": 100276
+        },
+        {
+          "record_num": 80,
+          "kind": "history",
+          "start": 112553,
+          "end": 212861,
+          "payload_bytes": 100280
+        }
+      ]
+    },
+    {
+      "case": "unstable-lr",
+      "input_sha256": "ea39bb5e22a52a8742f96cc34b552f77cf63c08d3f87f40e546e79f3fd00bf56",
+      "records": 311,
+      "fragments": 318,
+      "large_records": [
+        {
+          "record_num": 79,
+          "kind": "summary",
+          "start": 12271,
+          "end": 112574,
+          "payload_bytes": 100275
+        },
+        {
+          "record_num": 80,
+          "kind": "history",
+          "start": 112574,
+          "end": 212881,
+          "payload_bytes": 100279
+        }
+      ]
+    },
+    {
+      "case": "logged-null",
+      "input_sha256": "ff4f9bbc47e826fc7aabc69faa1611462c192da4294ec438fe5e389daf6c6f38",
+      "records": 311,
+      "fragments": 318,
+      "large_records": [
+        {
+          "record_num": 79,
+          "kind": "summary",
+          "start": 12293,
+          "end": 112597,
+          "payload_bytes": 100276
+        },
+        {
+          "record_num": 80,
+          "kind": "history",
+          "start": 112597,
+          "end": 212905,
+          "payload_bytes": 100280
+        }
+      ]
+    },
+    {
+      "case": "custom-counter",
+      "input_sha256": "42972fe3bb8e408ada42eb706031abf6421a8801a8e9422eee2b5b27e9b9257b",
+      "records": 311,
+      "fragments": 318,
+      "large_records": [
+        {
+          "record_num": 79,
+          "kind": "summary",
+          "start": 12152,
+          "end": 112453,
+          "payload_bytes": 100273
+        },
+        {
+          "record_num": 80,
+          "kind": "history",
+          "start": 112453,
+          "end": 212758,
+          "payload_bytes": 100277
+        }
+      ]
+    }
+  ]
+}

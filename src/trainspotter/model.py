@@ -217,7 +217,7 @@ class Run:
         return max(0, n) if type(n) is int else 0
 
     def unread_event_bytes(self) -> int:
-        """Bytes TensorBoard could not decode, including a partially written last record."""
+        """Bytes a native log could not decode, including a partially written last record."""
         n = self.meta.get("unread_event_bytes", 0)
         return max(0, n) if type(n) is int else 0
 
@@ -288,8 +288,9 @@ class Run:
         if self.skipped_values():
             notes.append(f"{self.skipped_values()} nonblank metric values were not numeric.")
         if self.unread_event_bytes():
+            kind = "transaction-log" if self.source_format == "wandb-native" else "event-file"
             notes.append(
-                f"{self.unread_event_bytes()} event-file bytes could not be decoded "
+                f"{self.unread_event_bytes()} {kind} bytes could not be decoded "
                 "(a partial write or corrupt record)."
             )
         ambiguous = self.meta.get("ambiguous_metric_sources")
@@ -310,6 +311,14 @@ class Run:
                     "to diagnose them."
                 )
         axis = self.meta.get("step_column")
+        native = self.meta.get("wandb_native")
+        if self.source_format == "wandb-native" and isinstance(native, dict):
+            notes.append(
+                f"Native W&B run {native['run_id']!r}: {native['history_records']} "
+                f"history records; recorded exit codes {native['exit_codes']}."
+            )
+            if not native["exit_codes"]:
+                notes.append("No exit record was observed; training completion is unknown.")
         if isinstance(axis, str) and axis.startswith("(row index"):
             notes.append(f"The horizontal axis uses {axis}; these are not training-step counts.")
         mlflow = self.meta.get("mlflow")

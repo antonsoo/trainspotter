@@ -245,7 +245,9 @@ def metric_value(
     return value
 
 
-def unreadable_row(run: Run, names: Iterable[str], step: int) -> None:
+def unreadable_row(
+    run: Run, names: Iterable[str], step: int, *, wall_time: float | None = None,
+) -> None:
     """Keep a rejected row's known position without trusting its cells or clock.
 
     A malformed record is not an ordinary sparse row. Every numeric metric may
@@ -253,7 +255,7 @@ def unreadable_row(run: Run, names: Iterable[str], step: int) -> None:
     Custom text columns stay pending and are discarded by Run.finalize().
     """
     for name in names:
-        run.add_unreadable(name, step, known_metric=_claim(name) is not None)
+        run.add_unreadable(name, step, wall_time, known_metric=_claim(name) is not None)
 
 
 # Beyond 2**53 a float no longer holds every integer, so a larger "step" is not a step count.

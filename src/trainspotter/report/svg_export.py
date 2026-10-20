@@ -109,6 +109,14 @@ def chart_download(
                  "Display thinning and off-scale caps remain; this is not the original log "
                  "or an independent diagnosis. Inspect the report and source log for evidence.",
     }
+    native = run.meta.get("wandb_native")
+    if run.source_format == "wandb-native" and isinstance(native, dict):
+        metadata["nativeWandb"] = {
+            "fileSHA256": native["sha256"], "fileBytes": native["file_bytes"],
+            "runId": native["run_id"], "historyRecordsRead": native["history_records"],
+            "producerVersions": native["producer_versions"],
+            "unreadFromOffset": native["unread_from_offset"],
+        }
     # Visible previews stay within the fixed chart width. Full names and notes
     # remain in metadata, without trusting file-supplied names as markup.
     lines = ["TRAINSPOTTER / " + heading, "Source: " + (run.source_path or "(stdin)")]

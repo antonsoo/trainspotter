@@ -6,6 +6,16 @@ and this project uses [Semantic Versioning](https://semver.org/).
 
 ## Unreleased
 
+- Read native offline W&B `.wandb` transaction logs through the optional SDK
+  protobuf schema, without initializing a run or sync service. Check version-0
+  framing, IEEE CRC32, complete fragment chains and source stability. Preserve
+  every scalar history, explicit null gaps, native record identity, custom-axis
+  definitions and original file hashes. Stop at a damaged tail and keep CI gates
+  incomplete; refuse contradictory counters, key collisions and multiple run
+  identities. Keep logging counters distinct from training updates. Retain native
+  identity/boundaries in JSON and standalone SVGs. Include unchanged SDK-written
+  optimizer logs, independent Python/Go decoders and corruption/framing controls.
+
 - Infer CSV delimiters from complete logical records and a bounded sample,
   rather than counting separators in the first physical header line. Preserve
   W&B run names and metric columns containing semicolons, tabs, quotes or line

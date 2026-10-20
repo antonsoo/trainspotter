@@ -27,7 +27,7 @@ __all__ = [
     "read_mlflow",
 ]
 
-_FORMATS = ("hf", "csv", "jsonl", "wandb", "lightning", "tensorboard", "mlflow")
+_FORMATS = ("hf", "csv", "jsonl", "wandb", "wandb-native", "lightning", "tensorboard", "mlflow")
 
 
 def detect_format(path: str | Path, *, step_key: str | None = None) -> str:
@@ -41,6 +41,8 @@ def detect_format(path: str | Path, *, step_key: str | None = None) -> str:
             return "mlflow"
         return "tensorboard"
     suffix = p.suffix.lower()
+    if suffix == ".wandb":
+        return "wandb-native"
     if suffix in (".db", ".sqlite", ".sqlite3"):
         return "mlflow"
     if suffix == ".jsonl":
@@ -86,7 +88,7 @@ def load_run(
 
     `run_name` picks one run out of a source that holds several (a W&B chart export, a
     TensorBoard logdir, or a native MLflow store); see `readers.common.select_run`.
-    `step_key` selects an exact integer training-step column in tabular inputs;
+    `step_key` selects an exact integer training-step field in tabular/native W&B inputs;
     the caller asserts this column measures training progress, not logger calls.
     `chart_single_run` asserts that every W&B chart value column belongs to this
     exact display name; it preserves separators within metric names.
@@ -95,9 +97,11 @@ def load_run(
     fmt = fmt or detect_format(p, step_key=step_key)
     if chart_single_run is not None and fmt != "wandb":
         raise ValueError("--chart-single-run applies only to W&B chart CSV exports")
-    if step_key is not None and fmt not in ("csv", "jsonl", "wandb", "lightning", "mlflow"):
+    if step_key is not None and fmt not in (
+        "csv", "jsonl", "wandb", "wandb-native", "lightning", "mlflow",
+    ):
         raise ValueError(
-            "--step-key selects a column in CSV, JSONL, W&B, Lightning or MLflow input"
+            "--step-key selects a column in CSV, JSONL, W&B, native W&B, Lightning or MLflow input"
         )
     if run_name is not None and fmt not in ("wandb", "tensorboard", "mlflow"):
         raise ValueError(
@@ -112,6 +116,10 @@ def load_run(
         run = read_jsonl(p, step_key=step_key)
     elif fmt == "wandb":
         run = read_wandb_csv(p, run_name, step_key=step_key, chart_single_run=chart_single_run)
+    elif fmt == "wandb-native":
+        from .wandb_native import read_wandb_native
+
+        run = read_wandb_native(p, step_key=step_key)
     elif fmt == "lightning":
         run = read_lightning_csv(p, step_key=step_key)
     elif fmt == "mlflow":

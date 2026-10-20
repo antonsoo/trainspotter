@@ -1,0 +1,48 @@
+{
+  "scope": "synthetic training, native offline logs and explicit optimizer/logger controls",
+  "seed": 29114,
+  "versions": {
+    "numpy": "2.5.4",
+    "wandb": "0.31.0",
+    "protobuf": "7.36.2"
+  },
+  "script_sha256": "c74ce7fe58d921c1e41cb7c9a0c9958647316f182c1020f9bd189dce87093ce0",
+  "cases": [
+    {
+      "case": "stable",
+      "file": "stable/run.wandb",
+      "bytes": 251535,
+      "sha256": "714fad7123d0e6772e3c72812926c0ebb0f5b9dd7b808698c1764651819f0e3f",
+      "reference_sha256": "0c35db84f4b3ad4e2a7a2c80bf663d136d5790286c1cde886151cf6b3a55daf1",
+      "sdk_run_id": "native-stable",
+      "logging_calls": 100
+    },
+    {
+      "case": "unstable-lr",
+      "file": "unstable-lr/run.wandb",
+      "bytes": 250519,
+      "sha256": "ea39bb5e22a52a8742f96cc34b552f77cf63c08d3f87f40e546e79f3fd00bf56",
+      "reference_sha256": "d2cdeca5eabec69e0e586ed8e85ca9ec45d80e29f92ea86bbc18f56f3ff63e74",
+      "sdk_run_id": "native-unstable-lr",
+      "logging_calls": 100
+    },
+    {
+      "case": "logged-null",
+      "file": "logged-null/run.wandb",
+      "bytes": 251546,
+      "sha256": "ff4f9bbc47e826fc7aabc69faa1611462c192da4294ec438fe5e389daf6c6f38",
+      "reference_sha256": "1378ac06090318fd9efd2a5dc59d9d5a3fa2db64dc8617069bd17a266e0a227b",
+      "sdk_run_id": "native-logged-null",
+      "logging_calls": 100
+    },
+    {
+      "case": "custom-counter",
+      "file": "custom-counter/run.wandb",
+      "bytes": 251024,
+      "sha256": "42972fe3bb8e408ada42eb706031abf6421a8801a8e9422eee2b5b27e9b9257b",
+      "reference_sha256": "c49ad117711e0ca3f166ba113e997e9f36e005f08d6d512182ff46b76b06b5c5",
+      "sdk_run_id": "native-custom-counter",
+      "logging_calls": 100
+    }
+  ]
+}
