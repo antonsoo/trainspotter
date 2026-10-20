@@ -151,6 +151,9 @@ class GradNormDetector(Detector):
             return []
         flagged = [i for group in groups for i in group]
         peak_i = max(flagged, key=lambda i: ratio[i])
+        # Actual overflow runs can have hundred-digit finite ratios. Keep the
+        # prose readable; the evidence retains the full binary64 value.
+        ratio_text = format(ratio[peak_i], ".3g" if ratio[peak_i] >= 1e6 else ".0f")
         return [
             Finding(
                 detector=self.name,
@@ -162,7 +165,7 @@ class GradNormDetector(Detector):
                 message=(
                     f"grad_norm exceeded {self.min_ratio:g}x its rolling median "
                     f"{len(groups)} time{'s' if len(groups) != 1 else ''}; the largest was "
-                    f"{values[peak_i]:.4g} at step {int(steps[peak_i])}, {ratio[peak_i]:.0f}x the "
+                    f"{values[peak_i]:.4g} at step {int(steps[peak_i])}, {ratio_text}x the "
                     "median around it. Compare the logged loss and optimizer updates; "
                     "the norm alone does not establish clipping or an effect on training."
                 ),
