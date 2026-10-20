@@ -1,0 +1,35 @@
+{
+  "sdk": "wandb==0.31.0",
+  "protobuf": "7.36.2",
+  "root_message": "wandb_internal.Record",
+  "scope": "Unmodified persistent FileDescriptorProto messages in dependency order.",
+  "sha256": "bd4666ea8563f64349b91cc71fa68403dade0fdd5170bea051d77d96f0b69dba",
+  "bytes": 30346,
+  "descriptors": [
+    {
+      "name": "google/protobuf/empty.proto",
+      "sha256": "0555769ad996450d230c4e2308c2c9fd7db780d44281230cb0d824137020a435"
+    },
+    {
+      "name": "google/protobuf/struct.proto",
+      "sha256": "ea585e0aaf06fdea3ca34ae3af272ed35355b07cd2388ce60abd6eabd473dbf1"
+    },
+    {
+      "name": "google/protobuf/timestamp.proto",
+      "sha256": "422a163a2d7051465e0a516584b4d96d18c270ec4e7ad3c21ad33e5c440ebecc"
+    },
+    {
+      "name": "wandb/proto/wandb_base.proto",
+      "sha256": "eace397979f0a62684b884681ac5d38c229d0e6268fbe2128fa2ca5b3a00c418"
+    },
+    {
+      "name": "wandb/proto/wandb_telemetry.proto",
+      "sha256": "7872e6d13cb227bfb80264bb4f4f92fd9b96c9a398d570763e609293d73e1e9b"
+    },
+    {
+      "name": "wandb/proto/wandb_internal.proto",
+      "sha256": "88a17b00404ebc260c4aae7e2c5653e1d9491d53f834db9d77db0ea59287f9cd"
+    }
+  ],
+  "extractor_sha256": "f874339d0a15bc816c320f5f3498d4348e8f63c8b0e66a34e1fbd9335fd5a71f"
+}

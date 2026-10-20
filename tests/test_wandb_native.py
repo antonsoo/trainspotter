@@ -1,8 +1,8 @@
 from __future__ import annotations
 
 import base64
+import builtins
 import hashlib
-import importlib
 import json
 import math
 import os
@@ -11,6 +11,7 @@ import struct
 import xml.etree.ElementTree as ET
 import zlib
 from pathlib import Path
+from types import SimpleNamespace
 from typing import Any
 
 import pytest
@@ -21,8 +22,10 @@ from trainspotter.readers import detect_format, load_run
 from trainspotter.report import render_html
 from trainspotter.timing import assess_timing
 
-wandb = pytest.importorskip("wandb")
-pb = importlib.import_module("wandb.proto.wandb_internal_pb2")
+pytest.importorskip("google.protobuf")
+from trainspotter.readers._wandb_schema import persistent_record_type  # noqa: E402
+
+pb = SimpleNamespace(Record=persistent_record_type())
 ROOT = Path(__file__).resolve().parents[1] / "examples/wandb-native"
 
 
@@ -141,6 +144,24 @@ def test_numeric_text_cannot_supply_a_native_training_coordinate(tmp_path: Path)
     assert run.skipped_rows() == 1 and not run.input_complete()
 
 
+@pytest.mark.parametrize("nested", [False, True])
+def test_fields_outside_the_pinned_schema_cannot_be_silently_discarded(
+    tmp_path: Path, nested: bool,
+) -> None:
+    record = history(0, {"train/loss": 1})
+    unknown = b"\xf8\x7f\x01"  # field 2047, varint 1; outside the pinned schema
+    if nested:
+        item = record.history.item[1]
+        item.ParseFromString(item.SerializeToString() + unknown)
+        payload = record.SerializeToString()
+    else:
+        payload = record.SerializeToString() + unknown
+    path = tmp_path / "unknown-field.wandb"
+    native_file(path, [payload])
+    with pytest.raises(ValueError, match="outside the pinned"):
+        load_run(path)
+
+
 def test_sdk_empty_first_fragment_at_exact_block_boundary_is_a_complete_record() -> None:
     run = load_run(ROOT / "framing/zero-first.wandb")
     assert run.get("train/loss").steps() == [0]
@@ -177,10 +198,14 @@ def test_native_reader_never_initializes_a_client_and_reads_read_only_capture(
     tmp_path: Path,
     monkeypatch: pytest.MonkeyPatch,
 ) -> None:
-    def forbidden(*args: Any, **kwargs: Any) -> None:
-        raise AssertionError("reader started a W&B run")
+    original_import = builtins.__import__
 
-    monkeypatch.setattr(wandb, "init", forbidden)
+    def forbidden(name: str, *args: Any, **kwargs: Any) -> Any:
+        if name == "wandb" or name.startswith("wandb."):
+            raise AssertionError("reader imported the W&B SDK")
+        return original_import(name, *args, **kwargs)
+
+    monkeypatch.setattr(builtins, "__import__", forbidden)
     path = tmp_path / "copy.wandb"
     data = (ROOT / "stable/run.wandb").read_bytes()
     path.write_bytes(data)

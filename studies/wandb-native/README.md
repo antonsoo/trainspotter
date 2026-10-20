@@ -3,7 +3,7 @@
 The original source at `740811d` refuses native `.wandb` files. The current
 reader feeds their committed scalar histories into the existing diagnostics,
 JSON/HTML reports and standalone vectors. It reads the binary file itself and
-uses the optional SDK only for persistent protobuf definitions.
+uses the optional protobuf runtime with pinned persistent schema definitions.
 [Exact reader contract](../../docs/wandb-native.md).
 
 ## Captures and independent readers
@@ -117,12 +117,20 @@ The type control uses the explicit service-close procedure.
 connect/sendto/sendmsg in the kernel with seccomp, and installs Python audit
 hooks before importing the application. All four captures decode successfully
 with no observed Python network or subprocess attempts. The reader does not
-start a W&B run or backend. The default package has no SDK dependency; the
-`wandb` source extra installs the definitions needed for this file type.
+start a W&B run or backend. The `wandb` source extra now installs only protobuf;
+the persistent descriptors are bundled with their original license notices.
+
+`extract_schema.py` retains the six unmodified persistent descriptors from the
+independently installed W&B 0.31.0 SDK in dependency order. The resulting
+30,346-byte file has per-descriptor hashes and exact extraction provenance.
+The runtime builds the Record class in a private descriptor pool, keeping it
+separate from SDK definitions a caller might load. No W&B code is imported.
+Unknown fields anywhere in a record refuse against this pinned schema.
+The original SDK and Go oracles remain separate from this decoder.
 
 ## Reproduction
 
-The clean `a4a88f2` archive built a wheel through its source distribution. All
+The initial SDK-backed `a4a88f2` archive built a wheel through its source distribution. All
 33 Python module bytes agree across source, sdist and wheel. The full 855-test
 suite passes in the locked clean archive and in isolated wheel installations
 on Python 3.10.21 / NumPy 1.24.0 and Python 3.15.0 / NumPy 2.5.4. Both wheel
@@ -153,7 +161,7 @@ small-file observation on the shared 14-vCPU WSL2 / Ryzen 7800X3D host with
 The producer uses Python **3.12.12**, NumPy **2.5.4**, W&B **0.31.0** and protobuf
 **7.36.2**. Use a separate environment with W&B **0.23.1** and protobuf **6.33.6**
 for the older official reader and boundary writer. These are verification
-dependencies; the application has its separately declared optional SDK extra.
+dependencies; the application's `wandb` extra requires only protobuf.
 
 ```bash
 python studies/wandb-native/produce.py /tmp/native-wandb

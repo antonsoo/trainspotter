@@ -6,9 +6,11 @@ usually named `run-<id>.wandb`. Pass that file rather than the containing direct
 No W&B account, upload, API key or sync is needed to analyze it.
 
 Install from a source checkout with `python -m pip install '.[wandb]'`.
-The optional SDK supplies its persistent protobuf definitions. Trainspotter
-performs read-only file I/O itself; it does not initialize a W&B run, start a
-backend or execute the SDK viewer. The base package still requires only NumPy.
+The optional dependency is the protobuf runtime. A 30,346-byte descriptor set
+retains the unmodified persistent schema from W&B 0.31.0, with provenance and
+upstream notices inside the package. Trainspotter performs read-only file I/O;
+it does not install or import the W&B SDK, initialize a run, start a backend
+or execute the SDK viewer. The base package still requires only NumPy.
 PyPI 0.2.6 predates this source feature.
 
 ```bash
@@ -47,7 +49,7 @@ use IEEE CRC32 over their type byte and payload. This is W&B's format; LevelDB's
 masked CRC32C is a different checksum. Padding, fragment ordering, block bounds
 and the complete logical record are checked before using any of its values.
 
-The SDK protobuf schema decodes records after those checks. Only committed
+The pinned protobuf schema decodes records after those checks. Only committed
 scalar histories feed diagnostics. Summaries, system statistics, config and
 media/artifact records do not become training measurements. Native run IDs,
 header version information, metric definitions, record counts, original history
@@ -56,7 +58,7 @@ The reader follows no sidecar or artifact-file references.
 
 The file is scanned twice so all names are known before canonical metric-name
 selection. Each logical record has a 64 MiB limit. Memory also includes the
-SDK schema and the scalar series retained for analysis; the block size is not
+pinned schema and the scalar series retained for analysis; the block size is not
 a process-memory limit. A source changed during reading refuses instead of
 mixing two snapshots. Watch retries a changing source on its next poll.
 
@@ -65,6 +67,9 @@ are joined with dots for display, matching the SDK's viewer. Distinct original
 paths that collide at that display name refuse; duplicate items also refuse.
 Malformed or duplicate-member value JSON and contradictory native `_step`
 representations refuse. No value is chosen by file order to resolve ambiguity.
+Unknown protobuf fields, including nested fields, refuse against the pinned
+schema. Future producer extensions require a reviewed schema update; they
+cannot be silently discarded while declaring the file complete.
 
 ## Which horizontal axis?
 

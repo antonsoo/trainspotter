@@ -45,7 +45,7 @@ changes. To use the released CLI with your own log, install it with
 ## Read an offline W&B run before a sync
 
 The source checkout reads a run's **native `.wandb` file** directly. Install the
-optional schema dependency in this checkout, then analyze the included SDK capture:
+optional protobuf runtime in this checkout, then analyze the included SDK capture:
 
 ```bash
 python -m pip install '.[wandb]'
@@ -59,7 +59,8 @@ two independent W&B decoders. Original log files and reproduction code are inclu
 
 ![Report from the actual offline SDK capture: observed loss overflow and its authored learning-rate change](docs/assets/wandb-native.png)
 
-This reader starts no run or sync service and needs no account. It checks native
+This reader uses a pinned persistent schema, starts no run or sync service and
+needs no account or W&B SDK. It checks native
 fragment checksums, retains explicit missing readings as gaps, and keeps a damaged
 log's readable prefix marked incomplete. Logging counters remain separate from
 training updates; select a custom training counter with `--step-key optimizer_step`.

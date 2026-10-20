@@ -67,7 +67,7 @@ dependencies = [
 
 [project.optional-dependencies]
 tensorboard = ["tensorboard>=2.12"]
-wandb = ["wandb>=0.31.0"]
+wandb = ["protobuf>=5.28.3"]
 mlflow-files = ["PyYAML>=6.0.3"]
 examples = ["scikit-learn>=1.5"]
 dev = [

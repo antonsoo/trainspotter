@@ -16,7 +16,6 @@ from collections import Counter
 from collections.abc import Iterator
 from dataclasses import dataclass
 from decimal import Decimal
-from importlib import import_module
 from pathlib import Path
 from typing import Any
 
@@ -158,13 +157,13 @@ def read_wandb_native(path: str | Path, *, step_key: str | None = None) -> Run:
         from google.protobuf.json_format import MessageToDict
         from google.protobuf.message import DecodeError
 
-        # The SDK selects its protobuf bindings dynamically for the installed
-        # protobuf major version; the wrapper has no static Record attribute.
-        record_type = import_module("wandb.proto.wandb_internal_pb2").Record
+        from ._wandb_schema import persistent_record_type
+
+        record_type = persistent_record_type()
     except (ImportError, AttributeError) as exc:
         raise ImportError(
-            "Native .wandb logs need the optional W&B SDK: "
-            "pip install 'wandb>=0.31.0', or install this checkout with '.[wandb]'"
+            "Native .wandb logs need the optional protobuf runtime: "
+            "pip install 'protobuf>=5.28.3', or install this checkout with '.[wandb]'"
         ) from exc
 
     source = Path(path)
@@ -188,6 +187,13 @@ def read_wandb_native(path: str | Path, *, step_key: str | None = None) -> Run:
                 record = record_type.FromString(envelope.payload)
             except DecodeError as exc:
                 raise _DamagedLogError(envelope.start, "invalid record protobuf") from exc
+            original = record.SerializeToString(deterministic=True)
+            record.DiscardUnknownFields()
+            if record.SerializeToString(deterministic=True) != original:
+                raise ValueError(
+                    "native W&B record contains fields outside the pinned 0.31.0 schema; "
+                    "this reader cannot certify its complete history"
+                )
             kind = record.WhichOneof("record_type")
             if kind is None:
                 raise ValueError(

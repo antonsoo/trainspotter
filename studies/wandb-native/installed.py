@@ -5,6 +5,7 @@ from __future__ import annotations
 import argparse
 import hashlib
 import importlib.metadata
+import importlib.util
 import json
 import os
 import platform
@@ -34,6 +35,13 @@ def main() -> None:
     source = archive / "src/trainspotter"
     modules = {str(p.relative_to(source)): sha(p) for p in sorted(source.rglob("*.py"))}
     assert modules == {str(p.relative_to(package)): sha(p) for p in sorted(package.rglob("*.py"))}
+    assets = [
+        "readers/wandb-schema.pb",
+        "readers/wandb-schema.json",
+        "readers/WANDB-SCHEMA-LICENSES.txt",
+    ]
+    assert all((source / p).read_bytes() == (package / p).read_bytes() for p in assets)
+    assert importlib.util.find_spec("wandb") is None
     executable = str(Path(sys.executable).parent / "trainspotter")
     env = dict(os.environ)
     env.pop("PYTHONPATH", None)
@@ -96,11 +104,13 @@ def main() -> None:
                 "python": platform.python_version(),
                 "dependencies": {
                     name: importlib.metadata.version(name)
-                    for name in ["numpy", "wandb", "protobuf", "trainspotter"]
+                    for name in ["numpy", "protobuf", "trainspotter"]
                 },
                 "wheel_sha256": sha(args.wheel),
                 "runtime_modules": modules,
                 "source_is_imported": False,
+                "wandb_sdk_installed": False,
+                "schema_assets": {p: sha(package / p) for p in assets},
                 "cases": rows,
             },
             indent=2,
