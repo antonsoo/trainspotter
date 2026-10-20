@@ -1,0 +1,62 @@
+{
+  "scope": "All scalar values, coordinates and runtime clocks compared with independent official SDK/Go decoders; original SDK captures unchanged; binary64 metric semantics and exact step coordinates.",
+  "before": true,
+  "producer_manifest_sha256": "9aa5f7c3fea79cef58f60fdc37d2b7f145998248a11468a25f60c0ec35906029",
+  "oracle_script_sha256": "2ae67ac7600c9144421ce5127c8fceedc89d4c03e21bfcd464e3bd8d89ea0a3a",
+  "sdk_decoder_source_sha256": "17d8e04ba970f52e872c85621098ffe4e5171fcf61ca2d4fc126355ffcc4f73c",
+  "go_decoder_binary_sha256": "bbea309ea88986aac0f625379521acce8e339b2d0da0fc4392799c8347f00b80",
+  "verifier_sha256": "cd3386aba606b06baca3237ad965b25270b71521988811cc68d33494f522b11b",
+  "runtime_modules": {
+    "__init__.py": "f902908eabb455be7238326cae68b500f401e4962b326bc7696dbc748be6437b",
+    "cli.py": "50b8a00befff190bdf8328279936a37a607bc142415e1c1088eefb0847d6e098",
+    "detectors/__init__.py": "38482b71273ec74fdf748c447e35c1132451b5f9a74a581a8e72067d91624e09",
+    "detectors/_rolling_slope.py": "bb5d8c31ad43864cca26a9633a7d616a80ccc26fc1c5cd199152c8a84c59e892",
+    "detectors/base.py": "a1b8ff3e7163f7b6aaa476b42565a8fccc46bfefd4e07270fbe3c69691c11bd8",
+    "detectors/divergence.py": "70721e99da4edbf8a5a67308d4222baeb1d951d8f076c745c698fe680fc557ac",
+    "detectors/eval_noise.py": "1fa2258d2d3247fa0486fda30867e1b769bf5d06ffd864402c91fd1610b350ca",
+    "detectors/grad_norm.py": "1a6e37d4b37324a089721f759999f4f8fd53d0d8bae06dde3a9cf016f6919089",
+    "detectors/loss_floor.py": "e50fed8be010eaa3fcd813f1d73b49871f3627d1035b0547d8bccdbd99bc3131",
+    "detectors/lr_schedule.py": "1ad15a455347020f3e89628032158bd1598669f3109a8cbf0e79f9e54bc22ed7",
+    "detectors/overfitting.py": "b581df9ad6223916f03aa4341ba3168518d3dd7820559a5102e14b7e175f88db",
+    "detectors/plateau.py": "41f3aa5f785316de91cb3d6075ff57e18e3c231a25bbc7d4f39a02b94b39c1fa",
+    "detectors/setbacks.py": "acabd69fdb7da9bc2bfd29004c43b8174a631fc7c35dc63a2bd3cd28ad2b65e0",
+    "detectors/spikes.py": "53a976289535bb047f135f88bfd04745d2d22992eb90ee723e89f9a5c70a626b",
+    "detectors/throughput.py": "b6a506b973629696564601546992b051700bdece9bbc67b2bd05e402d4a68a54",
+    "model.py": "1a43d5543f8ea0258fa5c49c41935043ee38844d502a975d42230d7a9a41d239",
+    "readers/__init__.py": "fc3589523fc45f34d163419f7ce510493ed284a2024fd41204c8389eb882e915",
+    "readers/common.py": "a745dc356474fc5251bd5d157796a1465383e982a2ab8578ab4aad5fbe2c0ea8",
+    "readers/hf.py": "96044ace7ad474a21d937c4cd8e2a587991e2a658596cb06c31208a3570b3cef",
+    "readers/lightning.py": "36cf68c7dc9e90f99de4e3007647c9308323154cb6aa96b0b09d9b40af0929f4",
+    "readers/mlflow.py": "f579ee2618aadde7929472785a1cbe306c4fe63db568c7bee5496165baefc3f5",
+    "readers/mlflow_files.py": "fd85c9b190d24acee3e956ee296d2bf3c2edd6ec75153523892643de7bee2a9c",
+    "readers/tabular.py": "b5c23646126da7b601b4df77579ecb2bf4b7f58ef1f1233e583c36bf574ab4ef",
+    "readers/tensorboard.py": "5b94496234ab00f6943965b556e1d9da1425d1cf6d462025b5f368d7e4e0153e",
+    "readers/wandb.py": "318210d8a4e758221c83b1ce0e4d41a8d8b061d4b05fe98c2749cd94a5a0b70f",
+    "report/__init__.py": "317d8be1f917cf65f0312a083c62f7bf268d37b5c9d7232c3a0bf37ae18b9a0a",
+    "report/chart_style.py": "63f693a882ac05f82861db47e9553b12080aa16ed6166916ba8be44aaf9ecc6f",
+    "report/html_report.py": "b9db0a3498ce4a4b8f99b45ac7eb3199d365836c3f3d2fef3de754b9a23657b5",
+    "report/json_report.py": "b1d134917903298cfd30534b4117e0fb6561cb3d9fd8371c62b0b01480ae1c7e",
+    "report/svg_export.py": "a69dd63fb4a90bdf54a3ddc6aae1105c425fa1d880552849ea3a75acb2de1f52",
+    "report/terminal.py": "6beacecc76a8134eacf1929792bf5747b30d06426bfcd3c43855e854903d16ca",
+    "timing.py": "a6a19d22bbbb658ac2cdd57c6cc1e498d6d13a4c814c32667c631bd992a22609"
+  },
+  "cases": [
+    {
+      "case": "stable",
+      "refusal": "cannot guess format for examples/wandb-native/stable/run.wandb; pass --format explicitly (one of hf, csv, jsonl, wandb, lightning, tensorboard, mlflow)"
+    },
+    {
+      "case": "unstable-lr",
+      "refusal": "cannot guess format for examples/wandb-native/unstable-lr/run.wandb; pass --format explicitly (one of hf, csv, jsonl, wandb, lightning, tensorboard, mlflow)"
+    },
+    {
+      "case": "logged-null",
+      "refusal": "cannot guess format for examples/wandb-native/logged-null/run.wandb; pass --format explicitly (one of hf, csv, jsonl, wandb, lightning, tensorboard, mlflow)"
+    },
+    {
+      "case": "custom-counter",
+      "refusal": "cannot guess format for examples/wandb-native/custom-counter/run.wandb; pass --format explicitly (one of hf, csv, jsonl, wandb, lightning, tensorboard, mlflow)"
+    }
+  ],
+  "authored_damage_controls": []
+}

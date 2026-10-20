@@ -1,0 +1,48 @@
+{
+  "method": "Existing offline file:// report workflow: keyboard-download every SVG, reopen each independently, compare exact bytes/metadata, inspect geometry/styles and scan every report with axe. All contexts offline before navigation.",
+  "driver": "studies/vector-charts/browser.mjs",
+  "driver_sha256": "98fdc58e30a559f9ba905c897039701605f272583e38bb6b381a9a5cf8ed4093",
+  "full_receipt_sha256": "f820a03340dbb9e97068e361984e3748eb5e3b93d769f6e21bd62f2339c9a16d",
+  "results": [
+    {
+      "engine": "chromium",
+      "width": 1440,
+      "reports": 8,
+      "downloaded_and_reopened_vectors": 25,
+      "accessibility_violations": 0,
+      "page_errors": [],
+      "external_requests": [],
+      "csp_violations": []
+    },
+    {
+      "engine": "chromium",
+      "width": 375,
+      "reports": 8,
+      "downloaded_and_reopened_vectors": 25,
+      "accessibility_violations": 0,
+      "page_errors": [],
+      "external_requests": [],
+      "csp_violations": []
+    },
+    {
+      "engine": "firefox",
+      "width": 1440,
+      "reports": 8,
+      "downloaded_and_reopened_vectors": 25,
+      "accessibility_violations": 0,
+      "page_errors": [],
+      "external_requests": [],
+      "csp_violations": []
+    },
+    {
+      "engine": "firefox",
+      "width": 375,
+      "reports": 8,
+      "downloaded_and_reopened_vectors": 25,
+      "accessibility_violations": 0,
+      "page_errors": [],
+      "external_requests": [],
+      "csp_violations": []
+    }
+  ]
+}
