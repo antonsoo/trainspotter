@@ -86,6 +86,31 @@ fragment and a LAST in the next block. The reader retains its one scalar:
 two logical records, three physical fragments. This is an authored protocol
 boundary control, separate from the recorded optimizer runs.
 
+## Native types are evidence
+
+Review of the unpublished reader at `ff96e21` found that reusing CSV coercion
+turned native JSON strings into measurements. `capture_types.py` records an
+actual SDK-written control with loss values `1`, `"0.5"`, `"NaN"`, `0.1`.
+The independent older SDK decoder retains the exact native `value_json` tokens
+and types. The original reader invented a numeric 0.5 and an observed NaN,
+then returned divergence gate 1. The corrected reader keeps two gaps, makes no
+divergence finding and returns incomplete-evidence gate 2.
+[Raw oracle](results/types-oracle.json) |
+[Unpublished before](results/types-before.json) |
+[Corrected reader](results/types-after.json).
+
+`verify_types.py oracle FILE OUT` runs in the older SDK environment;
+`verify_types.py verify FILE OUT --oracle ORACLE` checks the actual API and CLI.
+Add `--before` with `PYTHONPATH` pointing to `ff96e21` to replay the coercion
+defect. This defect was found before publication; PyPI does not read this format.
+
+The producer now calls `wandb.teardown()` after `run.finish()` before taking a
+file snapshot. A short SDK log can remain buffered until the shared service
+closes. All four original optimizer captures were separately byte-matched to
+their final SDK files after the producer process exited. Their unchanged
+manifest's producer hash identifies the original script preserved at `762fae6`.
+The type control uses the explicit service-close procedure.
+
 ## Local operation
 
 `offline.py` starts a fresh Linux Python process, prohibits socket/socketpair/

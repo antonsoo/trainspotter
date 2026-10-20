@@ -109,6 +109,8 @@ def main() -> None:
                     )
         source = Path(run.settings.sync_file)
         run.finish()
+        # Close the SDK service before freezing short buffered transaction logs.
+        wandb.teardown()
         destination = directory / "run.wandb"
         shutil.copyfile(source, destination)
         data = destination.read_bytes()

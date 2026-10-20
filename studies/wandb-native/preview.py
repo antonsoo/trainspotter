@@ -24,6 +24,7 @@ def main() -> None:
         "truncated-fragment",
         "corrupt-fragment",
         "truncated-tail",
+        "types",
     ]
     for name in names:
         document = (reports / (name + ".html")).read_bytes()
@@ -34,7 +35,7 @@ def main() -> None:
             metadata = json.loads(root.find("{http://www.w3.org/2000/svg}metadata").text)
             source = (
                 captures / ("custom-counter" if name == "custom-selected" else name) / "run.wandb"
-                if name in names[:5]
+                if name in names[:5] or name == "types"
                 else reports / (name + ".wandb")
             )
             assert (

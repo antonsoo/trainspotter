@@ -9,6 +9,7 @@ from __future__ import annotations
 
 import hashlib
 import json
+import math
 import struct
 import zlib
 from collections import Counter
@@ -21,7 +22,14 @@ from typing import Any
 
 from trainspotter.model import Run
 
-from .common import metric_names, metric_value, try_float, try_step, unique_object, unreadable_row
+from .common import (
+    metric_names,
+    metric_value,
+    try_step,
+    try_typed_float,
+    unique_object,
+    unreadable_row,
+)
 from .wandb import _TRAINING_AXES
 
 _HEADER = struct.pack("<4sHB", b":W&B", 0xBEE1, 0)
@@ -247,11 +255,17 @@ def read_wandb_native(path: str | Path, *, step_key: str | None = None) -> Run:
         if record.WhichOneof("record_type") != "history":
             continue
         values = _history(record, paths)
-        step = try_step(values.get(axis))
+        coordinate = values.get(axis)
+        step = (
+            try_step(coordinate)
+            if isinstance(coordinate, int | float | Decimal) and not isinstance(coordinate, bool)
+            else None
+        )
         if step is None:
             skipped += 1
             continue
-        wall_time = try_float(values.get("_runtime"))
+        clock = try_typed_float(values.get("_runtime"))
+        wall_time = clock if clock is not None and math.isfinite(clock) else None
         for raw, name in names.items():
             if raw not in values:
                 continue
@@ -261,7 +275,14 @@ def read_wandb_native(path: str | Path, *, step_key: str | None = None) -> Run:
                 # key in a sparse history row. Custom text-only keys stay metadata.
                 unreadable_row(run, [name], step, wall_time=wall_time)
                 continue
-            scalar = metric_value(run, name, value, step=step, wall_time=wall_time)
+            scalar = metric_value(
+                run,
+                name,
+                value,
+                step=step,
+                wall_time=wall_time,
+                strict_numeric=True,
+            )
             if scalar is not None:
                 run.add_point(name, step, scalar, wall_time=wall_time)
     digest = hashlib.sha256()

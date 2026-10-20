@@ -1,0 +1,28 @@
+{
+  "scope": "authored SDK-native type control, not a training run",
+  "logged_values": [
+    1.0,
+    "0.5",
+    "NaN",
+    0.1
+  ],
+  "native_json_types": [
+    "number",
+    "string",
+    "string",
+    "number"
+  ],
+  "expected_numeric_steps": [
+    0,
+    3
+  ],
+  "expected_unreadable_steps": [
+    1,
+    2
+  ],
+  "sdk_version": "0.31.0",
+  "bytes": 1851,
+  "sha256": "91cb6dda09dc314413ae87f996b417f81d41a59247eaff27b9fb4513de8f14ad",
+  "script_sha256": "cd58f0258043e7a1d63c5d2381e814ce86daa53d2f8f502d9667587e09b5a650",
+  "service_closed_before_snapshot": true
+}

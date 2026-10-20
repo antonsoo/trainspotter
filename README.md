@@ -57,6 +57,8 @@ mode as 100 history records. An authored learning-rate fault produces the loss
 explosion in the report. Every scalar, coordinate and runtime clock agrees with
 two independent W&B decoders. Original log files and reproduction code are included.
 
+![Report from the actual offline SDK capture: observed loss overflow and its authored learning-rate change](docs/assets/wandb-native.png)
+
 This reader starts no run or sync service and needs no account. It checks native
 fragment checksums, retains explicit missing readings as gaps, and keeps a damaged
 log's readable prefix marked incomplete. Logging counters remain separate from

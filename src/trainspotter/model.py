@@ -286,7 +286,11 @@ class Run:
         if self.skipped_rows():
             notes.append(f"{self.skipped_rows()} rows or events could not be read.")
         if self.skipped_values():
-            notes.append(f"{self.skipped_values()} nonblank metric values were not numeric.")
+            reason = (
+                "were not usable numeric scalars (native type or float64 range)."
+                if self.source_format == "wandb-native" else "were not numeric."
+            )
+            notes.append(f"{self.skipped_values()} nonblank metric values {reason}")
         if self.unread_event_bytes():
             kind = "transaction-log" if self.source_format == "wandb-native" else "event-file"
             notes.append(

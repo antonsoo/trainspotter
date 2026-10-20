@@ -77,7 +77,7 @@ jobs:
       - name: Install the oldest allowed version of each direct dependency
         run: |
           uv venv .venv-minimums
-          uv pip install --python .venv-minimums --resolution lowest-direct -e ".[dev,mlflow-files]"
+          uv pip install --python .venv-minimums --resolution lowest-direct -e ".[dev,mlflow-files,wandb]"
 
       - name: Test
         run: .venv-minimums/bin/pytest -q

@@ -1,0 +1,27 @@
+{
+  "input_sha256": "91cb6dda09dc314413ae87f996b417f81d41a59247eaff27b9fb4513de8f14ad",
+  "histories": [
+    {
+      "step": 0,
+      "value_json": "1",
+      "json_type": "number"
+    },
+    {
+      "step": 1,
+      "value_json": "\"0.5\"",
+      "json_type": "string"
+    },
+    {
+      "step": 2,
+      "value_json": "\"NaN\"",
+      "json_type": "string"
+    },
+    {
+      "step": 3,
+      "value_json": "0.1",
+      "json_type": "number"
+    }
+  ],
+  "decoder": "official W&B 0.23.1 DataStore and persistent protobuf",
+  "decoder_source_sha256": "17d8e04ba970f52e872c85621098ffe4e5171fcf61ca2d4fc126355ffcc4f73c"
+}

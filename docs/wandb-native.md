@@ -94,6 +94,12 @@ the plotted line and trajectory checks. Nonnumeric readings of a numeric/known
 metric also retain their positions. Native NaN/Infinity remain observed values
 and can trigger divergence findings.
 
+Native JSON types are preserved. Strings such as `"0.5"` and `"NaN"` cannot
+become numeric readings, clocks or coordinates. Finite JSON numbers outside
+float64's nonzero finite range become unreadable measurements; conversion must
+not invent an infinity or a zero. Observed numeric NaN/Infinity are distinct
+from those conversion failures. Text-only metadata remains metadata.
+
 A truncated header/payload/fragment chain or bad checksum stops decoding at the
 last complete record. The readable prefix remains available, with
 `unread_event_bytes`, the original byte boundary and the decoder's reason.

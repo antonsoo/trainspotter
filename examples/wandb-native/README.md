@@ -35,6 +35,11 @@ ignored as a scalar metric. `fragments.json` retains independent decoder offsets
 control: a zero-length FIRST fragment at a block boundary, followed by LAST.
 It is not a recorded training experiment.
 
+`types/run.wandb` is another SDK-written control, rather than optimizer data.
+It logs loss values `1`, `"0.5"`, `"NaN"`, `0.1`. The two JSON strings remain
+unreadable points. The file has no recorded numeric NaN and must not produce a
+divergence finding. Its service was explicitly closed before the file snapshot.
+
 The original binaries are unchanged. Host/metadata collection was explicitly
 disabled during capture, and the files were checked for machine paths before
 retention. No account or cloud sync was used. SDK timestamps mean newly generated

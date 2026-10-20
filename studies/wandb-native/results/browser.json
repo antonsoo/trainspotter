@@ -44,5 +44,35 @@
       "external_requests": [],
       "csp_violations": []
     }
-  ]
+  ],
+  "additional_type_control": {
+    "full_receipt_sha256": "c9b69f86c4ea7b4bdd697521238651ba7180cf9babb61cc30658c0d1425b4dbf",
+    "results": [
+      {
+        "engine": "chromium",
+        "width": 1440,
+        "reports": 1,
+        "downloaded_and_reopened_vectors": 1
+      },
+      {
+        "engine": "chromium",
+        "width": 375,
+        "reports": 1,
+        "downloaded_and_reopened_vectors": 1
+      },
+      {
+        "engine": "firefox",
+        "width": 1440,
+        "reports": 1,
+        "downloaded_and_reopened_vectors": 1
+      },
+      {
+        "engine": "firefox",
+        "width": 375,
+        "reports": 1,
+        "downloaded_and_reopened_vectors": 1
+      }
+    ]
+  },
+  "original_25_vectors_after_type_fix": "All exact bytes and metadata unchanged; original 32 offline report views remain applicable."
 }

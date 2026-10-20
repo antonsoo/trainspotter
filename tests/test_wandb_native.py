@@ -98,6 +98,49 @@ def test_real_optimizer_divergence_is_observed_nonfinite_data_not_partial_input(
     assert any(not math.isfinite(point.value) for point in run.get("train/loss").points)
 
 
+def test_sdk_native_json_strings_cannot_fabricate_observed_nan_or_numeric_loss() -> None:
+    directory = ROOT / "types"
+    reference = json.loads((directory / "reference.json").read_text())
+    path = directory / "run.wandb"
+    assert hashlib.sha256(path.read_bytes()).hexdigest() == reference["sha256"]
+    run = load_run(path)
+    assert [p.value for p in run.get("train/loss").points] == [1, None, None, 0.1]
+    assert run.skipped_values() == 2 and not run.input_complete()
+    assert not any(f.detector == "divergence" for f in run_all(run))
+
+
+@pytest.mark.parametrize("literal", ["1e400", "1e-400", "-1e400", "-1e-400"])
+def test_finite_json_number_outside_float64_range_is_unknown_not_infinity_or_zero(
+    tmp_path: Path, literal: str,
+) -> None:
+    record = history(0, {"custom_score": 1})
+    record.history.item[1].value_json = literal
+    path = tmp_path / "range.wandb"
+    native_file(path, [record, history(1, {"train/loss": 1})])
+    run = load_run(path)
+    assert run.get("custom_score").points[0].value is None
+    assert run.skipped_values() == 1 and not run.input_complete()
+    assert not any(f.detector == "divergence" for f in run_all(run))
+
+
+@pytest.mark.parametrize("clock", ["0.5", True, float("nan"), float("inf")])
+def test_text_or_nonfinite_runtime_cannot_supply_a_native_elapsed_clock(
+    tmp_path: Path, clock: object,
+) -> None:
+    path = tmp_path / "clock.wandb"
+    native_file(path, [history(0, {"train/loss": 1, "_runtime": clock})])
+    assert load_run(path).get("train/loss").points[0].wall_time is None
+
+
+def test_numeric_text_cannot_supply_a_native_training_coordinate(tmp_path: Path) -> None:
+    path = tmp_path / "coordinate.wandb"
+    native_file(path, [history(0, {"global_step": "10", "train/loss": 1}),
+                       history(1, {"global_step": 20, "train/loss": 0.5})])
+    run = load_run(path)
+    assert run.get("train/loss").steps() == [20]
+    assert run.skipped_rows() == 1 and not run.input_complete()
+
+
 def test_sdk_empty_first_fragment_at_exact_block_boundary_is_a_complete_record() -> None:
     run = load_run(ROOT / "framing/zero-first.wandb")
     assert run.get("train/loss").steps() == [0]

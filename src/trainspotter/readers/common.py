@@ -16,6 +16,7 @@ their own: merged, they would be one series with two values at a step.
 
 from __future__ import annotations
 
+import math
 import re
 from collections.abc import Iterable, Sequence
 from decimal import Decimal, InvalidOperation
@@ -227,18 +228,35 @@ def try_float(value: object) -> float | None:
     return None
 
 
+def try_typed_float(raw: object) -> float | None:
+    """Honor JSON number types without inventing infinity or zero on conversion."""
+    if not isinstance(raw, int | float | Decimal) or isinstance(raw, bool):
+        return None
+    value = try_float(raw)
+    if isinstance(raw, int | Decimal) and value is not None:
+        finite_source = not isinstance(raw, Decimal) or raw.is_finite()
+        if finite_source and (not math.isfinite(value) or (value == 0 and raw != 0)):
+            return None
+    return value
+
+
 def metric_value(
     run: Run, name: str, raw: object, *, step: int, wall_time: float | None = None,
+    strict_numeric: bool = False,
 ) -> float | None:
-    """Record invalid cells in known/numeric metrics; sparse cells remain ordinary gaps."""
-    value = try_float(raw)
-    missing = raw is None or (isinstance(raw, str) and raw.strip().lower() in {"", "null", "none"})
+    """Record unusable readings. Typed JSON can disable text/range coercion."""
+    numeric_source = isinstance(raw, int | float | Decimal) and not isinstance(raw, bool)
+    value = try_typed_float(raw) if strict_numeric else try_float(raw)
+    missing = raw is None or (
+        not strict_numeric and isinstance(raw, str) and raw.strip().lower() in {"", "null", "none"}
+    )
     if value is None and not missing:
-        run.add_unreadable(name, step, wall_time, known_metric=_claim(name) is not None)
+        known_metric = _claim(name) is not None or (strict_numeric and numeric_source)
+        run.add_unreadable(name, step, wall_time, known_metric=known_metric)
         invalid = run.meta.setdefault("invalid_metric_values", {})
         if isinstance(invalid, dict):
             invalid[name] = invalid.get(name, 0) + 1
-        if _claim(name) is not None:
+        if known_metric:
             known = run.meta.setdefault("invalid_known_metrics", [])
             if isinstance(known, list) and name not in known:
                 known.append(name)
