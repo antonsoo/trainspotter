@@ -162,6 +162,17 @@ def test_fields_outside_the_pinned_schema_cannot_be_silently_discarded(
         load_run(path)
 
 
+def test_unrepresentable_json_exponent_is_a_reader_error_not_a_decimal_traceback(
+    tmp_path: Path, capsys: pytest.CaptureFixture[str],
+) -> None:
+    record = history(0, {"train/loss": 1})
+    record.history.item[1].value_json = "1e99999999999999999999999999"
+    path = tmp_path / "exponent.wandb"
+    native_file(path, [record])
+    assert main(["analyze", str(path)]) == 2
+    assert "invalid native W&B history JSON" in capsys.readouterr().err
+
+
 def test_sdk_empty_first_fragment_at_exact_block_boundary_is_a_complete_record() -> None:
     run = load_run(ROOT / "framing/zero-first.wandb")
     assert run.get("train/loss").steps() == [0]

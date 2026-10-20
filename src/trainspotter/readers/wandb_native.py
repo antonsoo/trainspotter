@@ -126,7 +126,7 @@ def _history(record: Any, paths: dict[str, tuple[str, ...]]) -> dict[str, object
                 object_pairs_hook=unique_object,
                 parse_float=Decimal,
             )
-        except (ValueError, RecursionError) as exc:
+        except (ArithmeticError, ValueError, RecursionError) as exc:
             raise ValueError(f"invalid native W&B history JSON for {name!r}: {exc}") from exc
     if record.history.HasField("step"):
         counter = record.history.step.num

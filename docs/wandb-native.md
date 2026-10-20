@@ -104,6 +104,7 @@ become numeric readings, clocks or coordinates. Finite JSON numbers outside
 float64's nonzero finite range become unreadable measurements; conversion must
 not invent an infinity or a zero. Observed numeric NaN/Infinity are distinct
 from those conversion failures. Text-only metadata remains metadata.
+Numbers beyond the JSON parser's own representation limits refuse the read.
 
 A truncated header/payload/fragment chain or bad checksum stops decoding at the
 last complete record. The readable prefix remains available, with
