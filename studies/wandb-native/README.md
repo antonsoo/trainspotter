@@ -132,6 +132,11 @@ network-prohibited read. Base-only installations give explicit SDK guidance.
 [Package receipt](results/package.json) |
 [Installed console exports](results/console-vectors.json).
 
+The initial source publication at `b2bed33` was checked independently through
+immutable raw GitHub URLs: all 55 changed files match their git object bytes.
+[Publication receipt](results/publication.json). This does not publish a PyPI
+release or update the hosted workbench.
+
 The actual console HTML exports in both environments have byte-identical SVGs
 to the source reports exercised in offline Chromium and Firefox, at 1440 and
 375 pixels: 36 report views and 104 downloaded/reopened vectors, including the

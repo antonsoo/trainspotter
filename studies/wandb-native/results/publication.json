@@ -1,0 +1,282 @@
+{
+  "source_commit": "b2bed33d681c2516e67affb127fe1b2fc0c0a094",
+  "baseline": "740811d40981572bdf71a02aae5a8cde023c7979",
+  "scope": "All changed files fetched from immutable raw GitHub URLs and compared with git object bytes. Source publication only; no registry release or hosted workbench deployment.",
+  "files": [
+    {
+      "file": ".github/workflows/ci.yml",
+      "bytes": 2625,
+      "sha256": "6fe2ee2fb596b56ca11609e0777dceb8f7f571f8ed8893447f5e6710cd971ea7"
+    },
+    {
+      "file": "CHANGELOG.md",
+      "bytes": 29695,
+      "sha256": "898ccff5f6c3257031cd24c7a725bc1506588157749e6db2773a1c8ced0354da"
+    },
+    {
+      "file": "README.md",
+      "bytes": 39041,
+      "sha256": "7de2196ed2d97abe8a88449d245abb687b7020ec44955144b8a02ca5a4b3cea9"
+    },
+    {
+      "file": "docs/assets/wandb-native.png",
+      "bytes": 67921,
+      "sha256": "1f9efcc06bd654796804177e2aec80ed8b8e2dbe5ff0bd679eddb22e6995e5df"
+    },
+    {
+      "file": "docs/wandb-native.md",
+      "bytes": 6808,
+      "sha256": "60009c46c467024ad58f70129fc1fbad5324c1df0dcd8d779f179acf93f113dc"
+    },
+    {
+      "file": "examples/wandb-native/README.md",
+      "bytes": 2813,
+      "sha256": "bc587053b37def369ab64ee3c3256e0af76aa5fe5772cca09b5d4e9e1cb20257"
+    },
+    {
+      "file": "examples/wandb-native/custom-counter/reference.json",
+      "bytes": 27520,
+      "sha256": "c49ad117711e0ca3f166ba113e997e9f36e005f08d6d512182ff46b76b06b5c5"
+    },
+    {
+      "file": "examples/wandb-native/custom-counter/run.wandb",
+      "bytes": 251024,
+      "sha256": "42972fe3bb8e408ada42eb706031abf6421a8801a8e9422eee2b5b27e9b9257b"
+    },
+    {
+      "file": "examples/wandb-native/fragments.json",
+      "bytes": 2559,
+      "sha256": "797a5d6c26e46c0494eb8677141bb6154a4c15f57a0dc0cf83673f2c9fe9d0f2"
+    },
+    {
+      "file": "examples/wandb-native/framing/zero-first.json",
+      "bytes": 367,
+      "sha256": "c976f7691095e0d8b44e543b12331fcf0f4e89f8278e2d9ca6cc11477acca45b"
+    },
+    {
+      "file": "examples/wandb-native/framing/zero-first.wandb",
+      "bytes": 32799,
+      "sha256": "6bb829013f04515a5958d2daac051737c6332fe02dd820d45caa55dbe0ddfcaf"
+    },
+    {
+      "file": "examples/wandb-native/logged-null/reference.json",
+      "bytes": 27803,
+      "sha256": "1378ac06090318fd9efd2a5dc59d9d5a3fa2db64dc8617069bd17a266e0a227b"
+    },
+    {
+      "file": "examples/wandb-native/logged-null/run.wandb",
+      "bytes": 251546,
+      "sha256": "ff4f9bbc47e826fc7aabc69faa1611462c192da4294ec438fe5e389daf6c6f38"
+    },
+    {
+      "file": "examples/wandb-native/producer.json",
+      "bytes": 1706,
+      "sha256": "9aa5f7c3fea79cef58f60fdc37d2b7f145998248a11468a25f60c0ec35906029"
+    },
+    {
+      "file": "examples/wandb-native/stable/reference.json",
+      "bytes": 27815,
+      "sha256": "0c35db84f4b3ad4e2a7a2c80bf663d136d5790286c1cde886151cf6b3a55daf1"
+    },
+    {
+      "file": "examples/wandb-native/stable/run.wandb",
+      "bytes": 251535,
+      "sha256": "714fad7123d0e6772e3c72812926c0ebb0f5b9dd7b808698c1764651819f0e3f"
+    },
+    {
+      "file": "examples/wandb-native/types/reference.json",
+      "bytes": 572,
+      "sha256": "73de67fef8f5175e70e6f855a1049909d747e4b8883e683042506f5ac48b4480"
+    },
+    {
+      "file": "examples/wandb-native/types/run.wandb",
+      "bytes": 1851,
+      "sha256": "91cb6dda09dc314413ae87f996b417f81d41a59247eaff27b9fb4513de8f14ad"
+    },
+    {
+      "file": "examples/wandb-native/unstable-lr/reference.json",
+      "bytes": 26249,
+      "sha256": "d2cdeca5eabec69e0e586ed8e85ca9ec45d80e29f92ea86bbc18f56f3ff63e74"
+    },
+    {
+      "file": "examples/wandb-native/unstable-lr/run.wandb",
+      "bytes": 250519,
+      "sha256": "ea39bb5e22a52a8742f96cc34b552f77cf63c08d3f87f40e546e79f3fd00bf56"
+    },
+    {
+      "file": "pyproject.toml",
+      "bytes": 4040,
+      "sha256": "f8933289f89bd03a0c6f282b5de085cb50129ed68b2f2a836430776800eded91"
+    },
+    {
+      "file": "src/trainspotter/cli.py",
+      "bytes": 16247,
+      "sha256": "5d907eea4503cffccb9d075275edfe42ebfa185393f5c37b06c1ebe69a01222d"
+    },
+    {
+      "file": "src/trainspotter/model.py",
+      "bytes": 17487,
+      "sha256": "9482465908cc6532e8f7013739c4ef9c0b0ecbe5666cf3657f4970a02450c487"
+    },
+    {
+      "file": "src/trainspotter/readers/__init__.py",
+      "bytes": 5403,
+      "sha256": "8f3d72856494860657c6917bbe51527e06f996b02173690a9ce207a9a2fe9c3e"
+    },
+    {
+      "file": "src/trainspotter/readers/common.py",
+      "bytes": 12948,
+      "sha256": "edc8ae090325a081a26f6888a02095326dd14ae8ee7b089048734221bb43caf1"
+    },
+    {
+      "file": "src/trainspotter/readers/wandb_native.py",
+      "bytes": 12862,
+      "sha256": "f20789fa5ac8de6357d5c4668514d05d3b2ccc84344749ad8c06557689931fe5"
+    },
+    {
+      "file": "src/trainspotter/report/json_report.py",
+      "bytes": 6708,
+      "sha256": "93de91e9f171b1b8bcb4d86fc82d9da778da29fb33bb661feed595e29e58e2b0"
+    },
+    {
+      "file": "src/trainspotter/report/svg_export.py",
+      "bytes": 8090,
+      "sha256": "b10df248571cb2a1628df6810ea19a7cc1a618a4bd2ea048524a402de8e46285"
+    },
+    {
+      "file": "studies/wandb-native/README.md",
+      "bytes": 9779,
+      "sha256": "9f6a0bce47b043a7502b2c1713bb5f2eb04ecf5b2c61542b29be6d4f250bfc9c"
+    },
+    {
+      "file": "studies/wandb-native/capture_types.py",
+      "bytes": 2256,
+      "sha256": "cd58f0258043e7a1d63c5d2381e814ce86daa53d2f8f502d9667587e09b5a650"
+    },
+    {
+      "file": "studies/wandb-native/framing.py",
+      "bytes": 1774,
+      "sha256": "d1464f1c562af206a99cdf95a6bd76bd16f70468caeb08717e19d5f3f81be64e"
+    },
+    {
+      "file": "studies/wandb-native/installed.py",
+      "bytes": 3772,
+      "sha256": "cae425ad54ad66068be39a2ad85b257f29b0b0c5b323f85d9c334c48886b9d99"
+    },
+    {
+      "file": "studies/wandb-native/offline.py",
+      "bytes": 3340,
+      "sha256": "177c248bf77aac604a6bd19e101f54b55622d81aa92abe555489d7bb806e24c1"
+    },
+    {
+      "file": "studies/wandb-native/oracle.py",
+      "bytes": 5985,
+      "sha256": "2ae67ac7600c9144421ce5127c8fceedc89d4c03e21bfcd464e3bd8d89ea0a3a"
+    },
+    {
+      "file": "studies/wandb-native/preview.py",
+      "bytes": 2299,
+      "sha256": "3eca49a7bf9be0e9afbc37eb6058771ec76b514709ef111f307fefdba53fec61"
+    },
+    {
+      "file": "studies/wandb-native/produce.py",
+      "bytes": 6312,
+      "sha256": "79a634592297326bc6d319e43deb8010aeb06d88132741e1a7006cb9357e71c5"
+    },
+    {
+      "file": "studies/wandb-native/results/before.json",
+      "bytes": 4685,
+      "sha256": "f85a9f197eee31cfcf8922b5a4e68517b312528c5481f65f545b521e86f4dfd8"
+    },
+    {
+      "file": "studies/wandb-native/results/browser.json",
+      "bytes": 2306,
+      "sha256": "13dad8ec717dc76abf27faab5a873368f19b1f68033c3df09c3a425d27726f2e"
+    },
+    {
+      "file": "studies/wandb-native/results/console-vectors.json",
+      "bytes": 3818,
+      "sha256": "fcd4a0dfb45ccf9207847e960b2e3c97894244ca1fd42e2ebdb713477ad55c5f"
+    },
+    {
+      "file": "studies/wandb-native/results/installed310.json",
+      "bytes": 4900,
+      "sha256": "7b91fa73893e346e2c9ffb4cb45c98c95bddb395ea408dd7b71e43c335c7dc7c"
+    },
+    {
+      "file": "studies/wandb-native/results/installed315.json",
+      "bytes": 4898,
+      "sha256": "017ff5adc3b61f2b81aac031ed62a0b5df9cdd5550ff4c394ad922800658d80d"
+    },
+    {
+      "file": "studies/wandb-native/results/offline-installed310.json",
+      "bytes": 1231,
+      "sha256": "25febf6b20e0f6eb7534fb3b3e41e262ccb3743dfcbe1c072be63a4e1b9e9c1d"
+    },
+    {
+      "file": "studies/wandb-native/results/offline-installed315.json",
+      "bytes": 1231,
+      "sha256": "25febf6b20e0f6eb7534fb3b3e41e262ccb3743dfcbe1c072be63a4e1b9e9c1d"
+    },
+    {
+      "file": "studies/wandb-native/results/offline.json",
+      "bytes": 1231,
+      "sha256": "25febf6b20e0f6eb7534fb3b3e41e262ccb3743dfcbe1c072be63a4e1b9e9c1d"
+    },
+    {
+      "file": "studies/wandb-native/results/oracle-installed310.json",
+      "bytes": 9868,
+      "sha256": "584a40ebd9a5054a742e57a4c14f9371b28a599948f8d4935fefb24563c6427d"
+    },
+    {
+      "file": "studies/wandb-native/results/oracle-installed315.json",
+      "bytes": 9868,
+      "sha256": "584a40ebd9a5054a742e57a4c14f9371b28a599948f8d4935fefb24563c6427d"
+    },
+    {
+      "file": "studies/wandb-native/results/package.json",
+      "bytes": 2089,
+      "sha256": "8ff22fd45f7b3b7fe7b213870eb8af576f7d2439d7ca4c14517b0be2a9be73d2"
+    },
+    {
+      "file": "studies/wandb-native/results/types-after.json",
+      "bytes": 3543,
+      "sha256": "537887415681526c3e5134f0095d8dd5ea2c06e994d8526c5d18e75ba7575060"
+    },
+    {
+      "file": "studies/wandb-native/results/types-before.json",
+      "bytes": 3551,
+      "sha256": "b729a376f5b1439a672a091ba3c316402e2cd405ea210754a36c7c07bacdf843"
+    },
+    {
+      "file": "studies/wandb-native/results/types-oracle.json",
+      "bytes": 621,
+      "sha256": "2fc8c5c263253452e4f9b6dc0d73e72fe5d880884f0f9800bf3d654a914a9a41"
+    },
+    {
+      "file": "studies/wandb-native/results/verification.json",
+      "bytes": 9868,
+      "sha256": "584a40ebd9a5054a742e57a4c14f9371b28a599948f8d4935fefb24563c6427d"
+    },
+    {
+      "file": "studies/wandb-native/verify.py",
+      "bytes": 10213,
+      "sha256": "cd3386aba606b06baca3237ad965b25270b71521988811cc68d33494f522b11b"
+    },
+    {
+      "file": "studies/wandb-native/verify_types.py",
+      "bytes": 4243,
+      "sha256": "40c106e4f7881c60ade1d05abc5b70e667259fa8d9dd26b1649a0259530189f3"
+    },
+    {
+      "file": "tests/test_wandb_native.py",
+      "bytes": 13068,
+      "sha256": "119b6aa000a72d429a6669aba7e342e3a29feccdbc801e53edc6cb48368e1497"
+    },
+    {
+      "file": "uv.lock",
+      "bytes": 581395,
+      "sha256": "3fe72a66518bd666516cde6858e5d3bda9e8fe4be261d8a0670cf3824f3f53b4"
+    }
+  ]
+}
