@@ -37,7 +37,7 @@ description = "Automatic diagnosis of loss curves and training logs: spot diverg
 dynamic = ["readme"]
 requires-python = ">=3.10"
 license = { text = "MIT" }
-authors = [{ name = "Anton Soloviev", email = "anton@praviel.com" }]
+authors = [{ name = "Anthony Mercer", email = "anthony@praviel.com" }]
 keywords = [
   "machine-learning",
   "training",
