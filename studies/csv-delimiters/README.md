@@ -98,7 +98,7 @@ workflows and all 220 existing browser-report workflows passed. The latter
 were selected per engine/layout after interrupted longer invocations; the
 tracked browser program was not changed. See [`results/verification.json`](results/verification.json).
 
-The [public workbench](https://huggingface.co/spaces/antonsoloviev/trainspotter/tree/d6ab82a389dcaa78cb560b6efbff1bacfdb3b876)
+The [public workbench](https://huggingface.co/spaces/tonymerx/trainspotter/tree/d6ab82a389dcaa78cb560b6efbff1bacfdb3b876)
 now pins this engine and uses the same delimiter decision for its bounded
 upload preflight. That separate adapter correction is necessary: an engine
 re-pin alone still left semicolon and tab exports unreadable there. Fresh

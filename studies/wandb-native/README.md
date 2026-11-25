@@ -148,10 +148,10 @@ and [immutable source publication](results/final-publication.json) retain the
 exact boundaries. All 69 changed public source files were byte-matched.
 
 The separate
-[live browser workbench](https://huggingface.co/spaces/antonsoloviev/trainspotter)
+[live browser workbench](https://huggingface.co/spaces/tonymerx/trainspotter)
 now runs this pinned decoder in Pyodide with a pure Python protobuf runtime.
 Its native-file workflow and retained CPython expectations are documented in
-[the published browser study](https://huggingface.co/spaces/antonsoloviev/trainspotter/blob/d29692cfe4f3dd7a0e3fbcdc989c0f335874f256/evidence/wandb-browser/README.md).
+[the published browser study](https://huggingface.co/spaces/tonymerx/trainspotter/blob/d29692cfe4f3dd7a0e3fbcdc989c0f335874f256/evidence/wandb-browser/README.md).
 This static hosting update does not release the package on PyPI.
 
 The initial SDK-backed `a4a88f2` archive built a wheel through its source distribution. All

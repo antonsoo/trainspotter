@@ -7,7 +7,7 @@ Automatic diagnosis of loss curves and training logs.
 [![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
 ![Python 3.10+](https://img.shields.io/badge/python-3.10%2B-blue.svg)
 [![Live demo](https://img.shields.io/badge/live%20demo-sample%20reports-4fc3f7)](https://antonsoo.github.io/trainspotter/)
-[![Hugging Face](https://img.shields.io/badge/Hugging%20Face-workbench-ffd21e)](https://huggingface.co/spaces/antonsoloviev/trainspotter)
+[![Hugging Face](https://img.shields.io/badge/Hugging%20Face-workbench-ffd21e)](https://huggingface.co/spaces/tonymerx/trainspotter)
 
 Point trainspotter at a Trainer checkpoint, TensorBoard log directory, local
 MLflow store, native W&B run file, W&B export or CSV/JSONL history. It locates recorded loss spikes, sustained
@@ -69,7 +69,7 @@ Downloaded SVGs retain the native file's SHA-256 and the partial-read boundary.
 [Captured optimizer/logger controls and verification](studies/wandb-native/README.md).
 This support is unreleased; the registry package and hosted workbench are separate.
 
-The [browser workbench](https://huggingface.co/spaces/antonsoloviev/trainspotter)
+The [browser workbench](https://huggingface.co/spaces/tonymerx/trainspotter)
 also opens these original `.wandb` files, with example downloads, typed gaps and
 SVG exports. Select a W&B example or upload a file up to 5 MiB. It runs the
 pinned Python engine inside the tab, with no account or sync service.
