@@ -114,3 +114,12 @@ def test_an_escape_sequence_in_a_metric_name_is_shown_not_run(
     assert "loss\\x1b]0;pwned\\x07" in out
     main(["watch", str(path), "--once"])
     assert "\x1b" not in capsys.readouterr().out
+
+
+def test_report_time_honors_source_date_epoch(monkeypatch) -> None:
+    from trainspotter.report.html_report import report_time
+
+    monkeypatch.setenv("SOURCE_DATE_EPOCH", "1761700000")
+    assert report_time() == "2025-10-29 01:06 UTC"
+    monkeypatch.setenv("SOURCE_DATE_EPOCH", "not-a-number")
+    assert report_time().endswith(" UTC")

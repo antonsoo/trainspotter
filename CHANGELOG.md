@@ -6,6 +6,9 @@ and this project uses [Semantic Versioning](https://semver.org/).
 
 ## Unreleased
 
+- HTML report times honor `SOURCE_DATE_EPOCH`, and the demo-site build sets it
+  from the commit date, so two site builds of one commit are byte-identical.
+
 - Read native offline W&B `.wandb` transaction logs through the optional SDK
   protobuf schema, without initializing a run or sync service. Check version-0
   framing, IEEE CRC32, complete fragment chains and source stability. Preserve

@@ -21,13 +21,14 @@ import argparse
 import base64
 import html
 import os
+import subprocess
 from dataclasses import dataclass
-from datetime import UTC, datetime
 from pathlib import Path
 
 from trainspotter.detectors import Finding, run_all
 from trainspotter.readers import load_run
 from trainspotter.report import render_html
+from trainspotter.report.html_report import report_time
 
 REPO_ROOT = Path(__file__).resolve().parent.parent
 
@@ -313,6 +314,14 @@ def main() -> None:
     args = parser.parse_args()
 
     os.chdir(REPO_ROOT)
+    # Date every page by the commit it is built from, so two builds of one commit
+    # are byte-identical (report_time() honors SOURCE_DATE_EPOCH).
+    if not os.environ.get("SOURCE_DATE_EPOCH"):
+        commit_time = subprocess.run(
+            ["git", "log", "-1", "--format=%ct"], capture_output=True, text=True, check=False
+        ).stdout.strip()
+        if commit_time.isdigit():
+            os.environ["SOURCE_DATE_EPOCH"] = commit_time
     out_dir = REPO_ROOT / args.out_dir
     out_dir.mkdir(parents=True, exist_ok=True)
 
@@ -347,7 +356,7 @@ def main() -> None:
         rows.append((meta, _counts(findings)))
         print(f"  {meta.slug}: {_counts(findings)}")
 
-    generated = datetime.now(UTC).strftime("%Y-%m-%d %H:%M UTC")
+    generated = report_time()
     (out_dir / "index.html").write_text(build_index(rows, generated), encoding="utf-8")
     print(f"wrote {out_dir}/index.html and {len(rows)} report(s)")
 

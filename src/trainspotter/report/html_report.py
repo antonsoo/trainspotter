@@ -22,6 +22,7 @@ from __future__ import annotations
 import base64
 import json
 import math
+import os
 from datetime import datetime, timezone
 
 from trainspotter.detectors import Finding
@@ -60,6 +61,18 @@ _PAD_L, _PAD_R, _PAD_T, _PAD_B = 54, 18, 14, 26
 _PLOT_H = 140
 _CHART_H = _PLOT_H + _PAD_T + _PAD_B
 _LEGEND_H = 18  # extra header row reserved when a chart overlays >1 series
+
+
+def report_time() -> str:
+    """Report time; honors SOURCE_DATE_EPOCH so a site built twice from one commit
+    is identical (https://reproducible-builds.org/specs/source-date-epoch/)."""
+    epoch = os.environ.get("SOURCE_DATE_EPOCH", "").strip()
+    when = (
+        datetime.fromtimestamp(int(epoch), timezone.utc)
+        if epoch.isdigit()
+        else datetime.now(timezone.utc)
+    )
+    return when.strftime("%Y-%m-%d %H:%M UTC")
 
 
 def _esc(s: str) -> str:
@@ -651,7 +664,7 @@ def render_html(run: Run, findings: list[Finding], title: str = "trainspotter re
     counts = {"error": 0, "warning": 0, "info": 0}
     for f in findings:
         counts[f.severity] += 1
-    generated = datetime.now(timezone.utc).strftime("%Y-%m-%d %H:%M UTC")
+    generated = report_time()
 
     charts_html = []
     fallback_i = 0
