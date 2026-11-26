@@ -79,3 +79,11 @@ hosted report verification are separate checks; no PyPI release is implied.
 
 [Clean installation, wheel replay and offline downloads](verification.md)
 retain those separate checks and the actual report screenshots.
+
+On 2026-11-25 the default experiment's artifact location, which MLflow wrote as an
+absolute path in this machine's home directory, was rewritten as `<workspace>/...`
+in both `mlflow.db` files (one SQL update each) and both `mlruns/0/meta.yaml`
+files. trainspotter does not read that field. `capture.json` lists the edited
+files' hashes; the browser receipts in `hosted/` and `installed/` and
+`../mlflow-scopes/workbench-publication.json` record runs and a publication over
+the earlier bytes.

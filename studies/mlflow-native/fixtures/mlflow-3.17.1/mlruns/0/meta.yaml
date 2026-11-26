@@ -1,4 +1,4 @@
-artifact_location: file:///home/antonsoloviev/work/projects/showcases/trainspotter/studies/mlflow-native/fixtures/current/mlruns/0
+artifact_location: file://<workspace>/trainspotter/studies/mlflow-native/fixtures/current/mlruns/0
 creation_time: 1792272444052
 effective_trace_archival_retention: null
 experiment_id: '0'

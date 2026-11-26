@@ -388,13 +388,13 @@
   "files": [
     {
       "file": "mlflow.db",
-      "bytes": 3051520,
-      "sha256": "4deb943a134452509468a50fe3afc06fe1f2ac9bfea102297a4695e263e7f37c"
+      "bytes": 2899968,
+      "sha256": "f90105b7e5133e0fcd50cee555cf419b14f5ad585ffb4d3990cf68b992d6c318"
     },
     {
       "file": "mlruns/0/meta.yaml",
-      "bytes": 330,
-      "sha256": "17f4beb2756a5569d63a02d5e68aa3cb02004829abb2409bd40c400516f60576"
+      "bytes": 298,
+      "sha256": "acf755a624a63dad49ba9d5d960dfbbb97954b7714e9e546d4bae6d168b0cc4d"
     },
     {
       "file": "mlruns/245312837016001889/0de2260ce240409d9e4c7587bbfe76ce/meta.yaml",
