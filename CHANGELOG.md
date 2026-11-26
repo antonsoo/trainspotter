@@ -6,6 +6,10 @@ and this project uses [Semantic Versioning](https://semver.org/).
 
 ## Unreleased
 
+## [0.3.0] - 2026-11-26
+
+- Package metadata names Anthony Mercer (anthony@praviel.com) as the author.
+
 - HTML report times honor `SOURCE_DATE_EPOCH`, and the demo-site build sets it
   from the commit date, so two site builds of one commit are byte-identical.
 
